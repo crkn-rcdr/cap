@@ -1,0 +1,14 @@
+<h1>Commit Database Changes</h1>
+
+<p>Output from Solr</p>
+
+<table>
+  <tr>
+    <td>ok</td>
+    <td>[% response.ok %]</td>
+  </tr>
+  <tr>
+    <td>solr_qtime</td>
+    <td>[% response.solr_qtime %]</td>
+  </tr>
+</table>

@@ -1,0 +1,41 @@
+[%- USE XML.Escape -%]
+<!-- A value of 1 means the request was successfully executed -->
+<ok>1</ok>
+
+<!-- The query parameter string that was passed to Solr -->
+<solr>[% result.q | xml_escape %]</solr>
+
+<!-- <hits> counts the total number of objects found in the database.
+<hitsFrom> and <hitsTo> indicate the range of found objects that are included
+in the <documents> list. -->
+<hits>[% result.hits | xml_escape %]</hits>
+<hitsFrom>[% result.hitsFrom | xml_escape %]</hitsFrom>
+<hitsTo>[% result.hitsTo | xml_escape %]</hitsTo>
+
+<!-- <pages> is the total number of result pages returned for this
+search. <page> is the result page currently contained in the <documents>
+list. <pageNext> and <pagePrev> are the next and previous pages in the
+result set, or 0 if this is the last/first page in the set. <hitsPerPage>
+is the number of results per page, though the actual number of results in
+<documents> may be less if this is the last page in the set. -->
+<pages>[% result.pages | xml_escape %]</pages>
+<page>[% result.page | xml_escape %]</page>
+<pagePrev>[% result.pagePrev | xml_escape %]</pagePrev>
+<pageNext>[% result.pageNext | xml_escape %]</pageNext>
+<hitsPerPage>[% result.hitsPerPage | xml_escape %]</hitsPerPage>
+
+<!-- Each <doc> in the <documents> list consists of a number of <fields>,
+identified by the name attribute and each with one or more <value>s. -->
+<documents>
+[% FOR doc IN result.documents %]
+  <doc>
+[% FOR field IN doc.keys %]
+    <field name="[% field | xml_escape %]">
+  [% FOR value IN doc.$field %]
+      <value>[% value | xml_escape %]</value>
+  [% END %]
+    </field>
+[% END %]
+  </doc>
+[% END %]
+</documents>

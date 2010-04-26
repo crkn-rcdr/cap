@@ -1,0 +1,3 @@
+<h1>Bad Request ([% status %])</h1>
+
+<p>Reason: [% error_message %]</p>

@@ -1,0 +1,10 @@
+<ok>0</ok>
+<status>409</status>
+<error>Request could not be processed</error>
+[% IF log %]
+<log>
+  [% FOR event IN log %]
+  <log>[% event %]</log>
+  [% END %]
+</log>
+[% END %]

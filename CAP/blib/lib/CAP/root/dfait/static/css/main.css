@@ -1,0 +1,262 @@
+/*
+ * Simple stylesheet for the DFAIT portal prototype
+ *
+ * Version: 0.20091214
+ */
+
+body {
+    font-family: helvetica, arial, sans-serif;
+    font-size: 10pt;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+h2 {
+    display: block;
+    position: relative;
+    clear: both;
+    font-size: 18pt;
+    font-weight: normal;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+h3 {
+    font-size: 14pt;
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+.lchooser {
+    display: block;
+    position: relative;
+    clear: both;
+    text-align: center;
+    padding-top: 4em;
+    padding-bottom: 4em;
+    margin-left: 35%;
+    margin-right: 35%;
+}
+
+.lchooser div {
+    display: block;
+    position: relative;
+    width: 49%;
+    font-size: 14pt;
+    float: left;
+    text-align: center;
+}
+
+
+.header {
+    background: #444;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    float: left;
+    clear: both;
+    border-bottom: 2px solid #222;
+    position: relative;
+}
+
+.title {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 0.5em;
+    position: relative;
+    display: block;
+    float: left;
+}
+
+.nav {
+    display: block;
+    position: relative;
+    float: right;
+    clear: left;
+    text-align: right;
+    width: 100%;
+    border: 0;
+    margin: 0;
+}
+
+.nav li {
+    display: block;
+    float: right;
+    background: #888;
+    color: #fff;
+    margin-right: 4px;
+    padding: 2px;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    font-size: 11pt;
+}
+
+.nav li:hover {
+    background: #8aa;
+}
+
+.nav a { text-decoration: none; color: #fff; }
+.nav a:hover { color: #fff }
+.nav a:visited { color: #fff }
+
+.content {
+    border-top: 1px solid #ccc;
+    width: 100%;
+    display: block;
+    position: relative;
+    clear: both;
+    float: left;
+}
+
+.footer {
+    position: relative;
+    border-top: 1px solid #aaa;
+    margin-top: 1em;
+    padding-top: 0.5em;
+    display: block;
+    clear: both;
+    width: 98%;
+    margin: auto;
+}
+
+.vdiv {
+    display: block;
+    position: relative;
+    float: left;
+    width: 2em;
+    text-align: center;
+}
+
+.sf {
+    display: block;
+    position: relative;
+    float: left;
+    height: 100%;
+    margin-right: 2em;
+}
+
+.sf form {
+    border: 1px solid #8aa;
+    background: #acc;
+    padding: 0.5ex;
+    margin-bottom: 1em;
+}
+
+.sf h3 {
+}
+
+.sf button {
+   display: block;
+   float: right
+}
+
+.main {
+    position: relative;
+    clear: both;
+    float: left;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+
+} 
+
+.main table {
+    margin-left: 1em;
+}
+
+.main th {
+    text-align: left;
+}
+
+.main td {
+    padding-right: 1em;
+    padding-top: 0.5ex;
+}
+
+.pp {
+    display: block;
+    position: relative;
+    clear: both;
+    float: left;
+}
+
+.pp .thumb {
+    display: block;
+    position: relative;
+    float: left;
+    width: 100px;
+    margin: 10px;
+    text-align: left;
+}
+
+.thumbnail {
+    margin-top: 8px;
+}
+
+.pp .page {
+    display: block;
+    position: relative;
+    float: left;
+}
+
+.page img {
+    border: 2px solid #000;
+}
+
+.toolbar {
+    display: block;
+    position: relative;
+    clear: both;
+    background: #8aa;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 2px;
+}
+
+.toolbar ul {
+    margin: 0;
+    padding: 0;
+}
+
+.toolbar li {
+    display: inline;
+    background: #acc;
+    margin-right: 1em;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+.toolbar a:link { color: #00f }
+.toolbar a:visited { color: #00f }
+
+.error {
+    color: #f00;
+}
+
+.debug {
+    display: block;
+    clear: both;
+    border: 1px solid #000;
+    background: #ddd;
+    width: 75%;
+    padding: 1em;
+    overflow: auto;
+    margin-left: 1em;
+}
+
+.widget {
+    border: 0;
+    vertical-align: middle;
+}

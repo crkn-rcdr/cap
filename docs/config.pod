@@ -1,0 +1,75 @@
+=head1 CAP Configuration File
+
+Application-specific configuration options for the I<cap.conf> file.
+
+=head2 repository
+
+Path to the digital image repository, relative to the application root.
+This directory needs to be writeable by whatever user the web server runs
+as.
+
+=head2 uploads
+
+Path to the directory where content to be ingested is uploaded, relative
+to the application root. This directory must also be writeable by the web
+server user.
+
+=head2 profiles
+
+Path to the directory, relative to the application root, where the
+application profile XML files can be found. This directory must be
+readable by the web server user (but should probably not be writeable),
+
+=head2 page_root
+
+Path to the directory, relative to the application root, where HTML files
+retrieved by the I</page> method are located.
+
+=head2 children_per_page
+
+The number of child elements to display at a time. (Number of items
+retrieved by a call to I<Solr::nchildren>.)
+
+=head2 netpbm_path
+
+The path (relative to the application root, or an absolute path) to where
+the NetPBM programs can be found.
+
+=head2 <MimeTypes>
+
+A list of MIME types that the application knows how to handle.
+
+=head2 <Solr>
+
+Configuration for Solr.pm methods:
+
+=head3 select_uri
+
+URI to use for Solr select (search) requests.
+
+=head3 update_uri
+
+URI to use for Solr update requests.
+
+=head3 utf8_encode
+
+B<DEPRECATED?> This should not be required any longer, but if you are
+getting UTF8 encoding problems, try setting this to a non-zero value.
+
+=head3 <fields>
+
+A list of field aliases mapping the supplied field name to the field name
+to be searched. Multiple values can be supplied. For example:
+
+=over 4
+
+=item tx tx
+
+=item tx tx_en
+
+=item tx tx_fr
+
+=back
+
+would mean that a query for tx=foo would translate into the Solr query
+I<((tx:foo) OR (tx_en:foo) OR (tx_fr:foo))>.

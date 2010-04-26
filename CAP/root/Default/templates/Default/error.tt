@@ -1,0 +1,39 @@
+[%
+  IF status == '400';
+    error_header = c.loc("Bad Request") | html;
+    error_text   = c.loc("The page you requested cannot be displayed.") | html;
+  ELSIF status == '403' && c.user_exists;
+    error_header = c.loc("Insufficient Privileges") | html;
+    error_text   = c.loc("You do not have sufficient privileges to view this page.") | html;
+  ELSIF status == '403' && ! c.user_exists;
+    error_header = c.loc("Access Restricted") | html;
+    error_text   = c.loc("You must be logged in to view this page.") | html;
+  ELSIF status == '404';
+    error_header = c.loc("Page Not Found") | html;
+    error_text   = c.loc("The page you were looking for cannot be found.") | html;
+  ELSIF status == '500';
+    error_header = c.loc("Server Error") | html;
+    error_text   = c.loc("There was a problem with your request; try again in a few moments.") | html;
+  ELSE;
+    error_header = c.loc("Error");
+    error_text   = c.loc("We're sorry; we were unable to process your request.") | html;
+  END;
+%]
+
+<h2>[% error_header %]</h2>
+<p>[% error_text %]</p>
+
+[% IF status == '403' %]
+  [% IF c.user_exists %]
+    <p><a href="[% c.uri_for(root, 'logout') %]">[% c.loc("Log in as a different user") | html %]</a></p>
+  [% ELSE %]
+    [% INCLUDE "include/login_form.tt" %]
+  [% END %]
+[% ELSE %]
+[% END %]
+
+[% IF c.config.debug %]
+<h3>[% c.loc("Additional Debugging Information") | html %]</h3>
+<p>[% c.loc("Status:",  status) | html %] <strong>[% status %]</strong></p>
+<p>[% c.loc("Error:", error) | html %] <strong>[% error %]</strong></p>
+[% END %]

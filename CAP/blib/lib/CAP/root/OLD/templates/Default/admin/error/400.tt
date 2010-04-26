@@ -1,0 +1,8 @@
+<h2>[% c.loc("Bad Request ([_1])", status) %]</h2>
+
+<p>[% c.loc("The server was unable to understand your request.") %]
+
+[% IF error_message %]
+<p>[% c.loc("The following information was reported by the server: [_1]", error_message) %]</p>
+[% END %]
+

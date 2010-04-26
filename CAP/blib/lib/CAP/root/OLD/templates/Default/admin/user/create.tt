@@ -1,0 +1,33 @@
+<h2>[% c.loc("Create new user") %]</h2>
+
+
+<form method="post" action="[% c.uri_for(root, 'user', 'create') %]">
+  <div>
+    <input type="hidden" name="action" value="create"/>
+    <table>
+      <tr>
+        <td>[% c.loc("Username") %]</td>
+        <td><input type="text" name="user" size="32" value="[% c.request.param.username %]"/></td>
+      </tr>
+      <tr>
+        <td>[% c.loc("Password") %]</td>
+        <td><input type="password" name="pass" size="32"/></td>
+      </tr>
+      <tr>
+        <td>[% c.loc("Verify Password") %]</td>
+        <td><input type="password" name="password2" size="32"/></td>
+      </tr>
+      <tr>
+        <td>[% c.loc("Name") %]</td>
+        <td><input type="text" name="name" size="32" value="[% c.request.param.name %]"/></td>
+      </tr>
+      <tr>
+        <td>[% c.loc("Email Address") %]</td>
+        <td><input type="text" name="email" size="32" value="[% c.request.param.email %]"/></td>
+      </tr>
+    </table>
+    <button type="submit">[% c.loc("Create User") %]</button>
+  </div>
+</form>
+
+

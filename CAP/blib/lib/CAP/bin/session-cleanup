@@ -1,0 +1,14 @@
+#!/usr/bin/perl -Ilib
+use strict;
+use warnings;
+
+use CAP::Schema;
+
+# Deletes expired sessions.
+
+my $schema = CAP::Schema->connect('dbi:mysql:cap', 'cap', '');
+
+my $removed = $schema->resultset('Sessions')->remove_expired();
+
+print("Removed $removed expired sessions\n");
+

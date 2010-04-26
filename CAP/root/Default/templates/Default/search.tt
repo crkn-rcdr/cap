@@ -1,0 +1,35 @@
+[%-
+  # Default search results template
+  # Version: 0.20100420
+
+  USE XML.Escape;
+
+-%]
+
+[%
+  INCLUDE component/search.tt;
+
+  INCLUDE component/results.tt;
+%]
+
+  [% IF search.type == "pages" && ! search_grouped %]
+    [% c.req.params.gr = "on" %]
+    <p><a href="[% c.uri_for(root, 'search', c.req.params) | xml_escape %]">[% c.loc("Group pages by document") %]</a></p>
+    [% c.req.params.gr = undef %]
+  [% ELSIF search.type == "pages" && search_grouped %]
+    [%- c.req.params.gr = undef -%]
+    <p><a href="[% c.uri_for(root, 'search', c.req.params) | xml_escape %]">[% c.loc("Show individual page results") %]</a></p>
+    [% c.req.params.gr = "on" %]
+  [% END %]
+
+[%
+  INCLUDE component/rlist.tt;
+
+  INCLUDE component/pager.tt;
+
+  # Only include a second search form if there were search results to
+  # display.
+  IF result.pages;
+    INCLUDE component/search.tt;
+  END;
+%]

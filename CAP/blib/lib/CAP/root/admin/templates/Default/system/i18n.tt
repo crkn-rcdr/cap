@@ -1,0 +1,80 @@
+<h2>[% c.loc("I18N Editor") | html %]</h2>
+
+<h3>[%c.loc("[_1] Messages", messages.size) | html %]</h3>
+
+<table class="i18n_messages">
+  <tr>
+    <th>[% c.loc("Translate") | html %]</th>
+    <th>[% c.loc("Original Text") | html %]</th>
+    <th>[% c.loc("Translated Text") | html %]</th>
+    <th>[% c.loc("Notes for Translator") | html %]</th>
+  </tr>
+[% FOR row IN messages %]
+  <tr>
+    <td class="left">
+      <button class="i18n_do_edit" id="i18n_[% row.id | html %]">[% c.loc("Translate") | html %]</button>
+      <span class="i18n_hidden" id="i18n_[% row.id | html %]_msgid">[% row.id | html %]</span>
+    </td>
+    <td id="i18n_[% row.id | html %]_message">[% row.message | html %]</td>
+    <td id="i18n_[% row.id | html %]_value">[% row.value | html %]</td>
+    <td id="i18n_[% row.id | html %]_notes">[% row.notes | html %]</td>
+  <tr>
+[% END %]
+</table>
+
+<!--
+<h3>[% c.loc("Create new message") | html %]</h3>
+
+<form method="post" action="[% c.uri_for(root, 'system', 'i18n', i18n_lang) %]">
+  <div>
+    <input type="hidden" name="language" value="[% i18n_lang %]"/>
+    <table>
+      <tr>
+        <td>[% c.loc("Path") | html %]</td>
+        <td><input type="text" name="path" value="Default"></td>
+      </tr>
+      <tr>
+        <td>[% c.loc("Message") | html %]</td>
+        <td><textarea name="message"/></textarea></td>
+      </tr>
+      <tr>
+        <td>[% c.loc("Translation") | html %]</td>
+        <td><textarea name="value"/></textarea></td>
+      </tr>
+      <tr>
+        <td>[% c.loc("Notes") | html %]</td>
+        <td><textarea name="notes"/></textarea></td>
+      </tr>
+    </table>
+    <button name="create" value="1" type="submit">[% c.loc("Create") %]</button>
+  </div>
+</form>
+-->
+
+<div id="i18n_edit">
+  <div class="i18n_dialog" id="i18n_edit_wait">
+    [% c.loc("Saving... Please Wait") | html %]
+  </div>
+  <div class="i18n_dialog" id="i18n_edit_error">
+    [% c.loc("Error saving.") | html %]
+  </div>
+  <form id="i18n_edit_form" method="post" action="[% c.uri_for(root, 'system', 'i18n', i18n_lang) %]">
+    <div>
+      <input id="i18n_edit_msgid" type="hidden" name="id" value=""/>
+      <table>
+        <tr>
+          <th>[% c.loc("Original Text") %]</th>
+          <th>[% c.loc("Translated Text") %]</th>
+          <th>[% c.loc("Translator Notes") %]</th>
+        </tr>
+        <tr>
+          <td id="i18n_edit_message"></td>
+          <td><textarea id="i18n_edit_value" name="value"></textarea></td>
+          <td id="i18n_edit_notes"></td>
+        </tr>
+      </table>
+      <button id="i18n_edit_save" name="update" value="1" type="submit">[% c.loc("Save") %]</button>
+      <button id="i18n_edit_cancel" name="cancel" type="button">[% c.loc("Cancel") %]</button>
+    </div>
+  </form>
+<div>

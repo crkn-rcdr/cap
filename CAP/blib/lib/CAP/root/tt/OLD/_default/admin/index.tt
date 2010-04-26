@@ -1,0 +1,31 @@
+<h1>Canadiana Access Portal - Administration</h1>
+
+<p><a href="[% c.uri_for(root, 'user') %]">[% c.loc("User management console") %]</a></p>
+
+<h2>Add/replace an image</h2>
+
+<h2>Upload File</h2>
+<form method="post" action="[% c.uri_for(root, 'ingest') %]" enctype="multipart/form-data">
+  <div>
+    <label for="cc">Contributor Code</label>
+    <input type="text" name="cc" size="8"/>
+    <br/>
+    <label for="file">File</label>
+    <input name="file" type="file" size="20"/>
+    <br/>
+    <button type="submit">Submit</button>
+  </div>
+</form>
+
+<h2>Upload File - XML Response</h2>
+<form method="post" action="[% c.uri_for('xml', 'ingest') %]" enctype="multipart/form-data">
+  <div>
+    <label for="cc">Contributor Code</label>
+    <input type="text" name="cc" size="8"/>
+    <br/>
+    <label for="file">File</label>
+    <input name="file" type="file" size="20"/>
+    <br/>
+    <button type="submit">Submit</button>
+  </div>
+</form>

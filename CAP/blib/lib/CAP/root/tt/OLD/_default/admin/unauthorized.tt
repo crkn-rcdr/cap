@@ -1,0 +1,5 @@
+<h1>Unauthorized</h1>
+
+<p>You do not have permission to access this function. If you have an
+administrator account, you can <a href="[% c.uri_for(root, 'login')
+%]">Log in</a> here.</p>

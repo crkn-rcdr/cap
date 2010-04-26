@@ -1,0 +1,60 @@
+package CAP::View::Default;
+
+use strict;
+use base 'Catalyst::View::TT';
+
+
+__PACKAGE__->config(
+    TEMPLATE_EXTENSION => '.tt',
+    INCLUDE_PATH => [CAP->path_to('root/Default/templates/Default')],
+    WRAPPER => 'main.tt',
+    FILTERS => {
+        escape_js => sub { $_[0] =~ s/["\\]/\\$1/g; return $_[0]; },
+    },
+    VARIABLES => {
+        megabytes => sub {
+            return sprintf("%3.1f", $_[0] / 1048576);
+        },
+        # Create a radio button element with the supplied name, value, and
+        # other attributes. Check the button if the value matches the
+        # request parameter of the same name, or if it is the default and
+        # no request parameter value is set.
+        radioButton => sub {
+            my ($c, $name, $value, $attrs, $default) = @_;
+            my @attrs = ("type=\"radio\"", "name=\"$name\"", "value=\"$value\"");
+            foreach my $name (keys(%{$attrs})) {
+                push(@attrs, "$name=\"$attrs->{$name}\"");
+            }
+            push (@attrs, 'checked="checked"') if (
+                ($c->req->params->{$name} && $c->session->{search}->{params}->{$name} eq $value) ||
+                (! $c->req->params->{$name} && $default)
+            );
+            return "<input " . join(" ", @attrs) . "/>";
+        },
+    }
+);
+
+=head1 NAME
+
+CAP::View::Default - TT View for CAP
+
+=head1 DESCRIPTION
+
+TT View for CAP. 
+
+=head1 AUTHOR
+
+=head1 SEE ALSO
+
+L<CAP>
+
+William,,,
+
+=head1 LICENSE
+
+This library is free software, you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+1;

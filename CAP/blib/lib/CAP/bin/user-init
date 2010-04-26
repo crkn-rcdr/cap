@@ -1,0 +1,32 @@
+#!/usr/bin/perl -Ilib
+
+# This script will delete the user and role tables and populate them with
+# a single administrator account 'admin' with password 'pass'. It will
+# also create the administrator role and assign it to that user.
+
+use strict;
+use warnings;
+
+use CAP::Schema;
+
+my $schema = CAP::Schema->connect('dbi:mysql:cap', 'cap', '');
+
+$schema->resultset('User')->delete;
+$schema->resultset('Role')->delete;
+$schema->resultset('UserRole')->delete;
+
+$schema->resultset('User')->create({
+    'username' => 'admin',
+    'password' => 'pass',
+    'active' => 1,
+    'name' => 'Administrator Account',
+});
+
+$schema->resultset('Role')->create({ role => 'admin' });
+
+my $user = $schema->resultset('User')->find({ username => 'admin'});
+my $role  = $schema->resultset('Role')->find({ role => 'admin' });
+
+
+$schema->resultset('UserRole')->create({ user_id => $user->id, role_id => $role->id});
+

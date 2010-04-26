@@ -1,0 +1,9 @@
+<form class="searchform" method="get" action="[% c.uri_for(root, 'search', 'pages') %]">
+  <div>
+    <input type="hidden" name="pkey" value="[% doc.key %]"/>
+    <label for="tx">Search this document:</label>
+    <input type="text" name="tx" size="30"/>
+    <button type="submit">Search</button>
+  </div>
+</form>
+

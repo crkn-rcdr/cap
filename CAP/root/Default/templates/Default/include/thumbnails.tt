@@ -1,0 +1,38 @@
+[%-
+  # Default thumbnail browser
+  # Version: 0.20100316
+
+  USE XML.Escape;
+-%]
+
+[%- IF pages.size && config.tt.preview_images > 0 -%]
+  <div class="pp">
+    <h3>[% c.loc("Document has [_1] pages (click an image to view)", pages.size) | xml_escape %]</h3>
+  [% IF c.session.show.spr > 0 %]
+    <div class="thumb">
+      <a href="[% c.uri_for(root, 'show', doc.key, { spr => c.session.show.spr - config.tt.preview_images }) | xml_escape %]">
+        [% c.loc("Previous") | xml_escape %]
+      </a>
+    </div>
+  [% END %]
+  [% max = c.session.show.spr + config.tt.preview_images;
+    i = c.session.show.spr;
+    WHILE i < max && pages.$i; %]
+    <div class="thumb">
+      [% c.loc("page [_1]", pages.$i.seq) | xml_escape %]
+      <br/>
+    <a href="[% c.uri_for(root, 'show', pages.$i.key) | xml_escape %]">
+      <img src="[% c.uri_for(root, 'show', pages.$i.key, { rel => 'image', s=> 50 }) | xml_escape %]"/>
+    </a>
+    </div>
+    [% i = i + 1 %]
+  [% END %]
+  [% IF pages.$i %]
+    <div class="thumb">
+      <a href="[% c.uri_for(root, 'show', doc.key, { spr => i }) | xml_escape %]">
+        [% c.loc("Next") | xml_escape %]
+      </a>
+    </div>
+  [% END %]
+  </div>
+[%- END -%]

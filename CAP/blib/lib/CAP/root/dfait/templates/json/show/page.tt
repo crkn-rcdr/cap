@@ -1,0 +1,26 @@
+[%-
+  USE JSON ( pretty => 1, allow_blessed => 1, convert_blessed => 1);
+
+  # Iterate through the child elements and separate them according to type
+  FOR child IN children;
+    IF child.type == "file";
+      IF child.mime == "image/tiff";
+        image = child.key;
+      END;
+    END;
+  END;
+  #pdfsize = (parentPdf.size - (parentPdf.size % 1024)) / 1024;
+
+  # Determine the image URL
+  IF image;
+    image_uri = c.uri_for(root, 'file', "${image}.png");
+  END;
+-%]
+{
+  "ok" : true,
+  "req" : "[% c.request.uri %]",
+  "key" : [% doc.key.json %],
+  [% # THIS IS THE WRONG WAY TO DO IT. %]
+  "image_uri" : "[% image_uri %]",
+  "image_key" : [% image.json %],
+}

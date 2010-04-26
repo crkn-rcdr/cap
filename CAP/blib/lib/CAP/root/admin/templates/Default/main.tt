@@ -1,0 +1,49 @@
+﻿[%-
+  c.load_lexicon('Default')
+-%]
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+  <head>
+    <title>Canadiana Access Portal[% IF title %] - [%title%][% END %]</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'main.css') %]"/>
+    <script type="text/javascript">var uri = "[% c.req.uri %]";</script>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'jquery.js') %]">1;</script>
+  [% IF c.action == 'system/i18n' %]
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'i18n.css') %]"/>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'i18n.js') %]">1;</script>
+  [% END %]
+  </head>
+
+  <body>
+
+  <div class="header">
+    <h1 class="title">[% c.loc("CAP Administration") %]</h1>
+    <ul class="nav">
+      [% IF iface != 'fr' %]<li><a href="[% c.uri_for(root) %]">Français</a></li>[% END %]
+      [% IF iface != 'en' %]<li><a href="[% c.uri_for(root) %]">English</a></li>[% END %]
+      [% IF ! c.user_exists %]<li><a href="[% c.uri_for(root, 'login') %]">[% c.loc("Log In") | html %]</a></li>[% END %]
+      [% IF c.user_exists %]<li><a href="[% c.uri_for(root, 'logout') %]">[% c.loc("Logout") | html %]</a></li>[% END %]
+      <li><a href="[% c.uri_for(root, 'page', 'about') %]">[% c.loc("About") | html %]</a></li>
+      <li><a href="[% c.uri_for(root) %]">[% c.loc("New Search") | html %]</a></li>
+    </ul>
+  </div>
+
+
+  <div class="content">
+    <div class="main">
+      [% content -%]
+    </div>
+  </div>
+
+  <div class="footer">
+  [% c.loc("Prototype version [_1]", c.config.version) %]
+  </div>
+
+  </body>
+
+
+</html>

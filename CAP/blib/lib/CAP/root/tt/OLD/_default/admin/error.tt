@@ -1,0 +1,17 @@
+<h1>Fatal Error</h1>
+
+<ol>
+[% FOREACH event IN event_log -%]
+  <li>
+    [% IF event.0 == 'ok' -%]
+      <span class="good">[% event.1 %]</span>
+    [% ELSIF event.0 == 'warn' -%]
+      <span class="bad">[% event.1 %]</span>
+    [% ELSIF event.0 == 'fatal' -%]
+      <span class="bad">[% event.1 %]</span>
+    [% ELSE -%]
+      [% event.1 %]
+    [% END -%]
+  </li>
+[% END %]
+</ol>

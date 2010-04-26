@@ -1,0 +1,6 @@
+[%- IF iface == 'xml' -%]
+    [%- INCLUDE 'include/wrapper_xml.tt' -%]
+[% content %]
+[%- ELSE -%]
+    [%- INCLUDE 'include/wrapper_html.tt' -%]
+[%- END -%]

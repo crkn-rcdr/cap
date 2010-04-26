@@ -1,0 +1,9 @@
+<h2>[% c.loc("Welcome to the Canadiana Access Portal") %]</h2>
+
+<p>Available portals include:</p>
+
+<ul>
+[% FOR portal IN c.config.portal.keys %]
+  <li><a href="[% c.uri_for(root, portal) %]">[% c.config.portal.$portal.label %]</li>
+[% END %]
+</ul>

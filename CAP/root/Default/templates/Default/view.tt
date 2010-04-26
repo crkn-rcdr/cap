@@ -1,0 +1,34 @@
+[%
+  # view.tt
+  #
+  #   This template is generally called to handle show/* requests.
+  #   (Yes, there is a name mismatch that should be rectified.)
+  #
+  # Modified: 2010-04-16
+
+  USE XML.Escape;
+
+  INCLUDE component/context.tt;
+
+  INCLUDE component/title.tt;
+
+  INCLUDE component/navigation.tt;
+
+  IF doc.type != 'page' || config.tt.portal;
+    INCLUDE component/record.tt;
+  END;
+
+  IF doc.type == 'page' && config.tt.collection;
+    INCLUDE component/page.tt;
+  END;
+
+  IF config.tt.collection;
+    INCLUDE component/download.tt;
+  END;
+
+  IF config.tt.portal;
+    INCLUDE component/site.tt;
+  END;
+
+  INCLUDE component/issues.tt;
+%]

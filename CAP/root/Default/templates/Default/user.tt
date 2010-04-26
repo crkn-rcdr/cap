@@ -1,0 +1,213 @@
+[%-
+  # Default user management template
+  # Version: 0.20100408
+
+  USE XML.Escape;
+-%]
+
+[%
+  META
+  css = 'admin.css' 
+%]
+
+[% BLOCK error_message %]
+  [% IF error %]
+    <p>
+      [%
+        IF error == 'NOUSERID';
+          c.loc("No user ID specified") | xml_escape;
+        ELSIF error == 'NODELETEADMIN';
+          c.loc("The administrator account cannot be deleted") | xml_escape;
+        ELSIF error == 'NOTFOUND';
+          c.loc("No such user ID") | xml_escape;
+        ELSIF error == 'DBERROR';
+          c.loc("Database error") | xml_escape;
+        ELSIF error == 'INVALID';
+          c.loc("Invalid form data") | xml_escape;
+        ELSE;
+          c.loc("Unknown error: [_1]", error) | xml_escape;
+        END;
+      %]
+    </p>
+  [% END %]
+[% END %]
+
+
+[% BLOCK user_info %]
+  [% IF invalid.size %]
+    <p>[% c.loc("[_1] Errors found", invalid.size) | xml_escape %]</p>
+    <ul>
+      [% IF invalid.username %]
+        <li>
+          [%
+            IF invalid.username == 'EMPTY';
+              c.loc("No username supplied") | xml_escape;
+            ELSIF invalid.username == 'MINLENGTH' || invalid.username == 'MAXLENGTH';
+              c.loc("The username must be between 4 and 32 characters") | xml_escape;
+            ELSIF invalid.username == 'EXISTS';
+              c.loc("Username is already in use");
+            ELSE;
+              c.loc("Unknown error: [_1]", invalid.username) | xml_escape;
+            END;
+          %]
+        </li>
+      [% END %]
+      [% IF invalid.name %]
+        <li>
+          [%
+            IF invalid.name == 'EMPTY';
+              c.loc("Real name is empty") | xml_escape;
+            ELSIF invalid.name == 'MAXLENGTH';
+              c.loc("Real name must be a maximum of 128 characters") | xml_escape;
+            ELSE;
+              c.loc("Unknown error: [_1]", invalid.name) | xml_escape;
+            END;
+          %]
+        </li>
+      [% END %]
+      [% IF invalid.email %]
+        <li>
+          [%
+            IF invalid.email == 'EMPTY';
+              c.loc("Email address is empty") | xml_escape;
+            ELSIF invalid.email == 'MAXLENGTH';
+              c.loc("Email address can be a maximum of 128 characters") | xml_escape;
+            ELSIF invalid.email == 'FORMAT';
+              c.loc("Email address does not look like a valid address") | xml_escape;
+            ELSE;
+              c.loc("Unknown error: [_1]", invalid.email) | xml_escape;
+            END;
+          %]
+        </li>
+      [% END %]
+      [% IF invalid.password %]
+        <li>
+          [%
+            IF invalid.password == 'EMPTY';
+              c.loc("No password supplied") | xml_escape;
+            ELSIF invalid.password == 'MINLENGTH' || invalid.password == 'MAXLENGTH';
+              c.loc("Password must be between 6 and 20 characters") | xml_escape;
+            ELSIF invalid.password == 'MISMATCH';
+              c.loc("The passwords do not match") | xml_escape;
+            ELSE;
+              c.loc("Unknown error: [_1]", invalid.password) | xml_escape;
+            END;
+          %]
+        </li>
+      [% END %]
+    </ul>
+  [% END %]
+  <form method="post" action="[% c.uri_for(root, 'user') | xml_escape %]">
+    <div>
+      <input type="hidden" name="action" value="[% action | xml_escape %]"/>
+      <input type="hidden" name="process" value="1"/>
+      [% IF user.id %]
+        <input type="hidden" name="id" value="[% user.id | xml_escape %]"/>
+        <div>[% c.loc("User Id: [_1]", user.id) | xml_escape %]</div>
+      [% END %]
+      <div>[% c.loc("Username") %]</div>
+      <input type="text" name="user" value="[% user.username | xml_escape %]"/>
+      <div>[% c.loc("Real name") %]</div>
+      <input type="text" name="name" value="[% user.name | xml_escape %]"/>
+      <div>[% c.loc("Email address") %]</div>
+      <input type="text" name="email" value="[% user.email | xml_escape %]"/>
+      <div>[% c.loc("Password") %]</div>
+      <input type="password" name="pass" value=""/>
+      <div>[% c.loc("Verify Password") %]</div>
+      <input type="password" name="pass2" value=""/>
+
+      [% FOR role IN roles %]
+      <div>
+        [% IF role.has_role && role.id == 1 && user.id == 1 %]
+          <input type="checkbox" name="roles" value="[% role.id | xml_escape %]" checked="checked" disabled="disabled"/>
+        [% ELSIF role.has_role %]
+          <input type="checkbox" name="roles" value="[% role.id | xml_escape %]" checked="checked"/>
+        [% ELSE %]
+          <input type="checkbox" name="roles" value="[% role.id | xml_escape %]"/>
+        [% END %]
+        [% role.name | xml_escape %]
+      </div>
+      [% END %]
+
+      <button type="submit">[% c.loc(user_info_submit) | xml_escape %]</button>
+
+    </div>
+
+  </form>
+[% END %]
+
+
+[% BLOCK delete_user %]
+  <form method="post" action="[% c.uri_for(root, 'user') | xml_escape %]">
+    <div>
+      <input type="hidden" name="action" value="delete"/>
+      <input type="hidden" name="process" value="1"/>
+      <input type="hidden" name="id" value="[% user.id | xml_escape %]"/>
+      <button type="submit">[% c.loc("Delete User") | xml_escape %]</button>
+    </div>
+  </form>
+[% END %]
+
+
+[% BLOCK user_main %]
+  <form method="get" action="[% c.uri_for(root, 'user') | xml_escape %]">
+    <div>
+      <button type="submit">[% c.loc("Show All Users") | xml_escape %]</button>
+    </div>
+  </form>
+[% END %]
+
+
+
+[% IF action == 'create' %]
+  <h2>[% c.loc("Create New User") %]</h2>
+  [%
+    user_info_submit = "Create User";
+    INCLUDE user_info ;
+      INCLUDE user_main;
+  %]
+[% ELSIF action == 'edit' %]
+  [% IF error %]
+    [% INCLUDE error_message %]
+  [% ELSIF process %]
+    <p>[% c.loc("User updated") | xml_escape %]</p>
+  [% END %]
+  <h2>[% c.loc("Edit User [_1]", user.username) %]</h2>
+  [%
+    user_info_submit = "Update User";
+    INCLUDE user_info;
+    IF user.id != 1;
+      INCLUDE delete_user;
+    END;
+    INCLUDE user_main;
+  %]
+[% ELSIF action == 'delete' %]
+  [% IF error %]
+    [%
+      INCLUDE error_message;
+      INCLUDE user_main;
+    %]
+  [% END %]
+[% ELSE %]
+  <h2>[% c.loc("Current Users") %]</h2>
+  <table>
+  [% FOR user IN users %]
+    <tr>
+      <td>[% user.id | xml_escape %]</td>
+      <td><a href="[% c.uri_for(root, 'user', { id => user.id, action => 'edit' }) | xml_escape %]">[% user.username | xml_escape %]</a></td>
+      <td>[% user.email | xml_escape %]</td>
+      <td>[% user.name | xml_escape %]</td>
+      <td>[% user.active | xml_escape %]</td>
+    </tr>
+  [% END %]
+  </table>
+
+  <form method="post" action="[% c.uri_for(root, 'user') | xml_escape %]">
+    <div>
+      <input type="hidden" name="action" value="create"/>
+      <button type="submit">[% c.loc("New User") | xml_escape %]</button>
+    </div>
+  </form>
+[% END %]
+
+

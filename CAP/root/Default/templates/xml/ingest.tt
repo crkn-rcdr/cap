@@ -1,0 +1,12 @@
+[%-
+  # Default XML template for ingest
+  # Version: 0.20100415
+  USE XML.Escape;
+-%]
+[% IF error %]
+  <ok>0</ok>
+  <error>[% error | xml_escape %]</error>
+  <debug>[% debug | xml_escape %]</debug>
+[% ELSE %]
+  <ok>1</ok>
+[% END %]

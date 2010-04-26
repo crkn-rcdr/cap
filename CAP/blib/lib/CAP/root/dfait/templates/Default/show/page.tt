@@ -1,0 +1,63 @@
+[%-
+  # Iterate through the child elements and separate them according to type
+  FOR child IN children;
+    IF child.type == "file";
+      FOR role IN child.role;
+        IF role == "master";
+          image = child.key;
+        END;
+      END;
+    END;
+  END;
+  pdfsize = (parentPdf.size - (parentPdf.size % 1024)) / 1024;
+%]
+<h2>[% doc.label %] [% c.loc("page [_1] of [_2]", doc.seq, pageCount) %]</h2>
+
+<div class="toolbar">
+  <ul>
+[% IF parentPdf %]
+    <li><a href="[% c.uri_for(root, 'get', parentPdf.key) %]">[% c.loc("Download PDF") | html %]</a> ([% c.loc("[_1] KB", pdfsize) %])</li>
+[% END %]
+    <li><a href="[% c.uri_for(root, 'show', doc.pkey) %]">[% c.loc("Document Summary") | html %]</a></li>
+[% IF c.session.search %]
+    <li>
+      <a href="[% c.uri_for(root, 'search', c.session.search.type, c.session.search.start, c.session.search.params) | html %]">[% c.loc("Search Results") | html %]</a>
+    </li>
+[% END %]
+  </ul>
+</div>
+
+
+<div class="pp">
+[% IF prevPage %]
+  <div class="thumb">
+    <a href="[% c.uri_for(root, 'show', prevPage.key) %]">
+      <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'prev.png') %]" alt="&lt;="/>
+      [% c.loc("Page [_1]", prevPage.seq) %]
+    </a>
+    <br/>
+    <a href="[% c.uri_for(root, 'show', prevPage.key) %]">
+    <img class="thumbnail" src="[% c.uri_for(root, 'file', "${prevImage.key}.png", { s => c.config.Display.thumbsize }) %]" alt="[% c.loc("page [_1]", prevPage.seq) %]"/>
+    </a>
+  </div>
+[% END %]
+[% IF image %]
+<div class="page">
+  <img src="[% c.uri_for(root, 'file', "${image}.png") %]" />
+</div>
+[% END %]
+[% IF nextPage %]
+  <div class="thumb">
+    <a href="[% c.uri_for(root, 'show', nextPage.key) %]">
+      [% c.loc("Page [_1]", nextPage.seq) %]
+      <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'next.png') %]" alt="=&gt;"/>
+    </a>
+    <br/>
+    <a href="[% c.uri_for(root, 'show', nextPage.key) %]">
+    <img class="thumbnail" src="[% c.uri_for(root, 'file', "${nextImage.key}.png", { s => c.config.Display.thumbsize }) %]" alt="[% c.loc("page [_1]", nextPage.seq) %]"/>
+    </a>
+  </div>
+[% END %]
+</div>
+
+

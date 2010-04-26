@@ -1,0 +1,5 @@
+<table class="bib_record">
+  <tr> <td>[% c.loc("Language") %]</td> <td>[% doc.lang.join('<br/>') -%]</td> </tr>
+  <tr> <td>[% c.loc("Date") %]</td> <td>[% doc.pubstmt -%]</td> </tr>
+</table>
+

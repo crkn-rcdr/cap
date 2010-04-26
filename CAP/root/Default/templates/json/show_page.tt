@@ -1,0 +1,25 @@
+[%-
+  # Iterate through the child elements and separate them according to type
+  FOR child IN children;
+    IF child.type == "file";
+      IF child.mime == "image/tiff";
+        image = child.key;
+      END;
+    END;
+  END;
+  #pdfsize = (parentPdf.size - (parentPdf.size % 1024)) / 1024;
+
+  # Determine the image URL
+  IF image;
+    image_uri = c.uri_for(root, 'file', "${image}.png");
+  END;
+-%]
+  "key" : [% doc.key.json %],
+  [% # THIS IS THE WRONG WAY TO DO IT. %]
+  "image_uri" : "[% image_uri %]",
+  "image_key" : [% image.json %],
+
+[% IF nextPage.key %]  "next_uri" : "[% c.uri_for_action('/show/show', [portal, iface], nextPage.key) %]",[% END %]
+[% IF prevPage.key %]  "prev_uri" : "[% c.uri_for_action('/show/show', [portal, iface], prevPage.key) %]",[% END %]
+  "page_uri" : "[% c.uri_for_action('/show/show', [portal, iface], doc.key) %]"
+

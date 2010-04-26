@@ -1,0 +1,362 @@
+﻿[%-
+  USE XML.Escape;
+-%]
+
+[% META
+  css = 'docs.css'
+%]
+
+<div class="docs">
+  <h1>Technical Documentation</h1>
+
+  <h2>Data Structures</h2>
+
+  <p>For information about the fields in each record type and whether they
+  are single values or lists (multiValued), refer to the individual
+  application profiles.</p>
+
+  <dl>
+    <dt>resource_download = [ <em>doc:resource</em> ... ]</dt>
+    <dd>
+      Child documents with type=<code>resource</code>
+      role=<code>download</code>. The file type can be determined from the
+      MIME property.
+    </dd>
+    <dt>resource_master = [ <em>doc:resource</em> ... ]</dt>
+    <dd>Child documents with type=<code>resource</code> role=<code>master</code></dd>
+    <dt>resource_page = [ <em>doc:resource</em> ... ]</dt>
+    <dd>Child documents with type=<code>resource</code> role=<code>page</code></dd>
+  </dl>
+
+
+  <h2>Application API</h2>
+
+  <h3>get/<em>key[.format]</em></h3>
+
+  <p>Retrieve the digital resource associated with <em>key</em>.</p>
+
+  <h4>Parameters<h4>
+
+  <dl>
+    <dt>s=<em>int</em></dt>
+    <dd>Image width in pixels (prior to any rotation)</dd>
+    <dt>r=<em>int</em></dt>
+    <dd>Image rotation in quarter-turns clockwise</dd>
+  </dl>
+
+  <h4>Stash</h4>
+
+  <h4>Notes</h4>
+
+  <ul>
+    <li>
+      If the supplied key points to a downloadable resource, that file
+      will be served.
+    </li>
+    <li>
+      Appending a suffix (e.g. <code>.jpg</code>, <code>.png</code>) to a
+      record will attempt to create a derivative based on the master
+      resource (child record: type=<code>resource</code>;
+      role=<code>master</code>) for that record.
+    </li>
+  </ul>
+
+
+  <h3>search[/<em>result page</em>]</h3>
+
+  <p>Query the database and return the requested search result page
+  (default: 1st).</p>
+
+  <h4>Parameters</h4>
+
+  <dl>
+    <dt>ti=<em>string</em></dt>
+    <dd>Find string in any title (ti) field</dd>
+  <dl>
+  
+  <pre>
+    To be documented:
+    so
+    lang
+    q
+    dr
+    t
+    au
+    su
+    no
+    tx
+    kw
+    gkey
+    pkey
+    ctype
+  </pre>
+
+  <h4>Stash</h4>
+
+  <h4>Notes</h4>
+
+  <ul>
+    <li>Multi-field queries are ANDed together.</li>
+  </ul>
+
+
+  <h2>Administrative API</h2>
+
+  <p>NOTE: For the admin interface, all standard query parameters are also
+  available on the stash (except that user, pass and pass2 become
+  username, password, and password2)</p>
+
+  <h3>docs</h3>
+
+  <p>Display this reference document.</p>
+
+  <h4>Parameters</h4>
+
+  <p>None</p>
+
+  <h4>Stash</h4>
+
+  <p>None</p>
+
+  <h4>Notes</h4>
+
+  <ul>
+    <li>
+      As this document grows, it may be segmented into pages and
+      retrieved using various options.
+    </li>
+  </ul>
+
+
+  <h3>ingest</h3>
+
+  <p>Add or update metadata or digital resources.</p>
+
+  <h4>Parameters</h4>
+
+  <dl>
+    <dt>data=<em>string</em></dt>
+    <dd>The XML data string to index or file data.</dd>
+    <dt>file=<em>file</em></dt>
+    <dd>A file containing XML metadata or file data.</dd>
+    <dd>key=<em>string</em></dd>
+    <dd>
+      If this is a digital resource, the resource key (id). This will
+      also be the name of the file used on disk.
+    </dd>
+  </dd>
+
+  <h4>Stash</h4>
+
+  <dl>
+    <dt>debug=<em>string</em></dt>
+    <dd>
+      Contains debugging information relevant to the error. May be set if
+      error is set, otherwise it is empty.
+    </dd>
+    <dt>error=<em>string</em></dt>
+    <dd>
+      Contains an error code if the request could not be completed,
+      otherwise it is empty. Error codes include:
+      <ul>
+        <li>BADPROFILE: one or more records does not match a valid application profile</li>
+        <li>DBERROR: an error occured trying to create or update a database record.</li>
+        <li>NODATA: no data was supplied in the data stream and no file was uploaded</li>
+        <li>NOPARSE: an error ocurred while parsing the XML document</li>
+        <li>
+          NORECORD: the uploaded file does not have a record associated
+          with it.
+        </li>
+        <li>
+          INVALID: one or more documents contain invalid content, or the
+          data file's characteristics do not match the record's, or the
+          key is invalid.
+        </li>
+        <li>FILEOP: a file operation error</li>
+      </ul>
+    </dd>
+  </dl>
+
+  <h4>Notes</h4>
+
+  <ul>
+    <li>
+      A Solr XML &lt;add&gt; document is expected in the case of metadata.
+    </li>
+    <li>
+      Data will be read from the data parameter unless a file is
+      uploaded, in which case it will be taken from there instead. If both
+      a data parameter and a file are provided, only the file will be
+      examined.
+    </li>
+    <li>
+      Uploaded digital content requires that a document
+      (type=<code>resource</code>) already exist for that record. If the
+      keys do not match and/or the namespace is one that is not authorized
+      for updating, the content will be rejected.
+    </li>
+  </ul>
+
+
+  <h3>role</h3>
+
+  <p>List, create, edit and delete user roles.</p>
+
+  <h4>Parameters</h4>
+
+  <dl>
+    <dt>action=[<code>create|delete|edit</code>] <strong>default=</strong><code>index</code></dt>
+    <dd>The action to perform.</dd>
+    <dt>id=<em>int &gt; 0</em></dt>
+    <dd>The role id to edit/delete.</dd>
+    <dt>role=<em>string</em></dt>
+    <dd>The role name</dd>
+    <dt>process=<em>boolean</em></dt>
+    <dd>
+      Attempt to create/edit request. If not present, the request will
+      display the create/edit form but not attempt to create or update the
+      role based on the query parameters. (I.e., show the initial
+      create/edit form.)
+    </dd>
+  <dl>
+
+  <h4>Stash</h4>
+
+  <dl>
+    <dt>error=<em>string</em></dt>
+    <dd>
+      Contains an error code if the request could not be completed,
+      otherwise it is empty. Error codes include:
+      <ul>
+        <li>DBERROR: an error occured trying to create or update a database record.</li>
+        <li>INVALID: one or more user-supplied parameters contain invalid content</li>
+        <li>NODELETEADMIN: attempt to delete or modify role id 1.</li>
+        <li>NOTFOUND: the requested role id is not in the database.</li>
+        <li>NOUSERID: a valid id parameter was not specified.</li>
+      </ul>
+    </dd>
+    <dt>invalid={ role =&gt; <em>string</em> }</dt>
+    <dd>
+      Contains a table of validity errors in the supplied query
+      parameters. Each key that fails a validity check will contain one of
+      the following error codes:
+      <ul>
+        <li>EMPTY: the field is empty but is not allowed to be.</li>
+        <li>EXISTS: the role name is already in use.</li>
+        <li>FORMAT: the field content does not conform to the expected/required format.</li>
+      </ul>
+    </dd>
+    <dt>role={ id =&gt; <em>int</em>, role =&gt; <em>string</em> }</dt>
+    <dd>The role being created/edited. Each role object contains the role id and name.</dd>
+    <dt>roles=[ <em>role</em> ... ]</dt>
+    <dd>An array of all role objects.</dd>
+  </dl>
+
+  <h4>Notes</h4>
+
+  <ul>
+    <li>Role id 1 (admin) cannot be deleted or modified.</li>
+    <li>
+      Role names can only consist of the following characters: A-Za-z0-9_
+      and must be between 1 and 128 characters in length.
+    </li>
+    <li>The roles variable is only available in default/list mode.</li>
+    <li>The role and invalid variables are only available in create/edit mode.</li>
+  </ul>
+
+
+  <h3>user</h3>
+
+  <p>List, create, edit and delete user accounts.</p>
+
+  <h4>Parameters</h4>
+
+  <dl>
+    <dt>action=[<code>create|delete|edit</code>] <strong>default=</strong><code>index</code></dt>
+    <dd>The action to perform.</dd>
+    <dt>email=<em>string</em></dt>
+    <dd>The user's email address.</dd>
+    <dt>id=<em>int &gt; 0</em></dt>
+    <dd>The user ID to edit/delete.</dd>
+    <dt>name=<em>string</em></dt>
+    <dd>The user's real name.</dd>
+    <dt>process=<em>boolean</em></dt>
+    <dd>
+      Attempt to create/edit request. If not present, the request will
+      display the create/edit form but not attempt to create or update the
+      user based on the query parameters. (I.e., show the initial
+      create/edit form.)
+    </dd>
+    <dt>user=<em>string</em><dt>
+    <dd>The user's username.<dd>
+    <dt>pass=<em>string</em><dt>
+    <dd>The user's password.</dd>
+    <dt>pass2=<em>string</em><dt>
+    <dd>Second entry field for password verificiation.</dt>
+  <dl>
+
+  <h4>Stash</h4>
+
+  <dl>
+    <dt>error=<em>string</em></dt>
+    <dd>
+      Contains an error code if the request could not be completed,
+      otherwise it is empty. Error codes include:
+      <ul>
+        <li>DBERROR: an error occured trying to create or update a database record.</li>
+        <li>NODELETEADMIN: unsupported attempt to delete user id 1.</li>
+        <li>NOTFOUND: the requested user id is not in the database.</li>
+        <li>NOUSERID: a valid id parameter was not specified.</li>
+      </ul>
+    </dd>
+    <dt>invalid={ username =&gt; <em>string</em>, name =&gt; <em>string</em>, email =&gt; <em>string</em>, password =&gt; <em>string</em> }</dt>
+    <dd>
+      Contains a table of validity errors in the supplied query
+      parameters. Each key that fails a validity check will contain one of
+      the following error codes:
+      <ul>
+        <li>EMPTY: the field is empty but is not allowed to be.</li>
+        <li>EXISTS: the username is already in use by another account.</li>
+        <li>FORMAT: the field content does not conform to the expected/required format.</li>
+        <li>INVALID: one or more user-supplied parameters contain invalid content</li>
+        <li>MAXLENGTH: the field exceeds the maximum allowed length.</li>
+        <li>MINLENGTH: the is less than the minimum allowed length.</li>
+        <li>MISMATCH: pass and pass2 contain different values.</li>
+      </ul>
+    </dd>
+    <dt>roles=[ { has_role =&gt; <em>boolean</em>, id =&gt; <em>int</em>, name =&gt; <em>string</em> } ... ]</dt>
+    <dd>
+      An array of role objects. Each role object contains the role id and
+      name as well as a boolean flag indicating whether or not the role is
+      assigned to the current user.
+    </dd>
+    <dt>user={ id =&gt; <em>int</em>, username =&gt; <em>string</em>, name =&gt; <em>string</em>, email =&gt; <em>string</em> }</dt>
+    <dd>Contains the requested user account.</dd>
+    <dt>users=[ <em>user</em> ... ]</dt>
+    <dd>A list of user objects for all user accounts.</dd>
+  </dl>
+
+  <h4>Notes</h4>
+
+  <ul>
+    <li>User id 1 (the administrator account) cannot be deleted.</li>
+    <li>
+      Role id 1 (admin) cannot be removed from user id 1. Note that this
+      does not prevent a portal from being configured to prevent access to
+      the admin role.
+    </li>
+    <li>
+      When editing a user, leaving the password field blank results in
+      no change to the existing password.
+    </li>
+    <li>
+      In order to avoid conflicts with the login mechanism, user, pass
+      and pass2 are used as query parameters. Internally, the variables
+      that are used are username, password, and password2. All other query
+      parameters conform to internally-used variable names.
+    </li>
+    <li>The users variable is only available in default/list mode.</li>
+    <li>The roles, user and invalid variables are only available in create/edit mode.</li>
+  </ul>
+
+</div>

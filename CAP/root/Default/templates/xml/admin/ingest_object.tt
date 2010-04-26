@@ -1,0 +1,2 @@
+[% USE XML.Escape %]
+<key>[% key | xml_escape %]</key>

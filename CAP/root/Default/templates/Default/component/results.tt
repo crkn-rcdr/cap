@@ -1,0 +1,23 @@
+[%
+  # component/results.tt
+  #
+  #   Summary of search results and sorting options
+  #
+  # Identifier prefix: rs
+  # Modified: 2010-04-19
+%]
+
+<div id="rs">
+
+  [% IF ! result.hits || result.page > result.pages %]
+    <h2>[% c.loc("Nothing Found") | xml_escape %]</h2>
+    <p>[% c.loc("No items match your search criteria.") | xml_escape %]</p>
+  [% ELSIF result.hits == 1 %]
+    <h2>[% c.loc("1 Item Found") | xml_escape %]</h2>
+  [% ELSIF result.hitsFrom == 1 && result.hitsTo == result.hits %]
+    <h2>[% c.loc("[_1] Items found", result.hits) | xml_escape %]</h2>
+  [% ELSE -%]
+    <h2>[% c.loc("Results [_1] - [_2] of [_3]", result.hitsFrom, result.hitsTo, result.hits) | xml_escape %]</h2>
+  [% END %]
+
+</div>

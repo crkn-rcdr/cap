@@ -1,0 +1,39 @@
+<h2>[% c.loc("Found [_1] matching pages", result.hits) %]</h2>
+
+<div class="sf">
+
+  <h3>[% c.loc("Showing results [_1] - [_2] of [_3]", result.hitsFrom, result.hitsTo, result.hits) %]</h3>
+
+
+
+  <p>
+    [%- c.request.params.gr = 'on' -%]
+    <a href="[% c.uri_for(root, 'search', 'pages', c.request.params) %]">
+      [% c.loc("Repeat this search with pages grouped by document") %]
+    </a>
+    [%- c.request.params.gr = undef -%]
+  </p>
+
+  <table>
+  [% FOREACH page IN result.documents -%]
+    [% previewKey = previews.${page.key}.key %]
+    <tr>
+      <td>
+        <a href="[% c.uri_for(root, 'show', page.key) %]"><img src="[% c.uri_for(root, 'file', "${previewKey}.png", { s => c.config.Display.thumbsize }) %]" /></a>
+      </td>
+      <td>
+        <p><a href="[% c.uri_for(root, 'show', page.pkey) %]">[% page.label %]</a></p>
+        <p><a href="[% c.uri_for(root, 'show', page.key) %]">[% c.loc("Page [_1]", page.seq ) %]</a></p>
+      </td>
+    </tr>
+  [% END -%]
+  </table>
+
+  [%- INCLUDE "${portal}/include/pager.tt" search='pages' -%]
+</div>
+
+<div class="sf">
+  <h3>[% c.loc("Refine your search") %]</h3>
+  [% INCLUDE "${portal}/include/forms/search.tt" %]
+</div>
+

@@ -1,0 +1,151 @@
+[%-
+  # Default role management template
+  # Version: 0.20100409
+
+  USE XML.Escape;
+-%]
+
+[%
+  META
+  css = 'admin.css' 
+%]
+
+
+[% BLOCK error_message %]
+  [% IF error %]
+    <p>
+      [%
+        IF error == 'DBERROR';
+          c.loc("Database error") | xml_escape;
+        ELSIF error == 'NOUSERID';
+          c.loc("No user ID specified") | xml_escape;
+        ELSIF error == 'NODELETEADMIN';
+          c.loc("The administrator role cannot be changed or deleted") | xml_escape;
+        ELSIF error == 'NOTFOUND';
+          c.loc("No such user ID") | xml_escape;
+        ELSIF error == 'DBERROR';
+          c.loc("Database error") | xml_escape;
+        ELSE;
+          c.loc("Unknown error: [_1]", error) | xml_escape;
+        END;
+      %]
+    </p>
+  [% END %]
+[% END %]
+
+[% # Generate a table listing all existing roles %]
+[% BLOCK list_roles %]
+  <table>
+    [% FOR role IN roles %]
+      <tr>
+        <td>[% role.id | xml_escape %]</td>
+        <td>
+          <a href="[% c.uri_for(root, 'role', { action => 'edit', id => role.id }) | xml_escape %]">
+          [% role.role | xml_escape %]
+         </a>
+        </td>
+      </tr>
+    [% END %]
+  </table>
+[% END %]
+
+
+[% # Create/edit role form %]
+[% BLOCK edit_role %]
+  [% IF invalid.size %]
+    <p>[% c.loc("[_1] Errors found", invalid.size) | xml_escape %]</p>
+    <ul>
+      [% IF invalid.role %]
+      <li>
+        [%
+          IF invalid.role == 'EMPTY';
+            c.loc("No role specified") | xml_escape;
+          ELSIF invalid.role == 'EXISTS';
+            c.loc("The role name is already in use") | xml_escape;
+          ELSIF invalid.role == 'FORMAT';
+            c.loc("Role name must be 128 characters or less and contain: A-Za-z0-9_") | xml_escape;
+          ELSE;
+            c.loc("Unknown error: [_1]", invalid.role) | xml_escape;
+          END;
+        %]
+      </li>
+      [% END %]
+    </ul>
+  [% END %]
+  <form method="post" action="[% c.uri_for(root, 'role') | xml_escape %]">
+    <div>
+      <input type="hidden" name="action" value="[% action | xml_escape %]"/>
+      <input type="hidden" name="process" value="1"/>
+      [% IF role.id %]
+        <div>
+          <input type="hidden" name="id" value="[% role.id | xml_escape %]"/>
+          [% c.loc("Role id: [_1]",role.id) | xml_escape %]
+        </div>
+      [% END %]
+      <div>[% c.loc("Role") | xml_escape %]</div>
+      <input type="text" name="role" value="[% role.role | xml_escape %]"/>
+      <button type="submit">[% c.loc(submit_label) | xml_escape %]</button>
+    </div>
+  </form>
+[% END %]
+
+
+[% # Button to create a new role %]
+[% BLOCK create_button %]
+  <form method="post" action="[% c.uri_for(root, 'role') | xml_escape %]">
+    <input type="hidden" name="action" value="create"/>
+    <button type="submit">[% c.loc('New Role') | xml_escape %]</button>
+  </form>
+[% END %]
+
+
+[% # Delete role form %]
+[% BLOCK delete_role %]
+  <form method="post" action="[% c.uri_for(root, 'role') | xml_escape %]">
+    <input type="hidden" name="action" value="delete"/>
+    <input type="hidden" name="id" value="[% role.id | xml_escape %]"/>
+    <button type="submit">[% c.loc("Delete role") | xml_escape %]</button>
+  </form>
+[% END %]
+
+
+[% # List roles button %]
+[% BLOCK index_button %]
+  <form method="post" action="[% c.uri_for(root, 'role') | xml_escape %]">
+    <input type="hidden" name="action" value="index"/>
+    <button type="submit">[% c.loc("List Roles") | xml_escape %]</button>
+  </form>
+[% END %]
+
+
+[%  # Generate the Content %]
+
+[% IF action == 'create' %]
+  [%
+    submit_label = 'Create';
+    INCLUDE error_message;
+    INCLUDE edit_role;
+    INCLUDE index_button;
+   %]
+[% ELSIF action == 'delete' %]
+  [%
+    INCLUDE error_message;
+    INCLUDE index_button;
+  %]
+[% ELSIF action == 'edit' %]
+  [%
+    submit_label = 'Update';
+    INCLUDE error_message;
+    IF role;
+      INCLUDE edit_role;
+      INCLUDE delete_role;
+    END;
+    INCLUDE index_button;
+  %]
+[% ELSE %]
+  [%
+    INCLUDE error_message;
+    INCLUDE list_roles;
+    INCLUDE create_button;
+  %]
+[% END %]

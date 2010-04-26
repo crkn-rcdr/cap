@@ -1,0 +1,10 @@
+<h1>Portal [% portal %]</h1>
+
+<div>
+  <span>
+    <a href="[% c.uri_for(root, 'en') %]">English</a>
+    <a href="[% c.uri_for(root, 'fr') %]">Français</a>
+  </span>
+</div>
+
+

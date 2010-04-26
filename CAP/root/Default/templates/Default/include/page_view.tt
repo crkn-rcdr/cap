@@ -1,0 +1,70 @@
+[%-
+  # Default page viewer
+  # Version: 0.20100316
+
+  USE XML.Escape;
+-%]
+
+
+
+<div class="pp">
+
+[%-
+  IF prev_sibling.pageno && prev_sibling.feature;
+    page_label = c.loc("page [_1] ([_2])", prev_sibling.pageno, prev_sibling.feature.join(', ')) | xml_escape;
+  ELSIF prev_sibling.pageno;
+    page_label = c.loc("page [_1]", prev_sibling.pageno) | xml_escape;
+  ELSIF prev_sibling.feature;
+    page_label = c.loc("[_1]", prev_sibling.feature.join(', ')) | xml_escape;
+  ELSE;
+    page_label = c.loc("page [_1]", prev_sibling.seq) | xml_escape;
+  END;
+
+  IF ! prev_sibling; hidden=" hidden"; ELSE; hidden = ""; END;
+-%]
+  <div id="ui_prev" class="thumb[% hidden %]">
+    <a id="ui_prev_uri" href="[% c.uri_for(root, 'show', prev_sibling.key) %]">
+      <img src="[% c.uri_for(root, 'static', 'widgets', 'prev.png') %]"/>
+      <span id="ui_prev_label">[% page_label %]</span>
+      <br/>
+    </a>
+    <a href="[% c.uri_for(root, 'show', prev_sibling.key) %]">
+      <img id="ui_prev_image" class="thumbnail" src="[% c.uri_for(root, 'show', prev_sibling.key, { rel => 'image', s => c.config.Display.thumbsize }) %]" alt="[% c.loc("image [_1]", prev_sibling.seq) %]"/>
+    </a>
+  </div>
+
+  [% IF file_master %]
+  <div class="page">
+    <img id="ui_page_loading" src="[% c.uri_for(root, 'static', 'widgets', 'loading_big.gif') | xml_escape %]"/>
+    <img id="ui_page_image" src="[% c.uri_for(root, 'show', doc.key, { rel => 'image' } ) %]" />
+  </div>
+  [% ELSIF doc.tx %]
+  <div class="page">
+    <textarea cols="80" rows="60">[% doc.tx.join("\n") %]</textarea>
+  </div>
+  [% END %]
+
+[%-
+  IF next_sibling.pageno && next_sibling.feature;
+    page_label = c.loc("page [_1] ([_2])", next_sibling.pageno, next_sibling.feature.join(', ')) | xml_escape;
+  ELSIF next_sibling.pageno;
+    page_label = c.loc("page [_1]", next_sibling.pageno) | xml_escape;
+  ELSIF next_sibling.feature;
+    page_label = c.loc("[_1]", next_sibling.feature.join(', ')) | xml_escape;
+  ELSE;
+    page_label = c.loc("page [_1]", next_sibling.seq) | xml_escape;
+  END;
+  IF ! next_sibling; hidden=" hidden"; ELSE; hidden = ""; END;
+-%]
+  <div id="ui_next" class="thumb[% hidden %]">
+    <a id="ui_next_uri" href="[% c.uri_for(root, 'show', next_sibling.key) %]">
+      <span id="ui_next_label">[% page_label %]</span>
+      <img src="[% c.uri_for(root, 'static', 'widgets', 'next.png') %]"/>
+    </a>
+    <br/>
+    <a href="[% c.uri_for(root, 'show', next_sibling.key) %]">
+    <img id="ui_next_image" class="thumbnail" src="[% c.uri_for(root, 'show', next_sibling.key, { rel => 'image', s => c.config.Display.thumbsize }) %]" alt="[% c.loc("image [_1]", next_sibling.seq) %]"/>
+    </a>
+  </div>
+
+</div>

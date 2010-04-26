@@ -1,0 +1,77 @@
+<div class="toolbar">
+  <ul>
+  [%-# Generate a page navigation menu, if one exists.
+     IF pages.size -%]
+     <li>
+      <form method="post" action="[% c.uri_for(root, 'post') | xml_escape %]">
+        <span>
+          <input type="hidden" name="0" value="show"/>
+          <select id="ui_select_page" name="1">
+          [%- FOREACH page IN pages -%]
+            [%- 
+              IF page.key == doc.key;
+                selected = ' selected="selected"';
+              ELSE;
+                selected = '';
+              END;
+            -%]
+            <option value="[% page.key | xml_escape %]"[% selected %]>
+            [%- IF page.pageno && page.feature -%][% c.loc("p. [_1] ([_2])", page.pageno, page.feature.join(", ")) | xml_escape -%]
+            [%- ELSIF page.pageno -%][%- c.loc("p. [_1]", page.pageno) | xml_escape -%]
+            [%- ELSIF page.feature -%][%- c.loc(page.feature.join(", ")) | xml_escape -%]
+            [%- ELSE -%][%- c.loc("Image [_1]", page.seq) | xml_escape %][%- END -%]
+            </option>
+          [%- END %]
+          </select>
+          <button id="ui_select_submit" type="submit">[% c.loc("Go to page") | xml_escape %]</button>
+        </span>
+      </form>
+    </li>
+  [%- END -%]
+  [%-# Generate an issue navigation menu
+     IF issues.size -%]
+     <li>
+      <form method="post" action="[% c.uri_for(root, 'post') | xml_escape %]">
+        <span>
+          <input type="hidden" name="0" value="show"/>
+          <select id="ui_select_page" name="1">
+          [%- FOREACH page IN issues -%]
+            [%- 
+              IF page.key == doc.key;
+                selected = ' selected="selected"';
+              ELSE;
+                selected = '';
+              END;
+            -%]
+            <option value="[% page.key | xml_escape %]"[% selected %]>
+            [%- page.label | xml_escape -%]
+            </option>
+          [%- END %]
+          </select>
+          <button id="ui_select_submit" type="submit">[% c.loc("View Issue") | xml_escape %]</button>
+        </span>
+      </form>
+    </li>
+  [%- END -%]
+  [%- IF pdf.key -%]
+    <li>
+      <a href="[% c.uri_for(root, "get", pdf.key) %]">[% c.loc("Download PDF ([_1] [_2])", pdf.size, pdf.units) %]</a>
+    </li>
+  [%- END -%]
+  [%- IF c.session.search -%]
+    <li>
+      <a href="[% c.uri_for(root, 'search', c.session.search.start, c.session.search.params) | xml_escape %]">[% c.loc("Search Results") | xml_escape %]</a>
+    </li>
+  [%- END -%]
+  [%- IF doc.type == 'page' && ancestors.first -%]
+    <li>
+      <a href="[% c.uri_for(root, 'show', ancestors.first.key) | xml_escape %]">[% c.loc("Document Record") | xml_escape %]</a>
+    </li>
+  [%- END -%]
+  [%- IF doc.type == 'issue' && ancestors.first -%]
+    <li>
+      <a href="[% c.uri_for(root, 'show', ancestors.first.key) | xml_escape %]">[% c.loc("Serial Record") | xml_escape %]</a>
+    </li>
+  [%- END -%]
+  </ul>
+</div>

@@ -1,0 +1,8 @@
+<h1>Access Denied ([% status %])</h1>
+
+<p>Reason: [% error_message %]</p>
+
+[% IF status == 403 && ! c.user.exists %]
+  <h3>Log In</h3>
+  [% INCLUDE "include/forms/login.tt" %]
+[% END %]

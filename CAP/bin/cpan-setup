@@ -1,0 +1,35 @@
+#!/bin/sh
+# Run this script as root to install all of the CPAN modules required to
+# run CAP.
+cpan  \
+ Catalyst \
+ Catalyst::Authentication::Realm::SimpleDB \
+ Catalyst::Helper \
+ Catalyst::Model::DBIC::Schema \
+ Catalyst::Plugin::Authentication \
+ Catalyst::Plugin::Authorization::ACL \
+ Catalyst::Plugin::Authorization::Roles \
+ Catalyst::Plugin::ConfigLoader \
+ Catalyst::Plugin::I18N \
+ Catalyst::Plugin::I18N::DBIC \
+ Catalyst::Plugin::Session::State::Cookie \
+ Catalyst::Plugin::Session::Store::DBI \
+ Catalyst::Plugin::StackTrace \
+ Catalyst::Plugin::Static::Simple \
+ Catalyst::Plugin::Unicode \
+ Catalyst::Plugin::Unicode::Encoding \
+ Catalyst::View::TT \
+ Catalyst::Action::RenderView \
+ Config::General \
+ DBICx::TestDatabase \
+ DBIx::Class::DynamicDefault \
+ DBIx::Class::EncodedColumn \
+ DBIx::Class::ForceUTF8 \
+ DBIx::Class::Schema::Loader \
+ DBIx::Class::TimeStamp \
+ FCGI \
+ FCGI:ProcManager \
+ File::MimeInfo::Magic \
+ SQL::Translator \
+ Template::Plugin::JSON \
+ Template::Plugin::XML::Escape \

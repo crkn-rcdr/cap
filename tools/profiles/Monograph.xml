@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<profile name="monograph" version="1.0" standalone="yes">
+  <desc>
+    A monographic work, such as a book. Contains one or more page objects.
+  </desc>
+
+  <include file="global.xml"/>
+  <include file="bibliography.xml"/>
+  <include file="description.xml"/>
+
+</profile>
+
+

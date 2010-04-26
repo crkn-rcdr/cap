@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<profile name="serial" version="1.0" standalone="yes">
+  <desc>
+    A serial record. Contains one or more issue objects. If you want to be
+    able to search the full page text of an individual serial title (all
+    issues) you should ensure that the pages belonging to the issues
+    belonging to the serial are tagged with the gkey of the serial
+  </desc>
+
+  <include file="global.xml"/>
+  <include file="bibliography.xml"/>
+  <include file="description.xml"/>
+
+</profile>
+
+
+

@@ -1,0 +1,12 @@
+<h2>[% c.loc("Access Denied ([_1])", status) %]</h2>
+
+<p>[% c.loc("You do not have sufficient privileges to access this page.") %]
+
+[% IF error_message %]
+<p>[% c.loc("The following information was reported by the server: [_1]", error_message) %]</p>
+[% END %]
+
+[% IF status == 403 && ! c.user.exists %]
+  <h3>Log In</h3>
+  [% INCLUDE "${portal}/include/forms/login.tt" %]
+[% END %]

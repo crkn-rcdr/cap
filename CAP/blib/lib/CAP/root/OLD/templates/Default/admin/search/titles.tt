@@ -1,0 +1,68 @@
+﻿[%-
+  sortAsc = {};
+  sortDesc = {};
+  sortType = {};
+  FOREACH param = c.request.params.keys;
+    sortAsc.$param = c.request.params.$param;
+    sortDesc.$param = c.request.params.$param;
+    sortType.$param = c.request.params.$param;
+  END;
+  sortAsc.so = "pubmin asc";
+  sortDesc.so = "pubmax desc";
+  sortType.so = "label asc";
+-%]
+
+
+
+<h2>[% c.loc("Found [_1] matching documents", result.hits) %]</h2>
+
+<div class="sf">
+
+  <h3>[% c.loc("Showing results [_1] - [_2] of [_3]", result.hitsFrom, result.hitsTo, result.hits) %]</h3>
+
+<!--
+  <p>
+    Sort by:
+    [%- IF c.request.params.so != 'pubmin asc' -%]
+      <a href="[% c.uri_for(root, 'search', 'titles', sortAsc) %]">[% c.loc("Oldest first") %]</a>
+    [%- ELSE %]
+      [% c.loc("Oldest first") %]
+    [%- END -%]
+
+    [%- IF c.request.params.so != 'pubmax desc' -%]
+      <a href="[% c.uri_for(root, 'search', 'titles', sortDesc) %]">[% c.loc("Newest first") %]</a>
+    [%- ELSE %]
+      [% c.loc("Newest first") %]
+    [%- END -%]
+
+    [%- IF c.request.params.so != 'label asc' -%]
+      <a href="[% c.uri_for(root, 'search', 'titles', sortType) %]">[% c.loc("Document type") %]</a>
+    [%- ELSE %]
+      [% c.loc("Document type") %]
+    [%- END -%]
+  </p>
+-->
+
+  <table>
+    <tr>
+      <th>[% c.loc("Published") %]</th>
+      <th>[% c.loc("Description") %]</th>
+    </tr>
+  [%- FOREACH doc IN result.documents -%]
+    <tr>
+      <td>[% doc.pubmax.substr(0,10) %]</td>
+      <td><a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a></td>
+    </tr>
+  [%- END -%]
+  </table>
+
+
+  [%- INCLUDE "${portal}/include/pager.tt" search='titles' -%]
+
+</div>
+
+<div class="sf">
+  <h3>[% c.loc("Refine your search") %]</h3>
+  [% INCLUDE "${portal}/include/forms/browse.tt" %]
+</div>
+

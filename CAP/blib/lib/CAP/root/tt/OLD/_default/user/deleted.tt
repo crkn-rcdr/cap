@@ -1,0 +1,4 @@
+<h1>[% c.loc("User Deleted") %]</h1>
+
+<p>The user account <strong>[% user.username %]</strong> (id [% user.id
+%]) has been deleted.</p>

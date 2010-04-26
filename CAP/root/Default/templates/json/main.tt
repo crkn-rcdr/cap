@@ -1,0 +1,11 @@
+[%
+USE JSON(pretty => 1);
+c.load_lexicon('Default');
+%] 
+{
+[% IF template.name == "error.tt" %]  "ok" :  false,[% ELSE %]  "ok" : true,[% END %]
+  "req" : "[% c.request.uri %]",
+
+  [% content %]
+
+}

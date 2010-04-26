@@ -1,0 +1,55 @@
+[%- USE XML.Escape -%]
+<!-- A value of 1 means the request was successfully executed -->
+<ok>1</ok>
+
+<!-- The record for the document. -->
+<doc>
+[% FOR field IN doc.keys %]
+  <field name="[% field | xml_escape %]">
+  [% FOR value IN doc.$field %]
+    <value>[% value | xml_escape %]</value>
+  [% END %]
+  </field>
+[% END %]
+</doc>
+
+<!-- The child records of this record -->
+<children>
+[% FOR doc IN children %]
+  <doc>
+  [% FOR field IN doc.keys %]
+    <field name="[% field | xml_escape %]">
+    [% FOR value IN doc.$field %]
+      <value>[% value | xml_escape %]</value>
+    [% END %]
+    </field>
+  [% END %]
+  </doc>
+[% END %]
+</children>
+
+<!-- The ancestor records of this record, starting with the most recent (parent) -->
+<ancestors>
+[% FOR doc IN ancestors %]
+  <doc>
+  [% FOR field IN doc.keys %]
+    <field name="[% field | xml_escape %]">
+    [% FOR value IN doc.$field %]
+      <value>[% value | xml_escape %]</value>
+    [% END %]
+    </field>
+  [% END %]
+  </doc>
+[% END %]
+</ancestors>
+
+<!-- The Solr request object (for internal debugging) -->
+<solr>
+[% FOR field IN solr.keys %]
+  <field name="[% field | xml_escape %]">
+  [% FOR value IN solr.$field %]
+    <value>[% value | xml_escape %]</value>
+  [% END %]
+  </field>
+[% END %]
+</solr>

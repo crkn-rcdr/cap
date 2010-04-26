@@ -1,0 +1,24 @@
+[%
+  IF status == '400';
+    error_header = c.loc("Bad Request") | html;
+    error_text   = c.loc("The page you requested cannot be displayed.") | html;
+  ELSIF status == '403';
+    error_header = c.loc("Access Restricted") | html;
+    error_text   = c.loc("Access to this page is restricted to certain users.") | html;
+  ELSIF status == '404';
+    error_header = c.loc("Page Not Found") | html;
+    error_text   = c.loc("The page you were looking for cannot be found.") | html;
+  ELSIF status == '500';
+    error_header = c.loc("Server Error") | html;
+    error_text   = c.loc("There was a problem with your request; try again in a few moments.") | html;
+  ELSE;
+    error_header = c.loc("Error");
+    error_text   = c.loc("We're sorry; we were unable to process your request.") | html;
+  END;
+%]
+<h2>[% error_header %]</h2>
+<p>[% error_text %]</p>
+
+[% IF c.config.debug %]
+<p>[% c.loc("Status: [_1]; Error: [_2]", status, error) | html %]</p>
+[% END %]

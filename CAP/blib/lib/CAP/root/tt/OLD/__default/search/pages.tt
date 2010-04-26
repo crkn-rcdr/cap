@@ -1,0 +1,34 @@
+<h1>Search Pages</h1>
+
+<p>[% result.hits %] pages match</p>
+
+<div>
+  [% IF result.pagePrev %]<a href="[% c.uri_for(root, 'search', 'pages', result.pagePrev, c.request.params) %]">Prev</a>[% END %]
+  Showing results [% result.hitsFrom %] to [% result.hitsTo %] of [% result.hits %]
+  [% IF result.pageNext %]<a href="[% c.uri_for(root, 'search', 'pages', result.pageNext, c.request.params) %]">Next</a>[% END %]
+</div>
+
+<div>
+  [%- c.request.params.gr = 'on' -%]
+  <a href="[% c.uri_for(root, 'search', 'pages', c.request.params) %]">
+    [% c.loc("Repeat this search with pages grouped by document") %]
+  </a>
+  [%- c.request.params.gr = undef -%]
+</div>
+
+<p><tt>this is page [% result.page %] of [% result.pages %]
+pages. Next = [% result.pageNext %] Previous = [% result.pagePrev %]</tt></p>
+
+<table>
+[% FOREACH page IN result.documents -%]
+  <tr>
+    <td>
+      <a href="[% c.uri_for(root, 'show', page.key) %]"><img src="[% c.uri_for(root, 'file', "${page.key}.png", { s => c.config.Display.thumbsize }) %]" /></a>
+    </td>
+    <td>
+      Title: <a href="[% c.uri_for(root, 'show', page.pkey) %]">[% page.label %]</a> <br/>
+      Score: [% page.score %]
+    </td>
+  </tr>
+[% END -%]
+</table>

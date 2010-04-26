@@ -1,0 +1,309 @@
+/*
+ * main.css - main stylesheet
+ * Version: 0.20100218
+ * 
+ * This is the first stylesheet to be applied, followed by override.css
+ * and then any action-specific style sheets.
+ */
+
+
+/*
+ * General HTML element styles
+ */
+
+body {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-family: helvetica, sans-serif;
+    font-size: 10pt;
+}
+
+h1 {
+    display: block;
+    position: relative;
+    margin: 0;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    border: 0;
+    padding: 0;
+    clear: both;
+    font-size: 16pt;
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/*
+ * Page Layout
+ *
+ * Page layout looks something like this:
+ * .header
+ *   .title
+ *   .user
+ *     .username
+ * .content
+ * .footer
+ * .debug
+ */
+
+.header {
+    display: block;
+    position: relative;
+    clear: both;
+    float: left;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-bottom: 2px solid #411;
+    padding: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background: #822;
+}
+
+    .title {
+        display: block;
+        position: relative;
+        float: left;
+        margin: 0;
+        margin-left: 0.5em;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .user {
+        display: block;
+        position: relative;
+        float: right;
+        margin: 0;
+        margin-right: 0.5em;
+        border: 0;
+        padding: 0;
+    }
+        .user li {
+            display: block;
+            float: left;
+            margin: 0;
+            margin-left: 1em;
+            border: 0;
+            padding: 0;
+        }
+
+        .user a { color: #fff; }
+        .user a:visited { color: #fff; }
+
+        li.username {
+            color: #fff;
+            background: #844;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+        }
+
+.content {
+    display: block;
+    position: relative;
+    clear: both;
+    width: 98%;
+    margin: auto;
+    border-top: 1px solid #ccc;
+}
+
+.footer {
+    display: block;
+    position: relative;
+    clear: both;
+    width: 98%;
+    margin: auto;
+    margin-top: 1em;
+    border: 0;
+    border-top: 1px solid #aaa;
+    padding: 0;
+    padding-top: 0.5em;
+}
+
+.debug {
+    display: block;
+    position: relative;
+    clear: both;
+    width: 600px;
+    height: 100px;
+    overflow: auto;
+    margin: 0;
+    margin-top: 1em;
+    margin-left: 1em;
+    border: 1px solid #000;
+    padding: 1em;
+    background: #ddd;
+    visibility: hidden;
+}
+
+
+/*
+ * Page Components
+ */
+
+.bibrec {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+}
+
+.bibrec td { vertical-align: top; }
+.bibrec ul { margin: 0; padding: 0; list-style-type: none; }
+.bibrec ul li { margin-bottom: 0.25em; }
+
+.search {
+    display: block;
+    position: relative;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-bottom: 1em;
+}
+
+.search_result p {
+    margin: 0;
+    margin-left: 2em;
+    padding: 0;
+    line-height: 1.4em;
+}
+
+.search_result td {
+    padding-top: 1.5em;
+    vertical-align: top;
+}
+
+.search_result p.label {
+    font-weight: bold;
+    margin-left: 0;
+}
+
+.search_terms {
+    width: 30em;
+}
+
+.search_options_expand {
+    padding-left: 14px;
+    background-image: url("../widgets/expand.png");
+    background-repeat: no-repeat;
+    color: #00f;
+}
+
+.search_options {
+    padding-left: 14px;
+}
+
+.inline_radio {
+    margin-left: 1em;
+}
+
+.site_frame {
+    width: 98%;
+    height: 500px;
+}
+
+.navigator {
+    display: block;
+    position: relative;
+    float: left;
+    clear: both;
+    width: 100%;
+    margin-bottom: 1em;
+    background: #ddd;
+    text-align: center;
+}
+
+.navigator .left {
+    position: relative;
+    float: left;
+    clear: left;
+    width: 25%;
+    text-align: left;
+}
+
+.navigator .right {
+    position: relative;
+    float: right;
+    clear: right;
+    width: 25%;
+    text-align: right;
+}
+
+.navigator form {
+    display: inline;
+}
+
+.navigator form div {
+    display: inline;
+}
+
+
+.nav_links {
+    display: block;
+    position: relative;
+    float: left;
+    clear: both;
+    width: 100%;
+    margin: 0;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    padding: 0;
+}
+
+.nav_links li {
+    display: block;
+    position: relative;
+    float: left;
+    margin: 0;
+    margin-right: 1em;
+    border-bottom: 2px solid #ccc;
+    border-right: 2px solid #ccc;
+    padding: 2px;
+}
+
+
+.view_item {
+    display: block;
+    position: relative;
+    float: left;
+    clear: both;
+    width: 100%;
+    margin: 0;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.view_item img {
+    vertical-align: middle;
+    padding-right: 2em;
+}
+
+/*
+ * Other Styles
+ */
+
+.link a img { border: none; }
+
+.hidden {
+    visibility: hidden;
+}
+
+.nodisplay {
+    display: none;
+}
+
+.bold {
+    font-weight: bold;
+}

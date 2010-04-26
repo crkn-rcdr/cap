@@ -1,0 +1,18 @@
+<p>[% c.loc("This document contains [_1] page images:", children) %]</p>
+<div id="pageframe">
+[% i = 0 -%]
+[% FOREACH page IN pages -%]
+  [% i = i + 1 -%]
+  <div class="thumbnail">
+    <a href="[% c.uri_for(root, 'show', page.key) %]">
+      [% IF page.pageno -%]Page <span>[% page.pageno %]</span>[% END -%]
+      [% IF  page.pageno &&  page.feature %] [% END-%]
+      [% IF page.feature -%]<span>[% page.feature.join(', ') %]</span>[% END -%]
+      [% IF ! page.pageno && ! page.feature %]<span>[% c.loc("Image [_1]", i)%]</span>[% END-%]
+      <br/>
+      <img src="[% c.uri_for(root, 'file', "${page.key}.png", {s => c.config.Display.thumbsize}) %]" />
+    </a>
+  </div>
+[% END -%]
+</div>
+

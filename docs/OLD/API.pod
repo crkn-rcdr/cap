@@ -1,0 +1,127 @@
+=head1 NAME
+
+API - Summary of the URI API
+
+=head1 SYNOPSIS
+
+=over 4
+
+=item  /
+
+=item /admin
+
+=item /admin/C<$iface>
+
+=item /admin/C<$iface>/commit
+
+=item /admin/C<$iface>/docs
+
+=item /admin/C<$iface>/docs/$docfile
+
+=item /admin/C<$iface>/finish/$contributor/$directory
+
+=item /admin/C<$iface>/ingest?cc=$contributor [file=$file_upload]
+
+=item /admin/C<$iface>/login
+
+=item /admin/C<$iface>/logout
+
+=item /portal
+
+=item /portal/C<$app>
+
+=item /portal/C<$app>/C<$iface>
+
+=item /portal/C<$app>/C<$iface>/search/$type[/$start]
+
+=item /portal/C<$app>/C<$iface>/show/$key
+
+=back
+
+=head1 DESCRIPTION
+
+=head2 General
+
+=over 4
+
+=item /
+
+The master root/home page.
+
+=back
+
+=head2 Administrative Backend
+
+All administrative functions other than I</admin/$iface/login> require a
+valid login. If you are not logged in, you will be redirected to the login
+page before being able to continue.
+
+You can specify the I<username> and I<password> query parameters to automatically log in with the request. This is required when using a non-interactive interface (e.g. I<xml>).
+
+=over4
+
+=item /admin
+
+B<UNIMPLEMENTED> The main administrative home page.
+
+=item /admin/C<$iface>
+
+The main administrative page for C<$iface>. B<UNIMPLEMENTED FOR XML>
+
+=item /admin/C<$iface>/commit
+
+Commit any outstanding changes to the Solr index.
+
+=item /admin/C<$iface>/docs
+
+Show the menu of avaibale POD files.
+
+=item /admin/C<$iface>/docs/C<$docfile>
+
+Display C<$docfile> which is the name of a POD file (minus the I<.pod> suffix) in the I<docs> directory.
+
+=item /admin/I<$iface>/finish/C<$contributor>/C<$directory>
+
+Removes the BagIt directory from the uploads area of the server.
+
+=item /admin/C<$iface>/ingest?cc=C<$contributor> [file=C<$file_upload>]
+
+Upload the BagIt archive I<$file_upload> to the server into the upload subdirectory for I<$contributor>.
+
+=item /admin/C<$iface>/login
+
+Log in to use the administrator interface.
+
+=item /admin/C<$iface>/logout
+
+Log out of an existing session.
+
+=back
+
+=head2 Portal Frontend
+
+Public-facing portal options
+
+=over4
+
+=item /portal
+
+B<UNIMPLEMENTED>
+
+=item /portal/C<$app>
+
+B<UNIMPLEMENTED>
+
+=item /portal/C<$app>/C<$iface>
+
+Portal home page.
+
+=item /portal/$app/$iface/search/$type[/$start]
+
+=item /portal/$app/$iface/show/$key
+
+=item /portal/C<$app>/C<$iface>/file/C<$file>[?s=C<$size>&r=C<$rotation>]
+
+=back
+
+=cut

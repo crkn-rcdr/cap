@@ -1,0 +1,16 @@
+<h2>[% c.loc("Log In Required") | html %]</h2>
+
+<p>[% c.loc("Access to this prototype portal is currently restricted. You
+must log in below in order to use the collection.") | html %]</p>
+
+[% IF login_msg %]
+<p class="error">
+  [% IF login_msg == "NOUSERID" -%][% c.loc("Missing username or password") | html %]
+  [% ELSIF login_msg == "NOMATCH" %][% c.loc("The username and password do not match") | html %]
+  [% ELSIF login_msg == "AUTHREQUIRED" %][% # Don't show any additional information %]
+  [% ELSE %][% login_msg %][% END -%]
+</p>
+[% ELSE %]
+[% END %]
+
+[% INCLUDE "include/forms/login.tt" %]

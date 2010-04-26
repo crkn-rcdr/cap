@@ -1,0 +1,25 @@
+GENERAL
+
+Commit call in admin API
+
+Finish (bagit) call in admin API
+
+
+DFAIT PORTAL
+
+Communiqé needs to have accent added to label (metadata record)
+
+Label for french versions of Statements & Speeches, Statements should be
+in French.
+
+Add dates to index/toc metadata (pub 19XX-*)
+
+Index/TOC ctype generally not working
+
+document search: "flq" returns hits with 0 pages
+
+
+Notes:
+Some documents appear to be duplicates. E.g. 19741115A_F_Communique and
+19741115A_E_Communique are the same bilingual document.
+

@@ -1,0 +1,10 @@
+[%-
+   # This template responds to errors for JSON queries.
+   USE JSON ( pretty => 1)
+ -%]
+{
+  "ok" : false,
+  "status" : [% status.json %],
+  "error" : [% error.json %],
+  "req" : "[% c.request.uri %]",
+}

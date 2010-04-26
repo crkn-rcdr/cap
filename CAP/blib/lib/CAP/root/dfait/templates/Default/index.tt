@@ -1,0 +1,22 @@
+[% IF action == 'search' && result.hits == 0 %]
+<h2>[% c.loc("Nothing found") %]</h2>
+
+<p>[% c.loc("No matching documents were found. Try another search using
+different keywords, or try fewer keywords or limits.") | html %]</p>
+[% END %]
+
+[% IF c.user_exists %]
+<div class="sf">
+  <h2>[% c.loc("Browse Documents by Type") | html %]</h2>
+  [% INCLUDE "include/forms/browse.tt" %]
+</div>
+
+<div class="vdiv">&nbsp;</div>
+
+<div class="sf">
+  <h2>[% c.loc("Search Pages (Full-Text)") | html %]</h2>
+  [% INCLUDE "include/forms/search.tt" %]
+</div>
+[% ELSE %]
+  [% INCLUDE "login.tt" %]
+[% END %]

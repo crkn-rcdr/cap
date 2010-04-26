@@ -1,0 +1,6 @@
+[%- # The previous/next results pager -%]
+<div>
+  [% IF result.pagePrev %]<a href="[% c.uri_for('/', app, lang, pager, result.pagePrev, c.request.params) %]">&lt;== Prev</a>[% END %]
+  Showing results [% result.hitsFrom %] to [% result.hitsTo %] of [% result.hits %]
+  [% IF result.pageNext %]<a href="[% c.uri_for('/', app, lang, pager, result.pageNext, c.request.params) %]">Next ==&gt;</a>[% END %]
+</div>

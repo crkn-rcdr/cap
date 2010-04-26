@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<profile name="bibliography" version="0.20091203" standalone="no">
+  <desc>
+    Standard bibliographic description fields.
+  </desc>
+
+  <field name="ti" multiValued="true">
+    The title (including an alternate or added title) of the work.
+  </field>
+
+  <field name="au" multiValued="true">
+    An author of the work.
+  </field>
+
+  <field name="su" multiValued="true">
+    An LCSH subject heading or other description of the content of the work.
+  </field>
+
+  <field name="no" multiValued="true">
+    A bibliographic note.
+  </field>
+
+  <field name="kw" multiValued="true">
+    A general search keyword.
+  </field>
+
+  <field name="pubstmt">
+    A statement of publication (free-form).
+  </field>
+
+  <field name="pubdate">
+    A free-form description of the publication date.
+  </field>
+
+  <dynamicField name="marc_*">
+    A MARC bibliographic field. Append the number of the field to the
+    name. E.g.: marc_100; marc_245.
+  </dynamicField>
+
+</profile>
+

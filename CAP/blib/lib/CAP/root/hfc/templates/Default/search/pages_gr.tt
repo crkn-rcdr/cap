@@ -1,0 +1,47 @@
+[%-
+
+# pageParams is a copy of the request parameters but without the grouping
+# and the sorting set in ascending page order. To retrieve the matching
+# pages for a given document, pageParams.pkey must be set to that
+# document's key.
+pageParams = {};
+FOREACH param = c.request.params.keys;
+  pageParams.$param = c.request.params.$param;
+END;
+pageParams.so = "seq asc";
+pageParams.gr = undef;
+
+-%]
+
+<h2>[% c.loc("Found [_1] documents with matching pages", result.hits) %]</h2>
+
+<div class="sf">
+
+  <h3>[% c.loc("Showing results [_1] - [_2] of [_3]", result.hitsFrom, result.hitsTo, result.hits) %]</h3>
+
+  <table>
+    <tr>
+      <th>[% c.loc("Published") %]</th>
+      <th>[% c.loc("Description") %]</th>
+      <th>[% c.loc("Match") %]</th>
+    </tr>
+  [% FOREACH doc IN result.documents -%]
+  [% pageParams.pkey = doc.key %]
+    <tr>
+      <td>[% doc.pubmax.substr(0,10) %]</td>
+      <td><a href="[% c.uri_for(root, 'show' doc.key) %]">[% doc.label %]</a></td>
+      <td><a href="[% c.uri_for(root, 'search', 'pages', pageParams) %]">[% doc.hits %] matching pages</a></td>
+    </tr>
+  [% END -%]
+  [% pageParams = undef %]
+  </table>
+
+  [%- INCLUDE "include/pager.tt" search='pages'-%]
+
+</div>
+
+<div class="sf">
+  <h3>[% c.loc("Refine your search") %]</h3>
+  [% INCLUDE "include/search.tt" %]
+</div>
+

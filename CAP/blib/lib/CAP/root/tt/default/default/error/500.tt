@@ -1,0 +1,3 @@
+<h1>Internal Server Error ([% status %])</h1>
+
+<p>Reason: [% error_message %]</p>

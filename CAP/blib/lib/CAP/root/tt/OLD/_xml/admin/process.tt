@@ -1,0 +1,11 @@
+<response ok="[% ok %]">
+  <log>
+  [% FOREACH event IN event_log -%]
+    <event class="[% event.0 %]">[% event.1 %]</event>
+  [% END -%]
+  </log>
+  <contributor>[% contributor %]</contributor>
+  <url>[% c.uri_for(root, 'file', "${image_id}.png") %]</url>
+</response>
+
+

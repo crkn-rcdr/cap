@@ -1,0 +1,46 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use BagIt;
+use File::Basename;
+use XML::LibXML;
+use XML::LibXSLT;
+
+my($archive, $solrxml, @objects) = @ARGV;
+
+if (! $solrxml) {
+    die("Usage: " . basename($0) . "ARCHIVE_NAME SOLR_XML|- [IMAGE...]\n");
+}
+
+my $xml = XML::LibXML->new();
+my $bag = BagIt->new($archive);
+
+# Parse the solr XML document and write each individual <doc> element to a
+# separate file. We do this so that we can do realtime indexing on small
+# chunks without incurring a timeout over the HTTP connection. A '-' on
+# the command line means we aren't adding any metadata.
+if ($solrxml ne '-') {
+    my $metadata = $xml->parse_file($solrxml);
+    my $i = 0;
+    foreach my $node ($metadata->findnodes('//doc')) {
+        ++$i;
+        my $solr = XML::LibXML::Document->new('1.0', 'utf-8');
+        $solr->setDocumentElement($solr->createElement('add'));
+        $solr->documentElement->appendChild($node);
+        $bag->addData("metadata/solr-$i.xml", $solr->toString(1));
+    }
+}
+
+# Add the digital objects to the archive.
+foreach my $object (@objects) {
+    if (! -f $object) {
+        warn("$object is not a regular file. Skipping.\n");
+        next;
+    }
+    $bag->addFileAs($object, "objects/$archive:" . int(basename($object, '.tif')) . ".tif");
+}
+
+
+$bag->toFile(".");
+

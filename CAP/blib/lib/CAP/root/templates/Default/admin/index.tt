@@ -1,0 +1,7 @@
+<h2>[% c.loc("Canadiana Access Portal Administration") %]</h2>
+
+<p><a href="[% c.uri_for(root, 'user') %]">[% c.loc("User management") %]</a></p>
+
+<p><a href="[% c.uri_for(root, 'content') %]">[% c.loc("Content management") %]</a></p>
+
+

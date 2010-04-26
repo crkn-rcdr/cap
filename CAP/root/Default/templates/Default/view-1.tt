@@ -1,0 +1,197 @@
+[%-
+  # Default view template
+  # Version: 0.20100310
+
+  USE XML.Escape
+-%]
+
+[% # Downloadable content  (TESTING) %]
+[% BLOCK download_links %]
+  [% IF resource_download.size > 0 %]
+    <ul>
+      [% FOREACH res IN resource_download %]
+        <li>
+          [% IF res.localaccess %]
+            <a href="[% c.uri_for(root, 'get', res.key) %]">
+              [% c.loc("Download") | xml_escape %]
+              [%
+                IF res.mime == 'application/pdf';
+                  c.loc("PDF") | xml_escape;
+                ELSE;
+                  res.mime | xml_escape;
+                END;
+              %]
+            </a>
+            [% c.loc("([_1] MB)", megabytes(res.size)) | xml_escape %]
+          [% ELSIF res.uri %]
+            LINK
+          [% END %]
+        </li>
+      [% END %]
+    </ul>
+  [% END %]
+[% END %]
+
+[% # Display links and/or site previews for each page resource %]
+[% BLOCK access_links %]
+  [% IF resource_page.size > 0 %]
+
+    <p class="link">
+    [%- IF c.session.show.site_preview -%]
+      <a href="[% c.uri_for(root, 'show', doc.key, { sprev => 'off' }) | xml_escape %]">
+        <img src="[% c.uri_for(root, 'static', 'widgets', 'collapse.png') | xml_escape %]" alt="-"/>
+        [% c.loc("Hide site previews") | xml_escape %]
+      </a>
+    [%- ELSE -%]
+      <a href="[% c.uri_for(root, 'show', doc.key, { sprev => 'on' }) | xml_escape %]">
+        <img src="[% c.uri_for(root, 'static', 'widgets', 'expand.png') | xml_escape %]" alt="+"/>
+        [% c.loc("Show site previews") | xml_escape %]
+      </a>
+    [%- END -%]
+    </p>
+      
+    [% FOREACH res IN resource_page %]
+      [% # Use the first URI as the primary link %]
+      [% IF res.uri.size > 0 %]
+        [% uri = res.uri.first %]
+        [% IF c.session.show.site_preview %]
+          <p>
+            <a href="[% uri | xml_escape %]">[% c.loc("Go to this web site: [_1]", uri) | xml_escape %]</a>
+          </p>
+          <iframe class="site_frame" scrolling="auto" src="[% uri | xml_escape %]">
+            <a href="[% uri | xml_escape %]">[% uri | xml_escape %]</a>
+          </iframe>
+        [% ELSE %]
+          <p>
+            <img src="[% c.uri_for(root, 'static', 'logos', "${res.contributor}.jpg") | xml_escape %]"
+            alt="[% c.loc(c.config.contributor.${doc.contributor}) | xml_escape %]"/>
+            <a href="[% uri | xml_escape %]">[% c.loc("View item at this web site: ") | xml_escape %] [% uri | xml_escape %]</a>
+          </p>
+        [% END %]
+      [% END %]
+
+      [% # If there are additional links, display them as alternates %]
+      [% IF res.uri.size > 1 %]
+        <!-- Alternate links available but not displayed -->
+      [% END %]
+
+    [% END %]
+
+  [% END %]
+[% END %]
+
+
+
+
+
+[%- # Related resources -%]
+[%- INCLUDE 'include/links.tt' -%]
+
+[%- # Record title and context -%]
+<h2>[% doc.label | xml_escape %]</h2>
+
+
+[%- # Navigate within the document -%]
+[%- INCLUDE 'include/navigator.tt' -%]
+
+
+[%- # Bibliographic information -%]
+[%- INCLUDE 'include/bib_record.tt' -%]
+
+
+
+[%- # Issues -%]
+[%- IF doc.type == 'serial' -%]
+<form method="get" action="[% c.uri_for(root, 'show', doc.key) %]">
+  <div>
+    <p>
+      [% c.loc("Show only issues published between the years") | xml_escape %]
+      <input type="text" name="df" value="[% c.req.params.df %]" size="4"/>
+      [% c.loc(" and ") | xml_escape %]
+      <input type="text" name="dt" value="[% c.req.params.dt %]" size="4"/>
+      <button type="submit">[% c.loc("Submit") %]</button>
+    </p>
+    <p>
+      [% c.loc("Sort by") | xml_escape %]
+      [% radioButton(c, "so", "seq asc", { class => "inline_radio" }, 1) %] 
+      [% c.loc("oldest first") | xml_escape %]
+      [% radioButton(c, "so", "seq desc", { class => "inline_radio" }) %] 
+      [% c.loc("newest first") | xml_escape %]
+    </p>
+  </div>
+</form>
+
+  [%- IF issues.hits -%]
+    <p>[% c.loc("Showing [_1] to [_2] of [_3] Issues", issues.hitsFrom, issues.hitsTo, issues.hits) | xml_escape %]</p>
+
+    <ul>
+    [%- FOREACH issue IN issues.documents -%]
+      <li><a href="[% c.uri_for(root, 'show', issue.key) %]">[% issue.pubstmt %]</a></li>
+    [%- END -%]
+    </ul>
+  [%- ELSE -%]
+    <p>[% c.loc("No issues found") | xml_escape %]</p>
+  [%- END -%]
+
+
+[%- END -%]
+
+
+[% # Temporary results pager taken from search %]
+[%- IF issues.pages -%]
+  [%-
+    # Calculate the previous and next page links to generate
+    showPrevPages = 10;
+    showNextPages = 10;
+    IF issues.page - showPrevPages < 1;
+      prev_sibling = 1;
+    ELSE;
+      prev_sibling = issues.page - showPrevPages;
+    END;
+    IF issues.page + showNextPages > issues.pages;
+      lastPage = issues.pages;
+    ELSE;
+      lastPage = issues.page + showNextPages;
+    END;
+  -%]
+  <p>
+    [% c.loc("Results page: ") %]
+    [% IF issues.pagePrev %]
+      <a href="[% c.uri_for(root, 'show', doc.key, issues.prev_page, c.request.params) %]">
+        <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'prev.png') %]" alt="&lt;="/>
+      </a>
+    [% END %]
+    [%- i = prev_sibling; WHILE i < issues.page -%]
+      <span><a href="[%c.uri_for(root, 'show', doc.key, i, c.request.params) %]">[% i %]</a></span>
+    [%- i = i + 1; END -%]
+    <span class="active">[[% issues.page | xml_escape %]]</span>
+    [%- i = issues.page + 1; WHILE i <= lastPage -%]
+      <span><a href="[%c.uri_for(root, 'show', doc.key, i, c.request.params) | xml_escape %]">[% i | xml_escape %]</a></span>
+    [%- i = i + 1; END -%]
+    [% IF issues.pageNext %]
+    <a href="[% c.uri_for(root, 'show', doc.key, issues.next_page, c.request.params) | xml_escape %]">
+      <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'next.png') %]" alt="=&gt;"/>
+    </a>
+    [% END %]
+  </p>
+
+  [%- INCLUDE 'include/form_search_basic.tt' -%]
+[%- END -%]
+
+
+
+
+[%-
+  # Page view
+  IF doc.type == 'page';
+    INCLUDE 'include/page_view.tt';
+  END;
+-%]
+
+
+
+[% INCLUDE download_links %]
+[% INCLUDE access_links %]
+
+[%- # Thumbnail/preview browser -%]
+[%- INCLUDE 'include/thumbnails.tt' -%]

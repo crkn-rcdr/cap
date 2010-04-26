@@ -1,0 +1,109 @@
+[%-
+  # Default results display for mixed search (t=all)
+  # Version: 0.20100219
+
+  USE XML.Escape;
+
+
+-%]
+
+<table class="search_result">
+[%- FOREACH doc IN result.documents -%]
+  [%-
+    # Determine the publication year(s), which we display if no MARC 260 field exists.
+    pubmin_year = doc.pubmin.substr(0,4);
+    pubmax_year = doc.pubmax.substr(0,4);
+    IF pubmin_year == pubmax_year;
+      pubyear = pubmin_year;
+    ELSE;
+      pubyear = "${pubmin_year} - ${pubmax_year}";
+    END;
+
+    # Copy the search parameters
+    query = {};
+    FOREACH param IN c.req.params;
+      query.${param.key} = param.value;
+    END;
+  -%]
+  <tr>
+    <td>
+    [%- IF doc.type == "page" -%]
+      <a href="[% c.uri_for(root, 'show', doc.key) %]"><img src="[% c.uri_for(root, 'show', doc.key, { s => c.config.Display.thumbsize, rel => 'image' }) | xml_escape %]" alt="[% c.loc("preview") | xml_escape %]"/></a>
+    [%- END -%]
+    </td>
+    <td>
+    [%- IF doc.type == "page" -%]
+      [%-
+        query.t = "pages";
+        query.pkey = doc.pkey;
+        query.so = "seq asc";
+      -%]
+      <p class="label">
+      [%- IF doc.feature -%]
+        [%- feature = doc.feature.join(", ") -%]
+        <a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label | xml_escape %] - [% c.loc(feature) | xml_escape %]</a>
+      [%- ELSIF doc.pageno -%]
+        <a href="[% c.uri_for(root, 'show', doc.key) %]">[% c.loc("[_1] - page [_2]", doc.label, doc.pageno) | xml_escape %]</a></p>
+      [%- ELSE -%]
+        <a href="[% c.uri_for(root, 'show', doc.key) %]">[% c.loc("[_1] - page [_2]", doc.label, doc.seq) | xml_escape %]</a></p>
+      [%- END -%]
+      </p>
+      <p>
+        [%- c.loc("Show:") -%]
+        <a href="[% c.uri_for(root, 'show', doc.pkey) | xml_escape %]">[%- c.loc("document record") | xml_escape -%]</a>
+        [%- IF c.req.params.q -%]
+          | <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("pages containing: [_1]", c.req.params.q) | xml_escape -%]</a>
+        [%- END -%]
+      </p>
+    [%- ELSIF doc.type == "monograph" -%]
+      [%-
+        query.t = "pages";
+        query.pkey = doc.key;
+        query.so = "seq asc";
+      -%]
+      <p class="label">
+        <a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a>
+        [%- IF search_grouped -%]
+          - [%c.loc("[_1] matching pages", doc.hits) %]
+        [% END -%]
+      </p>
+      <p>
+        [%- IF doc.marc_260 -%]
+          [% doc.marc_260.join("; ") | xml_escape %]
+        [%- ELSE -%]
+          [% pubyear | xml_escape %]
+        [%- END -%]
+        [%- IF doc.marc_534 -%]
+          [% doc.marc_534.join("; ") | xml_escape %]
+        [%- END -%]
+      </p>
+      [%- IF search_grouped; query.gr = undef; END -%]
+      [%- IF c.req.params.q -%]
+      <p><a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[% c.loc("Search document for pages containing: [_1]", c.req.params.q) | xml_escape %]</a></p>
+      [%- END -%]
+      [%- IF search_grouped; query.gr = "on"; END -%]
+    [%- ELSIF doc.type == "issue" -%]
+      [%-
+        query.t = "all";
+        query.pkey = doc.pkey;
+        query.so = "seq asc";
+      -%]
+      <p class="label"><a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a></p>
+      <p>
+        [%- c.loc("Show:") -%]
+        <a href="[% c.uri_for(root, 'show', doc.pkey) | xml_escape %]">[%- c.loc("series record") | xml_escape -%]</a>
+        | <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("all issues") | xml_escape -%]</a>
+      </p>
+    [%- ELSIF doc.type == "serial" -%]
+      <p class="label"><a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a></p>
+      <p>
+        [%- c.loc("Show:") -%]
+        <a href="[% c.uri_for(root, 'search', { t => 'all', pkey => doc.pkey, so => 'seq asc'}) | xml_escape %]">[%- c.loc("all issues") | xml_escape -%]</a>
+      </p>
+    [%- ELSE -%]
+      <p class="label">!<a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a></p>
+    [%- END -%]
+    </td>
+  </tr>
+[% END -%]
+</table>

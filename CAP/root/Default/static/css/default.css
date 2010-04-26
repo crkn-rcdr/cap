@@ -1,0 +1,208 @@
+/*
+ * Simple stylesheet for the DFAIT portal prototype
+ *
+ * Version: 0.20091214
+ * 
+ * This stylesheet is deprecated; elements should be moved into/merged
+ * with main.css.
+ */
+
+h3 {
+    font-size: 14pt;
+    font-weight: normal;
+}
+
+
+.lchooser {
+    display: block;
+    position: relative;
+    clear: both;
+    text-align: center;
+    padding-top: 4em;
+    padding-bottom: 4em;
+    margin-left: 35%;
+    margin-right: 35%;
+}
+
+.lchooser div {
+    display: block;
+    position: relative;
+    width: 49%;
+    font-size: 14pt;
+    float: left;
+    text-align: center;
+}
+
+
+div.user {
+    float: right;
+    clear: right;
+    color: #fff;
+}
+
+.nav {
+    display: block;
+    position: relative;
+    float: right;
+    clear: left;
+    text-align: right;
+    width: 100%;
+    border: 0;
+    margin: 0;
+}
+
+.nav li {
+    display: block;
+    float: right;
+    background: #844;
+    color: #fff;
+    margin-right: 4px;
+    padding: 2px;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    font-size: 11pt;
+}
+
+.nav li:hover {
+    background: #8aa;
+}
+
+.nav a { text-decoration: none; color: #fff; }
+.nav a:hover { color: #fff }
+.nav a:visited { color: #fff }
+
+.vdiv {
+    display: block;
+    position: relative;
+    float: left;
+    width: 2em;
+    text-align: center;
+}
+
+.sf {
+    display: block;
+    position: relative;
+    float: left;
+    height: 100%;
+    margin-right: 2em;
+}
+
+.sf form {
+    border: 1px solid #8aa;
+    background: #acc;
+    padding: 0.5ex;
+    margin-bottom: 1em;
+}
+
+.sf h3 {
+}
+
+.sf button {
+   display: block;
+   float: right
+}
+
+.content table {
+    margin-left: 1em;
+}
+
+.content th {
+    text-align: left;
+}
+
+.content td {
+    padding-right: 1em;
+    padding-top: 0.5ex;
+}
+
+.pp {
+    display: block;
+    position: relative;
+    clear: both;
+    float: left;
+}
+
+.pp .thumb {
+    display: block;
+    position: relative;
+    float: left;
+    width: 100px;
+    margin: 10px;
+    text-align: left;
+}
+
+.thumbnail {
+    margin-top: 8px;
+}
+
+.pp .page {
+    display: block;
+    position: relative;
+    float: left;
+}
+
+.page img {
+    border: 2px solid #000;
+}
+
+#ui_page_loading {
+    position: absolute;
+    left: 200px;
+    top: 50px;
+    border: none;
+    visibility: hidden;
+}
+
+.toolbar {
+    display: block;
+    position: relative;
+    clear: both;
+    background: #8aa;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 2px;
+}
+
+.toolbar ul {
+    margin: 0;
+    padding: 0;
+}
+
+.toolbar li {
+    display: inline;
+    background: #acc;
+    margin-right: 1em;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+.toolbar form {
+    display: inline;
+}
+
+.toolbar a:link { color: #00f }
+.toolbar a:visited { color: #00f }
+
+.error {
+    color: #f00;
+}
+
+.widget {
+    border: 0;
+    vertical-align: middle;
+}
+
+.bibrec td {
+    vertical-align: top;
+}
+
+.bibrec ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.bibrec ul li {
+    margin-bottom: 0.25em;
+}

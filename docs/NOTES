@@ -1,0 +1,65 @@
+The Root Directory
+==================
+
+Default
+    static
+        css
+            foo.css [...]
+        js
+            foo.js [...]
+        ...
+    templates
+        index.tt [...]
+$app1
+    pages
+        $iface1
+            dir/file.html
+            file.html [...]
+        ...
+    static
+        css
+            foo.css [...]
+        ...
+    templates
+        Main
+            index.tt [...]
+        $iface1
+            index.tt [...]
+        ...
+...
+
+Resource files are located under the application root in a directory with
+the app name. There are also some global/default values in Default.
+
+Pages
+
+Files retrieved with the /page command are found under pages. Pages are
+specific to an interface. For example, a request for /myapp/en/about/intro
+will retrieve the file $root/myapp/pages/en/about/intro.html, if it
+exists. The content of the file is wrapped in the appropriate pages.tt
+template file for that interface.
+
+Static Files
+
+Files under Default/static are served automatically by Static::Simple.
+I.e., a request for "/css/foo.css" will retrieve a file
+$root/Default/static/css/foo.css, if it exists. Files under $app/static
+will be served via requests for $app/$iface/static/file. E.g.,
+/myapp/en/static/css/foo.css would get $root/myapp/static/css/foo.css. If
+a web server or virtual host is configured to serve only one application,
+you can make it serve static files directly, in conjunction with the
+appropriate prefix directive in the config file. E.g. (in Apache):
+
+Alias / /path/to/CAP/script/cap_fastcgi.pl/myapp/en/
+Alias /static/ /path/to/CAP/root/myapp/static/
+
+Templates
+
+A request for $template will first look in
+$app/templates/$iface/$template. If the interface is a language code,
+'Main' is used in place of $iface. E.g., for myapp/en, a template of
+'/search/pages.tt' would be looked for in
+$root/myapp/templates/Main/search/pages.tt. If $template is not found (or
+$app and $iface are not configured) the template under
+$root/Default/templates/$template is used.
+

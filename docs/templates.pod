@@ -1,0 +1,16 @@
+=head1 Templates and Views
+
+=head2 Template Location
+
+If a language code is specified for the interface, the default view
+(I<Default>) is used. Otherwise, a view named for the interface is used.
+The portal name is automatically prepended to every template name, but
+when you reference file from within a template, it is relative to the root
+directory. Therefore, you have to add the portal directory.
+
+Templates are found in I<$root/templates/$view/$portal>.
+
+Therefore, for portal I<foo>, iface I<xml>, the template index.tt is found at
+I<$root/templates/xml/foo/index.tt>, but if you reference a file I<bar.tt>
+from within the template, it refers to I<$root/templates/xml/bar.tt>. If
+you call the file I<{$app}/bar.tt> it will look in the right place.

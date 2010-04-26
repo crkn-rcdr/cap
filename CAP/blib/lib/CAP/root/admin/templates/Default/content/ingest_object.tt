@@ -1,0 +1,3 @@
+<h2>[% c.loc("Object Ingested") %]</h2>
+
+<p>Object has unique key <strong>[% key %]</strong></p>

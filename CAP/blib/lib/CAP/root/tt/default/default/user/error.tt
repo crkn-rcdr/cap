@@ -1,0 +1,3 @@
+<h1>[% c.loc("Error") %]</h1>
+
+<p>[% error_msg %]</p>

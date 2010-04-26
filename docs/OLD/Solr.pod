@@ -1,0 +1,22 @@
+=head1 NAME
+
+Solr - interface to the Solr database
+
+=head1 Query Parameters
+
+=over 4
+
+=item ctype - content type
+
+=item dr - date range
+
+=item tx - text
+
+=item so - sort
+
+=item lang - language
+
+
+=back
+
+=cut

@@ -1,0 +1,11 @@
+﻿[%-
+  # Home/main search page
+  # Version: 0.20100218
+
+  USE XML.Escape;
+-%]
+
+[%- INCLUDE 'include/form_search_basic.tt' -%]
+<!--
+[%- INCLUDE 'include/form_search_advanced.tt' -%]
+-->

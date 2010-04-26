@@ -1,0 +1,34 @@
+[%
+  # component/site.tt
+  #
+  #   Display an inline view of the web site/page for the document.
+  #
+  # Identifier prefix: si
+  # Modified: 2010-04-16
+
+  USE XML.Escape;
+%]
+
+[% IF resource_page.size %]
+  <div id="si">
+    <p class="link">
+      [% IF c.session.show.site_preview %]
+        <a href="[% c.uri_for(root, 'show', doc.key, { sprev => 'off' }) | xml_escape %]">
+          <img src="[% c.uri_for(root, 'static', 'widgets', 'collapse.png') | xml_escape %]" alt="-"/>
+          [% c.loc("Hide web site") | xml_escape %]
+        </a>
+      [% ELSE %]
+        <a href="[% c.uri_for(root, 'show', doc.key, { sprev => 'on' }) | xml_escape %]">
+          <img src="[% c.uri_for(root, 'static', 'widgets', 'expand.png') | xml_escape %]" alt="+"/>
+          [% c.loc("Show web site: [_1]", resource_page.first.label) | xml_escape %]
+        </a>
+      [% END %]
+    </p>
+
+    [% IF resource_page.first.uri.size && c.session.show.site_preview %]
+      <iframe class="site_frame" scrolling="auto" src="[% resource_page.first.uri.first | xml_escape %]">
+        <a href="[% resource_page.first.uri.first | xml_escape %]">[% resource_page.first.uri.first | xml_escape %]</a>
+      </iframe>
+    [% END %]
+  </div>
+[% END %]

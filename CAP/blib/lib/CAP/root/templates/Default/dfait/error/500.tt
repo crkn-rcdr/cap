@@ -1,0 +1,9 @@
+<h2>[% c.loc("Server Error ([_1])", status) %]</h2>
+
+<p>[% c.loc("The server encountered a problem. It might just be temporary:
+try again in a few moments and, if the problem persists, contact the
+system administrator.") %]
+
+[% IF error_message %]
+<p>[% c.loc("The following information was reported by the server: [_1]", error_message) %]</p>
+[% END %]

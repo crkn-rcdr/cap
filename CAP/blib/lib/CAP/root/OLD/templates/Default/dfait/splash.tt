@@ -1,0 +1,6 @@
+﻿<h2>[% c.loc("DFAIT Satements and Speeches") %]</h2>
+
+<div class="lchooser">
+  <div><a href="[% c.uri_for(root, 'en') %]">English</a></div>
+  <div><a href="[% c.uri_for(root, 'fr') %]">Français</a></div>
+</div>

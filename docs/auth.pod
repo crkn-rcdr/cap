@@ -1,0 +1,41 @@
+=head1 User Authenitcation and Authorization
+
+=head2 Query string authorization
+
+You can include the parameters I<username> and I<password> in the query
+string or POST arguments If you do, the application will automatically log
+you out (if you are logged in) and attempt to create a new session with
+the parameters specified. If the authentication does not succeed, a 403
+error is generated.
+
+=head2 Interactive login
+
+Use I</$app/$iface/login> to log in interactively.
+
+If the user is already logged in, the user will be redirected to the home
+page (I</$app/$iface>).
+
+Submitting the login form without supplying either a username or password
+will simply return the log in form.
+
+If one or the other (username or password) are not supplied, the user does
+not exist, or the password is incorrect, the form will be returned with a
+message indicating that the user's credentials could not be verified.
+
+If the login is successful, the user will be redirected to the home page
+(i.e. I</$app/$iface>).
+
+=head2 Interactive logout
+
+Use I</$app/$iface/logout> to log out interactively.
+
+The user is logged out (if logged in) and forwarded to the home page.
+
+=head2 Redirected interactive login
+
+If an unauthenticated request is made for a page which requires an
+authenticated role, the user will be redirected to the login page. The
+I<page> parameter will be set with the URI of the original page, allowing
+the user to be redirected back to the originally requested page upon
+successful login.
+

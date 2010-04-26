@@ -1,0 +1,105 @@
+﻿[%-
+  # Default XHTML page layout wrapper
+  # Version: 0.20100317
+
+  USE XML.Escape;
+  c.load_lexicon('Default');
+-%]
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="[% iface %]" lang="[% iface %]">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+  [%-
+    # Page title
+  -%]
+  [%- IF config.label -%]
+    <title>
+      [% c.loc(config.label) | xml_escape -%]
+      [%- IF title -%] - [%- title | xml_escape -%][%- END %]
+    </title>
+  [%- ELSE -%]
+    <title>
+      [% c.loc("CAP") | xml_escape -%]
+      [%- IF title -%] - [%- title | xml_escape -%] [%- END %]
+    </title>
+  [%- END -%]
+
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'default.css') %]"/>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'main.css') %]"/>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'component.css') %]"/>
+    [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]"/>
+    <script type="text/javascript">
+      var CAP = {
+        base_uri : "[% c.req.base | xml_escape %][% c.req.path | xml_escape %]",
+        icon_expand : "[% c.uri_for(root, 'static', 'widgets', 'expand.png') %]",
+        icon_collapse : "[% c.uri_for(root, 'static', 'widgets', 'collapse.png') %]",
+      }
+    </script>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'jquery.js') %]">1;</script>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'cap.js') %]">1;</script>
+
+  [%- # Additional scripts and stylesheets to include based on the action executed -%]
+  [%- IF c.action == "show/show" -%]
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'show.js') %]">1;</script>
+  [%- ELSIF c.action == "system/i18n" -%]
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'i18n.css') %]"/>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'i18n.js') %]">1;</script>
+  [%- END -%]
+
+  </head>
+
+  <body>
+
+    <div class="header">
+
+    [%- # As with the title, display the portal name if configured; otherwise use the generic app name -%]
+    [%- IF config.label -%]
+      <h1 class="title">[% c.loc(config.label) | xml_escape %]</h1>
+    [%- ELSE -%]
+      <h1 class="title">[% c.loc("DCBE Prototype v. [_1]", c.config.version) | xml_escape %]</h1>
+    [%- END -%]
+
+      [%- # Show information about the current user and login + language options -%]
+      <ul class="user">
+        <li><a href="[% c.uri_for(root) %]">[% c.loc("New Search") %]</a></li>
+        <li><a href="[% c.uri_for(root, 'page', 'about') %]">[% c.loc("About") %]</a></li>
+      [%- IF config.tt.login -%]
+        [%- IF c.user_exists -%]
+        <li><a href="[% c.uri_for(root, 'logout') %]">[% c.loc("Log Out") %]</a></li>
+        [%- ELSE -%]
+        <li><a href="[% c.uri_for(root, 'login') %]">[% c.loc("Log In") %]</a></li>
+        [%- END -%]
+      [%- END -%]
+      [%- IF iface != 'fr' -%]
+        <li><a href="[% c.uri_for_action(c.action.private_path, [portal, 'fr'], c.req.args.join('/'), c.req.params) %]">Français</a></li>
+      [%- END -%]
+      [%- IF iface != 'en' -%]
+        <li><a href="[% c.uri_for_action(c.action.private_path, [portal, 'en'], c.req.args.join('/'), c.req.params) %]">English</a></li>
+      [%- END -%]
+      [%- IF config.tt.login && c.user_exists -%]
+        <li class="username">[% c.user.name %]</li>
+      [%- END -%]
+      </ul>
+
+    </div>[% # End header %]
+
+    <div class="content">
+    [% content %]
+    </div>[% # End content %]
+
+    <div class="footer">
+      [% c.loc("Prototype version [_1]", c.config.version) | xml_escape %]
+    </div>[% # End footer %]
+
+    [%- IF config.tt.debug -%]
+    <pre class="debug" id="Debug"></pre>
+    [%- END -%]
+
+  </body>
+
+</html>

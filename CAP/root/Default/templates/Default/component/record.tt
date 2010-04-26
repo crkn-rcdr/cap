@@ -1,0 +1,112 @@
+[%
+  # component/record.tt
+  #
+  #   Bibliographic record
+  #
+  # Identifier prefix: rc
+  # Modified: 2010-04-016
+
+  USE XML.Escape;
+%]
+
+[% BLOCK bib_field %]
+  [% IF bib.value %]
+    [%
+      IF ! bib.class;
+        bib.class = [];
+      END;
+
+      IF c.session.show.full_record || bib.brief;
+        bib.class.push('display');
+      ELSE;
+        bib.class.push('nodisplay');
+      END;
+    %]
+    <tr class="[% bib.class.join(' ') %]">
+      <td>[% c.loc(bib.label) | xml_escape %]</td>
+      <td>
+        <ul>
+        [% FOR field IN bib.value.sort %]
+          [% IF bib.uri %]
+            <li><a href="[% bib.uri | xml_escape %]">[% field | xml_escape %]</a></li>
+          [% ELSIF bib.key %]
+            <li><a href="[% c.uri_for(root, 'show', bib.key) | xml_escape %]">[% field | xml_escape %]</a></li>
+          [% ELSE %]
+            <li>[% field | xml_escape %]</li>
+          [% END %]
+        [% END %]
+        </ul>
+      </td>
+    </tr>
+  [% END %]
+[% END %]
+
+<div id="rc" class="bibrec">
+
+  <p class="link">
+  [%- IF c.session.show.full_record -%]
+    <a href="[% c.uri_for(root, 'show', doc.key, { rec => 'off' }) | xml_escape %]">
+      <img src="[% c.uri_for(root, 'static', 'widgets', 'collapse.png') | xml_escape %]" alt="-"/>
+      [% c.loc("Less detail") | xml_escape %]
+    </a>
+  [%- ELSE -%]
+    <a href="[% c.uri_for(root, 'show', doc.key, { rec => 'on' }) | xml_escape %]">
+      <img src="[% c.uri_for(root, 'static', 'widgets', 'expand.png') | xml_escape %]" alt="+"/>
+      [% c.loc("More detail") | xml_escape %]
+    </a>
+  [%- END -%]
+  </p>
+
+  <table>
+
+  [%-
+    # List the fields we want to display in our bib record here. Each is a
+    # hash containing these key-value pairs:
+    #
+    # brief => nonzero if this record should display in brief record mode
+    # value => the field value(s) to display; if false, no row is displayed
+    # key => if not empty, link the field value to show the document with this key
+    # uri => if not empty, link the field value using this URI. Overrides key
+    # class => specify a list of additional classes to apply to the table row
+    # label => the column label for this row
+    bib_fields = [
+      { brief => 1, value => doc.au, key => undef, label => "Author" },
+      { brief => 0, value => doc.ti, key => undef, label => "Title" },
+      {
+        brief => 1, value => ancestors.first.type == 'serial' && ancestors.first.label
+        key => ancestors.first.key, label => "Publication"
+      },
+      { brief => 1, value => issue_count, key => undef, label => "Issues" },
+      { brief => 0, value => doc.su, key => undef, label => "Subject" },
+      { brief => 1, value => doc.pubstmt, key => undef, label => "Published" },
+      { brief => 0, value => doc.no, key => undef, label => "Note" },
+      { brief => 1, value => doc.ds, key => undef, label => "Descriptor" },
+      { brief => 1, value => doc.sm, key => undef, label => "Summary" },
+      { brief => 0, value => doc.ab, key => undef, label => "Abstract" },
+      { brief => 0, value => first_issue.pubstmt, key => first_issue.key, label => "First issue" },
+      { brief => 0, value => last_issue.pubstmt, key => last_issue.key, label => "Last issue" },
+      {
+        brief => 0, value => c.config.contributor.${doc.contributor},
+        key => undef, label => "Contributor"
+      },
+    ];
+
+    FOREACH field IN bib_fields;
+      bib = field;
+      INCLUDE bib_field;
+    END;
+
+    IF config.tt.portal;
+      FOR res IN resource_page;
+        FOR uri IN res.uri;
+          bib = { brief => 1, value => res.label, uri => uri, class => ['bold'], label => 'Web site' };
+          INCLUDE bib_field;
+        END;
+      END;
+    END;
+
+  -%]
+
+  </table>
+
+</div>

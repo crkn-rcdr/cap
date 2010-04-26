@@ -1,0 +1,35 @@
+=head1 NAME
+
+Overiew - overview of the application
+
+=head1 DIRECTORY STRUCTURE
+
+=over 4
+
+=item bin
+
+Binary utility files
+
+=item catalyst
+
+The main catalyst application
+
+=item docs
+
+This documentation
+
+=item solr
+
+Configuration and schema files for Solr
+
+=item tools
+
+Miscellaneous tools
+
+=back
+
+=head1 OTHER DIRECTORIES
+
+=back
+
+=cut

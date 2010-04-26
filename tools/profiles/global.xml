@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<profile name="global" version="0.20091110" standalone="no">
+  <desc>
+    The basic set of elements allowed for every object type.
+  </desc>
+
+  <field name="key" required="true">
+    Uniquely identifies this item in the database. Identifiers must begin
+    with the contributor namespace, followed by a '.' and then a unique string
+    within that namespace which consists only of the following characters:
+    A-Za-z0-9_:.-
+  </field>
+
+  <field name="id" multiValued="true">
+    A local resource identifier.
+  </field>
+
+  <field name="pkey">
+    The key field of the parent to which the object belongs.
+  </field>
+
+  <field name="gkey" multiValued="true">
+    The key field of a container object for which this object is a group
+    member. Groups are not bound by hierarchy, but should probably not be
+    circular.
+  </field>
+
+  <field name="seq">
+    An integer &gt;0 designating the relative position (sequence) of this
+    object within its parent container. Numbers do not have to be
+    contiguous (but should be when possible for efficiency).
+  </field>
+
+  <field name="type" required="true">
+    The name of the application profile for this record.
+  </field>
+
+  <field name="contributor" required="true">
+    The unique namespace established for the contributor, usually an ILL code if
+    one exists. It must consist of A-Za-z0-9_.
+  </field>
+  
+  <field name="label" required="true">
+    A descriptive label (e.g. title) that can be used as the standard way
+    to describe or refer to this item.
+  </field>
+  
+  <field name="clabel" required="true">
+    Like label, but used in the context of the parent item. For example,
+    this could be a page number for a page record or a volume/issue number
+    for an issue in a serial.
+  </field>
+
+  <field name="pubmin" required="true">
+    The earliest publication year for this object. If the object
+    describes a series of items, this should be the publication date of
+    the earliest item. For items with uncertain dates, this is the lowest
+    estimated date.
+  </field>
+
+  <field name="pubmax" required="true">
+    The latest publication year for this object. See pubmin for more
+    information.
+  </field>
+
+  <field name="lang" multiValued="true">
+    Language of the content of this object. Should be a lower-case
+    international language code (en, fr, etc.).
+  </field>
+
+  <field name="mtype" multiValued="true">
+    Material type description. Should be taken from a controlled list,
+    with values like "text," "audio," etc.
+  </field>
+
+  <field name="ctype" multiValued="type">
+    Content type description. Should be taken from a controlled list, with
+    values like "speech," "dictionary," "diary," etc.
+  </field>
+ 
+</profile>

@@ -1,0 +1,9 @@
+<response ok="0">
+  <log>
+    <event class="fatal">Authentication required</event>
+  </log>
+</response>
+
+
+
+

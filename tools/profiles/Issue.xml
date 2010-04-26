@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<profile name="issue" version="1.0" standalone="yes">
+  <desc>
+    An issue belonging to a serial.
+  </desc>
+
+  <include file="global.xml"/>
+
+  <field name="pkey" required="true">
+    An issue must belong to a valid serial container.
+  </field>
+
+  <field name="seq" required="true">
+    The sorting order for an issue is required.
+  </field>
+
+  <include file="bibliography.xml"/>
+  <include file="description.xml"/>
+
+</profile>
+
+
+
+

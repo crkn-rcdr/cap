@@ -1,0 +1,38 @@
+<h1>[% c.loc("User Role Management") %]</h1>
+
+[% IF error_msg %]
+<p>[% error_msg %]</p>
+[% END %]
+
+<table>
+<tr>
+  <th>[% c.loc("Role ID") %]</th>
+  <th>[% c.loc("Role") %]</th>
+  <th>[% c.loc("Delete") %]</th>
+[% FOREACH role IN roles %]
+<tr>
+  <td>[% role.id %]</td>
+  <td>[% role.role %]</td>
+  <td>
+    [% IF role.role != 'admin' %]
+    <form method="post" acion="[% c.uri_for(root, 'user', 'roles') %]">
+      <div>
+        <input type="hidden" name="action" value="delete"/>
+        <input type="hidden" name="id" value="[% role.id %]"/>
+        <button type="submit">[% c.loc("Delete") %]</button>
+      </div>
+    </form>
+    [% END %]
+  </td>
+</tr>
+[% END %]
+</table>
+
+<h2>Create new role</h2>
+<form method="post" action="[% c.uri_for(root, 'user', 'roles') %]">
+  <div>
+    <input type="hidden" name="action" value="create"/>
+    <label for="role">[% c.loc("Role name") %]</label>
+    <input type="text" name="role"/>
+    <button type="submit">[% c.loc("Create") %]</button>
+</form>

@@ -1,0 +1,8 @@
+<h1>[% c.loc("File Uploaded") %]</h1>
+
+<ol>
+[% FOREACH file IN bagit_files -%]
+  <li><a href="[% c.uri_for(root, 'content', 'ingest', { 'contributor' => contributor, 'file' => file }) %]">[% file %]</li>
+[% END -%]
+</ol>
+

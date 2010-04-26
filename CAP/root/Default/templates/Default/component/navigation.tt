@@ -1,0 +1,87 @@
+[%
+  # component/navigator.tt
+  #
+  #   Tools for navigating within the parent object
+  #
+  # Identifier prefix: nv
+  # Modified: 2010-04-16
+
+  USE XML.Escape;
+%]
+
+<div id="nv" class="navigator">
+
+  <div class="left">
+  [% IF prev_sibling %]
+    <a href="[% c.uri_for(root, 'show', doc.key, { rel => 'prev' }) | xml_escape %]">
+      <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'prev.png') | xml_escape %]" alt="&lt;="/>
+      [% prev_sibling.clabel | xml_escape %]
+    </a>
+  [% END %]
+  &#160;
+  </div>
+
+  [%-
+    # If this document is part of a sequence, show its position relative
+    # to its siblings of the same type.
+  -%]
+  [%- IF doc.seq -%]
+  <form method="get" action="[% c.uri_for(root, 'show', doc.key) | xml_escape %]">
+    <div>
+      [%
+        IF doc.type == 'issue';
+          c.loc("Issue") | xml_escape;
+        ELSIF doc.type == 'page';
+          c.loc("Page") | xml_escape;
+        ELSE;
+          c.loc("Item") | xml_escape;
+        END;
+      %]
+      <input type="text" name="rel"  size="5" value="[% sibling_position %]"/>
+      [% c.loc("of [_1]", sibling_count) | xml_escape %]
+      <button type="submit">[% c.loc("Go") %]</button>
+    </div>
+  </form>
+  [%- END -%]
+
+  [%-
+    # If this item has pages, show a page menu
+  -%]
+  [%- IF pages.size -%]
+    <form method="post" action="[% c.uri_for(root, 'post') | xml_escape %]">
+      <div>
+        <input type="hidden" name="0" value="show"/>
+        [% c.loc("View Page:") | xml_escape %]
+        <select id="ui_select_page" name="1">
+        [%- FOREACH page IN pages -%]
+          [%- 
+            IF page.key == doc.key;
+              selected = ' selected="selected"';
+            ELSE;
+              selected = '';
+            END;
+          -%]
+          <option value="[% page.key | xml_escape %]"[% selected %]>
+          [%- IF page.pageno && page.feature -%][% c.loc("p. [_1] ([_2])", page.pageno, page.feature.join(", ")) | xml_escape -%]
+          [%- ELSIF page.pageno -%][%- c.loc("p. [_1]", page.pageno) | xml_escape -%]
+          [%- ELSIF page.feature -%][%- c.loc(page.feature.join(", ")) | xml_escape -%]
+          [%- ELSE -%][%- c.loc("Image [_1]", page.seq) | xml_escape %][%- END -%]
+          </option>
+        [%- END %]
+        </select>
+        <button id="ui_select_submit" type="submit">[% c.loc("Go") | xml_escape %]</button>
+      </div>
+    </form>
+  [%- END -%]
+
+  <div class="right">
+  &#160;
+  [%- IF next_sibling -%]
+    <a href="[% c.uri_for(root, 'show', doc.key, { rel => 'next' }) | xml_escape %]">
+      [% next_sibling.clabel | xml_escape %]
+      <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'next.png') | xml_escape %]" alt="=&gt;"/>
+    </a>
+  [%- END -%]
+  </div>
+
+</div>

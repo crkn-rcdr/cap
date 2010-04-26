@@ -1,0 +1,68 @@
+=head1 Unique Identifiers (Keys)
+
+=head2 Keys and Key Fields
+
+Each database record is identified by a unique key. A key consists of
+a contributor namespace (the contributor code) followed by a ":" and
+then a unique string within that namespace, which may contain any of
+the following characters: "B<A-Za-z0-9_:.->". All other characters are
+forbidden.
+
+The three key fields: B<key>, B<pkey> and B<gkey> are only allowed to
+contain well-formed keys. 
+
+Examples:
+
+=over 4
+
+=item oocihm:90001
+
+=item oocihm:90001:0002
+
+=item oocihm:90001:0002.tif
+
+=back
+
+
+=head2 Namespaces
+
+Each contributer has a separate namespace, designated by a prefix code
+followed by a colon. E.g.: I<oocihm:>. The only valid characters in a
+namespace are: "B<A-Za-z0-9_>". All records submitted by that
+contributor must have a B<key> element with a value beginning with this
+prefix. Keys refered to within B<pkey> and B<gkey> elements do not have to
+belong to the same namespace, though in practice, they probably should.
+
+=head2 Naming Conventions
+
+Apart from the syntactic constraints listed above, there are no
+restrictions on the length or form of a key. It is recommended that a
+sensible and consistent naming convention be followed, with child records
+incorporating their parent's ID and using ":" to separate logical parts.
+The "." should be used to provide a suffix indicating a file type, in the
+case of file records. However, all of these are just recommendations and
+are not required.
+
+=head2 Key Fields
+
+=head3 key - unique identifier
+
+Every record must have a single, unique key field. Attempting to submit a
+second record with no key or multiple keys will fail, and submitting a
+record with the same key as an existing record will replace that record.
+
+=head3 pkey - parent record
+
+A record may have at most one pkey field, refering to a parent record.
+References are not allowed to be circular: no record may name one of its
+descendants as a parent; attempting to submit such a record will fail.
+
+=head3 gkey - group record
+
+A record may have any number of group keys. A gkey may refer to any other
+record, but not to itself. All children must belong to their ancestors'
+groups: upon ingestion, a record will inherit all of the gkey elements
+from its parent, if any, and any gkeys in the record will be inherited by
+all of its descendants.
+
+=cut

@@ -1,0 +1,46 @@
+/*
+ * docs.css - technical documentation
+ * Version: 0.20100409
+ */
+
+.docs {
+    width: 7in;
+    margin: auto;
+    line-height: 1.2em;
+}
+
+.docs h1 {
+    margin-left: -0.25in;
+    font-size: 18pt;
+    font-weight: normal;
+}
+
+.docs h2 {
+    margin-left: -0.25in;
+    font-size: 14pt;
+    font-weight: normal;
+}
+
+.docs h3 {
+    margin-left: -0.25in;
+    font-size: 12pt;
+    font-weight: normal;
+}
+
+.docs h4 {
+    margin-left: -0.25in;
+    font-size: 10pt;
+    font-weight: normal;
+}
+
+.docs ul {
+    padding-left: 0;
+}
+
+.docs li {
+    margin-bottom: 0.5em;
+}
+
+.docs dd {
+    margin-bottom: 0.5em;
+}

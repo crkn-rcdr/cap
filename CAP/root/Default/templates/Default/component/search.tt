@@ -1,0 +1,44 @@
+[%
+  # component/search.tt
+  #
+  #   Search form
+  #
+  # Identifier prefix: se
+  # Modified: 2010-04-19
+
+  USE XML.Escape;
+%]
+
+<div id="se">
+  <form class="search"  method="get" action="[% c.uri_for(root, 'search') | xml_escape %]">
+    <div>
+      <input class="search_terms" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
+      <button type="submit">[% c.loc("Search the collection") | xml_escape %]</button>
+      <p>
+        [% c.loc("Search:") | xml_escape %]
+        [% radioButton(c, "t", "all", { class => "inline_radio" }, 1) %] [% c.loc("everywhere") | xml_escape %]
+        [% radioButton(c, "t", "pages", { class => "inline_radio"}) %] [% c.loc("page text") | xml_escape %]
+        [% radioButton(c, "t", "titles", { class => "inline_radio"}) %] [% c.loc("document metadata") | xml_escape %]
+      </p>
+      <a class="search_options_expand">[% c.loc("Search options") | xml_escape %]</a>
+      <div class="search_options">
+        <p>
+          [% c.loc("Sort:") | xml_escape %]
+          [% radioButton(c, "so", "", { class => "inline_radio"}, 1) %] [% c.loc("relevance") | xml_escape %]
+          [% radioButton(c, "so", "pubmin asc", { class => "inline_radio"}) %] [% c.loc("oldest") | xml_escape %]
+          [% radioButton(c, "so", "pubmax desc", { class => "inline_radio"}) %] [% c.loc("newest") | xml_escape %]
+        </p>
+        <p>
+          [% c.loc("Language:") | xml_escape  %]
+          [% radioButton(c, "lang", "", { class => "inline_radio" }, 1) %] [% c.loc("any") | xml_escape %]
+          [% radioButton(c, "lang", "en", { class => "inline_radio" }) %] [% c.loc("English") | xml_escape %]
+          [% radioButton(c, "lang", "fr", { class => "inline_radio" }) %] [% c.loc("French") | xml_escape %]
+        </p>
+        <p>
+          [% c.loc("Publication years:") | xml_escape %]
+          <input type="text" name="dr" value="[% c.session.search.params.dr | xml_escape %]" size="9"/>
+        </p>
+      </div>
+    </div>
+  </form>
+</div>

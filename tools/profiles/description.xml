@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<profile name="description" standalone="no">
+  <desc>
+    Keywords, abstracts, and full text
+  </desc>
+
+  <field name="ds" multiValued="true">
+    A generic descriptor field.
+  </field>
+
+  <dynamicField name="ds_*" multiValued="true">
+    Like ds, but can have any custom extension (plus an optional language
+    suffix). Its content will be copied into ds, though a field like
+    ds_foo_en will not be indexed into ds_en.
+  </dynamicField>
+
+  <field name="sm" multiValued="true">
+    A summary of the record's content.
+  </field>
+
+  <field name="ab" multiValued="true">
+    A longer abstract of the record.
+  </field>
+
+  <field name="tx" multiValued="true">
+    Text content of the document, whether extracted by OCR, keyed by hand, or
+    obtained by other means.
+  </field>
+
+</profile>

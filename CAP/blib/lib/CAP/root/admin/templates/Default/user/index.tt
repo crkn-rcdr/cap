@@ -1,0 +1,13 @@
+<h2>User Management</h2>
+
+<p><a href="[% c.uri_for(root, 'user', 'create') %]">Create a new user</a></p>
+<p><a href="[% c.uri_for(root, 'user', 'roles') %]">User role management</a></p>
+
+<form method="post" action="[% c.uri_for(root, 'post') %]">
+  <p>
+    <input type="hidden" name="0" value="[% c.uri_for(root, 'user', 'edit') %]"/>
+    <label for="1">[% c.loc("Edit user name") %]</label>
+    <input type="text" name="1"/>
+    <button type="submit">[% c.loc("Edit") %]</button>
+  </p>
+</form>

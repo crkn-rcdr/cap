@@ -1,0 +1,8 @@
+<h2>[% c.loc("Login Required") %]</h2>
+
+<p>[% c.loc("You must log in to use portal administrative functions.") %]
+
+[% IF status == 403 && ! c.user.exists %]
+  <h3>Log In</h3>
+  [% INCLUDE "${portal}/include/forms/login.tt" %]
+[% END %]

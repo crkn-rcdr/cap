@@ -1,0 +1,9 @@
+[% USE XML.Escape %]
+<h2>[% c.loc("File Uploaded") %]</h2>
+
+<ol>
+[% FOREACH file IN bagit_files -%]
+  <li><a href="[% c.uri_for(root, 'content', 'ingest', { 'contributor' => contributor, 'file' => file }) | xml_escape %]">[% file %]</a></li>
+[% END -%]
+</ol>
+

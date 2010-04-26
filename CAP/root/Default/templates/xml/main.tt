@@ -1,0 +1,8 @@
+[%-
+  # Default template wrapper for XML interface.
+  # Version: 0.20100415
+-%]
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  [% content %]
+</response>

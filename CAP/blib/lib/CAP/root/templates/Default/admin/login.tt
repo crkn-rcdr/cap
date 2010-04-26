@@ -1,0 +1,7 @@
+<h1>Log In</h1>
+
+[% IF login_msg -%]
+<div>[% c.loc(login_msg) %]<div>
+[% END -%]
+
+[% INCLUDE "${portal}/include/forms/login.tt" %]

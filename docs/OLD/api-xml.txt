@@ -1,0 +1,25 @@
+XML Response API
+
+All XML responses share the same root:
+
+<response ok="1"/>
+
+Where ok is 1 if the request is a success, and 0 if there is an error that
+prevents normal completion.
+
+
+Ingest - Unpack BagIt Archive
+
+<response ok="1">
+  <contributor>oocihm>
+  <log>
+    <event class="info">Log event description</event>
+    <event class="info">Log event description</event>
+    <event class="ok">Log event description</event>
+  </log>
+  <process>
+    <object>URL to process object</object>
+    <object>URL to process object</object>
+    <object>URL to process object</object>
+  </process>
+</response>
