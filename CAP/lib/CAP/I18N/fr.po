@@ -74,3 +74,5 @@ msgstr "[Corporate]"
 msgid "Privacy Policy and Legal"
 msgstr "Politique sur la vie privée et avis juridiques"
 
+msgid "Copyright © Canadiana.org %1"
+msgstr "[Copyright © Canadiana.org %1]"
