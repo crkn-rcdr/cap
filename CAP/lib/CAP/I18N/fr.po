@@ -1,1 +1,65 @@
-# This is a stub file that needs to be present.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CAP 0.1\n"
+"POT-Creation-Date: 2010-04-29 14:00+EDT\n"
+"PO-Revision-Date: 2010-04-29 14:00+EDT\n"
+"Last-Translator: William Wueppelmann <wiliam.wueppelmann@canadiana.ca>\n"
+"Language-Team: Canadiana.org <info@canadiana.ca>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../root/Default/templates/Default/index.tt
+
+msgid "Advanced search"
+msgstr "[Advanced search]"
+
+msgid "Collection contributors"
+msgstr "[Collection contributors]"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "everywhere"
+msgstr "partout"
+
+msgid "page text"
+msgstr "text de la page"
+
+msgid "document metadata"
+msgstr "métadonnées du document"
+
+msgid "Sort"
+msgstr "Trier"
+
+msgid "relevance"
+msgstr "pertinence"
+
+msgid "oldest"
+msgstr "date croissante"
+
+msgid "newest"
+msgstr "date décroissante"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "any"
+msgstr "toutes"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "French"
+msgstr "Français"
+
+msgid "Publication years"
+msgstr "Années de publication"
+
+

@@ -74,7 +74,7 @@
     with values like "text," "audio," etc.
   </field>
 
-  <field name="ctype" multiValued="type">
+  <field name="ctype" multiValued="true">
     Content type description. Should be taken from a controlled list, with
     values like "speech," "dictionary," "diary," etc.
   </field>

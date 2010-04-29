@@ -13,7 +13,8 @@
 <div id="containerSplash">
   <div id="fullWidth">
     <div id="topNav">
-      <p>New Search&nbsp;&nbsp;|&nbsp;&nbsp;Français</p>
+      [% IF iface != 'fr' %]<p><a href="[% config.exturi.fr | xml_escape %]">Français</a></p>[% END %]
+      [% IF iface != 'en' %]<p><a href="[% config.exturi.en | xml_escape %]">English</a></p>[% END %]
     </div>
     <div id="content"> <img id="logo" src="[% c.uri_for(root,'static','images','logo.png')|xml_escape%]" width="343" height="144" />
       <div id="search">
@@ -21,9 +22,13 @@
           <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
           <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images','searchBtn.gif')|xml_escape%]" />
         <div id="searchOptions">
-          <p><a id="btnAdvancedSearch" href="#">Advanced search</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a id="btnContributors" href="#">Collection contributors</a></p>
+          <p>
+            <a id="btnAdvancedSearch" href="#">[% c.loc('Advanced search') | xml_escape %]</a>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            <a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>
+          </p>
           <div id="ddownAdvancedSearch" style="display:none;">
-            <p> Search</p>
+            <p>[% c.loc('Search') | xml_escape %]</p>
             <ul>
               <li>
 		[% radioButton(c, 't', 'all', { id => 'everywhere', class => 'radio' }, 1) %]
@@ -38,7 +43,7 @@
                 <label for="documentMetaData">[% c.loc('document metadata') | xml_escape %]</label>
               </li>
             </ul>
-            <p>Sort</p>
+            <p>[% c.loc('Sort') | xml_escape %]</p>
             <ul>
               <li>
 		[% radioButton(c, 'so', '', { id => 'relevance', class => 'radio' }, 1) %]
@@ -53,7 +58,7 @@
                 <label for="newest">[% c.loc('newest') | xml_escape %]</label>
               </li>
             </ul>
-            <p> Language</p>
+            <p>[% c.loc('Language') | xml_escape %]</p>
             <ul>
               <li>
 		[% radioButton(c, 'lang', '', { id => 'any', class => 'radio' }, 1) %]
@@ -68,7 +73,7 @@
                 <label for="fr">[% c.loc('French') | xml_escape %]</label>
               </li>
             </ul>
-            <p> Publication years </p>
+            <p>[% c.loc('Publication years') | xml_escape %]</p>
             <ul>
               <li>
                 <input type="text" name="dr" value="[% c.session.search.params.dr | xml_escape %]" size="9" />
@@ -77,19 +82,8 @@
           </div>
           <div id="ddownContributors" style="display:none;">
             <ul>
-              <li><a href="#">Lorem ipsum dolor</a></li>
-              <li><a href="#">sit amet consectetuer</a></li>
-              <li><a href="#">adipiscing elised diam</a></li>
-              <li><a href="#">nonummy nibh</a></li>
-              <li><a href="#">euismod tincidunt</a></li>
-              <li><a href="#">ut laoreet dolore magna aliquam</a></li>
-              <li><a href="#">erat volutpat Ut wisi</a></li>
-              <li><a href="#">enim ad minim</a></li>
-              <li><a href="#">veniam</a></li>
-              <li><a href="#">consectetuer</a></li>
-              <li><a href="#">adipiscing elised diam nonummy nibh</a></li>
-              <li><a href="#">euismod tincidunt</a></li>
-              <li><a href="#">ut laoreet dolore</a></li>
+              <li>Bibliothèque et archives nationales du Québec</li>
+              <li>Canadiana.org</li>
             </ul>
           </div>
         </div>
@@ -98,6 +92,9 @@
     </div>
   </div>
 <div id="footer">
-  <p>About Canadian.org | About Canadiana Discovery Portal | Corporate | Privacy Policy and Legal | Copyright © Canadiana.org 2010</p>
+  <p>
+    <a href="">[% c.loc('About Canadiana.org') | xml_escape %]</a> |
+    About Canadiana Discovery Portal | Corporate | Privacy Policy and Legal | Copyright © Canadiana.org 2010
+  </p>
 </div>
 </div>

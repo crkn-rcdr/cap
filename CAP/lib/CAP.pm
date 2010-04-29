@@ -18,8 +18,8 @@ use Catalyst qw/
                 -Debug
                 ConfigLoader
                 Static::Simple
-                I18N::DBIC
                 StackTrace
+                I18N
                 Unicode::Encoding
 
                 Authentication
@@ -29,6 +29,7 @@ use Catalyst qw/
                 Session::State::Cookie
                 Session::Store::DBI
                /;
+                #I18N::DBIC
 our $VERSION = '0.20091127';
 #                Authorization::ACL
 #                Session::Store::FastMmap
@@ -54,9 +55,9 @@ __PACKAGE__->config(
         },
     },
     
-    'I18N::DBIC' => {
-        lexicon => 'DB::Lexicon',
-    },
+    #'I18N::DBIC' => {
+    #    lexicon => 'DB::Lexicon',
+    #},
 );
 
 __PACKAGE__->config->{'Plugin::Authentication'} = {
