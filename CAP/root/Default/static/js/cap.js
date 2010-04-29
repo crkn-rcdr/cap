@@ -11,6 +11,15 @@ function debug(message) {
 }
 
 $(document).ready(function() {
+   //search menu animations
+   $('#btnContributors').click(function(){
+     $('#ddownContributors').fadeToggle();
+	 return false;
+   });
+   $('#btnAdvancedSearch').click(function () {
+     $('#ddownAdvancedSearch').fadeToggle()
+	 return false;
+   }); 
 
     // Hide the search options by default and add a handler to toggle them
     // open/closed.
@@ -28,3 +37,8 @@ $(document).ready(function() {
 
     debug("Debug mode enabled");
 });
+
+jQuery.fn.fadeToggle = function(speed, easing, callback) {
+   return this.animate({opacity: 'toggle'}, speed, easing, callback);
+};
+

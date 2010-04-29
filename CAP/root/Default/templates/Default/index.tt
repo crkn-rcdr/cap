@@ -5,7 +5,99 @@
   USE XML.Escape;
 -%]
 
-[%- INCLUDE 'include/form_search_basic.tt' -%]
-<!--
-[%- INCLUDE 'include/form_search_advanced.tt' -%]
--->
+[% META 
+  css = 'index.css'
+%]
+
+
+<div id="containerSplash">
+  <div id="fullWidth">
+    <div id="topNav">
+      <p>New Search&nbsp;&nbsp;|&nbsp;&nbsp;Français</p>
+    </div>
+    <div id="content"> <img id="logo" src="[% c.uri_for(root,'static','images','logo.png')|xml_escape%]" width="343" height="144" />
+      <div id="search">
+        <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+          <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
+          <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images','searchBtn.gif')|xml_escape%]" />
+        <div id="searchOptions">
+          <p><a id="btnAdvancedSearch" href="#">Advanced search</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a id="btnContributors" href="#">Collection contributors</a></p>
+          <div id="ddownAdvancedSearch" style="display:none;">
+            <p> Search</p>
+            <ul>
+              <li>
+		[% radioButton(c, 't', 'all', { id => 'everywhere', class => 'radio' }, 1) %]
+                <label for="everywhere">[% c.loc('everywhere') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 't', 'pages', { id => 'pageText', class => 'radio' }) %]
+                <label for="pageText">[% c.loc("page text") | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 't', 'titles', { id => 'documentMetaData', class => 'radio' }) %]
+                <label for="documentMetaData">[% c.loc('document metadata') | xml_escape %]</label>
+              </li>
+            </ul>
+            <p>Sort</p>
+            <ul>
+              <li>
+		[% radioButton(c, 'so', '', { id => 'relevance', class => 'radio' }, 1) %]
+                <label for="relevance">[% c.loc('relevance') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 'so', 'pubmin asc', { id => 'oldest', class => 'radio' }) %]
+                <label for="oldest">[% c.loc('oldest') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 'so', 'pubmin desc', { id => 'newest', class => 'radio' }) %]
+                <label for="newest">[% c.loc('newest') | xml_escape %]</label>
+              </li>
+            </ul>
+            <p> Language</p>
+            <ul>
+              <li>
+		[% radioButton(c, 'lang', '', { id => 'any', class => 'radio' }, 1) %]
+                <label for="any">[% c.loc('any') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 'lang', 'en', { id => 'en', class => 'radio' }) %]
+                <label for="en">[% c.loc('English') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 'lang', 'fr', { id => 'fr', class => 'radio' }) %]
+                <label for="fr">[% c.loc('French') | xml_escape %]</label>
+              </li>
+            </ul>
+            <p> Publication years </p>
+            <ul>
+              <li>
+                <input type="text" name="dr" value="[% c.session.search.params.dr | xml_escape %]" size="9" />
+              </li>
+            </ul>
+          </div>
+          <div id="ddownContributors" style="display:none;">
+            <ul>
+              <li><a href="#">Lorem ipsum dolor</a></li>
+              <li><a href="#">sit amet consectetuer</a></li>
+              <li><a href="#">adipiscing elised diam</a></li>
+              <li><a href="#">nonummy nibh</a></li>
+              <li><a href="#">euismod tincidunt</a></li>
+              <li><a href="#">ut laoreet dolore magna aliquam</a></li>
+              <li><a href="#">erat volutpat Ut wisi</a></li>
+              <li><a href="#">enim ad minim</a></li>
+              <li><a href="#">veniam</a></li>
+              <li><a href="#">consectetuer</a></li>
+              <li><a href="#">adipiscing elised diam nonummy nibh</a></li>
+              <li><a href="#">euismod tincidunt</a></li>
+              <li><a href="#">ut laoreet dolore</a></li>
+            </ul>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<div id="footer">
+  <p>About Canadian.org | About Canadiana Discovery Portal | Corporate | Privacy Policy and Legal | Copyright © Canadiana.org 2010</p>
+</div>
+</div>

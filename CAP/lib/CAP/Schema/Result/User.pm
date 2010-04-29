@@ -45,8 +45,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("username", ["username"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-01-27 12:55:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:D53688TCbvQG9DGQj+wXew
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-04-27 14:17:38
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8sZhcjUcMoWNylP7EVfFIQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

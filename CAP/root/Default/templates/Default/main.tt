@@ -53,7 +53,7 @@
 
   </head>
 
-  <body>
+<body><!--  
 
     <div class="header">
 
@@ -88,8 +88,9 @@
 
     </div>[% # End header %]
 
-    <div class="content">
+    <div class="content"> -->
     [% content %]
+<!--  
     </div>[% # End content %]
 
     <div class="footer">
@@ -99,7 +100,7 @@
     [%- IF config.tt.debug -%]
     <pre class="debug" id="Debug"></pre>
     [%- END -%]
-
+ -->
   </body>
 
 </html>

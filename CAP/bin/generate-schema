@@ -6,4 +6,4 @@ if [ ! -x "script/cap_create.pl" ]; then
     exit 1
 fi
 echo "(re)generating the database schemas..."
-script/cap_create.pl model DB DBIC::Schema CAP::Schema create=static components=TimeStamp,EncodedColumn dbi:mysql:cap cap
+script/cap_create.pl model DB DBIC::Schema CAP::Schema create=static components=TimeStamp,EncodedColumn dbi:mysql:cap cap catalyst

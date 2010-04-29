@@ -44,8 +44,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-01-27 12:55:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:aMKfuoOT5hpbFj8WpMT0vA
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-04-27 14:17:38
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bvjNOvrY7exxqJTXUp9QwQ
 
 __PACKAGE__->load_components('ForceUTF8');
 __PACKAGE__->resultset_class('CAP::Schema::ResultSet::MasterImage');

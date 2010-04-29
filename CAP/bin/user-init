@@ -9,7 +9,7 @@ use warnings;
 
 use CAP::Schema;
 
-my $schema = CAP::Schema->connect('dbi:mysql:cap', 'cap', '');
+my $schema = CAP::Schema->connect('dbi:mysql:cap', 'cap', 'catalyst');
 
 $schema->resultset('User')->delete;
 $schema->resultset('Role')->delete;

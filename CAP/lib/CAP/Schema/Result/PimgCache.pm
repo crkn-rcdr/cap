@@ -48,8 +48,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id", "format", "size", "rot");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-01-27 12:55:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NwmbevFoop2/ETa4MaDZ9g
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-04-27 14:17:38
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9YVfudWaabF3NJMtgVLTXQ
 #
 #
 __PACKAGE__->load_components('ForceUTF8');
