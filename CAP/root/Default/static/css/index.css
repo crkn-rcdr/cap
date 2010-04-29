@@ -293,6 +293,8 @@ body, html {
 	padding: 0px;
 	background-image:url(../images/bkgSearch.png);
 	background-repeat:no-repeat;
+	position:relative;
+	z-index:600;
 }
 #containerSplash #search input.searchBox {
 	width: 360px;
@@ -328,8 +330,9 @@ body, html {
 	width:210px;
 	font-size:13px;
 	color:#4d280b;
-	z-index:1000;
+	z-index:500;
 }
+
 #containerSplash #searchOptions #ddownAdvancedSearch {
 	float:left;
 	margin:0 0 0 10px;
