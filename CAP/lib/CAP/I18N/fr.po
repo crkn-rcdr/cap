@@ -62,4 +62,15 @@ msgstr "Français"
 msgid "Publication years"
 msgstr "Années de publication"
 
+msgid "About Canadiana.org"
+msgstr "À propos de Canadiana.org"
+
+msgid "About Canadiana Discovery Portal"
+msgstr "À propos du Portail de recherche de Canadiana"
+
+msgid "Corporate"
+msgstr "[Corporate]"
+
+msgid "Privacy Policy and Legal"
+msgstr "Politique sur la vie privée et avis juridiques"
 
