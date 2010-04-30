@@ -261,20 +261,17 @@ body, html {
 
 
 #header {
-    background-image:url(../images/bkgHeaderStretch.png);
     background-repeat:repeat-x;
     background-position:top left;
     height:147px;
     width:100%;
 }
 #headerContent {
-     background-image:url(../images/bkgHeader.png);
      background-repeat:no-repeat;
      background-position:top right;
      height:147px;    
 }
 #headerContent #logo {
-    background-image:url(../images/logoSub.png);
     background-repeat:no-repeat;
     background-position:20px 10px;
     height:85px;
