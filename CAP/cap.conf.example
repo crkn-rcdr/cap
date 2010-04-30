@@ -26,7 +26,7 @@ debug_auth 1
 # Application-Specific Configuration
 #
 
-default_portal hfc
+default_portal co
 
 version 0.20100414
 

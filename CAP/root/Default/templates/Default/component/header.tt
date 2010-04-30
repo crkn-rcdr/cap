@@ -13,7 +13,11 @@
 <div id="header">
     <div id="headerContent">
       <div id="topNav">
-        <p>New Search&nbsp;&nbsp;|&nbsp;&nbsp;Français</p>
+        <p>
+          <a href="[% c.uri_for(root) | xml_escape %]">[% c.loc("New search") | xml_escape %]</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+          [% IF iface != 'fr' %]<a href="[% config.exturi.fr | xml_escape %]">Français</a>[% END %]
+          [% IF iface != 'en' %]<a href="[% config.exturi.en | xml_escape %]">English</a>[% END %]
+        </p>
       </div>
       <div id="logo"> </div>
       <div id="search">
