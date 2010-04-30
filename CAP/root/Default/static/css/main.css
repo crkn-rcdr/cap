@@ -180,6 +180,7 @@ a:hover {
 .search_result td {
     padding-top: 1.5em;
     vertical-align: top;
+    border: 0px solid #ccc;
 }
 
 .search_result p.label {

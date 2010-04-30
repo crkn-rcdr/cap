@@ -1,0 +1,21 @@
+﻿[%
+  # component/footer.tt
+  #
+  #   footer template
+  #
+  # Identifier prefix: se
+  # Modified: 2010-04-30
+
+  USE XML.Escape;
+%]
+
+
+  <div id="doc_footer">
+    <p>
+      <a href="http://www.canadiana.org/about">[% c.loc('About Canadiana.org') | xml_escape %]</a> |
+      <!--[% c.loc('About Canadiana Discovery Portal') | xml_escape %] |-->
+      <!--[% c.loc('Corporate') | xml_escape %] |-->
+      <a href="http://www.canadiana.org/en/legal">[% c.loc('Privacy Policy and Legal') | xml_escape %]</a> |
+      [% c.loc('Copyright © Canadiana.org [_1]', 2010) | xml_escape %]
+    </p>
+  </div>

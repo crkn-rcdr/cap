@@ -10,7 +10,7 @@
 %]
 
 <div id="se">
-  <form class="search"  method="get" action="[% c.uri_for(root, 'search') | xml_escape %]">
+  <form class="search_form"  method="get" action="[% c.uri_for(root, 'search') | xml_escape %]">
     <div>
       <input class="search_terms" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
       <button type="submit">[% c.loc("Search the collection") | xml_escape %]</button>

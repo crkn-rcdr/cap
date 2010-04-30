@@ -6,8 +6,16 @@
 
 -%]
 
+
+[% META 
+  css = 'nonindex.css'
+%]
+<div id="container">
+[% INCLUDE component/header.tt; %]
+  
+<div id="page_contents">
 [%
-  INCLUDE component/search.tt;
+  # INCLUDE component/search.tt;
 
   INCLUDE component/results.tt;
 %]
@@ -29,7 +37,11 @@
 
   # Only include a second search form if there were search results to
   # display.
-  IF result.pages;
-    INCLUDE component/search.tt;
-  END;
+  # IF result.pages;
+  #  INCLUDE component/search.tt;
+  # END;
 %]
+
+</div>
+[% INCLUDE component/footer.tt; %]
+</div>
