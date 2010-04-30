@@ -51,7 +51,7 @@
     END;
   -%]
   <p>
-    [% c.loc("Results page: ") %]
+    [% c.loc("Results page") %]
     [% IF issues.pagePrev %]
       <a href="[% c.uri_for(root, 'show', doc.key, issues.prev_page, c.request.params) %]">
         <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'prev.png') %]" alt="&lt;="/>

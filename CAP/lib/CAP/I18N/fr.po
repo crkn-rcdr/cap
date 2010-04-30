@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../root/Default/templates/Default/index.tt
+# ../../../root/Default/templates/Default/index.tt
 
 msgid "Advanced search"
 msgstr "[Advanced search]"
@@ -76,3 +76,48 @@ msgstr "Politique sur la vie privée et avis juridiques"
 
 msgid "Copyright © Canadiana.org %1"
 msgstr "[Copyright © Canadiana.org %1]"
+
+
+# ../../../root/Default/templates/Default/component/context.tt
+
+msgid "Search results"
+msgstr "Liste des résultats"
+
+msgid "New search"
+msgstr "Nouvelle recherche"
+
+
+# ../../../root/Default/templates/Default/component/issues.tt
+
+msgid "Results page"
+msgstr "Page des résultats"
+
+msgid "Show only issues published between the years"
+msgstr "Afficher uniquement les numéros publiés entre les années"
+
+msgid "and"
+msgstr "et"
+
+msgid "Results %1 - %2 of %3"
+msgstr "%1 - %2 de %3 résultats"
+
+msgid "No issues found"
+msgstr "[No issues found]"
+
+
+# ../../../root/Default/templates/Default/component/navigation.tt
+
+msgid "Issue"
+msgstr "Numéro"
+
+msgid "Page"
+msgstr "Page"
+
+msgid "Item"
+msgstr "[Item]"
+
+msgid "of %1"
+msgstr "de %1"
+
+msgid "Show"
+msgstr "Afficher"

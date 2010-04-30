@@ -39,7 +39,7 @@
       %]
       <input type="text" name="rel"  size="5" value="[% sibling_position %]"/>
       [% c.loc("of [_1]", sibling_count) | xml_escape %]
-      <button type="submit">[% c.loc("Go") %]</button>
+      <button type="submit">[% c.loc("Show") %]</button>
     </div>
   </form>
   [%- END -%]

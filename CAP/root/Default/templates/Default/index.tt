@@ -16,11 +16,11 @@
       [% IF iface != 'fr' %]<p><a href="[% config.exturi.fr | xml_escape %]">Français</a></p>[% END %]
       [% IF iface != 'en' %]<p><a href="[% config.exturi.en | xml_escape %]">English</a></p>[% END %]
     </div>
-    <div id="content"> <img id="logo" src="[% c.uri_for(root,'static','images','logo.png')|xml_escape%]" width="343" height="144" />
+    <div id="content"> <img id="logo" src="[% c.uri_for(root,'static','images', "logo_${iface}.png")|xml_escape%]" width="343" height="144" />
       <div id="search">
         <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
           <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
-          <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images','searchBtn.gif')|xml_escape%]" />
+          <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
         <div id="searchOptions">
           <p>
             <a id="btnAdvancedSearch" href="#">[% c.loc('Advanced search') | xml_escape %]</a>
