@@ -51,7 +51,7 @@
         [%- END -%]
         </p>
         <p>
-          [%- c.loc("Show:") -%]
+          [%- c.loc("Show") -%]
           <a href="[% c.uri_for(root, 'show', doc.pkey) | xml_escape %]">[%- c.loc("document record") | xml_escape -%]</a>
           [%- IF c.req.params.q -%]
             | <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("pages containing: [_1]", c.req.params.q) | xml_escape -%]</a>
@@ -92,14 +92,14 @@
         -%]
         <p class="label"><a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a></p>
         <p>
-          [%- c.loc("Show:") -%]
+          [%- c.loc("Show") -%]
           <a href="[% c.uri_for(root, 'show', doc.pkey) | xml_escape %]">[%- c.loc("series record") | xml_escape -%]</a>
           | <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("all issues") | xml_escape -%]</a>
         </p>
       [%- ELSIF doc.type == "serial" -%]
         <p class="label"><a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a></p>
         <p>
-          [%- c.loc("Show:") -%]
+          [%- c.loc("Show") -%]
           <a href="[% c.uri_for(root, 'search', { t => 'all', pkey => doc.pkey, so => 'seq asc'}) | xml_escape %]">[%- c.loc("all issues") | xml_escape -%]</a>
         </p>
       [%- ELSE -%]

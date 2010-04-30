@@ -51,7 +51,7 @@
     <form method="post" action="[% c.uri_for(root, 'post') | xml_escape %]">
       <div>
         <input type="hidden" name="0" value="show"/>
-        [% c.loc("View Page:") | xml_escape %]
+        [% c.loc("Page") | xml_escape %]
         <select id="ui_select_page" name="1">
         [%- FOREACH page IN pages -%]
           [%- 
@@ -62,14 +62,11 @@
             END;
           -%]
           <option value="[% page.key | xml_escape %]"[% selected %]>
-          [%- IF page.pageno && page.feature -%][% c.loc("p. [_1] ([_2])", page.pageno, page.feature.join(", ")) | xml_escape -%]
-          [%- ELSIF page.pageno -%][%- c.loc("p. [_1]", page.pageno) | xml_escape -%]
-          [%- ELSIF page.feature -%][%- c.loc(page.feature.join(", ")) | xml_escape -%]
-          [%- ELSE -%][%- c.loc("Image [_1]", page.seq) | xml_escape %][%- END -%]
+          [% page.clabel | xml_escape %]
           </option>
         [%- END %]
         </select>
-        <button id="ui_select_submit" type="submit">[% c.loc("Go") | xml_escape %]</button>
+        <button id="ui_select_submit" type="submit">[% c.loc("Show") | xml_escape %]</button>
       </div>
     </form>
   [%- END -%]

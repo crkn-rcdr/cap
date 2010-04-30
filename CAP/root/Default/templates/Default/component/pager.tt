@@ -28,7 +28,7 @@
 
 [% IF result.pages %]
   <div id="rp">
-    [% c.loc("Results page: ") %]
+    [% c.loc("Results page") %]
     [% IF result.pagePrev %]
       <a href="[% c.uri_for(root, 'search', result.pagePrev, c.request.params) %]">
         <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'prev.png') %]" alt="&lt;="/>

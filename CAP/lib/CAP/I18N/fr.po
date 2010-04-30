@@ -121,3 +121,99 @@ msgstr "de %1"
 
 msgid "Show"
 msgstr "Afficher"
+
+
+# ../../../root/Default/templates/Default/component/record.tt
+
+msgid "Less detail"
+msgstr "Description brève "
+
+msgid "More detail"
+msgstr "Description longue"
+
+msgid "Author"
+msgstr "Auteur"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Publication"
+msgstr "[Publication]"
+
+msgid "Issues"
+msgstr "Numéros"
+
+msgid "Subject"
+msgstr "Sujet"
+
+msgid "Published"
+msgstr "Éditeur"
+
+msgid "Note"
+msgstr "Note"
+
+msgid "Descriptor"
+msgstr "[Descriptor]"
+
+msgid "Summary"
+msgstr "[Summary]"
+
+msgid "Abstract"
+msgstr "[Abstract]"
+
+msgid "First issue"
+msgstr "Premier numéro"
+
+msgid "Last issue"
+msgstr "Dernier numéro"
+
+msgid "Contributor"
+msgstr "Collaborateur"
+
+msgid "Web site"
+msgstr "Site web"
+
+# ../../../root/Default/templates/Default/component/results.tt
+
+msgid "Nothing found"
+msgstr "[Nothing found]"
+
+msgid "No items match your search criteria"
+msgstr "[No items match your search criteria]"
+
+msgid "1 result"
+msgstr "1 résultat"
+
+msgid "%1 results"
+msgstr "%1 résultats"
+
+msgid "Results [_1] - [_2] of [_3]"
+msgstr "[_1] - [_2] de [_3] résultats"
+
+
+# ../../../root/Default/templates/Default/component/rlist.tt
+
+msgid "document record"
+msgstr "notice du document"
+
+msgid "all issues"
+msgstr "tous les numéros"
+
+msgid "pages containing: %1"
+msgstr "pages contenant : %1"
+
+msgid "%1 matching pages"
+msgstr "%1 pages correspondantes"
+
+msgid "Search document for pages containing: %1"
+msgstr "Rechercher les pages du document contenant : %1"
+
+
+# ../../../root/Default/templates/Default/component/site.tt
+
+msgid "Hide web site"
+msgstr "Cacher le site web"
+
+msgid "Show web site: %1"
+msgstr "Afficher le site web: %1"
+
