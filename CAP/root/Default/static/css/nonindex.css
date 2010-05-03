@@ -249,6 +249,10 @@ body, html {
     height:100%;
 }
 
+#container {
+    position: relative;
+    
+}
 #container #topNav {
     float:right;
     padding:0px 0px 0 0;
@@ -368,21 +372,22 @@ body, html {
     z-index:1;
 }
 
-#page_contents {
+#page_bottom  {
     position:absolute;
 	top:146px;
 	left:0px;
 	right:0px;
+	bottom:0px;
+}
+
+#container #page_bottom #page_contents {
+	width:100%;
     padding-left: 25px;
-    border: 0px solid #ccc;
 }
 
 
-#doc_footer {
-        position:absolute;
-		bottom:0px;
-		left:0px;
-		right:0px;
+#container #page_bottom #doc_footer {
+        width:100%;
         padding-top:25px;
         padding-bottom:25px;
         vertical-align: baseline;

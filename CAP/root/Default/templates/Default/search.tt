@@ -13,6 +13,7 @@
 <div id="container">
 [% INCLUDE component/header.tt; %]
   
+<div id="page_bottom">
 <div id="page_contents">
 [%
   # INCLUDE component/search.tt;
@@ -44,4 +45,5 @@
 
 </div>
 [% INCLUDE component/footer.tt; %]
+</div>
 </div>
