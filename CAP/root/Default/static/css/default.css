@@ -154,6 +154,10 @@ div.user {
     visibility: hidden;
 }
 
+#rc {
+    border: 0px solid #000000;
+}
+
 .toolbar {
     display: block;
     position: relative;
