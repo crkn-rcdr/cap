@@ -74,7 +74,7 @@
       { brief => 0, value => doc.ti, key => undef, label => "Title" },
       {
         brief => 1, value => ancestors.first.type == 'serial' && ancestors.first.label
-        key => ancestors.first.key, label => "Publication"
+        key => ancestors.first.key, label => "Series"
       },
       { brief => 1, value => issue_count, key => undef, label => "Issues" },
       { brief => 0, value => doc.su, key => undef, label => "Subject" },

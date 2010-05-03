@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# CAP Translations file - French.
+# Copyright (C) 2010 Canadiana.org
+# This file is distributed under the same license as the CAP package.
+# William Wueppelmann <william.wueppelmann@canadiana.ca>, 2010.
 #
 #, fuzzy
 msgid ""
@@ -18,10 +18,10 @@ msgstr ""
 # ../../../root/Default/templates/Default/index.tt
 
 msgid "Advanced search"
-msgstr "[Advanced search]"
+msgstr "Recherche avancée"
 
 msgid "Collection contributors"
-msgstr "[Collection contributors]"
+msgstr "Collaborateurs"
 
 msgid "Search"
 msgstr "Rechercher"
@@ -36,7 +36,7 @@ msgid "document metadata"
 msgstr "métadonnées du document"
 
 msgid "Sort"
-msgstr "Trier"
+msgstr "Trier par"
 
 msgid "relevance"
 msgstr "pertinence"
@@ -54,10 +54,10 @@ msgid "any"
 msgstr "toutes"
 
 msgid "English"
-msgstr "Anglais"
+msgstr "anglais"
 
 msgid "French"
-msgstr "Français"
+msgstr "français"
 
 msgid "Publication years"
 msgstr "Années de publication"
@@ -75,7 +75,7 @@ msgid "Privacy Policy and Legal"
 msgstr "Politique sur la vie privée et avis juridiques"
 
 msgid "Copyright © Canadiana.org %1"
-msgstr "[Copyright © Canadiana.org %1]"
+msgstr "Droit d'auteur © Canadiana.org %1"
 
 
 # ../../../root/Default/templates/Default/component/context.tt
@@ -137,8 +137,8 @@ msgstr "Auteur"
 msgid "Title"
 msgstr "Titre"
 
-msgid "Publication"
-msgstr "[Publication]"
+msgid "Series"
+msgstr "Série"
 
 msgid "Issues"
 msgstr "Numéros"
@@ -156,10 +156,10 @@ msgid "Descriptor"
 msgstr "[Descriptor]"
 
 msgid "Summary"
-msgstr "[Summary]"
+msgstr "Sommaire"
 
 msgid "Abstract"
-msgstr "[Abstract]"
+msgstr "Résumé"
 
 msgid "First issue"
 msgstr "Premier numéro"
@@ -176,10 +176,10 @@ msgstr "Site web"
 # ../../../root/Default/templates/Default/component/results.tt
 
 msgid "Nothing found"
-msgstr "[Nothing found]"
+msgstr "Aucun résultat"
 
 msgid "No items match your search criteria"
-msgstr "[No items match your search criteria]"
+msgstr "Votre recherche n'a produit aucun résultat"
 
 msgid "1 result"
 msgstr "1 résultat"
