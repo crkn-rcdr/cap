@@ -155,7 +155,12 @@ div.user {
 }
 
 #rc {
-    border: 0px solid #000000;
+    border: 1px solid #ccc;
+}
+
+#rc table ul li {
+    list-style-type: none;
+
 }
 
 .toolbar {

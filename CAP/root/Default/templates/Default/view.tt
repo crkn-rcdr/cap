@@ -16,6 +16,11 @@
   
 <div id="page_bottom">
 <div id="page_contents">
+
+[% 
+  INCLUDE component/context.tt;
+  INCLUDE component/navigation.tt;
+%]
   
 [%  IF doc.type != 'page' || config.tt.portal;
     INCLUDE component/record.tt;
