@@ -21,7 +21,7 @@ msgid "Advanced search"
 msgstr "Recherche avancée"
 
 msgid "Collection contributors"
-msgstr "Collaborateurs"
+msgstr "Organisations collaboratrices"
 
 msgid "Search"
 msgstr "Rechercher"
@@ -69,13 +69,13 @@ msgid "About Canadiana Discovery Portal"
 msgstr "À propos du Portail de recherche de Canadiana"
 
 msgid "Corporate"
-msgstr "[Corporate]"
+msgstr "Enterprises"
 
 msgid "Privacy Policy and Legal"
 msgstr "Politique sur la vie privée et avis juridiques"
 
 msgid "Copyright © Canadiana.org %1"
-msgstr "Droit d'auteur © Canadiana.org %1"
+msgstr "© Canadiana.org %1"
 
 
 # ../../../root/Default/templates/Default/component/context.tt
@@ -102,7 +102,7 @@ msgid "Results %1 - %2 of %3"
 msgstr "%1 - %2 de %3 résultats"
 
 msgid "No issues found"
-msgstr "[No issues found]"
+msgstr "Aucun numéro toruvé"
 
 
 # ../../../root/Default/templates/Default/component/navigation.tt
@@ -114,7 +114,7 @@ msgid "Page"
 msgstr "Page"
 
 msgid "Item"
-msgstr "[Item]"
+msgstr "Article"
 
 msgid "of %1"
 msgstr "de %1"
@@ -153,7 +153,7 @@ msgid "Note"
 msgstr "Note"
 
 msgid "Descriptor"
-msgstr "[Descriptor]"
+msgstr "Descripteur"
 
 msgid "Summary"
 msgstr "Sommaire"
