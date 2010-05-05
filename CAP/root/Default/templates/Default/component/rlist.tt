@@ -100,7 +100,7 @@
         <p class="label"><a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a></p>
         <p>
           [%- c.loc("Show") -%]
-          <a href="[% c.uri_for(root, 'search', { t => 'all', pkey => doc.pkey, so => 'seq asc'}) | xml_escape %]">[%- c.loc("all issues") | xml_escape -%]</a>
+          <a href="[% c.uri_for(root, 'search', { t => 'all', pkey => doc.key, so => 'seq asc'}) | xml_escape %]">[%- c.loc("all issues") | xml_escape -%]</a>
         </p>
       [%- ELSE -%]
         <p class="label">!<a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label %]</a></p>

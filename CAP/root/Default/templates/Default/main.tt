@@ -53,7 +53,8 @@
 
   </head>
 
-<body><!--  
+<body id="main">
+    <!--  
 
     <div class="header">
 

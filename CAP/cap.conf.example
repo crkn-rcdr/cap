@@ -28,21 +28,24 @@ debug_auth 1
 
 default_portal co
 
-version 0.20100414
+version 0.1
 
 # These path names must be relative to the application 'root'.
 
 # Root of the repository
-repository ../../../data/repos
+#repository ../../../data/repos
+repository /Users/william/Projects/portal/content
 
 # Where uploaded files go
 uploads ../../../data/uploads
 
 # Path to the content repository (TIFF images, PDFs, etc.)
-content /Users/william/co/content
+#content /Users/william/co/content
+content /Users/william/Projects/portal/content
 
 # Where we can find the application profiles
-profiles /Users/william/co/cap/tools/profiles
+#profiles /Users/william/co/cap/tools/profiles
+profiles /Users/william/Projects/svn/cap-trunk/tools/profiles
 
 # Number of issues or other child elements to display at a time.
 children_per_page 10
@@ -50,7 +53,7 @@ children_per_page 10
 # Where we can find the NetPBM programs
 netpbm_path /opt/local/bin
 
-# The MIME types we can presently handle.
+# The MIME types we can presently handle - should be deprecated
 <MimeTypes>
   image/tiff = true
   image/jpeg = true
@@ -67,11 +70,11 @@ netpbm_path /opt/local/bin
 
 <solr>
 
-  select_uri http://localhost:8984/solr/select
-  update_uri http://localhost:8984/solr/update
+  select_uri http://localhost:8983/solr/select
+  update_uri http://localhost:8983/solr/update
 
   # Comment this out or set to 0 if you're getting double-encoding
-  # problems from the Web server (e.g. fastcgi)
+  # problems from the Web server (e.g. fastcgi) - should be deprecated
   utf8_encode 0
 
   <fields>
@@ -103,13 +106,16 @@ netpbm_path /opt/local/bin
 
 </solr>
 
-# Configurable template options
+# Configurable template options - these are soon to be deprecated
 <Display>
   thumbsize 50 # default thumbnail size
   # Default width for page images
   imgsize 500
 </Display>
 
+
+# Controls whether an action can be accessed at all, whether it is public,
+# and if not, what role(s) are allowed to access the action.
 
 <action "/auth/login">
   enabled true
@@ -217,70 +223,18 @@ netpbm_path /opt/local/bin
   public false
 </action>
 
-
-<actions>
-  # Core user API
-
-  # Administrative API
-  /content/cleanup !
-  /content/commit  !
-  /content/ingest  !
-  /content/upload  !
-
-
-  /index *
-  /auth/login *
-  /auth/logout *
-  /file/file *
-  /file/get *
-  /page *
-  /post *
-  /search/search *
-  /show/show *
-  /test_error *
-  /static *
-
-  /system/index ! 
-  /system/i18n !
-
-  /user/index !
-  /user/create !
-  /user/edit !
-  /user/roles !
-</actions>
-
+# List of valid contributor namespaces with the name of the contributor.
 <contributor>
   oocihm Canadiana.org
-  ooe Department of Foreign Affairs and International Trade
-  qmbn Bibliothèque et Archives Nationales du Québec
+  ooe    Department of Foreign Affairs and International Trade
+  qmbn   Bibliothèque et Archives Nationales du Québec
 </contributor>
 
+# Automatically prefix an application and interface to all requests
+# using the specified URL. The trailing slash must be included.
 <prefix>
-    #http://localhost:3000/ dfait/en
-    #http://localhost:3000/ admin/en
-    #http://dfait.cihm/ dfait/en
-    http://www.canadianaenligne.ca/ co/fr
-    http://www.canadianaonline.ca/ co/en
+  # Example:
+  # http://www.myserver.com/ = myapp/en
+  # Requests for http://www.myserver.com/foo will be processed as myap/en/foo, not foo
 </prefix>
 
-# Where to look for additional portal configurations, relative to the
-# application root.
-#portals ../portals
-
-# You can configure individual portals here instead of putting them in
-# their own configuration file by naming them. E.g.,
-# configure portal "foo" within <portal><foo>...</foo></portal>. This may
-# improve performance because the server doesn't have to re-read the
-# external config file for each request, but any changes made here require
-# restarting the server, whereas the config file in $portals are "live."
-# If you name a portal "foo" here and have a $portals/foo.conf file, the
-# latter will completely clobber the configuration here.
-#<portal>
-# Even if this is empty, it still needs to exist, for now.
-#</portal>
-
-# List of valid contributor codes/userids with descriptions
-#<Contributors>
-#    oocihm Canadiana.org
-#    ooe Department of Foreign Affairs and International Trade
-#</Contributors>
