@@ -1,6 +1,3 @@
-@charset "utf-8";
-/* CSS Document */
-
 /*
 Copyright (c) 2010, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
@@ -9,19 +6,19 @@ version: 3.1.0
 build: 2026
 */
 /*
-    TODO will need to remove settings on HTML since we can't namespace it.
-    TODO with the prefix, should I group by selector or property for weight savings?
+	TODO will need to remove settings on HTML since we can't namespace it.
+	TODO with the prefix, should I group by selector or property for weight savings?
 */
 html{
-    color:#000;
-    background:#FFF;
+	color:#000;
+	background:#FFF;
 }
 /*
-    TODO remove settings on BODY since we can't namespace it.
+	TODO remove settings on BODY since we can't namespace it.
 */
 /*
-    TODO test putting a class on HEAD.
-        - Fails on FF. 
+	TODO test putting a class on HEAD.
+		- Fails on FF. 
 */
 body,
 div,
@@ -48,22 +45,19 @@ p,
 blockquote,
 th,
 td {
-    margin:0;
-    padding:0;
-    border:0;
+	margin:0;
+	padding:0;
 }
 table {
-    border-collapse:collapse;
-    border-spacing:0;
-    border:0;
-    border:0px solid #000;
+	border-collapse:collapse;
+	border-spacing:0;
 }
 fieldset,
 img {
-    border:0;
+	border:0;
 }
 /*
-    TODO think about hanlding inheritence differently, maybe letting IE6 fail a bit...
+	TODO think about hanlding inheritence differently, maybe letting IE6 fail a bit...
 */
 address,
 caption,
@@ -74,19 +68,19 @@ em,
 strong,
 th,
 var {
-    font-style:normal;
-    font-weight:normal;
+	font-style:normal;
+	font-weight:normal;
 }
 /*
-    TODO Figure out where this list-style rule is best set. Hedger has a request to investigate.
+	TODO Figure out where this list-style rule is best set. Hedger has a request to investigate.
 */
 li {
-    list-style:none;
+	list-style:none;
 }
 
 caption,
 th {
-    text-align:left;
+	text-align:left;
 }
 h1,
 h2,
@@ -94,36 +88,36 @@ h3,
 h4,
 h5,
 h6 {
-    font-size:100%;
-    font-weight:normal;
+	font-size:100%;
+	font-weight:normal;
 }
 q:before,
 q:after {
-    content:'';
+	content:'';
 }
 abbr,
 acronym {
-    border:0;
-    font-variant:normal;
+	border:0;
+	font-variant:normal;
 }
 /* to preserve line-height and selector appearance */
 sup {
-    vertical-align:text-top;
+	vertical-align:text-top;
 }
 sub {
-    vertical-align:text-bottom;
+	vertical-align:text-bottom;
 }
 input,
 textarea,
 select {
-    font-family:inherit;
-    font-size:inherit;
-    font-weight:inherit;
+	font-family:inherit;
+	font-size:inherit;
+	font-weight:inherit;
 }
 
 /*because legend doesn't inherit in IE */
 legend {
-    color:#000;
+	color:#000;
 }/*
 Copyright (c) 2010, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
@@ -133,73 +127,74 @@ build: 2026
 */
 /* base.css, part of YUI's CSS Foundation */
 h1 {
-    /*18px via YUI Fonts CSS foundation*/
-    font-size:138.5%;  
+	/*18px via YUI Fonts CSS foundation*/
+	font-size:138.5%;
+	position: relative;
 }
 h2 {
-    /*16px via YUI Fonts CSS foundation*/
-    font-size:123.1%; 
+	/*16px via YUI Fonts CSS foundation*/
+	font-size:123.1%; 
 }
 h3 {
-    /*14px via YUI Fonts CSS foundation*/
-    font-size:108%;  
+	/*14px via YUI Fonts CSS foundation*/
+	font-size:108%;  
 }
 h1,h2,h3 {
-    /* top & bottom margin based on font size */
-    margin:1em 0;
+	/* top & bottom margin based on font size */
+	margin:1em 0;
 }
 h1,h2,h3,h4,h5,h6,strong {
-    /*bringing boldness back to headers and the strong element*/
-    font-weight:bold; 
+	/*bringing boldness back to headers and the strong element*/
+	font-weight:bold; 
 }
 abbr,acronym {
-    /*indicating to users that more info is available */
-    border-bottom:1px dotted #000;
-    cursor:help;
+	/*indicating to users that more info is available */
+	border-bottom:1px dotted #000;
+	cursor:help;
 } 
 em {
-    /*bringing italics back to the em element*/
-    font-style:italic;
+	/*bringing italics back to the em element*/
+	font-style:italic;
 }
 blockquote,ul,ol,dl {
-    /*giving blockquotes and lists room to breath*/
-    margin:1em;
+	/*giving blockquotes and lists room to breath*/
+	margin:1em;
 }
 ol,ul,dl {
-    /*bringing lists on to the page with breathing room */
-    margin-left:2em;
+	/*bringing lists on to the page with breathing room */
+	margin-left:2em;
 }
 ol li {
-    /*giving OL's LIs generated numbers*/
-    list-style: decimal outside;    
+	/*giving OL's LIs generated numbers*/
+	list-style: decimal outside;	
 }
 ul li {
-    /*giving UL's LIs generated disc markers*/
-    list-style: disc outside;
+	/*giving UL's LIs generated disc markers*/
+	list-style: disc outside;
 }
 dl dd {
-    /*providing spacing for definition terms*/
-    margin-left:1em;
+	/*providing spacing for definition terms*/
+	margin-left:1em;
 }
 th,td {
-    /*borders and padding to make the table readable*/
-    border:0px solid #000;
-    padding:.5em;
+	/*borders and padding to make the table readable*/
+	border:0px solid #ffffff;
+	padding:.5em;
 }
 th {
-    /*distinguishing table headers from data cells*/
-    font-weight:bold;
-    text-align:center;
+	/*distinguishing table headers from data cells*/
+	font-weight:bold;
+	text-align:center;
 }
 caption {
-    /*coordinated margin to match cell's padding*/
-    margin-bottom:.5em;
-    /*centered so it doesn't blend in to other content*/
-    text-align:center;
+	/*coordinated margin to match cell's padding*/
+	margin-bottom:.5em;
+	/*centered so it doesn't blend in to other content*/
+	text-align:center;
 }
 p,fieldset,table,pre {
-    /*so things don't run into each other*/
-    margin-bottom:1em;
+	/*so things don't run into each other*/
+	margin-bottom:1em;
 }
 /* setting a consistent width, 160px; 
    control of type=file still not possible */
@@ -216,7 +211,7 @@ build: 2026
  * x-small is for IE6/7 quirks mode.
  */
 body {
-    font:13px/1.231 arial,helvetica,clean,sans-serif;
+	font:13px/1.231 arial,helvetica,clean,sans-serif;
 }
 
 /**
@@ -226,15 +221,15 @@ select,
 input,
 button,
 textarea {
-    font:99% arial,helvetica,clean,sans-serif;
+	font:99% arial,helvetica,clean,sans-serif;
 }
 
 /**
  * To help tables remember to inherit
  */
 table {
-    font-size:inherit;
-    font:100% arial,helvetica,clean,sans-serif;
+	font-size:inherit;
+	font:100% arial,helvetica,clean,sans-serif;
 }
 
 /**
@@ -245,203 +240,168 @@ code,
 kbd,
 samp,
 tt {
-    font-family:monospace;
-    line-height:100%;
-}
+	font-family:monospace;
+	line-height:100%;
+}@charset "utf-8";
+/* CSS Document */
 body, html {
-    height:100%;
+	height:100%;
 }
 
 #container {
-    position: relative;
-    
+	position: static;
+	top:0px;
+	bottom:0px;
+	width: 100%;
 }
+
 #container #topNav {
-    float:right;
-    padding:0px 0px 0 0;
-    margin:10px 20px 0 0;
-    text-align:right;
-    font-size:10px;
-    font-weight:bold;
-    color:#937d6a;
+	float:right;
+	padding:0px 0px 0 0;
+	margin:10px 20px 0 0;
+	text-align:right;
+	font-size:10px;
+	font-weight:bold;
+	color:#937d6a;
 }
 
 
 #header {
-    background-repeat:repeat-x;
-    background-position:top left;
-    height:147px;
-    width:100%;
+	position: static;
+	top: 0px;
+	bottom:147px;
+	width:100%;
+	background-image:url(../images/bkgHeaderStretch.png);
+	background-repeat:repeat-x;
+	background-position:top left;
 }
 #headerContent {
-     background-repeat:no-repeat;
-     background-position:top right;
-     height:147px;    
+	 background-image:url(../images/bkgHeader.png);
+	 background-repeat:no-repeat;
+	 background-position:top right;
+	 height:147px;	
+     /* border: 1px solid #000077; */
 }
 #headerContent #logo {
-    background-repeat:no-repeat;
-    background-position:20px 10px;
-    height:85px;
-    width:650px;
-    float:left;
+	background-image:url(../images/logoSub.png);
+	background-repeat:no-repeat;
+	background-position:20px 10px;
+	height:85px;
+	width:650px;
+	float:left;
 }
 
 
 #header #headerContent #search {
-    width:100%;
-    margin:0px 16px 0px 0;
-    padding: 10px 0 0 0px;
-    float:right;
+	width:100%;
+	margin:0px 16px 0px 0;
+	padding: 10px 0 0 0px;
+	float:right;
 }
 #header #headerContent #search input.searchBox {
-    width: 260px;
-    height:21px;
-    margin:0px 10px 0px 30px;
-    border: 1px solid #971232;
-    float:right;
+	position:absolute;
+	right: 100px;
+	width: 260px;
+	height:21px;
+	margin:0px 10px 0px 30px;
+	border: 1px solid #971232;
+	float:right;
 }
 #header #headerContent #search input.searchBtn {
-    margin:0px 0px 0px 0;
-    float:right;    
+	margin:0px 0px 0px 0;
+	float:right;	
 }
 #header #headerContent #searchOptions {
-    position:relative;
-    z-index:1000;
-    font-size:12px;
-    font-weight:bold;
-    color:#937d6a;
-    margin:3px 0 0 0;
-    text-align:left;
-    float:right;
+	position:absolute;
+	right: 320px;
+	width:400px;
+	z-index:1000;
+	font-size:12px;
+	font-weight:bold;
+	color:#937d6a;
+	margin:3px 0 0 0;
+	text-align:center;
+	float:right;
 }
 #header #headerContent #searchOptions a {
-    text-decoration:none;
-    color:#937d6a;
+	text-decoration:none;
+	color:#937d6a;
 }
 #header #headerContent #searchOptions a:hover {
-    text-decoration:underline;
-    color:#971232;
+	text-decoration:underline;
+	color:#971232;
 }
  #ddownAdvancedSearch,  #ddownContributors {
-    text-align:left;
-    background-color:white;
-    border: 1px solid #971232;
-    padding:10px 0 0px 10px;
-    font-size:13px;
-    color:#4d280b;
-    z-index:1000;
+	position:absolute;
+	text-align:left;
+	background-color:white;
+	border: 1px solid #971232;
+	padding:10px 0 0px 10px;
+	font-size:13px;
+	color:#4d280b;
+	z-index:1000;
 }
  #ddownAdvancedSearch {
-    float:left;
-    margin:0 0px 0 0px;
-    width:210px;    
+	position:absolute;
+	right: 215px;
+	margin:0 0px 0 0px;
+	width:210px;	
 }
  #ddownContributors {
-    float:right;
-    margin:0px 0px 0 0px;
-    width:190px;    
+	position:absolute;
+	left: 185px;
+	margin:0px 0px 0 0px;
+	width:190px;	
 }
  #ddownAdvancedSearch a,  #ddownContributors a {
-    text-decoration:none;
-    color:#4d280b;
+	text-decoration:none;
+	color:#4d280b;
 }
  #ddownAdvancedSearch a:hover,  #ddownContributors a:hover {
-    text-decoration:underline;
-    color:#971232;
+	text-decoration:underline;
+	color:#971232;
 }
  #ddownAdvancedSearch li,  #ddownContributors li {
-    list-style:none;
-    padding:0px 0px 0px 0px;
-    margin:0px 0px 5px 0px;
+	list-style:none;
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 5px 0px;
 }
  #ddownAdvancedSearch ul,  #ddownContributors ul {
-    margin-top:-10px;
+	margin-top:-10px;
 }
  #ddownContributors ul {
-    margin-top:0px;
+	margin-top:0px;
 }
 
  #ddownAdvancedSearch input.radio {
-    padding:0px 0px 0px 0px;
-    margin:0px 3px 0px 0px;
-    vertical-align:middle;
+	padding:0px 0px 0px 0px;
+	margin:0px 3px 0px 0px;
+	vertical-align:middle;
 }
 
+#content {
+	position: static;
+	margin-left: auto;
+	margin-right: auto;
+	top:148px;
+	width: 96%;
+	vertical-align: top;
+}
 
 #footer {
-    position:absolute;
-    bottom:10px;
-    width:100%;
-    z-index:1;
+	position:static;
+	bottom:10px;
+	width:100%;
+	z-index:1;
 }
 
-#page_bottom  {
-    position:absolute;
-	top:146px;
-	left:0px;
-	right:0px;
-	bottom:0px;
+#footer p {
+	text-align:center;
+	font-size:10px;
+	margin:10px 0 0 0;
+	color:#937d6a;
 }
 
-#container #page_bottom #page_contents {
-    width: 96%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-#container #page_bottom #doc_footer {
-        width:100%;
-        padding-top:25px;
-        padding-bottom:25px;
-        vertical-align: baseline;
-}
-
-#doc_footer a {
+#footer a { 
     color:#937d6a;
-}
-
-#footer p, #doc_footer p {
-    text-align:center;
-    font-size:10px;
-    margin:10px 0 0 0;
-    color:#937d6a;
-}
-
-#footer #bottomSearch {
-    width:100%;
-    height:51px;
-    padding: 0px;
-    background-image:url(../images/bkgBottomSearch.png);
-    background-repeat:no-repeat;
-    background-position:center;
-    margin:0 0 50px 0;
-}
-#footer #bottomSearch input.searchBox {
-    width: 360px;
-    height:21px;
-    margin:13px 10px 0px 30px;
-    border: 1px solid #971232;
-}
-#footer #bottomSearch input.searchBtn {
-    margin:0px 0px -9px 0;
-}
-#footer #bottomSearch #bottomSearchOptions {
-    color:#937d6a;
-    width:515px;
-    margin:0 auto;
-    margin-top:20px;
-    text-align:center;
-}
-#footer #bottomSearch #bottomSearchOptions p {
-    font-size:12px;
-    font-weight:bold;
-}
-#footer #bottomSearch #bottomSearchOptions a {
-    text-decoration:none;
-    color:#937d6a;
-}
-#footer #bottomSearch #bottomSearchOptions a:hover {
-    text-decoration:underline;
-    color:#971232;
 }

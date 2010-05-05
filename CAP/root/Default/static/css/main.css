@@ -117,6 +117,7 @@ a:hover {
     border-top: 1px solid #ccc;
 }
 
+/*
 .footer {
     display: block;
     position: relative;
@@ -129,6 +130,7 @@ a:hover {
     padding: 0;
     padding-top: 0.5em;
 }
+*/
 
 .debug {
     display: block;

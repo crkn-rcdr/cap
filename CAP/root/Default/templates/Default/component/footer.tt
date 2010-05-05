@@ -10,7 +10,7 @@
 %]
 
 
-  <div id="doc_footer">
+  <div id="footer">
     <p>
       <a href="http://www.canadiana.org/about">[% c.loc('About Canadiana.org') | xml_escape %]</a> |
       <!--[% c.loc('About Canadiana Discovery Portal') | xml_escape %] |-->
