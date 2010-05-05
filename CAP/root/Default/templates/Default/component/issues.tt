@@ -71,6 +71,5 @@
     [% END %]
   </p>
 
-  [%- INCLUDE 'include/form_search_basic.tt' -%]
 [%- END -%]
 [% END %]
