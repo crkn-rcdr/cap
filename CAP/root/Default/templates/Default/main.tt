@@ -28,9 +28,7 @@
     </title>
   [%- END -%]
 
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'default.css') %]"/>
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'main.css') %]"/>
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'component.css') %]"/>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'cap.css') %]"/>
     [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]"/>
     <script type="text/javascript">
@@ -54,54 +52,9 @@
   </head>
 
 <body id="main">
-    <!--  
-
-    <div class="header">
-
-    [%- # As with the title, display the portal name if configured; otherwise use the generic app name -%]
-    [%- IF config.label -%]
-      <h1 class="title">[% c.loc(config.label) | xml_escape %]</h1>
-    [%- ELSE -%]
-      <h1 class="title">[% c.loc("DCBE Prototype v. [_1]", c.config.version) | xml_escape %]</h1>
-    [%- END -%]
-
-      [%- # Show information about the current user and login + language options -%]
-      <ul class="user">
-        <li><a href="[% c.uri_for(root) %]">[% c.loc("New Search") %]</a></li>
-        <li><a href="[% c.uri_for(root, 'page', 'about') %]">[% c.loc("About") %]</a></li>
-      [%- IF config.tt.login -%]
-        [%- IF c.user_exists -%]
-        <li><a href="[% c.uri_for(root, 'logout') %]">[% c.loc("Log Out") %]</a></li>
-        [%- ELSE -%]
-        <li><a href="[% c.uri_for(root, 'login') %]">[% c.loc("Log In") %]</a></li>
-        [%- END -%]
-      [%- END -%]
-      [%- IF iface != 'fr' -%]
-        <li><a href="[% c.uri_for_action(c.action.private_path, [portal, 'fr'], c.req.args.join('/'), c.req.params) %]">Français</a></li>
-      [%- END -%]
-      [%- IF iface != 'en' -%]
-        <li><a href="[% c.uri_for_action(c.action.private_path, [portal, 'en'], c.req.args.join('/'), c.req.params) %]">English</a></li>
-      [%- END -%]
-      [%- IF config.tt.login && c.user_exists -%]
-        <li class="username">[% c.user.name %]</li>
-      [%- END -%]
-      </ul>
-
-    </div>[% # End header %]
-
-    <div class="content"> -->
+  <div id="container">
     [% content %]
-<!--  
-    </div>[% # End content %]
-
-    <div class="footer">
-      [% c.loc("Prototype version [_1]", c.config.version) | xml_escape %]
-    </div>[% # End footer %]
-
-    [%- IF config.tt.debug -%]
-    <pre class="debug" id="Debug"></pre>
-    [%- END -%]
- -->
-  </body>
+  </div>
+</body>
 
 </html>

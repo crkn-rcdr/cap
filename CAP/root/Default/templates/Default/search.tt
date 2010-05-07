@@ -7,13 +7,10 @@
 -%]
 
 
-[% META 
-  css = 'nonindex.css'
-%]
 <div id="container">
 [% INCLUDE component/header.tt; %]
   
-<div id="contents">
+<div id="content">
 [%
   # INCLUDE component/search.tt;
 

@@ -8,10 +8,6 @@
 
 [%  USE XML.Escape; %]
 
-[% META 
-  css = 'nonindex.css'
-%]
-<div id="container">
 [% INCLUDE component/header.tt; %]
   
 <div id="content">
@@ -42,4 +38,3 @@
 
 </div>
 [% INCLUDE component/footer.tt; %]
-</div>
