@@ -1,9 +1,7 @@
 [%-
-  # Default results display for mixed search (t=all)
-  # Version: 0.20100219
+  # component/rlist.tt - search results list
 
   USE XML.Escape;
-
 -%]
 
 <div class="rl">
@@ -26,13 +24,13 @@
       END;
     -%]
     <tr>
-      [% IF config.tt.collection %]
       <td>
-      [%- IF doc.type == "page" -%]
+      [% # Disabled for now... %]
+      [%- IF 0 && doc.type == "page" -%]
         <a href="[% c.uri_for(root, 'show', doc.key) %]"><img src="[% c.uri_for(root, 'get', "${doc.key}.png", { s => 50, rel => 'image' }) | xml_escape %]" alt="[% c.loc("preview") | xml_escape %]"/></a>
       [%- END -%]
+        <img src="[% c.uri_for(root, 'static', 'logos', "${doc.contributor}.jpg") | xml_escape %]" alt="[% c.loc(c.config.contributor.${doc.contributor}) | xml_escape %]"/>
       </td>
-      [% END %]
       <td>
       [%- IF doc.type == "page" -%]
         [%-

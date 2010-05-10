@@ -1,9 +1,7 @@
 [%-
-  # Default search results template
-  # Version: 0.20100420
+  # search.tt - search results template
 
   USE XML.Escape;
-
 -%]
 
 
@@ -12,8 +10,6 @@
   
 <div id="content">
 [%
-  # INCLUDE component/search.tt;
-
   INCLUDE component/results.tt;
 %]
 
@@ -28,15 +24,13 @@
   [% END %]
 
 [%
+  
+  # Search results list
   INCLUDE component/rlist.tt;
 
+  # Search results page menu
   INCLUDE component/pager.tt;
 
-  # Only include a second search form if there were search results to
-  # display.
-  # IF result.pages;
-  #  INCLUDE component/search.tt;
-  # END;
 %]
 
 </div>
