@@ -13,8 +13,10 @@
 <div id="containerSplash">
   <div id="fullWidth">
     <div id="topNav">
-      [% IF iface != 'fr' %]<p><a href="[% config.exturi.fr | xml_escape %]">Français</a></p>[% END %]
-      [% IF iface != 'en' %]<p><a href="[% config.exturi.en | xml_escape %]">English</a></p>[% END %]
+      <p>
+        [% IF iface != 'fr' %]<a href="[% c.uri_for_action(c.action, [ portal, 'fr' ], c.req.params) | xml_escape %]">Français</a>[% END %]
+        [% IF iface != 'en' %]<a href="[% c.uri_for_action(c.action, [ portal, 'en' ], c.req.params) | xml_escape %]">English</a>[% END %]
+      </p>
     </div>
     <div id="content"> <img id="logo" src="[% c.uri_for(root,'static','images', "logo_${iface}.png")|xml_escape%]" width="343" height="144" />
       <div id="search">

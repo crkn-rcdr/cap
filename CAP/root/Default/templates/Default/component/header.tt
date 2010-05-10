@@ -15,8 +15,8 @@
       <div id="topNav">
         <p>
           <a href="[% c.uri_for(root) | xml_escape %]">[% c.loc("New search") | xml_escape %]</a> &nbsp;&nbsp;|&nbsp;&nbsp;
-          [% IF iface != 'fr' %]<a href="[% config.exturi.fr | xml_escape %]">Français</a>[% END %]
-          [% IF iface != 'en' %]<a href="[% config.exturi.en | xml_escape %]">English</a>[% END %]
+          [% IF iface != 'fr' %]<a href="[% c.uri_for_action(c.action, [ portal, 'fr' ], c.req.params) | xml_escape %]">Français</a>[% END %]
+          [% IF iface != 'en' %]<a href="[% c.uri_for_action(c.action, [ portal, 'en' ], c.req.params) | xml_escape %]">English</a>[% END %]
         </p>
       </div>
       <div id="logo" style="background-image: url([% c.uri_for(root,'static','images', "logoSub_${iface}.png")|xml_escape %])"> </div>
@@ -89,7 +89,7 @@
           </div>
           <div id="ddownContributors" style="display:none;">
             <ul>
-              <li>Bibliothèque et archives nationales du Québec</li>
+              <li>Bibliothèque et Archives nationales du Québec</li>
               <li>Canadiana.org</li>
             </ul>
           </div>

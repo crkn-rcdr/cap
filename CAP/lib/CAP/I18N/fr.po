@@ -30,7 +30,7 @@ msgid "everywhere"
 msgstr "partout"
 
 msgid "page text"
-msgstr "text de la page"
+msgstr "texte de la page"
 
 msgid "document metadata"
 msgstr "métadonnées du document"
@@ -102,7 +102,7 @@ msgid "Results %1 - %2 of %3"
 msgstr "%1 - %2 de %3 résultats"
 
 msgid "No issues found"
-msgstr "Aucun numéro toruvé"
+msgstr "Aucun numéro trouvé"
 
 
 # ../../../root/Default/templates/Default/component/navigation.tt
