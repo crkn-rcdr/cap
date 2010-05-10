@@ -98,6 +98,9 @@ select, input, button, textarea {
 
 
 #header #headerContent #search {
+	position:absolute;
+	top:95px;
+	height:40px;
 	width:100%;
 	margin:0px 16px 0px 0;
 	padding: 10px 0 0 0px;
@@ -105,6 +108,7 @@ select, input, button, textarea {
 }
 #header #headerContent #search input.searchBox {
 	position:absolute;
+	top: 12px;
 	right: 100px;
 	width: 260px;
 	height:21px;
@@ -113,20 +117,22 @@ select, input, button, textarea {
 	float:right;
 }
 #header #headerContent #search input.searchBtn {
-	margin:0px 0px 0px 0;
-	float:right;	
+	position:absolute;
+	top: 12px;
+	right: 15px;
+	margin:0px 0px 0px 0px;
 }
 #header #headerContent #searchOptions {
 	position:absolute;
-	right: 320px;
+	top: 0px;
+	right: 370px;
 	width:400px;
-	z-index:1000;
+	z-index:2000;
 	font-size:12px;
 	font-weight:bold;
 	color:#937d6a;
 	margin:3px 0 0 0;
 	text-align:center;
-	float:right;
 }
 #header #headerContent #searchOptions a {
 	text-decoration:none;
@@ -199,9 +205,10 @@ select, input, button, textarea {
 
 #footer {
 	position:static;
-	bottom:10px;
 	width:100%;
 	z-index:1;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 #footer p {
