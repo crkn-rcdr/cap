@@ -15,71 +15,6 @@ use utf8;
 #
 __PACKAGE__->config->{namespace} = '';
 
-=head1 NAME
-
-CAP::Controller::Root - main controller for the Canadiana Access Portal
-
-=head1 DESCRIPTION
-
-This controller handles the main dispatch logic as well as error handling
-and some auxiliary functions. Other functions are delegated to secondary
-controllers, which include:
-
-=over 4
-
-=item L<CAP::Controller::Auth>
-
-    Authorization, login, and logout functions.
-
-=item L<CAP::Controller::Content>
-
-    Content ingestion, indexing, and management of metadata and digital resources (administrative).
-
-=item L<CAP::Controller::File>
-
-    Methods for responding to digital content (image files, etc.) requests
-    by finding, generating, and delivering appropriate files.
-
-=item L<CAP::Controller::Search>
-
-    Portal search functions.
-
-=item L<CAP::Controller::Show>
-
-    Methods for delivering/displaying content and/or records to the user.
-
-=item L<CAP::Controller::User>
-
-    User and role management features (administrative).
-
-=back
-
-=head1 METHODS
-
-=cut
-
-=head2 Actions
-
-=cut
-
-
-=over 4
-
-=item page ( I<@path> )
-
-Returns an HTML page, which is processed using the standard wrapper and
-I<page.tt> template. I<@path> describes the path to the file, which is in
-the I<pages> subdirectory of the portal root, and which is further
-subdivided according to the interface. The '.html' suffix is added to the
-file automatically. E.g., a request for I</foo/en/page/bar/baz> would
-retrieve the file I<$root/foo/pages/en/bar/baz.html>.
-
-This method is intended to be used to present larger textual documents
-that still should be wrapped in the usual template. Note that if you have
-multiple language interfaces, you need a separate document for each one.
-
-=back
-=cut
 sub page : Chained('base') PathPart('page') Args()
 {
     my($self, $c, @path) = @_;
@@ -109,47 +44,12 @@ sub page : Chained('base') PathPart('page') Args()
     close(FILE);
 }
 
-
-=over 4
-
-=item index
-
-Displays the home page for a valid portal with a valid interface (e.g. I</foo/en>).
-
-=back
-=cut
 sub index : Chained('base') PathPart('') Args(0)
 {
     my($self, $c) = @_;
     $c->stash->{template} = "index.tt";
 }
 
-=over 4
-
-=item post
-
-Takes a POST request (e.g. from a Web form) and redirects the request to
-an appropriately-constructed URI. The parameters should be named I<0>,
-I<1>, I<2>, etc. and will be processed in numerical order. An example form
-might look like this:
-
-    <form method="post" action="[% c.uri_for(root, 'post') %]>
-      <input type="hidden" name="0" value="[% c.uri_for(root, 'show') %]"/>
-      <select name="1">
-          <option value="foo:12345">Document 12345</option>
-          <option value="foo:98765">Document 98765</option>
-      </select>
-      <button type="submit">Go</button>
-    <form>
-
-In this case, if the second option were selected, the request would be
-redirected to I<$root/show/foo:98765>.
-
-=back
-=cut
-# Used by forms that have to construct a URL, this catenates the arguments
-# 0, 1, 2, etc. to create a URL and redirects the request.
-#sub post :Local :Args(0)
 sub post : Chained('base') PathPart('post') Args(0)
 {
     my($self, $c) = @_;
@@ -162,20 +62,6 @@ sub post : Chained('base') PathPart('post') Args(0)
     $c->response->redirect(join('/', @parts), 303);
 }
 
-
-=over 4
-
-=item static ( I<@path> )
-
-Retrieve a static document described in I<@path> from the portal's static
-directory. E.g.: I</foo/en/static/css/foo.css> would try to serve the
-static file in I<$root/foo/static/css/foo.css>.
-
-Often, you will want to configure your web server to intercept these URLs
-and serve the content directly.
-
-=back
-=cut
 sub static : Chained('base') PathPart('static') Args()
 {
     my($self, $c, @path) = @_;
@@ -195,19 +81,6 @@ sub static : Chained('base') PathPart('static') Args()
     return 1;
 }
 
-
-=over 4
-
-=item test_error ( I<$error> )
-
-Generates an error page for the status code I<$error>, with a test error
-message. E.g.: I</foo/xml/error/500>. Only works if I<debug> is set in
-I<cap.conf>. Otherwise, a 404 error is generated. This method can be used for
-simulating responses to various error conditions without actually
-having to create the error condition itself.
-
-=back
-=cut
 sub test_error : Chained('base') PathPart('error') Args(1)
 {
     my($self, $c, $error) = @_;
@@ -217,20 +90,6 @@ sub test_error : Chained('base') PathPart('error') Args(1)
     $c->detach('error', [$error, 'ERRORTEST']);
 }
 
-=head2 Flow Control
-
-=cut
-
-
-=over 4
-
-=item access_denied
-
-Detach to this method when access to the resource should be
-denied due to not being logged in or insufficient user privileges.
-
-=back
-=cut
 sub access_denied : Private
 {
     my($self, $c) = @_;
@@ -239,15 +98,6 @@ sub access_denied : Private
     $c->detach('error', [403, "NOACCESS"]);
 }
 
-
-=over 4
-
-=item auto
-
-Executed at the start of each request.
-
-=back
-=cut
 sub auto :Private
 {
     my($self, $c) = @_;
@@ -258,24 +108,6 @@ sub auto :Private
     return 1;
 }
 
-
-=over 4
-
-=item base
-
-This is the base for (almost) all chained dispatches. It takes two
-arguments: the name of the portal and the interface. The portal name must
-be one recognized in the config file. The interface can either be an
-iface directive in the portal configuration, or any two-letter code. In
-the former case, the view will be rendered using the templates in the
-$iface subdirectory (e.g. requests for I<foo/xml/*> will render using
-the templates in I<$root/foo/templates/xml>). In the latter case, $iface
-will be treated as a language code, which will use any i18n resources for
-that language, and the Main templates will be used (e.g. requests for
-I</foo/en/*> will render using the templates in I<$root/foo/templates/Main>.
-
-=back
-=cut
 sub base : Chained('/') PathPart('') CaptureArgs(2)
 {
     my($self, $c, $portal, $iface) = @_;
@@ -729,6 +561,7 @@ sub set_root : Private
     $root =~ s/\/$//;
     $c->stash->{root} = "/$root";
     $c->stash->{uri} = $uri; # $uri is a self-referential URI.
+    $c->stash->{uri_tail} = substr($c->req->path, length($c->stash->{root}));
 }
 
 =head1 LICENSE AND COPYRIGHT
