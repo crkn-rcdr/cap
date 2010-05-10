@@ -1,21 +1,27 @@
 ﻿[%
   # component/footer.tt
-  #
-  #   footer template
-  #
-  # Identifier prefix: se
-  # Modified: 2010-04-30
 
   USE XML.Escape;
+
+  uri = {
+    en => {
+      about => "http://www.canadiana.org/en/about",
+      legal => "http://www.canadiana.org/en/legal",
+    },
+    fr => {
+      about => "http://www.canadiana.org/fr/apropos",
+      legal => "http://www.canadiana.org/fr/avis",
+    },
+  }
 %]
 
 
   <div id="footer">
     <p>
-      <a href="http://www.canadiana.org/about">[% c.loc('About Canadiana.org') | xml_escape %]</a> |
+      <a href="[% uri.$iface.about | xml_escape %]">[% c.loc('About Canadiana.org') | xml_escape %]</a> |
       <!--[% c.loc('About Canadiana Discovery Portal') | xml_escape %] |-->
       <!--[% c.loc('Corporate') | xml_escape %] |-->
-      <a href="http://www.canadiana.org/en/legal">[% c.loc('Privacy Policy and Legal') | xml_escape %]</a> |
+      <a href="[% uri.$iface.legal | xml_escape %]">[% c.loc('Privacy Policy and Legal') | xml_escape %]</a> |
       [% c.loc('Copyright © Canadiana.org [_1]', 2010) | xml_escape %]
     </p>
   </div>
