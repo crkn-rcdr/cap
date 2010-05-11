@@ -1,27 +1,11 @@
 package CAP::Controller::Common;
 use Moose;
 use namespace::autoclean;
+use Digest::MD5 qw(md5_hex);
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-=head1 NAME
-
-CAP::Controller::Common - Catalyst Controller
-
-=head1 DESCRIPTION
-
-Catalyst Controller.
-
-=head1 METHODS
-
-=cut
-
-
-=head2 index
-
-=cut
-
-sub repos_path :Private
+sub repos_path2 :Private
 {
     my ( $self, $c, $doc ) = @_;
 
@@ -40,17 +24,17 @@ sub repos_path :Private
     return join('/', $c->config->{content}, $doc->{contributor}, $subdir);
 }
 
+sub repos_path :Private
+{
+    my($self, $c, $doc) = @_;
 
-=head1 AUTHOR
+    my $digest = md5_hex($doc->{file});
+    my $path = join('/', $c->config->{content}, $doc->{contributor}, substr($digest, 0, 2), substr($digest, 2, 2));
 
-William Wueppelmann
+    warn("[debug] Repository path is $path\n");
 
-=head1 LICENSE
-
-This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut
+    return $path;
+}
 
 __PACKAGE__->meta->make_immutable;
 

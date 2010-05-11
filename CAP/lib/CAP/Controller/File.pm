@@ -27,31 +27,27 @@ sub get :Chained('/base') PartPath('/get') Args(1)
     my( $self, $c, $key ) = @_;
     my $suffix = "";
 
-    # Check for malformed document keys
-    if ( $key =~ /[^A-Za-z0-9_\.-]/ ) {
-        $c->detach( '/error', [ 400 ]);
-        return 1;
-    }
-
     # Retrieve the record for the requested document. Verify that it
     # exists. If not, strip the suffix and see if that record exists.
-    my $solr = CAP::Solr->new( $c->config->{solr} );
-    my $doc = $solr->document( $key );
+    my $solr = CAP::Solr->new($c->config->{solr});
+    my $doc = $solr->document($key);
 
     # If this is a downloadable resource, serve it to the requester.
-    if ( $doc && $doc->{type} eq 'resource' && $doc->{role} eq 'download' && $doc->{localaccess} ) {
+    if ( $doc && $doc->{type} eq 'resource' && $doc->{role} eq 'download' && $doc->{file} ) {
         $c->detach( 'get_download', [ $doc ] );
     }
 
     # Strip away the final suffix and see if the resulting record  exists.
     # Try to get a derivative image based on the suffix type.
     ( $key, $suffix ) = ( $key =~ /(.*)\.(.*)/ );
-    $doc = $solr->query_first( { pkey => $key, type => 'resource', role => 'master' } );
-    if ( $doc && $doc->{localaccess} ) {
+    warn("[debug]: Trying to find resource $key to create $suffix file\n");
+    $doc = $solr->query_first( { key => $key, type => 'resource', role => 'master' } );
+    if ( $doc && $doc->{file} ) {
         $c->detach( 'get_derivative', [ $doc, $suffix ] );
     }
 
     # If none of the above worked, the requested item is not available.
+    warn("[debug] Couldn't find suitable file for $key\n");
     $c->detach( '/error', [ 404 ] );
 }
 
@@ -66,7 +62,8 @@ sub get_download :Private
     $content_length = int( $doc->{size} ) if ( $doc->{size} );
 
     # Get the resource file name and make sure it exists
-    my $file = join( '/', $c->forward( '/common/repos_path', [ $doc ] ), $doc->{key} );
+    my $file = join( '/', $c->forward( '/common/repos_path', [ $doc ] ), $doc->{file} );
+    warn("[debug] Downloading file \"$file\"\n");
     if ( ! -f $file ) {
         $c->detach( '/error', [ 404 ] );
         return 1;

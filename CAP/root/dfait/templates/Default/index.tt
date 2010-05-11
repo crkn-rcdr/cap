@@ -1,11 +1,98 @@
-[%-
-  # DFAIT main/search page
-  # Version: 0.20100222
+﻿[%-
+  # index.tt - home page - DFAIT portal version
 
   USE XML.Escape;
 -%]
 
+[% META 
+  css = 'index.css'
+%]
 
-[%- INCLUDE 'include/browse_form.tt' -%]
 
-[%- INCLUDE 'include/search_form.tt' -%]
+<div id="containerSplash">
+  <div id="fullWidth">
+    <div id="topNav">
+      <p>
+        [% IF iface != 'fr' %]<a href="[% c.uri_for('/', portal, 'fr', uri_tail, c.req.params) | xml_escape %]">Français</a>[% END %]
+        [% IF iface != 'en' %]<a href="[% c.uri_for('/', portal, 'en', uri_tail, c.req.params) | xml_escape %]">English</a>[% END %]
+      </p>
+    </div>
+    <div id="content"> <img id="logo" src="[% c.uri_for(root,'static','images', "logo_${iface}.png")|xml_escape%]" />
+      <div id="search">
+        <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+          <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
+          <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
+        <div id="searchOptions">
+          <p>
+            <a id="btnAdvancedSearch" href="#">[% c.loc('Advanced search') | xml_escape %]</a>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            <a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>
+          </p>
+          <div id="ddownAdvancedSearch" style="display:none;">
+            <p>[% c.loc('Search') | xml_escape %]</p>
+            <ul>
+              <li>
+		[% radioButton(c, 't', 'all', { id => 'everywhere', class => 'radio' }, 1) %]
+                <label for="everywhere">[% c.loc('everywhere') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 't', 'pages', { id => 'pageText', class => 'radio' }) %]
+                <label for="pageText">[% c.loc("page text") | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 't', 'titles', { id => 'documentMetaData', class => 'radio' }) %]
+                <label for="documentMetaData">[% c.loc('document metadata') | xml_escape %]</label>
+              </li>
+            </ul>
+            <p>[% c.loc('Sort') | xml_escape %]</p>
+            <ul>
+              <li>
+		[% radioButton(c, 'so', '', { id => 'relevance', class => 'radio' }, 1) %]
+                <label for="relevance">[% c.loc('relevance') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 'so', 'pubmin asc', { id => 'oldest', class => 'radio' }) %]
+                <label for="oldest">[% c.loc('oldest') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 'so', 'pubmin desc', { id => 'newest', class => 'radio' }) %]
+                <label for="newest">[% c.loc('newest') | xml_escape %]</label>
+              </li>
+            </ul>
+            <p>[% c.loc('Language') | xml_escape %]</p>
+            <ul>
+              <li>
+		[% radioButton(c, 'lang', '', { id => 'any', class => 'radio' }, 1) %]
+                <label for="any">[% c.loc('any') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 'lang', 'en', { id => 'en', class => 'radio' }) %]
+                <label for="en">[% c.loc('English') | xml_escape %]</label>
+              </li>
+              <li>
+		[% radioButton(c, 'lang', 'fr', { id => 'fr', class => 'radio' }) %]
+                <label for="fr">[% c.loc('French') | xml_escape %]</label>
+              </li>
+            </ul>
+            <p>[% c.loc('Publication years') | xml_escape %]</p>
+            <ul>
+              <li>
+                <input type="text" name="dr" value="[% c.session.search.params.dr | xml_escape %]" size="9" />
+              </li>
+            </ul>
+          </div>
+          <div id="ddownContributors" style="display:none;">
+            <ul>
+              <li>Bibliothèque et archives nationales du Québec</li>
+              <li>Canadiana.org</li>
+            </ul>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    [% INCLUDE component/footer.tt %]
+</div>
+</div>

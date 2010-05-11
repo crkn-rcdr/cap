@@ -89,7 +89,7 @@
     <field name="md5" type="string" indexed="false" stored="true"/>
     <field name="role" type="string" indexed="true" stored="true"/>
     <field name="uri" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="localaccess" type="sint" indexed="true" stored="true"/>
+    <field name="file" type="string" indexed="true" stored="true"/>
 
     <!-- Simple Bibliographic Description -->
     <field name="pubstmt" type="text" indexed="true" stored="true"/>

@@ -54,9 +54,10 @@ sub index : Chained('/base') PathPart('show') Args()
             $c->res->redirect($c->uri_for($c->stash->{root}, 'show', $doc->{key}));
         }
         elsif ($c->req->params->{rel} eq 'image') {
-            $doc = $solr->children($doc, 'file', 'master')->[0];
+            $doc = $solr->children($doc, 'resource', 'master')->[0];
             $c->detach('/error', [404, "NOTFOUND"]) unless ($doc);
-            $c->detach('/file/file', [$doc->{key} . ".png"]);
+            #$c->detach('/file/file', [$doc->{key} . ".png"]);
+            $c->detach('/file/get', [$doc->{key} . ".png"]);
         }
 
         # Make sure the related document was found.
