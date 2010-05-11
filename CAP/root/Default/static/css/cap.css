@@ -88,12 +88,12 @@ select, input, button, textarea {
      /* border: 1px solid #000077; */
 }
 #headerContent #logo {
-	background-image:url(../images/logoSub.png);
 	background-repeat:no-repeat;
 	background-position:20px 10px;
 	height:85px;
-	width:650px;
+	width:703px;
 	float:left;
+	z-index:1000;
 }
 
 
