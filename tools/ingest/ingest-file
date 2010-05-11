@@ -1,0 +1,28 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Digest::MD5 qw(md5_hex);
+use File::Basename;
+use File::Copy;
+use File::Path qw(make_path);
+
+# The root of the repository (TODO: read from cap.conf)
+my $repos = '/opt/cap-repos';
+
+# The contributor ID (TODO: specify on command line)
+my $contributor = 'ooe';
+
+foreach my $file (@ARGV) {
+    my $file_name = basename($file);
+    my $digest = md5_hex($file_name);
+    my $prefix = substr($digest, 0, 2) . '/' . substr($digest, 2, 2);
+    my $path = "$repos/$contributor/$prefix";
+    my $fqfn = "$path/$file_name";
+
+    unless (-d $path) {
+        make_path($path) or die("Failed to make $path: $!");
+    }
+    copy($file, $path) or die("Failed to copy $file to $fqfn: $!");
+    print "$fqfn\n";
+}

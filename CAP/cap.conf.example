@@ -32,9 +32,8 @@ version 0.1
 
 # These path names must be relative to the application 'root'.
 
-# Root of the repository
-#repository ../../../data/repos
-repository /Users/william/Projects/portal/content
+# Root of the content repository
+repository /opt/cap-repos
 
 # Where uploaded files go
 uploads ../../../data/uploads
