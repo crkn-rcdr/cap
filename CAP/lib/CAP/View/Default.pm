@@ -31,6 +31,16 @@ __PACKAGE__->config(
             );
             return "<input " . join(" ", @attrs) . "/>";
         },
+
+        # Refines $param by adding/replacing any keys that appear in
+        # refine. Returns a new hash.
+        refine => sub {
+            my($param, $refine) = @_;
+            my $joined = {};
+            while (my($key, $value) = each(%{$param})) { $joined->{$key} = $value; }
+            while (my($key, $value) = each(%{$refine})) { $joined->{$key} = $value; }
+            return $joined;
+        },
     }
 );
 

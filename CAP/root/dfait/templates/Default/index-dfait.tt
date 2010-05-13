@@ -1,0 +1,11 @@
+[%-
+  # DFAIT main/search page
+  # Version: 0.20100222
+
+  USE XML.Escape;
+-%]
+
+
+[%- INCLUDE 'include/browse_form.tt' -%]
+
+[%- INCLUDE 'include/search_form.tt' -%]

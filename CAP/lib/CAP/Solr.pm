@@ -292,10 +292,10 @@ sub first_child
     return undef unless ($doc);
     $self->_qparams({rows => 1, sort => "seq asc"});
     if ($type) {
-        $self->_qquery({key => $doc->{pkey}, type => $type});
+        $self->_qquery({pkey => $doc->{key}, type => $type});
     }
     else {
-        $self->_qquery({key => $doc->{pkey}});
+        $self->_qquery({pkey => $doc->{key}});
     }
     $self->_qexec();
     return undef unless ($self->{result}->{hits});

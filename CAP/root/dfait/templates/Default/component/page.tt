@@ -1,0 +1,17 @@
+[% 
+  # component/page.tt
+  #
+  #   Show an inline page image
+  #
+  # Identifier prefix: pg
+  # Modified: 2010-04-16
+
+  USE XML.Escape;
+%]
+
+[% IF resource_master.first %]
+  <div id="pg">
+    <img src="[% c.uri_for(root, 'show', doc.key, { rel => 'image' } ) %]">
+  </div>
+[% END %]
+

@@ -39,12 +39,15 @@ sub index : Chained('/base') PathPart('show') Args()
     # The 'rel' parameter specifies that the document we want is in
     # relation to the supplied document, rather than the document itself.
     if ($c->req->params->{rel}) {
+        # Next sibling
         if ($c->req->params->{rel} eq 'next') {
             $doc = $solr->next_doc($doc);
         }
+        # Previous sibling
         elsif ($c->req->params->{rel} eq 'prev') {
             $doc = $solr->prev_doc($doc);
         }
+        # n'th sibling
         elsif ($c->req->params->{rel} =~ /^\d+$/) {
             my $seq = $c->req->params->{rel};
             $c->detach('/error', [404, "NOTFOUND"]) unless ($seq > 0);
@@ -53,10 +56,19 @@ sub index : Chained('/base') PathPart('show') Args()
             $doc = $solr->query($seq, { pkey => $doc->{pkey}, type => $doc->{type} }, { rows => 1, sort => "seq asc" })->{documents}->[0];
             $c->res->redirect($c->uri_for($c->stash->{root}, 'show', $doc->{key}));
         }
+        # First child object, dependent on parent type
+        elsif ($c->req->params->{rel} eq 'start') {
+            if ($doc->{type} eq 'monograph' || $doc->{type} eq 'issue') {
+                $doc = $solr->first_child($doc, 'page');
+            }
+
+            $c->detach('/error', [404, "NOTFOUND"]) unless ($doc);
+            $c->res->redirect($c->uri_for($c->stash->{root}, 'show', $doc->{key}));
+        }
+        # Standard image resouce for this object
         elsif ($c->req->params->{rel} eq 'image') {
             $doc = $solr->children($doc, 'resource', 'master')->[0];
             $c->detach('/error', [404, "NOTFOUND"]) unless ($doc);
-            #$c->detach('/file/file', [$doc->{key} . ".png"]);
             $c->detach('/file/get', [$doc->{key} . ".png"]);
         }
 
@@ -68,7 +80,8 @@ sub index : Chained('/base') PathPart('show') Args()
     $c->stash->{solr} = $solr;
     $c->stash->{doc} = $doc;
     $c->stash->{title} = $doc->{label};
-    $c->stash->{template} = "show_$type.tt"; # TODO: change to view.tt and remove from stdinfo()
+    #$c->stash->{template} = "show_$type.tt"; # TODO: change to view.tt and remove from stdinfo()
+    $c->stash->{template} = "view.tt";
 
     # Detach to a function based on the record type we support.
     $c->detach('monograph') if ($type eq 'monograph');
@@ -170,18 +183,15 @@ sub stdinfo : Private
     }
 
     $c->stash(
-        ancestors => $solr->ancestors($doc), # document
-        template => "view.tt", # document
+        ancestors => $solr->ancestors($doc),
         resource_download => $solr->children( $doc, 'resource', 'download' ),
         resource_master => $solr->children( $doc, 'resource', 'master' ),
         resource_page => $solr->children( $doc, 'resource', 'page' ),
 
-        file_access => $solr->children($doc, 'file', 'access'), # TODO: should be resources
-        file_master => $solr->children($doc, 'file', 'master'), # TODO: should be resources
-        sibling_count => $solr->count({ pkey => $doc->{pkey}, type => $doc->{type}}), # document
-        sibling_position => $sibling_position, # document
-        prev_sibling => $solr->prev_doc($doc), # document
-        next_sibling => $solr->next_doc($doc), # document
+        sibling_count => $solr->count({ pkey => $doc->{pkey}, type => $doc->{type}}),
+        sibling_position => $sibling_position,
+        prev_sibling => $solr->prev_doc($doc),
+        next_sibling => $solr->next_doc($doc),
     );
 
     return 1;
