@@ -86,6 +86,8 @@
 # Set to 0 if you do not want to use start-stop-daemon (especially on SUSE boxes)
 START_STOP_DAEMON=1
 
+JETTY_PID="$JETTY_RUN/jetty-dfait.pid"
+
 JAVA_HOME="/usr/lib/jvm/java-6-sun"
 JAVA_OPTIONS="-Dsolr.solr.home=/opt/cap-libs/solr-jetty-dfait/solr $JAVA_OPTIONS"
 JETTY_HOME=/opt/cap-libs/solr-jetty-dfait
