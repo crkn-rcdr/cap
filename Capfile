@@ -2,7 +2,7 @@ require 'rubygems'
 require 'railsless-deploy'
 require 'erb'
 
-set :stages, %w(dev prod)
+set :stages, %w(dev prod staging)
 require 'capistrano/ext/multistage'
 
 load    'config/deploy'
