@@ -15,16 +15,16 @@
 . /lib/lsb/init-functions
 
 APPNAME=CAP
-UNIXNAME=$(echo $APPNAME | perl -pe 's/::/_/;$_=lc')
-APPDIR=/opt/cap/current/CAP
+UNIXNAME=cap
+APPDIR=/opt/dfait-portal/current/CAP
 PROCS=5
-SOCKET=/tmp/cap.socket
+SOCKET=/tmp/dfait.socket
 # Leave these unset and we won't try to setuid/setgid.
 USER=root
 GROUP=root
 # Set this if you have more than one instance of the app and you don't want
 # them to step on each other's pidfile.
-PIDSUFFIX=
+PIDSUFFIX=dfait
 
 # local::lib path, if you want to use it.
 LOCALLIB=/opt/cap-libs/perl
