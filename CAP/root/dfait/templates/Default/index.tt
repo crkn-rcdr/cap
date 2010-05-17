@@ -22,36 +22,18 @@
         <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
           <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
           <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
+        </form>
         <div id="searchOptions">
+          <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+            <input type="hidden" name="t" value="titles"/>
           <p>
-            <a id="btnAdvancedSearch" href="#">[% c.loc('Advanced search') | xml_escape %]</a>
-            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-            <a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>
+            <a id="btnAdvancedSearch" href="#">[% c.loc('Browse by title') | xml_escape %]</a>
           </p>
           <div id="ddownAdvancedSearch" style="display:none;">
-            <p>[% c.loc('Search') | xml_escape %]</p>
-            <ul>
-              <li>
-		[% radioButton(c, 't', 'all', { id => 'everywhere', class => 'radio' }, 1) %]
-                <label for="everywhere">[% c.loc('everywhere') | xml_escape %]</label>
-              </li>
-              <li>
-		[% radioButton(c, 't', 'pages', { id => 'pageText', class => 'radio' }) %]
-                <label for="pageText">[% c.loc("page text") | xml_escape %]</label>
-              </li>
-              <li>
-		[% radioButton(c, 't', 'titles', { id => 'documentMetaData', class => 'radio' }) %]
-                <label for="documentMetaData">[% c.loc('document metadata') | xml_escape %]</label>
-              </li>
-            </ul>
             <p>[% c.loc('Sort') | xml_escape %]</p>
             <ul>
               <li>
-		[% radioButton(c, 'so', '', { id => 'relevance', class => 'radio' }, 1) %]
-                <label for="relevance">[% c.loc('relevance') | xml_escape %]</label>
-              </li>
-              <li>
-		[% radioButton(c, 'so', 'pubmin asc', { id => 'oldest', class => 'radio' }) %]
+		[% radioButton(c, 'so', 'pubmin asc', { id => 'oldest', class => 'radio' }, 1) %]
                 <label for="oldest">[% c.loc('oldest') | xml_escape %]</label>
               </li>
               <li>
@@ -59,6 +41,35 @@
                 <label for="newest">[% c.loc('newest') | xml_escape %]</label>
               </li>
             </ul>
+
+            <p>[% c.loc('Type') | xml_escape %]</p>
+            <ul>
+              <li>
+                [% radioButton(c, 'ctype', '', { id => 't_any', class => 'radio' }, 1) %]
+                <label for="any">[% c.loc('any') | xml_escape %]</label>
+              </li>
+              <li>
+                [% radioButton(c, 'ctype', 'press', { id => 't_press', class => 'radio' }) %]
+                <label for="t_press">[% c.loc('press release') | xml_escape %]</label>
+              </li>
+              <li>
+                [% radioButton(c, 'ctype', 'statement', { id => 't_statement', class => 'radio' }) %]
+                <label for="t_statement">[% c.loc('statement') | xml_escape %]</label>
+              </li>
+              <li>
+                [% radioButton(c, 'ctype', 'speech', { id => 't_speech', class => 'radio' }) %]
+                <label for="t_speech">[% c.loc('speech') | xml_escape %]</label>
+              </li>
+              <li>
+                [% radioButton(c, 'ctype', 'index', { id => 't_index', class => 'radio' }) %]
+                <label for="t_index">[% c.loc('index') | xml_escape %]</label>
+              </li>
+              <li>
+                [% radioButton(c, 'ctype', 'toc', { id => 't_toc', class => 'radio' }) %]
+                <label for="t_toc">[% c.loc('table of contents') | xml_escape %]</label>
+              </li>
+            </ul>
+
             <p>[% c.loc('Language') | xml_escape %]</p>
             <ul>
               <li>
@@ -74,18 +85,13 @@
                 <label for="fr">[% c.loc('French') | xml_escape %]</label>
               </li>
             </ul>
-            <p>[% c.loc('Publication years') | xml_escape %]</p>
+            <p>[% c.loc('Years') | xml_escape %]</p>
             <ul>
               <li>
                 <input type="text" name="dr" value="[% c.session.search.params.dr | xml_escape %]" size="9" />
               </li>
             </ul>
-          </div>
-          <div id="ddownContributors" style="display:none;">
-            <ul>
-              <li>Bibliothèque et archives nationales du Québec</li>
-              <li>Canadiana.org</li>
-            </ul>
+            <p><button type="submit">[% c.loc("Browse") %]</button></p>
           </div>
         </div>
         </form>
