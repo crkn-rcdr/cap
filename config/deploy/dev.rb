@@ -5,3 +5,10 @@ role :appservers, "192.168.1.200"
 set :select_uri, "http://localhost:8984/solr/select"
 set :update_uri, "http://localhost:8984/solr/update"
 
+set :deploy_to, "/opt/cap"
+set :app_var, "/opt/cap-var"
+
+set :repository, "http://dev.cihm/svn/cap/trunk"
+
+set :deploy_via, :remote_cache
+

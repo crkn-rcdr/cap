@@ -9,7 +9,7 @@ set :update_uri, "http://localhost:8984/solr/update"
 set :deploy_to, "/opt/cap-staging/cap"
 set :app_var, "/opt/cap-staging/cap-var"
 
-set :repository, "http://dev.cihm/svn/tags/staging"
+set :repository, "http://dev.cihm/svn/cap/tags/staging"
 
 set :deploy_via, :remote_cache
 
