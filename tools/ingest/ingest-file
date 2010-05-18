@@ -2,21 +2,61 @@
 use strict;
 use warnings;
 
+=head1 NAME
+
+inget - ingest the contents of a directory structure into Canadiana Access Portal
+
+=head1 SYNOPSIS
+
+
+
+=cut
 use Digest::MD5 qw(md5_hex);
 use File::Basename;
 use File::Copy;
 use File::Path qw(make_path);
+use Config::General;
+use Getopt::Long;
+use Data::Dumper qw(Dumper);
+use String::CRC32;
+
+
+my $prog = basename($0);
+my $conf_file;
+my $contributor;
+my $usage = "Usage: $prog --conf CONFIG_FILE FILE [FILE...]\n";
+
+GetOptions(
+    'conf=s' => \$conf_file,
+    'contributor=s' => \$contributor,
+) or die ($usage);
+
+die ($usage) unless($conf_file && $contributor);
 
 # The root of the repository (TODO: read from cap.conf)
-my $repos = '/home/milan/repository';
+#my $repos = '/opt/cap-repos';
+
+
+my $conf= new Config::General(
+    -ConfigFile => $conf_file,
+    );
+
+my %config =  $conf->getall ;
+
+#print Dumper(\%config);
+
+my $repos=$config{'content'};
 
 # The contributor ID (TODO: specify on command line)
-my $contributor = 'ooe';
+#my $contributor = 'ooe';
 
 foreach my $file (@ARGV) {
     my $file_name = basename($file);
-    my $digest = md5_hex($file_name);
-    my $prefix = substr($digest, 0, 2) . '/' . substr($digest, 2, 2);
+    my $digest = String::CRC32::crc32($file_name)  ;
+    #print $digest."\n";
+    my $hex_prefix = sprintf("%X", $digest);
+    my $prefix = substr($hex_prefix, 0, 2) . '/' . substr($hex_prefix, 2, 2);
+    #print $prefix."\n";
     my $path = "$repos/$contributor/$prefix";
     my $fqfn = "$path/$file_name";
 

@@ -16,7 +16,7 @@
 
 APPNAME=CAP
 UNIXNAME=cap
-APPDIR=/opt/dfait-portal/current/CAP
+APPDIR=/opt/cap-dfait/cap/current/CAP
 PROCS=5
 SOCKET=/tmp/dfait.socket
 # Leave these unset and we won't try to setuid/setgid.
