@@ -13,9 +13,9 @@ use File::Path qw(make_path);
 sub new 
 {
     my $class = shift;
-    my (%config) =  @_;
+    my $repos = shift;
     my $self             = { };
-    $self->{config}= { %config };
+    $self->{repos}=  $repos ;
     #print Dumper($self);
     bless ($self, $class);
     return $self;
@@ -34,7 +34,7 @@ sub get_path
     my $prefix = substr($hex_prefix, 0, 2) . '/' . substr($hex_prefix, 2, 2);
     #print $prefix."\n";
 
-    my $repos = $self->{config}->{content};
+    my $repos = $self->{repos};
 
     my $path = "$repos/$contributor/$prefix";
 

@@ -2,6 +2,8 @@ package CAP::Controller::Common;
 use Moose;
 use namespace::autoclean;
 use Digest::MD5 qw(md5_hex);
+use Ingest;
+use Data::Dumper;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -27,13 +29,19 @@ sub repos_path2 :Private
 sub repos_path :Private
 {
     my($self, $c, $doc) = @_;
-
-    my $digest = md5_hex($doc->{file});
-    my $path = join('/', $c->config->{content}, $doc->{contributor}, substr($digest, 0, 2), substr($digest, 2, 2));
-
+    my $content=$c->config->{content};
+    my $ingest = new Ingest($content);
+    my $path=$ingest->get_path($doc->{file}, $doc->{contributor});
     warn("[debug] Repository path is $path\n");
-
+    
     return $path;
+
+    #my $digest = md5_hex($doc->{file});
+    #my $path = join('/', $c->config->{content}, $doc->{contributor}, substr($digest, 0, 2), substr($digest, 2, 2));
+
+    #warn("[debug] Repository path is $path\n");
+
+    #return $path;
 }
 
 __PACKAGE__->meta->make_immutable;

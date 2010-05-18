@@ -1,6 +1,8 @@
 #!/usr/bin/perl -Ilib
 use strict;
 use warnings;
+use local::lib "/opt/cap-libs/perl";
+
 
 =head1 NAME
 
@@ -34,7 +36,7 @@ my $conf= new Config::General(
 my %config =  $conf->getall ;
 
 
-my $ingest= new Ingest(%config);
+my $ingest= new Ingest($config{'content'});
 
 foreach my $file (@ARGV) {
    
