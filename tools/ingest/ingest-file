@@ -8,7 +8,7 @@ use File::Copy;
 use File::Path qw(make_path);
 
 # The root of the repository (TODO: read from cap.conf)
-my $repos = '/opt/cap-repos';
+my $repos = '/home/milan/repository';
 
 # The contributor ID (TODO: specify on command line)
 my $contributor = 'ooe';
