@@ -1,7 +1,7 @@
 # DEV-specific deployment configuration
 # please put general deployment config in config/deploy.rb
 
-role :appservers, "192.168.1.200"
+role :appservers, "192.168.1.200", "asiago.cihm"
 
 set :select_uri, "http://localhost:8985/solr/select"
 set :update_uri, "http://localhost:8985/solr/update"
