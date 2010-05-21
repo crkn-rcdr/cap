@@ -91,6 +91,9 @@
             <ul>
               <li>Bibliothèque et Archives nationales du Québec</li>
               <li>Canadiana.org</li>
+              <li>[% c.loc("Foreign Affairs and International Trade") %]</li>
+              <li>Simon Fraser University</li>
+              <li>University of Toronto</li>
             </ul>
           </div>
         </div>

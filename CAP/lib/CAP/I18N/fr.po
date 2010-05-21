@@ -217,3 +217,36 @@ msgstr "Cacher le site web"
 msgid "Show web site: %1"
 msgstr "Afficher le site web: %1"
 
+
+
+# Contributor names - bilingual
+msgid "Foreign Affairs and International Trade"
+msgstr "Affaires étrangers et Commerce international"
+
+# Dfait Portal Stuff
+msgid "Copyright © Foreign Affairs and International Trade"
+msgstr "© Affaires étrangers et Commerce international" 
+
+msgid "Produced by Canadiana.org"
+msgstr "Réalisée par Canadiana.org"
+
+msgid "Browse by title"
+msgstr "Parcourir par titre"
+
+msgid "Years"
+msgstr "Années"
+
+msgid "Browse"
+msgstr "Parcourir"
+
+msgid "press release"
+msgstr "communiqué"
+
+msgid "statement"
+msgstr "declaration"
+
+msgid "speech"
+msgstr "discours"
+
+msgid "table of contents"
+msgstr "table des matières"
