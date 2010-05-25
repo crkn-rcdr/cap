@@ -4,26 +4,141 @@
   USE XML.Escape;
 -%]
 
-
+[% META 
+  css = "nihilo.css"
+%]
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.4/dojo/dojo.xd.js"
+    djConfig="parseOnLoad: true">
+    </script>
+    <script type="text/javascript">
+        dojo.require("dijit.form.Button");
+        dojo.require("dijit.TooltipDialog");
+        dojo.require("dijit.Menu");
+        dojo.require("dijit.form.TextBox");
+    </script>
 <div id="container">
 [% INCLUDE component/header.tt; %]
-  
+<!-- <div class="newsearch_bar">
+        <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+          <input class="dfait_searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
+          <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
+        </form>
+</div>
+
+-->
+<div class="newsearch_bar">
+                <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+                <input dojoType="dijit.form.TextBox" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
+
+                <button dojoType="dijit.form.Button" type="submit">
+                    [% c.loc("Search") | xml_escape %]
+                </button>
+                </form>
+</div>
 <div id="content">
 [%
   INCLUDE component/results.tt;
 %]
 
+  
+      <div class=" nihilo ">
+      
+  [% IF c.req.params.gr %]
+        <div dojoType="dijit.form.ToggleButton" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { gr => 0 })) | xml_escape %]'">
+                    Individual page results
+        </div>
+  [% ELSE %]
+        <div dojoType="dijit.form.ToggleButton" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { gr => 1 })) | xml_escape %]'">
+                    Group by Document
+        </div>
+
+  [% END %]
+        <div dojoType="dijit.form.DropDownButton">
+            <span>
+                Sort Order
+            </span>
+            <div dojoType="dijit.Menu">
+                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" })) | xml_escape %]'">
+                    [% c.loc("relevance") | xml_escape %]
+                </div>
+                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc"})) | xml_escape %]'">
+                    [% c.loc("newest") | xml_escape %]
+                </div>
+                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc"}))  | xml_escape %]'">
+                    [% c.loc("oldest") | xml_escape %]
+                </div>
+           </div>
+        </div>
+
+        <div dojoType="dijit.form.DropDownButton">
+            <span>
+                [% c.loc("Language") | xml_escape %]
+            </span>
+            <div dojoType="dijit.Menu">
+                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "" })) | xml_escape %]'">
+                    [% c.loc("any") | xml_escape %]
+                </div>
+                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "en"})) | xml_escape %]'">
+                    [% c.loc("English") | xml_escape %]
+                </div>
+                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "fr"}))  | xml_escape %]'">
+                    [% c.loc("French") | xml_escape %]
+                </div>
+           </div>
+        </div>
+
+        <div dojoType="dijit.form.DropDownButton">
+
+            <span>
+                Date Range
+            </span>
+        
+        <div dojoType="dijit.TooltipDialog">
+        <form method="GET">
+        [% FOREACH param IN c.req.params.pairs %]
+          [% IF param.key != 'dr' %]
+          <input type="hidden" name="[% param.key | xml_escape %]" value="[% param.value | xml_escape %]"/>
+          [% END %]
+        [% END %]        
+                <label for="dr">
+                    Limit by date range:
+                </label>
+                <input dojoType="dijit.form.TextBox" id="dr" type="text" name="dr" value="[% c.req.params.dr | xml_escape %]"/>
+
+                <button dojoType="dijit.form.Button" type="submit">
+                    [% c.loc("Search") | xml_escape %]
+                </button>
+        
+        </form>
+
+        </div>
+        </div>
+
+
+
+
+  
+    </div>
+    </div>
+  
+        <!--
+  
   [% IF c.req.params.gr %]
       <a href="[% c.uri_for(root, 'search', refine(c.req.params, { gr => 0 })) | xml_escape %]">Individual page results</a> |
   [% ELSE %]
-      <a href="[% c.uri_for(root, 'search', refine(c.req.params, { gr => 1 })) | xml_escape %]">Group by document</a> |
+        <a href="[% c.uri_for(root, 'search', refine(c.req.params, { gr => 1 })) | xml_escape %]">Group by document</a>
+
+  [% END %]
+  
+
+      
     <span>
       Sort:
       <a href="[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" })) | xml_escape %]">relevance</a> |
       <a href="[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc"})) | xml_escape %]">newest</a> |
       <a href="[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc"}))  | xml_escape %]">oldest</a> 
     </span>
-  [% END %]
+
 
   <span>
     Language:
@@ -44,7 +159,7 @@
       <button type="submit">[% c.loc("Search") %]</button>
     </div>
   </form>
-
+-->
 [%
   
   # Search results list
