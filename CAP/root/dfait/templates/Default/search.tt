@@ -18,14 +18,7 @@
     </script>
 <div id="container">
 [% INCLUDE component/header.tt; %]
-<!-- <div class="newsearch_bar">
-        <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
-          <input class="dfait_searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
-          <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
-        </form>
-</div>
 
--->
 <div class="newsearch_bar">
                 <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
                 <input dojoType="dijit.form.TextBox" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
@@ -121,45 +114,7 @@
     </div>
     </div>
   
-        <!--
-  
-  [% IF c.req.params.gr %]
-      <a href="[% c.uri_for(root, 'search', refine(c.req.params, { gr => 0 })) | xml_escape %]">Individual page results</a> |
-  [% ELSE %]
-        <a href="[% c.uri_for(root, 'search', refine(c.req.params, { gr => 1 })) | xml_escape %]">Group by document</a>
 
-  [% END %]
-  
-
-      
-    <span>
-      Sort:
-      <a href="[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" })) | xml_escape %]">relevance</a> |
-      <a href="[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc"})) | xml_escape %]">newest</a> |
-      <a href="[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc"}))  | xml_escape %]">oldest</a> 
-    </span>
-
-
-  <span>
-    Language:
-    <a href="[% c.uri_for(root, 'search', refine(c.req.params, { lang => "" })) | xml_escape %]">any</a> |
-    <a href="[% c.uri_for(root, 'search', refine(c.req.params, { lang => "en"})) | xml_escape %]">English</a> |
-    <a href="[% c.uri_for(root, 'search', refine(c.req.params, { lang => "fr"}))  | xml_escape %]">French</a> 
-  </span>
-
-  <form method="get">
-    <div>
-      [% FOREACH param IN c.req.params.pairs %]
-        [% IF param.key != 'dr' %]
-          <input type="hidden" name="[% param.key | xml_escape %]" value="[% param.value | xml_escape %]"/>
-        [% END %]
-      [% END %]
-      [% c.loc("Limit by date range: ") %]
-      <input type="text" name="dr" value="[% c.req.params.dr | xml_escape %]"/>
-      <button type="submit">[% c.loc("Search") %]</button>
-    </div>
-  </form>
--->
 [%
   
   # Search results list
