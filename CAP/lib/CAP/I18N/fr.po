@@ -224,8 +224,8 @@ msgid "Foreign Affairs and International Trade"
 msgstr "Affaires étrangers et Commerce international"
 
 # Dfait Portal Stuff
-msgid "Copyright © Foreign Affairs and International Trade"
-msgstr "© Affaires étrangers et Commerce international" 
+msgid "All content copyright © Foreign Affairs and International Trade"
+msgstr "Tous droits réservés © Affaires étrangers et Commerce international" 
 
 msgid "Produced by Canadiana.org"
 msgstr "Réalisée par Canadiana.org"
@@ -250,3 +250,21 @@ msgstr "discours"
 
 msgid "table of contents"
 msgstr "table des matières"
+
+msgid "Sort Order"
+msgstr "Trier par"
+
+msgid "Date Range"
+msgstr "Année(s)"
+
+msgid "Limit by date range:"
+msgstr "Année(s) de publication : "
+
+msgid "Group by document"
+msgstr "Regrouper les pages de chaque document"
+
+msgid "Individual page results"
+msgstr "Afficher les résultats page par page"
+
+msgid "Show pages containing: %1"
+msgstr "Afficher pages contenant : %1"

@@ -48,18 +48,11 @@
           <a href="[% c.uri_for(root, 'show', doc.key) %]">[% c.loc("[_1] - page [_2]", doc.label, doc.seq) | xml_escape %]</a></p>
         [%- END -%]
         </p>
-        <p>
-        <!--
-          [%- c.loc("Show") -%]
-          <a href="[% c.uri_for(root, 'show', doc.pkey) | xml_escape %]">[%- c.loc("document record") | xml_escape -%]</a>
-          [%- IF c.req.params.q -%]
-            | <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("pages containing: [_1]", c.req.params.q) | xml_escape -%]</a>
-          [%- END -%]
-        -->
-          [% IF c.req.params.q %]
-            <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("All matches from this document") | xml_escape -%]</a>
-          [% END %]
-        </p>
+        [%- IF c.req.params.q -%]
+          <p>
+            <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("Show pages containing: [_1]", c.req.params.q) | xml_escape -%]</a>
+          </p>
+        [%- END -%]
       [%- ELSIF doc.type == "monograph" -%]
         [%-
           query.t = "pages";

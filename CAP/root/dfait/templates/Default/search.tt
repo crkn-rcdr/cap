@@ -38,17 +38,17 @@
       
   [% IF c.req.params.gr %]
         <div dojoType="dijit.form.ToggleButton" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { gr => 0 })) | xml_escape %]'">
-                    Individual page results
+                    [% c.loc("Individual page results") %]
         </div>
   [% ELSE %]
         <div dojoType="dijit.form.ToggleButton" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { gr => 1 })) | xml_escape %]'">
-                    Group by Document
+                    [% c.loc("Group by document") %]
         </div>
 
   [% END %]
         <div dojoType="dijit.form.DropDownButton">
             <span>
-                Sort Order
+                [% c.loc("Sort Order") %]
             </span>
             <div dojoType="dijit.Menu">
                 <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" })) | xml_escape %]'">
@@ -83,7 +83,7 @@
         <div dojoType="dijit.form.DropDownButton">
 
             <span>
-                Date Range
+                [% c.loc("Date Range") %]
             </span>
         
         <div dojoType="dijit.TooltipDialog">
@@ -94,7 +94,7 @@
           [% END %]
         [% END %]        
                 <label for="dr">
-                    Limit by date range:
+                    [% c.loc("Limit by date range:") %]
                 </label>
                 <input dojoType="dijit.form.TextBox" id="dr" type="text" name="dr" value="[% c.req.params.dr | xml_escape %]"/>
 
