@@ -67,7 +67,7 @@ li.username {
 }
 
 .navbox_separator {
-    postion: relative;
+    position: relative;
     float: left;
     background: #ffffff;
     width: 2px;
@@ -92,3 +92,36 @@ li.username {
 	float:left;
 }
 
+/* Index page styles */
+
+.index_container {
+    position: static;
+    background-color: #e9e3dc;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #000000;
+}
+
+.index_top {
+    position: static;
+    width: 100%;
+    height: 200px;
+    text-align: right;
+        
+}
+
+.dfait_banner {
+    width: 100%;
+    text-align: center;
+}
+
+.index_search_form {
+    width: 100%;
+    text-align: center;
+}
+
+
+.index_browse_button {
+     width: 100%;
+     text-align: center;
+}

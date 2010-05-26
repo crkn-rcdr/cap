@@ -11,6 +11,7 @@
     background-image:url(../images/bkgWidth.gif);
     background-repeat:repeat-x;
 }
+    
 #containerSplash #content {
     margin: 0px auto;
     padding: 0px;
@@ -27,6 +28,7 @@
     font-size:10px;
     font-weight:bold;
     color:#937d6a;
+    border: 0px solid #44eeee;
 }
 #containerSplash #logo {
     margin:40px 0 20px 287px;
@@ -112,6 +114,13 @@
     margin:0px 3px 0px 0px;
     vertical-align:middle;
 }
+
+.v_spacer {
+    /* background-color: #d9d3cb; */
+    width: 100%;
+    height: 100px;	
+}
+
 #footer {
     position:absolute;
     bottom:0px;

@@ -17,7 +17,9 @@
         [% IF iface != 'en' %]<a href="[% c.uri_for('/', portal, 'en', uri_tail, c.req.params) | xml_escape %]">English</a>[% END %]
       </p>
     </div>
+    <div class="v_spacer">&nbsp;</div>
     <div id="content"> <img id="logo" src="[% c.uri_for(root,'static','images', "logo_${iface}.png")|xml_escape%]" />
+    <div class="v_spacer">&nbsp;</div>
       <div id="search">
         <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
           <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
