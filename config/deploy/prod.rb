@@ -10,5 +10,5 @@ set :deploy_to, "/opt/cap"
 
 set :app_var, "/opt/cap-var"
 
-set :repository,  "http://dev.cihm/svn/cap/trunk"
+set :repository,  "http://dev.cihm/svn/tags/v0.3"
 
