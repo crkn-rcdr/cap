@@ -4,103 +4,91 @@
   USE XML.Escape;
 -%]
 
-[% META 
-  css = 'index.css'
-%]
+[% META css='splash.css' %]
 
 
-<div id="containerSplash">
-  <div id="fullWidth">
-    <div id="topNav">
+
+    
+
+
+<div class="index_top">
       <p>
         [% IF iface != 'fr' %]<a href="[% c.uri_for('/', portal, 'fr', uri_tail, c.req.params) | xml_escape %]">Français</a>[% END %]
         [% IF iface != 'en' %]<a href="[% c.uri_for('/', portal, 'en', uri_tail, c.req.params) | xml_escape %]">English</a>[% END %]
       </p>
-    </div>
-    <div class="v_spacer">&nbsp;</div>
-    <div id="content"> <img id="logo" src="[% c.uri_for(root,'static','images', "logo_${iface}.png")|xml_escape%]" />
-    <div class="v_spacer">&nbsp;</div>
-      <div id="search">
-        <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+</div>
+﻿
+
+<div class="dfait_banner" style="background-image: url([% c.uri_for(root,'static','images', "dfait_header_bg.png")|xml_escape %])">
+  <img id="dfait_logo" src="[% c.uri_for(root,'static','images', "dfait_splash_${iface}.png")|xml_escape%]" width="760" height="116" />
+</div>
+
+
+
+<div class="index_search_form">
+                <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+                <input dojoType="dijit.form.TextBox" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
+
+                <button dojoType="dijit.form.Button" type="submit">
+                    [% c.loc("Search") | xml_escape %]
+                </button>
+                </form>
+       
+       <!-- <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
           <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
           <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
-        </form>
-        <div id="searchOptions">
-          <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
-            <input type="hidden" name="t" value="titles"/>
-          <p>
-            <a id="btnAdvancedSearch" href="#">[% c.loc('Browse by title') | xml_escape %]</a>
-          </p>
-          <div id="ddownAdvancedSearch" style="display:none;">
-            <p>[% c.loc('Sort') | xml_escape %]</p>
-            <ul>
-              <li>
-		[% radioButton(c, 'so', 'pubmin asc', { id => 'oldest', class => 'radio' }, 1) %]
-                <label for="oldest">[% c.loc('oldest') | xml_escape %]</label>
-              </li>
-              <li>
-		[% radioButton(c, 'so', 'pubmin desc', { id => 'newest', class => 'radio' }) %]
-                <label for="newest">[% c.loc('newest') | xml_escape %]</label>
-              </li>
-            </ul>
+        </form> -->
+</div>
 
-            <p>[% c.loc('Type') | xml_escape %]</p>
-            <ul>
-              <li>
-                [% radioButton(c, 'ctype', '', { id => 't_any', class => 'radio' }, 1) %]
-                <label for="any">[% c.loc('any') | xml_escape %]</label>
-              </li>
-              <li>
-                [% radioButton(c, 'ctype', 'press', { id => 't_press', class => 'radio' }) %]
-                <label for="t_press">[% c.loc('press release') | xml_escape %]</label>
-              </li>
-              <li>
-                [% radioButton(c, 'ctype', 'statement', { id => 't_statement', class => 'radio' }) %]
-                <label for="t_statement">[% c.loc('statement') | xml_escape %]</label>
-              </li>
-              <li>
-                [% radioButton(c, 'ctype', 'speech', { id => 't_speech', class => 'radio' }) %]
-                <label for="t_speech">[% c.loc('speech') | xml_escape %]</label>
-              </li>
-              <li>
-                [% radioButton(c, 'ctype', 'index', { id => 't_index', class => 'radio' }) %]
-                <label for="t_index">[% c.loc('index') | xml_escape %]</label>
-              </li>
-              <li>
-                [% radioButton(c, 'ctype', 'toc', { id => 't_toc', class => 'radio' }) %]
-                <label for="t_toc">[% c.loc('table of contents') | xml_escape %]</label>
-              </li>
-            </ul>
+<div class="index_browse_button">
+        <div dojoType="dijit.form.DropDownButton">
 
-            <p>[% c.loc('Language') | xml_escape %]</p>
-            <ul>
-              <li>
-		[% radioButton(c, 'lang', '', { id => 'any', class => 'radio' }, 1) %]
-                <label for="any">[% c.loc('any') | xml_escape %]</label>
-              </li>
-              <li>
-		[% radioButton(c, 'lang', 'en', { id => 'en', class => 'radio' }) %]
-                <label for="en">[% c.loc('English') | xml_escape %]</label>
-              </li>
-              <li>
-		[% radioButton(c, 'lang', 'fr', { id => 'fr', class => 'radio' }) %]
-                <label for="fr">[% c.loc('French') | xml_escape %]</label>
-              </li>
-            </ul>
-            <p>[% c.loc('Years') | xml_escape %]</p>
-            <ul>
-              <li>
-                <input type="text" name="dr" value="[% c.session.search.params.dr | xml_escape %]" size="9" />
-              </li>
-            </ul>
-            <p><button type="submit">[% c.loc("Browse") %]</button></p>
-          </div>
+            <span>
+                Browse by title
+            </span>
+        <div dojoType="dijit.TooltipDialog">
+                <form action="[% c.uri_for(root,'search') | xml_escape %]" method="GET">
+                <b>Sort</b> <br />
+                <input dojoType="dijit.form.RadioButton" name="so" value="oldest" checked="checked" /> oldest<br />
+                <input dojoType="dijit.form.RadioButton" name="so" value="newest" /> newest<br />
+                <input dojoType="dijit.form.RadioButton" name="so" value="score" /> relevance<br /><br />
+                <b>Type</b> <br />
+                <input dojoType="dijit.form.RadioButton" name="ctype" value="" checked="checked" /> any<br />
+                <input dojoType="dijit.form.RadioButton" name="ctype" value="press" /> press release<br />
+                <input dojoType="dijit.form.RadioButton" name="ctype" value="statement" /> statement<br />
+                <input dojoType="dijit.form.RadioButton" name="ctype" value="speech" /> speech<br />
+                <input dojoType="dijit.form.RadioButton" name="ctype" value="index" /> index<br />
+                <input dojoType="dijit.form.RadioButton" name="ctype" value="toc" /> table of contents<br /><br />
+                <b>Language</b> <br />
+                <input dojoType="dijit.form.RadioButton" name="lang" value="" checked="checked" /> any<br />
+                <input dojoType="dijit.form.RadioButton" name="lang" value="en" /> English<br />
+                <input dojoType="dijit.form.RadioButton" name="lang" value="fr" /> French<br /><br />
+
+                                 
+                <label for="dr">
+                    <b>Years</b><br />
+                </label>
+                <input dojoType="dijit.form.TextBox" id="dr" name="dr"/><br /><br />
+
+                <button dojoType="dijit.form.Button" type="submit">
+                    Browse
+                </button> 
+                </form>
         </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div id="footer">
+        </div>
+</div>
+
+
+<div id="push"></div>
+
     [% INCLUDE component/footer.tt %]
-</div>
-</div>
+
+
+    </script>
+    <script type="text/javascript">
+        dojo.require("dijit.form.Button");
+        dojo.require("dijit.TooltipDialog");
+        dojo.require("dijit.Menu");
+        dojo.require("dijit.form.TextBox");
+        dojo.require("dijit.form.RadioButton");
+    </script>

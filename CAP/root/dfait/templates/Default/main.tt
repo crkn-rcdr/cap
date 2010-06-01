@@ -1,0 +1,62 @@
+﻿[%-
+  # Default XHTML page layout wrapper
+  # Version: 0.20100317
+
+  USE XML.Escape;
+  #c.load_lexicon('Default');
+-%]
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="[% iface %]" lang="[% iface %]">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+  [%-
+    # Page title
+  -%]
+  [%- IF config.label -%]
+    <title>
+      [% c.loc(config.label) | xml_escape -%]
+      [%- IF title -%] - [%- title | xml_escape -%][%- END %]
+    </title>
+  [%- ELSE -%]
+    <title>
+      [% c.loc("CAP") | xml_escape -%]
+      [%- IF title -%] - [%- title | xml_escape -%] [%- END %]
+    </title>
+  [%- END -%]
+
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/nihilo/nihilo.css') %]" />
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'cap.css') %]"/>
+    [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]" />
+    <script type="text/javascript">
+      var CAP = {
+        base_uri : "[% c.req.base | xml_escape %][% c.req.path | xml_escape %]",
+        icon_expand : "[% c.uri_for(root, 'static', 'widgets', 'expand.png') %]",
+        icon_collapse : "[% c.uri_for(root, 'static', 'widgets', 'collapse.png') %]",
+      }
+    </script>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'jquery.js') %]">1;</script>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'cap.js') %]">1;</script>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'dojo', 'dojo/dojo.js') %]" djConfig="parseOnLoad: true">1;</script>
+  [%- # Additional scripts and stylesheets to include based on the action executed -%]
+  [%- IF c.action == "show/show" -%]
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'show.js') %]">1;</script>
+  [%- ELSIF c.action == "system/i18n" -%]
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'i18n.css') %]"/>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'i18n.js') %]">1;</script>
+  [%- END -%]
+
+  </head>
+
+<body id="main" class="nihilo">
+
+    [% content %]
+
+
+</body>
+
+</html>

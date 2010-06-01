@@ -45,7 +45,6 @@
                     [% c.loc("Group by document") %]
         </div>
 
-  [% END %]
         <div dojoType="dijit.form.DropDownButton">
             <span>
                 [% c.loc("Sort Order") %]
@@ -62,6 +61,9 @@
                 </div>
            </div>
         </div>
+  [% END %]
+  
+
 
         <div dojoType="dijit.form.DropDownButton">
             <span>
