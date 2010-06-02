@@ -70,3 +70,6 @@ a:link, a:visited, #footer a:link, #footer a:visited {
   color: #0000ff;
 }
 
+.dijitDropDownButton {
+    background-color: #ffffcc;    
+}
