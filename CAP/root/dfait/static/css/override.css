@@ -90,3 +90,11 @@ li.username {
 	float:left;
 }
 
+.rl {
+    padding-left: 25px;
+}
+
+#rp {
+    padding-left: 20px;
+    padding-top: 20px;
+}
