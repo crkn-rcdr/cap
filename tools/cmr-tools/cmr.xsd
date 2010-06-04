@@ -51,19 +51,18 @@
               <xs:element name="media" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
+                    <xs:enumeration value="data"/>
+                    <xs:enumeration value="image"/>
+                    <xs:enumeration value="plaintext"/>
                     <xs:enumeration value="sound"/>
                     <xs:enumeration value="text"/>
+                    <xs:enumeration value="video"/>
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
 
               <!-- Description and content -->
               <xs:element name="description">
-                <xs:annotation>
-                  <xs:documentation>
-                    These are descriptive bibliographic fields.
-                  </xs:documentation>
-                </xs:annotation>
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="title" type="bibdesc" minOccurs="0" maxOccurs="unbounded"/>
@@ -155,7 +154,7 @@
 
   <xs:simpleType name="key">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[A-Za-z0-9_.-]{1,256}"/>
+      <xs:pattern value="[A-Za-z0-9_.-]{1,127}"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -174,6 +173,7 @@
   <xs:simpleType name="mime">
     <xs:restriction base="xs:string">
       <xs:enumeration value="application/pdf"/>
+      <xs:enumeration value="image/jpeg"/>
       <xs:enumeration value="image/tiff"/>
     </xs:restriction>
   </xs:simpleType>
