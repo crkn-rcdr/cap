@@ -8,11 +8,6 @@
         (CMR) intermediate metadata format. It is intended to provide a
         common container format which can be readily translated into
         various Schema, such as for ingesting into a Solr database.
-
-        Point versions are backward-compatible with previous versions.
-        I.e., a valid version 1.0 document will also validate under
-        version 1.1. Major version numbers indicate a break in backward
-        compatibility.
     </xs:documentation>
   </xs:annotation>
 
@@ -29,6 +24,7 @@
               <xs:element name="type">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
+                    <xs:enumeration value="collection"/>
                     <xs:enumeration value="serial"/>
                     <xs:enumeration value="issue"/>
                     <xs:enumeration value="monograph"/>
@@ -159,7 +155,7 @@
 
   <xs:simpleType name="key">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[A-Za-z0-9_.-]+"/>
+      <xs:pattern value="[A-Za-z0-9_.-]{1,256}"/>
     </xs:restriction>
   </xs:simpleType>
 
