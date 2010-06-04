@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  A richer set of metadata, repsetenting material taken from MARC records,
+  OCR page text, and some additional manual and automated metadata
+  collection. Each page has a master image associated with it, which is
+  useful in contexts where digital content is stored and presented locally
+  (e.g. Early Canadiana Online) rather than those in which content is
+  simply pointed to (e.g. Canadiana Discovery Portal).
+
+  The recordset itself is a convenient container for keeping related
+  records together, but each record could exist in a separate document, as
+  the linking information: contributor, key, pkey, type and seq is
+  sufficient to fully map the relationships among items.
+-->
+<recordset version="1.0">
+  <record>
+    <type>monograph</type>
+    <contributor>oocihm</contributor>
+    <key>12469</key>
+    <label>Earth's enigmas : a volume of stories /</label>
+    <clabel>Earth's enigmas : a volume of stories /</clabel>
+    <pkey>ecl</pkey>
+    <pubdate min="1896-01-01T00:00:00.000Z" max="1896-12-31T23:59:59.999Z"/>
+    <lang>eng</lang>
+    <media>text</media>
+    <description>
+      <title lang="eng" type="main">Earth's enigmas [electronic resource] : a volume of stories / by Charles G.D. Roberts.</title>
+      <author lang="eng" type="person">Roberts, Charles G. D., 1860-1943.</author>
+      <publication lang="eng" type="main">Boston ; New York : Lamson, Wolffe, 1896.</publication>
+      <note lang="eng" type="general">Title from title screen.</note>
+      <note lang="eng" type="extent">290 p. ; 18 cm.</note>
+    </description>
+    <resource>
+      <canonicalUri>http://www.canadiana.org/record/12469</canonicalUri>
+    </resource>
+  </record>
+  <record>
+    <type>page</type>
+    <contributor>oocihm</contributor>
+    <key>12469.0001</key>
+    <label>Earth's enigmas : a volume of stories /</label>
+    <clabel>technical data sheet</clabel>
+    <pkey>12469</pkey>
+    <gkey>ecl</gkey>
+    <gkey>ecl</gkey>
+    <seq>1</seq>
+    <pubdate min="1896-01-01T00:00:00.000Z" max="1896-12-31T23:59:59.999Z"/>
+    <lang>eng</lang>
+    <media>text</media>
+    <description>
+      <text lang="eng" type="content"><!--Full text snipped for brevity)--></text>
+    </description>
+    <resource>
+      <canonicalUri>http://www.canadiana.org/view/12469/1</canonicalUri>
+      <canonicalMaster md5="f94e6919bb340134bf37e94bfa26cfdd" mime="image/tiff">oocihm.12469.0001.tif</canonicalMaster>
+    </resource>
+  </record>
+  <record>
+    <type>page</type>
+    <contributor>oocihm</contributor>
+    <key>12469.0002</key>
+    <label>Earth's enigmas : a volume of stories /</label>
+    <clabel>blank page</clabel>
+    <pkey>12469</pkey>
+    <gkey>ecl</gkey>
+    <gkey>ecl</gkey>
+    <seq>2</seq>
+    <pubdate min="1896-01-01T00:00:00.000Z" max="1896-12-31T23:59:59.999Z"/>
+    <lang>eng</lang>
+    <media>text</media>
+    <description>
+      <text lang="eng" type="content"><!--Full text snipped for brevity)--></text>
+    </description>
+    <resource>
+      <canonicalUri>http://www.canadiana.org/view/12469/2</canonicalUri>
+      <canonicalMaster md5="9d319a06f45cd0b1eb10bd6d7486f380" mime="image/tiff">oocihm.12469.0002.tif</canonicalMaster>
+    </resource>
+  </record>
+  <record>
+    <type>page</type>
+    <contributor>oocihm</contributor>
+    <key>12469.0003</key>
+    <label>Earth's enigmas : a volume of stories /</label>
+    <clabel>title page</clabel>
+    <pkey>12469</pkey>
+    <gkey>ecl</gkey>
+    <gkey>ecl</gkey>
+    <seq>3</seq>
+    <pubdate min="1896-01-01T00:00:00.000Z" max="1896-12-31T23:59:59.999Z"/>
+    <lang>eng</lang>
+    <media>text</media>
+    <description>
+      <text lang="eng" type="content"><!--Full text snipped for brevity)--></text>
+    </description>
+    <resource>
+      <canonicalUri>http://www.canadiana.org/view/12469/3</canonicalUri>
+      <canonicalMaster md5="ba9db480472f27d379d41077a644f98c" mime="image/tiff">oocihm.12469.0003.tif</canonicalMaster>
+    </resource>
+  </record>
+  <record>
+    <type>page</type>
+    <contributor>oocihm</contributor>
+    <key>12469.0004</key>
+    <label>Earth's enigmas : a volume of stories /</label>
+    <clabel>unnumbered</clabel>
+    <pkey>12469</pkey>
+    <gkey>ecl</gkey>
+    <gkey>ecl</gkey>
+    <seq>4</seq>
+    <pubdate min="1896-01-01T00:00:00.000Z" max="1896-12-31T23:59:59.999Z"/>
+    <lang>eng</lang>
+    <media>text</media>
+    <description>
+      <text lang="eng" type="content"><!--Full text snipped for brevity)--></text>
+    </description>
+    <resource>
+      <canonicalUri>http://www.canadiana.org/view/12469/4</canonicalUri>
+      <canonicalMaster md5="5bbcb8338b452f649d03927ca2916272" mime="image/tiff">oocihm.12469.0004.tif</canonicalMaster>
+    </resource>
+  </record>
+</recordset>

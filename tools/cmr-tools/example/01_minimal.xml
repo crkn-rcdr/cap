@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  This represents the minimum amount of information required in a valid
+  CMR record. Note that, without additional metadata, discovery and
+  display options are extremely limited.
+-->
+<recordset version="1.0">
+  <record>
+    <type>monograph</type>
+    <contributor>oocihm</contributor>
+    <key>12469</key>
+    <label>Earth's enigmas : a volume of stories /</label>
+    <clabel>Earth's enigmas : a volume of stories /</clabel>
+    <description/>
+    <resource>
+      <canonicalUri>http://www.canadiana.org/record/12469</canonicalUri>
+    </resource>
+  </record>
+</recordset>
