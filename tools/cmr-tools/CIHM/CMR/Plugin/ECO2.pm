@@ -188,6 +188,7 @@ sub _marctype
         when(520) { return "descriptive" }
         when(534) { return "extent" }
         when(546) { return "language" }
+        when(800) { return "personal" }
         when(810) { return "corporate" }
         when(830) { return "uniform" }
         default { return $code }
