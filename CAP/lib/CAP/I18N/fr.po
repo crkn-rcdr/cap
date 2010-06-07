@@ -223,7 +223,17 @@ msgstr "Afficher le site web: %1"
 msgid "Foreign Affairs and International Trade"
 msgstr "Affaires étrangers et Commerce international"
 
-# Dfait Portal Stuff
+# Portal Names and Configuration
+msgid "Canadiana Discovery Portal"
+msgstr "Portail de recherche de Canadiana"
+
+# DFAIT Portal Stuff
+msgid "DFAIT Statements and Speeches"
+msgstr "AECI Déclarations et Discours"
+
+msgid "Norhing Found"
+msgstr "Aucun résultat"
+
 msgid "All content copyright © Foreign Affairs and International Trade"
 msgstr "Tous droits réservés © Affaires étrangers et Commerce international" 
 

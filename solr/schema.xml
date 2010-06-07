@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="cihm:cap-20100413" version="1.1">
+<schema name="cihm:cap-1.0" version="1.1">
 
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
@@ -63,24 +63,55 @@
   </types>
 
   <fields>
-  
-    <!-- Universally-Required Fields-->
+
+    <!-- Required control fields -->
     <field name="key" type="string" required="true" indexed="true" stored="true"/>
     <field name="type" type="string" required="true" indexed="true" stored="true"/>
     <field name="contributor" type="string" required="true" indexed="true" stored="true"/>
     <field name="label" type="string" required="true" indexed="true" stored="true"/>
     <field name="clabel" type="string" required="true" indexed="true" stored="true"/>
-    <field name="pubmin" type="date" required="true" indexed="true" stored="true"/>
-    <field name="pubmax" type="date" required="true" indexed="true" stored="true"/>
-
-    <!-- Other Control Fields -->
+  
+    <!-- Optional control fields -->
     <field name="pkey" type="string" indexed="true" stored="true"/>
     <field name="gkey" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="seq" type="sint" indexed="true" stored="true"/>
-    <field name="id" type="string" indexed="true" stored="true" multiValued="true"/>
-
-    <!-- Universal Descriptive Information -->
+    <field name="pubmin" type="date" indexed="true" stored="true"/>
+    <field name="pubmax" type="date" indexed="true" stored="true"/>
     <field name="lang" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="media" type="string" indexed="true" stored="true" multiValued="true"/>
+
+    <!-- Description and content -->
+    <field name="ti" type="text" indexed="true" stored="true" multiValued="true"/><!-- title -->
+    <field name="au" type="text" indexed="true" stored="true" multiValued="true"/><!-- author/creator -->
+    <field name="pu" type="text" indexed="true" stored="true" multiValued="true"/><!-- publication statement -->
+    <field name="su" type="text" indexed="true" stored="true" multiValued="true"/><!-- subject -->
+    <field name="no" type="text" indexed="true" stored="true" multiValued="true"/><!-- note -->
+    <field name="de" type="text" indexed="true" stored="true" multiValued="true"/><!-- descriptor -->
+    <field name="tx" type="text" indexed="true" stored="true" multiValued="true"/><!-- full text -->
+
+    <!-- The preceding are duplicated for a keyword anywhere search -->
+    <field name="kw" type="text" indexed="true" stored="false" multiValued="true"/>
+
+    <!--
+      These are meant to be used in conjunction with the preceding
+      descriptive fields (including kw) to enable language-specific stemming
+      and stopword filtering
+    -->
+    <dynamicField name="*_en" type="text_en" indexed="true" stored="false" multiValued="true"/>
+    <dynamicField name="*_fr" type="text_fr" indexed="true" stored="false" multiValued="true"/>
+
+    <!-- Canonical resource files and locations -->
+    <field name="canonicalUri" type="text" indexed="true" stored="true" required="true"/>
+    <field name="canonicalMaster" type="text" indexed="true" stored="true"/>
+    <field name="canonicalMasterSize" type="sint" indexed="true" stored="true"/>
+    <field name="canonicalMasterMime" type="text" indexed="true" stored="true"/>
+    <field name="canonicalDownload" type="text" indexed="true" stored="true"/>
+    <field name="canonicalDownloadSize" type="sint" indexed="true" stored="true"/>
+    <field name="canonicalDownloadMime" type="text" indexed="true" stored="true"/>
+
+
+
+    <!-- The following are potentially deprecated -->
 
     <!-- Digital content (file) and resource (URI) description -->
     <!-- Note that the file profile is deprecated; its function has merged with resource -->
@@ -94,41 +125,37 @@
     <!-- Simple Bibliographic Description -->
     <field name="pubstmt" type="text" indexed="true" stored="true"/>
     <field name="pubdate" type="text" indexed="true" stored="true"/>
-    <field name="ti" type="text" indexed="true" stored="true" multiValued="true"/>
-    <field name="au" type="text" indexed="true" stored="true" multiValued="true"/>
-    <field name="su" type="text" indexed="true" stored="true" multiValued="true"/>
-    <field name="no" type="text" indexed="true" stored="true" multiValued="true"/>
 
-    <!-- Keyword anywhere bibliographic search -->
-    <field name="kw" type="text" indexed="true" stored="false" multiValued="true"/>
 
     <!-- Descriptor, summary, abstract, page text -->
     <field name="ds" type="text" indexed="true" stored="true" multiValued="true"/>
     <field name="sm" type="text" indexed="true" stored="true" multiValued="true"/>
     <field name="ab" type="text" indexed="true" stored="true" multiValued="true"/>
-    <field name="tx" type="text" indexed="true" stored="true" multiValued="true"/>
     <dynamicField name="ds_*" type="text" indexed="true" stored="true" multiValued="true"/>
 
     <!-- MARC Record Fields: e.g.: marc_100, marc_245a, marc_245ac -->
     <dynamicField name="marc_*" type="text" indexed="true" stored="true" multiValued="true"/>
 
-    <!-- Any field with a _lang suffix gets indexed using the appropriate
-    language factories -->
-    <dynamicField name="*_en" type="text_en" indexed="true" stored="false" multiValued="true"/>
-    <dynamicField name="*_fr" type="text_fr" indexed="true" stored="false" multiValued="true"/>
-
     <!-- Material and content descriptors -->
     <field name="mtype" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="ctype" type="string" indexed="true" stored="true" multiValued="true"/>
 
+
+    <!-- Definitely deprecated fields -->
+    <field name="id" type="string" indexed="true" stored="true" multiValued="true"/>
+
   </fields>
 
-  <copyField source="tx_*" dest="tx"/>
   <copyField source="ti_*" dest="ti"/>
   <copyField source="au_*" dest="au"/>
+  <copyField source="pu_*" dest="au"/>
   <copyField source="su_*" dest="su"/>
   <copyField source="no_*" dest="no"/>
+  <copyField source="de_*" dest="no"/>
+  <copyField source="tx_*" dest="tx"/>
   <copyField source="kw_*" dest="kw"/>
+
+  <!-- Possibly Deprecated -->
   <copyField source="ds_*" dest="ds"/>
   <copyField source="sm_*" dest="sm"/>
   <copyField source="ab_*" dest="ab"/>
