@@ -122,7 +122,9 @@ sub add_query
 {
     my($self, $c, $request_param, $solr_param) = @_;
     $solr_param = $request_param unless ($solr_param);
-    if ($c->request->params->{$request_param}) {
+    # Treat a value of '-' as a null value (so that we can use checkboxes,
+    # etc. in the interface)
+    if ($c->request->params->{$request_param} && $c->request->params->{$request_param} ne '-') {
         $c->stash->{query}->{$solr_param} = $c->request->params->{$request_param};
     }
 }
@@ -130,21 +132,12 @@ sub add_query
 sub add_param
 {
     my($self, $c, $solr_param, $request_param) = @_;
-    if ($c->request->params->{$request_param}) {
+    # Treat a value of '-' as a null value (so that we can use checkboxes,
+    # etc. in the interface)
+    if ($c->request->params->{$request_param} && $c->request->params->{$request_param} ne '-') {
         $c->stash->{param}->{$solr_param} = $c->request->params->{$request_param};
     }
 }
 
-
-=head1 AUTHOR
-
-William,,,
-
-=head1 LICENSE
-
-This library is free software, you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut
 
 1;
