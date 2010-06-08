@@ -28,10 +28,12 @@
     </title>
   [%- END -%]
 
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/nihilo/nihilo.css') %]" />
+    
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'cap.css') %]"/>
     [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]" />
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'global.css') %]" />
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/nihilo/nihilo.css') %]" />
     <script type="text/javascript">
       var CAP = {
         base_uri : "[% c.req.base | xml_escape %][% c.req.path | xml_escape %]",
@@ -52,7 +54,7 @@
 
   </head>
 
-<body id="main" class="nihilo">
+<body id="main" class="tundra">
 
     [% content %]
 

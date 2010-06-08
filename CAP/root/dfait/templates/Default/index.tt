@@ -49,8 +49,8 @@
         <div dojoType="dijit.TooltipDialog">
                 <form action="[% c.uri_for(root,'search') | xml_escape %]" method="GET">
                 <b>[% c.loc("Sort") | xml_escape %]</b> <br />
-                <input dojoType="dijit.form.RadioButton" name="so" value="oldest" checked="checked" /> [% c.loc("oldest") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" name="so" value="newest" /> [% c.loc("newest") | xml_escape %]<br />
+                <input dojoType="dijit.form.RadioButton" name="so" value="pubmin asc" checked="checked" /> [% c.loc("oldest") | xml_escape %]<br />
+                <input dojoType="dijit.form.RadioButton" name="so" value="pubmax desc" /> [% c.loc("newest") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="so" value="score" /> [% c.loc("relevance") | xml_escape %]<br /><br />
                 <b>[% c.loc("Type") | xml_escape %]</b> <br />
                 <input dojoType="dijit.form.RadioButton" name="ctype" value="" checked="checked" /> [% c.loc("any") | xml_escape %]<br />

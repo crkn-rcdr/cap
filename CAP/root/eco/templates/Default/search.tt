@@ -4,12 +4,8 @@
   USE XML.Escape;
 -%]
 
-[% META 
-  css = "global.css"
-%]
 
-    </script>
-    <script type="text/javascript">
+   <script type="text/javascript">
         dojo.require("dijit.form.Button");
         dojo.require("dijit.TooltipDialog");
         dojo.require("dijit.Menu");
@@ -33,7 +29,7 @@
 %]
 
   
-      <div class=" nihilo ">
+      <div class=" tundra ">
       
   [% IF c.req.params.gr %]
         <div dojoType="dijit.form.ToggleButton" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { gr => 0 })) | xml_escape %]'">
