@@ -5,7 +5,7 @@
 -%]
 
 [% META 
-  css = "nihilo.css"
+  css = "global.css"
 %]
 
     </script>

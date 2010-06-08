@@ -1,0 +1,87 @@
+﻿<div id="gTop">
+  <div class="gWrapper">
+    
+    <div id="gTopL">
+      <ul>
+        <li>
+                  [% IF iface != 'fr' %]<a href="[% c.uri_for('/', portal, 'fr', uri_tail, c.req.params) | xml_escape %]">Français</a>[% END %]
+                  [% IF iface != 'en' %]<a href="[% c.uri_for('/', portal, 'en', uri_tail, c.req.params) | xml_escape %]">English</a>[% END %]
+        </li>
+        <li>
+          <a href="http://www.canadiana.org/feedback">Feedback</a>
+        </li>
+      </ul>
+    </div>
+    
+    <div id="gTopR">
+      <ul>
+        <li>Welcome, Canadiana.org</li>
+      </ul>
+    </div>
+  
+    <br class="clear">
+  
+  </div>
+
+</div>
+
+<div id="gBanner">
+  
+  <div class="gWrapper">
+  
+    <div id="gBannerL">
+
+      <a href="http://www.canadiana.org/ECO">
+        <img src="[% c.uri_for(root,'static','images', "logoECO_${iface}.gif")|xml_escape%]" alt="Early Canadiana Online">
+
+      </a>
+
+    </div>
+
+    <div id="gBannerR">
+
+      <div id="gSearchBox">
+<!--
+        <form method="get" action="/ECO/SearchResults">
+
+        <div>
+          <input name="Language" value="en" type="hidden">
+          <input name="id" value="5ff09340774c75c9" type="hidden">
+          <input name="range" value="text" type="hidden">
+          <input name="bool" value="all" type="hidden">
+          <input name="subset" value="all" type="hidden">
+          <input name="query" id="guiSearch" value="Search ECO" class="swap_value" type="text">
+          <input src="[% c.uri_for(root,'static','images', "btnSearchBox.gif")|xml_escape%]" id="go" alt="Search" title="Search" type="image">
+
+        </div>
+
+        </form>
+-->
+      </div>
+
+      <br class="clear">
+
+    </div>
+
+    <br class="clear">
+
+    <div id="gBannerNav">
+
+      <ul>
+        <li class="uiHidden">
+          <a href="http://www.canadiana.org/ECO/SearchResults?id=5ff09340774c75c9">Search Results</a>
+        </li>
+        <li class="uiHidden">
+          <a href="http://www.canadiana.org/ECO/Browse?id=5ff09340774c75c9">Browse List</a>
+        </li>
+        <li class="uiHidden">
+          <a href="http://www.canadiana.org/ECO/ItemRecord?id=5ff09340774c75c9">Detailed Record</a>
+        </li>
+        <li>
+          <a class="uiHidden" href="http://www.canadiana.org/view//">Page View</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
