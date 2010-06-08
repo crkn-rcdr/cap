@@ -53,14 +53,14 @@
                 <input dojoType="dijit.form.RadioButton" name="so" value="pubmax desc" /> [% c.loc("newest") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="so" value="score" /> [% c.loc("relevance") | xml_escape %]<br /><br />
                 <b>[% c.loc("Type") | xml_escape %]</b> <br />
-                <input dojoType="dijit.form.RadioButton" name="ctype" value="" checked="checked" /> [% c.loc("any") | xml_escape %]<br />
+                <input dojoType="dijit.form.RadioButton" name="ctype" value="-" checked="checked" /> [% c.loc("any") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="ctype" value="press" /> [% c.loc("press release") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="ctype" value="statement" /> [% c.loc("statement") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="ctype" value="speech" /> [% c.loc("speech") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="ctype" value="index" /> [% c.loc("index") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="ctype" value="toc" /> [% c.loc("table of contents") | xml_escape %]<br /><br />
                 <b>[% c.loc("Language") | xml_escape %]</b> <br />
-                <input dojoType="dijit.form.RadioButton" name="lang" value="" checked="checked" /> [% c.loc("any") | xml_escape %]<br />
+                <input dojoType="dijit.form.RadioButton" name="lang" value="-" checked="checked" /> [% c.loc("any") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="lang" value="eng" /> [% c.loc("English") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" name="lang" value="fre" /> [% c.loc("French") | xml_escape %]<br /><br />
 
