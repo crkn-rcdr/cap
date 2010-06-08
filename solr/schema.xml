@@ -148,7 +148,7 @@
 
   <copyField source="ti_*" dest="ti"/>
   <copyField source="au_*" dest="au"/>
-  <copyField source="pu_*" dest="au"/>
+  <copyField source="pu_*" dest="pu"/>
   <copyField source="su_*" dest="su"/>
   <copyField source="no_*" dest="no"/>
   <copyField source="de_*" dest="no"/>
