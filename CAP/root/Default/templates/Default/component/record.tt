@@ -43,6 +43,8 @@
 
 <div id="rc" class="bibrec">
 
+  <p>[% doc.label | xml_escape %]</p>
+
   <p class="link">
   [%- IF c.session.show.full_record -%]
     <a href="[% c.uri_for(root, 'show', doc.key, { rec => 'off' }) | xml_escape %]">
@@ -78,11 +80,9 @@
       },
       { brief => 1, value => issue_count, key => undef, label => "Issues" },
       { brief => 0, value => doc.su, key => undef, label => "Subject" },
-      { brief => 1, value => doc.pubstmt, key => undef, label => "Published" },
+      { brief => 1, value => doc.pu, key => undef, label => "Published" },
       { brief => 0, value => doc.no, key => undef, label => "Note" },
-      { brief => 1, value => doc.ds, key => undef, label => "Descriptor" },
-      { brief => 1, value => doc.sm, key => undef, label => "Summary" },
-      { brief => 0, value => doc.ab, key => undef, label => "Abstract" },
+      { brief => 0, value => doc.tx, key => undef, label => "Summary" },
       { brief => 0, value => first_issue.pubstmt, key => first_issue.key, label => "First issue" },
       { brief => 0, value => last_issue.pubstmt, key => last_issue.key, label => "Last issue" },
       {
@@ -97,12 +97,11 @@
     END;
 
     IF config.tt.portal;
-      FOR res IN resource_page;
-        FOR uri IN res.uri;
-          bib = { brief => 1, value => res.label, uri => uri, class => ['bold'], label => 'Web site' };
-          INCLUDE bib_field;
-        END;
-      END;
+      bib = {
+        brief => 1, value => doc.canonicalUri, key => undef, uri =>
+        doc.canonicalUri, class => ['bold'], label => 'Web site'
+      };
+      INCLUDE bib_field;
     END;
 
   -%]

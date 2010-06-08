@@ -9,7 +9,6 @@
   USE XML.Escape;
 %]
 
-[% IF resource_page.size %]
   <div id="si">
     <p class="link">
       [% IF c.session.show.site_preview %]
@@ -20,15 +19,14 @@
       [% ELSE %]
         <a href="[% c.uri_for(root, 'show', doc.key, { sprev => 'on' }) | xml_escape %]">
           <img src="[% c.uri_for(root, 'static', 'widgets', 'expand.png') | xml_escape %]" alt="+"/>
-          [% c.loc("Show web site: [_1]", resource_page.first.label) | xml_escape %]
+          [% c.loc("Show web site: [_1]", doc.canonicalUri) | xml_escape %]
         </a>
       [% END %]
     </p>
 
-    [% IF resource_page.first.uri.size && c.session.show.site_preview %]
-      <iframe class="site_frame" scrolling="auto" src="[% resource_page.first.uri.first | xml_escape %]">
+    [% IF c.session.show.site_preview %]
+      <iframe class="site_frame" scrolling="auto" src="[% doc.canonicalUri | xml_escape %]">
         <a href="[% resource_page.first.uri.first | xml_escape %]">[% resource_page.first.uri.first | xml_escape %]</a>
       </iframe>
     [% END %]
   </div>
-[% END %]
