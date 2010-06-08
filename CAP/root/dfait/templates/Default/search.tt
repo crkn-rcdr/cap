@@ -72,10 +72,10 @@
                 <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "" })) | xml_escape %]'">
                     [% c.loc("any") | xml_escape %]
                 </div>
-                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "en"})) | xml_escape %]'">
+                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "eng"})) | xml_escape %]'">
                     [% c.loc("English") | xml_escape %]
                 </div>
-                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "fr"}))  | xml_escape %]'">
+                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "fre"}))  | xml_escape %]'">
                     [% c.loc("French") | xml_escape %]
                 </div>
            </div>
