@@ -25,7 +25,7 @@
 
 </div>
 
-<div id="gBanner">
+<div id="gBanner" style="background-image: url([% c.uri_for(root,'static','images', "gBannerBg.png")|xml_escape %])">
   
   <div class="gWrapper">
   
