@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 use POSIX qw( strftime );
-use Ingest;
+use CAP::Ingest;
 
 =head1 NAME
 

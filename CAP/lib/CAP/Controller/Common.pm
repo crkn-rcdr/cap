@@ -2,7 +2,7 @@ package CAP::Controller::Common;
 use Moose;
 use namespace::autoclean;
 use Digest::MD5 qw(md5_hex);
-use Ingest;
+use CAP::Ingest;
 use Data::Dumper;
 
 BEGIN {extends 'Catalyst::Controller'; }
