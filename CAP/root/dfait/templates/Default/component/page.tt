@@ -13,5 +13,7 @@
   <div id="pg">
     <img src="[% c.uri_for(root, 'get', doc.key, "image.png" ) %]">
   </div>
+[% ELSIF doc.type == 'monograph' %]
+  <a href="[% c.uri_for(root, 'show', pages.first.key) %]">[% c.loc("Click here if your browser does not automatically redirect you") %]</a>
 [% END %]
 

@@ -4,11 +4,17 @@
   USE XML.Escape;
 
   INCLUDE component/header.tt;
+
+  IF doc.type == 'page';
+    page_count = sibling_count;
+  ELSE;
+    page_count = pages.size;
+  END;
 %]
-  
+
 <div id="content">
 
-  <h1>[% c.loc("[_1] - [_2] pages", doc.label sibling_count) | xml_escape %]</h1>
+  <h1>[% c.loc("[_1] - [_2] pages", doc.label page_count) | xml_escape %]</h1>
 
 [% 
   # Page navigation
@@ -16,7 +22,6 @@
 
   # Display the page image
   INCLUDE component/page.tt;
-
 %]
 
 </div>
