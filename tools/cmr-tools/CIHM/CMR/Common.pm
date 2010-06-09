@@ -5,7 +5,7 @@ use warnings;
 use feature qw(switch);
 
 use Exporter qw(import);
-our @EXPORT = qw(each_element element iso8601 media_mime);
+our @EXPORT = qw(each_element element iso8601 media_mime normalize_space);
 
 # Evaluate and convert a date to a full ISO-8601 date string. If not
 # possible, return undef. If $max is true, returns the greatest matching
@@ -45,8 +45,7 @@ sub media_mime
     }
 }
 
-# DEPRECATED
-sub wsnormal
+sub normalize_space
 {
     my($string) = @_;
     $string =~ s/^\s+//;

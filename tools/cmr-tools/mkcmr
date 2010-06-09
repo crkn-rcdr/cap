@@ -1,14 +1,32 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use CIHM::CMR::Common;
+
+# Set up a library path and base directory relative to the executable,
+# then try to load other libraries.
+use FindBin;
+use lib $FindBin::Bin;
+my $basedir = $FindBin::Bin;
+
 use Config::General;
+use File::Basename;
 use XML::LibXML;
+use XML::LibXML::XPathContext;
 use feature qw(switch);
+use CIHM::CMR::Common;
 
 @ARGV == 4 || die ("Usage: $0 SCHEMA_FILE CONFIG_FILE INPUT_FILE OUTPUT_FILE\n");
 
 my($schema_file, $config_file, $input_file, $output_file) = @ARGV;
+
+# If the config and schema files don't exist, treat them as a
+# filename/sub-path relative to basedir.
+unless (-f $schema_file) {
+    $schema_file = join('/', $basedir, $schema_file);
+}
+unless (-f $config_file) {
+    $config_file = join('/', $basedir, 'config', $config_file);
+}
 
 # Read the configuration file and the schema.
 my $schema = XML::LibXML::Schema->new(location => $schema_file);
@@ -17,7 +35,24 @@ my $config = { Config::General->new($config_file)->getall };
 # Parse the source file. Pass it to the preprocesser plugin, if one is
 # speceified.
 my $xml = XML::LibXML->new();
-my $src = XML::LibXML->new()->parse_file($input_file);
+my $doc = XML::LibXML->new()->parse_file($input_file);
+my $src = XML::LibXML::XPathContext->new($doc->documentElement());
+
+# Register a default namespace.
+my @namespaces;
+if (! $config->{namespace}) {
+    @namespaces = ();
+}
+elsif (ref($config->{namespace} eq 'array')) {
+    @namespaces = @{$config->{namespace}};
+}
+else {
+    @namespaces = ($config->{namespace});
+}
+foreach my $ns (@namespaces) {
+    my ($name, $uri) = split(':', $ns, 2);
+    $src->registerNs($name, $uri);
+}
 
 # Get the contributor code
 my $contributor = $config->{contributor} or die("Missing contributor declarating in $schema_file\n");
@@ -26,7 +61,7 @@ my $contributor = $config->{contributor} or die("Missing contributor declarating
 if ($config->{plugin}) {
     eval "use CIHM::CMR::Plugin::$config->{plugin}";
     die($@) if ($@);
-    $src = preprocess($src);
+    $doc = preprocess($doc, $src);
 }
 
 # Create the output document.
@@ -74,7 +109,9 @@ foreach my $recordset (@recordset) {
 # Make sure the resulting record is valid
 eval { $schema->validate($cmr) };
 if ($@) {
-    die($@);
+    my $error = $@;
+    warn ($cmr->toString(1));
+    die($error);
 }
 
 # Output the CMR record set.

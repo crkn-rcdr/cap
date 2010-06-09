@@ -26,6 +26,14 @@ sub preprocess {
         }
     }
 
+    # Split languages
+    foreach my $node ($src->findnodes('/record/language')) {
+        my $content = $node->findvalue('.');
+        foreach my $lang (split(/;\s*/, $content)) {
+            element($src, $record, 'lang', {}, $lang);
+        }
+    }
+
     # Extract notes
     foreach my $node ($src->findnodes('/record/format[@type="duration"]')) {
         element($src, $record, 'note', { type => 'extent' }, $node->findvalue('.'));

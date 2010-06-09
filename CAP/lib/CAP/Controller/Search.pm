@@ -62,6 +62,7 @@ sub prepare_search : Private
     $self->add_query($c, 'au');
     $self->add_query($c, 'su');
     $self->add_query($c, 'no');
+    $self->add_query($c, 'de');
     $self->add_query($c, 'tx');
     $self->add_query($c, 'kw');
     $self->add_query($c, 'gkey');

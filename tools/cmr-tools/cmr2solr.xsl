@@ -81,10 +81,10 @@
   <xsl:apply-templates select="canonicalDownload"/>
 </xsl:template>
 
-<xsl:template match="canonicalMaster">
-  <field name="canonicalMaster"><xsl:value-of select="."/></field>
-  <xsl:if test="@size"><field name="canonicalMasterSize"><xsl:value-of select="@size"/></field></xsl:if>
-  <xsl:if test="@mime"><field name="canonicalMasterMime"><xsl:value-of select="@mime"/></field></xsl:if>
+<xsl:template match="canonicalMaster|canonicalDownload">
+  <field name="{name()}"><xsl:value-of select="."/></field>
+  <xsl:if test="@size"><field name="{name()}Size"><xsl:value-of select="@size"/></field></xsl:if>
+  <xsl:if test="@mime"><field name="{name()}Mime"><xsl:value-of select="@mime"/></field></xsl:if>
 </xsl:template>
 
 </xsl:stylesheet>

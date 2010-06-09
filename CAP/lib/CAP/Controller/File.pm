@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 use POSIX qw( strftime );
+use Ingest;
 
 =head1 NAME
 
@@ -22,35 +23,95 @@ Retrieve digital objects
 
 =cut
 
-sub get :Chained('/base') PartPath('/get') Args(1)
+sub get :Chained('/base') PartPath('/get') Args(2)
 {
-    my( $self, $c, $key ) = @_;
+    my($self, $c, $key, $file) = @_;
     my $suffix = "";
 
     # Retrieve the record for the requested document. Verify that it
-    # exists. If not, strip the suffix and see if that record exists.
+    # exists.
     my $solr = CAP::Solr->new($c->config->{solr});
     my $doc = $solr->document($key);
+    if (! $doc ){
+        $c->detach( '/error', [ 404, "No record for: $key" ] );
+    }
+
+    # If there is a canonical master, look for a suffix that
+    # implies the file type we want and get it.
+    if ($doc->{canonicalMaster}) {
+        my($base, $suffix ) = ($file =~ /(.*)\.(.*)/);
+        if ($suffix) {
+            $c->detach('get_derivative', [$doc, $suffix]);
+        }
+    }
 
     # If this is a downloadable resource, serve it to the requester.
-    if ( $doc && $doc->{type} eq 'resource' && $doc->{role} eq 'download' && $doc->{file} ) {
-        $c->detach( 'get_download', [ $doc ] );
-    }
+    #if ( $doc && $doc->{type} eq 'resource' && $doc->{role} eq 'download' && $doc->{file} ) {
+    #    $c->detach( 'get_download', [ $doc ] );
+    #}
 
     # Strip away the final suffix and see if the resulting record  exists.
     # Try to get a derivative image based on the suffix type.
-    ( $key, $suffix ) = ( $key =~ /(.*)\.(.*)/ );
-    warn("[debug]: Trying to find resource $key to create $suffix file\n");
-    $doc = $solr->query_first( { key => $key, type => 'resource', role => 'master' } );
-    if ( $doc && $doc->{file} ) {
-        $c->detach( 'get_derivative', [ $doc, $suffix ] );
-    }
+    #( $key, $suffix ) = ( $key =~ /(.*)\.(.*)/ );
+    #warn("[debug]: Trying to find resource $key to create $suffix file\n");
+    #$doc = $solr->query_first( { key => $key, type => 'resource', role => 'master' } );
+    #if ( $doc && $doc->{file} ) {
+    #    $c->detach( 'get_derivative', [ $doc, $suffix ] );
+    #}
 
     # If none of the above worked, the requested item is not available.
     warn("[debug] Couldn't find suitable file for $key\n");
     $c->detach( '/error', [ 404 ] );
 }
 
+sub download :Chained('/base') PartPath('/download') Args(2)
+{
+    my($self, $c, $key, $file) = @_;
+
+    # Retrieve the record for the requested document. Verify that it
+    # exists.
+    my $solr = CAP::Solr->new($c->config->{solr});
+    my $doc = $solr->document($key);
+    if (! $doc ){
+        $c->detach( '/error', [ 404, "No record for: $key" ] );
+    }
+
+    # Prepare the file for download.
+    if ($doc->{canonicalDownload} eq $file) {
+        # Set the MIME type and size for the file.
+        #my $content_type = "application/octet-stream";
+        my $content_type = $doc->{canonicalDownloadMime};
+        my $content_length = 0;
+        $content_length = int( $doc->{size} ) if ( $doc->{size} );
+
+        # Verify that the file exists.
+        my $repos = Ingest->new($c->config->{content});
+        my $file = $repos->get_fqfn($file, $doc->{contributor});
+        if ( ! -f $file ) {
+            $c->detach( '/error', [ 404, "No such file: $file" ] );
+            return 1;
+        }
+
+        # Read the file
+        if ( ! open( DATA, "<$file" )) {
+            $c->detach( '/error', [ 500 ] );
+            return 1;
+        }
+        my $content = join( "", <DATA> );
+        close( DATA );
+
+        # Output the file
+        $c->res->content_length( $content_length );
+        $c->res->content_type( $content_type );
+        $c->res->status( 200 );
+        $c->res->body ( $content );
+        return 1;
+    }
+
+    $c->detach( '/error', [ 404, "No such record: $key" ] );
+}
+
+# DEPRECATED - remove
 sub get_download :Private
 {
     my ( $self, $c, $doc ) = @_;
@@ -126,14 +187,15 @@ sub get_derivative :Private
         'image/jpeg' => { netpbm => 'jpegtopnm' },
         'image/tiff' => { netpbm => 'tifftopnm' },
     };
-    if ( ! $input->{$doc->{mime}} ) {
+    if ( ! $input->{$doc->{canonicalMasterMime}} ) {
         $c->detach( '/error', [ 500 ] );
     }
 
     # Verify that the master file exists.
-    my $file = join( '/', $c->forward( '/common/repos_path', [ $doc ] ), $doc->{key} );
+    my $repos = Ingest->new($c->config->{content});
+    my $file = $repos->get_fqfn($doc->{canonicalMaster}, $doc->{contributor});
     if ( ! -f $file ) {
-        $c->detach( '/error', [ 404 ] );
+        $c->detach( '/error', [ 404, "No such file: $file" ] );
         return 1;
     }
 
@@ -148,12 +210,12 @@ sub get_derivative :Private
         $content_length = length( $content );
         $cached_file->update({ acount => $cached_file->acount + 1, atime => strftime( '%Y-%m-%d %H:%M:%S', localtime()) });
     }
-    elsif ( $input->{$doc->{mime}}->{netpbm} && $output->{$format}->{netpbm} )  {
+    elsif ( $input->{$doc->{canonicalMasterMime}}->{netpbm} && $output->{$format}->{netpbm} )  {
         my $netpbm_path = $c->config->{netpbm_path};
         my @command = ();
 
         # Construct the NetPBM command pipeline
-        push(@command, "$netpbm_path/" . $input->{$doc->{mime}}->{netpbm} . " -quiet $file");
+        push(@command, "$netpbm_path/" . $input->{$doc->{canonicalMasterMime}}->{netpbm} . " -quiet $file");
         push(@command, "$netpbm_path/pamscale -quiet -xsize $size -");
         if ($rot == 1) {
             push(@command, "$netpbm_path/pamflip -quiet -cw -");
@@ -188,7 +250,7 @@ sub get_derivative :Private
         });
     }
     else {
-        $c->detach( '/error', [ 404 ] );
+        $c->detach( '/error', [ 404, "Not found" ] );
     }
 
     # Output the file

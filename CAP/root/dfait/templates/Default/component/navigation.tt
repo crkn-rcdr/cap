@@ -4,10 +4,12 @@
   USE XML.Escape;
 
   # Determine the name of the PDF file
-  IF doc.type == 'monograph';
-    pdf_file = resource_download.first.file;
-  ELSIF ancestors.first.type == 'monograph';
-    pdf_file = "${ancestors.first.key}.pdf";
+  IF doc.canonicalDownloadMime == 'application/pdf';
+    pdf_file = doc.canonicalDownload;
+    pdf_key = doc.key;
+  ELSIF ancestors.first.canonicalDownloadMime == 'application/pdf';
+    pdf_file = ancestors.first.canonicalDownload;
+    pdf_key = ancestors.first.key;
   ELSE;
     pdf_file = "";
   END;
@@ -32,7 +34,7 @@
   [% END %]
 
   [% IF pdf_file %]
-    <span><a href="[% c.uri_for(root, 'get', pdf_file) | xml_escape %]">[% c.loc("Download PDF") | xml_escape %]</a></span> |
+    <span><a href="[% c.uri_for(root, 'download', pdf_key, pdf_file) | xml_escape %]">[% c.loc("Download PDF") | xml_escape %]</a></span> |
   [% END %]
 
   [%

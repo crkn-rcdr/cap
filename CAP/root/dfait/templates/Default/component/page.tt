@@ -9,9 +9,9 @@
   USE XML.Escape;
 %]
 
-[% IF resource_master.first %]
+[% IF doc.canonicalMaster %]
   <div id="pg">
-    <img src="[% c.uri_for(root, 'show', doc.key, { rel => 'image' } ) %]">
+    <img src="[% c.uri_for(root, 'get', doc.key, "image.png" ) %]">
   </div>
 [% END %]
 
