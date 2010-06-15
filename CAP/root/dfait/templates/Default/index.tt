@@ -41,12 +41,10 @@
 </div>
 
 <div class="index_browse_button">
-        <div dojoType="dijit.form.DropDownButton">
+        <div dojoType="dijit.form.DropDownButton" label="[% c.loc("Browse by title") | xml_escape %]">
 
-            <span>
-                [% c.loc("Browse by title") | xml_escape %]
-            </span>
-        <div dojoType="dijit.TooltipDialog">
+        <div dojoType="dijit.TooltipDialog" style="text-align:left;margin-left:auto;margin-right:auto;width:16%;border: solid 0px #ff0000;">
+        <noscript><h4>[% c.loc("Browse by title") | xml_escape %]</h4></noscript>
                 <form action="[% c.uri_for(root,'search') | xml_escape %]" method="GET">
                   <input type="hidden" name="t" value="titles"/>
                 <b>[% c.loc("Sort") | xml_escape %]</b> <br />

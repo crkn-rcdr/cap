@@ -16,6 +16,14 @@
 
 <div class="newsearch_bar">
                 <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+                
+                                  <input type="hidden" name="t" value="[% c.session.search.params.t | xml_escape %]"/>
+                  <input type="hidden" name="gr" value="[% c.session.search.params.gr | xml_escape %]"/>
+                  <input type="hidden" name="so" value="[% c.session.search.params.so | xml_escape %]"/>
+                  <input type="hidden" name="lang" value="[% c.session.search.params.lang | xml_escape %]"/>
+                  <input type="hidden" name="dr" value="[% c.session.search.params.dr | xml_escape %]"/>
+                  <input dojoType="dijit.form.TextBox" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
+                
                 <input dojoType="dijit.form.TextBox" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
 
                 <button dojoType="dijit.form.Button" type="submit">
@@ -28,87 +36,39 @@
   INCLUDE component/results.tt;
 %]
 
+   <div class="tundra">
+
+  <noscript>
+    <h4>Refine Search</h4>
+    <p></p> 
+  </noscript>
+
+    [% # Option to group by document or show by page, displayed in the relevant context %]
+    [% IF c.req.params.gr %]
+        [% INCLUDE component/individual_page_button.tt %]
+
+    [% ELSIF c.req.params.t == 'pages' %]
+        [% INCLUDE component/group_by_doc_button.tt %]    
+
+    [% END %]
+
+
+    [% # Sort order: only display when not showing grouped results %]
+    [% IF ! c.req.params.gr %]
+        [% INCLUDE component/sort_order_button.tt %]    
+    [% END %]
   
-      <div class=" tundra ">
-      
-  [% IF c.req.params.gr %]
-        <div dojoType="dijit.form.ToggleButton" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { gr => 0 })) | xml_escape %]'">
-                    [% c.loc("Individual page results") %]
-        </div>
-  [% ELSE %]
-        <div dojoType="dijit.form.ToggleButton" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { gr => 1 })) | xml_escape %]'">
-                    [% c.loc("Group by document") %]
-        </div>
-
-        <div dojoType="dijit.form.DropDownButton">
-            <span>
-                [% c.loc("Sort Order") %]
-            </span>
-            <div dojoType="dijit.Menu">
-                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" })) | xml_escape %]'">
-                    [% c.loc("relevance") | xml_escape %]
-                </div>
-                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc"})) | xml_escape %]'">
-                    [% c.loc("newest") | xml_escape %]
-                </div>
-                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc"}))  | xml_escape %]'">
-                    [% c.loc("oldest") | xml_escape %]
-                </div>
-           </div>
-        </div>
-  [% END %]
-  
-
-
-        <div dojoType="dijit.form.DropDownButton">
-            <span>
-                [% c.loc("Language") | xml_escape %]
-            </span>
-            <div dojoType="dijit.Menu">
-                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "" })) | xml_escape %]'">
-                    [% c.loc("any") | xml_escape %]
-                </div>
-                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "eng"})) | xml_escape %]'">
-                    [% c.loc("English") | xml_escape %]
-                </div>
-                <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "fre"}))  | xml_escape %]'">
-                    [% c.loc("French") | xml_escape %]
-                </div>
-           </div>
-        </div>
-
-        <div dojoType="dijit.form.DropDownButton">
-
-            <span>
-                [% c.loc("Date Range") %]
-            </span>
-        
-        <div dojoType="dijit.TooltipDialog">
-        <form method="GET">
-        [% FOREACH param IN c.req.params.pairs %]
-          [% IF param.key != 'dr' %]
-          <input type="hidden" name="[% param.key | xml_escape %]" value="[% param.value | xml_escape %]"/>
-          [% END %]
-        [% END %]        
-                <label for="dr">
-                    [% c.loc("Limit by date range:") %]
-                </label>
-                <input dojoType="dijit.form.TextBox" id="dr" type="text" name="dr" value="[% c.req.params.dr | xml_escape %]"/>
-
-                <button dojoType="dijit.form.Button" type="submit">
-                    [% c.loc("Search") | xml_escape %]
-                </button>
-        
-        </form>
-
-        </div>
-        </div>
-
-
+    [% # Filter results by language %]
+    [% INCLUDE component/language_button.tt %]
+    
+   
+    [% # Limit results by publication date %]  
+    [% INCLUDE component/date_range_button.tt %]
 
 
   
-    </div>
+  </div> 
+
     </div>
   
 

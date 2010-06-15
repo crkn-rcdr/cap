@@ -1,0 +1,25 @@
+﻿[% # Toggle button to group by document %]
+
+[% USE XML.Escape; %]
+
+[% # Dojo toggle button %]
+      <div dojoType="dijit.form.ToggleButton" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { gr => 1 })) | xml_escape %]'" label="[% c.loc("Group by document") %]">
+      </div>
+
+[% # No Javascript block %]
+      <noscript>
+      <p></p>
+      <form method="GET" action="">
+          [% FOREACH param IN c.req.params.pairs %]
+            [% IF param.key != 'gr' %]
+              <input type="hidden" name="[% param.key | xml_escape %]" value="[% param.value | xml_escape %]"/>
+            [% END %]
+          [% END %]
+            <input type="hidden" name="gr" value="1"/>
+
+            <button type="submit">
+              [% c.loc("Group by document") | xml_escape %]
+            </button>          
+      </form>
+      </p>      
+      </noscript>

@@ -33,7 +33,7 @@
     [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]" />
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'global.css') %]" />
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/nihilo/nihilo.css') %]" />
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/tundra/tundra.css') %]" />
     <script type="text/javascript">
       var CAP = {
         base_uri : "[% c.req.base | xml_escape %][% c.req.path | xml_escape %]",

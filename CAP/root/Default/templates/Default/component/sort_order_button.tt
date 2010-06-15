@@ -1,0 +1,42 @@
+[% # Dropdown menu button for adjusting sort order %]
+
+[% USE XML.Escape; %]
+
+[%  # Dojo toolkit block %]
+      <div dojoType="dijit.form.DropDownButton" label="[% c.loc("Sort Order") %]">
+        <span>
+          
+        </span>
+        <div dojoType="dijit.Menu">
+          <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" })) | xml_escape %]'" label="[% c.loc("relevance") | xml_escape %]">
+            
+          </div>
+          <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc"})) | xml_escape %]'" label="[% c.loc("newest") | xml_escape %]">
+            
+          </div>
+            <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc"}))  | xml_escape %]'" label="[% c.loc("oldest") | xml_escape %]">
+              
+            </div>
+          </div>
+      </div>
+      
+[% # No Javascript block %]
+    <noscript>
+    <p>[% c.loc("Sort Order") | xml_escape %]
+    <form method="GET" action="">
+          [% FOREACH param IN c.req.params.pairs %]
+            [% IF param.key != 'so' %]
+              <input type="hidden" name="[% param.key | xml_escape %]" value="[% param.value | xml_escape %]"/>
+            [% END %]
+          [% END %]
+          <select name="so">
+            <option name="so" value="score desc">[% c.loc("relevance") | xml_escape %]</option>
+            <option name="so" value="pubmax desc">[% c.loc("newest") | xml_escape %]</option>
+            <option name="so" value="pubmin asc">[% c.loc("oldest") | xml_escape %]</option>
+          </select>
+          <button type="submit">
+            [% c.loc("Search") | xml_escape %]
+          </button>          
+    </form>
+    </p>      
+    </noscript>
