@@ -10,6 +10,7 @@
 
     </script>
     <script type="text/javascript">
+        dojo.require("dijit.Toolbar");
         dojo.require("dijit.form.Button");
         dojo.require("dijit.TooltipDialog");
         dojo.require("dijit.Menu");
@@ -46,7 +47,7 @@
       <h4>Refine Search</h4>
       <p></p> 
     </noscript>
-
+    <div id="fancy" dojoType="dijit.Toolbar">
     [%
     
          # Option to group by document or show by page, displayed in the relevant context
@@ -72,7 +73,7 @@
          INCLUDE component/date_range_button.tt;
     
     %]
-  
+    </div>
   </div>
 </div>
   

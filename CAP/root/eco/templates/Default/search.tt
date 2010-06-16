@@ -6,6 +6,7 @@
 
 
    <script type="text/javascript">
+        dojo.require("dijit.Toolbar");
         dojo.require("dijit.form.Button");
         dojo.require("dijit.TooltipDialog");
         dojo.require("dijit.Menu");
@@ -23,8 +24,7 @@
                   <input type="hidden" name="lang" value="[% c.session.search.params.lang | xml_escape %]"/>
                   <input type="hidden" name="dr" value="[% c.session.search.params.dr | xml_escape %]"/>
                   <input dojoType="dijit.form.TextBox" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
-                
-                <input dojoType="dijit.form.TextBox" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
+
 
                 <button dojoType="dijit.form.Button" type="submit">
                     [% c.loc("Search") | xml_escape %]
@@ -43,6 +43,7 @@
     <p></p> 
   </noscript>
 
+  <div id="fancy" dojoType="dijit.Toolbar">
     [% # Option to group by document or show by page, displayed in the relevant context %]
     [% IF c.req.params.gr %]
         [% INCLUDE component/individual_page_button.tt %]
@@ -65,7 +66,7 @@
     [% # Limit results by publication date %]  
     [% INCLUDE component/date_range_button.tt %]
 
-
+  </div>
   
   </div> 
 

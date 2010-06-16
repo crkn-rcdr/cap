@@ -12,6 +12,9 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    [% IF doc.type == 'monograph' %]
+      <meta http-equiv="refresh" content="0;url=[% c.uri_for(root, 'show', pages.first.key) %]">
+    [% END %]
 
   [%-
     # Page title
@@ -28,12 +31,10 @@
     </title>
   [%- END -%]
 
-    
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/tundra/tundra.css') %]" />
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'cap.css') %]"/>
     [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]" />
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'global.css') %]" />
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/tundra/tundra.css') %]" />
     <script type="text/javascript">
       var CAP = {
         base_uri : "[% c.req.base | xml_escape %][% c.req.path | xml_escape %]",
