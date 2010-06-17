@@ -21,7 +21,7 @@
     <div id="content" style="background-image: url([% c.uri_for(root,'static','images', "bkg_${iface}.gif")|xml_escape %])"> <img id="logo" src="[% c.uri_for(root,'static','images', "logo_${iface}.png")|xml_escape%]" width="343" height="144" />
       <div id="search">
         <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
-          <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
+          <input class="searchBox" name="q" type="text" value="" />
           <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
         <div id="searchOptions">
           <p>
@@ -78,7 +78,7 @@
             <p>[% c.loc('Publication years') | xml_escape %]</p>
             <ul>
               <li>
-                <input type="text" name="dr" value="[% c.session.search.params.dr | xml_escape %]" size="9" />
+                <input type="text" name="dr" value="" size="9" />
               </li>
             </ul>
           </div>

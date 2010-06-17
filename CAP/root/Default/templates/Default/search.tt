@@ -2,6 +2,8 @@
   # search.tt - search results template
 
   USE XML.Escape;
+  MACRO language(lang) INCLUDE macro/language.tt;
+  MACRO search_query(ignore) INCLUDE macro/search_query.tt;
 -%]
 
 
@@ -23,10 +25,71 @@
     [% c.req.params.gr = "on" %]
   [% END %]
 
-[%
-  
-  # Search results list
-  INCLUDE component/rlist.tt;
+
+  <form method="get" action="[% c.uri_for(root, 'search') %]">
+      [% search_query('so') %]
+      [% c.loc("Sort by") %]
+      <select name="so">
+        <option value="score desc">[% c.loc("Relevance") %]</option>
+        <option value="pubmin asc">[% c.loc("Oldest first") %]</option>
+        <option value="pubmax desc">[% c.loc("Newest first") %]</option>
+      </select>
+      <button type="submit">[% c.loc("Go") %]</button>
+  </form>
+
+  [% IF c.req.params.lang %]
+    <form method="get" action="[% c.uri_for(root, 'search') %]">
+      [% search_query('lang') %]
+      [% c.loc("Limited to ") | xml_escape %]
+      [% c.loc(language(c.req.params.lang)) | xml_escape %]
+      <button type="submit">[% c.loc("Show All") %]</button>
+    </form>
+  [% ELSIF response.facet.lang.size > 1 %]
+    <form method="get" action="[% c.uri_for(root, 'search') %]">
+      [% search_query('lang') %]
+      <select name="lang">
+        <option value="">[% c.loc("Limit by language:") %]</option>
+        [% FOREACH facet IN response.facet.lang %]
+          <option value="[% facet.name | xml_escape %]">[% c.loc(language(facet.name)) | xml_escape %] ([% facet.count %])</option>
+        [% END %]
+      </select>
+      <button type="submit">[% c.loc("Go") %]</button>
+    </form>
+  [% END %]
+
+  [% IF c.req.params.media %]
+    <form method="get" action="[% c.uri_for(root, 'search') %]">
+      [% search_query('media') %]
+      [% c.loc("Limited to ") | xml_escape %]
+      [% c.loc(language(c.req.params.media)) | xml_escape %]
+      <button type="submit">[% c.loc("Show All") %]</button>
+    </form>
+  [% ELSIF response.facet.media.size > 1 %]
+    <form method="get" action="[% c.uri_for(root, 'search') %]">
+      [% search_query('media') %]
+      <select name="media">
+        <option value="">[% c.loc("Limit by media type") %]</option>
+        [% FOREACH facet IN response.facet.media %]
+          <option value="[% facet.name | xml_escape %]">[% c.loc(language(facet.name)) | xml_escape %] ([% facet.count %])</option>
+        [% END %]
+      </select>
+      <button type="submit">[% c.loc("Go") %]</button>
+    </form>
+  [% END %]
+
+  <form method="get" action="[% c.uri_for(root, 'search') %]">
+    [% search_query(['df', 'dt']) %]
+    [% c.loc("Publicaton dates") | xml_escape %]
+    <input type="text" name="df" value="[% response.result.pubmin_year | xml_escape %]"/>
+    [% c.loc("to")| xml_escape %]
+    <input type="text" name="dt" value="[% response.result.pubmax_year | xml_escape %]"/>
+    <button type="submit">[% c.loc("Go") %]</button>
+  </form>
+
+    
+  [%
+    # Search results list
+    INCLUDE component/rlist.tt;
 
   # Search results page menu
   INCLUDE component/pager.tt;
@@ -36,3 +99,6 @@
 </div>
 [% INCLUDE component/footer.tt; %]
 </div>
+
+
+[% INCLUDE component/solr_metric.tt %]

@@ -27,7 +27,7 @@
       <td>
       [% # Disabled for now... %]
       [%- IF doc.type == "page" -%]
-        <a href="[% c.uri_for(root, 'show', doc.key) %]"><img src="[% c.uri_for(root, 'show', doc.key, { s => 50, rel => 'image' }) | xml_escape %]" alt="[% c.loc("preview") | xml_escape %]"/></a>
+        <a href="[% c.uri_for(root, 'show', doc.key) %]"><img src="[% c.uri_for(root, 'show', doc.key, 'thumbnail.png', { s => 50 }) | xml_escape %]" alt="[% c.loc("preview") | xml_escape %]"/></a>
       [%- END -%]
         <!--<img src="[% c.uri_for(root, 'static', 'logos', "${doc.contributor}.jpg") | xml_escape %]" alt="[% c.loc(c.config.contributor.${doc.contributor}) | xml_escape %]"/>-->
       </td>

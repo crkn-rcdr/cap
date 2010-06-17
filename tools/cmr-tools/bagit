@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Turn a directory into a bagit archive
+
+# TODO: this does not validate to check for the existence of
+# non-appropriate top-level files
+
+while [ "$1" ]; do
+    echo $1
+    
+    execdir=$(pwd);
+    cd "$1"
+
+
+    cihm=$(basename data/*.xml .xml)
+    # The BagIt declaration file
+    echo -e "BagIt-Version: 0.96\nTag-File-Character-Encoding: UTF-8" > bagit.txt
+
+    # Metadata
+    echo -e "Source-Organization: Canadiana.org\nBagging-Date: $(date '+%Y-%m-%d')\nInternal-Sender-Identifier: $cihm" > bag-info.txt
+
+    # MD5 Checksums
+    find data -type f | sort | xargs md5sum > manifest-md5.txt
+
+    cd "$execdir"
+
+    shift
+done

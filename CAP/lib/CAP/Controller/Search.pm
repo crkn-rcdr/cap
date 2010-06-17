@@ -9,6 +9,8 @@ sub search : Chained('/base') PathPart('search') Args()
     my($self, $c, $start) = @_;
     $start = 1 unless ($start);
 
+    $c->stash( response => { type => 'set' } );
+
     my $type = 'pages';
     my %types = (
         'all' => 'page OR monograph OR serial OR issue',
@@ -55,6 +57,13 @@ sub prepare_search : Private
 
     my $param = $c->stash->{param} = {};
     my $query = $c->stash->{query} = {};
+    my $facet = $c->stash->{facet} = {
+        facet => 'false',
+        'facet.sort' => 'true',
+        'facet.mincount' => 1,
+        'facet.limit' => -1,
+        'facet.field' => [],
+    };
 
     # Generate a set of Solr query parameters from the request parameters.
     $self->add_query($c, 'q');
@@ -67,10 +76,32 @@ sub prepare_search : Private
     $self->add_query($c, 'kw');
     $self->add_query($c, 'gkey');
     $self->add_query($c, 'pkey');
-    $self->add_query($c, 'ctype');
+    $self->add_query($c, 'ctype'); # DEPRECATED
+    $self->add_query($c, 'media');
     $self->add_query($c, 'lang');
+    $self->add_query($c, 'contributor');
 
     # Date range searching
+    if ($c->req->params->{df}) {
+        # The following date formats are allowed:
+        # YYYY, YYYY-MM, YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS,
+        # YYYY-MM-DDTHH:MM:SS.mmm, YYYY-MM-DDTHH:MM:SS.mmmZ
+        # TODO: check for invalid dates (e.g. 1900-02-30)
+        if ($c->req->params->{df} =~ /^\d{4}(-\d{2}(-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3}(Z)?)?)?)?)?$/) {
+            my $mask = '1000-01-01T00:00:00Z';
+            my $date = $c->req->params->{df} . substr($mask, length($c->req->params->{df}));
+            $c->stash->{query}->{_pubmax} = "[$date TO *]";
+        }
+    }
+    if ($c->req->params->{dt}) {
+        # See above for validation rules
+        if ($c->req->params->{dt} =~ /^\d{4}(-\d{2}(-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3}(Z)?)?)?)?)?$/) {
+            my $mask = '1000-01-01T00:00:00.000Z';
+            my $date = $c->req->params->{dt} . substr($mask, length($c->req->params->{dt}));
+            $c->stash->{query}->{_pubmin} = "[* TO $date]";
+        }
+    }
+    # DR is deprecated
     if ($c->request->params->{dr}) {
         my($pubmin,$pubmax) = split('-', $c->request->params->{dr});
         $pubmax = $pubmin unless ($pubmax); # If no $pubmax is supplied
@@ -88,6 +119,11 @@ sub prepare_search : Private
     # Solr parameters other than q
     $self->add_param($c, 'sort', 'so');
 
+    # Add faceting (FIXME: TESTING)
+    $facet->{facet} = 'true';
+    $facet->{'facet.field'} = ['lang', 'media', 'contributor'];
+
+
     $query->{_type} = $type;
 
     return 1;
@@ -97,17 +133,67 @@ sub run_search : Private
 {
     my($self, $c, $start) = @_;
     my $solr = CAP::Solr->new($c->config->{solr});
-    $c->stash->{result} = $solr->query($start, $c->stash->{query}, $c->stash->{param});
+    $solr->status_msg('Search::run_search main query');
+    #$c->stash->{result} = $solr->query($start, $c->stash->{query}, $c->stash->{param}, $c->stash->{facet});
+    my $result = $solr->query($start, $c->stash->{query}, $c->stash->{param}, $c->stash->{facet});
+    $c->stash->{result} = $result; # DEPRECATED
 
-    #if ($c->stash->{result}->{hits}) {
-        #my $previews = {};
-        #foreach my $doc (@{$c->stash->{result}->{documents}}) {
-        #    $previews->{$doc->{key}} =
-        #        $solr->query(0, {pkey => $doc->{key}, type => 'file', role => 'master'})->{documents}->[0];
-        #}
-        #$c->stash->{previews} = $previews;
-    #}
+    $c->stash->{response}->{result} = {
+        page => $result->{page},
+        pages => $result->{pages},
+        page_prev => $result->{page_prev},
+        page_next => $result->{page_next},
+        hits => $result->{hits},
+        hits_from => $result->{hitsFrom},
+        hits_to => $result->{hitsTo},
+        hits_per_page => $result->{hitsPerPage},
+    };
+    $c->stash->{response}->{facet} = $solr->{facet_fields};
 
+    # Create and store the result set.
+    my $set = [];
+    foreach my $doc (@{$result->{documents}}) {
+        $solr->status_msg("Search::run_search: ancestors for $doc->{key}");
+        my $ancestors = $solr->ancestors($doc),
+
+        # Pages and issues are considered to be sub-records. If $doc is a
+        # sub-record, find the first main record ancestor. Only if no such
+        # record exists do we use the document record.
+        my $main_record = $doc->{key};
+        if ($doc->{type} !~ /^(monograph)|(serial)|(collection)$/) {
+            foreach my $ancestor (@{$ancestors}) {
+                if ($ancestor->{type} =~ /^(monograph)|(serial)|(collection)$/) {
+                    $main_record = $ancestor->{key};
+                    last;
+                }
+            }
+        }
+        
+        push(@{$set}, {
+            ancestors => $ancestors,
+            doc => $doc,
+            main_record => $main_record,
+        });
+    }
+    $c->stash->{response}->{set} = $set;
+
+    # If a non-empty set is returned, find the first and last publication
+    # dates.
+    if (@{$set} > 0) {
+        my $doc;
+        $c->stash->{param}->{'sort'} = 'pubmin asc';
+        $solr->status_msg('Search::run_search: oldest pubdate in set');
+        $doc = $solr->query_first($c->stash->{query}, $c->stash->{param});
+        $c->stash->{response}->{result}->{pubmin} = $doc->{pubmin};
+        $c->stash->{response}->{result}->{pubmin_year} = substr($doc->{pubmin}, 0, 4);
+        $c->stash->{param}->{'sort'} = 'pubmax desc';
+        $solr->status_msg('Search::run_search: newest pubdate in set');
+        $doc = $solr->query_first($c->stash->{query}, $c->stash->{param});
+        $c->stash->{response}->{result}->{pubmax} = $doc->{pubmax};
+        $c->stash->{response}->{result}->{pubmax_year} = substr($doc->{pubmax}, 0, 4);
+    }
+
+    $c->stash->{response}->{solr} = $solr->status();
     return 1;
 }
 

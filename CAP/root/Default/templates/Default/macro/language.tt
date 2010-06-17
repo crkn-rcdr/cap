@@ -1,0 +1,13 @@
+[% 
+  # Convert an ISO 639-3 language code into an English name
+%]
+[% SWITCH lang %]
+  [% CASE 'chi' %]Chinese
+  [% CASE 'eng' %]English
+  [% CASE 'dut' %]Dutch
+  [% CASE 'fre' %]French
+  [% CASE 'lat' %]Latin
+  [% CASE 'pan' %]Punjabi
+  [% CASE 'spa' %]Spanish
+  [% CASE %][% lang %]
+[% END %]

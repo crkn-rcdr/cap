@@ -7,8 +7,6 @@ use LWP::UserAgent;
 use Time::HiRes qw/gettimeofday/;
 use URI::Escape;
 use XML::LibXML;
-#use XML::LibXML::SAX;
-#use CAP::SolrSAX;
 
 our $version = 0.20100107;
 
@@ -138,10 +136,35 @@ sub new
 
     $solr->{agent} = LWP::UserAgent->new();
     $solr->{parser} = XML::LibXML->new();
-    #$solr->{sax_handler} = CAP::SolrSAX->new();
-    #$solr->{sax} = XML::LibXML::SAX->new(Handler => $solr->{sax_handler});
     $solr->{param} = { %{$solr->{param_default}} };
+    $solr->{facet} = {};
+
+    $solr->{status} = {
+        query_count => 0,
+        query_time => 0,
+        exec_time => 0,
+        queries => [],
+    };
+
+    # If set, this will be recorded in the msg field when _qexec is
+    # called. The value is reset to 'nil' by _qexec.
+    $solr->{status_msg} = "nil"; 
+
+
     return bless($solr);
+}
+
+sub status
+{
+    my($self) = @_;
+    return $self->{status};
+}
+
+sub status_msg
+{
+    my($self, $status_msg) = @_;
+    $self->{status_msg} = $status_msg || "";
+    return 1;
 }
 
 # TODO: handle multiple date formats
@@ -197,8 +220,9 @@ sub count
 
 sub query
 {
-    my($self, $start, $query, $param) = @_;
+    my($self, $start, $query, $param, $facet) = @_;
     $start = $self->_int($start);
+    $self->{facet} = $facet if ($facet);
     $self->_qparams({fl => "*,score", "sort" => "score desc"}, $param);
     $self->_qquery($query);
     $self->_qexec($start);
@@ -213,7 +237,7 @@ sub query
 sub query_first
 {
     my($self, $query, $param) = @_;
-    return $self->query(0, $query, $param)->{documents}->[0];
+    return $self->query(0, $query, $param, undef)->{documents}->[0];
 }
 
 sub query_grouped
@@ -405,6 +429,7 @@ sub ancestors
 {
     my($self, $document) = @_;
     my $ancestors = [];
+    my %keys = ( $document->{key} => 1 ); # Keep track of keys we've seen to avoid circular references
 
     # FIXME: we have to prevent circular lookups by stopping if we ever
     # find a key that is equal to our starting key. If that happens, we
@@ -416,7 +441,10 @@ sub ancestors
         $self->_qexec();
         last unless ($self->{result}->{hits});
         $document = $self->_document(0);
+        last if ($keys{$document->{key}}); # Abort on circular reference
+        $keys{$document->{key}} = 1;
         push(@{$ancestors}, $document);
+        $self->status_msg("Solr::ancestors: ancestor for $document->{key}"); # For next iteration
     }
 
     return $ancestors;
@@ -554,13 +582,22 @@ sub _qexec
     # parameters that were specified in the parameter hash.
     # It seems that URLencoding breaks Jetty's URL handling, so we don't
     # do that.
-    #my @param = ("q=" . uri_escape(join(" AND ", @{$self->{q}})));
-    #warn("[debug]: Solr q=" . uri_escape(join(" AND ", @{$self->{q}})));
     my @param = ("q=" . join(" AND ", @{$self->{q}}));
-    warn("[debug]: Solr q=" . join(" AND ", @{$self->{q}}));
+    # Append non-facet query parameters
     while (my($param, $value) = each(%{$self->{param}})) {
         push(@param, join("=", (uri_escape($param), uri_escape($value))));
     }
+    # Append facet query parameters, if any.
+    if ($self->{facet}) {
+        push(@param, join('=', 'facet', $self->{facet}->{'facet'}));
+        push(@param, join('=', 'facet.mincount', $self->{facet}->{'facet.mincount'}));
+        push(@param, join('=', 'facet.limit', $self->{facet}->{'facet.limit'}));
+        push(@param, join('=', 'facet.sort', $self->{facet}->{'facet.sort'}));
+        foreach my $field (@{$self->{facet}->{'facet.field'}}) {
+            push(@param, join('=', 'facet.field', $field));
+        }
+    }
+
 
 
     my $request = HTTP::Request->new(GET => join("?", $self->{select_uri}, join("&", @param)));
@@ -610,8 +647,22 @@ sub _qexec
         $self->{result}->{documents}->[$i] = $self->_document($i);
     }
 
-    $time = sprintf("%8f", gettimeofday() - $time);
-    #warn "[info] Solr:_qexec(" . join("&", @param) . ", p. $self->{param}->{start} took ${time}s\n";
+
+    # Record the query metrics
+    my $query_time = $xml->findvalue('/response/lst[@name="responseHeader"]/int[@name="QTime"]') / 1000;
+    my $exec_time = sprintf('%5.3f', gettimeofday() - $time);
+    ++$self->{status}->{query_count};
+    $self->{status}->{query_time} += $query_time;
+    $self->{status}->{exec_time} += $exec_time;
+    push(@{$self->{status}->{queries}}, {
+        query => $self->{result}->{q},
+        query_time => $query_time,
+        exec_time => $exec_time,
+        hits => $xml->findvalue('//result[@name="response"]/@numFound'),
+        msg => $self->{status_msg},
+    });
+    $self->{status_msg} = "nil";
+
     return 1;
 }
 
