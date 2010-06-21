@@ -2,6 +2,15 @@
   # Re-construct the last search query as a set of hidden fields, except
   # for the parameter 'ignore', which can be a scalar or a list
 %]
+[% IF ! ignore.grep('^gkey$').size %]
+    <input type="hidden" name="gkey" value="[% c.req.params.gkey | xml_escape %]"/>
+[% END %]
+[% IF ! ignore.grep('^key$').size %]
+    <input type="hidden" name="key" value="[% c.req.params.key | xml_escape %]"/>
+[% END %]
+[% IF ! ignore.grep('^pkey$').size %]
+    <input type="hidden" name="pkey" value="[% c.req.params.pkey | xml_escape %]"/>
+[% END %]
 [% IF ! ignore.grep('^q$').size %]
     <input type="hidden" name="q" value="[% c.req.params.q | xml_escape %]"/>
 [% END %]

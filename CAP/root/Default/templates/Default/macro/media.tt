@@ -1,0 +1,13 @@
+﻿[%
+  # Map media codes to English names.
+%]
+[% SWITCH code %]
+  [% CASE 'data' %]computer data
+  [% CASE 'image' %]image
+  [% CASE 'plaintext' %]plain text
+  [% CASE 'sound' %]sound recording
+  [% CASE 'text' %]digitized text
+  [% CASE 'video' %]video
+  [% CASE %][% code | xml_escape %]
+[% END %]
+

@@ -2,124 +2,77 @@
   # component/rlist.tt - search results list
 
   USE XML.Escape;
+  MACRO media(code) INCLUDE macro/media.tt;
   MACRO contributor(code) INCLUDE macro/contributor.tt;
+
 %]
 
-<div class="rl">
-  <table class="search_result">
+[% MACRO recordtype(code) SWITCH code %]
+  [% CASE 'page' %]pages
+  [% CASE 'issue' %]issues
+  [% CASE %]titles
+[% END %]
+
+<div id="rlist">
   [% FOREACH item IN response.set %]
-    [%-
-      # Determine the publication year(s), which we display if no MARC 260 field exists.
-      pubmin_year = item.doc.pubmin.substr(0,4);
-      pubmax_year = item.doc.pubmax.substr(0,4);
-      IF pubmin_year == pubmax_year;
-        pubyear = pubmin_year;
-      ELSE;
-        pubyear = "${pubmin_year} - ${pubmax_year}";
-      END;
-
-      # Copy the search parameters
-      query = {};
-      FOREACH param IN c.req.params;
-        query.${param.key} = param.value;
-      END;
-    -%]
-    <tr>
-      <td>
-      [% # Disabled for now... %]
-      [%- IF 0 && item.doc.type == "page" -%]
-        <a href="[% c.uri_for(root, 'show', item.doc.key) %]"><img src="[% c.uri_for(root, 'get', "${item.doc.key}.png", { s => 50, rel => 'image' }) | xml_escape %]" alt="[% c.loc("preview") | xml_escape %]"/></a>
-      [%- END -%]
-        <img src="[% c.uri_for(root, 'static', 'logos', "${item.doc.contributor}.png") | xml_escape %]" alt="[% c.loc(c.config.contributor.${item.doc.contributor}) | xml_escape %]"/>
-      </td>
-      <td>
-
-      <td>
-        [% # Item title, linked to the canonical URI %]
-        <p>
-          <a href="[% item.doc.canonicalUri | xml_escape %]">
-            [% # Display the label. Append the contextual label unless it
-               # is the same as the label.
-            %]
-            [% item.doc.label | xml_escape %]
-            [% IF item.doc.label != item.doc.clabel %]
-              - [% item.doc.clabel | xml_escape %]
+    <div class="record">
+      [%
+        # Item label and link to the contributor's resource
+      %]
+      <h3>
+        <a href="[% item.doc.canonicalUri | xml_escape %]">
+          [% item.doc.label | xml_escape %]
+          [% IF item.doc.clabel != item.doc.label %]
+            -- [% item.doc.clabel | xml_escape %]
+          [% END %]
+        </a>
+      </h3>
+      [%
+        # Media type, contributor information and parent collection (if any)
+      %]
+      <p>
+        [% IF item.doc.media.size %]
+          <span>
+            [% FOR code IN item.doc.media %]
+              [% c.loc(media(code)) %]
             [% END %]
+          </span> |
+        [% END %]
+        <span>
+          [% c.loc(contributor(item.doc.contributor)) | xml_escape %]
+        </span>
+        [% IF item.ancestors.last.type == 'collection' %]
+          <span>
+            |
+            <a href="[% c.uri_for(root, 'show', item.ancestors.last.key)%]">
+              [% item.ancestors.last.label | xml_escape %]
+            </a>
+          </span>
+        [% END %]
+      </p>
+      [%
+        # Publication summary and link to more info
+      %]
+      <p>
+        [% item.doc.pu.join("; ") | xml_escape %]
+      </p>
+      [%
+        # If we have a parent and aren't already constraining by it, offer
+        # the option to show all results for that parent
+      %]
+      [% IF item.ancestors.first && c.req.params.pkey != item.ancestors.first.key %]
+        <p>
+          <a href="[% c.uri_for(root, 'search', refine(c.req.params, { pkey => item.ancestors.first.key })) %]">
+            [% c.loc("All matching [_1] from: [_2]", recordtype(item.doc.type), item.ancestors.first.label) | xml_escape %]
           </a>
-          [% IF search.grouped %]
-            <br/ >[%c.loc("[_1] matching pages", item.doc.hits) %]
-          [% END %]
-          [% IF item.doc.au %]
-            <br />[% item.doc.au.first %]
-          [% END %]
-          [% IF item.doc.pu %]
-            <br />[% item.doc.pu.first %]
-          [% END %]
         </p>
-        [% # Type and contributor information %]
-        <p>
-          [% item.doc.media.join(', ') # TODO: we have to show and translate these one at at time %] /
-          [% c.loc('Contributor:') | xml_escape %]
-          [% c.loc(contributor(item.doc.contributor)) %]
-        </p>
-        <p>
-          [ Basic bibliographic info goes here ] [ more...]
-        </p>
-        <p>
-          <a href="[% c.uri_for(root, 'show', item.main_record) %]">[% c.loc("Detailed Record") %]</a>
-        </p>
-        <p>
-          [% IF item.doc.type == 'page';
-              query.t = "pages";
-              query.pkey = item.doc.pkey;
-              query.so = "seq asc";
-          %]
-            [% c.loc("Show") %]
-            <a href="[% c.uri_for(root, 'show', item.doc.pkey) %]">[% c.loc("document record") %]</a>
-            [% IF c.req.params.q %]
-              | <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("pages containing: [_1]", c.req.params.q) | xml_escape -%]</a>
-            [% END %]
-          [% ELSIF item.doc.type == 'monograph';
-              query.t = "pages";
-              query.pkey = item.doc.pkey;
-              query.so = "seq asc";
-          %]
-            [% IF c.req.params.q %]
-              <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">
-                [% c.loc("Search document for pages containing: [_1]", c.req.params.q) | xml_escape %]
-              </a>
-            [% END %]
-          [% END %]
-        </p>
-      </td>
-
-      <!--
-      [%- IF item.doc.type == "page" -%]
-      [%- ELSIF item.doc.type == "monograph" -%]
-      [%- ELSIF item.doc.type == "issue" -%]
-        [%-
-          query.t = "all";
-          query.pkey = item.doc.pkey;
-          query.so = "seq asc";
-        -%]
-        <p class="label"><a href="[% c.uri_for(root, 'show', item.doc.key) %]">[% item.doc.label %]</a></p>
-        <p>
-          [%- c.loc("Show") -%]
-          <a href="[% c.uri_for(root, 'show', item.doc.pkey) | xml_escape %]">[%- c.loc("series record") | xml_escape -%]</a>
-          | <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("all issues") | xml_escape -%]</a>
-        </p>
-      [%- ELSIF item.doc.type == "serial" -%]
-        <p class="label"><a href="[% c.uri_for(root, 'show', item.doc.key) %]">[% item.doc.label %]</a></p>
-        <p>
-          [%- c.loc("Show") -%]
-          <a href="[% c.uri_for(root, 'search', { t => 'all', pkey => item.doc.key, so => 'seq asc'}) | xml_escape %]">[%- c.loc("all issues") | xml_escape -%]</a>
-        </p>
-      [%- ELSE -%]
-        <p class="label">!<a href="[% c.uri_for(root, 'show', item.doc.key) %]">[% item.doc.label %]</a></p>
-      [%- END -%]
-      </td>
-      -->
-    </tr>
-  [% END -%]
-  </table>
+      [% END %]
+      [%
+        # Full record
+      %]
+      <p>
+        <a href="[% c.uri_for(root, 'show', item.main_record) %]">[% c.loc("Full Record + Options") | xml_escape %]</a>
+      </p>
+    </div>
+  [% END %]
 </div>

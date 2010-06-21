@@ -12,95 +12,7 @@ our $version = 0.20100107;
 
 =head1 NAME
 
-CAP::Solr;
-
-=head1 DESCRIPTION
-
-Solr interface for CAP.
-
-=head1 SYNOPSIS
-
-=over 4
-
-=item use CAP::Solr;
-
-=item
-
-=item $config->{select_uri} = "http://localhost:89893/solr/select"; # Where to find Solr.
-
-=item $config->{defaults}->{rows => 10, version => "2.2", ...}; 
-
-=item $config->{subset}->{gkey => "my_collection_name"};
-
-=item $config->{text} = ["text_en", "text_fr", "text"];
-
-=item $solr = CAP::Solr->new($config); 
-
-=item
-
-=item $hits = $solr->count({$field => $value, ...});
-
-=item $result = $solr->query($start, {$field => $value, ...}, {$param => $value, ...});
-
-=item $result = $solr->query_grouped($start, {$field => $value, ...}, {$param => $value, ...});
-
-=item $doc = $solr->document($key);
-
-=item $doc = $solr->next_doc($doc);
-
-=item $doc = $solr->prev_doc($doc);
-
-=item
-
-=item $xml = $solr->update($xml_string);
-
-=back
-
-=head1 METHODS
-
-=over 4
-
-=item new($config)
-
-Create a new Solr interface.
-
-=item count($query)
-
-Returns a simple count of the number of hits for $query
-
-=item query($start, $query, $param)
-
-Runs a search for $query. $param includes other parameters which override the defaults. Returns a result object.
-
-A query is a set of $field => $value pairs. If $field begins with an
-underscore, it searches $field without escaping value. E.g.: text => "foo
-OR bar" becomes text => "foo or bar" while _text => "foo OR BAR" becomes
-text => "foo OR bar".
-
-=item query_grouped($start, $query, $param)
-
-Runs a query, but facets based on container (pkey) and returns a
-constructed result object consisting of the containers themselves. Each
-container document will have an additional field {hits} indicating the
-number of matching child objects.
-
-=item document($key)
-
-Returns the document identified by $key.
-
-=item next_doc($doc)
-
-Returns the next-highest sequence sibling document.
-
-=item prev_doc($doc)
-
-Returns the next-lowest sequence sibling document.
-
-=item update($xml)
-
-Sends an update request to the Solr index, sending it the text string $xml as its request.
-
-=back
+CAP::Solr - Solr interface for CAP
 
 =cut
 
@@ -213,7 +125,7 @@ sub update
 sub count
 {
     my($self, $query) = @_;
-    my $result = $self->query(0, $query, {rows => 0});
+    my $result = $self->query(0, $query, {rows => 0}, {});
     return 0 unless ($result->{hits});
     return $result->{hits};
 }
@@ -237,7 +149,7 @@ sub query
 sub query_first
 {
     my($self, $query, $param) = @_;
-    return $self->query(0, $query, $param, undef)->{documents}->[0];
+    return $self->query(0, $query, $param, undef, {})->{documents}->[0];
 }
 
 sub query_grouped
@@ -351,31 +263,11 @@ sub next_doc
     return undef unless ($doc->{seq});
     my $seq = $doc->{seq} + 1;
 
-    # Not sure which is actually better. If there are large gaps between
-    # seq's, method 2 can take a long time.
-    
-    # Method 1
+    $self->{facet} = {};
     $self->_qparams({rows => 1, sort => "seq asc"});
     $self->_qquery({pkey => $doc->{pkey}, _seq => "[$seq TO *]"});
     $self->_qexec();
     return $self->_document(0) if ($self->{result}->{hits});
-    return undef;
-
-    # Method 2 (Inactive)
-
-    # Find the last item in the database
-    my $last = $self->query(1, {pkey => $doc->{pkey}}, {rows => 1, sort => "seq desc"})->{documents}->[0]->{seq};
-
-    # Looking for seq:[$seq TO *] and then sorting can be very
-    # time consuming. Since the next one will usually be $seq, it should
-    # usually be faster just to iterate one by one until we find what
-    # we're looking for.
-    for (my $seq = $doc->{seq} + 1; $seq <= $last; ++$seq) {
-        $self->_qparams({rows => 1});
-        $self->_qquery({pkey => $doc->{pkey}, seq => $seq});
-        $self->_qexec();
-        return $self->_document(0) if ($self->{result}->{hits});
-    }
     return undef;
 }
 
@@ -394,23 +286,11 @@ sub prev_doc
     return undef unless ($doc->{seq});
     my $seq =  $doc->{seq} - 1;
 
-    # See prev_doc for an explanation of the two alternate strategies
-    
-    # Method 1
+    $self->{facet} = {};
     $self->_qparams({rows => 1, sort => "seq desc"});
     $self->_qquery({pkey => $doc->{pkey}, _seq => "[* TO $seq]"});
     $self->_qexec();
     return $self->_document(0) if ($self->{result}->{hits});
-    return undef;
-    
-   
-    # Method 2 (Inactive)
-    for (my $seq = $doc->{seq} - 1; $seq > 0; --$seq) {
-        $self->_qparams({rows => 1});
-        $self->_qquery({pkey => $doc->{pkey}, seq => $seq});
-        $self->_qexec();
-        return $self->_document(0) if ($self->{result}->{hits});
-    }
     return undef;
 }
 
@@ -436,6 +316,7 @@ sub ancestors
     # should return an empty result set. We also need a way to flag that
     # an error has ocurred.
     while($document->{pkey}) {
+        $self->{facet} = {};
         $self->_qparams({rows => 1});
         $self->_qquery({key => $document->{pkey}});
         $self->_qexec();
@@ -462,12 +343,12 @@ sub ancestors
 =cut
 sub children
 {
-    my($self, $document, $type, $role) = @_;
+    my($self, $document, $type, $role) = @_; # TODO: is $role deprecated?
     my $documents = [];
     my $time = gettimeofday();
     my $page;
 
-    for ($page = 1; ; ++$page) {
+    for ($page = 1;;) {
         # 20 records per page seems to be about the optimal compromise
         # between minimizing database lookups and keeping the resulting
         # XML responses small and quick to parse.
@@ -476,10 +357,10 @@ sub children
         $self->_qexec($page);
 
         push(@{$documents}, @{$self->{result}->{documents}});
-
         my $count = int($self->{result}->{hits});
-
         last if ($page >= $self->{result}->{pages});
+        ++$page;
+        $self->{status_msg} = "Solr::children get child page docs for $document->{key} (result page $page)";
     }
 
     $time = sprintf("%8f", gettimeofday() - $time);
@@ -588,7 +469,7 @@ sub _qexec
         push(@param, join("=", (uri_escape($param), uri_escape($value))));
     }
     # Append facet query parameters, if any.
-    if ($self->{facet}) {
+    if ($self->{facet}->{'facet'}) {
         push(@param, join('=', 'facet', $self->{facet}->{'facet'}));
         push(@param, join('=', 'facet.mincount', $self->{facet}->{'facet.mincount'}));
         push(@param, join('=', 'facet.limit', $self->{facet}->{'facet.limit'}));

@@ -709,3 +709,23 @@ div.user {
 dd {
     margin-bottom: 0.5em;
 }
+
+
+#rlist .record {
+    margin-top: 1em;
+}
+
+#rlist .record h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 110%;
+}
+
+#rlist .record p {
+    margin: 0;
+    margin-left: 1em;
+    padding: 0;
+    padding-top: 0.25em;
+    line-height: 130%;
+}
+

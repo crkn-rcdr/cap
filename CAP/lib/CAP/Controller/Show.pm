@@ -11,6 +11,7 @@ sub index : Chained('/base') PathPart('show') Args()
     $key = $c->req->params->{key} if ($c->req->params->{key});
 
     my $solr = CAP::Solr->new($c->config->{solr});
+    $solr->status_msg("Show::index: retrieve document $key");
     my $doc = $solr->document($key);
     $c->detach('/error', [404, "NOTFOUND"]) unless ($doc);
     my $type = $doc->{type};
@@ -75,40 +76,91 @@ sub index : Chained('/base') PathPart('show') Args()
         # Make sure the related document was found.
         $c->detach('/error', [404, "NOTFOUND"]) unless ($doc);
     }
+    
+
+    $c->stash(
+        response => { type => 'item' },
+        facet => $solr->{facet_fields},
+        title => $doc->{label},
+        template => "view.tt",
+    );
+
+    $c->stash->{response}->{item} = $c->forward('/common/build_item', [$solr, $doc]); 
+
+    ##### DEPRECATED
+    ##### These items should be moved into Common::build_item() and appear in the {item} hash.
+    ##### They are here for compatibility with Version 0.3 and earlier templates.
+    $solr->status_msg("Show::index get pages for $doc->{key} (DEPRECATED)");
+    $c->stash->{pages} = $solr->children($doc, 'page');
+    my $sibling_position = 0;
+    if ($doc->{seq}) {
+        $sibling_position = $solr->query(0,
+            { pkey => $doc->{pkey}, type => $doc->{type}, _seq => "[* TO $doc->{seq}]"},
+            { rows => 0, sort=> "seq asc" }
+        )->{hits};
+    }
+    $c->stash(
+        doc => $doc,
+        ancestors => $c->stash->{response}->{item}->{ancestors},
+        resource_download => $solr->children( $doc, 'resource', 'download' ),
+        resource_master => $solr->children( $doc, 'resource', 'master' ),
+        resource_page => $solr->children( $doc, 'resource', 'page' ),
+
+        sibling_count => $solr->count({ pkey => $doc->{pkey}, type => $doc->{type}}),
+        #sibling_position => $sibling_position,
+        prev_sibling => $solr->prev_doc($doc),
+        next_sibling => $solr->next_doc($doc),
+    );
+    #### END DEPRECATED SECTION
+    $c->stash->{response}->{solr} = $solr->status();
+
+
+    # DEPRECATED
 
     # Store some things we will need downstream.
-    $c->stash->{solr} = $solr;
-    $c->stash->{doc} = $doc;
-    $c->stash->{title} = $doc->{label};
+    #$c->stash( response => { type => 'item' } );
+    #$c->stash->{solr} = $solr;
+    #$c->stash->{doc} = $doc;
+    #$c->stash->{title} = $doc->{label};
     #$c->stash->{template} = "show_$type.tt"; # TODO: change to view.tt and remove from stdinfo()
-    $c->stash->{template} = "view.tt";
+    #$c->stash->{template} = "view.tt";
 
     # Detach to a function based on the record type we support.
-    $c->detach('monograph') if ($type eq 'monograph');
-    $c->detach('serial', [$start]) if ($type eq 'serial');
-    $c->detach('issue') if ($type eq 'issue');
-    $c->detach('page') if ($type eq 'page');
+    #$c->detach('collection') if ($type eq 'collection');
+    #$c->detach('monograph') if ($type eq 'monograph');
+    #$c->detach('serial', [$start]) if ($type eq 'serial');
+    #$c->detach('issue') if ($type eq 'issue');
+    #$c->detach('page') if ($type eq 'page');
 
     # If we got this far, it means we don't know what to do with this
     # document type. # FIXME: use a 404 error...
-    $c->response->body("Unsupported type: $type, $doc");
-    $c->response->status(500);
-    return 1;
-}
-
-sub monograph : Private
-{
-    my($self, $c) = @_;
-    my $solr = $c->stash->{solr};
-    my $doc = $c->stash->{doc};
-
-    $c->forward('stdinfo');
-    $c->stash(
-        pages => $solr->children($doc, 'page'),
-    );
+    #$c->response->body("Unsupported type: $type, $doc");
+    #$c->response->status(500);
 
     return 1;
 }
+
+#sub collection : Private
+#{
+#    my($self, $c) = @_;
+#    my $solr = $c->stash->{solr};
+#    my $doc = $c->stash->{doc};
+#    $c->forward('stdinfo');
+#}
+
+#sub monograph : Private
+#{
+#    my($self, $c) = @_;
+#    my $solr = $c->stash->{solr};
+#    my $doc = $c->stash->{doc};
+#
+#    $c->forward('stdinfo');
+#    $c->stash(
+#        pages => $solr->children($doc, 'page'),
+#    );
+
+#    return 1;
+#}
 
 sub serial : Private
 {
@@ -182,8 +234,20 @@ sub stdinfo : Private
         )->{hits};
     }
 
+
+    $solr->status_msg("Show::stdinfo: ancestors for $doc->{key}");
+    my $ancestors = $solr->ancestors($doc);
+    # This should reallt be the last thing that runs all the time...
+    $c->stash->{response}->{result} = {};
+    $c->stash->{response}->{item} = {
+        ancestors => $ancestors,
+        doc => $doc,
+    };
+    $c->stash->{response}->{facet} = $solr->{facet_fields};
+
+    # DEPRECATED (or soon to be)
     $c->stash(
-        ancestors => $solr->ancestors($doc),
+        ancestors => $ancestors,
         resource_download => $solr->children( $doc, 'resource', 'download' ),
         resource_master => $solr->children( $doc, 'resource', 'master' ),
         resource_page => $solr->children( $doc, 'resource', 'page' ),
@@ -193,6 +257,8 @@ sub stdinfo : Private
         prev_sibling => $solr->prev_doc($doc),
         next_sibling => $solr->next_doc($doc),
     );
+
+    $c->stash->{response}->{solr} = $solr->status();
 
     return 1;
 }

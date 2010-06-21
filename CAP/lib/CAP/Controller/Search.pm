@@ -13,7 +13,7 @@ sub search : Chained('/base') PathPart('search') Args()
 
     my $type = 'pages';
     my %types = (
-        'all' => 'page OR monograph OR serial OR issue',
+        'all' => 'page OR monograph OR serial OR issue OR collection',
         'pages' => 'page',
         'titles' => 'monograph OR serial',
     );
@@ -153,27 +153,7 @@ sub run_search : Private
     # Create and store the result set.
     my $set = [];
     foreach my $doc (@{$result->{documents}}) {
-        $solr->status_msg("Search::run_search: ancestors for $doc->{key}");
-        my $ancestors = $solr->ancestors($doc),
-
-        # Pages and issues are considered to be sub-records. If $doc is a
-        # sub-record, find the first main record ancestor. Only if no such
-        # record exists do we use the document record.
-        my $main_record = $doc->{key};
-        if ($doc->{type} !~ /^(monograph)|(serial)|(collection)$/) {
-            foreach my $ancestor (@{$ancestors}) {
-                if ($ancestor->{type} =~ /^(monograph)|(serial)|(collection)$/) {
-                    $main_record = $ancestor->{key};
-                    last;
-                }
-            }
-        }
-        
-        push(@{$set}, {
-            ancestors => $ancestors,
-            doc => $doc,
-            main_record => $main_record,
-        });
+        push(@{$set}, $c->forward('/common/build_item', [$solr, $doc])); 
     }
     $c->stash->{response}->{set} = $set;
 

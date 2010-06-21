@@ -1,11 +1,57 @@
 package CAP::Controller::Common;
 use Moose;
 use namespace::autoclean;
-use Digest::MD5 qw(md5_hex);
 use CAP::Ingest;
-use Data::Dumper;
 
 BEGIN {extends 'Catalyst::Controller'; }
+
+# Build the item structure for $doc.
+sub build_item :Private
+{
+    my($self, $c, $solr, $doc) = @_;
+
+    my $info = {};
+    $solr->status_msg("Common::build_item: ancestors for $doc->{key}");
+    my $ancestors = $solr->ancestors($doc);
+
+    # Count the number of records of various types that have this record
+    # as a parent or group.
+    my $counts = {};
+    if ($doc->{type} ne 'page') {
+        $solr->status_msg("Common:build_item: count pages with pkey $doc->{key}");
+        $counts->{pages} = $solr->count({ type => 'page', pkey => $doc->{key}});
+        $solr->status_msg("Common:build_item: count pages with gkey $doc->{key}");
+        $counts->{gpages} = $solr->count({ type => 'page', gkey => $doc->{key}});
+        $solr->status_msg("Common:build_item: count documents with pkey $doc->{key}");
+        $counts->{docs} = $solr->count({ _type => 'collection OR monograph OR serial', pkey => $doc->{key}});
+        $solr->status_msg("Common:build_item: count documents with gkey $doc->{key}");
+        $counts->{gdocs} = $solr->count({ _type => 'collection OR monograph OR serial', gkey => $doc->{key}});
+    }
+    if ($doc->{type} eq 'serial') {
+        $solr->status_msg("Common:build_item: count issues with pkey => $doc->{key}");
+        $counts->{issues} = $solr->count({ type => 'issue', pkey => $doc->{key}});
+    }
+    
+    # Pages and issues are considered to be sub-records. If $doc is a
+    # sub-record, find the first main record ancestor. Only if no such
+    # record exists do we use the document record.
+    my $main_record = $doc->{key};
+    if ($doc->{type} !~ /^(monograph)|(issue)|(serial)|(collection)$/) {
+        foreach my $ancestor (@{$ancestors}) {
+            if ($ancestor->{type} =~ /^(monograph)|(serial)|(collection)$/) {
+                $main_record = $ancestor->{key};
+                last;
+            }
+        }
+    }
+
+    return {
+        doc => $doc,
+        ancestors => $ancestors,
+        counts => $counts,
+        main_record => $main_record,
+    };
+}
 
 sub repos_path2 :Private
 {

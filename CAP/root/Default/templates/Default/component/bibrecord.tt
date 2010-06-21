@@ -1,0 +1,34 @@
+﻿[%
+  # component/bibrec.tt - full bibliographic record
+
+  USE XML.Escape;
+  MACRO media(code) INCLUDE macro/media.tt;
+  MACRO contributor(code) INCLUDE macro/contributor.tt;
+%]
+
+[% MACRO row(label, field) IF field %]
+  <tr>
+    <td>[% c.loc(label) %]</td>
+    <td>
+      [% FOREACH value IN field %]
+        <div>[% value | xml_escape %]</div>
+      [% END %]
+    </td>
+  </tr>
+[% END %]
+
+<div id="bibrecord">
+  <table>
+    [% row("Author", response.item.doc.au) %]
+    [% row("Title", response.item.doc.ti) %]
+    [% row("Publication", response.item.doc.pu) %]
+    [% row("Subject", response.item.doc.su) %]
+    [% row("Note", response.item.doc.no) %]
+    [% row("Media", response.item.doc.media) %]
+    [% row("Contributor", contributor(response.item.doc.contributor)) %]
+    [% IF response.item.ancestors.last.type == 'collection' %]
+      [% row("Collection", response.item.ancestors.last.label) %]
+    [% END %]
+    [% row("Description", response.item.doc.tx) %]
+  </table>
+</div>
