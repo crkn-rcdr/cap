@@ -6,7 +6,7 @@
 
 <xsl:template match="recordset">
   <add>
-    <xsl:apply-templates match="record"/>
+    <xsl:apply-templates select="record"/>
   </add>
 </xsl:template>
 
