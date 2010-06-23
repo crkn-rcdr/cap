@@ -12,6 +12,7 @@ use Config::General;
 use File::Basename;
 use XML::LibXML;
 use XML::LibXML::XPathContext;
+use XML::LibXSLT;
 use feature qw(switch);
 use CIHM::CMR::Common;
 
@@ -32,10 +33,27 @@ unless (-f $config_file) {
 my $schema = XML::LibXML::Schema->new(location => $schema_file);
 my $config = { Config::General->new($config_file)->getall };
 
-# Parse the source file. Pass it to the preprocesser plugin, if one is
-# speceified.
+# Parse the source file. Pass it to the preprocesser stylesheet and/or
+# plugin, if one is speceified.
 my $xml = XML::LibXML->new();
 my $doc = XML::LibXML->new()->parse_file($input_file);
+
+my $xsl = XML::LibXSLT->new();
+
+# Strip all namespaces from the source document, if requested.
+if ($config->{stripNS}) {
+    my $xsl_file = "$FindBin::Bin/xsl/stripNS.xsl";
+    my $stylesheet = $xsl->parse_stylesheet($xml->parse_file($xsl_file));
+    $doc = $stylesheet->transform($doc);
+}
+
+# Preprocess using another stylesheet, if requested.
+if ($config->{stylesheet}) {
+    my $xsl_file = "$FindBin::Bin/xsl/$config->{stylesheet}.xsl";
+    my $stylesheet = $xsl->parse_stylesheet($xml->parse_file($xsl_file));
+    $doc = $stylesheet->transform($doc);
+}
+
 my $src = XML::LibXML::XPathContext->new($doc->documentElement());
 
 # Register a default namespace.
@@ -43,7 +61,7 @@ my @namespaces;
 if (! $config->{namespace}) {
     @namespaces = ();
 }
-elsif (ref($config->{namespace} eq 'array')) {
+elsif (ref($config->{namespace}) eq 'ARRAY') {
     @namespaces = @{$config->{namespace}};
 }
 else {
@@ -118,6 +136,7 @@ if ($@) {
 $cmr->toFile($output_file, 1) or die("Failed to write $output_file: $!\n");
 exit(0);
 
+my $record;
 sub process_record
 {
     my($cmr, $src, $fields, $filters) = @_;
@@ -184,7 +203,6 @@ sub process_record
             when (/^((gkey)|(lang)|(media)|(ti)|(au)|(pu)|(su)|(no)|(de)|(tx)|(.*_lang)|(.*_type))$/) {
                 foreach my $node ($src->findnodes($fields->{$field})) {
                     $content = $node->findvalue('.');
-
                     $content = $filters->{$field}($content) if ($filters->{$field});
                     push(@{$record->{$field}}, $content);
                 }

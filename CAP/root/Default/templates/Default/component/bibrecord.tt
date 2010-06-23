@@ -19,16 +19,16 @@
 
 <div id="bibrecord">
   <table>
-    [% row("Author", response.item.doc.au) %]
-    [% row("Title", response.item.doc.ti) %]
-    [% row("Publication", response.item.doc.pu) %]
-    [% row("Subject", response.item.doc.su) %]
-    [% row("Note", response.item.doc.no) %]
-    [% row("Media", response.item.doc.media) %]
-    [% row("Contributor", contributor(response.item.doc.contributor)) %]
-    [% IF response.item.ancestors.last.type == 'collection' %]
-      [% row("Collection", response.item.ancestors.last.label) %]
+    [% row("Author", record.au) %]
+    [% row("Title", record.ti) %]
+    [% row("Publication", record.pu) %]
+    [% row("Subject", record.su) %]
+    [% row("Note", record.no) %]
+    [% row("Media", record.media) %]
+    [% row("Contributor", contributor(record.contributor)) %]
+    [% IF record.ancestors.last.type == 'collection' %]
+      [% row("Collection", record.ancestors.last.label) %]
     [% END %]
-    [% row("Description", response.item.doc.tx) %]
+    [% row("Description", record.tx) %]
   </table>
 </div>

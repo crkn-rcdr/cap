@@ -31,6 +31,17 @@ sub build_item :Private
         $solr->status_msg("Common:build_item: count issues with pkey => $doc->{key}");
         $counts->{issues} = $solr->count({ type => 'issue', pkey => $doc->{key}});
     }
+    $solr->status_msg("Common:build_item: count number of siblings: pkey => $doc->{pkey}, type => $doc->{type}");
+    $counts->{siblings} = $solr->count({type => $doc->{type}, pkey => $doc->{pkey}});
+
+    my $position = 0;
+    if ($doc->{seq}) {
+        $solr->status_msg("Common:build_item: locate position of $doc->{key} among siblings");
+        $position = $solr->query(0,
+            { pkey => $doc->{pkey}, type => $doc->{type}, _seq => "[* TO $doc->{seq}]"},
+            { rows => 0, sort=> "seq asc" }
+        )->{hits};
+    }
     
     # Pages and issues are considered to be sub-records. If $doc is a
     # sub-record, find the first main record ancestor. Only if no such
@@ -49,6 +60,7 @@ sub build_item :Private
         doc => $doc,
         ancestors => $ancestors,
         counts => $counts,
+        position => $position,
         main_record => $main_record,
     };
 }

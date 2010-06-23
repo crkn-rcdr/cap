@@ -1,0 +1,131 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use feature qw(switch);
+
+# Set up a library path and base directory relative to the executable,
+# then try to load other libraries.
+use FindBin;
+use lib $FindBin::Bin;
+my $basedir = $FindBin::Bin;
+
+use XML::LibXML;
+use XML::LibXSLT;
+use CIHM::CMR::Common;
+
+my $input_file = shift(@ARGV);
+my $xsl_file = shift(@ARGV);
+my $xsd_file = shift(@ARGV);
+
+my $xml = XML::LibXML->new();
+my $xsl = XML::LibXSLT->new();
+my $xsd = XML::LibXML::Schema->new(location => $xsd_file);
+
+my $doc = $xml->parse_file($input_file);
+my $stylesheet = $xsl->parse_stylesheet($xml->parse_file($xsl_file));
+$doc = $stylesheet->transform($doc);
+
+# Process the filters in order
+if ($doc->findnodes('/recordset/filters')) {
+    foreach my $filter ($doc->findnodes('/recordset/filters/filter')) {
+        my $xpath = $filter->getAttribute('xpath');
+        my $attribute = $filter->getAttribute('attribute');
+        my $type = $filter->getAttribute('type');
+        my $ignore_empty = $filter->getAttribute('ignore-empty') || 'false';
+        my $coderef = undef;
+
+        given ($type) {
+            when ('code') {
+                my $code = $filter->findvalue('.');
+                $coderef = eval "sub { $code }";
+            }
+            when ('default') {
+                $coderef = $filter->getAttribute('value');
+            }
+            when ('map') {
+                $coderef = $filter;
+            }
+            when ('match') {
+                $coderef = $filter->getAttribute('regex');
+            }
+            when ('split') {
+                $coderef = $filter->getAttribute('regex');
+            }
+        }
+
+
+        # Process each matching node
+        foreach my $node ($doc->findnodes($xpath)) {
+            my $value;
+            if ($attribute) {
+                $value = $node->getAttribute($attribute);
+            }
+            else {
+                $value = $node->findvalue('.');
+            }
+            next if ($ignore_empty eq 'true' && ! $value);
+
+            given ($type) {
+                when ('code') {
+                    $value = &$coderef($value);
+                }
+                when ('default') {
+                    $value = $coderef unless ($value);
+                }
+                when ('map')  {
+                    my @map = $coderef->findnodes("map[\@from='$value']");
+                    if (@map) {
+                        $value = $map[0]->getAttribute('to');
+                    }
+                }
+                when (/^(match)|(split)$/) {
+                    my @values;
+                    if ($type eq 'match') {
+                        @values = ($value =~ m/$coderef/g);
+                    }
+                    else {
+                        @values = split(/$coderef/, $value);
+                    }
+                    foreach my $match (@values) {
+                        my $newnode = $doc->createElement($node->nodeName());
+                        $node->parentNode()->insertAfter($newnode, $node);
+                        $newnode->appendChild($doc->createTextNode($match));
+                        foreach my $attrib (($node->attributes())) {
+                            $newnode->setAttribute($attrib->name(), $attrib->value());
+                        }
+                    }
+                    $node->parentNode()->removeChild($node);
+                    $node = undef;
+                }
+            }
+
+            # If we didn't remove the node in the previous step, adjust its
+            # value.
+            if (! $node) {
+                ;
+            }
+            elsif ($attribute) {
+                $node->setAttribute($attribute, $value);
+            }
+            else {
+                $node->removeChildNodes();
+                $node->appendChild($doc->createTextNode($value));
+            }
+        }
+    }
+
+    # Remove the filter set, leaving only the CMR record
+    my $filters = $doc->findnodes('/recordset/filters')->[0];
+    $doc->documentElement()->removeChild($filters);
+}
+
+# Validate the transformed document
+eval { $xsd->validate($doc) };
+if ($@) {
+    my $error = $@;
+    warn ($doc->toString(1));
+    die($error);
+}
+
+# Write out the validated CMR record
+print $doc->toString(1);

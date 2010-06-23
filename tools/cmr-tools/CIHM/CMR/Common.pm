@@ -5,7 +5,7 @@ use warnings;
 use feature qw(switch);
 
 use Exporter qw(import);
-our @EXPORT = qw(each_element element iso8601 media_mime normalize_space);
+our @EXPORT = qw(each_element element iso8601 media_mime normalize_space translate);
 
 # Evaluate and convert a date to a full ISO-8601 date string. If not
 # possible, return undef. If $max is true, returns the greatest matching
@@ -78,6 +78,13 @@ sub element
         $parent->appendChild($element);
     }
     return $element;
+}
+
+sub translate
+{
+    my($string, $table) = @_;
+    return $table->{$string} if ($table->{$string});
+    return $string;
 }
 
 1;

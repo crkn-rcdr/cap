@@ -78,6 +78,9 @@ sub index : Chained('/base') PathPart('show') Args()
     }
     
 
+    ################### Retrieve the item:
+    
+
     $c->stash(
         response => { type => 'item' },
         facet => $solr->{facet_fields},
@@ -106,7 +109,8 @@ sub index : Chained('/base') PathPart('show') Args()
         resource_master => $solr->children( $doc, 'resource', 'master' ),
         resource_page => $solr->children( $doc, 'resource', 'page' ),
 
-        sibling_count => $solr->count({ pkey => $doc->{pkey}, type => $doc->{type}}),
+        #sibling_count => $solr->count({ pkey => $doc->{pkey}, type => $doc->{type}}),
+        sibling_count => $c->stash->{response}->{counts}->{siblings},
         #sibling_position => $sibling_position,
         prev_sibling => $solr->prev_doc($doc),
         next_sibling => $solr->next_doc($doc),
