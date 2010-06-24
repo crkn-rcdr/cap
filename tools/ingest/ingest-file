@@ -11,6 +11,7 @@ inget - ingest the contents of a directory structure into Canadiana Access Porta
 
 
 =cut
+use lib "/opt/cap-libs/perl/lib/perl5";
 use Digest::MD5 qw(md5_hex);
 use File::Basename;
 use File::Copy;
