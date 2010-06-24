@@ -1,0 +1,29 @@
+﻿[% USE XML.Escape; %]
+
+
+[% # Dojo dropdown menu button %]
+    <div dojoType="dijit.form.DropDownButton" label="[% c.loc("Language") | xml_escape %]">
+      <div dojoType="dijit.Menu">
+         [% FOREACH facet IN response.facet.lang %]
+            <div dojoType="dijit.MenuItem"
+                 onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => facet.name })) | xml_escape %]'"
+                 label='[% language(facet.name) %]  ([% facet.count %])'>
+            </div>
+         [% END %]
+      </div>
+    </div>
+    
+[% # No JavaScript block %]
+    <noscript>
+          <form method="get" action="[% c.uri_for(root, 'search') %]">
+          [% search_query('lang') %]
+          <select name="lang">
+                  <option value="">[% c.loc("Limit by language:") %]</option>
+            [% FOREACH facet IN response.facet.lang %]
+                  <option value="[% facet.name | xml_escape %]">[% c.loc(language(facet.name)) | xml_escape %] ([% facet.count %])</option>
+            [% END %]
+          </select>
+            <button type="submit">[% c.loc("Go") %]</button>
+          </form>
+          <p></p>
+    </noscript>

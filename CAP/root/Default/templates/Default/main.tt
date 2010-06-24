@@ -29,6 +29,7 @@
   [%- END -%]
 
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'cap.css') %]"/>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/tundra/tundra.css') %]" />
     [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]"/>
     <script type="text/javascript">
@@ -40,6 +41,7 @@
     </script>
     <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'jquery.js') %]">1;</script>
     <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'cap.js') %]">1;</script>
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'dojo', 'dojo/dojo.js') %]" djConfig="parseOnLoad: true">1;</script>
 
   [%- # Additional scripts and stylesheets to include based on the action executed -%]
   [%- IF c.action == "show/show" -%]
@@ -51,7 +53,7 @@
 
   </head>
 
-<body id="main">
+<body class='tundra'>
   <div id="container">
     [% content %]
   </div>

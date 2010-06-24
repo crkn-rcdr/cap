@@ -2,12 +2,12 @@
   # Convert an ISO 639-3 language code into an English name
 %]
 [% SWITCH lang %]
-  [% CASE 'chi' %]Chinese
-  [% CASE 'eng' %]English
-  [% CASE 'dut' %]Dutch
-  [% CASE 'fre' %]French
-  [% CASE 'lat' %]Latin
-  [% CASE 'pan' %]Punjabi
-  [% CASE 'spa' %]Spanish
+  [% CASE 'chi' %][% c.loc('Chinese') | xml_escape %]
+  [% CASE 'eng' %][% c.loc('English') | xml_escape %]
+  [% CASE 'dut' %][% c.loc('Dutch') | xml_escape %]
+  [% CASE 'fre' %][% c.loc('French') | xml_escape %]
+  [% CASE 'lat' %][% c.loc('Latin') | xml_escape %]
+  [% CASE 'pan' %][% c.loc('Punjabi') | xml_escape %]
+  [% CASE 'spa' %][% c.loc('Spanish') | xml_escape %]
   [% CASE %][% lang %]
 [% END %]

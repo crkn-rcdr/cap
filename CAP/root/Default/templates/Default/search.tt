@@ -7,94 +7,60 @@
   MACRO search_query(ignore) INCLUDE macro/search_query.tt;
 -%]
 
+    <script type="text/javascript">
+        dojo.require("dijit.Toolbar");
+        dojo.require("dijit.form.Button");
+        dojo.require("dijit.TooltipDialog");
+        dojo.require("dijit.Menu");
+        dojo.require("dijit.form.TextBox");
+        dojo.require("dijit.form.NumberTextBox");
+    </script>
 
-<div id="container">
 [% INCLUDE component/header.tt; %]
   
+
+    <div id="fancy" dojoType="dijit.Toolbar" label="stuff" style="padding-left:21px;">
+    [%
+    
+         # Option to group by document or show by page, displayed in the relevant context
+         IF c.req.params.gr;
+             INCLUDE component/individual_page_button.tt;
+    
+         ELSIF c.req.params.t == 'pages';
+             INCLUDE component/group_by_doc_button.tt;
+    
+         END;
+    
+    
+         # Sort order: only display when not showing grouped results
+         IF ! c.req.params.gr;
+             INCLUDE component/sort_order_button.tt;
+         END;
+    
+         # Filter results by language
+         IF c.req.params.lang;
+             INCLUDE component/any_language.tt;
+         ELSIF response.facet.lang.size > 1;
+             INCLUDE component/language_filter.tt;
+         END;
+         
+         # Filter by media type
+         IF c.req.params.media;
+             INCLUDE component/any_medium.tt;
+         ELSIF response.facet.media.size > 1;
+             INCLUDE component/media_filter.tt;
+         END;
+    
+         # Limit results by publication date
+         INCLUDE component/year_published.tt;
+    
+    %]
+    </div>
 <div id="content">
 [%
-  INCLUDE component/results.tt;
+  INCLUDE component/search_parameters.tt;
 %]
 
-  [% IF response.result.hits > 0 %]
-
-    <!-- DEPRECATED
-    [% IF search.type == "pages" && ! search_grouped %]
-      [% c.req.params.gr = "on" %]
-      <p><a href="[% c.uri_for(root, 'search', c.req.params) | xml_escape %]">[% c.loc("Group pages by document") %]</a></p>
-      [% c.req.params.gr = undef %]
-    [% ELSIF search.type == "pages" && search_grouped %]
-      [%- c.req.params.gr = undef -%]
-      <p><a href="[% c.uri_for(root, 'search', c.req.params) | xml_escape %]">[% c.loc("Show individual page results") %]</a></p>
-      [% c.req.params.gr = "on" %]
-    [% END %]
-    -->
-
-
-    <form method="get" action="[% c.uri_for(root, 'search') %]">
-        [% search_query('so') %]
-        [% c.loc("Sort by") %]
-        <select name="so">
-          <option value="score desc">[% c.loc("Relevance") %]</option>
-          <option value="pubmin asc">[% c.loc("Oldest") %]</option>
-          <option value="pubmax desc">[% c.loc("Newest") %]</option>
-          [% IF c.req.params.pkey %]
-            <option value="pkey asc,seq asc">[% c.loc("Sequence") %]</option>
-          [% END %]
-        </select>
-        <button type="submit">[% c.loc("Go") %]</button>
-    </form>
-
-    [% IF c.req.params.lang %]
-      <form method="get" action="[% c.uri_for(root, 'search') %]">
-        [% search_query('lang') %]
-        [% c.loc("Limited to ") | xml_escape %]
-        [% c.loc(language(c.req.params.lang)) | xml_escape %]
-        <button type="submit">[% c.loc("Show All") %]</button>
-      </form>
-    [% ELSIF response.facet.lang.size > 1 %]
-      <form method="get" action="[% c.uri_for(root, 'search') %]">
-        [% search_query('lang') %]
-        <select name="lang">
-          <option value="">[% c.loc("Limit by language:") %]</option>
-          [% FOREACH facet IN response.facet.lang %]
-            <option value="[% facet.name | xml_escape %]">[% c.loc(language(facet.name)) | xml_escape %] ([% facet.count %])</option>
-          [% END %]
-        </select>
-        <button type="submit">[% c.loc("Go") %]</button>
-      </form>
-    [% END %]
-
-    [% IF c.req.params.media %]
-      <form method="get" action="[% c.uri_for(root, 'search') %]">
-        [% search_query('media') %]
-        [% c.loc("Limited to ") | xml_escape %]
-        [% c.loc(language(c.req.params.media)) | xml_escape %]
-        <button type="submit">[% c.loc("Show All") %]</button>
-      </form>
-    [% ELSIF response.facet.media.size > 1 %]
-      <form method="get" action="[% c.uri_for(root, 'search') %]">
-        [% search_query('media') %]
-        <select name="media">
-          <option value="">[% c.loc("Limit by media type") %]</option>
-          [% FOREACH facet IN response.facet.media %]
-            <option value="[% facet.name | xml_escape %]">[% c.loc(media(facet.name)) | xml_escape %] ([% facet.count %])</option>
-          [% END %]
-        </select>
-        <button type="submit">[% c.loc("Go") %]</button>
-      </form>
-    [% END %]
-
-    <form method="get" action="[% c.uri_for(root, 'search') %]">
-      [% search_query(['df', 'dt']) %]
-      [% c.loc("Publicaton dates") | xml_escape %]
-      <input type="text" name="df" value="[% response.result.pubmin_year | xml_escape %]"/>
-      [% c.loc("to")| xml_escape %]
-      <input type="text" name="dt" value="[% response.result.pubmax_year | xml_escape %]"/>
-      <button type="submit">[% c.loc("Go") %]</button>
-    </form>
-
-  [% END %]
 
     
   [%
@@ -108,7 +74,4 @@
 
 </div>
 [% INCLUDE component/footer.tt; %]
-</div>
 
-
-[% INCLUDE component/solr_metric.tt %]

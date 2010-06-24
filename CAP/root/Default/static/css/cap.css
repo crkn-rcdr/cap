@@ -729,3 +729,17 @@ dd {
     line-height: 130%;
 }
 
+.keywords {
+    color: #990000;
+    font-weight: 600;
+}
+
+.filter {
+    color: #009900;
+    font-weight: 600;
+}
+
+.sp {
+    background-color: #e8e2da;
+    padding: 0px 5px 0px 5px;
+}

@@ -1,0 +1,10 @@
+﻿[%
+  # Map sort order parameters to English names.
+%]
+[% SWITCH code %]
+  [% CASE 'score desc' %][% c.loc('relevance') | xml_escape %]
+  [% CASE 'pubmin asc' %][% c.loc('oldest') | xml_escape %]
+  [% CASE 'pubmax desc' %][% c.loc('newest') | xml_escape %]
+  [% CASE %][% code | xml_escape %]
+[% END %]
+
