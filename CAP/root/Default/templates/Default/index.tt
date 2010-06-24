@@ -25,11 +25,11 @@
           <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
         <div id="searchOptions">
           <p>
-            <a id="btnAdvancedSearch" href="#">[% c.loc('Advanced search') | xml_escape %]</a>
-            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+         <!--   <a id="btnAdvancedSearch" href="#">[% c.loc('Advanced search') | xml_escape %]</a>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; -->
             <a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>
           </p>
-          <div id="ddownAdvancedSearch" style="display:none;">
+         <!-- <div id="ddownAdvancedSearch" style="display:none;">
             <p>[% c.loc('Search') | xml_escape %]</p>
             <ul>
               <li>
@@ -81,7 +81,7 @@
                 <input type="text" name="dr" value="" size="9" />
               </li>
             </ul>
-          </div>
+          </div> -->
           <div id="ddownContributors" style="display:none;">
             <ul>
               <li>Bibliothèque et Archives nationales du Québec</li>
