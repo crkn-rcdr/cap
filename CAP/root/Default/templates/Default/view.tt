@@ -26,7 +26,7 @@
     [% IF response.item.doc.label != response.item.doc.clabel %]
       - [% response.item.doc.clabel | xml_escape %]
     [% END %]
-  </h2>
+  </h1>
 
   [% IF response.item.doc.type == 'issue' %]
     [% c.loc("Issue [_1] of [_2] available issues", response.item.position, response.item.counts.siblings) %]
