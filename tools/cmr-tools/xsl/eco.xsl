@@ -11,34 +11,19 @@
     <xsl:apply-templates select="series"/>
     <xsl:apply-templates select="digital"/>
     <filters>
-      <filter xpath="//record[type = 'page']/clabel" type="map">
-        <map from="engAdvertisement" to="advertisement"/>
-        <map from="engBib" to="bibliography"/>
-        <map from="engBlank" to="blank page"/>
-        <map from="engCover" to="cover"/>
-        <map from="engIndex" to="index"/>
-        <map from="engILL" to="illustration"/>
-        <map from="engLOI" to="list of illustrations"/>
-        <map from="engMap" to="map"/>
-        <map from="engNon-Blank" to="unnumbered"/>
-        <map from="engTable" to="table"/>
-        <map from="engTarget" to="technical data sheet"/>
-        <map from="engTitle Page" to="title page"/>
-        <map from="engTOC" to="table of contents"/>
-        <map from="freAdvertisement" to="annonce publicitiare"/>
-        <map from="freBib" to="bibliographie"/>
-        <map from="freBlank" to="page blanche"/>
-        <map from="freCover" to="couverture"/>
-        <map from="freIndex" to="index"/>
-        <map from="freILL" to="illustration"/>
-        <map from="freLOI" to="liste des illustrations"/>
-        <map from="freMap" to="carte"/>
-        <map from="freNon-Blank" to="page non-numérotée"/>
-        <map from="freTable" to="table"/>
-        <map from="freTarget" to="page de données techniques"/>
-        <map from="freTitle Page" to="page de titre"/>
-        <map from="freTOC" to="table des matières"/>
+      <!--
+        Remove any trailing / from the title in the label.
+        Additionally, for all labels and titles, remove the [electronic
+        resource] GMD
+      -->
+      <filter xpath="//record/*[self::label or self::clabel]" type="code">
+        $_[0] =~ s!\s*/\s*$!!; $_[0] =~ s!\s*\[electronic resource\]\s*! !; return $_[0];
       </filter>
+      <filter xpath="//record/description/title" type="code">
+        $_[0] =~ s! \[electronic resource\] ! !; return $_[0];
+      </filter>
+
+      <!-- Map the collection name to a 3-letter code -->
       <filter xpath="//record/gkey" type="map">
         <map from="Colonial Government Journals" to="cgj"/>
         <map from="English Canadian Literature" to="ecl"/>
@@ -53,7 +38,11 @@
         <map from="The Fur Trade and the Hudson's Bay Company" to="hbc"/>
         <map from="Women's History" to="wmh"/>
       </filter>
+
+      <!-- Split multiple languages codes into distinct fields -->
       <filter xpath="//record/lang" type="match" regex="..."/>
+
+      <!-- Map MARC field codes to controlled descriptive types -->
       <filter xpath="//record/description/*" attribute="type" type="map">
         <map from="100" to="person"/>
         <map from="110" to="corporate"/>
@@ -94,6 +83,8 @@
         <map from="810" to="corporate"/>
         <map from="830" to="uniform"/>
       </filter>
+
+      <!-- Set the subject language field based on the @i2 indicator -->
       <filter xpath="//record/description/subject" attribute="lang" type="map">
         <map from="0" to="eng"/>
         <map from="5" to="eng"/>
@@ -116,8 +107,20 @@
     </type>
     <contributor>oocihm</contributor>
     <key><xsl:value-of select="/eco2/@id"/></key>
-    <label><xsl:value-of select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/></label>
-    <clabel><xsl:value-of select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/></clabel>
+    <label>
+      <xsl:value-of select="normalize-space(concat(
+          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
+      ))"/>
+    </label>
+    <clabel>
+      <xsl:value-of select="normalize-space(concat(
+          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
+      ))"/>
+    </clabel>
 
     <!-- Optional control fields -->
     <xsl:if test="/eco2/@parent">
@@ -150,8 +153,20 @@
     <type>serial</type>
     <contributor>oocihm</contributor>
     <key><xsl:value-of select="/eco2/@id"/></key>
-    <label><xsl:value-of select="/eco2/series/marc/field[@type='245']/subfield[@type='a']"/></label>
-    <clabel><xsl:value-of select="/eco2/series/marc/field[@type='245']/subfield[@type='a']"/></clabel>
+    <label>
+      <xsl:value-of select="normalize-space(concat(
+          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
+      ))"/>
+    </label>
+    <clabel>
+      <xsl:value-of select="normalize-space(concat(
+          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
+      ))"/>
+    </clabel>
 
     <!-- Optional control fields -->
     <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
@@ -175,17 +190,64 @@
 
 
 <xsl:template match="page">
+
+  <!-- Map page feature codes to their natural language equivalent -->
+  <xsl:variable name="page_feature">
+    <xsl:choose>
+      <xsl:when test="$default_lang = 'fre'">
+        <xsl:choose>
+          <xsl:when test="@type='Advertisement'">annonce publicitaire</xsl:when>
+          <xsl:when test="@type='Bib'">bibliographie</xsl:when>
+          <xsl:when test="@type='Blank'">page blanche</xsl:when>
+          <xsl:when test="@type='Cover'">couverture</xsl:when>
+          <xsl:when test="@type='Index'">index</xsl:when>
+          <xsl:when test="@type='ILL'">illustration</xsl:when>
+          <xsl:when test="@type='LOI'">liste des illustrations</xsl:when>
+          <xsl:when test="@type='Map'">cart</xsl:when>
+          <xsl:when test="@type='Non-Blank'">page non-numérotée</xsl:when>
+          <xsl:when test="@type='Table'">table</xsl:when>
+          <xsl:when test="@type='Target'">page de données techniques</xsl:when>
+          <xsl:when test="@type='Title Page'">page de titre</xsl:when>
+          <xsl:when test="@type='TOC'">table des matières</xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:choose>
+          <xsl:when test="@type='Advertisement'">advertisement</xsl:when>
+          <xsl:when test="@type='Bib'">bibliography</xsl:when>
+          <xsl:when test="@type='Blank'">blank page</xsl:when>
+          <xsl:when test="@type='Cover'">cover</xsl:when>
+          <xsl:when test="@type='Index'">index</xsl:when>
+          <xsl:when test="@type='ILL'">illustration</xsl:when>
+          <xsl:when test="@type='LOI'">list of illustrations</xsl:when>
+          <xsl:when test="@type='Map'">map</xsl:when>
+          <xsl:when test="@type='Non-Blank'">unnumbered</xsl:when>
+          <xsl:when test="@type='Table'">table</xsl:when>
+          <xsl:when test="@type='Target'">technical data sheet</xsl:when>
+          <xsl:when test="@type='Title Page'">title page</xsl:when>
+          <xsl:when test="@type='TOC'">table of contents</xsl:when>
+        </xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
   <record>
 
     <!-- Required control fields -->
     <type>page</type>
     <contributor>oocihm</contributor>
     <key><xsl:value-of select="concat(/eco2/@id, '.', @seq)"/></key>
-    <label><xsl:value-of select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/></label>
+    <label>
+      <xsl:value-of select="normalize-space(concat(
+          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
+          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
+      ))"/>
+    </label>
     <clabel>
       <xsl:choose>
-        <xsl:when test="@type != '' and number(@n) != 0"><xsl:value-of select="concat($default_lang, @type, '(', @n, ')')"/></xsl:when>
-        <xsl:when test="@type != ''"><xsl:value-of select="concat($default_lang, @type)"/></xsl:when>
+        <xsl:when test="$page_feature != '' and number(@n) != 0"><xsl:value-of select="concat($page_feature, ' (p. ', @n, ')')"/></xsl:when>
+        <xsl:when test="$page_feature != ''"><xsl:value-of select="$page_feature"/></xsl:when>
         <xsl:when test="number(@n) != 0"><xsl:value-of select="concat('p. ', @n)"/></xsl:when>
         <xsl:otherwise><xsl:value-of select="concat('image ', @seq)"/></xsl:otherwise>
       </xsl:choose>
