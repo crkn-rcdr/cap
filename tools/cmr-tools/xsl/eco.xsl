@@ -155,16 +155,16 @@
     <key><xsl:value-of select="/eco2/@id"/></key>
     <label>
       <xsl:value-of select="normalize-space(concat(
-          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
+          /eco2/series/marc/field[@type='245']/subfield[@type='a'], ' ',
+          /eco2/series/marc/field[@type='245']/subfield[@type='h'], ' ',
+          /eco2/series/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </label>
     <clabel>
       <xsl:value-of select="normalize-space(concat(
-          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
+          /eco2/series/marc/field[@type='245']/subfield[@type='a'], ' ',
+          /eco2/series/marc/field[@type='245']/subfield[@type='h'], ' ',
+          /eco2/series/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </clabel>
 
