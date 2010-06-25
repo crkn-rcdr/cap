@@ -4,10 +4,17 @@
 
   <xs:annotation>
     <xs:documentation>
-        This is version 1.0 (DRAFT) of the Canadian Metadata Repository
+        This is version 1.0 (DRAFT2) of the Canadian Metadata Repository
         (CMR) intermediate metadata format. It is intended to provide a
         common container format which can be readily translated into
         various Schema, such as for ingesting into a Solr database.
+
+        Changelog:
+
+        DRAFT2: 2010-06-23
+        Fields that previously had basic xs:string datatypes now have text
+        types which prohibit empty strings. The media element may now
+        appear multiple times.
     </xs:documentation>
   </xs:annotation>
 
@@ -34,8 +41,8 @@
               </xs:element>
               <xs:element name="contributor" type="lcalpha"/>
               <xs:element name="key" type="key"/>
-              <xs:element name="label" type="xs:string"/>
-              <xs:element name="clabel" type="xs:string"/>
+              <xs:element name="label" type="text"/>
+              <xs:element name="clabel" type="text"/>
 
               <!-- Optional control fields -->
               <xs:element name="pkey" type="key" minOccurs="0"/>
@@ -48,7 +55,7 @@
                 </xs:complexType>
               </xs:element>
               <xs:element name="lang" type="iso639-3" minOccurs="0" maxOccurs="unbounded"/>
-              <xs:element name="media" minOccurs="0">
+              <xs:element name="media" minOccurs="0" maxOccurs="unbounded">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:enumeration value="data"/>
@@ -102,7 +109,7 @@
 
   <xs:complexType name="bibdesc">
     <xs:simpleContent>
-      <xs:extension base="xs:string">
+      <xs:extension base="text">
         <xs:attribute name="lang" type="iso639-3" use="optional"/>
         <xs:attribute name="type" type="bibtype" use="optional"/>
       </xs:extension>
@@ -111,7 +118,7 @@
 
   <xs:complexType name="resource">
     <xs:simpleContent>
-      <xs:extension base="xs:string">
+      <xs:extension base="text">
         <xs:attribute name="mime" type="mime" use="required"/>
         <xs:attribute name="size" type="xs:positiveInteger" use="optional"/>
         <xs:attribute name="md5" type="md5digest" use="optional"/>
@@ -155,6 +162,12 @@
   <xs:simpleType name="key">
     <xs:restriction base="xs:string">
       <xs:pattern value="[A-Za-z0-9_.-]{1,127}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="text">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
     </xs:restriction>
   </xs:simpleType>
 

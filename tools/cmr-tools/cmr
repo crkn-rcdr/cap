@@ -3,6 +3,12 @@ use strict;
 use warnings;
 use feature qw(switch);
 
+=head1 cmr - convert incoming metadata records into CMR format
+
+Usage: cmr INPUT_FILE XSLT_FILE SCHEMA_FILE
+
+=cut
+
 # Set up a library path and base directory relative to the executable,
 # then try to load other libraries.
 use FindBin;

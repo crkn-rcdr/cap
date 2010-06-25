@@ -57,11 +57,17 @@
         <xsl:for-each select="creator">
           <author lang="{@lang}"><xsl:apply-templates/></author>
         </xsl:for-each>
+        <xsl:for-each select="publisher">
+          <author lang="{@lang}"><xsl:apply-templates/></author>
+        </xsl:for-each>
         <xsl:for-each select="subject">
           <subject lang="{@lang}"><xsl:apply-templates/></subject>
         </xsl:for-each>
         <xsl:for-each select="description[not(@type)]">
           <note lang="{@lang}" type="general"><xsl:apply-templates/></note>
+        </xsl:for-each>
+        <xsl:for-each select="rights">
+          <note lang="{@lang}" type="rights"><xsl:apply-templates/></note>
         </xsl:for-each>
         <xsl:for-each select="description[@type]">
           <text lang="{@lang}" type="{@type}"><xsl:apply-templates/></text>

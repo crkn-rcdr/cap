@@ -10,14 +10,47 @@
   <recordset version="1.0">
     <xsl:apply-templates select="digital"/>
     <filters>
+      <filter xpath="//record[type = 'page']/clabel" type="map">
+        <map from="engAdvertisement" to="advertisement"/>
+        <map from="engBib" to="bibliography"/>
+        <map from="engBlank" to="blank page"/>
+        <map from="engCover" to="cover"/>
+        <map from="engIndex" to="index"/>
+        <map from="engILL" to="illustration"/>
+        <map from="engLOI" to="list of illustrations"/>
+        <map from="engMap" to="map"/>
+        <map from="engNon-Blank" to="unnumbered"/>
+        <map from="engTable" to="table"/>
+        <map from="engTarget" to="technical data sheet"/>
+        <map from="engTitle Page" to="title page"/>
+        <map from="engTOC" to="table of contents"/>
+        <map from="freAdvertisement" to="annonce publicitiare"/>
+        <map from="freBib" to="bibliographie"/>
+        <map from="freBlank" to="page blanche"/>
+        <map from="freCover" to="couverture"/>
+        <map from="freIndex" to="index"/>
+        <map from="freILL" to="illustration"/>
+        <map from="freLOI" to="liste des illustrations"/>
+        <map from="freMap" to="carte"/>
+        <map from="freNon-Blank" to="page non-numérotée"/>
+        <map from="freTable" to="table"/>
+        <map from="freTarget" to="page de données techniques"/>
+        <map from="freTitle Page" to="page de titre"/>
+        <map from="freTOC" to="table des matières"/>
+      </filter>
       <filter xpath="//record/gkey" type="map">
+        <map from="Colonial Government Journals" to="cgj"/>
         <map from="English Canadian Literature" to="ecl"/>
-      </filter>
-      <filter xpath="//record/pubdate" attribute="min" type="code">
-        iso8601($_[0], 0)
-      </filter>
-      <filter xpath="//record/pubdate" attribute="max" type="code">
-        iso8601($_[0], 1)
+        <map from="Government Publications" to="gvp"/>
+        <map from="Governor General" to="gvg"/>
+        <map from="Health and Medicine" to="hmd"/>
+        <map from="History of French Canada" to="hfc"/>
+        <map from="Jesuit Relations" to="jsr"/>
+        <map from="Native Studies" to="nas"/>
+        <map from="Periodicals" to="per"/>
+        <map from="Reconstituted Debates" to="rds"/>
+        <map from="The Fur Trade and the Hudson's Bay Company" to="hbc"/>
+        <map from="Women's History" to="wmh"/>
       </filter>
       <filter xpath="//record/lang" type="match" regex="..."/>
       <filter xpath="//record/description/*" attribute="type" type="map">
@@ -89,7 +122,7 @@
       <pkey><xsl:value-of select="/eco2/@parent"/></pkey>
     </xsl:if>
     <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
-    <pubdate min="{/eco2/*/pubdate/@first}" max="{/eco2/*/pubdate/@last}"/>
+    <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
     <lang><xsl:value-of select="$default_lang"/></lang>
     <xsl:if test="//marc/field[@type='041']/subfield">
       <lang><xsl:value-of select="//marc/field[@type='041']/subfield"/></lang>
@@ -119,8 +152,8 @@
     <label><xsl:value-of select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/></label>
     <clabel>
       <xsl:choose>
-        <xsl:when test="@type != '' and number(@n) != 0"><xsl:value-of select="concat(@type, '(', @n, ')')"/></xsl:when>
-        <xsl:when test="@type != ''"><xsl:value-of select="@type"/></xsl:when>
+        <xsl:when test="@type != '' and number(@n) != 0"><xsl:value-of select="concat($default_lang, @type, '(', @n, ')')"/></xsl:when>
+        <xsl:when test="@type != ''"><xsl:value-of select="concat($default_lang, @type)"/></xsl:when>
         <xsl:when test="number(@n) != 0"><xsl:value-of select="concat('p. ', @n)"/></xsl:when>
         <xsl:otherwise><xsl:value-of select="concat('image ', @seq)"/></xsl:otherwise>
       </xsl:choose>
@@ -130,7 +163,7 @@
     <pkey><xsl:value-of select="/eco2/@id"/></pkey>
     <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
     <seq><xsl:value-of select="number(@seq)"/></seq>
-    <pubdate min="{/eco2/*/pubdate/@first}" max="{/eco2/*/pubdate/@last}"/>
+    <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
     <lang><xsl:value-of select="$default_lang"/></lang>
     <xsl:if test="//marc/field[@type='041']/subfield">
       <lang><xsl:value-of select="//marc/field[@type='041']/subfield"/></lang>
@@ -182,7 +215,4 @@
 </xsl:template>
             
 </xsl:stylesheet>
-
-
-
 
