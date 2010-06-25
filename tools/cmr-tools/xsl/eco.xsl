@@ -172,12 +172,12 @@
 
     <description>
       <xsl:choose>
-        <xsl:when test="Words">
+        <xsl:when test="normalize-space(Words)">
           <text lang="{$default_lang}" type="content"><xsl:value-of select="normalize-space(Words)"/></text>
         </xsl:when>
-        <xsl:otherwise>
+        <xsl:when test="normalize-space(pagetext)">
           <text lang="{$default_lang}" type="content"><xsl:value-of select="normalize-space(pagetext)"/></text>
-        </xsl:otherwise>
+        </xsl:when>
       </xsl:choose>
     </description>
 
