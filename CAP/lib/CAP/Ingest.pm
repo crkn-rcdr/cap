@@ -69,4 +69,12 @@ sub ingest_file
     return $fqfn;
 
 }
+
+sub validate_file
+{
+    my($self, $file)=@_;
+
+   
+}
+ 
 1;
