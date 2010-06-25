@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="cihm:cap-1.0" version="1.1">
+<schema name="cap" version="1.1">
 
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
@@ -105,44 +105,11 @@
     <field name="canonicalMaster" type="text" indexed="true" stored="true"/>
     <field name="canonicalMasterSize" type="sint" indexed="true" stored="true"/>
     <field name="canonicalMasterMime" type="text" indexed="true" stored="true"/>
+    <field name="canonicalMasterMD5" type="text" indexed="true" stored="true"/>
     <field name="canonicalDownload" type="text" indexed="true" stored="true"/>
     <field name="canonicalDownloadSize" type="sint" indexed="true" stored="true"/>
     <field name="canonicalDownloadMime" type="text" indexed="true" stored="true"/>
-
-
-
-    <!-- The following are potentially deprecated -->
-
-    <!-- Digital content (file) and resource (URI) description -->
-    <!-- Note that the file profile is deprecated; its function has merged with resource -->
-    <field name="mime" type="string" indexed="true" stored="true"/>
-    <field name="size" type="sint" indexed="true" stored="true"/>
-    <field name="md5" type="string" indexed="false" stored="true"/>
-    <field name="role" type="string" indexed="true" stored="true"/>
-    <field name="uri" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="file" type="string" indexed="true" stored="true"/>
-
-    <!-- Simple Bibliographic Description -->
-    <field name="pubstmt" type="text" indexed="true" stored="true"/>
-    <field name="pubdate" type="text" indexed="true" stored="true"/>
-
-
-    <!-- Descriptor, summary, abstract, page text -->
-    <field name="ds" type="text" indexed="true" stored="true" multiValued="true"/>
-    <field name="sm" type="text" indexed="true" stored="true" multiValued="true"/>
-    <field name="ab" type="text" indexed="true" stored="true" multiValued="true"/>
-    <dynamicField name="ds_*" type="text" indexed="true" stored="true" multiValued="true"/>
-
-    <!-- MARC Record Fields: e.g.: marc_100, marc_245a, marc_245ac -->
-    <dynamicField name="marc_*" type="text" indexed="true" stored="true" multiValued="true"/>
-
-    <!-- Material and content descriptors -->
-    <field name="mtype" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="ctype" type="string" indexed="true" stored="true" multiValued="true"/>
-
-
-    <!-- Definitely deprecated fields -->
-    <field name="id" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="canonicalDownloadMD5" type="text" indexed="true" stored="true"/>
 
   </fields>
 
@@ -154,11 +121,6 @@
   <copyField source="de_*" dest="no"/>
   <copyField source="tx_*" dest="tx"/>
   <copyField source="kw_*" dest="kw"/>
-
-  <!-- Possibly Deprecated -->
-  <copyField source="ds_*" dest="ds"/>
-  <copyField source="sm_*" dest="sm"/>
-  <copyField source="ab_*" dest="ab"/>
 
   <uniqueKey>key</uniqueKey>
   <defaultSearchField>tx</defaultSearchField>
