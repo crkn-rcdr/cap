@@ -97,10 +97,6 @@
   </recordset>
 </xsl:template>
 
-<!-- TODO: add series support...
-<xsl:template match="series">
-</xsl:template>
--->
 
 <xsl:template match="digital">
   <record>
@@ -139,6 +135,36 @@
     </resource>
   </record>
   <xsl:apply-templates select="pages/page"/>
+</xsl:template>
+
+<xsl:template match="series">
+  <record>
+
+    <!-- Required control fields -->
+    <type>serial</type>
+    <contributor>oocihm</contributor>
+    <key><xsl:value-of select="/eco2/@id"/></key>
+    <label><xsl:value-of select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/></label>
+    <clabel><xsl:value-of select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/></clabel>
+
+    <!-- Optional control fields -->
+    <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
+    <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
+    <lang><xsl:value-of select="$default_lang"/></lang>
+    <xsl:if test="//marc/field[@type='041']/subfield">
+      <lang><xsl:value-of select="//marc/field[@type='041']/subfield"/></lang>
+    </xsl:if>
+    <media>text</media>
+
+    <description>
+      <xsl:call-template name="main_description"/>
+    </description>
+
+    <resource>
+      <canonicalUri><xsl:value-of select="concat('http://www.canadiana.org/record/', /eco2/@id)"/></canonicalUri>
+      <canonicalDownload mime="application/pdf"><xsl:value-of select="concat('oocihm.', /eco2/@id, '.pdf')"/></canonicalDownload>
+    </resource>
+  </record>
 </xsl:template>
 
 
