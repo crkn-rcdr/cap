@@ -8,6 +8,7 @@
 
 <xsl:template match="eco2">
   <recordset version="1.0">
+    <xsl:apply-templates select="series"/>
     <xsl:apply-templates select="digital"/>
     <filters>
       <filter xpath="//record[type = 'page']/clabel" type="map">
@@ -84,6 +85,7 @@
         <map from="730" to="uniform"/>
         <map from="750" to="topical"/>
         <map from="751" to="geographic"/>
+        <map from="780" to="relation"/>
         <map from="800" to="person"/>
         <map from="810" to="corporate"/>
         <map from="830" to="uniform"/>
@@ -144,8 +146,8 @@
     <type>serial</type>
     <contributor>oocihm</contributor>
     <key><xsl:value-of select="/eco2/@id"/></key>
-    <label><xsl:value-of select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/></label>
-    <clabel><xsl:value-of select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/></clabel>
+    <label><xsl:value-of select="/eco2/series/marc/field[@type='245']/subfield[@type='a']"/></label>
+    <clabel><xsl:value-of select="/eco2/series/marc/field[@type='245']/subfield[@type='a']"/></clabel>
 
     <!-- Optional control fields -->
     <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>

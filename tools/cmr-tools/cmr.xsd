@@ -15,6 +15,10 @@
         Fields that previously had basic xs:string datatypes now have text
         types which prohibit empty strings. The media element may now
         appear multiple times.
+
+        DRAFT3: 2010-06-25
+        Added "relation" as a bibtype type value to denote a relationship
+        to another document, such as serial continuation notes.
     </xs:documentation>
   </xs:annotation>
 
@@ -141,6 +145,7 @@
       <xs:enumeration value="general"/>
       <xs:enumeration value="language"/><!-- e.g. about the language used -->
       <xs:enumeration value="publication"/><!-- e.g. publication or edition information -->
+      <xs:enumeration value="relation"/><!-- e.g. continues/continued by-->
       <xs:enumeration value="rights"/>
       <xs:enumeration value="topical"/>
       <xs:enumeration value="uniform"/>
