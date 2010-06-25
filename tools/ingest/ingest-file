@@ -11,7 +11,10 @@ inget - ingest the contents of a directory structure into Canadiana Access Porta
 
 
 =cut
+
 use lib "/opt/cap-libs/perl/lib/perl5";
+use lib "/home/rob/svn/cap/trunk/CAP/lib";
+use CAP::Solr;
 use Digest::MD5 qw(md5_hex);
 use File::Basename;
 use File::Copy;
@@ -20,16 +23,19 @@ use Config::General;
 use Getopt::Long;
 use Data::Dumper qw(Dumper);
 use String::CRC32;
-
+use CAP::Ingest;
 
 my $prog = basename($0);
 my $conf_file;
 my $contributor;
-my $usage = "Usage: $prog --conf CONFIG_FILE FILE [FILE...]\n";
+my $validate;
+my $solr;
+my $usage = "Usage: $prog --contributor CONTRIBUTOR --conf CONFIG_FILE FILE [FILE...]\n";
 
 GetOptions(
     'conf=s' => \$conf_file,
     'contributor=s' => \$contributor,
+    'validate' => \$validate
 ) or die ($usage);
 
 die ($usage) unless($conf_file && $contributor);
@@ -44,26 +50,54 @@ my $conf= new Config::General(
 
 my %config =  $conf->getall ;
 
-#print Dumper(\%config);
 
 my $repos=$config{'content'};
+my $ingest = new Ingest($repos);
+
+$config{'solr'}->{defaults} = {
+    version => '2.2',
+    rows => '10',
+    start => 0,
+};
+
+#print Dumper($config{'solr'});
+
+if($validate) {
+    $solr = CAP::Solr->new($config{'solr'});
+}
+
+
+
 
 # The contributor ID (TODO: specify on command line)
 #my $contributor = 'ooe';
 
 foreach my $file (@ARGV) {
-    my $file_name = basename($file);
-    my $digest = String::CRC32::crc32($file_name)  ;
-    #print $digest."\n";
-    my $hex_prefix = sprintf("%X", $digest);
-    my $prefix = substr($hex_prefix, 0, 2) . '/' . substr($hex_prefix, 2, 2);
-    #print $prefix."\n";
-    my $path = "$repos/$contributor/$prefix";
-    my $fqfn = "$path/$file_name";
+    my $result;
 
-    unless (-d $path) {
-        make_path($path) or die("Failed to make $path: $!");
-    }
-    copy($file, $path) or die("Failed to copy $file to $fqfn: $!");
+    my $fqfn=$ingest->ingest_file($file, $contributor);
+    
+    print $fqfn;
+
+    open(FILE,$fqfn);
+    binmode(FILE);
+    my $md5_digest = Digest::MD5->new->addfile(*FILE)->hexdigest;
     print "$fqfn\n";
+    #print "$md5_digest\n";
+    if($validate) {
+        $result = $solr->query(0, { type=>"page", canonicalMaster=>$file }, {});
+        if(my $md5=$result->{documents}[0]{md5}) {
+            if($md5_digest eq $md5) {
+                print "VALID\n";
+            }
+            else {
+                print "INVALID\n";
+            }
+        }
+        else {
+            print "Cannot validate, no md5 record in solr (might try mysql next)\n";
+        }
+    }
+
+    #print Dumper($result);
 }
