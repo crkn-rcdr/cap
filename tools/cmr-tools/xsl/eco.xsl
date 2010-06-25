@@ -65,6 +65,7 @@
         <map from="246" to="alternate"/>
         <map from="250" to="publication"/>
         <map from="310" to="frequency"/>
+        <map from="321" to="frequency"/>
         <map from="362" to="date"/>
         <map from="500" to="general"/>
         <map from="504" to="general"/>
@@ -73,6 +74,8 @@
         <map from="520" to="descriptive"/>
         <map from="534" to="extent"/>
         <map from="546" to="language"/>
+        <map from="580" to="general"/>
+        <map from="595" to="general"/>
         <map from="600" to="person"/>
         <map from="610" to="corporate"/>
         <map from="611" to="corporate"/>
