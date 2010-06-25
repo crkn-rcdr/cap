@@ -85,6 +85,7 @@
   <field name="{name()}"><xsl:value-of select="."/></field>
   <xsl:if test="@size"><field name="{name()}Size"><xsl:value-of select="@size"/></field></xsl:if>
   <xsl:if test="@mime"><field name="{name()}Mime"><xsl:value-of select="@mime"/></field></xsl:if>
+  <xsl:if test="@md5"><field name="{name()}MD5"><xsl:value-of select="@md5"/></field></xsl:if>
 </xsl:template>
 
 </xsl:stylesheet>
