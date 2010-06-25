@@ -86,6 +86,7 @@
         <map from="750" to="topical"/>
         <map from="751" to="geographic"/>
         <map from="780" to="relation"/>
+        <map from="785" to="relation"/>
         <map from="800" to="person"/>
         <map from="810" to="corporate"/>
         <map from="830" to="uniform"/>
