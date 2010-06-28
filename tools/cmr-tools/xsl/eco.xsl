@@ -20,7 +20,7 @@
         $_[0] =~ s!\s*/\s*$!!; $_[0] =~ s!\s*\[electronic resource\]\s*! !; return $_[0];
       </filter>
       <filter xpath="//record/description/title" type="code">
-        $_[0] =~ s! \[electronic resource\] ! !; return $_[0];
+        $_[0] =~ s!\s*\[electronic resource\]\s*! !; return $_[0];
       </filter>
 
       <!-- Map the collection name to a 3-letter code -->
@@ -38,6 +38,14 @@
         <map from="The Fur Trade and the Hudson's Bay Company" to="hbc"/>
         <map from="Women's History" to="wmh"/>
       </filter>
+
+      <!--
+        Fix the seq of issues by removing everything up to and
+        including the final '_', leaving only an issue number.
+        WARNING: there are a few records where this won't work because
+        they look like 9_12345_1_2 (2-part issue).
+      -->
+      <filter xpath="//record/seq" type="code">$_[0] =~ s/[0-9_]*_(\d+)$/$1/; return $_[0]</filter>
 
       <!-- Split multiple languages codes into distinct fields -->
       <filter xpath="//record/lang" type="match" regex="..."/>
@@ -127,6 +135,9 @@
       <pkey><xsl:value-of select="/eco2/@parent"/></pkey>
     </xsl:if>
     <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
+    <xsl:if test="/eco2/@parent">
+      <seq><xsl:value-of select="/eco2/@id"/></seq>
+    </xsl:if>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
     <lang><xsl:value-of select="$default_lang"/></lang>
     <xsl:if test="//marc/field[@type='041']/subfield">
@@ -169,6 +180,7 @@
     </clabel>
 
     <!-- Optional control fields -->
+    <pkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></pkey>
     <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
     <lang><xsl:value-of select="$default_lang"/></lang>
@@ -256,6 +268,7 @@
     <!-- Optional control fields -->
     <pkey><xsl:value-of select="/eco2/@id"/></pkey>
     <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
+    <gkey><xsl:value-of select="/eco2/@parent"/></gkey>
     <seq><xsl:value-of select="number(@seq)"/></seq>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
     <lang><xsl:value-of select="$default_lang"/></lang>
