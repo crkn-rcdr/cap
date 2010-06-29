@@ -502,6 +502,16 @@ div.user {
 .bibrec ul { margin: 0; padding: 0; list-style-type: none; }
 .bibrec ul li { margin-bottom: 0.25em; }
 
+#bibrecord td { padding-top: 0.5em; }
+#bibrecord td.label {
+    vertical-align: top;
+    border-right: 1px solid #888;
+    background: #d8d0d0;
+}
+#bibrecord td div {
+    margin-bottom: 0.5em;
+}
+
 .search {
     display: block;
     position: relative;
@@ -743,3 +753,5 @@ dd {
     background-color: #e8e2da;
     padding: 0px 5px 0px 5px;
 }
+
+

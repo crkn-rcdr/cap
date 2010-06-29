@@ -29,7 +29,22 @@
   </h1>
 
   [% IF response.item.doc.type == 'issue' %]
-    [% c.loc("Issue [_1] of [_2] available issues", response.item.position, response.item.counts.siblings) %]
+    <div>
+      [% c.loc("Issue [_1] of [_2] available issues", response.item.position, response.item.counts.siblings) %]
+      <a href="[% c.uri_for(root, 'search', { type => 'issue', pkey => response.item.doc.pkey, so => 'pubmin asc', t => 'all' }) | xml_escape %]">
+        [% c.loc("Show all issues") | xml_escape %]
+      </a>
+      <a href="[% c.uri_for(root, 'show', response.item.doc.pkey) %]">
+        [% c.loc("Show serial record") | xml_escape %]
+      </a>
+    </div>
+  [% ELSIF response.item.counts.issues > 0 %]
+    <div>
+      [% c.loc("[_1] issues available", response.item.counts.issues) | xml_escape %]
+      <a href="[% c.uri_for(root, 'search', { pkey => response.item.doc.key, so => 'pubmin asc' }) %]">
+        [% c.loc("Show all issues") | xml_escape %]
+      </a>
+    </div>
   [% END %]
 
   [%
@@ -41,9 +56,6 @@
 
 [% INCLUDE component/footer.tt; %]
 
-[% USE Dumper %]
 <pre>
-[% # Dumper.dump_html(response) %]
 </pre>
 
-[% INCLUDE component/solr_metric.tt %]

@@ -31,8 +31,13 @@ sub build_item :Private
         $solr->status_msg("Common:build_item: count issues with pkey => $doc->{key}");
         $counts->{issues} = $solr->count({ type => 'issue', pkey => $doc->{key}});
     }
-    $solr->status_msg("Common:build_item: count number of siblings: pkey => $doc->{pkey}, type => $doc->{type}");
-    $counts->{siblings} = $solr->count({type => $doc->{type}, pkey => $doc->{pkey}});
+    if ($doc->{pkey}) {
+        $solr->status_msg("Common:build_item: count number of siblings: pkey => $doc->{pkey}, type => $doc->{type}");
+        $counts->{siblings} = $solr->count({type => $doc->{type}, pkey => $doc->{pkey}});
+    }
+    else {
+        $counts->{siblings} = 0;
+    }
 
     my $position = 0;
     if ($doc->{seq}) {
@@ -49,7 +54,7 @@ sub build_item :Private
     my $main_record = $doc->{key};
     if ($doc->{type} !~ /^(monograph)|(issue)|(serial)|(collection)$/) {
         foreach my $ancestor (@{$ancestors}) {
-            if ($ancestor->{type} =~ /^(monograph)|(serial)|(collection)$/) {
+            if ($ancestor->{type} =~ /^(monograph)|(issue)|(serial)|(collection)$/) {
                 $main_record = $ancestor->{key};
                 last;
             }

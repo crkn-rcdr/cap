@@ -24,13 +24,13 @@ sub index : Chained('/base') PathPart('show') Args()
         $c->session->{show}->{spr} = 0;
     }
 
-    # Set the site preview toggle
+    # Set the site preview toggle - DEPRECATED (probably)
     if ($c->req->params->{sprev}) {
         $c->session->{show}->{site_preview} = 1 if ($c->req->params->{sprev} eq 'on');
         $c->session->{show}->{site_preview} = 0 if ($c->req->params->{sprev} eq 'off');
     }
 
-    # Set full/brief bib record display preferences
+    # Set full/brief bib record display preferences - DEPRECATED (probably)
     if ($c->req->params->{rec}) {
         $c->session->{show}->{full_record} = 1 if ($c->req->params->{rec} eq 'on');
         $c->session->{show}->{full_record} = 0 if ($c->req->params->{rec} eq 'off');
@@ -93,29 +93,30 @@ sub index : Chained('/base') PathPart('show') Args()
     ##### DEPRECATED
     ##### These items should be moved into Common::build_item() and appear in the {item} hash.
     ##### They are here for compatibility with Version 0.3 and earlier templates.
-    $solr->status_msg("Show::index get pages for $doc->{key} (DEPRECATED)");
-    $c->stash->{pages} = $solr->children($doc, 'page');
-    my $sibling_position = 0;
-    if ($doc->{seq}) {
-        $sibling_position = $solr->query(0,
-            { pkey => $doc->{pkey}, type => $doc->{type}, _seq => "[* TO $doc->{seq}]"},
-            { rows => 0, sort=> "seq asc" }
-        )->{hits};
-    }
-    $c->stash(
-        doc => $doc,
-        ancestors => $c->stash->{response}->{item}->{ancestors},
-        resource_download => $solr->children( $doc, 'resource', 'download' ),
-        resource_master => $solr->children( $doc, 'resource', 'master' ),
-        resource_page => $solr->children( $doc, 'resource', 'page' ),
+    #$solr->status_msg("Show::index get pages for $doc->{key} (DEPRECATED)");
+    #$c->stash->{pages} = $solr->children($doc, 'page');
+    #my $sibling_position = 0;
+    #if ($doc->{seq}) {
+    #    $sibling_position = $solr->query(0,
+    #        { pkey => $doc->{pkey}, type => $doc->{type}, _seq => "[* TO $doc->{seq}]"},
+    #        { rows => 0, sort=> "seq asc" }
+    #    )->{hits};
+    #}
+    #$c->stash(
+    #    doc => $doc,
+    #    ancestors => $c->stash->{response}->{item}->{ancestors},
+    #    resource_download => $solr->children( $doc, 'resource', 'download' ),
+    #    resource_master => $solr->children( $doc, 'resource', 'master' ),
+    #    resource_page => $solr->children( $doc, 'resource', 'page' ),
 
         #sibling_count => $solr->count({ pkey => $doc->{pkey}, type => $doc->{type}}),
-        sibling_count => $c->stash->{response}->{counts}->{siblings},
+    #    sibling_count => $c->stash->{response}->{counts}->{siblings},
         #sibling_position => $sibling_position,
-        prev_sibling => $solr->prev_doc($doc),
-        next_sibling => $solr->next_doc($doc),
-    );
+    #    prev_sibling => $solr->prev_doc($doc),
+    #    next_sibling => $solr->next_doc($doc),
+    #);
     #### END DEPRECATED SECTION
+
     $c->stash->{response}->{solr} = $solr->status();
 
 

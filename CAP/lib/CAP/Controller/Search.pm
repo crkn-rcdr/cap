@@ -22,7 +22,7 @@ sub search : Chained('/base') PathPart('search') Args()
         $c->forward('prepare_search', [$types{$c->req->params->{t}}]);
     }
     else {
-        $c->forward('prepare_search', ['page']);
+        $c->forward('prepare_search', [$types{all}]);
     }
 
     if ($c->request->params->{gr}) {
@@ -44,8 +44,8 @@ sub search : Chained('/base') PathPart('search') Args()
             type => $type,
             grouped => $c->req->params->{gr},
         },
-        search_type => $type, # DEPRECATED
-        search_grouped => $c->request->params->{gr}, # DEPRECATED
+        #search_type => $type, # DEPRECATED
+        #search_grouped => $c->request->params->{gr}, # DEPRECATED
         template => "search.tt",
     );
     return 1;
@@ -71,12 +71,11 @@ sub prepare_search : Private
     $self->add_query($c, 'au');
     $self->add_query($c, 'su');
     $self->add_query($c, 'no');
-    $self->add_query($c, 'de');
+    $self->add_query($c, 'de'); # Deprecated ??? - check schema
     $self->add_query($c, 'tx');
-    $self->add_query($c, 'kw');
+    $self->add_query($c, 'kw'); # Probably deprecated; currently does the same thing as q
     $self->add_query($c, 'gkey');
     $self->add_query($c, 'pkey');
-    $self->add_query($c, 'ctype'); # DEPRECATED
     $self->add_query($c, 'media');
     $self->add_query($c, 'lang');
     $self->add_query($c, 'contributor');
@@ -101,7 +100,7 @@ sub prepare_search : Private
             $c->stash->{query}->{_pubmin} = "[* TO $date]";
         }
     }
-    # DR is deprecated
+    # DR is deprecated - maybe
     if ($c->request->params->{dr}) {
         my($pubmin,$pubmax) = split('-', $c->request->params->{dr});
         $pubmax = $pubmin unless ($pubmax); # If no $pubmax is supplied

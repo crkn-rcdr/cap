@@ -8,7 +8,7 @@
 
 [% MACRO row(label, field) IF field %]
   <tr>
-    <td>[% c.loc(label) %]</td>
+    <td class="label">[% c.loc(label) %]</td>
     <td>
       [% FOREACH value IN field %]
         <div>[% value | xml_escape %]</div>

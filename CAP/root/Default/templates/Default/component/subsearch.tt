@@ -3,22 +3,37 @@
 
   USE XML.Escape;
 
-  IF response.item.counts.pages;
-    subsearch = 'pkey';
-  ELSIF response.item.counts.gpages;
-    subsearch = 'gkey';
-  ELSE;
-    subsearch = '';
+  IF response.item.doc.type == 'collection' && response.item.counts.gpages > 0;
+    subsearch = {
+      show => 1, key => 'gkey', value => response.item.doc.key
+      label => c.loc("Search within this collection ([_1] pages)", response.item.counts.gpages)
+    };
+  ELSIF response.item.doc.type == 'serial' && response.item.counts.gpages > 0;
+    subsearch = {
+      show => 1, key => 'gkey', value => response.item.doc.key
+      label => c.loc("Search within this publication ([_1] pages)", response.item.counts.gpages)
+    };
+  ELSIF response.item.doc.type == 'issue' && response.item.counts.pages > 0;
+    subsearch = {
+      show => 1, key => 'pkey', value => response.item.doc.key
+      label => c.loc("Search within this issue ([_1] pages)", response.item.counts.pages)
+    };
+  ELSIF response.item.doc.type == 'monograph' && response.item.counts.pages > 0;
+    subsearch = {
+      show => 1, key => 'pkey', value => response.item.doc.key
+      label => c.loc("Search within this item ([_1] pages)", response.item.counts.pages)
+    };
   END;
+
 %]
 
-[% IF subsearch %]
-  <div>
-    <form method="get" action="[% c.uri_for(root, 'search') %]">
-      <input type="hidden" name="[% subsearch %]" value="[% response.item.doc.key | xml_escape %]"/>
-      [% c.loc("Search the contents of this item") | xml_escape %]
-      <input type="text" name="q"/>
+<div>
+  [% IF subsearch.show %]
+    <form method="get" action="[% c.uri_for(root, 'search') | xml_escape %]">
+      [% subsearch.label | xml_escape %]
+      <input type="hidden" name="[% subsearch.key %]" value="[% subsearch.value | xml_escape %]"/>
+      <input type="text" name="q">
       <button type="submit">[% c.loc("Search") %]</button>
     </form>
-  </div>
-[% END %]
+  [% END %]
+</div>

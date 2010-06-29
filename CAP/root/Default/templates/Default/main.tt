@@ -56,6 +56,13 @@
 <body class='tundra'>
   <div id="container">
     [% content %]
+    [%
+      IF c.config.debug;
+        # USE Dumper;
+        # Dumper.dump_html(response);
+        INCLUDE component/solr_metric.tt;
+      END;
+    %]
   </div>
 </body>
 

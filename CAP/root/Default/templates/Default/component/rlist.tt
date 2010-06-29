@@ -71,7 +71,7 @@
         # Full record
       %]
       <p>
-        <a href="[% c.uri_for(root, 'show', item.main_record) %]">[% c.loc("Full Record + Options") | xml_escape %]</a>
+        <a href="[% c.uri_for(root, 'show', item.main_record) %]">[% c.loc("Full Record") | xml_escape %]</a>
       </p>
     </div>
   [% END %]
