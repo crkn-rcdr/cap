@@ -252,7 +252,9 @@
     <!-- Optional control fields -->
     <pkey><xsl:value-of select="/eco2/@id"/></pkey>
     <gkey><xsl:call-template name="collection_code"/></gkey>
-    <gkey><xsl:value-of select="/eco2/@parent"/></gkey>
+    <xsl:if test="/eco2/@parent">
+      <gkey><xsl:value-of select="/eco2/@parent"/></gkey>
+    </xsl:if>
     <seq><xsl:value-of select="number(@seq)"/></seq>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
     <lang><xsl:value-of select="$default_lang"/></lang>
