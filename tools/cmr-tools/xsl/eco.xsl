@@ -17,26 +17,10 @@
         resource] GMD
       -->
       <filter xpath="//record/*[self::label or self::clabel]" type="code">
-        $_[0] =~ s!\s*/\s*$!!; $_[0] =~ s!\s*\[electronic resource\]\s*! !; return $_[0];
+        $_[0] =~ s!\s*/\s*$!!; $_[0] =~ s!\s*\[(electronic resource|ressource électronique)\]\s*! !; $_[0] =~ s! $!!; return $_[0];
       </filter>
       <filter xpath="//record/description/title" type="code">
-        $_[0] =~ s!\s*\[electronic resource\]\s*! !; return $_[0];
-      </filter>
-
-      <!-- Map the collection name to a 3-letter code -->
-      <filter xpath="//record/gkey" type="map">
-        <map from="Colonial Government Journals" to="cgj"/>
-        <map from="English Canadian Literature" to="ecl"/>
-        <map from="Government Publications" to="gvp"/>
-        <map from="Governor General" to="gvg"/>
-        <map from="Health and Medicine" to="hmd"/>
-        <map from="History of French Canada" to="hfc"/>
-        <map from="Jesuit Relations" to="jsr"/>
-        <map from="Native Studies" to="nas"/>
-        <map from="Periodicals" to="per"/>
-        <map from="Reconstituted Debates" to="rds"/>
-        <map from="The Fur Trade and the Hudson's Bay Company" to="hbc"/>
-        <map from="Women's History" to="wmh"/>
+        $_[0] =~ s!\s*\[(electronic resource|ressource électronique)\]\s*! !; $_[0] =~ s! $!!; return $_[0];
       </filter>
 
       <!--
@@ -134,7 +118,7 @@
     <xsl:if test="/eco2/@parent">
       <pkey><xsl:value-of select="/eco2/@parent"/></pkey>
     </xsl:if>
-    <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
+    <gkey><xsl:call-template name="collection_code"/></gkey>
     <xsl:if test="/eco2/@parent">
       <seq><xsl:value-of select="/eco2/@id"/></seq>
     </xsl:if>
@@ -180,8 +164,8 @@
     </clabel>
 
     <!-- Optional control fields -->
-    <pkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></pkey>
-    <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
+    <pkey><xsl:call-template name="collection_code"/></pkey>
+    <gkey><xsl:call-template name="collection_code"/></gkey>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
     <lang><xsl:value-of select="$default_lang"/></lang>
     <xsl:if test="//marc/field[@type='041']/subfield">
@@ -267,7 +251,7 @@
 
     <!-- Optional control fields -->
     <pkey><xsl:value-of select="/eco2/@id"/></pkey>
-    <gkey><xsl:value-of select="/eco2/*/collections/collection[@lang='en'][position()=1]"/></gkey>
+    <gkey><xsl:call-template name="collection_code"/></gkey>
     <gkey><xsl:value-of select="/eco2/@parent"/></gkey>
     <seq><xsl:value-of select="number(@seq)"/></seq>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
@@ -319,6 +303,27 @@
   >
     <note lang="{$default_lang}" type="{@type}"><xsl:value-of select="normalize-space(.)"/></note>
   </xsl:for-each>
+  <xsl:for-each select="//marc/field[@type='533']/subfield[@type='a']">
+    <note lang="{$default_lang}" type="source"><xsl:value-of select="normalize-space(.)"/></note>
+  </xsl:for-each>
+</xsl:template>
+
+<xsl:template name="collection_code">
+  <xsl:variable name="collection" select="/eco2/*/collections/collection[@lang='en'][position()=1]"/>
+  <xsl:choose>
+    <xsl:when test="$collection = 'Colonial Government Journals'">cgj</xsl:when>
+    <xsl:when test="$collection = 'English Canadian Literature'">ecl</xsl:when>
+    <xsl:when test="$collection = 'Government Publications'">gvp</xsl:when>
+    <xsl:when test="$collection = 'Governor General'">gvg</xsl:when>
+    <xsl:when test="$collection = 'Health and Medicine'">hmd</xsl:when>
+    <xsl:when test="$collection = 'History of French Canada'">hfc</xsl:when>
+    <xsl:when test="$collection = 'Jesuit Relations'">jsr</xsl:when>
+    <xsl:when test="$collection = 'Native Studies'">nas</xsl:when>
+    <xsl:when test="$collection = 'Periodicals'">per</xsl:when>
+    <xsl:when test="$collection = 'Reconstituted Debates'">rds</xsl:when>
+    <xsl:when test="$collection = &quot;The Fur Trade and the Hudson's Bay Company&quot;">hbc</xsl:when>
+    <xsl:when test="$collection = &quot;Women's History&quot;">wmh</xsl:when>
+  </xsl:choose>
 </xsl:template>
             
 </xsl:stylesheet>

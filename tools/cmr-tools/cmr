@@ -5,7 +5,7 @@ use feature qw(switch);
 
 =head1 cmr - convert incoming metadata records into CMR format
 
-Usage: cmr INPUT_FILE XSLT_FILE SCHEMA_FILE
+Usage: cmr SCHEMA_FILE XSL_FILE INPUT_FILE [OUTPUT_FILE]
 
 =cut
 
@@ -19,9 +19,10 @@ use XML::LibXML;
 use XML::LibXSLT;
 use CIHM::CMR::Common;
 
-my $input_file = shift(@ARGV);
-my $xsl_file = shift(@ARGV);
 my $xsd_file = shift(@ARGV);
+my $xsl_file = shift(@ARGV);
+my $input_file = shift(@ARGV);
+my $output_file = shift(@ARGV) || "";
 
 my $xml = XML::LibXML->new();
 my $xsl = XML::LibXSLT->new();
@@ -74,6 +75,10 @@ if ($doc->findnodes('/recordset/filters')) {
             given ($type) {
                 when ('code') {
                     $value = &$coderef($value);
+                }
+                when ('delete') {
+                    $node->parentNode()->removeChild($node);
+                    $node = undef;
                 }
                 when ('default') {
                     $value = $coderef unless ($value);
@@ -129,9 +134,14 @@ if ($doc->findnodes('/recordset/filters')) {
 eval { $xsd->validate($doc) };
 if ($@) {
     my $error = $@;
-    warn ($doc->toString(1));
+    #warn ($doc->toString(1));
     die($error);
 }
 
 # Write out the validated CMR record
-print $doc->toString(1);
+if ($output_file) {
+    $doc->toFile($output_file, 1) or die("Failed to write $output_file: $!\n");
+}
+else {
+    print $doc->toString(1) or die("Failed to output document: $!\n");
+}

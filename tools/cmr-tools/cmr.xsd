@@ -4,21 +4,23 @@
 
   <xs:annotation>
     <xs:documentation>
-        This is version 1.0 (DRAFT2) of the Canadian Metadata Repository
-        (CMR) intermediate metadata format. It is intended to provide a
-        common container format which can be readily translated into
-        various Schema, such as for ingesting into a Solr database.
+      This is version 1.0 (DRAFT3) of the Canadian Metadata Repository
+      (CMR) intermediate metadata format. It is intended to provide a
+      common container format which can be readily translated into
+      various Schema, such as for ingesting into a Solr database.
 
-        Changelog:
+      Changelog:
 
-        DRAFT2: 2010-06-23
-        Fields that previously had basic xs:string datatypes now have text
-        types which prohibit empty strings. The media element may now
-        appear multiple times.
+      DRAFT2: 2010-06-23
+      Fields that previously had basic xs:string datatypes now have text
+      types which prohibit empty strings. The media element may now
+      appear multiple times.
 
-        DRAFT3: 2010-06-25
-        Added "relation" as a bibtype type value to denote a relationship
-        to another document, such as serial continuation notes.
+      DRAFT3: 2010-06-25
+      Added "relation" as a bibtype type value to denote a relationship
+      to another document, such as serial continuation notes.
+      Added "source" as a bib type
+      renamed media type "sound" to "audio"
     </xs:documentation>
   </xs:annotation>
 
@@ -62,10 +64,10 @@
               <xs:element name="media" minOccurs="0" maxOccurs="unbounded">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
+                    <xs:enumeration value="audio"/>
                     <xs:enumeration value="data"/>
                     <xs:enumeration value="image"/>
                     <xs:enumeration value="plaintext"/>
-                    <xs:enumeration value="sound"/>
                     <xs:enumeration value="text"/>
                     <xs:enumeration value="video"/>
                   </xs:restriction>
@@ -147,6 +149,7 @@
       <xs:enumeration value="publication"/><!-- e.g. publication or edition information -->
       <xs:enumeration value="relation"/><!-- e.g. continues/continued by-->
       <xs:enumeration value="rights"/>
+      <xs:enumeration value="source"/>
       <xs:enumeration value="topical"/>
       <xs:enumeration value="uniform"/>
     </xs:restriction>
