@@ -2,7 +2,7 @@
 
 <!-- 
   Conversion from BAnQ oai_dc metadata records to CMR.
-  This stylesheet should work for all of the journals collection.
+  This stylesheet should work for all of the journal's collection.
 -->
 
 <xsl:stylesheet version="1.0"
@@ -92,6 +92,7 @@
       <xsl:apply-templates select="descendant::dc:subject"/>
       <xsl:apply-templates select="descendant::dc:description"/>
       <xsl:apply-templates select="descendant::dc:beginenddatepublication"/>
+      <xsl:apply-templates select="descendant::dc:matdescription"/>
       <xsl:apply-templates select="descendant::dc:descriptionlong"/>
       <xsl:apply-templates select="descendant::dc:descriptionshort"/>
     </description>
@@ -102,12 +103,26 @@
 </xsl:template>
 
 <xsl:template match="dc:language"><lang><xsl:apply-templates/></lang></xsl:template>
-<xsl:template match="dc:title"><title><xsl:apply-templates/></title></xsl:template>
+
+<xsl:template match="dc:title">
+  <title>
+    <xsl:choose>
+      <xsl:when test="../dc:specificcontent">
+        <xsl:value-of select="normalize-space(concat(., ' : ', ../dc:specificcontent))"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="normalize-space(.)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </title>
+</xsl:template>
+
 <xsl:template match="dc:creator"><author><xsl:apply-templates/></author></xsl:template>
 <xsl:template match="dc:publisher"><publication><xsl:apply-templates/></publication></xsl:template>
 <xsl:template match="dc:subject"><subject lang="fre"><xsl:apply-templates/></subject></xsl:template>
 <xsl:template match="dc:description"><note lang="fre"><xsl:apply-templates/></note></xsl:template>
 <xsl:template match="dc:beginenddatepublication"><note lang="fre" type="publication"><xsl:apply-templates/></note></xsl:template>
+<xsl:template match="dc:matdescription"><note lang="fre" type="extent"><xsl:apply-templates/></note></xsl:template>
 <xsl:template match="dc:descriptionlong"><text lang="fre" type="descriptive"><xsl:apply-templates/></text></xsl:template>
 <xsl:template match="dc:descriptionshort"><text lang="fre" type="descriptive"><xsl:apply-templates/></text></xsl:template>
             

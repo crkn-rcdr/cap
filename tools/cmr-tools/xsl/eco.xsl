@@ -79,6 +79,7 @@
       <!-- Set the subject language field based on the @i2 indicator -->
       <filter xpath="//record/description/subject" attribute="lang" type="map">
         <map from="0" to="eng"/>
+        <map from="4" to="eng"/>
         <map from="5" to="eng"/>
         <map from="6" to="fre"/>
       </filter>
