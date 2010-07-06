@@ -1,23 +1,27 @@
-[% 
-  # Convert an ISO 639-3 language code into an English name
-%]
-[% SWITCH lang %]
-  [% CASE 'chi' %][% c.loc('Chinese') | xml_escape %]
-  [% CASE 'chp' %][% c.loc('Chipewyan') | xml_escape %]
-  [% CASE 'cre' %][% c.loc('Cree') | xml_escape %]
-  [% CASE 'cze' %][% c.loc('Czech') | xml_escape %]
-  [% CASE 'ell' %][% c.loc('Greek') | xml_escape %]
-  [% CASE 'eng' %][% c.loc('English') | xml_escape %]
-  [% CASE 'gae' %][% c.loc('Guarequena') | xml_escape %]
-  [% CASE 'gla' %][% c.loc('Scottish Gaelic') | xml_escape %]
-  [% CASE 'dut' %][% c.loc('Dutch') | xml_escape %]
-  [% CASE 'fre' %][% c.loc('French') | xml_escape %]
-  [% CASE 'ger' %][% c.loc('German') | xml_escape %]
-  [% CASE 'ita' %][% c.loc('Italian') | xml_escape %]
-  [% CASE 'lat' %][% c.loc('Latin') | xml_escape %]
-  [% CASE 'mul' %][% c.loc('multiple languages') | xml_escape %]
-  [% CASE 'pan' %][% c.loc('Punjabi') | xml_escape %]
-  [% CASE 'spa' %][% c.loc('Spanish') | xml_escape %]
-  [% CASE 'ukr' %][% c.loc('Ukrainian') | xml_escape %]
-  [% CASE %][% lang %]
-[% END %]
+[%- 
+  # Convert an ISO 639-3 language code into a textual label
+
+  SWITCH lang;
+    CASE 'chi'; label = 'Chinese';
+    CASE 'chp'; label = 'Chipewyan';
+    CASE 'cre'; label = 'Cree';
+    CASE 'cze'; label = 'Czech';
+    CASE 'ell'; label = 'Greek';
+    CASE 'eng'; label = 'English';
+    CASE 'gla'; label = 'Scottish Gaelic';
+    CASE 'dut'; label = 'Dutch';
+    CASE 'fre'; label = 'French';
+    CASE 'ger'; label = 'German';
+    CASE 'iku'; label = 'Inuktitut';
+    CASE 'ita'; label = 'Italian';
+    CASE 'lat'; label = 'Latin';
+    CASE 'moh'; label = 'Mohawk';
+    CASE 'mul'; label = 'multiple languages';
+    CASE 'pan'; label = 'Punjabi';
+    CASE 'spa'; label = 'Spanish';
+    CASE 'ukr'; label = 'Ukrainian';
+    CASE; label = lang;
+  END;
+
+  c.loc(label) | xml_escape;
+-%]
