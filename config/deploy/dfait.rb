@@ -8,6 +8,7 @@ set :update_uri, "http://localhost:8985/solr/update"
 
 set :deploy_to, "/opt/cap-dfait/cap"
 set :app_var, "/opt/cap-dfait/cap-var"
+set :debug_var, "false"
 
 set :repository, "http://dev.cihm/svn/cap/branches/dfait"
 
