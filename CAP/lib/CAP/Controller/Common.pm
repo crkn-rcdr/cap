@@ -17,9 +17,9 @@ sub build_item :Private
     # Count the number of records of various types that have this record
     # as a parent or group.
     my $counts = {};
+    $solr->status_msg("Common:build_item: count pages with pkey $doc->{key}");
+    $counts->{pages} = $solr->count({ type => 'page', pkey => $doc->{key}});
     if ($doc->{type} ne 'page') {
-        $solr->status_msg("Common:build_item: count pages with pkey $doc->{key}");
-        $counts->{pages} = $solr->count({ type => 'page', pkey => $doc->{key}});
         $solr->status_msg("Common:build_item: count pages with gkey $doc->{key}");
         $counts->{gpages} = $solr->count({ type => 'page', gkey => $doc->{key}});
         $solr->status_msg("Common:build_item: count documents with pkey $doc->{key}");
@@ -47,6 +47,10 @@ sub build_item :Private
             { rows => 0, sort=> "seq asc" }
         )->{hits};
     }
+    $solr->status_msg("Common:build_item: find previous sibling for $doc->{key}");
+    my $prev = $solr->prev_doc($doc);
+    $solr->status_msg("Common:build_item: find next sibling for $doc->{key}");
+    my $next = $solr->next_doc($doc);
     
     # Pages and issues are considered to be sub-records. If $doc is a
     # sub-record, find the first main record ancestor. Only if no such
@@ -66,6 +70,8 @@ sub build_item :Private
         ancestors => $ancestors,
         counts => $counts,
         position => $position,
+        'next' => $next,
+        prev => $prev,
         main_record => $main_record,
     };
 }

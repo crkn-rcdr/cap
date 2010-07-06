@@ -4,12 +4,12 @@
   USE XML.Escape;
 
   # Determine the name of the PDF file
-  IF doc.canonicalDownloadMime == 'application/pdf';
-    pdf_file = doc.canonicalDownload;
-    pdf_key = doc.key;
-  ELSIF ancestors.first.canonicalDownloadMime == 'application/pdf';
-    pdf_file = ancestors.first.canonicalDownload;
-    pdf_key = ancestors.first.key;
+  IF response.item.doc.canonicalDownloadMime == 'application/pdf';
+    pdf_file = response.item.doc.canonicalDownload;
+    pdf_key = response.item.doc.key;
+  ELSIF response.item.ancestors.first.canonicalDownloadMime == 'application/pdf';
+    pdf_file = response.item.ancestors.first.canonicalDownload;
+    pdf_key = response.item.ancestors.first.key;
   ELSE;
     pdf_file = "";
   END;
@@ -18,10 +18,10 @@
 <div id="nv" class="navigator">
 
   <div class="left">
-  [% IF prev_sibling %]
-    <a href="[% c.uri_for(root, 'show', doc.key, { rel => 'prev' }) | xml_escape %]">
+  [% IF response.item.prev %]
+    <a href="[% c.uri_for(root, 'show', response.item.prev.key) | xml_escape %]">
       <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'prev.png') | xml_escape %]" alt="&lt;="/>
-      [% prev_sibling.clabel | xml_escape %]
+      [% response.item.prev.clabel | xml_escape %]
     </a>
   [% END %]
   &#160;
@@ -41,12 +41,12 @@
     # If this document is part of a sequence, show its position relative
     # to its siblings of the same type.
   %]
-  [% IF doc.type == 'page' %]
-    <form method="post" action="[% c.uri_for(root, 'show', doc.key) | xml_escape %]">
+  [% IF response.item.doc.type == 'page' %]
+    <form method="post" action="[% c.uri_for(root, 'show', response.item.doc.key) | xml_escape %]">
       <div>
         <select name="rel">
-        [% i = 1; WHILE i <= sibling_count; %]
-          <option value="[% i %]"[% IF i == sibling_position %] selected="selected"[% END %]>[% c.loc("Page [_1]", i) | xml_escape %]</option>
+        [% i = 1; WHILE i <= response.item.counts.siblings; %]
+          <option value="[% i %]"[% IF i == response.item.position %] selected="selected"[% END %]>[% c.loc("Page [_1]", i) | xml_escape %]</option>
         [% i = i + 1; END %]
         </select>
         <button type="submit">[% c.loc("Show") %]</button>
@@ -56,6 +56,7 @@
 
   [%-
     # If this item has pages, show a page menu
+    # DEPRECATED - this code shouldn't run
   -%]
   [%- IF pages.size -%]
     <form method="post" action="[% c.uri_for(root, 'post') | xml_escape %]">
@@ -86,9 +87,9 @@
 
   <div class="right">
   &#160;
-  [%- IF next_sibling -%]
-    <a href="[% c.uri_for(root, 'show', doc.key, { rel => 'next' }) | xml_escape %]">
-      [% next_sibling.clabel | xml_escape %]
+  [%- IF response.item.next -%]
+    <a href="[% c.uri_for(root, 'show', response.item.next.key) | xml_escape %]">
+      [% response.item.next.clabel | xml_escape %]
       <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'next.png') | xml_escape %]" alt="=&gt;"/>
     </a>
   [%- END -%]

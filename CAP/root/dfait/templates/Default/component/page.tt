@@ -9,11 +9,11 @@
   USE XML.Escape;
 %]
 
-[% IF doc.canonicalMaster %]
+[% IF response.item.doc.canonicalMaster %]
   <div id="pg">
-    <img src="[% c.uri_for(root, 'get', doc.key, "image.png" ) %]">
+    <img src="[% c.uri_for(root, 'get', response.item.doc.key, "image.png" ) %]">
   </div>
 [% ELSIF doc.type == 'monograph' %]
-  <a href="[% c.uri_for(root, 'show', pages.first.key) %]">[% c.loc("Click here if your browser does not automatically redirect you") %]</a>
+  <a href="[% c.uri_for(root, 'show', response.item.doc.key, { rel => 'start' }) %]">[% c.loc("Click here if your browser does not automatically redirect you") %]</a>
 [% END %]
 
