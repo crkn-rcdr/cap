@@ -288,3 +288,6 @@ msgstr "Afficher les résultats page par page"
 
 msgid "Show pages containing: %1"
 msgstr "Afficher pages contenant : %1"
+
+msgid "Download PDF"
+msgstr "Télécharger PDF"
