@@ -2,18 +2,7 @@
 
 <div id="media_button_container"></div>
 [% # Dojo dropdown menu button %]
-     <div dojoType="dijit.form.DropDownButton" label="Medium">
-      <div dojoType="dijit.Menu">
-         [% FOREACH facet IN response.facet.media %]
-            <div dojoType="dijit.MenuItem"
-                 onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { media => facet.name })) | xml_escape %]'"
-                 label='[% media(facet.name) %]  ([% facet.count %])'>
-          
-            </div>
-         [% END %]
-      </div>
-    </div>
-    
+             <script type="text/javascript">include_medium = 1;</script>
 [% # No JavaScript block %]
     <noscript>
       <form method="get" action="[% c.uri_for(root, 'search') %]">

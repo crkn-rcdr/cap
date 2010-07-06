@@ -9,22 +9,11 @@ dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.NumberTextBox");
     
 //Toolbar
-//dojo.addOnLoad(function() {
-//        var toolbar = new dijit.Toolbar({
-//                        label: "stuff",                            
-//                       },"refine_toolbar");
-//});
 
-
-        //Remove linefeeds. :P
-        //function chomp (badstring) {
-            
-          //  var goodstring = badstring.replace(
-          //          new RegExp( "\\n", "g" ), ""
-          //          );
-          // return goodstring;
-
-       // }
+       var any_language     = 0;
+       var include_language = 0;
+       var any_medium       = 0;
+       var include_medium   = 0;
 
         // Function for creating generic menu items. 
         function CreateMenuItem (params) {

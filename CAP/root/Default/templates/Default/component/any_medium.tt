@@ -2,19 +2,7 @@
 
 
 [% # Dojo dropdown menu button %]
-    <!-- <div dojoType="dijit.form.DropDownButton" label="[% c.loc("Medium") | xml_escape %]"> -->
-    <div dojoType="dijit.form.DropDownButton" label="Medium">
-      <span>
-        
-      </span>
-      <div dojoType="dijit.Menu">
-		            <!-- <option value="[% facet.name | xml_escape %]">[% c.loc(language(facet.name)) | xml_escape %] ([% facet.count %])</option> -->
-            <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { media => "" })) | xml_escape %]'" label='[% c.loc('any') | xml_escape %]'>
-          
-            </div>
-      </div>
-    </div>
-    
+             <script type="text/javascript">any_medium = 1;</script>
 [% # No JavaScript block %]
     <noscript>
       <form method="get" action="[% c.uri_for(root, 'search') %]">
