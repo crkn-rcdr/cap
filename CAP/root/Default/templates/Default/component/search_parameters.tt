@@ -10,6 +10,7 @@
   MACRO language(lang) INCLUDE macro/language.tt;
   MACRO sort_order(code) INCLUDE macro/sort_order.tt;
   SET keywords = c.req.params.q;
+  SET p = c.req.params.pkey;
   SET s = c.req.params.so;
   SET l = c.req.params.lang;
   SET m = c.req.params.media;
@@ -27,14 +28,19 @@
         [% ELSIF result.hitsFrom == 1 && result.hitsTo == result.hits %]
           <p>[% c.loc("[_1] results for", result.hits) | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em></p>
         [% ELSE -%]
-          <p>[% c.loc("Results [_1] - [_2] of [_3] for", result.hitsFrom, result.hitsTo, result.hits) | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em>.
+          <p>[% c.loc("Results") | xml_escape %]
+          <em class="filter">[% result.hitsFrom %] -
+          [% result.hitsTo | xml_escape %]</em>
+          [% c.loc('of') | xml_escape %]
+          <em class="filter">[% result.hits  | xml_escape %]</em>
+          [% c.loc('for') | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em>.
+
           [% IF c.req.params.so %]
             [% c.loc('Sort Order') | xml_escape %] <em class="filter">[% sort_order(s) %]</em>.
           [% END %]
-          </p>
-          <p>
+          <br/>
           [% IF l OR m OR f OR t %]
-            [% c.loc('Limited to: ') | xml_escape %]
+            [% c.loc('Results limited to: ') | xml_escape %]
             [% IF l %]
               <em class="filter">[% language(l)  %]</em>[% IF m OR f OR t %],[% ELSE %].[% END %]
             [% END %]
@@ -44,6 +50,8 @@
             [% IF f OR t %]
               <em class="filter">[% f | xml_escape %] [% c.loc('to') | xml_escape %] [% t | xml_escape %]</em>.
             [% END %]
+          [% END %]
+          [% IF p %]
           [% END %]
           </p>
 

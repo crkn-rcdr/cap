@@ -740,12 +740,17 @@ dd {
 }
 
 .keywords {
-    color: #990000;
+    color: #971131;
     font-weight: 600;
 }
 
 .filter {
     color: #009900;
+    font-weight: 600;
+}
+
+.result_number {
+    color: #333230;
     font-weight: 600;
 }
 

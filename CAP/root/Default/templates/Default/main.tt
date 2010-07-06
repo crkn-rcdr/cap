@@ -49,7 +49,9 @@
   [%- ELSIF c.action == "system/i18n" -%]
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'i18n.css') %]"/>
     <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'i18n.js') %]">1;</script>
-  [%- END -%]
+  [%- ELSIF c.action == "search/search" -%]
+    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'search.js') %]">1;</script>
+  [%- END -%]  
 
   </head>
 

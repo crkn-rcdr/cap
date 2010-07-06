@@ -1,0 +1,165 @@
+[% # Toolbar component, mostly for integrating JavaScript code %]
+
+[% IF c.req.params.pkey %]
+    <script type="text/javascript"> var add_pkey = 1; </script>
+[% ELSE %]
+    <script type="text/javascript"> var add_pkey = 0; </script>
+[% END %]
+
+
+    <script type="text/javascript">
+
+
+	var menuitem;
+	var i = 0;
+        var menulabel; 
+
+        // Sort button parameters
+        var sortmenuValues = new Array();
+            sortmenuValues[0] = new Array('[% c.loc("relevance") %]',  '[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" }))  %]');
+            sortmenuValues[1] = new Array('[% c.loc("newest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc" }))  %]');
+            sortmenuValues[2] = new Array('[% c.loc("oldest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc" }))  %]');
+            sortmenuValues[3] = new Array('[% c.loc("parent key") %]', '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pkey asc" }))  %]');
+            sortmenuValues[4] = new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "seq asc" }))  %]');
+        var sortbuttonvalues =  new Array('[% c.loc("Sort Order") %]','sort_order','sort_order_button');
+
+        //Language button parameters
+        langmenuValues = new Array();
+        [% FOREACH facet IN response.facet.lang %]
+        [% SET LANGNAME = language(facet.name) %]
+            menulabel = '[% LANGNAME FILTER remove("\n") %] ([% facet.count %])';
+            langmenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { lang => facet.name })) %]');
+            i++;
+        [% END %]
+        langmax = langmenuValues.length;
+        var langbuttonvalues =  new Array('[% c.loc("Language") %]','language_button','language_button');
+
+        //Media button parameters
+        mediamenuValues = new Array();
+        i = 0;
+        [% FOREACH facet IN response.facet.media %]
+        [% SET MEDIANAME = media(facet.name) %]
+            menulabel = '[% MEDIANAME FILTER remove("\n") %]';
+            mediamenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => facet.name })) %]');
+            i++;
+        [% END %]
+        mediamax = mediamenuValues.length;
+        var mediabuttonvalues =  new Array('[% c.loc("Media") %]','media_button','media_button');
+
+        //Date button parameters
+        var datebuttonvalues =  new Array('[% c.loc("Date Range") %]','date_button','date_button');
+        datebox_content = '<form method="GET"> [% search_query(['df','dt']) FILTER remove("\n") %] [% c.loc("Limit by date range:") %]<br/></br> <br/> <input id="fromDate" type="text" name="df" dojoType="dijit.form.NumberTextBox" constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}" required="true" value="[% response.result.pubmin_year | xml_escape %]" onChange="dijit.byId(\'toDate\').constraints.min = arguments[0];"/> <br/>&nbsp;&nbsp;&nbsp;&nbsp;[% c.loc("to") %]:<br/> <input id="toDate" type="text" name="dt" dojoType="dijit.form.NumberTextBox" constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}" required="true" value=\'[% response.result.pubmax_year | xml_escape %]\' onChange="dijit.byId(\'toDate\').constraints.max = arguments[0];"/><br/><br/> <button dojoType="dijit.form.Button" type="submit"> [% c.loc("Search") | xml_escape %] </button> </form>'
+
+        //Now Create the toolbar
+        dojo.addOnLoad(function() {
+
+           var toolbar = new dijit.Toolbar({
+                        label: "stuff",                            
+                       },"refine_toolbar");
+
+
+
+            var sortmenu = new dijit.Menu({
+                style: "display: none;"
+            });
+
+            // Add the first three menu items
+            for (i = 0; i <= 2; i++) {
+              menuitem = CreateMenuItem(sortmenuValues[i]);
+              sortmenu.addChild(menuitem);
+            }
+
+
+            if (add_pkey) {
+
+                // Add the parent key and sequence options
+                for (i = 3; i <= 4; i++) {
+                  menuitem = CreateMenuItem(sortmenuValues[i]);
+                  sortmenu.addChild(menuitem);
+                }
+
+            }
+
+            sortbutton = CreateButton(sortmenu,sortbuttonvalues);
+            // dojo.byId("sort_order_button").appendChild(sortbutton.domNode);
+            toolbar.addChild(sortbutton);
+ 
+            var langmenu = new dijit.Menu({
+                style: "display: none;"
+            });
+
+            // Add the language menu items
+            for (i = 0; i < langmax; i++) {
+              menuitem = CreateMenuItem(langmenuValues[i]);
+              langmenu.addChild(menuitem);
+            }
+
+            langbutton = CreateButton(langmenu,langbuttonvalues);
+            // dojo.byId("language_button_container").appendChild(langbutton.domNode);
+            toolbar.addChild(langbutton);
+
+
+            var mediamenu = new dijit.Menu({
+                style: "display: none;"
+            });
+
+            // Add the media menu items
+            for (i = 0; i < mediamax; i++) {
+              menuitem = CreateMenuItem(mediamenuValues[i]);
+              mediamenu.addChild(menuitem);
+            }
+
+            mediabutton = CreateButton(mediamenu,mediabuttonvalues);
+            // dojo.byId("media_button_container").appendChild(mediabutton.domNode);
+            toolbar.addChild(mediabutton);
+
+            var searchbox = new dijit.TooltipDialog({
+                content: datebox_content
+            });
+
+            datebutton = CreateButton(searchbox,datebuttonvalues);
+            toolbar.addChild(datebutton);
+
+        });
+    </script>
+ 
+ 
+    <div id="prog_toolbar" style="padding-left:21px;"></div>
+     
+    <div id="refine_toolbar" style="padding-left:21px;">
+    [%
+    
+         # Option to group by document or show by page, displayed in the relevant context
+         IF c.req.params.gr;
+             INCLUDE component/individual_page_button.tt;
+    
+         ELSIF c.req.params.t == 'pages';
+             INCLUDE component/group_by_doc_button.tt;
+    
+         END;
+    
+    
+         # Sort order: only display when not showing grouped results
+         IF ! c.req.params.gr;
+             INCLUDE component/sort_order_button.tt;
+         END;
+
+         # Filter results by language
+         IF c.req.params.lang;
+             INCLUDE component/any_language.tt;
+         ELSIF response.facet.lang.size > 1;
+             INCLUDE component/language_filter.tt;
+         END;
+         
+         # Filter by media type
+         IF c.req.params.media;
+             INCLUDE component/any_medium.tt;
+         ELSIF response.facet.media.size > 1;
+             INCLUDE component/media_filter.tt;
+         END;
+    
+         # Limit results by publication date
+         INCLUDE component/year_published.tt;
+    
+    %]
+    </div>

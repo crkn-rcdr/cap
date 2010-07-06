@@ -1,6 +1,6 @@
 ﻿[% USE XML.Escape; %]
 
-
+<div id="media_button_container"></div>
 [% # Dojo dropdown menu button %]
      <div dojoType="dijit.form.DropDownButton" label="Medium">
       <div dojoType="dijit.Menu">

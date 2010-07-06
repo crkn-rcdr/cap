@@ -187,8 +187,18 @@ msgstr "1 résultat"
 msgid "%1 results"
 msgstr "%1 résultats"
 
+msgid "Results"
+msgstr "Résultats"
+
 msgid "Results [_1] - [_2] of [_3]"
 msgstr "[_1] - [_2] de [_3] résultats"
+
+
+msgid "of"
+msgstr "de"
+
+msgid "for"
+msgstr "pour"
 
 
 # ../../../root/Default/templates/Default/component/rlist.tt

@@ -2,16 +2,13 @@
 
 [% USE XML.Escape; %]
 [% MACRO search_query(ignore) INCLUDE macro/search_query.tt %]
-
+<!--
     [% # Dojo Dropdown button and dialog box %]
     <div dojoType="dijit.form.DropDownButton" label="[% c.loc("Date Range") %]">
       <div dojoType="dijit.TooltipDialog" style="font-weight:500;">
         <form method="GET">
           [% search_query(['df','dt']) %]
             [% c.loc("Limit by date range:") %]<br/></br>
-
-          [% # No JavaScript block %]
-          <noscript><br /><br /></noscript>
 
           <br/>
           <input id="fromDate"
@@ -36,3 +33,32 @@
         </form>
       </div>
     </div>
+    -->
+
+
+        [% # No JavaScript block %]
+        <noscript>
+	  
+        <div id="noscript_daterange">
+        <form method="GET">
+          [% search_query(['df','dt']) %]
+            [% c.loc("Limit by date range:") %]<br/></br>
+
+          <br/>
+          <input id="fromDate"
+                 type="text"
+                 name="df"
+                 value="[% response.result.pubmin_year | xml_escape %]"
+          <br/>&nbsp;&nbsp;&nbsp;&nbsp;[% c.loc("to") %]:<br/>
+          <input id="toDate"
+                 type="text"
+                 name="dt"
+                 value='[% response.result.pubmax_year | xml_escape %]'
+          <button type="submit">
+            [% c.loc("Search") | xml_escape %]
+          </button>
+        </form>
+        </div>
+	  
+        </noscript>
+
