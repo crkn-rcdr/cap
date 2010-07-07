@@ -7,7 +7,6 @@
 
 [%  # Dojo toolkit block %]
 
-      <div id="sort_order_button"></div>
       
 [% # No Javascript block %]
     <noscript>
