@@ -13,7 +13,7 @@
         <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "eng"})) | xml_escape %]'" label="[% c.loc("English") | xml_escape %]">
           
         </div>
-        <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "fre"}))  | xml_escape %]'" label="[% c.loc("French") | xml_escape %]">
+        <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { lang => "fra"}))  | xml_escape %]'" label="[% c.loc("French") | xml_escape %]">
           
         </div>
       </div>
@@ -31,7 +31,7 @@
           <select name="lang">
             <option name="lang" value="-">[% c.loc("any") | xml_escape %]</option>
             <option name="lang" value="eng">[% c.loc("English") | xml_escape %]</option>
-            <option name="lang" value="fre">[% c.loc("French") | xml_escape %]</option>
+            <option name="lang" value="fra">[% c.loc("French") | xml_escape %]</option>
           </select>
           <button type="submit">
             [% c.loc("Search") | xml_escape %]
