@@ -291,3 +291,6 @@ msgstr "Afficher pages contenant : %1"
 
 msgid "Download PDF"
 msgstr "Télécharger PDF"
+
+msgid "Results %1 - %2 of %3 for"
+msgstr "%1 - %2 de %3 résultats pour"

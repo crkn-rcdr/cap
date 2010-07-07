@@ -2,24 +2,35 @@
   # Convert an ISO 639-3 language code into a textual label
 
   SWITCH lang;
-    CASE 'chi'; label = 'Chinese';
+    CASE 'cex'; label = 'Czech';
     CASE 'chp'; label = 'Chipewyan';
     CASE 'cre'; label = 'Cree';
-    CASE 'cze'; label = 'Czech';
+    CASE 'cym'; label = 'Welsh';
     CASE 'ell'; label = 'Greek';
     CASE 'eng'; label = 'English';
     CASE 'gla'; label = 'Scottish Gaelic';
-    CASE 'dut'; label = 'Dutch';
-    CASE 'fre'; label = 'French';
-    CASE 'ger'; label = 'German';
+    CASE 'deu'; label = 'German';
+    CASE 'fra'; label = 'French';
+    CASE 'hun'; label = 'Hungarian';
     CASE 'iku'; label = 'Inuktitut';
     CASE 'ita'; label = 'Italian';
+    CASE 'jpn'; label = 'Japanese';
+    CASE 'kor'; label = 'Korean';
     CASE 'lat'; label = 'Latin';
     CASE 'moh'; label = 'Mohawk';
     CASE 'mul'; label = 'multiple languages';
-    CASE 'pan'; label = 'Punjabi';
+    CASE 'ned'; label = 'Dutch';
+    CASE 'pan'; label = 'Panjabi';
+    CASE 'pol'; label = 'Polish';
+    CASE 'por'; label = 'Portugese';
+    CASE 'rus'; label = 'Russian';
     CASE 'spa'; label = 'Spanish';
+    CASE 'swe'; label = 'Swedish';
+    CASE 'tur'; label = 'Turkish';
     CASE 'ukr'; label = 'Ukrainian';
+    CASE 'vie'; label = 'Vietnamese';
+    CASE 'yid'; label = 'Yiddish';
+    CASE 'zho'; label = 'Chinese';
     CASE; label = lang;
   END;
 
