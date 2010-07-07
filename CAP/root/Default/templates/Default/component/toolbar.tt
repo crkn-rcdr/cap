@@ -81,7 +81,7 @@
         //Media button parameters
         mediamenuValues = new Array();
         i = 0;
-        [% IF c.req.params.lang; %]
+        [% IF c.req.params.media; %]
             menulabel = '[% c.loc('any') | xml_escape %]';
             mediamenuValues[0] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => "" })) %]');
         [% ELSE %]        
