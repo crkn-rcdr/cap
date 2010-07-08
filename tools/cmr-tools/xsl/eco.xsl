@@ -40,8 +40,6 @@
         <map from="110" to="corporate"/>
         <map from="111" to="corporate"/>
         <map from="130" to="uniform"/>
-        <map from="150" to="topical"/>
-        <map from="151" to="geographic"/>
         <map from="245" to="main"/>
         <map from="246" to="alternate"/>
         <map from="250" to="publication"/>
