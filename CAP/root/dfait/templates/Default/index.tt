@@ -61,7 +61,7 @@
                 <b>[% c.loc("Language") | xml_escape %]</b> <br />
                 <input dojoType="dijit.form.RadioButton" type="radio" name="lang" value="-" checked="checked" /> [% c.loc("any") | xml_escape %]<br />
                 <input dojoType="dijit.form.RadioButton" type="radio" name="lang" value="eng" /> [% c.loc("English") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="lang" value="fre" /> [% c.loc("French") | xml_escape %]<br /><br />
+                <input dojoType="dijit.form.RadioButton" type="radio" name="lang" value="fra" /> [% c.loc("French") | xml_escape %]<br /><br />
 
                                  
                 <label for="dr">
