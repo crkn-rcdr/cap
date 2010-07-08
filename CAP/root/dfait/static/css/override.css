@@ -98,3 +98,7 @@ li.username {
     padding-left: 20px;
     padding-top: 20px;
 }
+
+#footer a:link, #footer a:visited {
+  color: #012597;
+}

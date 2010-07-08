@@ -8,7 +8,7 @@
 
   <div id="footer">
     <p>
-      <a href="http://www.international.gc.ca">[% c.loc('All content copyright © Foreign Affairs and International Trade') | xml_escape %]</a> |
-      <a href="http://www.canadiana.org">[% c.loc('Produced by Canadiana.org') | xml_escape %]</a>
+      <a class="flink" href="http://www.international.gc.ca">[% c.loc('All content copyright © Foreign Affairs and International Trade') | xml_escape %]</a> |
+      <a class="flink" href="http://www.canadiana.org">[% c.loc('Produced by Canadiana.org') | xml_escape %]</a>
     </p>
   </div>

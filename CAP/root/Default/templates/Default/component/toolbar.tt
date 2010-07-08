@@ -46,58 +46,82 @@
          INCLUDE component/year_published.tt;
     
     %]
+
+
+[% #The code below passes Template Toolkit values into JavaScript, should probably be redone with session management %]
     <script type="text/javascript">
 
 
-	var menuitem;
-	var i = 0;
+        var menuitem;
+        var i = 0;
         var menulabel; 
 
         // Sort button parameters
-        var sortmenuValues = new Array();
-            sortmenuValues[0] = new Array('[% c.loc("relevance") %]',  '[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" }))  %]');
-            sortmenuValues[1] = new Array('[% c.loc("newest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc" }))  %]');
-            sortmenuValues[2] = new Array('[% c.loc("oldest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc" }))  %]');
-            sortmenuValues[3] = new Array('[% c.loc("parent key") %]', '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pkey asc" }))  %]');
-            sortmenuValues[4] = new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "seq asc" }))  %]');
+        var sortmenuValues = new Array(
+            new Array('[% c.loc("relevance") %]',  '[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" }))  %]'),
+            new Array('[% c.loc("newest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc" }))  %]'),
+            new Array('[% c.loc("oldest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc" }))  %]'),
+            new Array('[% c.loc("parent key") %]', '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pkey asc" }))  %]'),
+            new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "seq asc" }))  %]')
+        );
         var sortbuttonvalues =  new Array('[% c.loc("Sort Order") %]','sort_order','sort_order_button');
+
 
         //Language button parameters
         langmenuValues = new Array();
+
         [% IF c.req.params.lang; %]
             menulabel = '[% c.loc('any') | xml_escape %]';
             langmenuValues[0] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { lang => "" })) %]');
         [% ELSE %]
+
             [% FOREACH facet IN response.facet.lang %]
-            [% SET LANGNAME = language(facet.name) %]
+                [% SET LANGNAME = language(facet.name) %]
                 menulabel = '[% LANGNAME FILTER remove("\n") %] ([% facet.count %])';
                 langmenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { lang => facet.name })) %]');
                 i++;
             [% END %]
+
         [% END %]
+
         langmax = langmenuValues.length;
         var langbuttonvalues =  new Array('[% c.loc("Language") %]','language_button','language_button');
+
 
         //Media button parameters
         mediamenuValues = new Array();
         i = 0;
+
         [% IF c.req.params.media; %]
             menulabel = '[% c.loc('any') | xml_escape %]';
             mediamenuValues[0] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => "" })) %]');
         [% ELSE %]        
+
             [% FOREACH facet IN response.facet.media %]
-            [% SET MEDIANAME = media(facet.name) %]
+                [% SET MEDIANAME = media(facet.name) %]
                 menulabel = '[% MEDIANAME FILTER remove("\n") %]';
                 mediamenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => facet.name })) %]');
                 i++;
             [% END %]
+
         [% END %]
+
         mediamax = mediamenuValues.length;
         var mediabuttonvalues =  new Array('[% c.loc("Media") %]','media_button','media_button');
 
+
         //Date button parameters
-        var datebuttonvalues =  new Array('[% c.loc("Date Range") %]','date_button','date_button');
-        datebox_content = '<form method="GET"> [% search_query(['df','dt']) FILTER remove("\n") %] [% c.loc("Limit by date range:") %]<br/></br> <br/> <input id="fromDate" type="text" name="df" dojoType="dijit.form.NumberTextBox" constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}" required="true" value="[% response.result.pubmin_year | xml_escape %]" onChange="dijit.byId(\'toDate\').constraints.min = arguments[0];"/> <br/>&nbsp;&nbsp;&nbsp;&nbsp;[% c.loc("to") %]:<br/> <input id="toDate" type="text" name="dt" dojoType="dijit.form.NumberTextBox" constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}" required="true" value=\'[% response.result.pubmax_year | xml_escape %]\' onChange="dijit.byId(\'toDate\').constraints.max = arguments[0];"/><br/><br/> <button dojoType="dijit.form.Button" type="submit"> [% c.loc("Search") | xml_escape %] </button> </form>'
+        var datebuttonvalues = new Array('[% c.loc("Date Range") %]','date_button','date_button');
+        var datebox_elements = new Array('<form method="GET">',
+                                         '[% search_query(['df','dt']) FILTER remove("\n") %] [% c.loc("Limit by date range:") %]<br/></br> <br/>',
+                                         '<input id="fromDate" type="text" name="df" dojoType="dijit.form.NumberTextBox" constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}" required="true" value="[% response.result.pubmin_year | xml_escape %]" onChange="dijit.byId(\'toDate\').constraints.min = arguments[0];"/> <br/>&nbsp;&nbsp;&nbsp;&nbsp;[% c.loc("to") %]:<br/>',
+                                         '<input id="toDate" type="text" name="dt" dojoType="dijit.form.NumberTextBox" constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}" required="true" value=\'[% response.result.pubmax_year | xml_escape %]\' onChange="dijit.byId(\'toDate\').constraints.max = arguments[0];"/><br/><br/>',
+                                         '<button dojoType="dijit.form.Button" type="submit"> [% c.loc("Search") | xml_escape %] </button>',
+                                         '</form>');
+        datebox_content = datebox_elements.join("");
+
+[% #End of TT/JavaScript munging %]
+
 
         //Now Create the toolbar
         dojo.addOnLoad(function() {
