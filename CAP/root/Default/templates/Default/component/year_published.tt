@@ -2,38 +2,7 @@
 
 [% USE XML.Escape; %]
 [% MACRO search_query(ignore) INCLUDE macro/search_query.tt %]
-<!--
-    [% # Dojo Dropdown button and dialog box %]
-    <div dojoType="dijit.form.DropDownButton" label="[% c.loc("Date Range") %]">
-      <div dojoType="dijit.TooltipDialog" style="font-weight:500;">
-        <form method="GET">
-          [% search_query(['df','dt']) %]
-            [% c.loc("Limit by date range:") %]<br/></br>
 
-          <br/>
-          <input id="fromDate"
-                 type="text"
-                 name="df"
-                 dojoType="dijit.form.NumberTextBox"
-                 constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:'####'}"
-                 required="true"
-                 value="[% response.result.pubmin_year | xml_escape %]"
-                 onChange="dijit.byId('toDate').constraints.min = arguments[0];"/>
-          <br/>&nbsp;&nbsp;&nbsp;&nbsp;[% c.loc("to") %]:<br/>
-          <input id="toDate"
-                 type="text"
-                 name="dt"
-                 dojoType="dijit.form.NumberTextBox"
-                 constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:'####'}"
-                 required="true" value='[% response.result.pubmax_year | xml_escape %]'
-                 onChange="dijit.byId('toDate').constraints.max = arguments[0];"/><br/><br/>
-          <button dojoType="dijit.form.Button" type="submit">
-            [% c.loc("Search") | xml_escape %]
-          </button>
-        </form>
-      </div>
-    </div>
-    -->
 
 
         [% # No JavaScript block %]

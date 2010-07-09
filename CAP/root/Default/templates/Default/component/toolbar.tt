@@ -48,7 +48,7 @@
     %]
 
 
-[% #The code below passes Template Toolkit values into JavaScript, should probably be redone with session management %]
+[% #The code below passes Template Toolkit values into JavaScript; should probably be redone with session management %]
     <script type="text/javascript">
 
 
@@ -112,13 +112,38 @@
 
         //Date button parameters
         var datebuttonvalues = new Array('[% c.loc("Date Range") %]','date_button','date_button');
+
+        var from_args = new Array('<input',
+                                  'id="fromDate"',
+                                  'type="text"',
+                                  'name="df"',
+                                  'dojoType="dijit.form.NumberTextBox"',
+                                  'constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}"',
+                                  'required="true"',
+                                  'value="[% response.result.pubmin_year | xml_escape %]"',
+                                  'onChange="dijit.byId(\'toDate\').constraints.min = arguments[0];"/>');
+
+        var to_args  =  new Array('<input',
+                                  'id="toDate"',
+                                  'type="text"',
+                                  'name="dt"',
+                                  'dojoType="dijit.form.NumberTextBox"',
+                                  'constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}"',
+                                  'required="true"',
+                                  'value="[% response.result.pubmax_year | xml_escape %]"',
+                                  'onChange="dijit.byId(\'toDate\').constraints.max = arguments[0];"/>');
+
         var datebox_elements = new Array('<form method="GET">',
                                          '[% search_query(['df','dt']) FILTER remove("\n") %] [% c.loc("Limit by date range:") %]<br/></br> <br/>',
-                                         '<input id="fromDate" type="text" name="df" dojoType="dijit.form.NumberTextBox" constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}" required="true" value="[% response.result.pubmin_year | xml_escape %]" onChange="dijit.byId(\'toDate\').constraints.min = arguments[0];"/> <br/>&nbsp;&nbsp;&nbsp;&nbsp;[% c.loc("to") %]:<br/>',
-                                         '<input id="toDate" type="text" name="dt" dojoType="dijit.form.NumberTextBox" constraints="{min:[% response.result.pubmin_year | xml_escape %],max:[% response.result.pubmax_year | xml_escape %],pattern:\'####\'}" required="true" value=\'[% response.result.pubmax_year | xml_escape %]\' onChange="dijit.byId(\'toDate\').constraints.max = arguments[0];"/><br/><br/>',
+                                         from_args.join(" "),
+                                         '<br/>&nbsp;&nbsp;&nbsp;&nbsp;',
+                                         '[% c.loc("to") %]:<br/>',
+                                         to_args.join(" "),
+					 '<br/><br/>',
                                          '<button dojoType="dijit.form.Button" type="submit"> [% c.loc("Search") | xml_escape %] </button>',
                                          '</form>');
-        datebox_content = datebox_elements.join("");
+
+        var datebox_content = datebox_elements.join("");
 
 [% #End of TT/JavaScript munging %]
 
