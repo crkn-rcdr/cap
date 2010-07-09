@@ -1,13 +1,5 @@
 [% # Toolbar component, mostly for integrating JavaScript code %]
 
-[% IF c.req.params.pkey %]
-    <script type="text/javascript"> var add_pkey = 1; </script>
-[% ELSE %]
-    <script type="text/javascript"> var add_pkey = 0; </script>
-[% END %]
-
-
- 
      
     <div id="refine_toolbar" style="padding-left:21px;">
 
@@ -15,9 +7,7 @@
     
     [%
          # Sort order: only display when not showing grouped results
-         IF ! c.req.params.gr;
-             INCLUDE component/sort_order_button.tt;
-         END;
+         INCLUDE component/sort_order_button.tt;
 
          # Filter results by language
          IF c.req.params.lang;
@@ -42,6 +32,12 @@
 [% #The code below passes Template Toolkit values into JavaScript; should probably be redone with session management %]
     <script type="text/javascript">
 
+        [% #Just to get the sort order menu mode %]
+        [% IF c.req.params.pkey %]
+             var add_pkey = 1;
+        [% ELSE %]
+             var add_pkey = 0;
+        [% END %]
 
         var menuitem;
         var i = 0;
