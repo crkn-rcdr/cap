@@ -2,9 +2,16 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
 
+<xsl:import href="canmarc2iso693-3.xsl"/>
+
 <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
-<xsl:variable name="default_lang" select="substring(//marc/field[@type='008'], 36, 3)"/>
+<xsl:variable name="default_lang">
+  <xsl:call-template name="canmarc2iso693-3">
+    <xsl:with-param name="lang" select="substring(//marc/field[@type='008'], 36, 3)"/>
+  </xsl:call-template>
+</xsl:variable>
+
 
 <xsl:template match="eco2">
   <recordset version="1.0">
@@ -33,6 +40,10 @@
 
       <!-- Split multiple languages codes into distinct fields -->
       <filter xpath="//record/lang" type="match" regex="..."/>
+      <filter xpath="//record/lang" type="map">
+        <map from="fre" to="fra"/>
+      </filter>
+
 
       <!-- Map MARC field codes to controlled descriptive types -->
       <filter xpath="//record/description/*" attribute="type" type="map">
@@ -79,7 +90,7 @@
         <map from="0" to="eng"/>
         <map from="4" to="eng"/>
         <map from="5" to="eng"/>
-        <map from="6" to="fre"/>
+        <map from="6" to="fra"/>
       </filter>
     </filters>
   </recordset>
@@ -105,6 +116,7 @@
           /eco2/digital/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </label>
+    <!--
     <clabel>
       <xsl:value-of select="normalize-space(concat(
           /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
@@ -112,6 +124,7 @@
           /eco2/digital/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </clabel>
+    -->
 
     <!-- Optional control fields -->
     <xsl:if test="/eco2/@parent">
@@ -122,10 +135,7 @@
       <seq><xsl:value-of select="/eco2/@id"/></seq>
     </xsl:if>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
-    <lang><xsl:value-of select="$default_lang"/></lang>
-    <xsl:if test="//marc/field[@type='041']/subfield">
-      <lang><xsl:value-of select="//marc/field[@type='041']/subfield"/></lang>
-    </xsl:if>
+    <xsl:call-template name="lang"/>
     <media>text</media>
 
     <description>
@@ -154,6 +164,7 @@
           /eco2/series/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </label>
+    <!--
     <clabel>
       <xsl:value-of select="normalize-space(concat(
           /eco2/series/marc/field[@type='245']/subfield[@type='a'], ' ',
@@ -161,15 +172,13 @@
           /eco2/series/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </clabel>
+    -->
 
     <!-- Optional control fields -->
     <pkey><xsl:call-template name="collection_code"/></pkey>
     <gkey><xsl:call-template name="collection_code"/></gkey>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
-    <lang><xsl:value-of select="$default_lang"/></lang>
-    <xsl:if test="//marc/field[@type='041']/subfield">
-      <lang><xsl:value-of select="//marc/field[@type='041']/subfield"/></lang>
-    </xsl:if>
+    <xsl:call-template name="lang"/>
     <media>text</media>
 
     <description>
@@ -232,6 +241,7 @@
     <type>page</type>
     <contributor>oocihm</contributor>
     <key><xsl:value-of select="concat(/eco2/@id, '.', @seq)"/></key>
+    <!--
     <label>
       <xsl:value-of select="normalize-space(concat(
           /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
@@ -239,14 +249,15 @@
           /eco2/digital/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </label>
-    <clabel>
+    -->
+    <label>
       <xsl:choose>
         <xsl:when test="$page_feature != '' and number(@n) != 0"><xsl:value-of select="concat($page_feature, ' (p. ', @n, ')')"/></xsl:when>
         <xsl:when test="$page_feature != ''"><xsl:value-of select="$page_feature"/></xsl:when>
         <xsl:when test="number(@n) != 0"><xsl:value-of select="concat('p. ', @n)"/></xsl:when>
         <xsl:otherwise><xsl:value-of select="concat('image ', @seq)"/></xsl:otherwise>
       </xsl:choose>
-    </clabel>
+    </label>
 
     <!-- Optional control fields -->
     <pkey><xsl:value-of select="/eco2/@id"/></pkey>
@@ -256,10 +267,7 @@
     </xsl:if>
     <seq><xsl:value-of select="number(@seq)"/></seq>
     <pubdate min="{/eco2/*/pubdate/@first}-01-01T00:00:00.000Z" max="{/eco2/*/pubdate/@last}-12-31T23:59:59.000Z"/>
-    <lang><xsl:value-of select="$default_lang"/></lang>
-    <xsl:if test="//marc/field[@type='041']/subfield">
-      <lang><xsl:value-of select="//marc/field[@type='041']/subfield"/></lang>
-    </xsl:if>
+    <xsl:call-template name="lang"/>
     <media>text</media>
 
     <description>
@@ -326,6 +334,17 @@
     <xsl:when test="$collection = &quot;Women's History&quot;">wmh</xsl:when>
   </xsl:choose>
 </xsl:template>
-            
+
+<xsl:template name="lang">
+  <lang><xsl:value-of select="$default_lang"/></lang>
+  <xsl:for-each select="//marc/field[@type='041']/subfield">
+    <lang>
+      <xsl:call-template name="canmarc2iso693-3">
+        <xsl:with-param name="lang" select="."/>
+      </xsl:call-template>
+    </lang>
+  </xsl:for-each>
+</xsl:template>
+          
 </xsl:stylesheet>
 

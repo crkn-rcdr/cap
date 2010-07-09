@@ -119,12 +119,12 @@
 
 <xsl:template match="dc:creator"><author><xsl:apply-templates/></author></xsl:template>
 <xsl:template match="dc:publisher"><publication><xsl:apply-templates/></publication></xsl:template>
-<xsl:template match="dc:subject"><subject lang="fre"><xsl:apply-templates/></subject></xsl:template>
-<xsl:template match="dc:description"><note lang="fre"><xsl:apply-templates/></note></xsl:template>
-<xsl:template match="dc:beginenddatepublication"><note lang="fre" type="publication"><xsl:apply-templates/></note></xsl:template>
-<xsl:template match="dc:matdescription"><note lang="fre" type="extent"><xsl:apply-templates/></note></xsl:template>
-<xsl:template match="dc:descriptionlong"><text lang="fre" type="descriptive"><xsl:apply-templates/></text></xsl:template>
-<xsl:template match="dc:descriptionshort"><text lang="fre" type="descriptive"><xsl:apply-templates/></text></xsl:template>
+<xsl:template match="dc:subject"><subject lang="fra"><xsl:apply-templates/></subject></xsl:template>
+<xsl:template match="dc:description"><note lang="fra"><xsl:apply-templates/></note></xsl:template>
+<xsl:template match="dc:beginenddatepublication"><note lang="fra" type="publication"><xsl:apply-templates/></note></xsl:template>
+<xsl:template match="dc:matdescription"><note lang="fra" type="extent"><xsl:apply-templates/></note></xsl:template>
+<xsl:template match="dc:descriptionlong"><text lang="fra" type="descriptive"><xsl:apply-templates/></text></xsl:template>
+<xsl:template match="dc:descriptionshort"><text lang="fra" type="descriptive"><xsl:apply-templates/></text></xsl:template>
             
 </xsl:stylesheet>
 

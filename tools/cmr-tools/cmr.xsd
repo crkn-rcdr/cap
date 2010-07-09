@@ -4,7 +4,7 @@
 
   <xs:annotation>
     <xs:documentation>
-      This is version 1.0 (DRAFT3) of the Canadian Metadata Repository
+      This is version 1.0 (DRAFT4) of the Canadian Metadata Repository
       (CMR) intermediate metadata format. It is intended to provide a
       common container format which can be readily translated into
       various Schema, such as for ingesting into a Solr database.
@@ -21,6 +21,9 @@
       to another document, such as serial continuation notes.
       Added "source" as a bib type
       renamed media type "sound" to "audio"
+
+      DRAFT 4: 2010-07-09
+      Removed clabel
     </xs:documentation>
   </xs:annotation>
 
@@ -48,7 +51,6 @@
               <xs:element name="contributor" type="lcalpha"/>
               <xs:element name="key" type="key"/>
               <xs:element name="label" type="text"/>
-              <xs:element name="clabel" type="text"/>
 
               <!-- Optional control fields -->
               <xs:element name="pkey" type="key" minOccurs="0"/>
