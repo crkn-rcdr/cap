@@ -1,5 +1,8 @@
 package CAP::Schema;
 
+# Created by DBIx::Class::Schema::Loader
+# DO NOT MODIFY THE FIRST PART OF THIS FILE
+
 use strict;
 use warnings;
 
@@ -8,8 +11,8 @@ use base 'DBIx::Class::Schema';
 __PACKAGE__->load_namespaces;
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-04-27 14:17:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:W2Yi7KJ0uVqxX75dRdkT8A
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-06-29 13:44:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:C0PeQ2xr0DYUppl9eYEhtg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
