@@ -21,14 +21,31 @@ use Getopt::Long;
 use File::Basename;
 use Config::General;
 use FindBin;
+use lib "$FindBin::Bin/../../CAP/lib";
+use Carp;
+use POSIX qw( WIFEXITED);
+use LWP::UserAgent;
+use HTTP::Request::Common;
+use XML::LibXML;
+use XML::LibXSLT;
+use Data::Dumper;
+use CAP::Ingest;
+
+
 my $prog = basename($0);
 my $usage = "Usage: $prog --conf CONFIG_FILE [FILE...]";
 my $conf_file;
 my $use_cmr;
+my $contributor;
+
+my $err_log = "/tmp/ingest.log";
+
+open my $err_out, '>', $err_log or croak "Couldn't open '$err_log': $!";
 
 GetOptions(
     'conf=s' => \$conf_file,
-    'cmr' => \$use_cmr
+    'cmr' => \$use_cmr,
+    'contributor=s' => \$contributor,
 ) or die ($usage);
 
 die ($usage) unless($conf_file);
@@ -41,11 +58,61 @@ my %config = $conf->getall;
 
 my $solr_uri=$config{'solr'}->{'update_uri'};
 
+my $repos=$config{'content'};
+my $ingest = new Ingest($repos);
+
+
 if($use_cmr) {
     foreach my $file (@ARGV) {
         print "Posting file $file to $solr_uri\n";
-        system ('xsltproc '.$FindBin::Bin.'/../cmr-tools/cmr2solr.xsl '.$file.' 2>/dev/null | curl '.$solr_uri.' --data-binary @- -H "Content-type:text/xml; charset=utf-8" ');
-        #print  ('saxonb-xslt -s:'.$file.' -xsl:'.$FindBin::Bin.'/../cmr-tools/cmr2solr.xsl 2>/dev/null | curl '.$solr_uri.' --data-binary @- -H "Content-type:text/xml; charset=utf-8" ');
+        my $xsl=$FindBin::Bin.'/../cmr-tools/cmr2solr.xsl';
+        my $solr_cmd='xsltproc '.$FindBin::Bin.'/../cmr-tools/cmr2solr.xsl '.$file.' 2>/dev/null';
+        my $xslt = XML::LibXSLT->new();
+        my $stylesheet = $xslt->parse_stylesheet_file($xsl);
+        my $result;
+        my $message;
+        my $dirname=dirname($file);
+        
+        eval { 
+            $result = $stylesheet->transform_file($file); 
+            $message = $stylesheet->output_as_bytes($result);
+        };
+        if($@) {
+            print "FAIL: $file\n";
+            #print "Caught Error: ".Dumper($@);
+        }
+        else {
+            #my $message = `$solr_cmd`;
+            #print $message;
+            my $userAgent = LWP::UserAgent->new(agent=>'perl post');
+            my $response = $userAgent->request(POST $solr_uri, Content_Type=>'text/xml', Content=>$message);
+            if ($response->is_success) {
+                #get ingest list from file
+                my $parser = XML::LibXML->new();
+                my $tree=$parser->parse_file($file);
+                my $root=$tree->getDocumentElement;
+                my @downloads;
+                push(@downloads, $root->findnodes('//resource/canonicalDownload'));
+                push(@downloads, $root->findnodes('//resource/canonicalMaster'));
+                foreach my $download (@downloads) {
+                    my $download_file=$download->findvalue('.');
+                    if ( -e "$dirname/files/$download_file") {
+                        my $fqfn=$ingest->ingest_file("$dirname/files/$download_file", $contributor);
+                        print "ingested: $fqfn\n";
+                    }
+                    else {
+                        print "FAIL: did not injest expected file";
+                    }
+                }
+
+
+            }
+            else {
+
+                print "FAIL POST $file\n";
+
+            }
+        }
     }
 }
 else {
@@ -57,4 +124,8 @@ else {
 
 #send the commit command to make sure all the changes are flushed and visible
 print "Committing changes\n";
-system("curl $solr_uri --data-binary '<commit/>' -H 'Content-type:text/xml; charset=utf-8'");
+my $message = "<commit/>";
+my $userAgent = LWP::UserAgent->new(agent=>'perl post');
+my $response = $userAgent->request(POST $solr_uri, Content_Type=>'text/xml', Content=>$message);
+
+#system("curl $solr_uri --data-binary '<commit/>' -H 'Content-type:text/xml; charset=utf-8'");
