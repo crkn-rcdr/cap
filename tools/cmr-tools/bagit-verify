@@ -1,0 +1,70 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Digest::MD5 qw(md5_hex);
+use File::Basename;
+use File::Find;
+
+my $usage = sprintf("Usage: %s BAGIT_DIR [...]\n", basename($0));
+
+my %manifest;
+my @data;
+foreach my $bagit (@ARGV) {
+    %manifest = ();
+    @data = ();
+
+    # Verify that this is a bagit archive.
+    unless (-f "$bagit/bagit.txt") {
+        print("FATAL: $bagit does not seem to be a bagit archive.\n");
+        next;
+    }
+
+    # Get the manifest.
+    unless (open (MANIFEST, "$bagit/manifest-md5.txt")) {
+        print("FATAL: cannot open $bagit/manifest-md5.txt: $!\n");
+        next;
+    }
+    while (my $line = <MANIFEST>) {
+        chomp($line);
+        my($digest, $file) = split(/\s+/, $line, 2);
+        $manifest{$file} = $digest;
+    }
+    close(MANIFEST);
+
+    # Compile a list of data files.
+    unless (-d "$bagit/data") {
+        print("FATAL: cannot find $bagit/data\n");
+        next;
+    }
+    find(sub{ push(@data, $File::Find::name)  }, "$bagit/data");
+
+    foreach my $file (@data) {
+        next if (-d ($file));
+        my $local_name = substr($file, length($bagit) + 1);
+
+        # Check whether this is a surplus file.
+        unless ($manifest{$local_name}) {
+            print("EXTRA: $bagit/$local_name");
+            next;
+        }
+
+        # Compare the actual MD5 checksum to the one in the manifest
+        unless (open(DATA, "<$bagit/$local_name")) {
+            print("FATAL: cannot read $bagit/$local_name: $!\n");
+        }
+        my $data = join('', <DATA>);
+        close(DATA);
+        my $digest = md5_hex($data);
+        unless ($digest eq $manifest{$local_name}) {
+            print("MISMATCH: $bagit/$local_name\n");
+            print("INFO: $bagit/$local_name has digest $digest; should have $manifest{$local_name}\n");
+        }
+
+        delete($manifest{$local_name});
+    }
+
+    foreach my $missing (sort(keys(%manifest))) {
+        print("MISSING: $bagit/$manifest{$missing}");
+    }
+}

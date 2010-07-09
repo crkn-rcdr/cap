@@ -26,15 +26,15 @@
     <filter xpath="//record/lang" type="code">return lc($_[0])</filter>
     <filter xpath="//record/lang" type="map">
       <map from="anglais" to="eng"/>
-      <map from="allemand" to="ger"/>
+      <map from="allemand" to="deu"/>
       <map from="english" to="eng"/>
-      <map from="french" to="fre"/>
+      <map from="french" to="fra"/>
       <map from="swedish" to="swe"/>
       <map from="en" to="eng"/>
-      <map from="fr" to="fre"/>
+      <map from="fr" to="fra"/>
       <map from="gd" to="gla"/>
       <map from="gae" to="gla"/>
-      <map from="gre" to="ell"/>
+      <map from="inu" to="iku"/>
     </filter>
     <filter xpath="//record/media" type="code">return lc($_[0])</filter>
     <filter xpath="//record/media" type="map">
