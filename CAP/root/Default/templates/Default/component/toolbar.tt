@@ -8,21 +8,12 @@
 
 
  
-    <div id="prog_toolbar" style="padding-left:21px;"></div>
      
     <div id="refine_toolbar" style="padding-left:21px;">
+
+    
+    
     [%
-    
-         # Option to group by document or show by page, displayed in the relevant context
-         IF c.req.params.gr;
-             INCLUDE component/individual_page_button.tt;
-    
-         ELSIF c.req.params.t == 'pages';
-             INCLUDE component/group_by_doc_button.tt;
-    
-         END;
-    
-    
          # Sort order: only display when not showing grouped results
          IF ! c.req.params.gr;
              INCLUDE component/sort_order_button.tt;
@@ -136,7 +127,7 @@
         var datebox_elements = new Array('<form method="GET">',
                                          '[% search_query(['df','dt']) FILTER remove("\n") %] [% c.loc("Limit by date range:") %]<br/></br> <br/>',
                                          from_args.join(" "),
-                                         '<br/>&nbsp;&nbsp;&nbsp;&nbsp;',
+                                         '<br/>&#160;&#160;&#160;&#160;',
                                          '[% c.loc("to") %]:<br/>',
                                          to_args.join(" "),
 					 '<br/><br/>',
@@ -161,7 +152,7 @@
                 style: "display: none;"
             });
 
-            // Add the first three menu items
+            // Add the first three sort menu items
             for (i = 0; i <= 2; i++) {
               menuitem = CreateMenuItem(sortmenuValues[i]);
               sortmenu.addChild(menuitem);
