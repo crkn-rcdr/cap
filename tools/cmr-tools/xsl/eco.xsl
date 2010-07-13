@@ -53,7 +53,6 @@
         <map from="130" to="uniform"/>
         <map from="245" to="main"/>
         <map from="246" to="alternate"/>
-        <map from="250" to="publication"/>
         <map from="310" to="frequency"/>
         <map from="321" to="frequency"/>
         <map from="362" to="date"/>

@@ -40,8 +40,8 @@
 <xsl:template name="iso693-2">
   <xsl:param name="lang"/>
   <xsl:choose>
-    <xsl:when test="$lang = 'arm'">hye</xsl:when><!-- Armenian -->
     <xsl:when test="$lang = 'alb'">sqi</xsl:when><!-- Albanian -->
+    <xsl:when test="$lang = 'arm'">hye</xsl:when><!-- Armenian -->
     <xsl:when test="$lang = 'baq'">eus</xsl:when><!-- Basque -->
     <xsl:when test="$lang = 'bur'">mya</xsl:when><!-- Burmese -->
     <xsl:when test="$lang = 'chi'">zho</xsl:when><!-- Chinese -->
