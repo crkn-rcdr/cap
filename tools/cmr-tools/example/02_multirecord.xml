@@ -12,7 +12,6 @@
     <contributor>oocihm</contributor>
     <key>12469</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>Earth's enigmas : a volume of stories /</clabel>
     <description/>
     <resource>
       <canonicalUri>http://www.canadiana.org/record/12469</canonicalUri>
@@ -23,7 +22,6 @@
     <contributor>oocihm</contributor>
     <key>12469.0001</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>technical data sheet</clabel>
     <pkey>12469</pkey>
     <seq>1</seq>
     <description/>
@@ -36,7 +34,6 @@
     <contributor>oocihm</contributor>
     <key>12469.0002</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>blank page</clabel>
     <pkey>12469</pkey>
     <seq>2</seq>
     <description/>
@@ -49,7 +46,6 @@
     <contributor>oocihm</contributor>
     <key>12469.0003</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>title page</clabel>
     <pkey>12469</pkey>
     <seq>3</seq>
     <description/>
@@ -62,7 +58,6 @@
     <contributor>oocihm</contributor>
     <key>12469.0004</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>unnumbered</clabel>
     <pkey>12469</pkey>
     <description/>
     <resource>

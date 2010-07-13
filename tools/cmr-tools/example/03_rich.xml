@@ -19,16 +19,15 @@
     <contributor>oocihm</contributor>
     <key>12469</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>Earth's enigmas : a volume of stories /</clabel>
     <pkey>ecl</pkey>
     <pubdate min="1896-01-01T00:00:00.000Z" max="1896-12-31T23:59:59.999Z"/>
     <lang>eng</lang>
     <media>text</media>
     <description>
       <title lang="eng" type="main">Earth's enigmas [electronic resource] : a volume of stories / by Charles G.D. Roberts.</title>
-      <author lang="eng" type="person">Roberts, Charles G. D., 1860-1943.</author>
-      <publication lang="eng" type="main">Boston ; New York : Lamson, Wolffe, 1896.</publication>
-      <note lang="eng" type="general">Title from title screen.</note>
+      <author lang="eng">Roberts, Charles G. D., 1860-1943.</author>
+      <publication lang="eng">Boston ; New York : Lamson, Wolffe, 1896.</publication>
+      <note lang="eng">Title from title screen.</note>
       <note lang="eng" type="extent">290 p. ; 18 cm.</note>
     </description>
     <resource>
@@ -40,7 +39,6 @@
     <contributor>oocihm</contributor>
     <key>12469.0001</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>technical data sheet</clabel>
     <pkey>12469</pkey>
     <gkey>ecl</gkey>
     <gkey>ecl</gkey>
@@ -61,7 +59,6 @@
     <contributor>oocihm</contributor>
     <key>12469.0002</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>blank page</clabel>
     <pkey>12469</pkey>
     <gkey>ecl</gkey>
     <gkey>ecl</gkey>
@@ -82,7 +79,6 @@
     <contributor>oocihm</contributor>
     <key>12469.0003</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>title page</clabel>
     <pkey>12469</pkey>
     <gkey>ecl</gkey>
     <gkey>ecl</gkey>
@@ -103,7 +99,6 @@
     <contributor>oocihm</contributor>
     <key>12469.0004</key>
     <label>Earth's enigmas : a volume of stories /</label>
-    <clabel>unnumbered</clabel>
     <pkey>12469</pkey>
     <gkey>ecl</gkey>
     <gkey>ecl</gkey>
