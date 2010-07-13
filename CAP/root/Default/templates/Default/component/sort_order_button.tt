@@ -10,7 +10,7 @@
       
 [% # No Javascript block %]
     <noscript>
-    <p>[% c.loc("Sort Order") | xml_escape %]
+    <p>
     <form method="GET" action="">
           [% FOREACH param IN c.req.params.pairs %]
             [% IF param.key != 'so' %]
@@ -18,6 +18,7 @@
             [% END %]
           [% END %]
           <select name="so">
+            <option name="so" value="" selected>[% c.loc("Sort Order:") %]</option>
             <option name="so" value="score desc">[% c.loc("relevance") | xml_escape %]</option>
             <option name="so" value="pubmax desc">[% c.loc("newest") | xml_escape %]</option>
             <option name="so" value="pubmin asc">[% c.loc("oldest") | xml_escape %]</option>
@@ -26,7 +27,7 @@
           [% END%]
           </select>
           <button type="submit">
-            [% c.loc("Search") | xml_escape %]
+            [% c.loc("Sort") | xml_escape %]
           </button>          
     </form>
     </p>      

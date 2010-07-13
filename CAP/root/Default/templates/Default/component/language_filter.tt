@@ -7,6 +7,7 @@
     <div id="language_button_container"></div>
 [% # No JavaScript block %]
     <noscript>
+          <p>
           <form method="get" action="[% c.uri_for(root, 'search') %]">
           [% search_query('lang') %]
           <select name="lang">
@@ -15,7 +16,7 @@
                   <option value="[% facet.name | xml_escape %]">[% c.loc(language(facet.name)) | xml_escape %] ([% facet.count %])</option>
             [% END %]
           </select>
-            <button type="submit">[% c.loc("Go") %]</button>
+            <button type="submit">[% c.loc("Search") %]</button>
           </form>
-          <p></p>
+          </p>
     </noscript>

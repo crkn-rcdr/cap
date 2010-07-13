@@ -5,6 +5,7 @@
              <script type="text/javascript">include_medium = 1;</script>
 [% # No JavaScript block %]
     <noscript>
+      <p>
       <form method="get" action="[% c.uri_for(root, 'search') %]">
           [% search_query('media') %]
         <select name="media">
@@ -13,7 +14,7 @@
               <option value="[% facet.name | xml_escape %]">[% c.loc(media(facet.name)) | xml_escape %] ([% facet.count %])</option>
           [% END %]
         </select>
-        <button type="submit">[% c.loc("Go") %]</button>
+        <button type="submit">[% c.loc("Search") %]</button>
       </form>
-      <p></p>
+      </p>
     </noscript>

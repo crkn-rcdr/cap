@@ -6,28 +6,28 @@
 
 
         [% # No JavaScript block %]
+        <div class="noscript_daterange">
         <noscript>
 	  
-        <div id="noscript_daterange">
         <form method="GET">
           [% search_query(['df','dt']) %]
-            [% c.loc("Limit by date range:") %]<br/></br>
-
-          <br/>
+            <p>[% c.loc("Limit by date range:") %]&#160;&#160;
           <input id="fromDate"
                  type="text"
                  name="df"
-                 value="[% response.result.pubmin_year | xml_escape %]"
-          <br/>&nbsp;&nbsp;&nbsp;&nbsp;[% c.loc("to") %]:<br/>
+                 value="[% response.result.pubmin_year | xml_escape %]">
+          &#160;&#160;[% c.loc("to") %]:&#160;&#160;
           <input id="toDate"
                  type="text"
                  name="dt"
-                 value='[% response.result.pubmax_year | xml_escape %]'
+                 value='[% response.result.pubmax_year | xml_escape %]'>&#160;&#160;
           <button type="submit">
             [% c.loc("Search") | xml_escape %]
           </button>
+          </p>
         </form>
-        </div>
+
 	  
         </noscript>
+        </div>
 

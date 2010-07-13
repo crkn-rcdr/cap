@@ -759,4 +759,19 @@ dd {
     padding: 0px 5px 0px 5px;
 }
 
+.noscript_daterange {
+     width: 100%;
+     border: 0px solid #ff0000;
+     height: 30px;
+     margin-top: -20px;
+     margin-bottom: 20px;
+     padding-top: 0px;
+     vertical-align: top;    
+}
+
+.noscript_daterange p {
+    font-family: arial,helvetica;
+    font-weight: 600;
+    color: #5c574d;    
+}
 
