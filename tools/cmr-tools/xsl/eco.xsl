@@ -46,22 +46,18 @@
 
 
       <!-- Map MARC field codes to controlled descriptive types -->
-      <filter xpath="//record/description/*" attribute="type" type="map">
+      <filter xpath="//record/description/*[@type != '']" attribute="type" type="map">
         <map from="100" to="person"/>
         <map from="110" to="corporate"/>
         <map from="111" to="corporate"/>
         <map from="130" to="uniform"/>
         <map from="245" to="main"/>
         <map from="246" to="alternate"/>
-        <map from="310" to="frequency"/>
-        <map from="321" to="frequency"/>
-        <map from="362" to="date"/>
         <map from="500" to="general"/>
         <map from="504" to="general"/>
         <map from="505" to="general"/>
         <map from="515" to="general"/>
         <map from="520" to="descriptive"/>
-        <map from="534" to="extent"/>
         <map from="546" to="language"/>
         <map from="580" to="general"/>
         <map from="595" to="general"/>
@@ -294,26 +290,49 @@
     <title lang="{$default_lang}" type="{@type}"><xsl:value-of select="normalize-space(.)"/></title>
   </xsl:for-each>
   <xsl:for-each select="//marc/field[@type='100' or @type='110' or @type='111' or @type='700' or @type='710' or @type='711']">
-    <author type="{@type}"><xsl:value-of select="normalize-space(.)"/></author>
+    <author><xsl:value-of select="normalize-space(.)"/></author>
   </xsl:for-each>
-  <publication type="main"><xsl:value-of select="normalize-space(//marc/field[@type='260'])"/></publication>
+  <publication><xsl:value-of select="normalize-space(//marc/field[@type='260'])"/></publication>
   <xsl:for-each select="//marc/field[@type='600' or @type='610' or @type='630' or @type='650' or @type='651']">
-    <subject lang="{@i2}" type="{@type}">
+    <subject lang="{@i2}">
       <xsl:for-each select="subfield">
         <xsl:if test="@type='v' or @type='x' or @type='y' or @type='z'"> -- </xsl:if>
         <xsl:value-of select="normalize-space(.)"/>
       </xsl:for-each>
     </subject>
   </xsl:for-each>
-  <xsl:for-each select="//marc/field[@type='250' or @type='310' or @type='321' or @type='362' or @type='500' or @type='504' or
-    @type='505' or @type='510' or @type='515' or @type='520' or @type='534' or @type='546' or @type='580' or @type='595' or
-    @type='780' or @type='787' or @type='800' or @type='810' or @type='811' or @type='830']"
+
+  <xsl:for-each select="//marc/field[@type='250' or @type='362' or @type='500' or @type='504' or
+    @type='505' or @type='510' or @type='515' or @type='520' or @type='534' or @type='546' or @type='580' or 
+    @type='787' or @type='800' or @type='810' or @type='811' or @type='830']"
   >
-    <note lang="{$default_lang}" type="{@type}"><xsl:value-of select="normalize-space(.)"/></note>
+    <note lang="{$default_lang}"><xsl:value-of select="normalize-space(.)"/></note>
   </xsl:for-each>
+
+  <xsl:for-each select="//marc/field[@type='300']">
+    <note lang="{$default_lang}" type="extent"><xsl:value-of select="normalize-space(.)"/></note>
+  </xsl:for-each>
+
+  <xsl:for-each select="//marc/field[@type='310' or @type='321']">
+    <note lang="{$default_lang}" type="frequency"><xsl:value-of select="normalize-space(.)"/></note>
+  </xsl:for-each>
+
   <xsl:for-each select="//marc/field[@type='533']/subfield[@type='a']">
     <note lang="{$default_lang}" type="source"><xsl:value-of select="normalize-space(.)"/></note>
   </xsl:for-each>
+
+  <xsl:for-each select="//marc/field[@type='595']">
+    <note lang="{$default_lang}" type="continues"><xsl:value-of select="normalize-space(.)"/></note>
+  </xsl:for-each>
+
+  <xsl:for-each select="//marc/field[@type='780']">
+    <note lang="{$default_lang}" type="continues"><xsl:value-of select="normalize-space(.)"/></note>
+  </xsl:for-each>
+
+  <xsl:for-each select="//marc/field[@type='785']">
+    <note lang="{$default_lang}" type="continued"><xsl:value-of select="normalize-space(.)"/></note>
+  </xsl:for-each>
+
 </xsl:template>
 
 <xsl:template name="collection_code">
