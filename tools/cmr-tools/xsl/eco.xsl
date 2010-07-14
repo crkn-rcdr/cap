@@ -23,7 +23,7 @@
         Additionally, for all labels and titles, remove the [electronic
         resource] GMD
       -->
-      <filter xpath="//record/*[self::label or self::clabel]" type="code">
+      <filter xpath="//record/*[self::label]" type="code">
         $_[0] =~ s!\s*/\s*$!!; $_[0] =~ s!\s*\[(electronic resource|ressource électronique)\]\s*! !; $_[0] =~ s! $!!; return $_[0];
       </filter>
       <filter xpath="//record/description/title" type="code">
@@ -36,48 +36,12 @@
         WARNING: there are a few records where this won't work because
         they look like 9_12345_1_2 (2-part issue).
       -->
-      <filter xpath="//record/seq" type="code">$_[0] =~ s/[0-9_]*_(\d+)$/$1/; return $_[0]</filter>
+      <filter xpath="//record/seq" type="code">$_[0] =~ s/[0-9_]*_(\d+)$/$1/; $_[0] = 1 unless (int($_[0]) > 0); return $_[0]</filter>
 
       <!-- Split multiple languages codes into distinct fields -->
       <filter xpath="//record/lang" type="match" regex="..."/>
       <filter xpath="//record/lang" type="map">
         <map from="fre" to="fra"/>
-      </filter>
-
-
-      <!-- Map MARC field codes to controlled descriptive types -->
-      <filter xpath="//record/description/*[@type != '']" attribute="type" type="map">
-        <map from="100" to="person"/>
-        <map from="110" to="corporate"/>
-        <map from="111" to="corporate"/>
-        <map from="130" to="uniform"/>
-        <map from="245" to="main"/>
-        <map from="246" to="alternate"/>
-        <map from="500" to="general"/>
-        <map from="504" to="general"/>
-        <map from="505" to="general"/>
-        <map from="515" to="general"/>
-        <map from="520" to="descriptive"/>
-        <map from="546" to="language"/>
-        <map from="580" to="general"/>
-        <map from="595" to="general"/>
-        <map from="600" to="person"/>
-        <map from="610" to="corporate"/>
-        <map from="611" to="corporate"/>
-        <map from="630" to="uniform"/>
-        <map from="650" to="topical"/>
-        <map from="651" to="geographic"/>
-        <map from="700" to="person"/>
-        <map from="710" to="corporate"/>
-        <map from="711" to="corporate"/>
-        <map from="730" to="uniform"/>
-        <map from="750" to="topical"/>
-        <map from="751" to="geographic"/>
-        <map from="780" to="relation"/>
-        <map from="785" to="relation"/>
-        <map from="800" to="person"/>
-        <map from="810" to="corporate"/>
-        <map from="830" to="uniform"/>
       </filter>
 
       <!-- Set the subject language field based on the @i2 indicator -->
@@ -111,15 +75,6 @@
           /eco2/digital/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </label>
-    <!--
-    <clabel>
-      <xsl:value-of select="normalize-space(concat(
-          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
-      ))"/>
-    </clabel>
-    -->
 
     <!-- Optional control fields -->
     <xsl:if test="/eco2/@parent">
@@ -159,15 +114,6 @@
           /eco2/series/marc/field[@type='245']/subfield[@type='b']
       ))"/>
     </label>
-    <!--
-    <clabel>
-      <xsl:value-of select="normalize-space(concat(
-          /eco2/series/marc/field[@type='245']/subfield[@type='a'], ' ',
-          /eco2/series/marc/field[@type='245']/subfield[@type='h'], ' ',
-          /eco2/series/marc/field[@type='245']/subfield[@type='b']
-      ))"/>
-    </clabel>
-    -->
 
     <!-- Optional control fields -->
     <pkey><xsl:call-template name="collection_code"/></pkey>
@@ -236,15 +182,6 @@
     <type>page</type>
     <contributor>oocihm</contributor>
     <key><xsl:value-of select="concat(/eco2/@id, '.', @seq)"/></key>
-    <!--
-    <label>
-      <xsl:value-of select="normalize-space(concat(
-          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
-      ))"/>
-    </label>
-    -->
     <label>
       <xsl:choose>
         <xsl:when test="$page_feature != '' and number(@n) != 0"><xsl:value-of select="concat($page_feature, ' (p. ', @n, ')')"/></xsl:when>
@@ -286,13 +223,24 @@
 </xsl:template>
 
 <xsl:template name="main_description">
-  <xsl:for-each select="//marc/field[@type='130' or @type='245' or @type='246' or @type='730']">
-    <title lang="{$default_lang}" type="{@type}"><xsl:value-of select="normalize-space(.)"/></title>
+  <xsl:for-each select="//marc/field[@type='246']">
+    <title lang="{$default_lang}"><xsl:value-of select="normalize-space(.)"/></title>
   </xsl:for-each>
+
+  <xsl:for-each select="//marc/field[@type='130' or @type='730']">
+    <title lang="{$default_lang}" type="uniform"><xsl:value-of select="normalize-space(.)"/></title>
+  </xsl:for-each>
+
+  <xsl:for-each select="//marc/field[@type='245']">
+    <title lang="{$default_lang}" type="main"><xsl:value-of select="normalize-space(.)"/></title>
+  </xsl:for-each>
+
   <xsl:for-each select="//marc/field[@type='100' or @type='110' or @type='111' or @type='700' or @type='710' or @type='711']">
     <author><xsl:value-of select="normalize-space(.)"/></author>
   </xsl:for-each>
+
   <publication><xsl:value-of select="normalize-space(//marc/field[@type='260'])"/></publication>
+
   <xsl:for-each select="//marc/field[@type='600' or @type='610' or @type='630' or @type='650' or @type='651']">
     <subject lang="{@i2}">
       <xsl:for-each select="subfield">
