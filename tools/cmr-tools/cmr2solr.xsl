@@ -18,7 +18,9 @@
     <field name="type"><xsl:value-of select="type"/></field>
     <field name="contributor"><xsl:value-of select="contributor"/></field>
     <field name="label"><xsl:value-of select="label"/></field>
+    <!--
     <field name="clabel"><xsl:value-of select="clabel"/></field>
+    -->
 
     <!-- Optional control fields -->
     <xsl:apply-templates select="pkey"/>

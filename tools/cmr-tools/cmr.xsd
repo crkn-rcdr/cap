@@ -135,8 +135,10 @@
                             <xs:attribute name="type" use="optional">
                               <xs:simpleType>
                                 <xs:restriction base="xs:string">
-                                  <xs:enumeration value="content"/>
-                                  <xs:enumeration value="description"/>
+                                  <xs:enumeration value="corporate"/>
+                                  <xs:enumeration value="date"/>
+                                  <xs:enumeration value="location"/>
+                                  <xs:enumeration value="person"/>
                                 </xs:restriction>
                               </xs:simpleType>
                             </xs:attribute>
@@ -207,28 +209,6 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
-
-  <xs:simpleType name="bibtype">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="alternate"/>
-      <xs:enumeration value="content"/><!-- e.g. OCRed or transcribed page text -->
-      <xs:enumeration value="corporate"/>
-      <xs:enumeration value="date"/>
-      <xs:enumeration value="descriptive"/><!-- e.g. summary or abstract -->
-      <xs:enumeration value="extent"/><!-- e.g. pagination or recording length-->
-      <xs:enumeration value="main"/>
-      <xs:enumeration value="person"/>
-      <xs:enumeration value="frequency"/>
-      <xs:enumeration value="geographic"/>
-      <xs:enumeration value="general"/>
-      <xs:enumeration value="language"/><!-- e.g. about the language used -->
-      <xs:enumeration value="relation"/><!-- e.g. continues/continued by-->
-      <xs:enumeration value="rights"/>
-      <xs:enumeration value="source"/>
-      <xs:enumeration value="topical"/>
-      <xs:enumeration value="uniform"/>
-    </xs:restriction>
-  </xs:simpleType>
 
   <xs:simpleType name="iso639-3">
     <xs:restriction base="xs:string">
