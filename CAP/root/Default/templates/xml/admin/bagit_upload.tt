@@ -1,7 +1,0 @@
-[% USE XML.Escape %]
-<ingest>
-[% FOREACH file IN bagit_files -%]
-  <uri>[% c.uri_for(root, 'content', 'ingest', { 'contributor' => contributor, 'file' => file }) | xml_escape %]</uri>
-[% END -%]
-</ingest>
-

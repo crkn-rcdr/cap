@@ -1,2 +1,0 @@
-[% USE XML.Escape %]
-<h2>[% c.loc("Image cached") | xml_escape %]</h2>

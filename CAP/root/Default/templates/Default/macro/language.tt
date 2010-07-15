@@ -1,38 +1,40 @@
 [%- 
-  # Convert an ISO 639-3 language code into a textual label
+  # Convert an ISO 639-3 language code into a text label
 
   SWITCH lang;
-    CASE 'cex'; label = 'Czech';
-    CASE 'chp'; label = 'Chipewyan';
-    CASE 'cre'; label = 'Cree';
-    CASE 'cym'; label = 'Welsh';
-    CASE 'ell'; label = 'Greek';
-    CASE 'eng'; label = 'English';
-    CASE 'gla'; label = 'Scottish Gaelic';
-    CASE 'deu'; label = 'German';
-    CASE 'fra'; label = 'French';
-    CASE 'hun'; label = 'Hungarian';
-    CASE 'iku'; label = 'Inuktitut';
-    CASE 'ita'; label = 'Italian';
-    CASE 'jpn'; label = 'Japanese';
-    CASE 'kor'; label = 'Korean';
-    CASE 'lat'; label = 'Latin';
-    CASE 'moh'; label = 'Mohawk';
-    CASE 'mul'; label = 'multiple languages';
-    CASE 'ned'; label = 'Dutch';
-    CASE 'pan'; label = 'Panjabi';
-    CASE 'pol'; label = 'Polish';
-    CASE 'por'; label = 'Portugese';
-    CASE 'rus'; label = 'Russian';
-    CASE 'spa'; label = 'Spanish';
-    CASE 'swe'; label = 'Swedish';
-    CASE 'tur'; label = 'Turkish';
-    CASE 'ukr'; label = 'Ukrainian';
-    CASE 'vie'; label = 'Vietnamese';
-    CASE 'yid'; label = 'Yiddish';
-    CASE 'zho'; label = 'Chinese';
-    CASE; label = lang;
+    CASE 'cex'; label = c.loc('Czech');
+    CASE 'chp'; label = c.loc('Chipewyan');
+    CASE 'cre'; label = c.loc('Cree');
+    CASE 'cym'; label = c.loc('Welsh');
+    CASE 'ell'; label = c.loc('Greek');
+    CASE 'eng'; label = c.loc('English');
+    CASE 'gla'; label = c.loc('Scottish Gaelic');
+    CASE 'deu'; label = c.loc('German');
+    CASE 'fra'; label = c.loc('French');
+    CASE 'hin'; label = c.loc('Hindi');
+    CASE 'hun'; label = c.loc('Hungarian');
+    CASE 'iku'; label = c.loc('Inuktitut');
+    CASE 'ita'; label = c.loc('Italian');
+    CASE 'jpn'; label = c.loc('Japanese');
+    CASE 'kor'; label = c.loc('Korean');
+    CASE 'lat'; label = c.loc('Latin');
+    CASE 'lit'; label = c.loc('Lithuanian');
+    CASE 'moh'; label = c.loc('Mohawk');
+    CASE 'mul'; label = c.loc('multiple languages');
+    CASE 'ned'; label = c.loc('Dutch');
+    CASE 'pan'; label = c.loc('Panjabi');
+    CASE 'pol'; label = c.loc('Polish');
+    CASE 'por'; label = c.loc('Portugese');
+    CASE 'rus'; label = c.loc('Russian');
+    CASE 'spa'; label = c.loc('Spanish');
+    CASE 'swe'; label = c.loc('Swedish');
+    CASE 'tur'; label = c.loc('Turkish');
+    CASE 'ukr'; label = c.loc('Ukrainian');
+    CASE 'vie'; label = c.loc('Vietnamese');
+    CASE 'yid'; label = c.loc('Yiddish');
+    CASE 'zho'; label = c.loc('Chinese');
+    CASE; label = c.loc("($lang)");
   END;
 
-  c.loc(label) | xml_escape;
+  label | xml_escape;
 -%]

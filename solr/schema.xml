@@ -69,7 +69,6 @@
     <field name="type" type="string" required="true" indexed="true" stored="true"/>
     <field name="contributor" type="string" required="true" indexed="true" stored="true"/>
     <field name="label" type="string" required="true" indexed="true" stored="true"/>
-    <field name="clabel" type="string" required="true" indexed="true" stored="true"/>
   
     <!-- Optional control fields -->
     <field name="pkey" type="string" indexed="true" stored="true"/>
@@ -110,6 +109,9 @@
     <field name="canonicalDownloadSize" type="sint" indexed="true" stored="true"/>
     <field name="canonicalDownloadMime" type="text" indexed="true" stored="true"/>
     <field name="canonicalDownloadMD5" type="text" indexed="true" stored="true"/>
+
+    <!-- Deprecated Fields -->
+    <field name="clabel" type="string" required="false" indexed="true" stored="true"/>
 
   </fields>
 

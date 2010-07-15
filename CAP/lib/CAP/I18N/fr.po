@@ -15,282 +15,762 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# ../../../root/Default/templates/Default/index.tt
-
-msgid "Advanced search"
-msgstr "Recherche avancée"
-
-msgid "Collection contributors"
-msgstr "Organisations collaboratrices"
-
-msgid "Search"
-msgstr "Rechercher"
-
-msgid "everywhere"
-msgstr "partout"
-
-msgid "page text"
-msgstr "texte de la page"
-
-msgid "document metadata"
-msgstr "métadonnées du document"
-
-msgid "Sort"
-msgstr "Trier par"
-
-msgid "relevance"
-msgstr "pertinence"
-
-msgid "oldest"
-msgstr "date croissante"
-
-msgid "newest"
-msgstr "date décroissante"
-
-msgid "Language"
-msgstr "Langue"
-
-msgid "any"
-msgstr "toutes"
-
-msgid "English"
-msgstr "anglais"
-
-msgid "French"
-msgstr "français"
-
-msgid "Publication years"
-msgstr "Années de publication"
-
-msgid "About Canadiana.org"
-msgstr "À propos de Canadiana.org"
-
-msgid "About Canadiana Discovery Portal"
-msgstr "À propos du Portail de recherche de Canadiana"
-
-msgid "Corporate"
-msgstr "Enterprises"
-
-msgid "Privacy Policy and Legal"
-msgstr "Politique sur la vie privée et avis juridiques"
-
-msgid "Copyright © Canadiana.org %1"
-msgstr "© Canadiana.org %1"
-
-
-# ../../../root/Default/templates/Default/component/context.tt
-
-msgid "Search results"
-msgstr "Liste des résultats"
-
-msgid "New search"
-msgstr "Nouvelle recherche"
-
-
-# ../../../root/Default/templates/Default/component/issues.tt
-
-msgid "Results page"
-msgstr "Page des résultats"
-
-msgid "Show only issues published between the years"
-msgstr "Afficher uniquement les numéros publiés entre les années"
-
-msgid "and"
-msgstr "et"
-
-msgid "Results %1 - %2 of %3"
-msgstr "%1 - %2 de %3 résultats"
-
-msgid "No issues found"
-msgstr "Aucun numéro trouvé"
-
-
-# ../../../root/Default/templates/Default/component/navigation.tt
-
-msgid "Issue"
-msgstr "Numéro"
-
-msgid "Page"
-msgstr "Page"
-
-msgid "Item"
-msgstr "Article"
-
-msgid "of %1"
-msgstr "de %1"
-
-msgid "Show"
-msgstr "Afficher"
-
-
-# ../../../root/Default/templates/Default/component/record.tt
-
-msgid "Less detail"
-msgstr "Description brève "
-
-msgid "More detail"
-msgstr "Description longue"
-
-msgid "Author"
-msgstr "Auteur"
-
-msgid "Title"
-msgstr "Titre"
-
-msgid "Series"
-msgstr "Série"
-
-msgid "Issues"
-msgstr "Numéros"
-
-msgid "Subject"
-msgstr "Sujet"
-
-msgid "Published"
-msgstr "Éditeur"
-
-msgid "Note"
-msgstr "Note"
-
-msgid "Descriptor"
-msgstr "Descripteur"
-
-msgid "Summary"
-msgstr "Sommaire"
-
-msgid "Abstract"
-msgstr "Résumé"
-
-msgid "First issue"
-msgstr "Premier numéro"
-
-msgid "Last issue"
-msgstr "Dernier numéro"
-
-msgid "Contributor"
-msgstr "Collaborateur"
-
-msgid "Web site"
-msgstr "Site web"
-
-# ../../../root/Default/templates/Default/component/results.tt
-
-msgid "Nothing found"
-msgstr "Aucun résultat"
-
-msgid "No items match your search criteria"
-msgstr "Votre recherche n'a produit aucun résultat"
-
-msgid "1 result"
-msgstr "1 résultat"
-
-msgid "%1 results"
-msgstr "%1 résultats"
-
-msgid "Results"
-msgstr "Résultats"
-
-msgid "Results [_1] - [_2] of [_3]"
-msgstr "[_1] - [_2] de [_3] résultats"
-
-
-msgid "of"
-msgstr "de"
-
-msgid "for"
-msgstr "pour"
-
-
-# ../../../root/Default/templates/Default/component/rlist.tt
-
-msgid "document record"
-msgstr "notice du document"
-
-msgid "all issues"
-msgstr "tous les numéros"
-
-msgid "pages containing: %1"
-msgstr "pages contenant : %1"
-
+#. (response.item.doc.label page_count)
+#. (doc.label sibling_count)
+#: ../../../root/dfait/templates/Default/view.tt:17 ../../../root/eco/templates/Default/view.tt:11
+msgid "%1 - %2 pages"
+msgstr "%1 - %2 pages"
+
+#. (doc.label, doc.pageno)
+#. (doc.label, doc.seq)
+#: ../../../root/dfait/templates/Default/component/rlist.tt:46 ../../../root/dfait/templates/Default/component/rlist.tt:48
+msgid "%1 - page %2"
+msgstr "%1 - page %2"
+
+#. (response.item.counts.issues)
+#: ../../../root/Default/templates/Default/view.tt:43
+msgid "%1 issues available"
+msgstr "%1 numéros disponibles"
+
+#. (doc.hits)
+#: ../../../root/dfait/templates/Default/component/rlist.tt:65
 msgid "%1 matching pages"
 msgstr "%1 pages correspondantes"
 
-msgid "Search document for pages containing: %1"
-msgstr "Rechercher les pages du document contenant : %1"
+#. (result.hits)
+#: ../../../root/eco/templates/Default/component/results.tt:18
+msgid "%1 results"
+msgstr "%1 résultats"
 
+#. (result.hits)
+#: ../../../root/Default/templates/Default/component/results.tt:17 ../../../root/Default/templates/Default/component/search_parameters.tt:29
+msgid "%1 results for"
+msgstr "%1 résultats pour"
 
-# ../../../root/Default/templates/Default/component/site.tt
+#: ../../../root/Default/templates/Default/macro/language.tt:36
+msgid "($lang)"
+msgstr ""
 
-msgid "Hide web site"
-msgstr "Cacher le site web"
+#: ../../../root/eco/templates/Default/component/results.tt:16
+msgid "1 result"
+msgstr "1 résultat"
 
-msgid "Show web site: %1"
-msgstr "Afficher le site web: %1"
+#: ../../../root/Default/templates/Default/component/results.tt:15 ../../../root/Default/templates/Default/component/search_parameters.tt:27
+msgid "1 result for"
+msgstr "1 résultat pour"
 
+#: ../../../root/Default/templates/Default/component/footer.tt:22
+msgid "About Canadiana Discovery Portal"
+msgstr "À propos du Portail de recherche de Canadiana"
 
+#: ../../../root/Default/templates/Default/component/footer.tt:21
+msgid "About Canadiana.org"
+msgstr "À propos de Canadiana.org"
 
-# Contributor names - bilingual
-msgid "Foreign Affairs and International Trade"
-msgstr "Affaires étrangers et Commerce international"
+#:
+msgid "Abstract"
+msgstr "Résumé"
 
-# Portal Names and Configuration
-msgid "Canadiana Discovery Portal"
-msgstr "Portail de recherche de Canadiana"
+#: ../../../root/Default/templates/Default/error.tt:17
+msgid "Access Restricted"
+msgstr ""
 
-# DFAIT Portal Stuff
-msgid "DFAIT Statements and Speeches"
-msgstr "AECI Déclarations et Discours"
+#: ../../../root/Default/templates/Default/error.tt:35
+msgid "Additional Debugging Information"
+msgstr ""
 
-msgid "Norhing Found"
-msgstr "Aucun résultat"
+#: ../../../root/Default/templates/Default/index.tt:28
+msgid "Advanced search"
+msgstr "Recherche avancée"
 
+#: ../../../root/dfait/templates/Default/component/footer.tt:11
 msgid "All content copyright © Foreign Affairs and International Trade"
-msgstr "Tous droits réservés © Affaires étrangers et Commerce international" 
+msgstr "Tous droits réservés © Affaires étrangers et Commerce international"
 
-msgid "Produced by Canadiana.org"
-msgstr "Réalisée par Canadiana.org"
+#. (recordtype(item.doc.type)
+#: ../../../root/Default/templates/Default/component/rlist.tt:66
+msgid "All matching %1 from: %2"
+msgstr ""
 
-msgid "Browse by title"
-msgstr "Parcourir par titre"
+#:
+msgid "Author"
+msgstr "Auteur"
 
-msgid "Years"
-msgstr "Années"
+#: ../../../root/Default/templates/Default/view.tt:21
+msgid "Back to search results"
+msgstr ""
 
+#: ../../../root/Default/templates/Default/error.tt:11
+msgid "Bad Request"
+msgstr ""
+
+#: ../../../root/dfait/templates/Default/index.tt:73
 msgid "Browse"
 msgstr "Parcourir"
 
-msgid "press release"
-msgstr "communiqué"
+#: ../../../root/dfait/templates/Default/index.tt:44 ../../../root/dfait/templates/Default/index.tt:47
+msgid "Browse by title"
+msgstr "Parcourir par titre"
 
-msgid "statement"
-msgstr "declaration"
+#: ../../../root/Default/templates/Default/main.tt:26 ../../../root/dfait/templates/Default/main.tt:29 ../../../root/eco/templates/Default/main.tt:29
+msgid "CAP"
+msgstr ""
 
-msgid "speech"
-msgstr "discours"
+# Portal Names and Configuration
+#:
+msgid "Canadiana Discovery Portal"
+msgstr "Portail de recherche de Canadiana"
 
-msgid "table of contents"
-msgstr "table des matières"
+#: ../../../root/Default/templates/Default/macro/language.tt:35
+msgid "Chinese"
+msgstr ""
 
-msgid "Sort Order"
-msgstr "Trier par"
+#: ../../../root/Default/templates/Default/macro/language.tt:6
+msgid "Chipewyan"
+msgstr ""
 
+#: ../../../root/dfait/templates/Default/component/page.tt:17
+msgid "Click here if your browser does not automatically redirect you"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/header.tt:34 ../../../root/Default/templates/Default/index.tt:30
+msgid "Collection contributors"
+msgstr "Organisations collaboratrices"
+
+#:
+msgid "Contributor"
+msgstr "Collaborateur"
+
+#. (2010)
+#: ../../../root/Default/templates/Default/component/footer.tt:25
+msgid "Copyright © Canadiana.org %1"
+msgstr "© Canadiana.org %1"
+
+#: ../../../root/Default/templates/Default/component/footer.tt:23
+msgid "Corporate"
+msgstr "Enterprises"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:7
+msgid "Cree"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:5
+msgid "Czech"
+msgstr ""
+
+# DFAIT Portal Stuff
+#:
+msgid "DFAIT Statements and Speeches"
+msgstr "AECI Déclarations et Discours"
+
+#: ../../../root/Default/templates/Default/component/date_range_button.tt:6 ../../../root/Default/templates/Default/component/toolbar.tt:101
 msgid "Date Range"
 msgstr "Année(s)"
 
-msgid "Limit by date range:"
-msgstr "Année(s) de publication : "
+#:
+msgid "Descriptor"
+msgstr "Descripteur"
 
-msgid "Group by document"
-msgstr "Regrouper les pages de chaque document"
-
-msgid "Individual page results"
-msgstr "Afficher les résultats page par page"
-
-msgid "Show pages containing: %1"
-msgstr "Afficher pages contenant : %1"
-
+#: ../../../root/dfait/templates/Default/component/navigation.tt:37
 msgid "Download PDF"
 msgstr "Télécharger PDF"
 
+#: ../../../root/Default/templates/Default/macro/language.tt:24
+msgid "Dutch"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/language_button.tt:13 ../../../root/Default/templates/Default/component/language_button.tt:33 ../../../root/Default/templates/Default/component/search.tt:34 ../../../root/Default/templates/Default/index.tt:71 ../../../root/Default/templates/Default/macro/language.tt:10 ../../../root/dfait/templates/Default/index.tt:63
+msgid "English"
+msgstr "anglais"
+
+#: ../../../root/Default/templates/Default/error.tt:26
+msgid "Error"
+msgstr "Erreur"
+
+#. (error)
+#: ../../../root/Default/templates/Default/error.tt:37
+msgid "Error:"
+msgstr "Erreur :"
+
+#:
+msgid "First issue"
+msgstr "Premier numéro"
+
+# Contributor names - bilingual
+#: ../../../root/Default/templates/Default/component/header.tt:41 ../../../root/Default/templates/Default/index.tt:89
+msgid "Foreign Affairs and International Trade"
+msgstr "Affaires étrangers et Commerce international"
+
+#: ../../../root/Default/templates/Default/component/language_button.tt:16 ../../../root/Default/templates/Default/component/language_button.tt:34 ../../../root/Default/templates/Default/component/search.tt:35 ../../../root/Default/templates/Default/index.tt:75 ../../../root/Default/templates/Default/macro/language.tt:13 ../../../root/dfait/templates/Default/index.tt:64
+msgid "French"
+msgstr "français"
+
+#: ../../../root/Default/templates/Default/component/rlist.tt:74
+msgid "Full Record"
+msgstr "Notice complète"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:12
+msgid "German"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/language_filter.tt:18 ../../../root/Default/templates/Default/component/media_filter.tt:16
+msgid "Go"
+msgstr "Aller à"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:9
+msgid "Greek"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/group_by_doc_button.tt:21 ../../../root/Default/templates/Default/component/group_by_doc_button.tt:6
+msgid "Group by document"
+msgstr "Regrouper les pages de chaque document"
+
+#: ../../../root/Default/templates/Default/component/site.tt:17
+msgid "Hide web site"
+msgstr "Cacher le site web"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:14
+msgid "Hindi"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:15
+msgid "Hungarian"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/individual_page_button.tt:23 ../../../root/Default/templates/Default/component/individual_page_button.tt:8
+msgid "Individual page results"
+msgstr "Afficher les résultats page par page"
+
+#: ../../../root/Default/templates/Default/error.tt:14
+msgid "Insufficient Privileges"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:16
+msgid "Inuktitut"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/navigation.tt:33
+msgid "Issue"
+msgstr "Numéro"
+
+#. (response.item.position, response.item.counts.siblings)
+#: ../../../root/Default/templates/Default/view.tt:33
+msgid "Issue %1 of %2 available issues"
+msgstr "Numéro %1 de %2"
+
+#:
+msgid "Issues"
+msgstr "Numéros"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:17
+msgid "Italian"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/navigation.tt:37
+msgid "Item"
+msgstr "Article"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:18
+msgid "Japanese"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:19
+msgid "Korean"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/language_button.tt:24 ../../../root/Default/templates/Default/component/language_button.tt:5 ../../../root/Default/templates/Default/component/toolbar.tt:75 ../../../root/Default/templates/Default/index.tt:63 ../../../root/dfait/templates/Default/index.tt:61
+msgid "Language"
+msgstr "Langue"
+
+#: ../../../root/Default/templates/Default/component/search.tt:32
+msgid "Language:"
+msgstr "Langue :"
+
+#:
+msgid "Last issue"
+msgstr "Dernier numéro"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:20
+msgid "Latin"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/record.tt:52
+msgid "Less detail"
+msgstr "Description brève "
+
+#: ../../../root/Default/templates/Default/component/date_range_button.tt:15 ../../../root/Default/templates/Default/component/toolbar.tt:124 ../../../root/Default/templates/Default/component/year_published.tt:14
+msgid "Limit by date range:"
+msgstr "Année(s) de publication :"
+
+#: ../../../root/Default/templates/Default/component/language_filter.tt:13
+msgid "Limit by language:"
+msgstr "Langue :"
+
+#: ../../../root/Default/templates/Default/component/media_filter.tt:11
+msgid "Limit by media type"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/any_language.tt:9 ../../../root/Default/templates/Default/component/any_medium.tt:10
+msgid "Limited to "
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:21
+msgid "Lithuanian"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/login.tt:1 ../../../root/Default/templates/Default/login.tt:21
+msgid "Log In"
+msgstr "Ouverture de session"
+
+#: ../../../root/Default/templates/Default/component/toolbar.tt:97
+msgid "Media"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/login.tt:5
+msgid "Missing username or password"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:22
+msgid "Mohawk"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/record.tt:57
+msgid "More detail"
+msgstr "Description longue"
+
+#: ../../../root/Default/templates/Default/component/context.tt:16 ../../../root/Default/templates/Default/component/header.tt:17 ../../../root/dfait/templates/Default/component/header.tt:13
+msgid "New search"
+msgstr "Nouvelle recherche"
+
+#: ../../../root/Default/templates/Default/component/issues.tt:37
+msgid "No issues found"
+msgstr "Aucun numéro trouvé"
+
+#: ../../../root/eco/templates/Default/component/results.tt:14
+msgid "No items match your search criteria"
+msgstr "Votre recherche n'a produit aucun résultat"
+
+#: ../../../root/Default/templates/Default/component/results.tt:13 ../../../root/Default/templates/Default/component/search_parameters.tt:25
+msgid "No results for"
+msgstr "Aucun résultat pour"
+
+#:
+msgid "Note"
+msgstr "Note"
+
+#: ../../../root/eco/templates/Default/component/results.tt:13
+msgid "Nothing Found"
+msgstr "Aucun résultat"
+
+#:
+msgid "Nothing found"
+msgstr "Aucun résultat"
+
+#: ../../../root/Default/templates/Default/component/navigation.tt:35 ../../../root/Default/templates/Default/component/navigation.tt:54 ../../../root/dfait/templates/Default/component/navigation.tt:65
+msgid "Page"
+msgstr "Page"
+
+#. (i)
+#: ../../../root/dfait/templates/Default/component/navigation.tt:49
+msgid "Page %1"
+msgstr "Page %1"
+
+#: ../../../root/Default/templates/Default/error.tt:20
+msgid "Page Not Found"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:25
+msgid "Panjabi"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/login.tt:25
+msgid "Password"
+msgstr "Mot de passe"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:26
+msgid "Polish"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:27
+msgid "Portugese"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/footer.tt:24
+msgid "Privacy Policy and Legal"
+msgstr "Politique sur la vie privée et avis juridiques"
+
+#: ../../../root/dfait/templates/Default/component/footer.tt:12
+msgid "Produced by Canadiana.org"
+msgstr "Réalisée par Canadiana.org"
+
+#: ../../../root/Default/templates/Default/index.tt:78
+msgid "Publication years"
+msgstr "Années de publication"
+
+#: ../../../root/Default/templates/Default/component/search.tt:38
+msgid "Publication years:"
+msgstr "Année(s) de publication :"
+
+#:
+msgid "Published"
+msgstr "Éditeur"
+
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:31
+msgid "Results"
+msgstr "Résultats"
+
+#. (issues.hitsFrom, issues.hitsTo, issues.hits)
+#. (result.hitsFrom, result.hitsTo, result.hits)
+#: ../../../root/Default/templates/Default/component/issues.tt:29 ../../../root/eco/templates/Default/component/results.tt:20
+msgid "Results %1 - %2 of %3"
+msgstr "%1 - %2 de %3 résultats"
+
+#. (result.hitsFrom, result.hitsTo, result.hits)
+#: ../../../root/Default/templates/Default/component/results.tt:19
 msgid "Results %1 - %2 of %3 for"
 msgstr "%1 - %2 de %3 résultats pour"
+
+#:
+msgid "Results [_1] - [_2] of [_3]"
+msgstr "[_1] - [_2] de [_3] résultats"
+
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:43
+msgid "Results limited to: "
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/issues.tt:58 ../../../root/Default/templates/Default/component/pager.tt:31
+msgid "Results page"
+msgstr "Page des résultats"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:28
+msgid "Russian"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:11
+msgid "Scottish Gaelic"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/date_range_button.tt:22 ../../../root/Default/templates/Default/component/language_button.tt:37 ../../../root/Default/templates/Default/component/sort_order_button.tt:29 ../../../root/Default/templates/Default/component/subsearch.tt:36 ../../../root/Default/templates/Default/component/toolbar.tt:130 ../../../root/Default/templates/Default/component/year_published.tt:27 ../../../root/Default/templates/Default/index.tt:33 ../../../root/dfait/templates/Default/component/sort_order_button.tt:44 ../../../root/dfait/templates/Default/index.tt:33 ../../../root/dfait/templates/Default/search.tt:32 ../../../root/eco/templates/Default/search.tt:30
+msgid "Search"
+msgstr "Rechercher"
+
+#. (c.req.params.q)
+#: ../../../root/dfait/templates/Default/component/rlist.tt:80
+msgid "Search document for pages containing: %1"
+msgstr "Rechercher les pages du document contenant : %1"
+
+#: ../../../root/Default/templates/Default/component/search.tt:23
+msgid "Search options"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/context.tt:14 ../../../root/dfait/templates/Default/component/navigation.tt:32
+msgid "Search results"
+msgstr "Liste des résultats"
+
+#: ../../../root/Default/templates/Default/component/search.tt:16
+msgid "Search the collection"
+msgstr ""
+
+#. (response.item.counts.gpages)
+#: ../../../root/Default/templates/Default/component/subsearch.tt:9
+msgid "Search within this collection (%1 pages)"
+msgstr ""
+
+#. (response.item.counts.pages)
+#: ../../../root/Default/templates/Default/component/subsearch.tt:19
+msgid "Search within this issue (%1 pages)"
+msgstr ""
+
+#. (response.item.counts.pages)
+#: ../../../root/Default/templates/Default/component/subsearch.tt:24
+msgid "Search within this item (%1 pages)"
+msgstr ""
+
+#. (response.item.counts.gpages)
+#: ../../../root/Default/templates/Default/component/subsearch.tt:14
+msgid "Search within this publication (%1 pages)"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/search.tt:18
+msgid "Search:"
+msgstr "Recherche :"
+
+#:
+msgid "Series"
+msgstr "Série"
+
+#: ../../../root/Default/templates/Default/error.tt:23
+msgid "Server Error"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/navigation.tt:42 ../../../root/Default/templates/Default/component/navigation.tt:69 ../../../root/dfait/templates/Default/component/navigation.tt:52 ../../../root/dfait/templates/Default/component/navigation.tt:80
+msgid "Show"
+msgstr "Afficher"
+
+#: ../../../root/Default/templates/Default/component/any_language.tt:11 ../../../root/Default/templates/Default/component/any_medium.tt:12
+msgid "Show All"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/view.tt:35 ../../../root/Default/templates/Default/view.tt:45
+msgid "Show all issues"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/issues.tt:12
+msgid "Show only issues published between the years"
+msgstr "Afficher uniquement les numéros publiés entre les années"
+
+#. (c.req.params.q)
+#: ../../../root/dfait/templates/Default/component/rlist.tt:53
+msgid "Show pages containing: %1"
+msgstr "Afficher pages contenant : %1"
+
+#: ../../../root/Default/templates/Default/view.tt:38
+msgid "Show serial record"
+msgstr ""
+
+#. (doc.canonicalUri)
+#: ../../../root/Default/templates/Default/component/site.tt:22
+msgid "Show web site: %1"
+msgstr "Afficher le site web: %1"
+
+#: ../../../root/Default/templates/Default/index.tt:48 ../../../root/dfait/templates/Default/index.tt:50
+msgid "Sort"
+msgstr "Trier par"
+
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:39 ../../../root/Default/templates/Default/component/sort_order_button.tt:13 ../../../root/Default/templates/Default/component/toolbar.tt:54 ../../../root/dfait/templates/Default/component/sort_order_button.tt:28 ../../../root/dfait/templates/Default/component/sort_order_button.tt:5
+msgid "Sort Order"
+msgstr "Trier par"
+
+#: ../../../root/Default/templates/Default/component/issues.tt:19
+msgid "Sort by"
+msgstr "Trier par"
+
+#: ../../../root/Default/templates/Default/component/search.tt:26
+msgid "Sort:"
+msgstr "Trier :"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:29
+msgid "Spanish"
+msgstr ""
+
+#. (status)
+#: ../../../root/Default/templates/Default/error.tt:36
+msgid "Status:"
+msgstr ""
+
+#:
+msgid "Subject"
+msgstr "Sujet"
+
+#: ../../../root/Default/templates/Default/component/issues.tt:16
+msgid "Submit"
+msgstr ""
+
+#:
+msgid "Summary"
+msgstr "Sommaire"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:30
+msgid "Swedish"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/error.tt:12
+msgid "The page you requested cannot be displayed."
+msgstr ""
+
+#: ../../../root/Default/templates/Default/error.tt:21
+msgid "The page you were looking for cannot be found."
+msgstr ""
+
+#: ../../../root/Default/templates/Default/login.tt:6
+msgid "The username and password do not match"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/error.tt:24
+msgid "There was a problem with your request; try again in a few moments."
+msgstr ""
+
+#:
+msgid "Title"
+msgstr "Titre"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:31
+msgid "Turkish"
+msgstr ""
+
+#: ../../../root/dfait/templates/Default/index.tt:54
+msgid "Type"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:32
+msgid "Ukrainian"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/login.tt:18
+msgid "Username"
+msgstr "Nom de utilisateur"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:33
+msgid "Vietnamese"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/error.tt:27
+msgid "We're sorry; we were unable to process your request."
+msgstr ""
+
+#:
+msgid "Web site"
+msgstr "Site web"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:8
+msgid "Welsh"
+msgstr ""
+
+#: ../../../root/dfait/templates/Default/index.tt:68
+msgid "Years"
+msgstr "Années"
+
+#: ../../../root/Default/templates/Default/macro/language.tt:34
+msgid "Yiddish"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/error.tt:15
+msgid "You do not have sufficient privileges to view this page."
+msgstr ""
+
+#: ../../../root/Default/templates/Default/error.tt:18
+msgid "You must be logged in to view this page."
+msgstr ""
+
+#:
+msgid "all issues"
+msgstr "tous les numéros"
+
+#: ../../../root/Default/templates/Default/component/issues.tt:14
+msgid "and"
+msgstr "et"
+
+#: ../../../root/Default/templates/Default/component/language_button.tt:10 ../../../root/Default/templates/Default/component/language_button.tt:32 ../../../root/Default/templates/Default/component/search.tt:33 ../../../root/Default/templates/Default/component/toolbar.tt:61 ../../../root/Default/templates/Default/component/toolbar.tt:83 ../../../root/Default/templates/Default/index.tt:67 ../../../root/dfait/templates/Default/index.tt:55 ../../../root/dfait/templates/Default/index.tt:62
+msgid "any"
+msgstr "toutes"
+
+#: ../../../root/Default/templates/Default/macro/media.tt:5
+msgid "computer data"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/media.tt:9
+msgid "digitized text"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/search.tt:21 ../../../root/Default/templates/Default/index.tt:45
+msgid "document metadata"
+msgstr "métadonnées du document"
+
+#:
+msgid "document record"
+msgstr "notice du document"
+
+#: ../../../root/Default/templates/Default/component/search.tt:19 ../../../root/Default/templates/Default/index.tt:37
+msgid "everywhere"
+msgstr "partout"
+
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:36
+msgid "for"
+msgstr "pour"
+
+#: ../../../root/Default/templates/Default/macro/media.tt:6
+msgid "image"
+msgstr ""
+
+#: ../../../root/dfait/templates/Default/index.tt:59
+msgid "index"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/language.tt:23
+msgid "multiple languages"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/search.tt:29 ../../../root/Default/templates/Default/component/sort_order_button.tt:22 ../../../root/Default/templates/Default/component/toolbar.tt:49 ../../../root/Default/templates/Default/index.tt:60 ../../../root/Default/templates/Default/macro/sort_order.tt:7 ../../../root/dfait/templates/Default/component/sort_order_button.tt:13 ../../../root/dfait/templates/Default/component/sort_order_button.tt:37 ../../../root/dfait/templates/Default/index.tt:52
+msgid "newest"
+msgstr "date décroissante"
+
+#: ../../../root/Default/templates/Default/component/issues.tt:23
+msgid "newest first"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:34
+msgid "of"
+msgstr "de"
+
+#. (sibling_count)
+#: ../../../root/Default/templates/Default/component/navigation.tt:41
+msgid "of %1"
+msgstr "de %1"
+
+#: ../../../root/Default/templates/Default/component/search.tt:28 ../../../root/Default/templates/Default/component/sort_order_button.tt:23 ../../../root/Default/templates/Default/component/toolbar.tt:50 ../../../root/Default/templates/Default/index.tt:56 ../../../root/Default/templates/Default/macro/sort_order.tt:6 ../../../root/dfait/templates/Default/component/sort_order_button.tt:16 ../../../root/dfait/templates/Default/component/sort_order_button.tt:38 ../../../root/dfait/templates/Default/index.tt:51
+msgid "oldest"
+msgstr "date croissante"
+
+#: ../../../root/Default/templates/Default/component/issues.tt:21
+msgid "oldest first"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/search.tt:20 ../../../root/Default/templates/Default/index.tt:41
+msgid "page text"
+msgstr "texte de la page"
+
+#:
+msgid "pages containing: %1"
+msgstr "pages contenant : %1"
+
+#: ../../../root/Default/templates/Default/component/toolbar.tt:51
+msgid "parent key"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/media.tt:7
+msgid "plain text"
+msgstr ""
+
+#: ../../../root/dfait/templates/Default/index.tt:56
+msgid "press release"
+msgstr "communiqué"
+
+#: ../../../root/dfait/templates/Default/component/rlist.tt:30
+msgid "preview"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/search.tt:27 ../../../root/Default/templates/Default/component/sort_order_button.tt:21 ../../../root/Default/templates/Default/component/toolbar.tt:48 ../../../root/Default/templates/Default/index.tt:52 ../../../root/Default/templates/Default/macro/sort_order.tt:5 ../../../root/dfait/templates/Default/component/sort_order_button.tt:36 ../../../root/dfait/templates/Default/index.tt:53
+msgid "relevance"
+msgstr "pertinence"
+
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:10
+msgid "score"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/component/toolbar.tt:52
+msgid "sequence"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/media.tt:8
+msgid "sound recording"
+msgstr ""
+
+#: ../../../root/dfait/templates/Default/index.tt:58
+msgid "speech"
+msgstr "discours"
+
+#: ../../../root/dfait/templates/Default/index.tt:57
+msgid "statement"
+msgstr "declaration"
+
+#: ../../../root/dfait/templates/Default/index.tt:60
+msgid "table of contents"
+msgstr "table des matières"
+
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:51 ../../../root/Default/templates/Default/component/toolbar.tt:127 ../../../root/Default/templates/Default/component/year_published.tt:21
+msgid "to"
+msgstr ""
+
+#: ../../../root/Default/templates/Default/macro/media.tt:10
+msgid "video"
+msgstr ""

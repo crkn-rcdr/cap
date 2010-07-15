@@ -15,35 +15,6 @@ use utf8;
 #
 __PACKAGE__->config->{namespace} = '';
 
-sub page : Chained('base') PathPart('page') Args()
-{
-    my($self, $c, @path) = @_;
-
-    my $file = join('/', $c->config->{root}, $c->stash->{portal}, "pages", $c->stash->{iface}, @path);
-    my $default_file = join('/', $c->config->{root}, "Default", "pages", $c->stash->{iface}, @path);
-
-    # TODO: allow other extensions.
-    $file = "$file.html";
-    $default_file = "$default_file.html";
-
-    if (! -f $file) {
-        $file = $default_file;
-        if (! -f $file) {
-            $c->detach('/error', [404, $file]);
-        }
-    }
-
-    if (! open(FILE, "<$file")) {
-        $c->detach('/error', [500]);
-    }
-
-    $c->stash(
-        page_content => join('', <FILE>),
-        template => 'page.tt',
-    );
-    close(FILE);
-}
-
 sub index : Chained('base') PathPart('') Args(0)
 {
     my($self, $c) = @_;

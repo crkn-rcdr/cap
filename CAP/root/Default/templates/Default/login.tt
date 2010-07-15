@@ -1,7 +1,4 @@
-<h2>[% c.loc("Log In Required") | html %]</h2>
-
-<p>[% c.loc("Access to this prototype portal is currently restricted. You
-must log in below in order to use the collection.") | html %]</p>
+<h2>[% c.loc("Log In") | html %]</h2>
 
 [% IF login_msg %]
 <p class="error">
@@ -13,4 +10,22 @@ must log in below in order to use the collection.") | html %]</p>
 [% ELSE %]
 [% END %]
 
-[% INCLUDE "include/login_form.tt" %]
+<form method="post" action="[% c.uri_for(root, 'login') %]">
+  <div>
+    <input type="hidden" name="page" value="[% page | html %]"/>
+    <table>
+      <tr>
+        <td>[% c.loc("Username") | html %]</td>
+        <td>
+          <input type="text" size="20" name="username" id="username" value="[% c.request.params.username | html %]"/>
+          <button type="submit">[% c.loc("Log In") | html %]</button>
+        </td>
+      </tr>
+      <tr>
+        <td>[% c.loc("Password") | html %]</td>
+        <td><input type="password" size="20" name="password" id="password"/></td>
+      </tr>
+    </table>
+  </div>
+</form>
+
