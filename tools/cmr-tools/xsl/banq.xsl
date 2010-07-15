@@ -55,7 +55,16 @@
         </xsl:otherwise>
       </xsl:choose>
     </key>
-    <label><xsl:value-of select="descendant::dc:title"/></label>
+    <label>
+      <xsl:choose>
+        <xsl:when test="descendant::dc:type = 'fascicule'">
+          <xsl:value-of select="descendant::dc:specificcontent"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="descendant::dc:title"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </label>
 
     <!-- Optional control fields -->
     <xsl:if test="descendant::dc:type = 'fascicule'">
