@@ -4,7 +4,7 @@
 [% # Dojo dropdown menu button %]
     
     <script type="text/javascript">include_language = 1;</script>
-    <div id="language_button_container"></div>
+
 [% # No JavaScript block %]
     <noscript>
           <p>

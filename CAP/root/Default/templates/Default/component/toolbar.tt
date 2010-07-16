@@ -1,7 +1,7 @@
 [% # Toolbar component, mostly for integrating JavaScript code %]
 
      
-    <div id="refine_toolbar" style="padding-left:21px;">
+    <div id="refine_toolbar" style="padding-left:21px;"></div>
 
     
     
@@ -215,4 +215,4 @@
         });
     </script>
  
-    </div>
+

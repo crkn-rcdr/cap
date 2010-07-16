@@ -5,11 +5,11 @@
              <script type="text/javascript">any_medium = 1;</script>
 [% # No JavaScript block %]
     <noscript>
+      <p>
       <form method="get" action="[% c.uri_for(root, 'search') %]">
               [% search_query('media') %]
-              [% c.loc("Limited to ") | xml_escape %]
-              [% c.loc(language(c.req.params.media)) | xml_escape %]
-              <button type="submit">[% c.loc("Show All") %]</button>
+
+              <button type="submit">[% c.loc("Show All Media") %]</button>
       </form>
-    <p></p>
+    </p>
     </noscript>

@@ -4,12 +4,11 @@
              <script type="text/javascript">any_language = 1;</script>
 [% # No JavaScript block %]
     <noscript>
+      <p>
       <form method="get" action="[% c.uri_for(root, 'search') %]">
               [% search_query('lang') %]
-              [% c.loc("Limited to ") | xml_escape %]
-              [% c.loc(language(c.req.params.lang)) | xml_escape %]
-              <button type="submit">[% c.loc("Show All") %]</button>
+              <button type="submit">[% c.loc("Show All Languages") %]</button>
       </form>
         
-    <p></p>
+      </p>
     </noscript>
