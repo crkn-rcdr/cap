@@ -11,6 +11,18 @@
 
   This list is (almost certainly) not comprehensive; it is intended to be
   added to on an ongoing basis.
+
+  There are several codes for language families that do not map to a
+  specific ISO 693-3 code, but which also don't conflict with the 693-3,
+  and so can be used as-is if the actual language isn't known. Some of
+  these include:
+
+  alg
+  ath
+  cpe
+  iro
+  nai
+  sal
 -->
 
 <xsl:template name="canmarc2iso693-3">

@@ -13,6 +13,8 @@
   exclude-result-prefixes="oai"
 >
 
+<xsl:import href="canmarc2iso693-3.xsl"/>
+
 <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
 <xsl:template match="oai:OAI-PMH">
@@ -101,7 +103,13 @@
   </record>
 </xsl:template>
 
-<xsl:template match="dc:language"><lang><xsl:apply-templates/></lang></xsl:template>
+<xsl:template match="dc:language">
+  <lang>
+    <xsl:call-template name="canmarc2iso693-3">
+      <xsl:with-param name="lang" select="."/>
+    </xsl:call-template>
+  </lang>
+</xsl:template>
 
 <xsl:template match="dc:title">
   <title>

@@ -38,15 +38,22 @@
       -->
       <filter xpath="//record/seq" type="code">$_[0] =~ s/[0-9_]*_(\d+)$/$1/; $_[0] = 1 unless (int($_[0]) > 0); return $_[0]</filter>
 
-      <!-- Split multiple languages codes into distinct fields -->
+      <!--
+        Split multiple languages codes into distinct fields. We then
+        need to map any incorrect codes to ISO 693-3. 
+      -->
       <filter xpath="//record/lang" type="match" regex="..."/>
       <filter xpath="//record/lang" type="map">
         <map from="fre" to="fra"/>
+        <map from="ger" to="deu"/>
+        <map from="dut" to="nld"/>
+        <map from="wel" to="cym"/>
       </filter>
 
       <!-- Set the subject language field based on the @i2 indicator -->
       <filter xpath="//record/description/subject" attribute="lang" type="map">
         <map from="0" to="eng"/>
+        <map from="1" to="eng"/>
         <map from="4" to="eng"/>
         <map from="5" to="eng"/>
         <map from="6" to="fra"/>
