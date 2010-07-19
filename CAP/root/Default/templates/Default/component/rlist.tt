@@ -4,6 +4,7 @@
   USE XML.Escape;
   MACRO media(code) INCLUDE macro/media.tt;
   MACRO contributor(code) INCLUDE macro/contributor.tt;
+  MACRO label(item) INCLUDE macro/label.tt;
 
 %]
 
@@ -20,12 +21,7 @@
         # Item label and link to the contributor's resource
       %]
       <h3>
-        <a href="[% item.doc.canonicalUri | xml_escape %]">
-          [% item.doc.label | xml_escape %]
-          [% IF item.doc.clabel != item.doc.label %]
-            -- [% item.doc.clabel | xml_escape %]
-          [% END %]
-        </a>
+        <a href="[% item.doc.canonicalUri | xml_escape %]">[% label(item) %]</a>
       </h3>
       [%
         # Media type, contributor information and parent collection (if any)
