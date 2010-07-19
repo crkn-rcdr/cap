@@ -48,8 +48,7 @@
             new Array('[% c.loc("relevance") %]',  '[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" }))  %]'),
             new Array('[% c.loc("newest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc" }))  %]'),
             new Array('[% c.loc("oldest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc" }))  %]'),
-            new Array('[% c.loc("parent key") %]', '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pkey asc" }))  %]'),
-            new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "seq asc" }))  %]')
+            new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pkey asc,seq asc" }))  %]')
         );
         var sortbuttonvalues =  new Array('[% c.loc("Sort Order") %]','sort_order','sort_order_button');
 
@@ -158,10 +157,10 @@
             if (add_pkey) {
 
                 // Add the parent key and sequence options
-                for (i = 3; i <= 4; i++) {
-                  menuitem = CreateMenuItem(sortmenuValues[i]);
+             
+                  menuitem = CreateMenuItem(sortmenuValues[3]);
                   sortmenu.addChild(menuitem);
-                }
+             
 
             }
 

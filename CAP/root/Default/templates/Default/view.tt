@@ -11,6 +11,8 @@
   END;
 
   USE XML.Escape;
+  
+  MACRO label(item) INCLUDE macro/label.tt;
 %]
 
 [% INCLUDE component/header.tt; %]
@@ -22,10 +24,9 @@
   </div>
 
   <h1>
-    [% response.item.doc.label | xml_escape %]
-    [% IF response.item.doc.label != response.item.doc.clabel %]
-      - [% response.item.doc.clabel | xml_escape %]
-    [% END %]
+
+    [% label(response.item) %]
+    
   </h1>
 
   [% IF response.item.doc.type == 'issue' %]
