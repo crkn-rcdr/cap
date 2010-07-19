@@ -2,7 +2,9 @@
   # Convert an ISO 639-3 language code into a text label
 
   SWITCH lang;
-    CASE 'cex'; label = c.loc('Czech');
+    CASE 'alq'; label = c.loc('Algonquin');
+    CASE 'ces'; label = c.loc('Czech');
+    CASE 'chn'; label = c.loc('Chinook Jargon');
     CASE 'chp'; label = c.loc('Chipewyan');
     CASE 'cre'; label = c.loc('Cree');
     CASE 'cym'; label = c.loc('Welsh');
@@ -19,9 +21,11 @@
     CASE 'kor'; label = c.loc('Korean');
     CASE 'lat'; label = c.loc('Latin');
     CASE 'lit'; label = c.loc('Lithuanian');
+    CASE 'mic'; label = c.loc("Mi'kmaq");
     CASE 'moh'; label = c.loc('Mohawk');
     CASE 'mul'; label = c.loc('multiple languages');
-    CASE 'ned'; label = c.loc('Dutch');
+    CASE 'nld'; label = c.loc('Dutch');
+    CASE 'oji'; label = c.loc('Ojibwa');
     CASE 'pan'; label = c.loc('Panjabi');
     CASE 'pol'; label = c.loc('Polish');
     CASE 'por'; label = c.loc('Portugese');
@@ -33,7 +37,17 @@
     CASE 'vie'; label = c.loc('Vietnamese');
     CASE 'yid'; label = c.loc('Yiddish');
     CASE 'zho'; label = c.loc('Chinese');
-    CASE; label = c.loc("($lang)");
+
+    # These are not ISO 693-3 codes, but are MARC codes for broad language
+    # groups. These codes do not conflict with ISO 693-3
+    CASE 'alg'; label = c.loc('Algonquian languages');
+    CASE 'ath'; label = c.loc('Athapascan languages');
+    CASE 'cpe'; label = c.loc('Creoles and Pidgins, English-based (Other)');
+    CASE 'iro'; label = c.loc('Iroquoian languages');
+    CASE 'nai'; label = c.loc('North American Indian (Other)');
+    CASE 'sal'; label = c.loc('Salishan languages');
+
+    CASE; label = "($lang)";
   END;
 
   label | xml_escape;

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the CAP package.
 # William Wueppelmann <william.wueppelmann@canadiana.ca>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2010-04-29 14:00+EDT\n"
-"Last-Translator: William Wueppelmann <wiliam.wueppelmann@canadiana.ca>\n"
+"PO-Revision-Date: 2010-07-16 15:15-0500\n"
+"Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,13 +16,15 @@ msgstr ""
 
 #. (response.item.doc.label page_count)
 #. (doc.label sibling_count)
-#: ../../../root/dfait/templates/Default/view.tt:17 ../../../root/eco/templates/Default/view.tt:11
+#: ../../../root/dfait/templates/Default/view.tt:17
+#: ../../../root/eco/templates/Default/view.tt:11
 msgid "%1 - %2 pages"
 msgstr "%1 - %2 pages"
 
 #. (doc.label, doc.pageno)
 #. (doc.label, doc.seq)
-#: ../../../root/dfait/templates/Default/component/rlist.tt:46 ../../../root/dfait/templates/Default/component/rlist.tt:48
+#: ../../../root/dfait/templates/Default/component/rlist.tt:46
+#: ../../../root/dfait/templates/Default/component/rlist.tt:48
 msgid "%1 - page %2"
 msgstr "%1 - page %2"
 
@@ -43,19 +44,17 @@ msgid "%1 results"
 msgstr "%1 résultats"
 
 #. (result.hits)
-#: ../../../root/Default/templates/Default/component/results.tt:17 ../../../root/Default/templates/Default/component/search_parameters.tt:29
+#: ../../../root/Default/templates/Default/component/results.tt:17
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:29
 msgid "%1 results for"
 msgstr "%1 résultats pour"
-
-#: ../../../root/Default/templates/Default/macro/language.tt:36
-msgid "($lang)"
-msgstr ""
 
 #: ../../../root/eco/templates/Default/component/results.tt:16
 msgid "1 result"
 msgstr "1 résultat"
 
-#: ../../../root/Default/templates/Default/component/results.tt:15 ../../../root/Default/templates/Default/component/search_parameters.tt:27
+#: ../../../root/Default/templates/Default/component/results.tt:15
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:27
 msgid "1 result for"
 msgstr "1 résultat pour"
 
@@ -67,13 +66,12 @@ msgstr "À propos du Portail de recherche de Canadiana"
 msgid "About Canadiana.org"
 msgstr "À propos de Canadiana.org"
 
-#:
 msgid "Abstract"
 msgstr "Résumé"
 
 #: ../../../root/Default/templates/Default/error.tt:17
 msgid "Access Restricted"
-msgstr ""
+msgstr "Accès restreint"
 
 #: ../../../root/Default/templates/Default/error.tt:35
 msgid "Additional Debugging Information"
@@ -90,54 +88,55 @@ msgstr "Tous droits réservés © Affaires étrangers et Commerce international"
 #. (recordtype(item.doc.type)
 #: ../../../root/Default/templates/Default/component/rlist.tt:66
 msgid "All matching %1 from: %2"
-msgstr ""
+msgstr "Tous les résultats correspondant à %1 de %2"
 
-#:
 msgid "Author"
 msgstr "Auteur"
 
 #: ../../../root/Default/templates/Default/view.tt:21
 msgid "Back to search results"
-msgstr ""
+msgstr "Retour à la page des résultats"
 
 #: ../../../root/Default/templates/Default/error.tt:11
 msgid "Bad Request"
-msgstr ""
+msgstr "Requête inadéquate"
 
 #: ../../../root/dfait/templates/Default/index.tt:73
 msgid "Browse"
 msgstr "Parcourir"
 
-#: ../../../root/dfait/templates/Default/index.tt:44 ../../../root/dfait/templates/Default/index.tt:47
+#: ../../../root/dfait/templates/Default/index.tt:44
+#: ../../../root/dfait/templates/Default/index.tt:47
 msgid "Browse by title"
 msgstr "Parcourir par titre"
 
-#: ../../../root/Default/templates/Default/main.tt:26 ../../../root/dfait/templates/Default/main.tt:29 ../../../root/eco/templates/Default/main.tt:29
+#: ../../../root/Default/templates/Default/main.tt:26
+#: ../../../root/dfait/templates/Default/main.tt:29
+#: ../../../root/eco/templates/Default/main.tt:29
 msgid "CAP"
 msgstr ""
 
 # Portal Names and Configuration
-#:
 msgid "Canadiana Discovery Portal"
 msgstr "Portail de recherche de Canadiana"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:35
 msgid "Chinese"
-msgstr ""
+msgstr "Chinois"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:6
 msgid "Chipewyan"
-msgstr ""
+msgstr "Chepewyan"
 
 #: ../../../root/dfait/templates/Default/component/page.tt:17
 msgid "Click here if your browser does not automatically redirect you"
-msgstr ""
+msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 
-#: ../../../root/Default/templates/Default/component/header.tt:34 ../../../root/Default/templates/Default/index.tt:30
+#: ../../../root/Default/templates/Default/component/header.tt:34
+#: ../../../root/Default/templates/Default/index.tt:30
 msgid "Collection contributors"
 msgstr "Organisations collaboratrices"
 
-#:
 msgid "Contributor"
 msgstr "Collaborateur"
 
@@ -152,22 +151,21 @@ msgstr "Enterprises"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:7
 msgid "Cree"
-msgstr ""
+msgstr "Cris"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:5
 msgid "Czech"
-msgstr ""
+msgstr "Tchèque"
 
 # DFAIT Portal Stuff
-#:
 msgid "DFAIT Statements and Speeches"
 msgstr "AECI Déclarations et Discours"
 
-#: ../../../root/Default/templates/Default/component/date_range_button.tt:6 ../../../root/Default/templates/Default/component/toolbar.tt:101
+#: ../../../root/Default/templates/Default/component/date_range_button.tt:6
+#: ../../../root/Default/templates/Default/component/toolbar.tt:101
 msgid "Date Range"
 msgstr "Année(s)"
 
-#:
 msgid "Descriptor"
 msgstr "Descripteur"
 
@@ -177,11 +175,16 @@ msgstr "Télécharger PDF"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:24
 msgid "Dutch"
-msgstr ""
+msgstr "Hollandais"
 
-#: ../../../root/Default/templates/Default/component/language_button.tt:13 ../../../root/Default/templates/Default/component/language_button.tt:33 ../../../root/Default/templates/Default/component/search.tt:34 ../../../root/Default/templates/Default/index.tt:71 ../../../root/Default/templates/Default/macro/language.tt:10 ../../../root/dfait/templates/Default/index.tt:63
+#: ../../../root/Default/templates/Default/component/language_button.tt:13
+#: ../../../root/Default/templates/Default/component/language_button.tt:33
+#: ../../../root/Default/templates/Default/component/search.tt:34
+#: ../../../root/Default/templates/Default/index.tt:71
+#: ../../../root/Default/templates/Default/macro/language.tt:10
+#: ../../../root/dfait/templates/Default/index.tt:63
 msgid "English"
-msgstr "anglais"
+msgstr "Anglais"
 
 #: ../../../root/Default/templates/Default/error.tt:26
 msgid "Error"
@@ -192,18 +195,23 @@ msgstr "Erreur"
 msgid "Error:"
 msgstr "Erreur :"
 
-#:
 msgid "First issue"
 msgstr "Premier numéro"
 
 # Contributor names - bilingual
-#: ../../../root/Default/templates/Default/component/header.tt:41 ../../../root/Default/templates/Default/index.tt:89
+#: ../../../root/Default/templates/Default/component/header.tt:41
+#: ../../../root/Default/templates/Default/index.tt:89
 msgid "Foreign Affairs and International Trade"
 msgstr "Affaires étrangers et Commerce international"
 
-#: ../../../root/Default/templates/Default/component/language_button.tt:16 ../../../root/Default/templates/Default/component/language_button.tt:34 ../../../root/Default/templates/Default/component/search.tt:35 ../../../root/Default/templates/Default/index.tt:75 ../../../root/Default/templates/Default/macro/language.tt:13 ../../../root/dfait/templates/Default/index.tt:64
+#: ../../../root/Default/templates/Default/component/language_button.tt:16
+#: ../../../root/Default/templates/Default/component/language_button.tt:34
+#: ../../../root/Default/templates/Default/component/search.tt:35
+#: ../../../root/Default/templates/Default/index.tt:75
+#: ../../../root/Default/templates/Default/macro/language.tt:13
+#: ../../../root/dfait/templates/Default/index.tt:64
 msgid "French"
-msgstr "français"
+msgstr "Français"
 
 #: ../../../root/Default/templates/Default/component/rlist.tt:74
 msgid "Full Record"
@@ -211,17 +219,17 @@ msgstr "Notice complète"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:12
 msgid "German"
-msgstr ""
+msgstr "Allemand"
 
-#: ../../../root/Default/templates/Default/component/language_filter.tt:18 ../../../root/Default/templates/Default/component/media_filter.tt:16
 msgid "Go"
 msgstr "Aller à"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:9
 msgid "Greek"
-msgstr ""
+msgstr "Grec"
 
-#: ../../../root/Default/templates/Default/component/group_by_doc_button.tt:21 ../../../root/Default/templates/Default/component/group_by_doc_button.tt:6
+#: ../../../root/Default/templates/Default/component/group_by_doc_button.tt:21
+#: ../../../root/Default/templates/Default/component/group_by_doc_button.tt:6
 msgid "Group by document"
 msgstr "Regrouper les pages de chaque document"
 
@@ -231,23 +239,24 @@ msgstr "Cacher le site web"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:14
 msgid "Hindi"
-msgstr ""
+msgstr "Hindi"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:15
 msgid "Hungarian"
-msgstr ""
+msgstr "Hongrois"
 
-#: ../../../root/Default/templates/Default/component/individual_page_button.tt:23 ../../../root/Default/templates/Default/component/individual_page_button.tt:8
+#: ../../../root/Default/templates/Default/component/individual_page_button.tt:23
+#: ../../../root/Default/templates/Default/component/individual_page_button.tt:8
 msgid "Individual page results"
 msgstr "Afficher les résultats page par page"
 
 #: ../../../root/Default/templates/Default/error.tt:14
 msgid "Insufficient Privileges"
-msgstr ""
+msgstr "Privilèges insuffisants"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:16
 msgid "Inuktitut"
-msgstr ""
+msgstr "Inuktitut"
 
 #: ../../../root/Default/templates/Default/component/navigation.tt:33
 msgid "Issue"
@@ -258,13 +267,12 @@ msgstr "Numéro"
 msgid "Issue %1 of %2 available issues"
 msgstr "Numéro %1 de %2"
 
-#:
 msgid "Issues"
 msgstr "Numéros"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:17
 msgid "Italian"
-msgstr ""
+msgstr "Italien"
 
 #: ../../../root/Default/templates/Default/component/navigation.tt:37
 msgid "Item"
@@ -272,13 +280,17 @@ msgstr "Article"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:18
 msgid "Japanese"
-msgstr ""
+msgstr "Japonais"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:19
 msgid "Korean"
-msgstr ""
+msgstr "Coréen"
 
-#: ../../../root/Default/templates/Default/component/language_button.tt:24 ../../../root/Default/templates/Default/component/language_button.tt:5 ../../../root/Default/templates/Default/component/toolbar.tt:75 ../../../root/Default/templates/Default/index.tt:63 ../../../root/dfait/templates/Default/index.tt:61
+#: ../../../root/Default/templates/Default/component/language_button.tt:24
+#: ../../../root/Default/templates/Default/component/language_button.tt:5
+#: ../../../root/Default/templates/Default/component/toolbar.tt:75
+#: ../../../root/Default/templates/Default/index.tt:63
+#: ../../../root/dfait/templates/Default/index.tt:61
 msgid "Language"
 msgstr "Langue"
 
@@ -286,59 +298,64 @@ msgstr "Langue"
 msgid "Language:"
 msgstr "Langue :"
 
-#:
 msgid "Last issue"
 msgstr "Dernier numéro"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:20
 msgid "Latin"
-msgstr ""
+msgstr "Latin"
 
 #: ../../../root/Default/templates/Default/component/record.tt:52
 msgid "Less detail"
 msgstr "Description brève "
 
-#: ../../../root/Default/templates/Default/component/date_range_button.tt:15 ../../../root/Default/templates/Default/component/toolbar.tt:124 ../../../root/Default/templates/Default/component/year_published.tt:14
+#: ../../../root/Default/templates/Default/component/date_range_button.tt:15
+#: ../../../root/Default/templates/Default/component/toolbar.tt:124
+#: ../../../root/Default/templates/Default/component/year_published.tt:14
 msgid "Limit by date range:"
 msgstr "Année(s) de publication :"
 
-#: ../../../root/Default/templates/Default/component/language_filter.tt:13
+#: ../../../root/Default/templates/Default/component/language_filter.tt:14
 msgid "Limit by language:"
 msgstr "Langue :"
 
-#: ../../../root/Default/templates/Default/component/media_filter.tt:11
+#: ../../../root/Default/templates/Default/component/media_filter.tt:12
 msgid "Limit by media type"
-msgstr ""
+msgstr "Limiter par type de média"
 
-#: ../../../root/Default/templates/Default/component/any_language.tt:9 ../../../root/Default/templates/Default/component/any_medium.tt:10
+#: ../../../root/Default/templates/Default/component/any_language.tt:9
+#: ../../../root/Default/templates/Default/component/any_medium.tt:10
 msgid "Limited to "
-msgstr ""
+msgstr "Limités à"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:21
 msgid "Lithuanian"
-msgstr ""
+msgstr "Lithuanien"
 
-#: ../../../root/Default/templates/Default/login.tt:1 ../../../root/Default/templates/Default/login.tt:21
+#: ../../../root/Default/templates/Default/login.tt:1
+#: ../../../root/Default/templates/Default/login.tt:21
 msgid "Log In"
 msgstr "Ouverture de session"
 
 #: ../../../root/Default/templates/Default/component/toolbar.tt:97
 msgid "Media"
-msgstr ""
+msgstr "Média"
 
 #: ../../../root/Default/templates/Default/login.tt:5
 msgid "Missing username or password"
-msgstr ""
+msgstr "Nom d’utilisateur ou mot de passe manquant"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:22
 msgid "Mohawk"
-msgstr ""
+msgstr "Mohawk"
 
 #: ../../../root/Default/templates/Default/component/record.tt:57
 msgid "More detail"
 msgstr "Description longue"
 
-#: ../../../root/Default/templates/Default/component/context.tt:16 ../../../root/Default/templates/Default/component/header.tt:17 ../../../root/dfait/templates/Default/component/header.tt:13
+#: ../../../root/Default/templates/Default/component/context.tt:16
+#: ../../../root/Default/templates/Default/component/header.tt:17
+#: ../../../root/dfait/templates/Default/component/header.tt:13
 msgid "New search"
 msgstr "Nouvelle recherche"
 
@@ -350,11 +367,11 @@ msgstr "Aucun numéro trouvé"
 msgid "No items match your search criteria"
 msgstr "Votre recherche n'a produit aucun résultat"
 
-#: ../../../root/Default/templates/Default/component/results.tt:13 ../../../root/Default/templates/Default/component/search_parameters.tt:25
+#: ../../../root/Default/templates/Default/component/results.tt:13
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:25
 msgid "No results for"
 msgstr "Aucun résultat pour"
 
-#:
 msgid "Note"
 msgstr "Note"
 
@@ -362,11 +379,12 @@ msgstr "Note"
 msgid "Nothing Found"
 msgstr "Aucun résultat"
 
-#:
 msgid "Nothing found"
 msgstr "Aucun résultat"
 
-#: ../../../root/Default/templates/Default/component/navigation.tt:35 ../../../root/Default/templates/Default/component/navigation.tt:54 ../../../root/dfait/templates/Default/component/navigation.tt:65
+#: ../../../root/Default/templates/Default/component/navigation.tt:35
+#: ../../../root/Default/templates/Default/component/navigation.tt:54
+#: ../../../root/dfait/templates/Default/component/navigation.tt:65
 msgid "Page"
 msgstr "Page"
 
@@ -377,11 +395,11 @@ msgstr "Page %1"
 
 #: ../../../root/Default/templates/Default/error.tt:20
 msgid "Page Not Found"
-msgstr ""
+msgstr "Page non trouvée"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:25
 msgid "Panjabi"
-msgstr ""
+msgstr "Pendjabi"
 
 #: ../../../root/Default/templates/Default/login.tt:25
 msgid "Password"
@@ -389,11 +407,11 @@ msgstr "Mot de passe"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:26
 msgid "Polish"
-msgstr ""
+msgstr "Polonais"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:27
 msgid "Portugese"
-msgstr ""
+msgstr "Portugais"
 
 #: ../../../root/Default/templates/Default/component/footer.tt:24
 msgid "Privacy Policy and Legal"
@@ -411,7 +429,6 @@ msgstr "Années de publication"
 msgid "Publication years:"
 msgstr "Année(s) de publication :"
 
-#:
 msgid "Published"
 msgstr "Éditeur"
 
@@ -421,7 +438,8 @@ msgstr "Résultats"
 
 #. (issues.hitsFrom, issues.hitsTo, issues.hits)
 #. (result.hitsFrom, result.hitsTo, result.hits)
-#: ../../../root/Default/templates/Default/component/issues.tt:29 ../../../root/eco/templates/Default/component/results.tt:20
+#: ../../../root/Default/templates/Default/component/issues.tt:29
+#: ../../../root/eco/templates/Default/component/results.tt:20
 msgid "Results %1 - %2 of %3"
 msgstr "%1 - %2 de %3 résultats"
 
@@ -430,27 +448,38 @@ msgstr "%1 - %2 de %3 résultats"
 msgid "Results %1 - %2 of %3 for"
 msgstr "%1 - %2 de %3 résultats pour"
 
-#:
 msgid "Results [_1] - [_2] of [_3]"
 msgstr "[_1] - [_2] de [_3] résultats"
 
 #: ../../../root/Default/templates/Default/component/search_parameters.tt:43
 msgid "Results limited to: "
-msgstr ""
+msgstr "Résultats limités à :"
 
-#: ../../../root/Default/templates/Default/component/issues.tt:58 ../../../root/Default/templates/Default/component/pager.tt:31
+#: ../../../root/Default/templates/Default/component/issues.tt:58
+#: ../../../root/Default/templates/Default/component/pager.tt:31
 msgid "Results page"
 msgstr "Page des résultats"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:28
 msgid "Russian"
-msgstr ""
+msgstr "Russe"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:11
 msgid "Scottish Gaelic"
-msgstr ""
+msgstr "Gaélique écossais"
 
-#: ../../../root/Default/templates/Default/component/date_range_button.tt:22 ../../../root/Default/templates/Default/component/language_button.tt:37 ../../../root/Default/templates/Default/component/sort_order_button.tt:29 ../../../root/Default/templates/Default/component/subsearch.tt:36 ../../../root/Default/templates/Default/component/toolbar.tt:130 ../../../root/Default/templates/Default/component/year_published.tt:27 ../../../root/Default/templates/Default/index.tt:33 ../../../root/dfait/templates/Default/component/sort_order_button.tt:44 ../../../root/dfait/templates/Default/index.tt:33 ../../../root/dfait/templates/Default/search.tt:32 ../../../root/eco/templates/Default/search.tt:30
+#: ../../../root/Default/templates/Default/component/date_range_button.tt:22
+#: ../../../root/Default/templates/Default/component/language_button.tt:37
+#: ../../../root/Default/templates/Default/component/language_filter.tt:19
+#: ../../../root/Default/templates/Default/component/media_filter.tt:17
+#: ../../../root/Default/templates/Default/component/subsearch.tt:36
+#: ../../../root/Default/templates/Default/component/toolbar.tt:130
+#: ../../../root/Default/templates/Default/component/year_published.tt:25
+#: ../../../root/Default/templates/Default/index.tt:33
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:44
+#: ../../../root/dfait/templates/Default/index.tt:33
+#: ../../../root/dfait/templates/Default/search.tt:32
+#: ../../../root/eco/templates/Default/search.tt:30
 msgid "Search"
 msgstr "Rechercher"
 
@@ -461,59 +490,64 @@ msgstr "Rechercher les pages du document contenant : %1"
 
 #: ../../../root/Default/templates/Default/component/search.tt:23
 msgid "Search options"
-msgstr ""
+msgstr "Options de recherche"
 
-#: ../../../root/Default/templates/Default/component/context.tt:14 ../../../root/dfait/templates/Default/component/navigation.tt:32
+#: ../../../root/Default/templates/Default/component/context.tt:14
+#: ../../../root/dfait/templates/Default/component/navigation.tt:32
 msgid "Search results"
 msgstr "Liste des résultats"
 
 #: ../../../root/Default/templates/Default/component/search.tt:16
 msgid "Search the collection"
-msgstr ""
+msgstr "Recherche dans la collection"
 
 #. (response.item.counts.gpages)
 #: ../../../root/Default/templates/Default/component/subsearch.tt:9
 msgid "Search within this collection (%1 pages)"
-msgstr ""
+msgstr "Recherche dans cette collection (%1 pages)"
 
 #. (response.item.counts.pages)
 #: ../../../root/Default/templates/Default/component/subsearch.tt:19
 msgid "Search within this issue (%1 pages)"
-msgstr ""
+msgstr "Recherche dans ce numéro (%1 pages)"
 
 #. (response.item.counts.pages)
 #: ../../../root/Default/templates/Default/component/subsearch.tt:24
 msgid "Search within this item (%1 pages)"
-msgstr ""
+msgstr "Recherche dans ce document (%1 pages)"
 
 #. (response.item.counts.gpages)
 #: ../../../root/Default/templates/Default/component/subsearch.tt:14
 msgid "Search within this publication (%1 pages)"
-msgstr ""
+msgstr "Recherche dans cette publication (%1 pages)"
 
 #: ../../../root/Default/templates/Default/component/search.tt:18
 msgid "Search:"
 msgstr "Recherche :"
 
-#:
 msgid "Series"
 msgstr "Série"
 
 #: ../../../root/Default/templates/Default/error.tt:23
 msgid "Server Error"
-msgstr ""
+msgstr "Erreur du serveur"
 
-#: ../../../root/Default/templates/Default/component/navigation.tt:42 ../../../root/Default/templates/Default/component/navigation.tt:69 ../../../root/dfait/templates/Default/component/navigation.tt:52 ../../../root/dfait/templates/Default/component/navigation.tt:80
+#: ../../../root/Default/templates/Default/component/navigation.tt:42
+#: ../../../root/Default/templates/Default/component/navigation.tt:69
+#: ../../../root/dfait/templates/Default/component/navigation.tt:52
+#: ../../../root/dfait/templates/Default/component/navigation.tt:80
 msgid "Show"
 msgstr "Afficher"
 
-#: ../../../root/Default/templates/Default/component/any_language.tt:11 ../../../root/Default/templates/Default/component/any_medium.tt:12
+#: ../../../root/Default/templates/Default/component/any_language.tt:11
+#: ../../../root/Default/templates/Default/component/any_medium.tt:12
 msgid "Show All"
-msgstr ""
+msgstr "Afficher tout"
 
-#: ../../../root/Default/templates/Default/view.tt:35 ../../../root/Default/templates/Default/view.tt:45
+#: ../../../root/Default/templates/Default/view.tt:35
+#: ../../../root/Default/templates/Default/view.tt:45
 msgid "Show all issues"
-msgstr ""
+msgstr "Afficher tous les numéros"
 
 #: ../../../root/Default/templates/Default/component/issues.tt:12
 msgid "Show only issues published between the years"
@@ -526,20 +560,29 @@ msgstr "Afficher pages contenant : %1"
 
 #: ../../../root/Default/templates/Default/view.tt:38
 msgid "Show serial record"
-msgstr ""
+msgstr "Afficher la notice du périodique"
 
 #. (doc.canonicalUri)
 #: ../../../root/Default/templates/Default/component/site.tt:22
 msgid "Show web site: %1"
 msgstr "Afficher le site web: %1"
 
-#: ../../../root/Default/templates/Default/index.tt:48 ../../../root/dfait/templates/Default/index.tt:50
+#: ../../../root/Default/templates/Default/component/sort_order_button.tt:30
+#: ../../../root/Default/templates/Default/index.tt:48
+#: ../../../root/dfait/templates/Default/index.tt:50
 msgid "Sort"
 msgstr "Trier par"
 
-#: ../../../root/Default/templates/Default/component/search_parameters.tt:39 ../../../root/Default/templates/Default/component/sort_order_button.tt:13 ../../../root/Default/templates/Default/component/toolbar.tt:54 ../../../root/dfait/templates/Default/component/sort_order_button.tt:28 ../../../root/dfait/templates/Default/component/sort_order_button.tt:5
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:39
+#: ../../../root/Default/templates/Default/component/toolbar.tt:54
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:28
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:5
 msgid "Sort Order"
 msgstr "Trier par"
+
+#: ../../../root/Default/templates/Default/component/sort_order_button.tt:21
+msgid "Sort Order:"
+msgstr "Ordre de trie :"
 
 #: ../../../root/Default/templates/Default/component/issues.tt:19
 msgid "Sort by"
@@ -551,60 +594,57 @@ msgstr "Trier :"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:29
 msgid "Spanish"
-msgstr ""
+msgstr "Espagnol"
 
 #. (status)
 #: ../../../root/Default/templates/Default/error.tt:36
 msgid "Status:"
-msgstr ""
+msgstr "Statut :"
 
-#:
 msgid "Subject"
 msgstr "Sujet"
 
 #: ../../../root/Default/templates/Default/component/issues.tt:16
 msgid "Submit"
-msgstr ""
+msgstr "Soumettre"
 
-#:
 msgid "Summary"
 msgstr "Sommaire"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:30
 msgid "Swedish"
-msgstr ""
+msgstr "Suédois"
 
 #: ../../../root/Default/templates/Default/error.tt:12
 msgid "The page you requested cannot be displayed."
-msgstr ""
+msgstr "La page demandée ne peut être affichée."
 
 #: ../../../root/Default/templates/Default/error.tt:21
 msgid "The page you were looking for cannot be found."
-msgstr ""
+msgstr "La page demandée est introuvable."
 
 #: ../../../root/Default/templates/Default/login.tt:6
 msgid "The username and password do not match"
-msgstr ""
+msgstr "Le nom d’utilisateur et le mot de passe ne correspondent pas"
 
 #: ../../../root/Default/templates/Default/error.tt:24
 msgid "There was a problem with your request; try again in a few moments."
-msgstr ""
+msgstr "Un problème est survenu lors de votre requête. Essayez de nouveau dans quelques instants."
 
-#:
 msgid "Title"
 msgstr "Titre"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:31
 msgid "Turkish"
-msgstr ""
+msgstr "Turc"
 
 #: ../../../root/dfait/templates/Default/index.tt:54
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:32
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrainien"
 
 #: ../../../root/Default/templates/Default/login.tt:18
 msgid "Username"
@@ -612,19 +652,18 @@ msgstr "Nom de utilisateur"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:33
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamien"
 
 #: ../../../root/Default/templates/Default/error.tt:27
 msgid "We're sorry; we were unable to process your request."
-msgstr ""
+msgstr "Désolé, nous ne pouvons pas traiter votre requête."
 
-#:
 msgid "Web site"
 msgstr "Site web"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:8
 msgid "Welsh"
-msgstr ""
+msgstr "Gallois"
 
 #: ../../../root/dfait/templates/Default/index.tt:68
 msgid "Years"
@@ -632,17 +671,16 @@ msgstr "Années"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:34
 msgid "Yiddish"
-msgstr ""
+msgstr "Yiddish"
 
 #: ../../../root/Default/templates/Default/error.tt:15
 msgid "You do not have sufficient privileges to view this page."
-msgstr ""
+msgstr "Vos privilèges sont insuffisants pour visionner cette page."
 
 #: ../../../root/Default/templates/Default/error.tt:18
 msgid "You must be logged in to view this page."
-msgstr ""
+msgstr " Vous devez ouvrir une session pour visionner cette page."
 
-#:
 msgid "all issues"
 msgstr "tous les numéros"
 
@@ -650,27 +688,31 @@ msgstr "tous les numéros"
 msgid "and"
 msgstr "et"
 
-#: ../../../root/Default/templates/Default/component/language_button.tt:10 ../../../root/Default/templates/Default/component/language_button.tt:32 ../../../root/Default/templates/Default/component/search.tt:33 ../../../root/Default/templates/Default/component/toolbar.tt:61 ../../../root/Default/templates/Default/component/toolbar.tt:83 ../../../root/Default/templates/Default/index.tt:67 ../../../root/dfait/templates/Default/index.tt:55 ../../../root/dfait/templates/Default/index.tt:62
+#: ../../../root/Default/templates/Default/component/language_button.tt:10
+#: ../../../root/Default/templates/Default/component/language_button.tt:32
+#: ../../../root/Default/templates/Default/component/search.tt:33
+#: ../../../root/Default/templates/Default/component/toolbar.tt:61
+#: ../../../root/Default/templates/Default/component/toolbar.tt:83
+#: ../../../root/Default/templates/Default/index.tt:67
+#: ../../../root/dfait/templates/Default/index.tt:55
+#: ../../../root/dfait/templates/Default/index.tt:62
 msgid "any"
 msgstr "toutes"
 
 #: ../../../root/Default/templates/Default/macro/media.tt:5
 msgid "computer data"
-msgstr ""
+msgstr "données informatiques"
 
-#: ../../../root/Default/templates/Default/macro/media.tt:9
-msgid "digitized text"
-msgstr ""
-
-#: ../../../root/Default/templates/Default/component/search.tt:21 ../../../root/Default/templates/Default/index.tt:45
+#: ../../../root/Default/templates/Default/component/search.tt:21
+#: ../../../root/Default/templates/Default/index.tt:45
 msgid "document metadata"
 msgstr "métadonnées du document"
 
-#:
 msgid "document record"
 msgstr "notice du document"
 
-#: ../../../root/Default/templates/Default/component/search.tt:19 ../../../root/Default/templates/Default/index.tt:37
+#: ../../../root/Default/templates/Default/component/search.tt:19
+#: ../../../root/Default/templates/Default/index.tt:37
 msgid "everywhere"
 msgstr "partout"
 
@@ -680,23 +722,30 @@ msgstr "pour"
 
 #: ../../../root/Default/templates/Default/macro/media.tt:6
 msgid "image"
-msgstr ""
+msgstr "image"
 
 #: ../../../root/dfait/templates/Default/index.tt:59
 msgid "index"
-msgstr ""
+msgstr "index"
 
 #: ../../../root/Default/templates/Default/macro/language.tt:23
 msgid "multiple languages"
-msgstr ""
+msgstr "langues multiples"
 
-#: ../../../root/Default/templates/Default/component/search.tt:29 ../../../root/Default/templates/Default/component/sort_order_button.tt:22 ../../../root/Default/templates/Default/component/toolbar.tt:49 ../../../root/Default/templates/Default/index.tt:60 ../../../root/Default/templates/Default/macro/sort_order.tt:7 ../../../root/dfait/templates/Default/component/sort_order_button.tt:13 ../../../root/dfait/templates/Default/component/sort_order_button.tt:37 ../../../root/dfait/templates/Default/index.tt:52
+#: ../../../root/Default/templates/Default/component/search.tt:29
+#: ../../../root/Default/templates/Default/component/sort_order_button.tt:23
+#: ../../../root/Default/templates/Default/component/toolbar.tt:49
+#: ../../../root/Default/templates/Default/index.tt:60
+#: ../../../root/Default/templates/Default/macro/sort_order.tt:7
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:13
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:37
+#: ../../../root/dfait/templates/Default/index.tt:52
 msgid "newest"
 msgstr "date décroissante"
 
 #: ../../../root/Default/templates/Default/component/issues.tt:23
 msgid "newest first"
-msgstr ""
+msgstr "date décroissante"
 
 #: ../../../root/Default/templates/Default/component/search_parameters.tt:34
 msgid "of"
@@ -707,29 +756,36 @@ msgstr "de"
 msgid "of %1"
 msgstr "de %1"
 
-#: ../../../root/Default/templates/Default/component/search.tt:28 ../../../root/Default/templates/Default/component/sort_order_button.tt:23 ../../../root/Default/templates/Default/component/toolbar.tt:50 ../../../root/Default/templates/Default/index.tt:56 ../../../root/Default/templates/Default/macro/sort_order.tt:6 ../../../root/dfait/templates/Default/component/sort_order_button.tt:16 ../../../root/dfait/templates/Default/component/sort_order_button.tt:38 ../../../root/dfait/templates/Default/index.tt:51
+#: ../../../root/Default/templates/Default/component/search.tt:28
+#: ../../../root/Default/templates/Default/component/sort_order_button.tt:24
+#: ../../../root/Default/templates/Default/component/toolbar.tt:50
+#: ../../../root/Default/templates/Default/index.tt:56
+#: ../../../root/Default/templates/Default/macro/sort_order.tt:6
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:16
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:38
+#: ../../../root/dfait/templates/Default/index.tt:51
 msgid "oldest"
 msgstr "date croissante"
 
 #: ../../../root/Default/templates/Default/component/issues.tt:21
 msgid "oldest first"
-msgstr ""
+msgstr "date croissante"
 
-#: ../../../root/Default/templates/Default/component/search.tt:20 ../../../root/Default/templates/Default/index.tt:41
+#: ../../../root/Default/templates/Default/component/search.tt:20
+#: ../../../root/Default/templates/Default/index.tt:41
 msgid "page text"
 msgstr "texte de la page"
 
-#:
 msgid "pages containing: %1"
 msgstr "pages contenant : %1"
 
 #: ../../../root/Default/templates/Default/component/toolbar.tt:51
 msgid "parent key"
-msgstr ""
+msgstr "clé mère"
 
 #: ../../../root/Default/templates/Default/macro/media.tt:7
 msgid "plain text"
-msgstr ""
+msgstr "texte en clair"
 
 #: ../../../root/dfait/templates/Default/index.tt:56
 msgid "press release"
@@ -737,23 +793,29 @@ msgstr "communiqué"
 
 #: ../../../root/dfait/templates/Default/component/rlist.tt:30
 msgid "preview"
-msgstr ""
+msgstr "aperçu"
 
-#: ../../../root/Default/templates/Default/component/search.tt:27 ../../../root/Default/templates/Default/component/sort_order_button.tt:21 ../../../root/Default/templates/Default/component/toolbar.tt:48 ../../../root/Default/templates/Default/index.tt:52 ../../../root/Default/templates/Default/macro/sort_order.tt:5 ../../../root/dfait/templates/Default/component/sort_order_button.tt:36 ../../../root/dfait/templates/Default/index.tt:53
+#: ../../../root/Default/templates/Default/component/search.tt:27
+#: ../../../root/Default/templates/Default/component/sort_order_button.tt:22
+#: ../../../root/Default/templates/Default/component/toolbar.tt:48
+#: ../../../root/Default/templates/Default/index.tt:52
+#: ../../../root/Default/templates/Default/macro/sort_order.tt:5
+#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:36
+#: ../../../root/dfait/templates/Default/index.tt:53
 msgid "relevance"
 msgstr "pertinence"
 
 #: ../../../root/dfait/templates/Default/component/sort_order_button.tt:10
 msgid "score"
-msgstr ""
+msgstr "pertinence"
 
 #: ../../../root/Default/templates/Default/component/toolbar.tt:52
 msgid "sequence"
-msgstr ""
+msgstr "séquence"
 
 #: ../../../root/Default/templates/Default/macro/media.tt:8
 msgid "sound recording"
-msgstr ""
+msgstr "enregistrement sonore"
 
 #: ../../../root/dfait/templates/Default/index.tt:58
 msgid "speech"
@@ -767,10 +829,17 @@ msgstr "declaration"
 msgid "table of contents"
 msgstr "table des matières"
 
-#: ../../../root/Default/templates/Default/component/search_parameters.tt:51 ../../../root/Default/templates/Default/component/toolbar.tt:127 ../../../root/Default/templates/Default/component/year_published.tt:21
+#: ../../../root/Default/templates/Default/macro/media.tt:9
+msgid "text"
+msgstr "texte"
+
+#: ../../../root/Default/templates/Default/component/search_parameters.tt:51
+#: ../../../root/Default/templates/Default/component/toolbar.tt:127
+#: ../../../root/Default/templates/Default/component/year_published.tt:19
 msgid "to"
-msgstr ""
+msgstr "à"
 
 #: ../../../root/Default/templates/Default/macro/media.tt:10
 msgid "video"
-msgstr ""
+msgstr "vidéo"
+

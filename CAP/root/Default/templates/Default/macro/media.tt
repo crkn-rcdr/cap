@@ -6,7 +6,7 @@
   [% CASE 'image' %][% c.loc('image') | xml_escape %]
   [% CASE 'plaintext' %][% c.loc('plain text') | xml_escape %]
   [% CASE 'sound' %][% c.loc('sound recording') | xml_escape %]
-  [% CASE 'text' %][% c.loc('digitized text') | xml_escape %]
+  [% CASE 'text' %][% c.loc('text') | xml_escape %]
   [% CASE 'video' %][% c.loc('video') | xml_escape %]
   [% CASE %][% code | xml_escape %]
 [% END %]
