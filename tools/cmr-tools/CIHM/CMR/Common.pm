@@ -33,7 +33,7 @@ sub iso8601
         return $1 . substr($template, length($1));
     }
 
-    return undef;
+    return "";
 }
 
 sub media_mime

@@ -19,14 +19,16 @@ use CIHM::CMR::Common;
 use Getopt::Long;
 
 my $xsd_file = "$basedir/cmr.xsd";
+my $dump_invalid = 0;
+
+GetOptions(
+    "xsd=s" => \$xsd_file,
+    "dump" => \$dump_invalid,
+) or die("Usage: $0 [-xsd=FILE] TRANSFORM INPUT_FILE [OUTPUT_FILE]\n");
 
 my $xsl_file = "$basedir/xsl/" . shift(@ARGV) . ".xsl";
 my $input_file = shift(@ARGV);
 my $output_file = shift(@ARGV) || "";
-
-GetOptions(
-    "xsd=s" => \$xsd_file,
-) or die("Usage: $0 [-xsd=FILE] TRANSFORM INPUT_FILE [OUTPUT_FILE]\n");
 
 my $xml = XML::LibXML->new();
 my $xsl = XML::LibXSLT->new();
@@ -138,7 +140,7 @@ if ($doc->findnodes('/recordset/filters')) {
 eval { $xsd->validate($doc) };
 if ($@) {
     my $error = $@;
-    #warn ($doc->toString(1));
+    print ($doc->toString(1)) if ($dump_invalid);
     die($error);
 }
 
