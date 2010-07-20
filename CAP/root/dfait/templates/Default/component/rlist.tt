@@ -2,15 +2,16 @@
   # component/rlist.tt - search results list - DFAIT version
 
   USE XML.Escape;
+  MACRO label(item) INCLUDE macro/label.tt;
 -%]
 
 <div class="rl">
   <table class="search_result">
-  [%- FOREACH doc IN result.documents -%]
+  [%- FOREACH item IN response.set -%]
     [%-
       # Determine the publication year(s), which we display if no MARC 260 field exists.
-      pubmin_year = doc.pubmin.substr(0,4);
-      pubmax_year = doc.pubmax.substr(0,4);
+      pubmin_year = item.doc.pubmin.substr(0,4);
+      pubmax_year = item.doc.pubmax.substr(0,4);
       IF pubmin_year == pubmax_year;
         pubyear = pubmin_year;
       ELSE;
@@ -26,53 +27,46 @@
     <tr>
       <td>
       [% # Disabled for now... %]
-      [%- IF doc.type == "page" -%]
-        <a href="[% c.uri_for(root, 'show', doc.key) %]"><img src="[% c.uri_for(root, 'get', doc.key, 'thumbnail.png', { s => 50 }) | xml_escape %]" alt="[% c.loc("preview") | xml_escape %]"/></a>
+      [%- IF item.doc.type == "page" -%]
+        <a href="[% c.uri_for(root, 'show', item.doc.key) %]"><img src="[% c.uri_for(root, 'get', item.doc.key, 'thumbnail.png', { s => 50 }) | xml_escape %]" alt="[% c.loc("preview") | xml_escape %]"/></a>
       [%- END -%]
-        <!--<img src="[% c.uri_for(root, 'static', 'logos', "${doc.contributor}.jpg") | xml_escape %]" alt="[% c.loc(c.config.contributor.${doc.contributor}) | xml_escape %]"/>-->
+        <!--<img src="[% c.uri_for(root, 'static', 'logos', "${item.doc.contributor}.jpg") | xml_escape %]" alt="[% c.loc(c.config.contributor.${item.doc.contributor}) | xml_escape %]"/>-->
       </td>
       <td>
-      [%- IF doc.type == "page" -%]
+      [%- IF item.doc.type == "page" -%]
         [%-
           query.t = "pages";
-          query.pkey = doc.pkey;
+          query.pkey = item.doc.pkey;
           query.so = "seq asc";
         -%]
         <p class="label">
-        [%- IF doc.feature -%]
-          [%- feature = doc.feature.join(", ") -%]
-          <a href="[% c.uri_for(root, 'show', doc.key) %]">[% doc.label | xml_escape %] - [% c.loc(feature) | xml_escape %]</a>
-        [%- ELSIF doc.pageno -%]
-          <a href="[% c.uri_for(root, 'show', doc.key) %]">[% c.loc("[_1] - page [_2]", doc.label, doc.pageno) | xml_escape %]</a></p>
-        [%- ELSE -%]
-          <a href="[% c.uri_for(root, 'show', doc.key) %]">[% c.loc("[_1] - page [_2]", doc.label, doc.seq) | xml_escape %]</a></p>
-        [%- END -%]
+          <a href="[% c.uri_for(root, 'show', item.doc.key) %]">[% label(item) %]</a>
         </p>
         [%- IF c.req.params.q -%]
           <p>
             <a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[%- c.loc("Show pages containing: [_1]", c.req.params.q) | xml_escape -%]</a>
           </p>
         [%- END -%]
-      [%- ELSIF doc.type == "monograph" -%]
+      [%- ELSIF item.doc.type == "monograph" -%]
         [%-
           query.t = "pages";
-          query.pkey = doc.key;
+          query.pkey = item.doc.key;
           query.so = "seq asc";
         -%]
         <p class="label">
-          <a href="[% c.uri_for(root, 'show', doc.key, { rel => 'start' }) %]">[% doc.label %]</a>
+          <a href="[% c.uri_for(root, 'show', item.doc.key, { rel => 'start' }) %]">[% label(item) %]</a>
           [%- IF search.grouped -%]
-            - [%c.loc("[_1] matching pages", doc.hits) %]
+            - [%c.loc("[_1] matching pages", item.doc.hits) %]
           [% END -%]
         </p>
         <p>
-          [%- IF doc.marc_260 -%]
-            [% doc.marc_260.join("; ") | xml_escape %]
+          [%- IF item.doc.marc_260 -%]
+            [% item.doc.marc_260.join("; ") | xml_escape %]
           [%- ELSE -%]
             [% pubyear | xml_escape %]
           [% END %]
-          [% IF doc.marc_534 %]
-            [% doc.marc_534.join("; ") | xml_escape %]
+          [% IF item.doc.marc_534 %]
+            [% item.doc.marc_534.join("; ") | xml_escape %]
           [% END %]
         </p>
         [% IF search_grouped; query.gr = undef; END %]
@@ -84,5 +78,26 @@
       </td>
     </tr>
   [% END %]
+
+  [% IF search.grouped %]
+    [%
+     # Warning: this is deprecated; we need to update search.tt so that
+     #the grouped search returns the correct response.set
+    %]
+    [% FOREACH doc IN result.documents %]
+      <tr>
+        <td></td>
+        <td>
+          <p class="label">
+            <a href="[% c.uri_for(root, 'show', item.doc.key, { rel => 'start' }) %]">[% doc.label %]</a>
+            [%- IF search.grouped -%]
+              - [%c.loc("[_1] matching pages", doc.hits) %]
+            [% END -%]
+          </p>
+        </td>
+      </tr>
+    [% END %]
+  [% END %]
+
   </table>
 </div>
