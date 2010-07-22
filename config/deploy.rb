@@ -13,16 +13,16 @@ after "deploy:migrations", "deploy:cleanup"
 
 task :custom_chown do
     sudo "chown -R #{user} #{deploy_to}"
-    sudo "a2ensite voyageur"
-    sudo "a2ensite staging"
-    sudo "a2ensite dfait"
-    sudo "a2ensite canadianaonline"
-    sudo "a2dismod deflate"
-    sudo "a2enmod rewrite"
-    sudo "ln -fs /opt/cap/current/tools/cap-prod /etc/init.d"
-    sudo "ln -fs /opt/cap/current/tools/jetty /etc/init.d"
-    sudo "ln -fs /opt/cap-staging/cap/current/tools/cap-staging /etc/init.d"
-    sudo "ln -fs /opt/cap-dfait/cap/current/tools/cap-dfait /etc/init.d"
+    #sudo "a2ensite voyageur"
+    #sudo "a2ensite staging"
+    #sudo "a2ensite dfait"
+    #sudo "a2ensite canadianaonline"
+    #sudo "a2dismod deflate"
+    #sudo "a2enmod rewrite"
+    #sudo "ln -fs /opt/cap/current/tools/cap-prod /etc/init.d"
+    #sudo "ln -fs /opt/cap/current/tools/jetty /etc/init.d"
+    #sudo "ln -fs /opt/cap-staging/cap/current/tools/cap-staging /etc/init.d"
+    #sudo "ln -fs /opt/cap-dfait/cap/current/tools/cap-dfait /etc/init.d"
 end
 
 task :configure do
