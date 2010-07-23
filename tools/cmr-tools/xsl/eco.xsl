@@ -64,23 +64,34 @@
 
 
 <xsl:template match="digital">
+  <xsl:variable name="type">
+    <xsl:choose>
+      <xsl:when test="/eco2/@parent">issue</xsl:when>
+      <xsl:otherwise>monograph</xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
   <record>
 
     <!-- Required control fields -->
-    <type>
-      <xsl:choose>
-        <xsl:when test="/eco2/@parent">issue</xsl:when>
-        <xsl:otherwise>monograph</xsl:otherwise>
-      </xsl:choose>
-    </type>
+    <type><xsl:value-of select="$type"/></type>
     <contributor>oocihm</contributor>
     <key><xsl:value-of select="/eco2/@id"/></key>
     <label>
-      <xsl:value-of select="normalize-space(concat(
-          /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
-          /eco2/digital/marc/field[@type='245']/subfield[@type='b']
-      ))"/>
+      <xsl:choose>
+        <xsl:when test="$type = 'issue'">
+          <xsl:call-template name="issue-name">
+            <xsl:with-param name="input" select="/eco2/digital/marc/field[@type='245']/subfield[@type='a']"/>
+            <xsl:with-param name="marker" select="string('[')"/>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="normalize-space(concat(
+              /eco2/digital/marc/field[@type='245']/subfield[@type='a'], ' ',
+              /eco2/digital/marc/field[@type='245']/subfield[@type='h'], ' ',
+              /eco2/digital/marc/field[@type='245']/subfield[@type='b']
+          ))"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </label>
 
     <!-- Optional control fields -->
@@ -318,6 +329,23 @@
     </lang>
   </xsl:for-each>
 </xsl:template>
+
+<xsl:template name="issue-name">
+  <xsl:param name="input"/>
+  <xsl:param name="marker"/>
+  <xsl:choose>
+    <xsl:when test="contains($input,$marker)">
+      <xsl:call-template name="issue-name">
+        <xsl:with-param name="input" select="substring-after($input,$marker)"/>
+        <xsl:with-param name="marker" select="$marker"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="concat('[', $input)"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
           
 </xsl:stylesheet>
 
