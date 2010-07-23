@@ -6,7 +6,14 @@
   CMR records containing Part2B codes, use this stylesheet to change them
   into their Part3 counterparts.
 
-  Stylesheet version: 1.0 (2010-07-07)
+  It will also convert some CAN/MARC language codes that are not part of
+  ISO 693-2. This is a work in progress. Note that some CAN/MARC codes
+  (e.g.: alg, ath, iro) do not map unambiguously to a single ISO 693-3
+  code and are not transformed by this stylesheet. These codes should
+  probably be left as-is (or manually changed to one or more specific ISO
+  693-3 codes).
+
+  Stylesheet version: 1.1 (2010-07-23)
   Compatible with: CMR version 1.x
   Send bug reports to: william.wueppelmann@canadiana.ca
 -->
@@ -40,6 +47,7 @@
 <xsl:template name="iso693-2">
   <xsl:param name="lang"/>
   <xsl:choose>
+    <!-- ISO 693-2 PartB codes -->
     <xsl:when test="$lang = 'alb'">sqi</xsl:when><!-- Albanian -->
     <xsl:when test="$lang = 'arm'">hye</xsl:when><!-- Armenian -->
     <xsl:when test="$lang = 'baq'">eus</xsl:when><!-- Basque -->
@@ -60,6 +68,10 @@
     <xsl:when test="$lang = 'slo'">slk</xsl:when><!-- Slovak -->
     <xsl:when test="$lang = 'tib'">bod</xsl:when><!-- Tibetan -->
     <xsl:when test="$lang = 'wel'">cym</xsl:when><!-- Welsh -->
+
+    <!-- Additional CAN/MARC codes not in 693-2 PartB (INCOMPLETE) -->
+    <xsl:when test="$lang = 'gae'">gla</xsl:when><!-- Gaelic (Scottish) -->
+
     <xsl:otherwise><xsl:value-of select="$lang"/></xsl:otherwise>
   </xsl:choose>
 </xsl:template>
