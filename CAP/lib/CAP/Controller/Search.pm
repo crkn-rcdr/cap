@@ -17,7 +17,7 @@ sub search : Chained('/base') PathPart('search') Args()
         'pages' => 'page',
         'titles' => 'monograph OR serial',
     );
-    if ($types{$c->req->params->{t}}) {
+    if ($c->req->params->{t} && $types{$c->req->params->{t}}) {
         $type = $c->req->params->{t};
         $c->forward('prepare_search', [$types{$c->req->params->{t}}]);
     }

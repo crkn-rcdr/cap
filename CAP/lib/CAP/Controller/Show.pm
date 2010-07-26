@@ -174,16 +174,16 @@ sub serial : Private
     my $doc = $c->stash->{doc};
 
     my $query = {pkey => $doc->{key}, type => 'issue'};
-    my $param = {sort => "seq asc"},
+    my $param = {sort => "seq asc"};
 
     # Limit the issues shown to those published between two specified
     # dates. If the start date is greater than the end date, reverse them
     # but change the sorting options.
-    my $df = $solr->parse_date($c->req->params->{df}, 0);
-    my $dt = $solr->parse_date($c->req->params->{dt}, 1);
-    ($df, $dt) = ($dt, $df) if ($df && $dt && $df > $dt);
-    $query->{_pubmax} = "[* TO $dt]" if ($dt);
-    $query->{_pubmin} = "[$df TO *]" if ($df);
+    #my $df = $solr->parse_date($c->req->params->{df}, 0);
+    #my $dt = $solr->parse_date($c->req->params->{dt}, 1);
+    #($df, $dt) = ($dt, $df) if ($df && $dt && $df > $dt);
+    #$query->{_pubmax} = "[* TO $dt]" if ($dt);
+    #$query->{_pubmin} = "[$df TO *]" if ($df);
 
     if ($c->req->params->{so}) {
         $param->{sort} = "seq desc" if ($c->req->params->{so} eq "seq desc");

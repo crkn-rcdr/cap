@@ -1,8 +1,55 @@
-[%-
-  # Default template wrapper for XML interface.
-  # Version: 0.20100415
--%]
 <?xml version="1.0" encoding="UTF-8"?>
-<response>
-  [% content %]
+[%
+  # Wrapper for default XML interface template.
+%]
+[% VIEW unpack %]
+
+  [% BLOCK text %]
+    [%
+      IF name;
+        ename = name;
+      ELSE;
+        ename = "item";
+      END;
+    %]
+    <[% ename %]>[% data | xml_escape %]</[% ename %]>
+  [% END %]
+
+  [% BLOCK hash %]
+    [% IF name %]
+      [% ename = name %]
+    <[% ename %]>
+      [% FOR node IN item.keys %]
+        [% PROCESS xmlify, name = node, data = item.$node %]
+      [% END %]
+    </[% ename %]>
+    [% ELSE %]
+      <item>
+      [% FOR node IN item.keys %]
+        [% PROCESS xmlify, name = node, data = item.$node %]
+      [% END %]
+      </item>
+    [% END %]
+  [% END %]
+
+  [% BLOCK list %]
+    <list name="[% name %]">
+    [% FOR node IN item %]
+      [% PROCESS xmlify, name = "", data = node %]
+    [% END %]
+    </list>
+  [% END %]
+
+[% END %]
+
+[% BLOCK xmlify %]
+  [% unpack.print(data) %]
+[% END %]
+<response version="1.0">
+  <requestUri>[% c.req.uri | xml_escape %]</requestUri>
+  [%
+    FOR node IN response.keys;
+      PROCESS xmlify, name = node, data = response.$node;
+    END;
+  %]
 </response>

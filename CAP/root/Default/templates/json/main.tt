@@ -1,11 +1,37 @@
 [%
-USE JSON(pretty => 1);
-c.load_lexicon('Default');
+  USE JSON(pretty => 1);
 %] 
+[% VIEW unpack %]
+  
+  [% BLOCK text %]
+    "[% data %]"
+  [% END %]
+
+  [% BLOCK hash %]
+    {
+      [% FOR node IN data.keys %]
+        "[% node %]" : [% PROCESS jsonify, data = data.$node %],
+      [% END %]
+    }
+  [% END %]
+
+  [% BLOCK list %]
+    [
+      [% FOR node IN data %]
+        [% PROCESS jsonify, data = node %]
+      [% END %]
+    ]
+  [% END %]
+
+[% END %]
+
+[% BLOCK jsonify %]
+  [% unpack.print(data) %]
+[% END %]
+
 {
-[% IF template.name == "error.tt" %]  "ok" :  false,[% ELSE %]  "ok" : true,[% END %]
-  "req" : "[% c.request.uri %]",
-
-  [% content %]
-
+  "requestUri" : "[% c.req.uri %]",
+  [% FOR node IN response.keys %]
+      "[% node %]" : [% PROCESS jsonify, data = response.$node %],
+  [% END %]
 }

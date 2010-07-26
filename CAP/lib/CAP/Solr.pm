@@ -6,9 +6,8 @@ use Encode;
 use LWP::UserAgent;
 use Time::HiRes qw/gettimeofday/;
 use URI::Escape;
+use JSON;
 use XML::LibXML;
-
-our $version = 0.20100107;
 
 =head1 NAME
 
@@ -50,6 +49,7 @@ sub new
     $solr->{parser} = XML::LibXML->new();
     $solr->{param} = { %{$solr->{param_default}} };
     $solr->{facet} = {};
+    $solr->{wt} = $solr->{param}->{wt};
 
     $solr->{status} = {
         query_count => 0,
@@ -80,13 +80,14 @@ sub status_msg
 }
 
 # TODO: handle multiple date formats
-sub parse_date
-{
-    my($self, $date, $max) = @_;
-    return undef unless ($date);
-    return "$date-12-31T23:59:59Z" if ($max);
-    return "$date-01-01T00:00:00Z";
-}
+# Deprecated? (might be used in Show.pm)
+#sub parse_date
+#{
+#    my($self, $date, $max) = @_;
+#    return undef unless ($date);
+#    return "$date-12-31T23:59:59Z" if ($max);
+#    return "$date-01-01T00:00:00Z";
+#}
 
 sub update
 {
@@ -141,11 +142,6 @@ sub query
     return $self->{result};
 }
 
-=head2 $doc = $solr->query_first($query, $param);
-
-    A more convenient way of saying C<$doc = $solr->query(0, $query, $param)->{documents}->[0]>
-
-=cut
 sub query_first
 {
     my($self, $query, $param) = @_;
@@ -215,9 +211,8 @@ sub document
     $self->_qparams({rows => 1});
     $self->_qquery({key => $key});
     $self->_qexec();
-    use Data::Dumper;
     if ($self->{result}->{hits} == 0) { return undef }
-    return $self->_document(0);
+    return $self->{result}->{documents}->[0];
 }
 
 
@@ -235,7 +230,7 @@ sub first_child
     }
     $self->_qexec();
     return undef unless ($self->{result}->{hits});
-    return $self->_document(0);
+    return $self->{result}->{documents}->[0];
 }
 
 
@@ -253,7 +248,7 @@ sub last_child
     }
     $self->_qexec();
     return undef unless ($self->{result}->{hits});
-    return $self->_document(0);
+    return $self->{result}->{documents}->[0];
 }
 
 
@@ -267,19 +262,10 @@ sub next_doc
     $self->_qparams({rows => 1, sort => "seq asc"});
     $self->_qquery({pkey => $doc->{pkey}, _seq => "[$seq TO *]"});
     $self->_qexec();
-    return $self->_document(0) if ($self->{result}->{hits});
+    return $self->{result}->{documents}->[0] if ($self->{result}->{hits});
     return undef;
 }
 
-=over 4
-
-=item prev_doc ( I<$doc> )
-
-Returns the document previous in sequence (the document with the next
-lowest I<seq> value) to I<$doc>, or undef if no such document exists.
-
-=back
-=cut
 sub prev_doc
 {
     my($self, $doc) = @_;
@@ -290,21 +276,10 @@ sub prev_doc
     $self->_qparams({rows => 1, sort => "seq desc"});
     $self->_qquery({pkey => $doc->{pkey}, _seq => "[* TO $seq]"});
     $self->_qexec();
-    return $self->_document(0) if ($self->{result}->{hits});
+    return $self->{result}->{documents}->[0] if ($self->{result}->{hits});
     return undef;
 }
 
-=over 4
-
-=item ancestors ( I<$document> )
-
-Returns an arrayref of documents consisting of all the
-ancestor documents for the supplied document, starting with the
-oldest ancestor and ending with the immediate parent. Returns an empty
-array if $document is not a valid document or if no acnestors exist.
-
-=back
-=cut
 sub ancestors
 {
     my($self, $document) = @_;
@@ -321,7 +296,7 @@ sub ancestors
         $self->_qquery({key => $document->{pkey}});
         $self->_qexec();
         last unless ($self->{result}->{hits});
-        $document = $self->_document(0);
+        $document = $self->{result}->{documents}->[0];
         last if ($keys{$document->{key}}); # Abort on circular reference
         $keys{$document->{key}} = 1;
         push(@{$ancestors}, $document);
@@ -331,16 +306,6 @@ sub ancestors
     return $ancestors;
 }
 
-=head2 $children = $solr->children($document, [$type], [$role])
-
-    Returns an arrayref of all the child records of $document. If $type is
-    supplied, only records of that type are returned. Likewise with $role.
-    Records are returned sorted according to their seq field.
-
-    Note that, if there are a lot of child records, this call can take a
-    long time to complete.
-
-=cut
 sub children
 {
     my($self, $document, $type, $role) = @_; # TODO: is $role deprecated?
@@ -460,9 +425,8 @@ sub _qexec
     }
 
     # Create the parameter string from the query parmeter q, plus any
-    # parameters that were specified in the parameter hash.
-    # It seems that URLencoding breaks Jetty's URL handling, so we don't
-    # do that.
+    # parameters that were specified in the parameter hash. We also
+    # specify the response format (by default, json).
     my @param = ("q=" . join(" AND ", @{$self->{q}}));
     # Append non-facet query parameters
     while (my($param, $value) = each(%{$self->{param}})) {
@@ -479,67 +443,48 @@ sub _qexec
         }
     }
 
-
-
-    my $request = HTTP::Request->new(GET => join("?", $self->{select_uri}, join("&", @param)));
-    my $response = $self->{agent}->request($request)->content;
-    my $xml = $self->{parser}->parse_string($response);
-
-    # TODO: check for failure here.
-    
-    # Update the query time and counts.
-    ++$self->{qcount};
-    $self->{qtime} += $xml->findvalue('/response/lst[@name="responseHeader"]/int[@name="QTime"]');
-
     $self->{result} = {};
+    my $request;
+    my $metrics;
+
+    # Make the request
+    if ($self->{wt} eq 'xml') {
+        $request = HTTP::Request->new(GET => join("?", $self->{select_uri}, join("&", @param, 'wt=json')));
+    }
+    else {
+        $request = HTTP::Request->new(GET => join("?", $self->{select_uri}, join("&", @param)));
+    }
+    my $response = $self->{agent}->request($request)->content;
+
+    # Parse the request
+    if ($self->{wt} eq 'xml') {
+        $metrics = $self->_response_xml($response);
+    }
+    else {
+        $metrics = $self->_response_json($response);
+    }
+    ++$self->{qcount};
+    $self->{qtime} += $metrics->{query_time};
     $self->{result}->{q} = uri_unescape(join("&", @param));
-
-    # The number of hits, the number of hits displayed per page, and the
-    # ordinal value (start at 1) of the first and last result on the
-    # current results page.
-    $self->{result}->{hits} = $xml->findvalue('//result[@name="response"]/@numFound');
-    $self->{result}->{hitsPerPage} = $xml->findvalue('//lst[@name="responseHeader"]//lst[@name="params"]/str[@name="rows"]');
-    $self->{result}->{hitsFrom} = $xml->findvalue('//result[@name="response"]/@start') + 1;
-
+    $self->{result}->{hits} = $metrics->{hits};
+    $self->{result}->{hitsPerPage} = $metrics->{hitsPerPage};
+    $self->{result}->{hitsFrom} = $metrics->{hitsFrom};
     $self->{result}->{hitsTo} = $self->{result}->{hitsPerPage} + $self->{result}->{hitsFrom} - 1;
     if ($self->{result}->{hitsTo} > $self->{result}->{hits}) {
         $self->{result}->{hitsTo} = $self->{result}->{hits};
     }
-
     $self->_setPageInfo($self->{result});
 
-    # Record all facet fields.
-    $self->{facet_fields} = {};
-    foreach my $field ($xml->findnodes('//lst[@name="facet_counts"]/lst[@name="facet_fields"]/lst')) {
-        my $facet_name = $self->_encode_utf8($field->getAttribute("name"));
-        $self->{facet_fields}->{$facet_name} = [];
-        foreach my $facet ($field->findnodes('int')) {
-            my $name = $self->_encode_utf8($facet->getAttribute("name"));
-            my $count = $self->_encode_utf8($facet->findvalue("."));
-            push(@{$self->{facet_fields}->{$facet_name}}, {name => $name, count => $count});
-        }
-    }
-
-    $self->{docs} = $xml->findnodes('//result[@name="response"]/doc');
-    $self->{doc_count} = @{$self->{docs}};
-
-    $self->{result}->{documents} = [];
-    for (my $i = 0; $i < $self->{doc_count}; ++$i) {
-        $self->{result}->{documents}->[$i] = $self->_document($i);
-    }
-
-
-    # Record the query metrics
-    my $query_time = $xml->findvalue('/response/lst[@name="responseHeader"]/int[@name="QTime"]') / 1000;
+    # Record execution metrics
     my $exec_time = sprintf('%5.3f', gettimeofday() - $time);
     ++$self->{status}->{query_count};
-    $self->{status}->{query_time} += $query_time;
+    $self->{status}->{query_time} += $metrics->{query_time};
     $self->{status}->{exec_time} += $exec_time;
     push(@{$self->{status}->{queries}}, {
         query => $self->{result}->{q},
-        query_time => $query_time,
+        query_time => $metrics->{query_time},
         exec_time => $exec_time,
-        hits => $xml->findvalue('//result[@name="response"]/@numFound'),
+        hits => $metrics->{hits},
         msg => $self->{status_msg},
     });
     $self->{status_msg} = "nil";
@@ -547,7 +492,86 @@ sub _qexec
     return 1;
 }
 
-# Calculate some paging informatin for the $result set.
+sub _response_xml {
+    my($self, $response) = @_;
+
+    my $xml = $self->{parser}->parse_string($response);
+
+    # Grab the facet fields
+    $self->{facet_fields} = {};
+    foreach my $field ($xml->findnodes('//lst[@name="facet_counts"]/lst[@name="facet_fields"]/lst')) {
+        my $facet_name = $field->getAttribute("name");
+        $self->{facet_fields}->{$facet_name} = [];
+        foreach my $facet ($field->findnodes('int')) {
+            my $name = $facet->getAttribute("name");
+            my $count = $facet->findvalue(".");
+            push(@{$self->{facet_fields}->{$facet_name}}, {name => $name, count => $count});
+        }
+    }
+
+    # Construct the documents array, converting the XML structure into a
+    # JSON-like one.
+    my $docs = $xml->findnodes('//result[@name="response"]/doc');
+    my $doc_count = @{$docs};
+    $self->{result}->{documents} = [];
+    for (my $i = 0; $i < $doc_count; ++$i) {
+        my $doc = {};
+
+        foreach my $field ($docs->[$i]->findnodes("child::*")) {
+            my $name = decode_utf8($field->getAttribute("name"));
+
+            if ($field->nodeName eq 'arr') {
+                $doc->{$name} = [];
+                foreach my $subfield ($field->findnodes("child::*")) {
+                    push(@{$doc->{$name}}, $subfield->findvalue("."));
+                }
+            }
+            else {
+                $doc->{$name} = $field->findvalue(".");
+            }
+        }
+        $self->{result}->{documents}->[$i] = $doc;
+    }
+
+    return {
+        query_time => $xml->findvalue('/response/lst[@name="responseHeader"]/int[@name="QTime"]') / 1000,
+        hits => $xml->findvalue('//result[@name="response"]/@numFound'),
+        hitsPerPage => $xml->findvalue('//lst[@name="responseHeader"]//lst[@name="params"]/str[@name="rows"]'),
+        hitsFrom => $xml->findvalue('//result[@name="response"]/@start') + 1,
+    };
+}
+
+sub _response_json {
+    my($self, $response) = @_;
+    
+    my $json = decode_json($response);
+
+    # Grab the facet fields
+    $self->{facet_fields} = {};
+    if ($json->{facet_counts}->{facet_fields}) {
+        my %facet_fields = %{$json->{facet_counts}->{facet_fields}};
+        foreach my $facet_name (keys(%facet_fields)) {
+            my @values = @{$facet_fields{$facet_name}};
+            while (@values) {
+                my $name = shift(@values);
+                my $count = shift(@values);
+                push(@{$self->{facet_fields}->{$facet_name}}, {name => $name, count => $count});
+            }
+        }
+    }
+
+    # The documents array is already in the format we need.
+    $self->{result}->{documents} = $json->{response}->{docs};
+
+    return {
+        query_time => $json->{responseHeader}->{QTime} / 1000,
+        hits => $json->{response}->{numFound},
+        hitsPerPage => $json->{responseHeader}->{params}->{rows},
+        hitsFrom => $json->{response}->{start} + 1,
+    }
+}
+
+# Calculate some paging information for the $result set.
 sub _setPageInfo
 {
     my($self, $result) = @_;
@@ -591,30 +615,6 @@ sub _setPageInfo
     }
 }
 
-# Get the document from $self->{result} at index $pos and return the
-# corresponding Perl data structure.
-sub _document
-{
-    my($self, $pos) = @_;
-    my $doc = {};
-
-    foreach my $field ($self->{docs}->[$pos]->findnodes("child::*")) {
-        my $name = decode_utf8($field->getAttribute("name"));
-
-        if ($field->nodeName eq 'arr') {
-            $doc->{$name} = [];
-            foreach my $subfield ($field->findnodes("child::*")) {
-                push(@{$doc->{$name}}, $self->_encode_utf8($subfield->findvalue(".")));
-            }
-        }
-        else {
-            $doc->{$name} = $self->_encode_utf8($field->findvalue("."));
-        }
-    }
-
-    return $doc;
-}
-
 # Escape Lucene characters.
 sub _escape
 {
@@ -654,13 +654,6 @@ sub _int
     $param = int($param);
     $param = $min unless ($param > $min);
     return $param;
-}
-
-sub _encode_utf8
-{
-    my($self, $string) = @_;
-    return encode_utf8($string) if ($self->{utf8_encode});
-    return $string;
 }
 
 1;
