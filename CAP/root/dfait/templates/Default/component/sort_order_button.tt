@@ -7,13 +7,13 @@
         
       </span>
       <div dojoType="dijit.Menu">
-        <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" })) | xml_escape %]'" label="[% c.loc("score") | xml_escape %]">
+        <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "score" })) | xml_escape %]'" label="[% c.loc("score") | xml_escape %]">
           
         </div>
-        <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc"})) | xml_escape %]'" label="[% c.loc("newest") | xml_escape %]">
+        <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "newest"})) | xml_escape %]'" label="[% c.loc("newest") | xml_escape %]">
           
         </div>
-        <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc"}))  | xml_escape %]'" label="[% c.loc("oldest") | xml_escape %]">
+        <div dojoType="dijit.MenuItem" onClick="location='[% c.uri_for(root, 'search', refine(c.req.params, { so => "oldest"}))  | xml_escape %]'" label="[% c.loc("oldest") | xml_escape %]">
           
         </div>
       </div>
@@ -33,11 +33,11 @@
             [% END %]
           [% END %]
           <select name="so">
-            <option name="so" value="score desc">[% c.loc("relevance") | xml_escape %]</option>
-            <option name="so" value="pubmax desc">[% c.loc("newest") | xml_escape %]</option>
-            <option name="so" value="pubmin asc">[% c.loc("oldest") | xml_escape %]</option>
+            <option name="so" value="score">[% c.loc("relevance") | xml_escape %]</option>
+            <option name="so" value="newest">[% c.loc("newest") | xml_escape %]</option>
+            <option name="so" value="oldest">[% c.loc("oldest") | xml_escape %]</option>
           [% IF c.req.params.pkey %]
-            <option name="so" value="pkey asc">[% c.loc("") | xml_escape %]</option>
+            <option name="so" value="sequence">[% c.loc("sequence") | xml_escape %]</option>
           [% END%]
           </select>
           <button type="submit">

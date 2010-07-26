@@ -1,6 +1,7 @@
 package CAP::Controller::Search;
 
 use strict;
+use feature qw(switch);
 use warnings;
 use parent 'Catalyst::Controller';
 
@@ -114,9 +115,12 @@ sub prepare_search : Private
         $c->stash->{query}->{_pubmax} = "[$pubmin-01-01T00:00:00Z TO *]";
         $c->stash->{query}->{_pubmin} = "[* TO $pubmax-12-31T23:59:59Z]";
     }
+    
+    # Add sort order request
+    $self->add_sort_order($c);
 
     # Solr parameters other than q
-    $self->add_param($c, 'sort', 'so');
+    # $self->add_param($c, 'sort', 'so');
 
     # Add faceting (FIXME: TESTING)
     $facet->{facet} = 'true';
@@ -203,6 +207,28 @@ sub add_param
     if ($c->request->params->{$request_param} && $c->request->params->{$request_param} ne '-') {
         $c->stash->{param}->{$solr_param} = $c->request->params->{$request_param};
     }
+}
+
+sub add_sort_order {
+    
+    my ($self, $c)  = @_;
+    
+    # map query string parameters onto solr parameters and add to solr request object
+    given ($c->request->params->{'so'}) {
+
+        when ('pubmin asc')        {$c->stash->{param}->{'sort'} = 'pubmin asc'}       # legacy
+        when ('pubmax desc')       {$c->stash->{param}->{'sort'} = 'pubmax desc'}      # legacy
+        when ('score desc')        {$c->stash->{param}->{'sort'} = 'score desc'}       # legacy
+        when ('pkey asc,seq asc')  {$c->stash->{param}->{'sort'} = 'pkey asc,seq asc'} # legacy
+        when ('score')             {$c->stash->{param}->{'sort'} = 'score desc'}
+        when ('oldest')            {$c->stash->{param}->{'sort'} = 'pubmin asc'}
+        when ('newest')            {$c->stash->{param}->{'sort'} = 'pubmax desc'}
+        when ('seq')               {$c->stash->{param}->{'sort'} = 'pkey asc,seq asc'}
+        default                    {$c->stash->{param}->{'sort'} = 'score desc'}
+
+    }
+    
+    return 1;
 }
 
 

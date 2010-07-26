@@ -1,7 +1,18 @@
 [% # Toolbar component, mostly for integrating JavaScript code %]
 
      
-    <div id="refine_toolbar" style="padding-left:21px;"></div>
+    <div id="refine_toolbar_container">
+        <div id="refine_toolbar" style="padding-left:21px;"></div>
+    </div>
+    <div id="newsearch_toolbar_container">
+        <div id="newsearch_toolbar" style="padding-left:21px;">
+            <div id="newsearch_form">
+                <div id="newsearch_separator"></div>
+                <div id="newsearch_input" style="float:right;"></div>
+                <div id="newsearch_submit"></div>
+            </div>
+        </div>
+    </div>
 
     
     
@@ -45,10 +56,10 @@
 
         // Sort button parameters
         var sortmenuValues = new Array(
-            new Array('[% c.loc("relevance") %]',  '[% c.uri_for(root, 'search', refine(c.req.params, { so => "score desc" }))  %]'),
-            new Array('[% c.loc("newest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmax desc" }))  %]'),
-            new Array('[% c.loc("oldest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pubmin asc" }))  %]'),
-            new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "pkey asc,seq asc" }))  %]')
+            new Array('[% c.loc("relevance") %]',  '[% c.uri_for(root, 'search', refine(c.req.params, { so => "score" }))  %]'),
+            new Array('[% c.loc("newest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "newest" }))  %]'),
+            new Array('[% c.loc("oldest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "oldest" }))  %]'),
+            new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "seq" }))  %]')
         );
         var sortbuttonvalues =  new Array('[% c.loc("Sort Order") %]','sort_order','sort_order_button');
 
@@ -125,11 +136,16 @@
                                          '<br/>&#160;&#160;&#160;&#160;',
                                          '[% c.loc("to") %]:<br/>',
                                          to_args.join(" "),
-					 '<br/><br/>',
+                                         '<br/><br/>',
                                          '<button dojoType="dijit.form.Button" type="submit"> [% c.loc("Search") | xml_escape %] </button>',
                                          '</form>');
 
         var datebox_content = datebox_elements.join("");
+        
+        //New search button parameters
+        var form_action = "[% c.uri_for(root,'search') | xml_escape %]";
+        var qvalue = "[% c.session.search.params.q | xml_escape %]";
+        var searchbutton_label =   '[% c.loc("New Search") %]';
 
 [% #End of TT/JavaScript munging %]
 
@@ -211,7 +227,40 @@
             datebutton = CreateButton(searchbox,datebuttonvalues);
             toolbar.addChild(datebutton);
 
+            // var vertical_bar = new dijit.ToolbarSeparator();
+            // toolbar.addChild(vertical_bar);
+            
+
+           var newsearchbar = new dijit.Toolbar({
+                        label: "stuff",                            
+                       },"newsearch_toolbar");
+
+            var vertical_bar = new dijit.ToolbarSeparator({},"newsearch_separator");
+
+            var searchform = new dijit.form.Form({
+                  method: "GET",
+                  action: form_action,
+                  encType:"multipart/form-data"
+                  },"newsearch_form");
+                 
+
+            var searchinput = new dijit.form.TextBox({
+                 type:"text",
+                 name:"q",
+                 value: qvalue,
+                 required:"true"
+                 },"newsearch_input");
+
+
+            var searchsubmit = new dijit.form.Button({
+                type: "submit",
+                name: "Submit",
+                label: searchbutton_label,
+                value: "Submit"
+            },"newsearch_submit");
+
         });
+
     </script>
  
 

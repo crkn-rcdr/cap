@@ -2,6 +2,7 @@
 
 //First load the necessary Dojo modules
 dojo.require("dijit.Toolbar");
+dojo.require("dijit.form.Form");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.TooltipDialog");
 dojo.require("dijit.Menu");

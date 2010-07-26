@@ -505,8 +505,8 @@ div.user {
 #bibrecord td { padding-top: 0.5em; }
 #bibrecord td.label {
     vertical-align: top;
-    border-right: 1px solid #888;
-    background: #d8d0d0;
+    border-right: 0px solid #888;
+    background: #e8e2da;
 }
 #bibrecord td div {
     margin-bottom: 0.5em;
@@ -775,3 +775,40 @@ dd {
     color: #5c574d;    
 }
 
+#refine_toolbar_container {
+    width: 60%;
+    border: 0px solid #ff0000;
+
+}
+
+#newsearch_toolbar_container {
+    top: 0px; 
+    width: 40%;
+    border: 0px solid #0000ff;
+    float: right;
+    margin-top: -22px;
+}
+
+#newsearch_toolbar {
+    padding-right: 20px;
+    text-align: right;
+
+}
+
+#newsearch_separator {
+    margin-right: 50px;
+}
+
+#newsearch_input {
+    margin-right: 5px;
+    width: 260px;
+    color: #444444;
+    border: 1px solid #aaaaaa;
+}
+
+#newsearch_submit {
+    margin-right: 5px;
+    width: 100px;
+    color: #000000;
+    border: 0px solid #aaaaaa;
+}
