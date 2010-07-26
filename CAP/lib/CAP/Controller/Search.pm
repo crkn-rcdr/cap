@@ -144,8 +144,8 @@ sub run_search : Private
     $c->stash->{response}->{result} = {
         page => $result->{page},
         pages => $result->{pages},
-        page_prev => $result->{page_prev},
-        page_next => $result->{page_next},
+        prev_page => $result->{prev_page},
+        next_page => $result->{next_page},
         hits => $result->{hits},
         hits_from => $result->{hitsFrom},
         hits_to => $result->{hitsTo},
