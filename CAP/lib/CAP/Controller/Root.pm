@@ -73,6 +73,12 @@ sub auto :Private
 {
     my($self, $c) = @_;
 
+    $c->stash('response' => {
+        request => "" . $c->req->{uri}, # need to stringify this
+        status => 200,
+        version => '1.0',
+    });
+
     # Clean up any expired sessions
     my $expired = $c->model('DB::Sessions')->remove_expired();
     warn("[debug] Cleaned up $expired expired sessions") if ($expired);
@@ -496,6 +502,7 @@ sub error : Private
 {
     my($self, $c, $error, $error_message) = @_;
     $error_message = "" unless ($error_message);
+    $c->stash->{response}->{status} = $error;
     $c->stash->{error} = $error_message;
     $c->stash->{status} = $error;
     $c->stash->{template} = "error.tt";

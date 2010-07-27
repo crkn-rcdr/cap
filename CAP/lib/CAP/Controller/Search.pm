@@ -10,7 +10,7 @@ sub search : Chained('/base') PathPart('search') Args()
     my($self, $c, $start) = @_;
     $start = 1 unless ($start);
 
-    $c->stash( response => { type => 'set' } );
+    $c->stash->{response}->{type} = 'set';
 
     my $type = 'pages';
     my %types = (

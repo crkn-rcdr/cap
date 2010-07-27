@@ -1,37 +1,8 @@
 [%
+  # Output the request, response, and response version as JSON
   USE JSON(pretty => 1);
+  IF ! c.config.debug;
+    response.delete('solr');
+  END;
+  response.json;
 %] 
-[% VIEW unpack %]
-  
-  [% BLOCK text %]
-    "[% data %]"
-  [% END %]
-
-  [% BLOCK hash %]
-    {
-      [% FOR node IN data.keys %]
-        "[% node %]" : [% PROCESS jsonify, data = data.$node %],
-      [% END %]
-    }
-  [% END %]
-
-  [% BLOCK list %]
-    [
-      [% FOR node IN data %]
-        [% PROCESS jsonify, data = node %]
-      [% END %]
-    ]
-  [% END %]
-
-[% END %]
-
-[% BLOCK jsonify %]
-  [% unpack.print(data) %]
-[% END %]
-
-{
-  "requestUri" : "[% c.req.uri %]",
-  [% FOR node IN response.keys %]
-      "[% node %]" : [% PROCESS jsonify, data = response.$node %],
-  [% END %]
-}

@@ -1,55 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 [%
-  # Wrapper for default XML interface template.
+  # Output the request, response, and response version as XML
+  IF ! c.config.debug;
+    response.delete('solr');
+  END;
 %]
 [% VIEW unpack %]
 
-  [% BLOCK text %]
-    [%
-      IF name;
-        ename = name;
-      ELSE;
-        ename = "item";
-      END;
-    %]
-    <[% ename %]>[% data | xml_escape %]</[% ename %]>
-  [% END %]
+  [%- BLOCK text -%]
+    [%- data | xml_escape -%]
+  [%- END -%]
 
-  [% BLOCK hash %]
-    [% IF name %]
-      [% ename = name %]
-    <[% ename %]>
-      [% FOR node IN item.keys %]
-        [% PROCESS xmlify, name = node, data = item.$node %]
-      [% END %]
-    </[% ename %]>
-    [% ELSE %]
-      <item>
-      [% FOR node IN item.keys %]
-        [% PROCESS xmlify, name = node, data = item.$node %]
-      [% END %]
-      </item>
+  [%- BLOCK hash -%]
+    [% FOR element IN item.keys %]
+      <[% element %]>[% PROCESS xmlify, data = item.$element %]</[% element %]>
     [% END %]
-  [% END %]
+  [%- END -%]
 
-  [% BLOCK list %]
-    <list name="[% name %]">
-    [% FOR node IN item %]
-      [% PROCESS xmlify, name = "", data = node %]
+  [%- BLOCK list -%]
+    [% FOR element IN item %]
+      <ITM>[% PROCESS xmlify, data = element %]</ITM>
     [% END %]
-    </list>
-  [% END %]
+  [%- END -%]
 
 [% END %]
 
-[% BLOCK xmlify %]
-  [% unpack.print(data) %]
-[% END %]
-<response version="1.0">
-  <requestUri>[% c.req.uri | xml_escape %]</requestUri>
-  [%
-    FOR node IN response.keys;
-      PROCESS xmlify, name = node, data = response.$node;
-    END;
-  %]
+[%- BLOCK xmlify -%]
+  [%- unpack.print(data) -%]
+[%- END -%]
+<response>
+  [% FOR element IN response.keys %]
+    <[% element %]>[% PROCESS xmlify, data = response.$element %]</[% element %]>
+  [% END %]
 </response>

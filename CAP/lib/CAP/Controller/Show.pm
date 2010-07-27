@@ -81,8 +81,8 @@ sub index : Chained('/base') PathPart('show') Args()
     ################### Retrieve the item:
     
 
+    $c->stash->{response}->{type} = 'item';
     $c->stash(
-        response => { type => 'item' },
         facet => $solr->{facet_fields},
         title => $doc->{label},
         template => "view.tt",

@@ -56,7 +56,7 @@ sub build_item :Private
     # sub-record, find the first main record ancestor. Only if no such
     # record exists do we use the document record.
     my $main_record = $doc->{key};
-    if ($doc->{type} !~ /^(monograph)|(issue)|(serial)|(collection)$/) {
+    if ($doc->{type} !~ /^(monograph)|(issue)|(serial)|(collection)$/) { # FIXME: shouldn't issue be removed here and below? need to check.
         foreach my $ancestor (@{$ancestors}) {
             if ($ancestor->{type} =~ /^(monograph)|(issue)|(serial)|(collection)$/) {
                 $main_record = $ancestor->{key};
