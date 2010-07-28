@@ -11,6 +11,7 @@ __PACKAGE__->config(
     FILTERS => {
         escape_js => sub { $_[0] =~ s/["\\]/\\$1/g; return $_[0]; },
     },
+    EVAL_PERL => 1,
     VARIABLES => {
         megabytes => sub {
             return sprintf("%3.1f", $_[0] / 1048576);

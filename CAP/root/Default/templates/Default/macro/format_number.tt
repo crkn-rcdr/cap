@@ -1,0 +1,37 @@
+﻿[%
+  # Format large integers so that they are more human-readable.
+%]
+
+[% PERL %]
+    use feature qw(switch);
+    use Number::Format qw(:subs :vars);
+
+    my $num = [% number %];
+    my $lang = "[% iface %]";
+
+    #format only if it's a valid decimal number
+    if ($num =~ /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/) {  
+        print format_integer($num,$lang);
+    }
+
+    else {
+        print $num;
+    }
+
+    sub format_integer {
+
+        my ($number, $language) = @_;
+        my %delimiters;
+
+        given ($language) {
+            when ('en') { %delimiters = ( -thousands_sep  => ',', -decimal_point  => '.' ) }
+            when ('fr') { %delimiters = ( -thousands_sep  => ' ', -decimal_point  => ',' ) }
+            default     { %delimiters = ( -thousands_sep  => ',', -decimal_point  => '.' ) }
+        }
+
+        my $format = new Number::Format(%delimiters);
+        return($format->format_number($number))
+
+}
+[% END %]
+

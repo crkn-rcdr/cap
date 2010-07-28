@@ -9,6 +9,7 @@
   MACRO media(code) INCLUDE macro/media.tt;
   MACRO language(lang) INCLUDE macro/language.tt;
   MACRO sort_order(code) INCLUDE macro/sort_order.tt;
+  MACRO format_number(number) INCLUDE macro/format_number.tt;
   SET keywords = c.req.params.q;
   SET p = c.req.params.pkey;
   SET s = c.req.params.so;
@@ -29,10 +30,10 @@
           <p>[% c.loc("[_1] results for", result.hits) | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em></p>
         [% ELSE -%]
           <p>[% c.loc("Results") | xml_escape %]
-          <em class="filter">[% result.hitsFrom %] -
-          [% result.hitsTo | xml_escape %]</em>
+          <em class="filter">[% format_number(result.hitsFrom) %] -
+          [% format_number(result.hitsTo) | xml_escape %]</em>
           [% c.loc('of') | xml_escape %]
-          <em class="filter">[% result.hits  | xml_escape %]</em>
+          <em class="filter">[% format_number(result.hits)  | xml_escape %]</em>
           [% c.loc('for') | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em>.
 
           [% IF c.req.params.so %]
