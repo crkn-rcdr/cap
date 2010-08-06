@@ -5,8 +5,8 @@
     response.delete('solr');
   END;
 %]
-[% VIEW unpack %]
 
+[% VIEW unpack %]
   [%- BLOCK text -%]
     [%- data | xml_escape -%]
   [%- END -%]
@@ -22,14 +22,12 @@
       <ITM>[% PROCESS xmlify, data = element %]</ITM>
     [% END %]
   [%- END -%]
-
 [% END %]
 
 [%- BLOCK xmlify -%]
   [%- unpack.print(data) -%]
 [%- END -%]
+
 <response>
-  [% FOR element IN response.keys %]
-    <[% element %]>[% PROCESS xmlify, data = response.$element %]</[% element %]>
-  [% END %]
+  [% PROCESS xmlify, data = response %]
 </response>

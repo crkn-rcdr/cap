@@ -79,6 +79,7 @@ __PACKAGE__->config->{solr}->{defaults} = {
     version => '2.2',
     rows => '10',
     start => 0,
+    'sort' => 'score desc',
     wt => 'json',
 };
 

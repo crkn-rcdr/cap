@@ -28,7 +28,7 @@ debug_auth 1
 
 default_portal co
 
-version 0.4
+version 0.6
 
 # These path names must be relative to the application 'root'.
 
@@ -39,11 +39,9 @@ repository /opt/cap-repos
 uploads ../../../data/uploads
 
 # Path to the content repository (TIFF images, PDFs, etc.)
-#content /Users/william/co/content
 content /Users/william/Projects/portal/content
 
 # Where we can find the application profiles
-#profiles /Users/william/co/cap/tools/profiles
 profiles /Users/william/Projects/svn/cap-trunk/tools/profiles
 
 # Number of issues or other child elements to display at a time.
@@ -72,9 +70,25 @@ netpbm_path /opt/local/bin
   select_uri http://localhost:8983/solr/select
   update_uri http://localhost:8983/solr/update
 
-  # Comment this out or set to 0 if you're getting double-encoding
-  # problems from the Web server (e.g. fastcgi) - should be deprecated
-  utf8_encode 0
+  # Fields to return for various search types
+  <fl>
+    ancestors key
+    ancestors type
+    ancestors label
+    ancestors pkey
+    ancestors gkey
+
+    search key
+    search type
+    search contributor
+    search label
+    search pkey
+    search gkey
+    search seq
+    search lang
+    search media
+    search canonicalUri
+  </fl>
 
   <fields>
     tx tx # global text field
@@ -101,14 +115,6 @@ netpbm_path /opt/local/bin
   </fields>
 
 </solr>
-
-# Configurable template options - these are soon to be deprecated
-<Display>
-  thumbsize 50 # default thumbnail size
-  # Default width for page images
-  imgsize 500
-</Display>
-
 
 # Controls whether an action can be accessed at all, whether it is public,
 # and if not, what role(s) are allowed to access the action.
@@ -166,57 +172,6 @@ netpbm_path /opt/local/bin
 <action "/test_error">
   enabled true
   public true
-</action>
-
-
-<action "/content/cleanup">
-  enabled false
-  public false
-</action>
-
-<action "/content/commit">
-  enabled false
-  public false
-</action>
-
-<action "/content/ingest">
-  enabled false
-  public false
-</action>
-
-<action "/content/upload">
-  enabled false
-  public false
-</action>
-
-<action "/system/index">
-  enabled false
-  public false
-</action>
-
-<action "/system/i18n">
-  enabled false
-  public false
-</action>
-
-<action "/user/index">
-  enabled false
-  public false
-</action>
-
-<action "/user/create">
-  enabled false
-  public false
-</action>
-
-<action "/user/edit">
-  enabled false
-  public false
-</action>
-
-<action "/user/roles">
-  enabled false
-  public false
 </action>
 
 # List of valid contributor namespaces with the name of the contributor.

@@ -12,9 +12,10 @@ sub search : Chained('/base') PathPart('search') Args()
 
     $c->stash->{response}->{type} = 'set';
 
-    my $type = 'pages';
+    # By default, we search everything. If a type parameter is specified,
+    # limit to records of a specific type.
+    my $type = 'all';
     my %types = (
-        'all' => 'page OR monograph OR serial OR issue OR collection',
         'pages' => 'page',
         'titles' => 'monograph OR serial',
     );
@@ -23,11 +24,11 @@ sub search : Chained('/base') PathPart('search') Args()
         $c->forward('prepare_search', [$types{$c->req->params->{t}}]);
     }
     else {
-        $c->forward('prepare_search', [$types{all}]);
+        $c->forward('prepare_search', []);
     }
 
     if ($c->request->params->{gr}) {
-        $c->forward('run_grouped_search', [$start]);
+        $c->forward('run_search', [$start, 1]);
     }
     else {
         $c->forward('run_search', [$start]);
@@ -45,8 +46,6 @@ sub search : Chained('/base') PathPart('search') Args()
             type => $type,
             grouped => $c->req->params->{gr},
         },
-        #search_type => $type, # DEPRECATED
-        #search_grouped => $c->request->params->{gr}, # DEPRECATED
         template => "search.tt",
     );
     return 1;
@@ -119,27 +118,34 @@ sub prepare_search : Private
     # Add sort order request
     $self->add_sort_order($c);
 
-    # Solr parameters other than q
-    # $self->add_param($c, 'sort', 'so');
-
-    # Add faceting (FIXME: TESTING)
+    # Add faceting
     $facet->{facet} = 'true';
     $facet->{'facet.field'} = ['lang', 'media', 'contributor'];
 
-
-    $query->{_type} = $type;
+    # Limit results by type, if requested.
+    $query->{_type} = $type if ($type);
 
     return 1;
 }
 
 sub run_search : Private
 {
-    my($self, $c, $start) = @_;
+    my($self, $c, $start, $grouped) = @_;
     my $solr = CAP::Solr->new($c->config->{solr});
-    $solr->status_msg('Search::run_search main query');
-    #$c->stash->{result} = $solr->query($start, $c->stash->{query}, $c->stash->{param}, $c->stash->{facet});
-    my $result = $solr->query($start, $c->stash->{query}, $c->stash->{param}, $c->stash->{facet});
-    $c->stash->{result} = $result; # DEPRECATED
+
+    my $result;
+    if ($grouped) {
+        $result = $solr->search_grouped($c->stash->{query}, { page => $start });
+    }
+    else {
+        $result = $solr->search($c->stash->{query}, {
+            facets   => [ 'contributor', 'lang', 'media' ],
+            page     => $start,
+            'sort'   => $c->req->params->{so} || '',
+        });
+    }
+
+    #$c->stash->{result} = $result; # DEPRECATED (FIXME)
 
     $c->stash->{response}->{result} = {
         page => $result->{page},
@@ -156,35 +162,19 @@ sub run_search : Private
     # Create and store the result set.
     my $set = [];
     foreach my $doc (@{$result->{documents}}) {
-        push(@{$set}, $c->forward('/common/build_item', [$solr, $doc])); 
+        push(@{$set}, $c->forward('/common/build_item', [$solr, $doc, 1])); 
     }
     $c->stash->{response}->{set} = $set;
 
-    # If a non-empty set is returned, find the first and last publication
-    # dates.
+    # If a non-empty set is returned, find the first and last publication dates.
     if (@{$set} > 0) {
-        my $doc;
-        $c->stash->{param}->{'sort'} = 'pubmin asc';
-        $solr->status_msg('Search::run_search: oldest pubdate in set');
-        $doc = $solr->query_first($c->stash->{query}, $c->stash->{param});
-        $c->stash->{response}->{result}->{pubmin} = $doc->{pubmin};
-        $c->stash->{response}->{result}->{pubmin_year} = substr($doc->{pubmin}, 0, 4);
-        $c->stash->{param}->{'sort'} = 'pubmax desc';
-        $solr->status_msg('Search::run_search: newest pubdate in set');
-        $doc = $solr->query_first($c->stash->{query}, $c->stash->{param});
-        $c->stash->{response}->{result}->{pubmax} = $doc->{pubmax};
-        $c->stash->{response}->{result}->{pubmax_year} = substr($doc->{pubmax}, 0, 4);
+        $c->stash->{response}->{result}->{pubmin} = $solr->limit($c->stash->{query}, 'pubmin', 0);
+        $c->stash->{response}->{result}->{pubmin_year} = substr($c->stash->{response}->{result}->{pubmin}, 0, 4);
+        $c->stash->{response}->{result}->{pubmax} = $solr->limit($c->stash->{query}, 'pubmax', 1);
+        $c->stash->{response}->{result}->{pubmax_year} = substr($c->stash->{response}->{result}->{pubmax}, 0, 4);
     }
 
     $c->stash->{response}->{solr} = $solr->status();
-    return 1;
-}
-
-sub run_grouped_search : Private
-{
-    my($self, $c, $start) = @_;
-    my $solr = CAP::Solr->new($c->config->{solr});
-    $c->stash->{result} = $solr->query_grouped($start, $c->stash->{query}, $c->stash->{param});
     return 1;
 }
 
@@ -199,6 +189,7 @@ sub add_query
     }
 }
 
+# TODO: this looks to be deprecated.
 sub add_param
 {
     my($self, $c, $solr_param, $request_param) = @_;

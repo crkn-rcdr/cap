@@ -5,52 +5,45 @@ use CAP::Ingest;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-# Build the item structure for $doc.
+# Build the item structure for $doc. If $set is true, several unecessary
+# values are left undefined in order to boost performance.
 sub build_item :Private
 {
-    my($self, $c, $solr, $doc) = @_;
+    my($self, $c, $solr, $doc, $set) = @_;
 
     my $info = {};
-    $solr->status_msg("Common::build_item: ancestors for $doc->{key}");
     my $ancestors = $solr->ancestors($doc);
 
     # Count the number of records of various types that have this record
     # as a parent or group.
     my $counts = {};
-    $solr->status_msg("Common:build_item: count pages with pkey $doc->{key}");
-    $counts->{pages} = $solr->count({ type => 'page', pkey => $doc->{key}});
+    
     if ($doc->{type} ne 'page') {
-        $solr->status_msg("Common:build_item: count pages with gkey $doc->{key}");
-        $counts->{gpages} = $solr->count({ type => 'page', gkey => $doc->{key}});
-        $solr->status_msg("Common:build_item: count documents with pkey $doc->{key}");
-        $counts->{docs} = $solr->count({ _type => 'collection OR monograph OR serial', pkey => $doc->{key}});
-        $solr->status_msg("Common:build_item: count documents with gkey $doc->{key}");
-        $counts->{gdocs} = $solr->count({ _type => 'collection OR monograph OR serial', gkey => $doc->{key}});
+        $counts->{pages} = $solr->count({ type => 'page', pkey => $doc->{key}}, "pages belonging to parent $doc->{key}");
+        $counts->{gpages} = $solr->count({ type => 'page', gkey => $doc->{key}}, "pages belonging to group $doc->{key}");
+        $counts->{docs} = $solr->count({ _type => 'collection OR monograph OR serial', pkey => $doc->{key} }, "titles belonging to parent $doc->{key}");
+        $counts->{gdocs} = $solr->count({ _type => 'collection OR monograph OR serial', gkey => $doc->{key} }, "titles belonging to group $doc->{key}");
     }
     if ($doc->{type} eq 'serial') {
-        $solr->status_msg("Common:build_item: count issues with pkey => $doc->{key}");
-        $counts->{issues} = $solr->count({ type => 'issue', pkey => $doc->{key}});
+        $counts->{issues} = $solr->count({ type => 'issue', pkey => $doc->{key}}, "issues belonging to parent $doc->{key}");
     }
     if ($doc->{pkey}) {
-        $solr->status_msg("Common:build_item: count number of siblings: pkey => $doc->{pkey}, type => $doc->{type}");
-        $counts->{siblings} = $solr->count({type => $doc->{type}, pkey => $doc->{pkey}});
+        $counts->{siblings} = $solr->count({type => $doc->{type}, pkey => $doc->{pkey}}, "siblings of $doc->{key} ($doc->{type})");
     }
     else {
         $counts->{siblings} = 0;
     }
 
     my $position = 0;
-    if ($doc->{seq}) {
-        $solr->status_msg("Common:build_item: locate position of $doc->{key} among siblings");
-        $position = $solr->query(0,
-            { pkey => $doc->{pkey}, type => $doc->{type}, _seq => "[* TO $doc->{seq}]"},
-            { rows => 0, sort=> "seq asc" }
-        )->{hits};
+    if ($doc->{seq} && ! $set) {
+        $position = $solr->position($doc);
     }
-    $solr->status_msg("Common:build_item: find previous sibling for $doc->{key}");
-    my $prev = $solr->prev_doc($doc);
-    $solr->status_msg("Common:build_item: find next sibling for $doc->{key}");
-    my $next = $solr->next_doc($doc);
+    my $prev = undef;
+    my $next = undef;
+    if (! $set) {
+        $prev = $solr->prev_doc($doc);
+        $next = $solr->next_doc($doc);
+    }
     
     # Pages and issues are considered to be sub-records. If $doc is a
     # sub-record, find the first main record ancestor. Only if no such

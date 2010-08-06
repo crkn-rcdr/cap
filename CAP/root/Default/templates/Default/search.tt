@@ -20,17 +20,12 @@
 <div id="content">
 [%
   INCLUDE component/search_parameters.tt;
-%]
-
-
     
-  [%
-    # Search results list
-    INCLUDE component/rlist.tt;
+  # Search results list
+  INCLUDE component/rlist.tt;
 
   # Search results page menu
   INCLUDE component/pager.tt;
-
 %]
 
 </div>

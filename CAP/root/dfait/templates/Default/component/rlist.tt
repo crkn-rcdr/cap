@@ -71,7 +71,7 @@
         </p>
         [% IF search_grouped; query.gr = undef; END %]
         [% IF c.req.params.q %]
-        <p><a href="[% c.uri_for(root, 'search', query) | xml_escape %]">[% c.loc("Search document for pages containing: [_1]", c.req.params.q) | xml_escape %]</a></p>
+        <p><a href="[% c.uri_for(root, 'search', refine(query, { gr => 0 })) | xml_escape %]">[% c.loc("Search document for pages containing: [_1]", c.req.params.q) | xml_escape %]</a></p>
         [% END %]
         [% IF search_grouped; query.gr = "on"; END %]
       [% END %]
@@ -84,7 +84,7 @@
      # Warning: this is deprecated; we need to update search.tt so that
      #the grouped search returns the correct response.set
     %]
-    [% FOREACH doc IN result.documents %]
+    [% FOREACH doc IN response.result.documents %]
       <tr>
         <td></td>
         <td>
