@@ -13,36 +13,36 @@
   # Calculate the previous and next page links to generate
   showPrevPages = 10;
   showNextPages = 9;
-  IF result.page - showPrevPages < 1;
+  IF response.result.page - showPrevPages < 1;
     prevPage = 1;
   ELSE;
-    prevPage = result.page - showPrevPages;
+    prevPage = response.result.page - showPrevPages;
   END;
-  IF result.page + showNextPages > result.pages;
-    lastPage = result.pages;
+  IF response.result.page + showNextPages > response.result.pages;
+    lastPage = response.result.pages;
   ELSE;
-    lastPage = result.page + showNextPages;
+    lastPage = response.result.page + showNextPages;
   END;
 %]
 
 
-[% IF result.pages %]
+[% IF response.result.pages %]
   <div id="rp">
     [% c.loc("Results page") %]
-    [% IF result.pagePrev %]
-      <a href="[% c.uri_for(root, 'search', result.pagePrev, c.request.params) %]">
+    [% IF response.result.prev_page %]
+      <a href="[% c.uri_for(root, 'search', response.result.prev_page, c.request.params) %]">
         <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'prev.png') %]" alt="&lt;="/>
       </a>
     [% END %]
-    [% i = prevPage; WHILE i < result.page %]
+    [% i = prevPage; WHILE i < response.result.page %]
       <span><a href="[%c.uri_for(root, 'search', i, c.request.params) %]">[% i %]</a></span>
     [% i = i + 1; END %]
-    <span class="active">[% result.page | xml_escape %]</span>
-    [%- i = result.page + 1; WHILE i <= lastPage -%]
+    <span class="active">[% response.result.page | xml_escape %]</span>
+    [%- i = response.result.page + 1; WHILE i <= lastPage -%]
       <span><a href="[%c.uri_for(root, 'search', i, c.request.params) | xml_escape %]">[% i | xml_escape %]</a></span>
     [%- i = i + 1; END -%]
-    [% IF result.pageNext %]
-    <a href="[% c.uri_for(root, 'search', result.pageNext, c.request.params) | xml_escape %]">
+    [% IF response.result.next_page %]
+    <a href="[% c.uri_for(root, 'search', response.result.next_page, c.request.params) | xml_escape %]">
       <img class="widget" src="[% c.uri_for(root, 'static', 'widgets', 'next.png') %]" alt="=&gt;"/>
     </a>
     [% END %]

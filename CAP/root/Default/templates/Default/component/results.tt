@@ -9,14 +9,14 @@
 
       <div id="rs">
       
-        [% IF ! result.hits || result.page > result.pages %]
+        [% IF ! response.result.hits || response.result.page > response.result.pages %]
           <h2>[% c.loc("No results for") | xml_escape %] <em>[% c.req.params.q | xml_escape %]</em></h2>
-        [% ELSIF result.hits == 1 %]
+        [% ELSIF response.result.hits == 1 %]
           <h2>[% c.loc("1 result for") | xml_escape %] <em>[% c.req.params.q | xml_escape %]</em></h2>
-        [% ELSIF result.hitsFrom == 1 && result.hitsTo == result.hits %]
-          <h2>[% c.loc("[_1] results for", result.hits) | xml_escape %] <em>[% c.req.params.q | xml_escape %]</em></h2>
+        [% ELSIF response.result.hitsFrom == 1 && response.result.hits_to == response.result.hits %]
+          <h2>[% c.loc("[_1] results for", response.result.hits) | xml_escape %] <em>[% c.req.params.q | xml_escape %]</em></h2>
         [% ELSE -%]
-          <h2>[% c.loc("Results [_1] - [_2] of [_3] for", result.hitsFrom, result.hitsTo, result.hits) | xml_escape %] <em>[% c.req.params.q | xml_escape %]</em></h2>
+          <h2>[% c.loc("Results [_1] - [_2] of [_3] for", response.result.hits_from, response.result.hits_to, response.result.hits) | xml_escape %] <em>[% c.req.params.q | xml_escape %]</em></h2>
         [% END %]
       
       </div>
