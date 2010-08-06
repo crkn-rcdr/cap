@@ -22,18 +22,18 @@
 
       <div class="sp">
 
-        [% IF ! result.hits || result.page > result.pages %]
+        [% IF ! response.result.hits || response.result.page > response.result.pages %]
           <p>[% c.loc("No results for") | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em></p>
-        [% ELSIF result.hits == 1 %]
+        [% ELSIF response.result.hits == 1 %]
           <p>[% c.loc("1 result for") | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em></p>
-        [% ELSIF result.hitsFrom == 1 && result.hitsTo == result.hits %]
-          <p>[% c.loc("[_1] results for", result.hits) | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em></p>
+        [% ELSIF response.result.hits_from == 1 && response.result.hits_to == response.result.hits %]
+          <p>[% c.loc("[_1] results for", response.result.hits) | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em></p>
         [% ELSE -%]
           <p>[% c.loc("Results") | xml_escape %]
-          <em class="filter">[% format_number(result.hitsFrom) %] -
-          [% format_number(result.hitsTo) | xml_escape %]</em>
+          <em class="filter">[% format_number(response.result.hits_from) %] -
+          [% format_number(response.result.hits_to) | xml_escape %]</em>
           [% c.loc('of') | xml_escape %]
-          <em class="filter">[% format_number(result.hits)  | xml_escape %]</em>
+          <em class="filter">[% format_number(response.result.hits)  | xml_escape %]</em>
           [% c.loc('for') | xml_escape %] <em class="keywords">[% keywords | xml_escape %]</em>.
 
           [% IF c.req.params.so %]
