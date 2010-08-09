@@ -11,47 +11,49 @@ sub build_item :Private
 {
     my($self, $c, $solr, $doc, $set) = @_;
 
-    my $info = {};
-    my $ancestors = $solr->ancestors($doc);
+    my $counts = {
+        pages => 0,
+        gpages => 0,
+        docs => 0,
+        gdocs => 0,
+        issues => 0,
+        siblings => 0,
+    };
+    my $ancestors = undef;
+    my $position  = 0;
+    my $prev      = undef;
+    my $next      = undef;
 
-    # Count the number of records of various types that have this record
-    # as a parent or group.
-    my $counts = {};
-    
-    if ($doc->{type} ne 'page') {
+    # If we're retrieving a set of records, we only get what we need for
+    # the search results page, in order to save time.
+    if ($set) {
+        $ancestors = $solr->ancestors($doc);
+    }
+
+    # Otherwise, if we're fetching a single record, we get additional
+    # information.
+    else {
+        $ancestors = $solr->ancestors($doc);
         $counts->{pages} = $solr->count({ type => 'page', pkey => $doc->{key}}, "pages belonging to parent $doc->{key}");
         $counts->{gpages} = $solr->count({ type => 'page', gkey => $doc->{key}}, "pages belonging to group $doc->{key}");
         $counts->{docs} = $solr->count({ _type => 'collection OR monograph OR serial', pkey => $doc->{key} }, "titles belonging to parent $doc->{key}");
         $counts->{gdocs} = $solr->count({ _type => 'collection OR monograph OR serial', gkey => $doc->{key} }, "titles belonging to group $doc->{key}");
-    }
-    if ($doc->{type} eq 'serial') {
         $counts->{issues} = $solr->count({ type => 'issue', pkey => $doc->{key}}, "issues belonging to parent $doc->{key}");
-    }
-    if ($doc->{pkey}) {
-        $counts->{siblings} = $solr->count({type => $doc->{type}, pkey => $doc->{pkey}}, "siblings of $doc->{key} ($doc->{type})");
-    }
-    else {
-        $counts->{siblings} = 0;
-    }
-
-    my $position = 0;
-    if ($doc->{seq} && ! $set) {
-        $position = $solr->position($doc);
-    }
-    my $prev = undef;
-    my $next = undef;
-    if (! $set) {
+        if ($doc->{pkey})
+            { $counts->{siblings} = $solr->count({type => $doc->{type}, pkey => $doc->{pkey}}, "siblings of $doc->{key} ($doc->{type})"); }
+        if ($doc->{seq})
+            { $position = $solr->position($doc); }
         $prev = $solr->prev_doc($doc);
         $next = $solr->next_doc($doc);
     }
-    
-    # Pages and issues are considered to be sub-records. If $doc is a
+
+    # Pages are considered to be sub-records. If $doc is a
     # sub-record, find the first main record ancestor. Only if no such
     # record exists do we use the document record.
     my $main_record = $doc->{key};
-    if ($doc->{type} !~ /^(monograph)|(issue)|(serial)|(collection)$/) { # FIXME: shouldn't issue be removed here and below? need to check.
+    if ($doc->{type} eq 'page') {
         foreach my $ancestor (@{$ancestors}) {
-            if ($ancestor->{type} =~ /^(monograph)|(issue)|(serial)|(collection)$/) {
+            if ($ancestor->{type} ne 'page') {
                 $main_record = $ancestor->{key};
                 last;
             }
