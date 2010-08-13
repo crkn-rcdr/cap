@@ -15,11 +15,11 @@
 <xsl:template name="marcxml:record_language">
   <xsl:choose>
     <xsl:when test="marc:datafield[@tag='040']/marc:subfield[@code='b']">
-      <xsl:value-of select="marc:datafield[@tag='040']/marc:subfield[@code='b']"/>
+      <xsl:value-of select="translate(marc:datafield[@tag='040']/marc:subfield[@code='b'], 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
     </xsl:when>
     <xsl:otherwise>
       <xsl:call-template name="canmarc2iso693-3">
-        <xsl:with-param name="lang" select="substring(marc:controlfield[@tag='008'], 36, 3)"/>
+        <xsl:with-param name="lang" select="translate(substring(marc:controlfield[@tag='008'], 36, 3), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
       </xsl:call-template>
     </xsl:otherwise>
   </xsl:choose>
@@ -79,7 +79,11 @@
 
   <xsl:variable name="lang"><xsl:call-template name="marcxml:record_language"/></xsl:variable>
 
-  <publication><xsl:value-of select="normalize-space(marc:datafield[@tag='260'])"/></publication>
+  <xsl:for-each select="marc:datafield[@tag='260']">
+    <xsl:if test="string-length(normalize-space(.)) != 0">
+      <publication><xsl:value-of select="normalize-space(.)"/></publication>
+    </xsl:if>
+  </xsl:for-each>
 
 </xsl:template>
 
@@ -132,17 +136,19 @@
 	  @tag='811' or
 	  @tag='830'
   ]">
-    <xsl:choose>
-      <xsl:when test="@tag = '300'">
-        <note lang="{$lang}" type="extent"><xsl:value-of select="normalize-space(.)"/></note>
-      </xsl:when>
-      <xsl:when test="@tag = '540'">
-        <note lang="{$lang}" type="rights"><xsl:value-of select="normalize-space(.)"/></note>
-      </xsl:when>
-      <xsl:otherwise>
-        <note lang="{$lang}"><xsl:value-of select="normalize-space(.)"/></note>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:if test="normalize-space(.)">
+      <xsl:choose>
+        <xsl:when test="@tag = '300'">
+          <note lang="{$lang}" type="extent"><xsl:value-of select="normalize-space(.)"/></note>
+        </xsl:when>
+        <xsl:when test="@tag = '540'">
+          <note lang="{$lang}" type="rights"><xsl:value-of select="normalize-space(.)"/></note>
+        </xsl:when>
+        <xsl:otherwise>
+          <note lang="{$lang}"><xsl:value-of select="normalize-space(.)"/></note>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
   </xsl:for-each>
 
 </xsl:template>

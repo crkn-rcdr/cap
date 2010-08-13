@@ -6,12 +6,8 @@
 
 <xsl:template name="filters">
   <filters>
-    <filter xpath="//record/pubdate" attribute="min" type="code">
-      iso8601($_[0], 0)
-    </filter>
-    <filter xpath="//record/pubdate" attribute="max" type="code">
-      iso8601($_[0], 1)
-    </filter>
+    <filter xpath="//record/pubdate" attribute="min" type="code">iso8601($_[0], 0)</filter>
+    <filter xpath="//record/pubdate" attribute="max" type="code">iso8601($_[0], 1)</filter>
     <filter xpath="//record/media" type="map">
       <map from="Sound" to="sound"/>
       <map from="Text" to="text"/>

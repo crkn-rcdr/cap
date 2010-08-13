@@ -42,6 +42,7 @@
         Split multiple languages codes into distinct fields. We then
         need to map any incorrect codes to ISO 693-3. 
       -->
+      <!--
       <filter xpath="//record/lang" type="match" regex="..."/>
       <filter xpath="//record/lang" type="map">
         <map from="fre" to="fra"/>
@@ -49,9 +50,11 @@
         <map from="dut" to="nld"/>
         <map from="wel" to="cym"/>
       </filter>
+      -->
 
       <!-- Set the subject language field based on the @i2 indicator -->
       <filter xpath="//record/description/subject" attribute="lang" type="map">
+        <map from=" " to="eng"/>
         <map from="0" to="eng"/>
         <map from="1" to="eng"/>
         <map from="4" to="eng"/>
@@ -322,11 +325,9 @@
 <xsl:template name="lang">
   <lang><xsl:value-of select="$default_lang"/></lang>
   <xsl:for-each select="//marc/field[@type='041']/subfield">
-    <lang>
-      <xsl:call-template name="canmarc2iso693-3">
-        <xsl:with-param name="lang" select="."/>
-      </xsl:call-template>
-    </lang>
+    <xsl:call-template name="extract_iso693_codes">
+      <xsl:with-param name="langstr" select="."/>
+    </xsl:call-template>
   </xsl:for-each>
 </xsl:template>
 
@@ -344,6 +345,22 @@
       <xsl:value-of select="concat('[', $input)"/>
     </xsl:otherwise>
   </xsl:choose>
+</xsl:template>
+
+<xsl:template name="extract_iso693_codes">
+  <xsl:param name="langstr"/>
+  <xsl:if test="string-length($langstr) &gt;= 3">
+    <lang>
+      <xsl:call-template name="canmarc2iso693-3">
+        <xsl:with-param name="lang" select="substring($langstr, 1, 3)"/>
+      </xsl:call-template>
+    </lang>
+  </xsl:if>
+  <xsl:if test="string-length($langstr) &gt;= 6">
+    <xsl:call-template name="extract_iso693_codes">
+      <xsl:with-param name="langstr" select="substring($langstr, 4)"/>
+    </xsl:call-template>
+  </xsl:if>
 </xsl:template>
 
           
