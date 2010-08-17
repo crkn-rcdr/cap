@@ -1,12 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+  marcxml.xsl
+
+  This stylesheet provides templates for generating CMR 1.0 fields from a
+  MARCXML source record. Import into a primary stylesheet and use the
+  templates to generate fields such as the descriptive fields and language
+  codes.
+
+  The descriptive field mappings (title, author, etc.) are probably not
+  exhaustive. This is a work in progress.
+  
+  Author: William Wueppelmann <william.wueppelmann@canadiana.ca>
+  Revision: 2010-08-17
+-->
+
 <xsl:stylesheet version="1.0"
-  xmlns:marcxml="http://www.canadiana.org/NS/cmr-marcxml"
+  xmlns:marcxml="http://www.canadiana.ca/XML/cmr-marcxml"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:marc="http://www.loc.gov/MARC21/slim"
 >
 
-<xsl:import href="canmarc2iso693-3.xsl"/>
+
+<!-- Map MARC and ISO 693 part2B codes to their ISO 693-3 equivalents -->
+<xsl:template name="marcxml:iso693">
+  <xsl:param name="lang"/>
+  <xsl:param name="nlang"
+    select="translate($lang, 'ABCDEFGHIJKLMNOPQRSTUVWXY', 'abcdefghijklmnopqrstuvwxyz')"/>
+  <xsl:choose>
+    <xsl:when test="$nlang = 'alb'">sqi</xsl:when><!-- Albanian -->
+    <xsl:when test="$nlang = 'arm'">hye</xsl:when><!-- Armenian -->
+    <xsl:when test="$nlang = 'baq'">eus</xsl:when><!-- Basque -->
+    <xsl:when test="$nlang = 'bur'">mya</xsl:when><!-- Burmese -->
+    <xsl:when test="$nlang = 'chi'">zho</xsl:when><!-- Chinese -->
+    <xsl:when test="$nlang = 'cze'">ces</xsl:when><!-- Czech -->
+    <xsl:when test="$nlang = 'dut'">nld</xsl:when><!-- Dutch -->
+    <xsl:when test="$nlang = 'fre'">fra</xsl:when><!-- French -->
+    <xsl:when test="$nlang = 'gae'">gla</xsl:when><!-- Gaelic (Scottish) -->
+    <xsl:when test="$nlang = 'ger'">deu</xsl:when><!-- German -->
+    <xsl:when test="$nlang = 'geo'">kat</xsl:when><!-- Georgian -->
+    <xsl:when test="$nlang = 'gre'">ell</xsl:when><!-- Greek (modern) -->
+    <xsl:when test="$nlang = 'ice'">isl</xsl:when><!-- Icelandic -->
+    <xsl:when test="$nlang = 'mac'">mkd</xsl:when><!-- Macedonian -->
+    <xsl:when test="$nlang = 'mao'">mri</xsl:when><!-- Maori -->
+    <xsl:when test="$nlang = 'may'">msa</xsl:when><!-- Maylay -->
+    <xsl:when test="$nlang = 'per'">fas</xsl:when><!-- Persian -->
+    <xsl:when test="$nlang = 'rum'">ron</xsl:when><!-- Romanian -->
+    <xsl:when test="$nlang = 'slo'">slk</xsl:when><!-- Slovak -->
+    <xsl:when test="$nlang = 'tib'">bod</xsl:when><!-- Tibetan -->
+    <xsl:when test="$nlang = 'wel'">cym</xsl:when><!-- Welsh -->
+    <xsl:otherwise><xsl:value-of select="$nlang"/></xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 
 <!--
   Determine the record language from the 040$b field, if present, and
@@ -15,14 +61,41 @@
 <xsl:template name="marcxml:record_language">
   <xsl:choose>
     <xsl:when test="marc:datafield[@tag='040']/marc:subfield[@code='b']">
-      <xsl:value-of select="translate(marc:datafield[@tag='040']/marc:subfield[@code='b'], 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
+      <xsl:call-template name="marcxml:iso693">
+        <xsl:with-param name="lang" select="marc:datafield[@tag='040']/marc:subfield[@code='b']"/>
+      </xsl:call-template>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:call-template name="canmarc2iso693-3">
-        <xsl:with-param name="lang" select="translate(substring(marc:controlfield[@tag='008'], 36, 3), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
+      <xsl:call-template name="marcxml:iso693">
+        <xsl:with-param name="lang" select="substring(marc:controlfield[@tag='008'], 36, 3)"/>
       </xsl:call-template>
     </xsl:otherwise>
   </xsl:choose>
+</xsl:template>
+
+
+<!-- Create a series of <lang> elements from the 041 field -->
+<xsl:template name="marcxml:lang">
+  <xsl:for-each select="marc:datafield[@tag='041']/marc:subfield">
+    <xsl:call-template name="marcxml:extract_lang_codes">
+      <xsl:with-param name="langstr" select="."/>
+    </xsl:call-template>
+  </xsl:for-each>
+</xsl:template>
+<xsl:template name="marcxml:extract_lang_codes">
+  <xsl:param name="langstr"/>
+  <xsl:if test="string-length($langstr) &gt;= 3">
+    <lang>
+      <xsl:call-template name="marcxml:iso693">
+        <xsl:with-param name="lang" select="substring($langstr, 1, 3)"/>
+      </xsl:call-template>
+    </lang>
+  </xsl:if>
+  <xsl:if test="string-length($langstr) &gt;= 6">
+    <xsl:call-template name="marcxml:extract_lang_codes">
+      <xsl:with-param name="langstr" select="substring($langstr, 4)"/>
+    </xsl:call-template>
+  </xsl:if>
 </xsl:template>
 
 

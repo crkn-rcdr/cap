@@ -1,0 +1,158 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Encode;
+use File::Basename;
+use File::Path;
+use File::Temp qw(tempfile);
+use File::Glob qw(:glob);
+use XML::LibXML;
+use Perl6::Slurp;
+
+my $ROOT = '/cihm/collections/cmr/otu';
+my $CMR  = '/cihm/collections/cmr-tools';
+my $SCHEMA = "$CMR/cmr.xsd";
+
+my $temp_fh;
+my $tempfile;
+foreach my $dir (@ARGV) {
+
+    my $data = join('/', $ROOT, $dir, 'data');
+    my $src  = join('/', $ROOT, $dir, 'data/src');
+
+    # Make sure the source directory exists.
+    -d $src or abort("Source directory '$src' does not exist");
+
+    print("Processing collection in: $src\n");
+
+    # Process the source MARCXML files
+    foreach my $marcxml (bsd_glob("$src/*.xml")) {
+        print("Processing MARCXML file: $marcxml\n");
+        ($temp_fh, $tempfile) = tempfile();
+        abort("Quitting due to errors. Exit code: $?") if (system("$CMR/cmr", '-dump', 'utoronto', $marcxml, $tempfile));
+        build_cmr($data, $tempfile, $src);
+        unlink($tempfile) or die("Could not remove $tempfile: $!\n");
+    }
+
+}
+
+sub build_cmr
+{
+    my($data, $title) = @_;
+    my $title_doc;
+    my $schema = XML::LibXML::Schema->new( location => $SCHEMA );
+
+    # Parse the source record
+    eval { $title_doc = XML::LibXML->new()->parse_file($title) };
+    abort("Parsing $title_doc failed: $@") if ($@);
+
+    # Output one CMR record per title
+    foreach my $record ($title_doc->findnodes('/recordset/record')) {
+        my $key = $record->findvalue('key');
+        my $output_file = "$data/$key.xml";
+        my $cmr = XML::LibXML::Document->new("1.0", "UTF-8");
+        my $recordset = element($cmr, 'recordset', { version => '1.0' });
+        $cmr->setDocumentElement($recordset);
+
+        # The document record
+        $cmr->adoptNode($record);
+        $recordset->appendChild($record);
+
+        # Read in the OCR text for each page in the document.
+        my $text_dir = "$data/src/text/$key";
+        my $page_count = 0;
+        if (-d $text_dir) {
+            foreach my $text_file (bsd_glob("$text_dir/*.txt")) {
+                unless (basename($text_file) =~ /^\Q$key\E (\d{4})\.txt$/) {
+                    print("Warning: ignoring text file with unexpected name: '$text_file'\n");
+                    next;
+                }
+                my $seq  = $1;
+                my $ocr_text = decode_utf8(slurp($text_file));
+                ++$page_count;
+
+                # Copy the main record as a base template for the new page
+                my $page = $record->cloneNode(1);
+                $recordset->appendChild($page);
+
+                # Make the required modifications
+                my $node;
+                $node = ($page->findnodes("type"))->[0];
+                replaceElement($cmr, $node, 'page', {});
+                $node = ($page->findnodes("key"))->[0];
+                $node->appendTextNode(".$seq");
+                $node = ($page->findnodes("label"))->[0];
+                insertAfter($cmr, $page, $node, 'seq', sprintf("%d", $seq), {});
+                insertAfter($cmr, $page, $node, 'pkey', $key, {});
+                replaceElement($cmr, $node, sprintf('p. %d', $seq), {});
+                $node = ($page->findnodes("resource/canonicalUri"))->[0];
+                replaceElement($cmr, $node, sprintf('%s&page=%d', $node->findvalue('text()'), $seq), {});
+
+                # Replace the bibliographic description with the text.
+                my $description = ($page->findnodes('description'))->[0];
+                $description->removeChildNodes();
+                if ($ocr_text) {
+                    my $text = element($cmr, 'text', { type => 'content' });
+                    my $lang = $page->findvalue('lang[position()=1]');
+                    $text->setAttribute('lang', $lang) if ($lang);
+                    $text->appendChild($cmr->createTextNode($ocr_text));
+                    $description->appendChild($text);
+                }
+
+            }
+            print("  $key: $page_count pages\n");
+        }
+        else {
+            print("Text directory '$text_dir' not found.\n");
+        }
+
+        eval { $schema->validate($cmr) };
+        if ($@) {
+            print $cmr->toString(1);
+            abort("CMR record does not validate: $@");
+        }
+        abort("Failed to write $output_file: $!") unless $cmr->toFile($output_file, 1);
+    }
+
+}
+
+sub abort
+{
+    my($message) = @_;
+    if (-f $tempfile) {
+        unlink($tempfile) or warn("Failed to remove $tempfile: $!\n");
+    }
+    die($message . "\n");
+}
+
+sub element
+{
+    my($doc, $name, $attributes) = @_;
+    my $element = $doc->createElement($name);
+    while (my($attribute, $value) = each(%{$attributes})) {
+        $element->setAttribute($attribute, $value);
+    }
+    return $element;
+}
+
+sub replaceElement
+{
+    my($doc, $element, $text, $attributes) = @_;
+    my $node = $doc->createElement($element->nodeName());
+    while (my($attribute, $value) = each(%{$attributes})) {
+        $node->setAttribute($attribute, $value);
+    }
+    $node->appendChild($doc->createTextNode($text));
+    $element->replaceNode($node);
+}
+
+sub insertAfter
+{
+    my($doc, $parent, $ref, $name, $text, $attributes) = @_;
+    my $node = $doc->createElement($name);
+    while (my($attribute, $value) = each(%{$attributes})) {
+        $node->setAttribute($attribute, $value);
+    }
+    $node->appendChild($doc->createTextNode($text));
+    $parent->insertAfter($node, $ref);
+}
