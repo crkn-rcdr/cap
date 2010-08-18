@@ -9,6 +9,11 @@ use File::Glob qw(:glob);
 use XML::LibXML;
 use Perl6::Slurp;
 
+# University of Toronto IA/Scholar's Portal documents
+# U of T metadata consists of XML files containing MARCXML data and a
+# series of directories with files named "$key $seq.txt" containing the
+# OCR text for various pages.
+
 my $ROOT = '/cihm/collections/cmr/otu';
 my $CMR  = '/cihm/collections/cmr-tools';
 my $SCHEMA = "$CMR/cmr.xsd";

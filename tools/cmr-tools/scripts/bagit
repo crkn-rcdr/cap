@@ -1,0 +1,49 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Cwd;
+use Digest::MD5 qw(md5_hex);
+use Encode;
+use File::Find;
+use POSIX qw(strftime);
+use Perl6::Slurp;
+
+# Transform each directory in @ARGV into a BagIt archive. The archive must
+# have a data subdirectory which contains the archive files.
+
+my $base_dir = getcwd();
+my $bagit = "BagIt-Version: 0.96\nTag-File-Character-Encoding: UTF-8\n";
+my $baginfo = "Source-Organization: Canadiana.org\nBagging-Date: " . strftime("%Y-%m-%d", localtime()) . "\n";
+
+my $md5_fh;
+foreach my $dir (@ARGV) {
+    die("$dir is not a directory.\n") unless (-d $dir);
+    die("$dir is missing a data subdirectory.\n") unless (-d "$dir/data");
+    chdir($dir);
+    print("Processing " . getcwd() . "\n");
+
+    # Create the BagIt declaration and metadata files.
+    open(BAGIT, ">bagit.txt") or die("Cannot create bagit.txt: $!\n");
+    print(BAGIT encode_utf8($bagit));
+    close(BAGIT);
+    open(BAGIT, ">bag-info.txt") or die("Cannot create bagit.txt: $!\n");
+    print(BAGIT encode_utf8($baginfo));
+    close(BAGIT);
+
+    # Generate MD5 digests for all of the files under ./data
+    open(MD5, ">manifest-md5.txt") or die("Cannot create manifest-md5.txt: $!\n");
+    $md5_fh = *MD5;
+    find(
+        sub {
+            my $file = $File::Find::name;
+            if (-f $_) {
+                my $digest = md5_hex(slurp($_));
+                print($md5_fh "$digest  $file\n");
+            }
+        },
+        'data'
+    );
+    close(MD5);
+
+    chdir($base_dir);
+}
