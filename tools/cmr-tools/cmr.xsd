@@ -11,7 +11,7 @@
       Solr database records.
 
       Version: 1.0
-      Date: 2010-07-13
+      Date: 2010-07-19
     </xs:documentation>
   </xs:annotation>
 
@@ -64,107 +64,10 @@
                 </xs:simpleType>
               </xs:element>
 
-              <!-- Description and content -->
+              <!-- Description and content: fields may appear in any quantity and order -->
               <xs:element name="description">
                 <xs:complexType>
-                  <xs:sequence>
-
-                    <xs:element name="title" minOccurs="0" maxOccurs="unbounded">
-                      <xs:complexType>
-                        <xs:complexContent>
-                          <xs:extension base="bibdesc">
-                            <xs:attribute name="type" use="optional">
-                              <xs:simpleType>
-                                <xs:restriction base="xs:string">
-                                  <xs:enumeration value="main"/>
-                                  <xs:enumeration value="uniform"/>
-                                </xs:restriction>
-                              </xs:simpleType>
-                            </xs:attribute>
-                          </xs:extension>
-                        </xs:complexContent>
-                      </xs:complexType>
-                    </xs:element>
-
-                    <xs:element name="author" minOccurs="0" maxOccurs="unbounded">
-                      <xs:complexType>
-                        <xs:complexContent>
-                          <xs:extension base="bibdesc">
-                            <xs:attribute name="type" use="optional">
-                              <xs:simpleType>
-                                <xs:restriction base="xs:string">
-                                  <xs:enumeration value="editor"/>
-                                </xs:restriction>
-                              </xs:simpleType>
-                            </xs:attribute>
-                          </xs:extension>
-                        </xs:complexContent>
-                      </xs:complexType>
-                    </xs:element>
-
-                    <xs:element name="publication" type="bibdesc" minOccurs="0" maxOccurs="unbounded"/>
-
-                    <xs:element name="subject" type="bibdesc" minOccurs="0" maxOccurs="unbounded"/>
-
-                    <xs:element name="note" minOccurs="0" maxOccurs="unbounded">
-                      <xs:complexType>
-                        <xs:complexContent>
-                          <xs:extension base="bibdesc">
-                            <xs:attribute name="type" use="optional">
-                              <xs:simpleType>
-                                <xs:restriction base="xs:string">
-                                  <xs:enumeration value="continued"/>
-                                  <xs:enumeration value="continues"/>
-                                  <xs:enumeration value="extent"/>
-                                  <xs:enumeration value="frequency"/>
-                                  <xs:enumeration value="missing"/>
-                                  <xs:enumeration value="rights"/>
-                                  <xs:enumeration value="source"/>
-                                </xs:restriction>
-                              </xs:simpleType>
-                            </xs:attribute>
-                          </xs:extension>
-                        </xs:complexContent>
-                      </xs:complexType>
-                    </xs:element>
-
-                    <xs:element name="descriptor" minOccurs="0" maxOccurs="unbounded">
-                      <xs:complexType>
-                        <xs:complexContent>
-                          <xs:extension base="bibdesc">
-                            <xs:attribute name="type" use="optional">
-                              <xs:simpleType>
-                                <xs:restriction base="xs:string">
-                                  <xs:enumeration value="corporate"/>
-                                  <xs:enumeration value="date"/>
-                                  <xs:enumeration value="location"/>
-                                  <xs:enumeration value="person"/>
-                                </xs:restriction>
-                              </xs:simpleType>
-                            </xs:attribute>
-                          </xs:extension>
-                        </xs:complexContent>
-                      </xs:complexType>
-                    </xs:element>
-
-                    <xs:element name="text" minOccurs="0" maxOccurs="unbounded">
-                      <xs:complexType>
-                        <xs:complexContent>
-                          <xs:extension base="bibdesc">
-                            <xs:attribute name="type" use="optional">
-                              <xs:simpleType>
-                                <xs:restriction base="xs:string">
-                                  <xs:enumeration value="content"/>
-                                  <xs:enumeration value="description"/>
-                                </xs:restriction>
-                              </xs:simpleType>
-                            </xs:attribute>
-                          </xs:extension>
-                        </xs:complexContent>
-                      </xs:complexType>
-                    </xs:element>
-
-                  </xs:sequence>
+                  <xs:group ref="descriptionFields" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:complexType>
               </xs:element>
 
@@ -188,17 +91,129 @@
     </xs:complexType>
   </xs:element>
 
+  <!-- Description fields -->
+  <xs:group name="descriptionFields">
+    <xs:choice>
+        <xs:element name="title" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="text">
+                <xs:attribute name="lang" type="iso639-3" use="optional"/>
+                <xs:attribute name="type" use="optional">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="main"/>
+                      <xs:enumeration value="uniform"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
 
+        <xs:element name="author" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="text">
+                <xs:attribute name="lang" type="iso639-3" use="optional"/>
+                <xs:attribute name="type" use="optional">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="editor"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="publication" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="text">
+                <xs:attribute name="lang" type="iso639-3" use="optional"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="subject" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="text">
+                <xs:attribute name="lang" type="iso639-3" use="optional"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="note" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="text">
+                <xs:attribute name="lang" type="iso639-3" use="optional"/>
+                <xs:attribute name="type" use="optional">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="continued"/>
+                      <xs:enumeration value="continues"/>
+                      <xs:enumeration value="extent"/>
+                      <xs:enumeration value="frequency"/>
+                      <xs:enumeration value="missing"/>
+                      <xs:enumeration value="rights"/>
+                      <xs:enumeration value="source"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="descriptor" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="text">
+                <xs:attribute name="lang" type="iso639-3" use="optional"/>
+                <xs:attribute name="type" use="optional">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="corporate"/>
+                      <xs:enumeration value="date"/>
+                      <xs:enumeration value="location"/>
+                      <xs:enumeration value="person"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="text" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="text">
+                <xs:attribute name="lang" type="iso639-3" use="optional"/>
+                <xs:attribute name="type" use="optional">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="content"/>
+                      <xs:enumeration value="description"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        
+    </xs:choice>
+  </xs:group>
 
   <!-- Types -->
-
-  <xs:complexType name="bibdesc">
-    <xs:simpleContent>
-      <xs:extension base="text">
-        <xs:attribute name="lang" type="iso639-3" use="optional"/>
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
 
   <xs:complexType name="resource">
     <xs:simpleContent>
