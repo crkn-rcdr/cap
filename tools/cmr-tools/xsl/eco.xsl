@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:marcxml="http://www.canadiana.ca/XML/cmr-marcxml"
+>
 
-<xsl:import href="canmarc2iso693-3.xsl"/>
+<xsl:import href="marcxml.xsl"/>
+<!--<xsl:import href="canmarc2iso693-3.xsl"/>-->
 
 <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
 <xsl:variable name="default_lang">
+  <xsl:call-template name="marcxml:iso693">
+    <xsl:with-param name="lang" select="substring(//marc/field[@type='008'], 36, 3)"/>
+  </xsl:call-template>
+  <!--
   <xsl:call-template name="canmarc2iso693-3">
     <xsl:with-param name="lang" select="substring(//marc/field[@type='008'], 36, 3)"/>
   </xsl:call-template>
+  -->
 </xsl:variable>
 
 
@@ -37,20 +46,6 @@
         they look like 9_12345_1_2 (2-part issue).
       -->
       <filter xpath="//record/seq" type="code">$_[0] =~ s/[0-9_]*_(\d+)$/$1/; $_[0] = 1 unless (int($_[0]) > 0); return $_[0]</filter>
-
-      <!--
-        Split multiple languages codes into distinct fields. We then
-        need to map any incorrect codes to ISO 693-3. 
-      -->
-      <!--
-      <filter xpath="//record/lang" type="match" regex="..."/>
-      <filter xpath="//record/lang" type="map">
-        <map from="fre" to="fra"/>
-        <map from="ger" to="deu"/>
-        <map from="dut" to="nld"/>
-        <map from="wel" to="cym"/>
-      </filter>
-      -->
 
       <!-- Set the subject language field based on the @i2 indicator -->
       <filter xpath="//record/description/subject" attribute="lang" type="map">
@@ -351,7 +346,7 @@
   <xsl:param name="langstr"/>
   <xsl:if test="string-length($langstr) &gt;= 3">
     <lang>
-      <xsl:call-template name="canmarc2iso693-3">
+      <xsl:call-template name="marcxml:iso693">
         <xsl:with-param name="lang" select="substring($langstr, 1, 3)"/>
       </xsl:call-template>
     </lang>
