@@ -1,14 +1,14 @@
 ﻿[%
-  # Map contributor codes to English names. Because some of these may have
-  # multilingual name variants, always wrap the output in a c.loc()
-  # function
+  # Map contributor codes to display names.
 %]
 [% SWITCH code %]
   [% CASE 'alouette' %]Alouette Canada
-  [% CASE 'bvas' %]Simon Fraser University
+  [% CASE 'nfsm' %]Memorial University
   [% CASE 'oocihm' %]Canadiana.org
-  [% CASE 'ooe' %]Department of Foreign Affairs and International Trade
+  [% CASE 'ooe' %][% c.loc("Foreign Affairs and International Trade Canada") %]
+  [% CASE 'oonl' %][% c.loc("Library and Archives Canada") %]
   [% CASE 'otu' %]University of Toronto
   [% CASE 'qmbn' %]Bibliothèque et Archives Nationales du Québec
+  [% CASE 'sfu' %]Simon Fraser University
   [% CASE %][% code | xml_escape %]
 [% END %]

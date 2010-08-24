@@ -87,7 +87,7 @@ sub prepare_search : Private
         # YYYY-MM-DDTHH:MM:SS.mmm, YYYY-MM-DDTHH:MM:SS.mmmZ
         # TODO: check for invalid dates (e.g. 1900-02-30)
         if ($c->req->params->{df} =~ /^\d{4}(-\d{2}(-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3}(Z)?)?)?)?)?$/) {
-            my $mask = '1000-01-01T00:00:00Z';
+            my $mask = '1000-01-01T00:00:00.000Z';
             my $date = $c->req->params->{df} . substr($mask, length($c->req->params->{df}));
             $c->stash->{query}->{_pubmax} = "[$date TO *]";
         }
@@ -95,7 +95,7 @@ sub prepare_search : Private
     if ($c->req->params->{dt}) {
         # See above for validation rules
         if ($c->req->params->{dt} =~ /^\d{4}(-\d{2}(-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3}(Z)?)?)?)?)?$/) {
-            my $mask = '1000-01-01T00:00:00.000Z';
+            my $mask = '1000-12-31T23:59:59.999Z';
             my $date = $c->req->params->{dt} . substr($mask, length($c->req->params->{dt}));
             $c->stash->{query}->{_pubmin} = "[* TO $date]";
         }

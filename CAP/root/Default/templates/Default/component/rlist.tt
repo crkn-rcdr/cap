@@ -35,7 +35,7 @@
           </span> |
         [% END %]
         <span>
-          [% c.loc(contributor(item.doc.contributor)) | xml_escape %]
+          [% contributor(item.doc.contributor) | xml_escape %]
         </span>
         [% IF item.ancestors.last.type == 'collection' %]
           <span>

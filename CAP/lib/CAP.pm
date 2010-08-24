@@ -30,7 +30,7 @@ use Catalyst qw/
                 Session::Store::DBI
                /;
                 #I18N::DBIC
-our $VERSION = '0.20091127';
+our $VERSION = '0.6';
 #                Authorization::ACL
 #                Session::Store::FastMmap
 
@@ -75,13 +75,13 @@ __PACKAGE__->config->{static} = {
 
 # Default Solr query parameters. These must have sensible values or any queries
 # that rely on the defaults are likely to break or behave weirdly.
-__PACKAGE__->config->{solr}->{defaults} = {
-    version => '2.2',
-    rows => '10',
-    start => 0,
-    'sort' => 'score desc',
-    wt => 'json',
-};
+#__PACKAGE__->config->{solr}->{defaults} = {
+#    version => '2.2',
+#    rows => '10',
+#    start => 0,
+#    'sort' => 'score desc',
+#    wt => 'json',
+#};
 
 # Configure session managemnet
 __PACKAGE__->config('Plugin::Session' => {

@@ -658,4 +658,36 @@ sub search_grouped
     return $result;
 }
 
+
+# Return various counts by contributor
+sub stats_contributor
+{
+    my($self) = @_;
+    my $stats = { record => {} };
+    
+    $self->_set_params({
+        rows => 0,
+        facets => [ 'contributor' ],
+    });
+
+    foreach my $type (("page", "monograph", "issue", "serial", "collection")) {
+        $self->_set_query({type => $type});
+        $self->{status_msg} = "stats_contributor(): $type";
+        $self->_run_query();
+        $stats->{$type} = {};
+        foreach my $facet (@{$self->{facet_fields}->{contributor}}) {
+            my $name = $facet->{name};
+            my $count = $facet->{count};
+            $stats->{$type}->{$name} = $count;
+            if ($stats->{record}->{$name}) {
+                $stats->{record}->{$name} = $stats->{record}->{$name} + $count;
+            }
+            else {
+                $stats->{record}->{$name} = $count;
+            }
+        }
+    }
+    return $stats;
+}
+
 1;

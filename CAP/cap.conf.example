@@ -1,16 +1,25 @@
+# cap.conf file for CAP version 0.6
+# Modified on 2010-08-19
+# This is the standard configuration file for CAP. In order to use it, you
+# will need to replace all of the <PATH> placeholders with the appropriate
+# directory paths for your environment. Additional customizations may also
+# be made to tailor operation to your particular environment.
+
 #
 #  General Catalyst Configuration 
 #
 
 name CAP
-debug false
+
 default_view Default
 
-# Set this value to 1 (or some other true value) to enable extended
-# debugging messages related to authorization and authentication. This
-# will result in supplied password information being written to log files,
-# so enable this feature with care.
-debug_auth 1
+# Set to true to enable additional debugging information (useful for
+# development)
+debug false
+
+# Set to true to see additional debug information relating to
+# authorization.
+debug_auth false
 
 # Database connection info
 <Component Model::DB>
@@ -30,45 +39,34 @@ default_portal co
 
 version 0.6
 
-# These path names must be relative to the application 'root'.
-
-# Root of the content repository
-repository /opt/cap-repos
-
-# Where uploaded files go
-uploads ../../../data/uploads
+# These path names must be absolute or else relative to the application 'root'.
 
 # Path to the content repository (TIFF images, PDFs, etc.)
-content /Users/william/Projects/portal/content
-
-# Where we can find the application profiles
-profiles /Users/william/Projects/svn/cap-trunk/tools/profiles
-
-# Number of issues or other child elements to display at a time.
-children_per_page 10
+content <PATH>
 
 # Where we can find the NetPBM programs
-netpbm_path /opt/local/bin
-
-# The MIME types we can presently handle - should be deprecated
-<MimeTypes>
-  image/tiff = true
-  image/jpeg = true
-  application/pdf = true
-</MimeTypes>
+netpbm_path <PATH>
 
 # Default parameters. These should all be set to sensible values, or the
 # application may behave strangely.
 <defaults>
-    image_size = 600 # default width (in pixels) for derivative images
-    image_min = 50 # minimum size allowed for derivative images
-    image_max = 1200 # maximum size allowed for derivative images
+    image_size =  600 # default width (in pixels) for derivative images
+    image_min  =   50 # minimum size allowed for derivative images
+    image_max  = 1200 # maximum size allowed for derivative images
 </defaults>
 
 <solr>
 
-  select_uri http://localhost:8983/solr/select
-  update_uri http://localhost:8983/solr/update
+  select_uri <PATH>
+  update_uri <PATH>
+
+  <defaults>
+    version   2.2
+    rows      10
+    start     0
+    score     score desc
+    wt        json
+  </defaults>
 
   # Fields to return for various search types
   <fl>
@@ -90,11 +88,13 @@ netpbm_path /opt/local/bin
     search canonicalUri
   </fl>
 
+  # Field aliases mapping internal search field names to one or more Solr
+  # field names.
   <fields>
-    tx tx # global text field
+    tx tx    # global text field
     tx tx_en # English text
     tx tx_fr # French text
-    ti ti # global title field
+    ti ti    # global title field
     ti ti_en # etc.
     ti ti_fr
     au au
@@ -120,12 +120,12 @@ netpbm_path /opt/local/bin
 # and if not, what role(s) are allowed to access the action.
 
 <action "/auth/login">
-  enabled true
+  enabled false
   public true
 </action>
 
 <action "/auth/logout">
-  enabled true
+  enabled false
   public true
 </action>
 
@@ -175,10 +175,12 @@ netpbm_path /opt/local/bin
 </action>
 
 # List of valid contributor namespaces with the name of the contributor.
+# (To be replaced)
 <contributor>
-  bvas   Simon Fraser University
+  sfu    Simon Fraser University
   oocihm Canadiana.org
   ooe    Department of Foreign Affairs and International Trade
+  oonl   Library and Archives Canada
   otu    University of Toronto
   qmbn   Bibliothèque et Archives Nationales du Québec
 </contributor>
