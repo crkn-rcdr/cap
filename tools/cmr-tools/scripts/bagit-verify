@@ -45,7 +45,7 @@ foreach my $bagit (@ARGV) {
 
         # Check whether this is a surplus file.
         unless ($manifest{$local_name}) {
-            print("EXTRA: $bagit/$local_name");
+            print("EXTRA: $bagit/$local_name\n");
             next;
         }
 

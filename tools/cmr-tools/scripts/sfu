@@ -1,0 +1,37 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use File::Glob qw(:glob);
+use XML::LibXML;
+
+# Simon Fraser University/Multicultural Canada documents
+# Supplied are CMR records.
+
+
+my $CONTRIBUTOR = 'sfu';
+my $ROOT = '/cihm/collections/cmr/sfu';
+my $CMR  = '/cihm/collections/cmr-tools';
+my $SCHEMA = "$CMR/cmr.xsd";
+
+foreach my $dir (@ARGV) {
+    my $data = join('/', $ROOT, $dir, 'data');
+
+    # Make sure the collection directory exists.
+    -d $data or die("Collection directory '$data' does not exist\n");
+
+    print("Processing collection in: $dir\n");
+
+    # Verify each file to ensure it is valid and contains the correct
+    # contributor.
+    my $schema = XML::LibXML::Schema->new( location => $SCHEMA );
+    foreach my $record (bsd_glob("$data/*.xml")) {
+        my $cmr = XML::LibXML->new()->parse_file($record);
+        eval { $schema->validate($cmr) };
+        die ("$record does not validate: $@") if ($@);
+        foreach my $contributor ($cmr->findnodes('/recordset/record/contributor')) {
+            my $code = $contributor->findvalue('.');
+            die("$record contains improper contributor code '$code'\n") unless ($code eq $CONTRIBUTOR);
+        }
+        print "$record: ok\n";
+    }
+}
