@@ -14,3 +14,9 @@ set :repository, "http://dev.cihm/svn/cap/branches/alpha"
 
 set :deploy_via, :remote_cache
 
+task :mk_init do
+    sudo "ln -fs #{current_path}/tools/apache_config/alpha /etc/apache2/sites-available"
+    sudo "a2ensite alpha"
+    sudo "ln -fs  #{current_path}/tools/cap-alpha /etc/init.d"
+end
+
