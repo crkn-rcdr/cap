@@ -22,6 +22,24 @@
 >
 
 
+<!-- Split a string into 3-letter language codes and generate <lang>
+values for each. -->
+<xsl:template name="marcxml:languages">
+  <xsl:param name="langstr"/>
+  <xsl:if test="string-length($langstr) &gt;= 3">
+    <lang>
+      <xsl:call-template name="marcxml:iso693">
+        <xsl:with-param name="lang" select="substring($langstr, 1, 3)"/>
+      </xsl:call-template>
+    </lang>
+  </xsl:if>
+  <xsl:if test="string-length($langstr) &gt;= 6">
+    <xsl:call-template name="marcxml:languages">
+      <xsl:with-param name="langstr" select="substring($langstr, 4)"/>
+    </xsl:call-template>
+  </xsl:if>
+</xsl:template>
+
 <!-- Map MARC and ISO 693 part2B codes to their ISO 693-3 equivalents -->
 <xsl:template name="marcxml:iso693">
   <xsl:param name="lang"/>
