@@ -13,11 +13,17 @@ my $ROOT = '/cihm/collections/cmr/sfu';
 my $CMR  = '/cihm/collections/cmr-tools';
 my $SCHEMA = "$CMR/cmr.xsd";
 
+my $log = "./fail.log";
+open(FAIL, ">>$log") or die("Cannot open $log for appending: $!\n");
+
 foreach my $dir (@ARGV) {
     my $data = join('/', $ROOT, $dir, 'data');
 
     # Make sure the collection directory exists.
-    -d $data or die("Collection directory '$data' does not exist\n");
+    unless (-d $data) {
+         warn("Collection directory '$data' does not exist\n");
+         print(FAIL "$data: no such directory\n");
+    }
 
     print("Processing collection in: $dir\n");
 
@@ -27,10 +33,13 @@ foreach my $dir (@ARGV) {
     foreach my $record (bsd_glob("$data/*.xml")) {
         my $cmr = XML::LibXML->new()->parse_file($record);
         eval { $schema->validate($cmr) };
-        die ("$record does not validate: $@") if ($@);
+        if ($@) {
+            warn ("$record does not validate: $@");
+            print(FAIL "$record: does not validate\n");
+        }
         foreach my $contributor ($cmr->findnodes('/recordset/record/contributor')) {
             my $code = $contributor->findvalue('.');
-            die("$record contains improper contributor code '$code'\n") unless ($code eq $CONTRIBUTOR);
+            warn("$record contains improper contributor code '$code'\n") unless ($code eq $CONTRIBUTOR);
         }
         print "$record: ok\n";
     }

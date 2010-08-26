@@ -27,6 +27,10 @@
       <filter xpath="//record/key" type="code">$_[0] =~ s!.*/!!; $_[0] =~ s/,/./; return $_[0];</filter>
       <filter xpath="//record/pubdate" attribute="min" type="code">iso8601($_[0], 0)</filter>
       <filter xpath="//record/pubdate" attribute="max" type="code">iso8601($_[0], 1)</filter>
+      <filter xpath="//record/pubdate[substring(@min, 1, 4) = '0000']" type="delete"/>
+      <filter xpath="//record/pubdate[@min = '']" type="delete"/>
+      <filter xpath="//record/pubdate[@max = '']" type="delete"/>
+      <filter xpath="//record/lang" type="code">$_[0] =~ s/en[:,]/eng/; return $_[0]</filter>
     </filters>
 
   </recordset>
@@ -45,16 +49,29 @@
     </xsl:if>
 
     <xsl:for-each select="descendant::dc:language">
-      <xsl:call-template name="marcxml:languages">
-        <xsl:with-param name="langstr" select="translate(., '; ', '')"/>
-      </xsl:call-template>
+      <xsl:choose>
+        <xsl:when test="contains(../descendant::dc:identifier[position() = last()], '/moravian,')">
+          <!-- We can't yet handle these language formats -->
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="marcxml:languages">
+            <xsl:with-param name="langstr" select="translate(., '; ', '')"/>
+          </xsl:call-template>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
 
     <xsl:for-each select="descendant::dc:type">
       <xsl:choose>
         <xsl:when test="
+          'Audio'
+        ">
+          <media>audio</media>
+        </xsl:when>
+        <xsl:when test="
           text() = 'Book' or
           text() = 'Periodical' or
+          text() = 'Manuscript' or
           text() = 'Text'
         ">
           <media>text</media>
@@ -68,7 +85,9 @@
         <xsl:when test="
           text() = 'Map' or
           text() = 'Photograph' or
-          text() = 'Still Image'
+          text() = 'Photograph;' or
+          text() = 'Still Image' or
+          text() = 'Still Image;'
         ">
           <media>image</media>
         </xsl:when>

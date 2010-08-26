@@ -54,6 +54,7 @@ sub iso8601
         $date = UnixDate($date, "%Y-%m-%d");
         $date =~ s/-01-01$//;
         $date =~ s/-01$//;
+
     }
 
     # Otherwise, try to parse out the date based on some common AACR2 date
@@ -75,6 +76,9 @@ sub iso8601
         elsif ($date =~ /$ST(\d{2})(\d{2})$HY(\d{2})$EN/) {
             if ($3 > $2) {
                 if ($max) { $date = "$1$3" } else { $date = "$1$2" }
+            }
+            else {
+                if ($max) { $date = "$1$2" } else { $date = "$1$3" }
             }
         }
 
