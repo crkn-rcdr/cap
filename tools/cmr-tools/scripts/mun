@@ -29,7 +29,8 @@ foreach my $dir (@ARGV) {
     foreach my $file (bsd_glob("$src/*.xml")) {
         print("Processing OAI Dublin Core file: $file\n");
         my $outfile = join('/', $data, basename($file));
-        die("Quitting due to errors. Exit code: $?") if (system("$CMR/cmr", '-dump', $XSL, $file, $outfile));
+        #die("Quitting due to errors. Exit code: $?") if (system("$CMR/cmr", '-dump', $XSL, $file, $outfile));
+        die("Quitting due to errors. Exit code: $?") if (system("$CMR/cmr", $XSL, $file, $outfile));
     }
 
 }

@@ -72,13 +72,13 @@ sub iso8601
         if (0) {
         }
 
-        # E.g. 1918-19
+        # E.g. 1918-19; 1990-01 (treat as: 1990-2001)
         elsif ($date =~ /$ST(\d{2})(\d{2})$HY(\d{2})$EN/) {
             if ($3 > $2) {
                 if ($max) { $date = "$1$3" } else { $date = "$1$2" }
             }
             else {
-                if ($max) { $date = "$1$2" } else { $date = "$1$3" }
+                if ($max) { $date = "$1$2" } else { $date = sprintf("%2d%2d", $1 + 1, $3) }
             }
         }
 

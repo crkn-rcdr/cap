@@ -24,7 +24,9 @@ my $cmd = shift(@ARGV) or die;
 #my $url = 'http://collections.banq.qc.ca/oai/request';
 my $basedir = '.';
 
-my $oai = Net::OAI::Harvester->new( 'baseUrl' => $url );
+my $lwp = LWP::UserAgent->new();
+$lwp->timeout(800);
+my $oai = Net::OAI::Harvester->new('baseUrl' => $url, 'userAgent' => $lwp);
 
 
 if ($cmd eq 'list') {
