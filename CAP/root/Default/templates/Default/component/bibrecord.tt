@@ -4,6 +4,19 @@
   USE XML.Escape;
   MACRO media(code) INCLUDE macro/media.tt;
   MACRO contributor(code) INCLUDE macro/contributor.tt;
+  MACRO language(lang) INCLUDE macro/language.tt;
+
+  media_types = [];
+  languages =   [];
+
+  FOREACH field IN record.media.unique;
+    media_types.push(media(field));
+  END;
+
+  FOREACH field IN record.lang.unique;
+    languages.push(language(field));
+  END;
+
 %]
 
 [% MACRO row(label, field) IF field %]
@@ -24,7 +37,8 @@
     [% row("Publication", record.pu) %]
     [% row("Subject", record.su) %]
     [% row("Note", record.no) %]
-    [% row("Media", record.media) %]
+    [% row("Media", media_types.join(', ')) %]
+    [% row("Language", languages.join(', ')) %]
     [% row("Contributor", contributor(record.contributor)) %]
     [% IF record.ancestors.last.type == 'collection' %]
       [% row("Collection", record.ancestors.last.label) %]

@@ -21,7 +21,14 @@
         # Item label and link to the contributor's resource
       %]
       <h3>
-        <a href="[% item.doc.canonicalUri | xml_escape %]">[% label(item) %]</a>
+        [% # This is a temporary check; we should add appropriate metadata
+           # flags rather than go by file suffix.
+        %]
+        [% IF item.doc.canonicalUri.match('\.jpg$') %]
+          <a href="[% c.uri_for(root, 'show', item.main_record, {'embed' => item.doc.canonicalUri }) %]">[% label(item) %]</a>
+        [% ELSE %]
+          <a href="[% item.doc.canonicalUri | xml_escape %]">[% label(item) %]</a>
+        [% END %]
       </h3>
       [%
         # Media type, contributor information and parent collection (if any)

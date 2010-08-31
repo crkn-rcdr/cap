@@ -3,7 +3,7 @@
 %]
 [% SWITCH code %]
   [% CASE 'alouette' %]Alouette Canada
-  [% CASE 'nfsm' %]Memorial University
+  [% CASE 'mun' %]Memorial University
   [% CASE 'oocihm' %]Canadiana.org
   [% CASE 'ooe' %][% c.loc("Foreign Affairs and International Trade Canada") %]
   [% CASE 'oonl' %][% c.loc("Library and Archives Canada") %]
