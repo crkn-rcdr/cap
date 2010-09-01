@@ -13,3 +13,9 @@ set :repository, "http://dev.cihm/svn/cap/trunk"
 
 set :deploy_via, :remote_cache
 
+task :mk_init do
+    sudo "ln -fs #{current_path}/tools/apache_config/dev /etc/apache2/sites-available"
+    sudo "a2ensite dev"
+    sudo "ln -fs  #{current_path}/tools/cap-dev /etc/init.d"
+end
+

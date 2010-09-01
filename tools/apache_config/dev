@@ -1,0 +1,53 @@
+<VirtualHost *:80>
+    ServerName   dev.canadiana.ca
+    ServerAlias  dev.canadiana.org
+
+    ServerAdmin webmaster@canadiana.ca
+
+    DocumentRoot /opt/cap/current/CAP
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    <Directory /var/www/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ErrorLog /var/log/apache2/dev.canadiana.ca-error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog /var/log/apache2/dev.canadiana.ca-access.log combined
+
+    FastCgiExternalServer   /tmp/dev.fcgi -socket /tmp/dev.socket
+
+
+    RewriteEngine On
+    RewriteLog "/tmp/rewrite.log"
+    RewriteLogLevel 25
+
+
+    RewriteCond %{SCRIPT_FILENAME} /dfait/(.*)/static/(.*)$
+    RewriteCond %{DOCUMENT_ROOT}/root/dfait/static/%2 -s
+    RewriteRule ^/dfait/.*/static /root/dfait/static/%2 [L,PT]
+
+
+    RewriteCond %{SCRIPT_FILENAME} /dfait/(.*)/static/(.*)$
+    RewriteCond %{DOCUMENT_ROOT}/root/dfait/static/%2 !-s
+    RewriteCond %{DOCUMENT_ROOT}/root/Default/static/%2 -s
+    RewriteRule ^/dfait/.*/static /root/Default/static/%2 [L,PT]
+
+
+
+    AliasMatch       /root/(.*)/static/(.*)        /opt/cap/current/CAP/root/$1/static/$2
+    Alias        /     /tmp/dev.fcgi/
+
+
+</VirtualHost>
+
