@@ -31,7 +31,12 @@
             <div id="searchOptions">
               <p>
 
-                <a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>
+                <!--<a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>-->
+                [% IF iface == 'fr' %]
+                  <a href="http://www.canadiana.org/fr/prc/organisations">[% c.loc('Collection contributors') | xml_escape %]</a>
+                [% ELSE %]
+                  <a href="http://www.canadiana.org/en/cdp/contributors">[% c.loc('Collection contributors') | xml_escape %]</a>
+                [% END %]
               </p>
 
               <div id="ddownContributors" style="display:none;">
