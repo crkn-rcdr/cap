@@ -9,11 +9,11 @@
   media_types = [];
   languages =   [];
 
-  FOREACH field IN record.media.unique;
+  FOREACH field IN record.media;
     media_types.push(media(field));
   END;
 
-  FOREACH field IN record.lang.unique;
+  FOREACH field IN record.lang;
     languages.push(language(field));
   END;
 
@@ -23,7 +23,7 @@
   <tr>
     <td class="label">[% c.loc(label) %]</td>
     <td>
-      [% FOREACH value IN field %]
+      [% FOREACH value IN field.unique %]
         <div>[% value | xml_escape %]</div>
       [% END %]
     </td>
