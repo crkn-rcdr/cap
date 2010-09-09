@@ -60,8 +60,11 @@
           <xsl:if test="contains(., 'English')"><lang>eng</lang></xsl:if>
           <xsl:if test="contains(., 'French')"><lang>fra</lang></xsl:if>
           <xsl:if test="contains(., 'German')"><lang>deu</lang></xsl:if>
-          <xsl:if test="contains(., 'Inuktitut')"><lang>inu</lang></xsl:if>
-          <xsl:if test="contains(., 'Inuit')"><lang>inu</lang></xsl:if>
+          <xsl:if test="contains(., 'Inuktitut')"><lang>iku</lang></xsl:if>
+          <xsl:if test="contains(., 'Inuit')"><lang>iku</lang></xsl:if>
+        </xsl:when>
+        <xsl:when test="$set = 'hrr' or $set = 'unb'">
+          <lang>eng</lang>
         </xsl:when>
         <xsl:otherwise>
           <xsl:call-template name="marcxml:languages">

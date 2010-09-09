@@ -39,9 +39,13 @@
     <filter xpath="//record/media" type="code">return lc($_[0])</filter>
     <filter xpath="//record/media[text() = 'object']" type="delete"/>
     <filter xpath="//record/media[text() = 'unknown']" type="delete"/>
-    <filter xpath="//record/description/text[text() = '']" type="delete"/>
+    <filter xpath="//record/description/text[. = '']" type="delete"/>
     <filter xpath="//record/resource/canonicalPreviewUri" type="code">
-      $_[0] =~ s/'/%27/g; $_[0] =~ s! !%20!g; return $_[0];
+      $_[0] =~ s/'/%27/g;
+      $_[0] =~ s! !%20!g;
+      $_[0] =~ s/\[/%5B/g;
+      $_[0] =~ s/\]/%5D/g;
+      return $_[0];
     </filter>
     <filter xpath="//record/resource/canonicalUri" type="code">
       $_[0] =~ s/'/%27/g; $_[0] =~ s! !%20!g; $_[0]; $_[0] =~ s!\\!%5c!g; return $_[0];
