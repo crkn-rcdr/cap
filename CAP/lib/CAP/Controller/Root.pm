@@ -87,29 +87,32 @@ sub auto :Private
 
 sub base : Chained('/') PathPart('') CaptureArgs(2)
 {
-    my($self, $c, $portal, $iface) = @_;
+    my($self, $c, $portal, $lang) = @_;
     $portal = lc($portal);
-    $iface = lc($iface);
+    $lang = lc($lang);
 
-    # The iface parameter overrides the requested interface.
-    $iface = $c->req->params->{iface} if ($c->req->params->{iface});
-
+    # Configure the requested portal (or return an error)
     $c->forward('config_portal', [$portal]);
 
-    # If an invalid interface is specified, use the default one; generate
-    # an error if no default interface is defined.
-    if (! exists($c->stash->{config}->{iface}->{$iface})) {
-        warn("[debug] Request for undefined iface \"$iface\"\n") if ($c->config->{debug});
-        $c->detach('error', [404]) unless ($c->stash->{config}->{default_iface});
-        warn("[info] Using default iface \"" . $c->stash->{config}->{default_iface} . "\" instead of invalid \"$iface\"\n");
-        $iface = $c->stash->{config}->{default_iface};
+    # Set the user interface language. Use the default if the supplied
+    # language is not supported.
+    $lang = $c->stash->{config}->{default_lang} unless ($lang && $c->stash->{config}->{languages}->{$lang});
+    $c->languages( $lang ? [$lang] : []);
+
+    $c->stash->{lang}  = $lang;
+    $c->stash->{iface} = $lang; # Deprecated
+
+    $c->forward('set_root', [$portal, $lang]);
+
+    # Use the default output format unless the specified format is supplied
+    my $format = 'Default';
+    if ($c->req->params->{fmt}) {
+        if ($c->stash->{config}->{format}->{$c->req->params->{fmt}}) {
+            $format = $c->req->params->{fmt};
+        }
     }
-
-    $c->languages( $iface ? [$iface] : []);
-    $c->response->content_type($c->stash->{config}->{iface}->{$iface});
-    $c->stash->{iface} = $iface;
-
-    $c->forward('set_root', [$portal, $iface]);
+    $c->stash->{format} = $format;
+    $c->response->content_type($c->stash->{config}->{format}->{$format});
 
 
 
@@ -274,25 +277,13 @@ sub base : Chained('/') PathPart('') CaptureArgs(2)
 
 }
 
-
-=over 4
-
-=item config_portal
-
-Called from I<base> and some of the default actions to set various
-configuration parameters based on the requested portal.
-
-=back
-=cut
+# Read the portal configuration file and apply its characteristics.
 sub config_portal : Private
 {
     my($self, $c, $portal) = @_;
 
-    # Check for an external config file for this portal in the portals
-    # directory and load it if it exists.
-
-    # If an external configuration file exists for $portal, load it.
-    # Otherwise, use the definition in the main config file.
+    # Load the portal configuration from the config file. If no portal
+    # config file exists, return a not found error.
     my $config_file = join('/', $c->config->{root}, $portal, 'portal.conf');
     if (-f $config_file) {
         warn("[debug] Reading config file \"$config_file\"\n") if ($c->config->{debug});
@@ -304,9 +295,6 @@ sub config_portal : Private
         $c->stash->{pconf} = { $config->getall };
         $c->stash->{config} = { $config->getall };
     }
-    #elsif ($c->config->{portal}->{$portal}) {
-    #    $c->stash->{config} = $c->config->{portal}->{$portal};
-    #}
     else {
         $c->detach('error', [404, "BADPORTAL"]);
     }
@@ -324,28 +312,6 @@ sub config_portal : Private
 
     $c->stash->{portal} = $portal;
     return 1;
-
-    # Configure the requested application
-    #if ($c->config->{portal}->{$portal}) {
-    #    my $conf = $c->config->{portal}->{$portal};
-#
-## If the portal is disabled, return a file not found response.
-#        $c->detach('error', [404, "Portal not enabled"]) unless ($conf->{enabled});
-#
-#        # Searches should be restricted to a subset of the Solr index.
-#        if ($conf->{subset}) {
-#            $c->config->{solr}->{subset} = {};
-#            while (my($field, $value) = each(%{$conf->{subset}})) {
-#                $c->config->{solr}->{subset}->{$field} = $value;
-#            }
-#        }
-#
-#        $c->stash->{portal} = $portal;
-#    }
-#    else {
-#        $c->detach('error', [404]);
-#    }
-
 }
 
 
@@ -388,14 +354,11 @@ If a valid portal is specified but nothing else, redirect to the default interfa
 
 =back
 =cut
-sub default_iface :Path :Args(1)
+sub default_lang :Path :Args(1)
 {
     my($self, $c, $portal) = @_;
     $c->forward('config_portal', [$portal]);
-    #$c->forward('set_root', [$portal, undef]);
-    #$c->stash->{template} = 'splash.tt';
-    #my $default = $c->config->{default_portal};
-    $c->res->redirect($c->uri_for($c->stash->{portal}, $c->stash->{config}->{default_iface}));
+    $c->res->redirect($c->uri_for($c->stash->{portal}, $c->stash->{config}->{default_lang}));
 }
 
 
@@ -455,26 +418,26 @@ sub end : ActionClass('RenderView')
     # of {portal} seems to get passed to the template, but creating
     # {portal_dir} here seems to fix that. Weird.
     # TODO: do we still even need this?
-    $c->stash->{portal_dir} = $c->stash->{portal};
+    #$c->stash->{portal_dir} = $c->stash->{portal};
 
 
-    # Look for templates in the $root/templates/$portal/templates/$iface
+    # Look for templates in the $root/templates/$portal/templates/$format
     # directory. Use "Main" if the interface is a standard language
     # interface. If the template is not found here, the default for the
     # view is used.
     my $subdir = "Main";
-    if ($c->stash->{iface} && $c->stash->{iface} !~ /^[a-z][a-z]$/) {
-        $subdir = $c->stash->{iface};
-    }
+    #if ($c->stash->{format} && $c->stash->{format} !~ /^[a-z][a-z]$/) {
+    #    $subdir = $c->stash->{format};
+    #}
 
     # If a portal is configured, add the default template path for that
     # portal. If an interface is also configured, add the template path
     # for that interface. (The global default path is the final fallback.)
     if ($c->stash->{portal}) {
-        if ($c->stash->{iface}) {
+        if ($c->stash->{format}) {
             $c->stash->{additional_template_paths} = [ 
-                join('/', $c->config->{root}, $c->stash->{portal}, "templates", $c->stash->{iface}), 
-                join('/', $c->config->{root}, "Default", "templates", $c->stash->{iface}), 
+                join('/', $c->config->{root}, $c->stash->{portal}, "templates", $c->stash->{format}), 
+                join('/', $c->config->{root}, "Default", "templates", $c->stash->{format}), 
                 join('/', $c->config->{root}, $c->stash->{portal}, "templates", 'Default')
             ];
         }
@@ -526,10 +489,10 @@ eventually be forwarded to the original URI.)
 =cut
 sub set_root : Private
 {
-    my($self, $c, $portal, $iface) = @_;
+    my($self, $c, $portal, $lang) = @_;
     my $root = $portal;
     my $uri = $c->request->uri;
-    $root .= "/$iface" if ($iface);
+    $root .= "/$lang" if ($lang);
 
     if ($c->config->{prefix}->{$c->request->{base}}) {
         my $prefix = $c->config->{prefix}->{$c->request->{base}};
