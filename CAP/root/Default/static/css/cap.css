@@ -776,17 +776,19 @@ dd {
 }
 
 #refine_toolbar_container {
-    width: 60%;
+    width: 40%;
     border: 0px solid #ff0000;
+    top: 0px;
+    margin-top: 0px;
 
 }
 
 #newsearch_toolbar_container {
     top: 0px; 
-    width: 40%;
+    width: 60%;
     border: 0px solid #0000ff;
     float: right;
-    margin-top: -22px;
+    margin-top: -21px;
 }
 
 #newsearch_toolbar {

@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'cap.css') %]"/>
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/tundra/tundra.css') %]" />
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dojo/resources/dojo.css') %]" />
     [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]"/>
     <script type="text/javascript">

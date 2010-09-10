@@ -5,8 +5,9 @@ use feature qw(switch);
 use warnings;
 use parent 'Catalyst::Controller';
 
-sub search : Chained('/base') PathPart('search') Args() 
-{
+
+sub search : Chained('/base') PathPart('search') Args() {
+
     my($self, $c, $start) = @_;
     $start = 1 unless ($start);
 
@@ -15,10 +16,12 @@ sub search : Chained('/base') PathPart('search') Args()
     # By default, we search everything. If a type parameter is specified,
     # limit to records of a specific type.
     my $type = 'all';
+
     my %types = (
         'pages' => 'page',
         'titles' => 'monograph OR serial',
     );
+
     if ($c->req->params->{t} && $types{$c->req->params->{t}}) {
         $type = $c->req->params->{t};
         $c->forward('prepare_search', [$types{$c->req->params->{t}}]);
@@ -42,27 +45,30 @@ sub search : Chained('/base') PathPart('search') Args()
     };
 
     $c->stash(
-        search => {
-            type => $type,
+        search   => {
+            type    => $type,
             grouped => $c->req->params->{gr},
         },
         template => "search.tt",
     );
+
     return 1;
+
 }
 
-sub prepare_search : Private
-{
+
+sub prepare_search : Private {
+
     my($self, $c, $type) = @_;
 
     my $param = $c->stash->{param} = {};
     my $query = $c->stash->{query} = {};
     my $facet = $c->stash->{facet} = {
-        facet => 'false',
-        'facet.sort' => 'true',
+        facet            => 'false',
+        'facet.sort'     => 'true',
         'facet.mincount' => 1,
-        'facet.limit' => -1,
-        'facet.field' => [],
+        'facet.limit'    => -1,
+        'facet.field'    => [],
     };
 
     # Generate a set of Solr query parameters from the request parameters.
@@ -92,6 +98,7 @@ sub prepare_search : Private
             $c->stash->{query}->{_pubmax} = "[$date TO *]";
         }
     }
+
     if ($c->req->params->{dt}) {
         # See above for validation rules
         if ($c->req->params->{dt} =~ /^\d{4}(-\d{2}(-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3}(Z)?)?)?)?)?$/) {
@@ -100,6 +107,7 @@ sub prepare_search : Private
             $c->stash->{query}->{_pubmin} = "[* TO $date]";
         }
     }
+
     # DR is deprecated - maybe
     if ($c->request->params->{dr}) {
         my($pubmin,$pubmax) = split('-', $c->request->params->{dr});
@@ -128,8 +136,9 @@ sub prepare_search : Private
     return 1;
 }
 
-sub run_search : Private
-{
+
+sub run_search : Private {
+
     my($self, $c, $start, $grouped) = @_;
     my $solr = CAP::Solr->new($c->config->{solr});
 
@@ -168,9 +177,9 @@ sub run_search : Private
 
     # If a non-empty set is returned, find the first and last publication dates.
     if (@{$set} > 0) {
-        $c->stash->{response}->{result}->{pubmin} = $solr->limit($c->stash->{query}, 'pubmin', 0);
+        $c->stash->{response}->{result}->{pubmin}      = $solr->limit($c->stash->{query}, 'pubmin', 0);
         $c->stash->{response}->{result}->{pubmin_year} = substr($c->stash->{response}->{result}->{pubmin}, 0, 4);
-        $c->stash->{response}->{result}->{pubmax} = $solr->limit($c->stash->{query}, 'pubmax', 1);
+        $c->stash->{response}->{result}->{pubmax}      = $solr->limit($c->stash->{query}, 'pubmax', 1);
         $c->stash->{response}->{result}->{pubmax_year} = substr($c->stash->{response}->{result}->{pubmax}, 0, 4);
     }
 
@@ -178,8 +187,9 @@ sub run_search : Private
     return 1;
 }
 
-sub add_query
-{
+
+sub add_query {
+
     my($self, $c, $request_param, $solr_param) = @_;
     $solr_param = $request_param unless ($solr_param);
     # Treat a value of '-' as a null value (so that we can use checkboxes,
@@ -187,18 +197,23 @@ sub add_query
     if ($c->request->params->{$request_param} && $c->request->params->{$request_param} ne '-') {
         $c->stash->{query}->{$solr_param} = $c->request->params->{$request_param};
     }
+
 }
 
+
 # TODO: this looks to be deprecated.
-sub add_param
-{
+sub add_param {
+
     my($self, $c, $solr_param, $request_param) = @_;
     # Treat a value of '-' as a null value (so that we can use checkboxes,
     # etc. in the interface)
     if ($c->request->params->{$request_param} && $c->request->params->{$request_param} ne '-') {
         $c->stash->{param}->{$solr_param} = $c->request->params->{$request_param};
     }
+
 }
+
+
 
 sub add_sort_order {
     

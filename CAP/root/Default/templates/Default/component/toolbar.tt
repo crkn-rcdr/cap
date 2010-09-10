@@ -56,10 +56,10 @@
 
         // Sort button parameters
         var sortmenuValues = new Array(
-            new Array('[% c.loc("relevance") %]',  '[% c.uri_for(root, 'search', refine(c.req.params, { so => "score" }))  %]'),
-            new Array('[% c.loc("newest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "newest" }))  %]'),
-            new Array('[% c.loc("oldest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "oldest" }))  %]'),
-            new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "seq" }))  %]')
+            new Array('[% c.loc("relevance") %]',  '[% c.uri_for(root, 'search', refine(c.req.params, { so => "score" })) | replace("'","\\'") %]'),
+            new Array('[% c.loc("newest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "newest" }))  | replace("'","\\'") %]'),
+            new Array('[% c.loc("oldest") %]',     '[% c.uri_for(root, 'search', refine(c.req.params, { so => "oldest" }))  | replace("'","\\'") %]'),
+            new Array('[% c.loc("sequence") %]',   '[% c.uri_for(root, 'search', refine(c.req.params, { so => "seq" }))  | replace("'","\\'") %]')
         );
         var sortbuttonvalues =  new Array('[% c.loc("Sort Order") %]','sort_order','sort_order_button');
 
@@ -69,13 +69,13 @@
 
         [% IF c.req.params.lang; %]
             menulabel = '[% c.loc('any') | xml_escape %]';
-            langmenuValues[0] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { lang => "" })) %]');
+            langmenuValues[0] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { lang => "" }))  | replace("'","\\'") %]');
         [% ELSE %]
 
             [% FOREACH facet IN response.facet.lang %]
                 [% SET LANGNAME = language(facet.name) %]
                 menulabel = '[% LANGNAME FILTER remove("\n") %] ([% facet.count %])';
-                langmenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { lang => facet.name })) %]');
+                langmenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]');
                 i++;
             [% END %]
 
@@ -91,13 +91,13 @@
 
         [% IF c.req.params.media; %]
             menulabel = '[% c.loc('any') | xml_escape %]';
-            mediamenuValues[0] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => "" })) %]');
+            mediamenuValues[0] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => "" }))  | replace("'","\\'") %]');
         [% ELSE %]        
 
             [% FOREACH facet IN response.facet.media %]
                 [% SET MEDIANAME = media(facet.name) %]
                 menulabel = '[% MEDIANAME FILTER remove("\n") %]';
-                mediamenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => facet.name })) %]');
+                mediamenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]');
                 i++;
             [% END %]
 
@@ -144,7 +144,7 @@
         
         //New search button parameters
         var form_action = "[% c.uri_for(root,'search') | xml_escape %]";
-        var qvalue = "[% c.session.search.params.q | xml_escape %]";
+        var qvalue = "[% c.session.search.params.q | replace('"','\\"') %]";
         var searchbutton_label =   '[% c.loc("New Search") %]';
 
 [% #End of TT/JavaScript munging %]
