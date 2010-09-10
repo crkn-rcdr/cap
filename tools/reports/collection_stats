@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin;
+use Config::General;
+
+
+use Data::Dumper;
+
+use lib "$FindBin::Bin/../../CAP/lib";
+use CAP::Solr;
+
+my $config_file = "$FindBin::Bin/../../CAP/cap.conf";
+
+my $cg = Config::General->new((
+    '-ConfigFile' => $config_file,
+    '-AutoTrue' => 1,
+));
+
+my $config = {$cg->getall}->{solr};
+
+my $db = CAP::Solr->new($config);
+
+my $facets = $db->facet_counts(qw(lang contributor type media));
+print Dumper($facets);

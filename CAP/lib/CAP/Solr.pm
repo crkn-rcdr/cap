@@ -690,4 +690,27 @@ sub stats_contributor
     return $stats;
 }
 
+# Counts the number of occurrences of each specified facet within the
+# entire collection and returns a hash mapping of name-value pairs for
+# each one.
+sub facet_counts
+{
+    my($self, @facets) = @_;
+    my $facets = {};
+
+    $self->_set_query({_key => '[* TO *]'});
+    $self->_set_params({ rows => 0, facets => [ @facets ]});
+    $self->_run_query();
+    foreach my $facet (@facets) {
+        $facets->{$facet} = {};
+        foreach my $value (@{$self->{facet_fields}->{$facet}}) {
+            my $name = $value->{name};
+            my $count = $value->{count};
+            $facets->{$facet}->{$name} = $count;
+        }
+    }
+
+    return $facets;
+}
+
 1;

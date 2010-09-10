@@ -47,7 +47,8 @@
     CASE 'nai'; label = c.loc('North American Indian (Other)');
     CASE 'sal'; label = c.loc('Salishan languages');
 
-    CASE; label = "($lang)";
+    # Don't output unknown language strings.
+    #CASE; label = "($lang)";
   END;
 
   label | xml_escape;
