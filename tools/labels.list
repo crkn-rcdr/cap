@@ -1,0 +1,139 @@
+# This is the master list of label mappings for the cap.labels database.
+# To update the databaase with the contents of the current file, do:
+#
+# labels -i < labels.list
+#
+# This will update any existing labels and add new ones, but will not
+# delete other labels that may be in the table. (Use the -clear=field
+# switch to clear all labels for a particular field type.)
+#
+# The input format is: field_name:field_code:language_code:label. The
+# first three elements constitute the row's unique key.
+#
+# Blank lines and lines beginning with '#' are ignored.
+
+# Contributors - English
+contributor:alouette:en:Alouette Canada
+contributor:oocihm:en:Canadiana.org
+contributor:mun:en:Memorial University
+contributor:ooe:en:Foreign Affairs and International Trade Canada
+contributor:oonl:en:Library and Archives Canada
+contributor:otu:en:University of Toronto
+contributor:qmbn:en:Bibliothèque et Archives Nationales du Québec
+contributor:sfu:en:Simon Fraser University
+
+# Contributors - French
+contributor:alouette:fr:Alouette Canada
+contributor:oocihm:fr:Canadiana.org
+contributor:mun:fr:Memorial University
+contributor:ooe:fr:Affaires étrangères et Commerce international Canada
+contributor:oonl:fr:Bibliothèque et Archives Canada
+contributor:otu:fr:University of Toronto
+contributor:qmbn:fr:Bibliothèque et Archives Nationales du Québec
+contributor:sfu:fr:Simon Fraser University
+
+# Media Types - English
+media:data:en:Computer data
+media:image:en:Image
+media:plaintext:en:Plain text
+media:text:en:Text
+media:sound:en:Sound recording
+media:video:en:Video
+
+# Media Types - French
+media:data:fr:Données informatiques
+media:image:fr:Image
+media:plaintext:fr:Texte en clair
+media:sound:fr:Enregistrement sonore
+media:text:fr:Texte
+media:video:fr:Vidéo
+
+# Languages - English - ISO 693-3
+lang:alq:en:Algonquin
+lang:ces:en:Czech
+lang:chn:en:Chinook Jargon
+lang:chp:en:Chipewyan
+lang:cre:en:Cree
+lang:cym:en:Welsh
+lang:ell:en:Greek
+lang:eng:en:English
+lang:gla:en:Scottish Gaelic
+lang:deu:en:German
+lang:fra:en:French
+lang:hin:en:Hindi
+lang:hun:en:Hungarian
+lang:iku:en:Inuktitut
+lang:ita:en:Italian
+lang:jpn:en:Japanese
+lang:jor:en:Korean
+lang:lat:en:Latin
+lang:lit:en:Lithuanian
+lang:mic:en:Mi'kmaq
+lang:moh:en:Mohawk
+lang:mul:en:Multiple languages
+lang:nld:en:Dutch
+lang:oji:en:Ojibwa
+lang:pan:en:Panjabi
+lang:pol:en:Polish
+lang:por:en:Portugese
+lang:rus:en:Russian
+lang:spa:en:Spanish
+lang:swe:en:Swedish
+lang:tur:en:Turkish
+lang:ukr:en:Ukrainian
+lang:vie:en:Vietnamese
+lang:yid:en:Yiddish
+lang:zho:en:Chinese
+
+# Languages - French - ISO 693-3
+lang:alq:fr:[Algonquin]
+lang:ces:fr:Tchèque
+lang:chn:fr:[Chinook Jargon]
+lang:chp:fr:Chipewyan
+lang:cre:fr:Cris
+lang:cym:fr:Gallois
+lang:ell:fr:Grec
+lang:eng:fr:Anglais
+lang:gla:fr:Gaélique écossais
+lang:deu:fr:Allemand
+lang:fra:fr:Français
+lang:hin:fr:Hindi
+lang:hun:fr:Hongrois
+lang:iku:fr:Inuktitut
+lang:ita:fr:Italien
+lang:jpn:fr:Japonais
+lang:jor:fr:Coréen
+lang:lat:fr:Latin
+lang:lit:fr:Lithuanien
+lang:mic:fr:[Mi'kmaq]
+lang:moh:fr:Mohawk
+lang:mul:fr:Langues multiples
+lang:nld:fr:Hollandais
+lang:oji:fr:[Ojibwa]
+lang:pan:fr:Pendjabi
+lang:pol:fr:Polonais
+lang:por:fr:Portugais
+lang:rus:fr:Russe
+lang:spa:fr:Espagnol
+lang:swe:fr:Suédois
+lang:tur:fr:Turc
+lang:ukr:fr:Ukrainien
+lang:vie:fr:Vietnamien
+lang:yid:fr:Yiddish
+lang:zho:fr:Chinois
+
+# Languages - English - additional MARC codes (non-ISO 693-3)
+lang:alg:en:Algonquian languages
+lang:ath:en:Athapascan languages
+lang:cpe:en:Creoles and Pidgins, English-based
+lang:iro:en:Iroquoian languages
+lang:nai:en:North American Indian
+lang:sal:en:Salishan languages
+
+# Languages - French - additional MARC codes (non-ISO 693-3)
+lang:alg:fr:[Algonquian languages]
+lang:ath:fr:[Athapascan languages]
+lang:cpe:fr:[Creoles and Pidgins, English-based]
+lang:iro:fr:[Iroquoian languages]
+lang:nai:fr:[North American Indian]
+lang:sal:fr:[Salishan languages]

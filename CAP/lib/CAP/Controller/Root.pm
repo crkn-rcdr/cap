@@ -95,12 +95,13 @@ sub base : Chained('/') PathPart('') CaptureArgs(2)
     $c->forward('config_portal', [$portal]);
 
     # Set the user interface language. Use the default if the supplied
-    # language is not supported.
+    # language is not supported. Get the set of code->label mappings for
+    # the selected language.
     $lang = $c->stash->{config}->{default_lang} unless ($lang && $c->stash->{config}->{languages}->{$lang});
     $c->languages( $lang ? [$lang] : []);
-
     $c->stash->{lang}  = $lang;
     $c->stash->{iface} = $lang; # Deprecated
+    $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
 
     $c->forward('set_root', [$portal, $lang]);
 

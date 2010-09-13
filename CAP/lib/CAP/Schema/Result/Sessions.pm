@@ -1,30 +1,56 @@
 package CAP::Schema::Result::Sessions;
 
+# Created by DBIx::Class::Schema::Loader
+# DO NOT MODIFY THE FIRST PART OF THIS FILE
+
 use strict;
 use warnings;
 
-use base 'DBIx::Class';
+use base 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn", "Core");
+__PACKAGE__->load_components("InflateColumn::DateTime", "Timestamp", "EncodedColumn");
+
+=head1 NAME
+
+CAP::Schema::Result::Sessions
+
+=cut
+
 __PACKAGE__->table("sessions");
+
+=head1 ACCESSORS
+
+=head2 id
+
+  data_type: 'char'
+  is_nullable: 0
+  size: 72
+
+=head2 session_data
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 expires
+
+  data_type: 'integer'
+  is_nullable: 1
+
+=cut
+
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "CHAR", default_value => undef, is_nullable => 0, size => 72 },
+  { data_type => "char", is_nullable => 0, size => 72 },
   "session_data",
-  {
-    data_type => "TEXT",
-    default_value => undef,
-    is_nullable => 1,
-    size => 65535,
-  },
+  { data_type => "text", is_nullable => 1 },
   "expires",
-  { data_type => "INT", default_value => undef, is_nullable => 1, size => 10 },
+  { data_type => "integer", is_nullable => 1 },
 );
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-04-27 14:17:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7uSqejze2o53qrN5moFnWw
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-10 13:18:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:WwspRCvYFq0xyeFFmVhkYA
 
 __PACKAGE__->load_components('ForceUTF8');
 

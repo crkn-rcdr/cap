@@ -1,0 +1,67 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin;
+use Config::General;
+use DBI;
+use Getopt::Long;
+
+
+my $opt =  {
+    insert => 0,
+    clear  => [],
+};
+
+GetOptions(
+    'insert!' => \$opt->{insert},
+    'clear=s' => $opt->{clear},
+) or die($!);
+
+my $database = 'cap.labels';
+
+my $config_file = "$FindBin::Bin/../CAP/cap.conf";
+my $db = {Config::General->new((
+    '-ConfigFile' => $config_file,
+    '-AutoTrue' => 1,
+))->getall}->{Component}->{'Model::DB'}->{connect_info};
+
+my $dbh = DBI->connect($db->{dsn}, $db->{user}, $db->{password}) or die(DBI->errstr);
+
+
+my $list_all = $dbh->prepare("SELECT * FROM $database") or die($dbh->errstr);
+my $row_exists = $dbh->prepare("SELECT * FROM $database WHERE field = ? AND code = ? AND lang = ?") or die($dbh->errstr);
+my $update_row = $dbh->prepare("UPDATE $database SET label = ? WHERE field = ? AND code = ? AND lang = ?") or die($dbh->errstr);
+my $insert_row = $dbh->prepare("INSERT INTO $database VALUES (?,?,?,?)") or die($dbh->errstr);
+my $delete_field = $dbh->prepare("DELETE FROM $database WHERE field = ?") or die($dbh->errstr);
+
+# Clear all existing values for the indicated fields
+foreach my $field (@{$opt->{clear}}) {
+    print("Deleting all values for field $field\n");
+    $delete_field->execute($field) or die($dbh->errstr);
+}
+
+# Insert new rows into the database
+if ($opt->{insert}) {
+    print("Reading rows to insert from STDIN\n");
+    while (my $row = <STDIN>) {
+        chomp $row;
+        next unless $row =~ /\S/;
+        next if $row =~ /^\s*#/;
+        my ($field, $code, $lang, $label) = split(/:/, $row, 4);
+        $row_exists->execute($field, $code, $lang) or die($dbh->errstr);
+        if ($row_exists->rows) {
+            print("updating $field:$code:$lang to $label\n");
+            $update_row->execute($label, $field, $code, $lang) or die($dbh->errstr);
+        }
+        else {
+            print("adding $field:$code:$lang\n");
+            $insert_row->execute($field, $code, $lang, $label) or die($dbh->errstr);
+        }
+    }
+}
+
+$list_all->execute() or die ($dbh->errstr);
+printf("%-16s  %-10s  %-4s  %s\n", "Field", "Code", "Lang", "Label");
+while (my($field, $code, $lang, $label) = $list_all->fetchrow_array()) {
+    printf("%-16s  %-10s  %-4s  %s\n", $field, $code, $lang, $label);
+}

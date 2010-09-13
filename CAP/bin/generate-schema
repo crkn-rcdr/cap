@@ -1,9 +1,17 @@
-#!/bin/sh
-# Run this script to (re)generate the database schema. You must be in the
-# main CAP directory to run this command.
-if [ ! -x "script/cap_create.pl" ]; then
-    echo "You must run this script from the main CAP directory."
-    exit 1
-fi
-echo "(re)generating the database schemas..."
-script/cap_create.pl model DB DBIC::Schema CAP::Schema create=static components=TimeStamp,EncodedColumn dbi:mysql:cap cap catalyst
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin;
+use Config::General;
+
+# Run this script any time you modify the MySQL CAP database in order to
+# re-generate the correct schema files.
+
+my $config_file = "$FindBin::Bin/../cap.conf";
+my $db = {Config::General->new((
+    '-ConfigFile' => $config_file,
+    '-AutoTrue' => 1,
+))->getall}->{Component}->{'Model::DB'}->{connect_info};
+
+`$FindBin::Bin/../script/cap_create.pl model DB DBIC::Schema CAP::Schema create=static components=Timestamp,EncodedColumn $db->{dsn} $db->{user} $db->{password}`;
+

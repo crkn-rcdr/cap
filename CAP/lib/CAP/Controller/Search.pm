@@ -44,6 +44,23 @@ sub search : Chained('/base') PathPart('search') Args() {
         params => $c->req->params,
     };
 
+    # Remove any facets that don't have a corresponding label in the
+    # labels stash. These may be either illegitimate values or values that
+    # don't yet have a supported code->label mapping.
+    my $facets = $c->stash->{response}->{facet};
+    foreach my $facet (keys(%{$facets})) {
+        my $i = 0;
+        while ($i < @{$facets->{$facet}}) {
+            warn $facets->{$facet}->[$i]->{name};
+            if ($c->stash->{label}->{$facet}->{$facets->{$facet}->[$i]->{name}}) {
+                ++$i;
+            }
+            else {
+                splice(@{$facets->{$facet}}, $i, 1);
+            }
+        }
+    }
+
     $c->stash(
         search   => {
             type    => $type,
@@ -153,8 +170,6 @@ sub run_search : Private {
             'sort'   => $c->req->params->{so} || '',
         });
     }
-
-    #$c->stash->{result} = $result; # DEPRECATED (FIXME)
 
     $c->stash->{response}->{result} = {
         page => $result->{page},

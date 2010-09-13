@@ -1,52 +1,82 @@
 package CAP::Schema::Result::User;
 
+# Created by DBIx::Class::Schema::Loader
+# DO NOT MODIFY THE FIRST PART OF THIS FILE
+
 use strict;
 use warnings;
 
-use base 'DBIx::Class';
+use base 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn", "Core");
+__PACKAGE__->load_components("InflateColumn::DateTime", "Timestamp", "EncodedColumn");
+
+=head1 NAME
+
+CAP::Schema::Result::User
+
+=cut
+
 __PACKAGE__->table("user");
+
+=head1 ACCESSORS
+
+=head2 id
+
+  data_type: 'integer'
+  is_auto_increment: 1
+  is_nullable: 0
+
+=head2 username
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 32
+
+=head2 password
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 50
+
+=head2 email
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 128
+
+=head2 name
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 128
+
+=head2 active
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=cut
+
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "INT", default_value => undef, is_nullable => 0, size => 11 },
+  { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "username",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 32,
-  },
+  { data_type => "varchar", is_nullable => 0, size => 32 },
   "password",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 1,
-    size => 50,
-  },
+  { data_type => "varchar", is_nullable => 1, size => 50 },
   "email",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 1,
-    size => 128,
-  },
+  { data_type => "varchar", is_nullable => 1, size => 128 },
   "name",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 1,
-    size => 128,
-  },
+  { data_type => "varchar", is_nullable => 1, size => 128 },
   "active",
-  { data_type => "INT", default_value => undef, is_nullable => 0, size => 11 },
+  { data_type => "integer", is_nullable => 0 },
 );
 __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("username", ["username"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-04-27 14:17:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8sZhcjUcMoWNylP7EVfFIQ
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-10 13:18:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EwtSbKHD7k5bsKE8gEwtrw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

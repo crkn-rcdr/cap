@@ -1,55 +1,92 @@
 package CAP::Schema::Result::PimgCache;
 
+# Created by DBIx::Class::Schema::Loader
+# DO NOT MODIFY THE FIRST PART OF THIS FILE
+
 use strict;
 use warnings;
 
-use base 'DBIx::Class';
+use base 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn", "Core");
+__PACKAGE__->load_components("InflateColumn::DateTime", "Timestamp", "EncodedColumn");
+
+=head1 NAME
+
+CAP::Schema::Result::PimgCache
+
+=cut
+
 __PACKAGE__->table("pimg_cache");
+
+=head1 ACCESSORS
+
+=head2 id
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 128
+
+=head2 format
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 32
+
+=head2 size
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=head2 rot
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=head2 data
+
+  data_type: 'longblob'
+  is_nullable: 0
+
+=head2 ctime
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=head2 atime
+
+  data_type: 'datetime'
+  is_nullable: 0
+
+=head2 acount
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=cut
+
 __PACKAGE__->add_columns(
   "id",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 128,
-  },
+  { data_type => "varchar", is_nullable => 0, size => 128 },
   "format",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 32,
-  },
+  { data_type => "varchar", is_nullable => 0, size => 32 },
   "size",
-  { data_type => "INT", default_value => undef, is_nullable => 0, size => 11 },
+  { data_type => "integer", is_nullable => 0 },
   "rot",
-  { data_type => "INT", default_value => undef, is_nullable => 0, size => 11 },
+  { data_type => "integer", is_nullable => 0 },
   "data",
-  {
-    data_type => "LONGBLOB",
-    default_value => undef,
-    is_nullable => 0,
-    size => 4294967295,
-  },
+  { data_type => "longblob", is_nullable => 0 },
   "ctime",
-  { data_type => "INT", default_value => undef, is_nullable => 0, size => 11 },
+  { data_type => "integer", is_nullable => 0 },
   "atime",
-  {
-    data_type => "DATETIME",
-    default_value => undef,
-    is_nullable => 0,
-    size => 19,
-  },
+  { data_type => "datetime", is_nullable => 0 },
   "acount",
-  { data_type => "INT", default_value => undef, is_nullable => 0, size => 11 },
+  { data_type => "integer", is_nullable => 0 },
 );
 __PACKAGE__->set_primary_key("id", "format", "size", "rot");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-04-27 14:17:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9YVfudWaabF3NJMtgVLTXQ
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-10 13:18:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Om+YAna8Il8uMZjQ67niEA
 #
 #
 __PACKAGE__->load_components('ForceUTF8');

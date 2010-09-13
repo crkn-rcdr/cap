@@ -76,6 +76,14 @@ my @install = (
     '   PRIMARY KEY(user_id, role_id)' .
     ')',
 
+    'CREATE TABLE IF NOT EXISTS cap.labels (' .
+    '  field VARCHAR(32),' .
+    '  code VARCHAR(32),' .
+    '  lang VARCHAR(2),' .
+    '  label VARCHAR(128),' .
+    '  PRIMARY KEY(field, code, lang)' .
+    ')',
+
     "CREATE USER 'cap'\@'localhost' IDENTIFIED BY '$cap_password'",
 
     "GRANT SELECT, INSERT, UPDATE, DELETE ON cap.* to 'cap'\@'localhost'",

@@ -1,51 +1,80 @@
 package CAP::Schema::Result::MasterImage;
 
+# Created by DBIx::Class::Schema::Loader
+# DO NOT MODIFY THE FIRST PART OF THIS FILE
+
 use strict;
 use warnings;
 
-use base 'DBIx::Class';
+use base 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn", "Core");
+__PACKAGE__->load_components("InflateColumn::DateTime", "Timestamp", "EncodedColumn");
+
+=head1 NAME
+
+CAP::Schema::Result::MasterImage
+
+=cut
+
 __PACKAGE__->table("master_image");
+
+=head1 ACCESSORS
+
+=head2 id
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 128
+
+=head2 path
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 128
+
+=head2 format
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 32
+
+=head2 ctime
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=head2 bytes
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=head2 md5
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 32
+
+=cut
+
 __PACKAGE__->add_columns(
   "id",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 128,
-  },
+  { data_type => "varchar", is_nullable => 0, size => 128 },
   "path",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 128,
-  },
+  { data_type => "varchar", is_nullable => 0, size => 128 },
   "format",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 32,
-  },
+  { data_type => "varchar", is_nullable => 0, size => 32 },
   "ctime",
-  { data_type => "INT", default_value => undef, is_nullable => 0, size => 11 },
+  { data_type => "integer", is_nullable => 0 },
   "bytes",
-  { data_type => "INT", default_value => undef, is_nullable => 0, size => 11 },
+  { data_type => "integer", is_nullable => 0 },
   "md5",
-  {
-    data_type => "VARCHAR",
-    default_value => undef,
-    is_nullable => 0,
-    size => 32,
-  },
+  { data_type => "varchar", is_nullable => 0, size => 32 },
 );
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-04-27 14:17:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bvjNOvrY7exxqJTXUp9QwQ
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-10 13:18:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lsaF3detgy0HYVmnSS4nXw
 
 __PACKAGE__->load_components('ForceUTF8');
 __PACKAGE__->resultset_class('CAP::Schema::ResultSet::MasterImage');
