@@ -86,9 +86,9 @@ lang:yid:en:Yiddish
 lang:zho:en:Chinese
 
 # Languages - French - ISO 693-3
-lang:alq:fr:[Algonquin]
+lang:alq:fr:Algonquin
 lang:ces:fr:Tchèque
-lang:chn:fr:[Chinook Jargon]
+lang:chn:fr:Jargon chinook
 lang:chp:fr:Chipewyan
 lang:cre:fr:Cris
 lang:cym:fr:Gallois
@@ -105,11 +105,11 @@ lang:jpn:fr:Japonais
 lang:jor:fr:Coréen
 lang:lat:fr:Latin
 lang:lit:fr:Lithuanien
-lang:mic:fr:[Mi'kmaq]
+lang:mic:fr:Micmac
 lang:moh:fr:Mohawk
 lang:mul:fr:Langues multiples
 lang:nld:fr:Hollandais
-lang:oji:fr:[Ojibwa]
+lang:oji:fr:Ojibwa
 lang:pan:fr:Pendjabi
 lang:pol:fr:Polonais
 lang:por:fr:Portugais
@@ -131,9 +131,9 @@ lang:nai:en:North American Indian
 lang:sal:en:Salishan languages
 
 # Languages - French - additional MARC codes (non-ISO 693-3)
-lang:alg:fr:[Algonquian languages]
-lang:ath:fr:[Athapascan languages]
-lang:cpe:fr:[Creoles and Pidgins, English-based]
-lang:iro:fr:[Iroquoian languages]
-lang:nai:fr:[North American Indian]
-lang:sal:fr:[Salishan languages]
+lang:alg:fr:Langues algonquiennes
+lang:ath:fr:Langues athapascanes
+lang:cpe:fr:Langues créoles et pidgins à base lexicale anglaise
+lang:iro:fr:Langues iroquoises
+lang:nai:fr:Langues amérindiennes de l'Amérique du Nord
+lang:sal:fr:Langues salish

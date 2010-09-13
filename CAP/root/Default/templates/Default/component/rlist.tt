@@ -4,7 +4,7 @@
   USE XML.Escape;
   MACRO media(code) INCLUDE macro/media.tt;
   MACRO contributor(code) INCLUDE macro/contributor.tt;
-  MACRO label(item) INCLUDE macro/label.tt;
+  MACRO doc_label(item) INCLUDE macro/label.tt;
 
 %]
 
@@ -25,9 +25,9 @@
            # flags rather than go by file suffix.
         %]
         [% IF item.doc.canonicalUri.match('\.jpg$') %]
-          <a href="[% c.uri_for(root, 'show', item.main_record, {'embed' => item.doc.canonicalUri }) %]">[% label(item) %]</a>
+          <a href="[% c.uri_for(root, 'show', item.main_record, {'embed' => item.doc.canonicalUri }) %]">[% doc_label(item) %]</a>
         [% ELSE %]
-          <a href="[% item.doc.canonicalUri | xml_escape %]">[% label(item) %]</a>
+          <a href="[% item.doc.canonicalUri | xml_escape %]">[% doc_label(item) %]</a>
         [% END %]
       </h3>
       [%
@@ -37,12 +37,12 @@
         [% IF item.doc.media.size %]
           <span>
             [% FOR code IN item.doc.media %]
-              [% c.loc(media(code)) %]
+              [% label.media.${code} | xml_escape %]
             [% END %]
           </span> |
         [% END %]
         <span>
-          [% contributor(item.doc.contributor) | xml_escape %]
+          [% label.contributor.${item.doc.contributor} | xml_escape %]
         </span>
         [% IF item.ancestors.last.type == 'collection' %]
           <span>
