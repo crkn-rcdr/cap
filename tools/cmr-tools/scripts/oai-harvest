@@ -19,8 +19,8 @@ GetOptions(
     'pause=i' => \$pause,
 ) or die($!);
 
-my $url = shift(@ARGV) or die;
 my $cmd = shift(@ARGV) or die;
+my $url = shift(@ARGV) or die;
 #my $url = 'http://collections.banq.qc.ca/oai/request';
 my $basedir = '.';
 
