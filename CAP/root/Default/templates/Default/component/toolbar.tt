@@ -125,7 +125,7 @@
 
             [% FOREACH facet IN response.facet.media %]
                 [% SET MEDIANAME = media(facet.name) %]
-                menulabel = '[% MEDIANAME FILTER remove("\n") %]';
+                menulabel = '[% MEDIANAME FILTER remove("\n") %] ([% facet.count %])';
                 mediamenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]');
                 i++;
             [% END %]
