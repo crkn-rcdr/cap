@@ -15,6 +15,8 @@ dojo.require("dijit.form.NumberTextBox");
        var include_language = 0;
        var any_medium       = 0;
        var include_medium   = 0;
+       var any_contrib      = 0;
+       var include_contrib  = 0;
 
         // Function for creating generic menu items. 
         function CreateMenuItem (params) {

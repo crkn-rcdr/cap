@@ -34,6 +34,13 @@
              INCLUDE component/media_filter.tt;
          END;
     
+         # Filter by contributor
+         IF c.req.params.contributor;
+             INCLUDE component/any_contrib.tt;
+         ELSIF response.facet.contributor.size > 1;
+             INCLUDE component/contrib_filter.tt;
+         END;
+    
          # Limit results by publication date
          INCLUDE component/year_published.tt;
     
@@ -85,6 +92,28 @@
         var langbuttonvalues =  new Array('[% c.loc("Language") %]','language_button','language_button');
 
 
+        //Contributor button parameters
+        contribmenuValues = new Array();
+        i = 0;
+
+        [% IF c.req.params.contributor; %]
+            menulabel = '[% c.loc('any') | xml_escape %]';
+            contribmenuValues[0] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { contributor => "" }))  | replace("'","\\'") %]');
+        [% ELSE %]
+
+            [% FOREACH facet IN response.facet.contributor %]
+                [% SET CONTRIBNAME = contributor(facet.name) %]
+                menulabel = '[% CONTRIBNAME FILTER remove("\n") %] ([% facet.count %])';
+                contribmenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]');
+                i++;
+            [% END %]
+
+        [% END %]
+
+        contribmax = contribmenuValues.length;
+        var contribbuttonvalues =  new Array('[% c.loc("Contributor") %]','contributor_button','contributor_button');
+
+
         //Media button parameters
         mediamenuValues = new Array();
         i = 0;
@@ -130,7 +159,7 @@
                                   'value="[% response.result.pubmax_year | xml_escape %]"',
                                   'onChange="dijit.byId(\'toDate\').constraints.max = arguments[0];"/>');
 
-        var datebox_elements = new Array('<form method="GET">',
+        var datebox_elements = new Array('<form method="GET" action="[% c.uri_for(root, 'search', refine(c.req.params)) %]">',
                                          '[% search_query(['df','dt']) FILTER remove("\n") %] [% c.loc("Limit by date range:") %]<br/></br> <br/>',
                                          from_args.join(" "),
                                          '<br/>&#160;&#160;&#160;&#160;',
@@ -219,6 +248,24 @@
                 mediabutton = CreateButton(mediamenu,mediabuttonvalues);
                 toolbar.addChild(mediabutton);
             };
+
+            // Add the contributor menu items
+            if ((any_contrib) || (include_contrib)) {
+
+                var contribmenu = new dijit.Menu({
+                    style: "display: none;"
+                });
+
+                for (i = 0; i < contribmax; i++) {
+                  menuitem = CreateMenuItem(contribmenuValues[i]);
+                  contribmenu.addChild(menuitem);
+                }
+
+                contribbutton = CreateButton(contribmenu,contribbuttonvalues);
+                toolbar.addChild(contribbutton);
+            };
+
+
 
             var searchbox = new dijit.TooltipDialog({
                 content: datebox_content

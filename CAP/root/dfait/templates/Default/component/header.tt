@@ -1,5 +1,5 @@
 ﻿<div class="dfait_header"style="background-image: url([% c.uri_for(root,'static','images', "dfait_header_bg.png")|xml_escape %])">
-<img id="dfait_logo" src="[% c.uri_for(root,'static','images', "dfait_header1_${iface}.png")|xml_escape%]" width="760" height="116" />
+<img id="dfait_logo" src="[% c.uri_for(root,'static','images', "dfait_header_${iface}.png")|xml_escape%]" width="760" height="116" />
 </div>
 <div class="topbar">
 <div class="navbox">&nbsp;</div>
