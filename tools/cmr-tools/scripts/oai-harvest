@@ -14,6 +14,8 @@ $| = 1;
 my $clobber = 1;
 my $pause = 5;
 my $ignore_comments = 1;
+my $retry = 10;
+my $timeout = 30;
 GetOptions(
     'clobber!' => \$clobber,
     'pause=i' => \$pause,
@@ -25,7 +27,7 @@ my $url = shift(@ARGV) or die;
 my $basedir = '.';
 
 my $lwp = LWP::UserAgent->new();
-$lwp->timeout(800);
+$lwp->timeout($timeout);
 my $oai = Net::OAI::Harvester->new('baseUrl' => $url, 'userAgent' => $lwp);
 
 
@@ -68,24 +70,56 @@ elsif ($cmd eq 'harvest') {
         my $records = $oai->listRecords( 'metadataPrefix' => 'oai_dc', 'set' => $set );
 
         while ( ! $finished ) {
+
+
             my $output_file = "$output_dir/${set}_$page.xml";
             copy($records->file(), $output_file) or die ("Cannot copy " . $records->file() . " to $output_file: $!\n");
             print("Set $page saved to $output_file\n");
             ++$page;
             my $rtoken = $records->resumptionToken();
+            
             if ( $rtoken ) { 
-                print("Pausing $pause seconds");
+                print("Pausing $pause seconds between pages");
                 for (my $i = 0; $i < $pause; ++$i) {
                     sleep(1);
                     print(".");
                 }
                 print("OK\n");
                 print ( "Getting next page\n" );
-                $records = $oai->listRecords(resumptionToken => $rtoken->token());
+                for(my $attempt = 1; ; ++$attempt) { 
+                    $records = $oai->listRecords(resumptionToken => $rtoken->token());
+
+                    #use Data::Dumper;
+                    #warn Dumper($records->{error});
+                    if ($records->{error}->{errorCode}) {
+                        print("Attempt $attempt of $retry: error code $records->{error}->{errorCode} ($records->{error}->{errorString})\n");
+                        if ($attempt == $retry) {
+                            die("Aborting after $attempt unsuccessful attempts.\n");
+                        }
+                        else {
+                            print("Retrying in $pause seconds");
+                            for (my $i = 0; $i < $pause; ++$i) {
+                                sleep(1);
+                                print(".");
+                            }
+                            print("Retrying\n");
+                        }
+                    }
+                    else {
+                        last;
+                    }
+                }
+
             }
             else { 
                 $finished = 1;
             }
+        }
+
+        print("Pausing $pause seconds after collection");
+        for (my $i = 0; $i < $pause; ++$i) {
+            sleep(1);
+            print(".");
         }
     }
 }

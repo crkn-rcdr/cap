@@ -1,4 +1,4 @@
-package CIHM::CMR::Common;
+package CIHM::CMR;
 
 use strict;
 use warnings;
@@ -117,9 +117,14 @@ sub iso8601
             $date = $1;
         }
 
-        # E.g.: early 20th century
+        # E.g.: early 20th century; late 20th century
         elsif ($date =~ /early (\d{2})th century/i) {
-            if ($max) { $date = "${1}30" } else { $date = "${1}00" }
+            my $yy = ${1} - 1;
+            if ($max) { $date = "${yy}30" } else { $date = "${yy}00" }
+        }
+        elsif ($date =~ /late (\d{2})th century/i) {
+            my $yy = ${1} - 1;
+            if ($max) { $date = "${yy}70" } else { $date = "${yy}99" }
         }
 
         # No numerical characters at all

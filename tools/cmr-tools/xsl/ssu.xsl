@@ -3,7 +3,7 @@
 <!--
   CMR stylesheet for
   University of Saskatchewan
-  contentDM Dublin Core OAI metadata
+  CONTENTdm Dublin Core OAI metadata
   http://cdm15126.contentdm.oclc.org/cgi-bin/oai.exe
 -->
 
