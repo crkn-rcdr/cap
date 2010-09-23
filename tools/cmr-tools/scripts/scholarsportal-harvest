@@ -1,0 +1,129 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use File::Basename;
+use File::Path;
+use Getopt::Long;
+use LWP::UserAgent;
+use XML::LibXML;
+
+my $ACTION = '';
+my $CLOBBER = 0;            # Overwrite existing files
+my $CONTINUE = 1;           # Continue on retrieve error
+
+GetOptions(
+    'action=s' => \$ACTION,
+) or die("$!");
+
+my $root_url = 'http://booksnow.scholarsportal.info/ebooks';
+
+if ($ACTION eq 'list') {
+    fetch_list();
+}
+elsif ($ACTION eq 'marc') {
+    fetch_marc(@ARGV);
+}
+elsif ($ACTION eq 'analyze') {
+    analyze_marc(@ARGV);
+}
+else {
+    die("No action specified.\n");
+}
+
+exit 0;
+
+sub fetch_list
+{
+    foreach my $root (get_entries($root_url, '^oca\d{1,}/$')) {
+        warn("Root $root\n");
+        my $subdir_url = join('/', $root_url, $root);
+        foreach my $subdir (get_entries($subdir_url, '^\d+/$')) {
+            warn("Subdir $subdir");
+            my $title_url = join('/', $subdir_url, $subdir);
+            foreach my $title (get_entries($title_url, '^\w+/$')) {
+                $title =~ s!/!!;
+                print "$root$subdir$title\n";
+            }
+        }
+    }
+}
+
+sub fetch_marc
+{
+    my $lwp = LWP::UserAgent->new();
+    my $parser = XML::LibXML->new();
+    foreach my $path (@_) {
+        my $id = basename($path);
+        my $src = "$path/data/src";
+        my $url = join('/', $root_url, $path, "${id}_marc.xml");
+        my $file = join('/', $src, "${id}_marc.xml");
+        if (-f $file && (! $CLOBBER)) {
+            print("Skipping existing file $file\n");
+            next;
+        }
+        mkpath($src);
+        die("Cannot create directory $src: $!\n") unless (-d $src);
+        print("$url ->\n  $file\n");
+        my $request = HTTP::Request->new(GET => $url);
+        my $response = $lwp->request($request)->content;
+        my $doc;
+        eval { $doc = $parser->parse_string($response) };
+        if ($@) {
+            warn("$url: $@");
+            die("Aborting\n") unless ($CONTINUE);
+        }
+        else {
+            $doc->toFile($file, 1) or die("Failed to write $file: $!\n");
+        }
+    }
+}
+
+sub analyze_marc
+{
+    my $parser = XML::LibXML->new();
+    foreach my $path (@_) {
+        my $src = "$path/data/src";
+        my $id = basename($path);
+        my $file = join('/', $src, "${id}_marc.xml");
+        unless (-f $file) {
+            print("NOMARC : $file.\n");
+            next;
+        }
+        my $doc;
+        eval { $doc = $parser->parse_file($file) };
+        if ($@) {
+            warn("Failed to parse $doc: $@");
+            die("Aborting\n"); # unless ($CONTINUE);
+        }
+        my $context = XML::LibXML::XPathContext->new($doc);
+        $context->registerNs('marcxml' => 'http://www.loc.gov/MARC21/slim');
+        my $url = $context->findvalue('/marcxml:collection/marcxml:record/marcxml:datafield[@tag="856"]/marcxml:subfield[@code="u"]');
+        if ($url) {
+            print("URL : $url : $file\n");
+        }
+        else {
+            print("NO856 : $file\n");
+        }
+    }
+}
+
+
+# Return a list of all of the directory entries from $url that match
+# $pattern. We are expecting a standard Apache directory listing.
+sub get_entries
+{
+    my($url, $pattern) = @_;
+    my $lwp = LWP::UserAgent->new();
+    my $request = HTTP::Request->new(GET => $url);
+    my $response = $lwp->request($request)->content;
+    my $parser = XML::LibXML->new();
+    my $html = $parser->parse_html_string($response);
+    my @entries = ();
+
+    foreach my $dirent ($html->findnodes('//*/td/a')) {
+        my $href = $dirent->getAttribute('href');
+        push(@entries, $href) if ($href =~ /$pattern/);
+    }
+    return @entries;
+}

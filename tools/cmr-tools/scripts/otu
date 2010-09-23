@@ -34,7 +34,7 @@ foreach my $dir (@ARGV) {
     foreach my $marcxml (bsd_glob("$src/*.xml")) {
         print("Processing MARCXML file: $marcxml\n");
         ($temp_fh, $tempfile) = tempfile();
-        abort("Quitting due to errors. Exit code: $?") if (system("$CMR/cmr", '-dump', 'utoronto', $marcxml, $tempfile));
+        abort("$dir: quitting due to errors. Exit code: $?") if (system("$CMR/cmr", '-dump', 'utoronto', $marcxml, $tempfile));
         build_cmr($data, $tempfile, $src);
         unlink($tempfile) or die("Could not remove $tempfile: $!\n");
     }
@@ -49,7 +49,7 @@ sub build_cmr
 
     # Parse the source record
     eval { $title_doc = XML::LibXML->new()->parse_file($title) };
-    abort("Parsing $title_doc failed: $@") if ($@);
+    abort("$title: parsing $title_doc failed: $@") if ($@);
 
     # Output one CMR record per title
     foreach my $record ($title_doc->findnodes('/recordset/record')) {
@@ -114,7 +114,7 @@ sub build_cmr
         eval { $schema->validate($cmr) };
         if ($@) {
             print $cmr->toString(1);
-            abort("CMR record does not validate: $@");
+            abort("$title: CMR record does not validate: $@");
         }
         abort("Failed to write $output_file: $!") unless $cmr->toFile($output_file, 1);
     }
