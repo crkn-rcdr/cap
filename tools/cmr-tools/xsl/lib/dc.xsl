@@ -6,6 +6,13 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 >
 
+  <!--
+    Guess the media type(s) based on the presence of various substrings.
+    Usually, the content of the dc:type is passed to this template, but
+    dc:format may be appropriate in some cases. Generally speaking, it is
+    inadvisable to use both, as duplicate media types may be output as a
+    result.
+  -->
   <xsl:template name="cmr_dc:media">
     <xsl:param name="string"/>
     <xsl:variable name="data" select="translate($string, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
@@ -39,6 +46,8 @@
     </xsl:if>
 
     <xsl:if test="
+      contains($data, 'application/pdf') or
+
       contains($data, 'article') or
       contains($data, 'atlas') or
       contains($data, 'book') or
@@ -79,6 +88,24 @@
     -->
   </xsl:template>
 
+  <!--
+    Map ISO 693-1 language codes to ISO 693-3 This will work for any
+    number of language codes as long as they aren't smushed together
+    without delimiters (e.g.: <dc:language>enfr</dc:language> is bad;
+    <dc:language>en;fr</dc:language> is okay).
+  -->
+  <xsl:template name="cmr_dc:lang_iso693">
+    <xsl:param name="string"/>
+    <xsl:if test="contains($string, 'en')"><lang>eng</lang></xsl:if>
+    <xsl:if test="contains($string, 'fr')"><lang>fra</lang></xsl:if>
+  </xsl:template>
+
+  <!-- 
+    Map English language names to ISO 693-3 language codes. We can also
+    get 3-letter abbreviations as long as they are in all caps. Multiple
+    languages in a single element are detected, but variations in
+    capitalization will be missed.
+  -->
   <xsl:template name="cmr_dc:lang">
     <xsl:param name="string"/>
     <!-- Abbreviations in all caps -->
