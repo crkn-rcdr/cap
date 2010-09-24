@@ -71,7 +71,7 @@
   </head>
 
 <body class='tundra'>
-  <div id="container">
+
     [% content %]
     [%
       IF c.config.debug;
@@ -80,7 +80,7 @@
         INCLUDE component/solr_metric.tt;
       END;
     %]
-  </div>
+
 </body>
 
 </html>

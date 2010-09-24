@@ -8,6 +8,49 @@ dojo.require("dijit.TooltipDialog");
 dojo.require("dijit.Menu");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.NumberTextBox");
+
+
+dojo.require("dijit.layout.BorderContainer");
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dojo.parser");
+
+
+
+//Create the content panes
+dojo.addOnLoad(function() {
+            
+         
+            var border_container = new dijit.layout.BorderContainer({
+                design: "sidebar",
+                gutters: true,
+                liveSplitters: true,
+                style: "width: 100%;",
+            },
+	    "border_container");   
+            
+            var results_pane = new dijit.layout.ContentPane({
+                content: "hello world",
+                style: "width: 400px;",
+                splitter: true,
+                region: "leading",
+            },
+            document.createElement("div")
+            );
+            
+            var document_pane= new dijit.layout.ContentPane({
+                content: "<p>Document Pane</p>",
+                splitter: true,
+                region: "center",
+            },
+            document.createElement("div")
+            );
+            
+            border_container.startup();
+            border_container.addChild(results_pane);
+            border_container.addChild(document_pane);
+
+        });
+
     
 //Toolbar
 

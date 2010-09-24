@@ -20,7 +20,7 @@
 ﻿
 
 <div class="dfait_banner" style="background-image: url([% c.uri_for(root,'static','images', "dfait_header_bg.png")|xml_escape %])">
-  <img id="dfait_logo" src="[% c.uri_for(root,'static','images', "dfait_header1_${iface}.png")|xml_escape%]" width="760" height="116" />
+  <img id="dfait_logo" src="[% c.uri_for(root,'static','images', "dfait_splash_${iface}.png")|xml_escape%]" width="760" height="116" />
 </div>
 
 
