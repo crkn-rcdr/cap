@@ -8,7 +8,7 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "Timestamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
 =head1 NAME
 
@@ -43,8 +43,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("user_id", "role_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-10 13:18:15
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OWiRzTcEPcsbytQVuZq8sw
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-27 12:33:52
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:b678gYVkPyS398OcaDfbkw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

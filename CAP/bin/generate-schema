@@ -13,5 +13,5 @@ my $db = {Config::General->new((
     '-AutoTrue' => 1,
 ))->getall}->{Component}->{'Model::DB'}->{connect_info};
 
-`$FindBin::Bin/../script/cap_create.pl model DB DBIC::Schema CAP::Schema create=static components=Timestamp,EncodedColumn $db->{dsn} $db->{user} $db->{password}`;
+`$FindBin::Bin/../script/cap_create.pl model DB DBIC::Schema CAP::Schema create=static components=TimeStamp,EncodedColumn $db->{dsn} $db->{user} $db->{password}`;
 

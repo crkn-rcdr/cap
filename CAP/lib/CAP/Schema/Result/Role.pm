@@ -8,7 +8,7 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "Timestamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
 =head1 NAME
 
@@ -44,8 +44,8 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("role", ["role"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-10 13:18:15
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:K1cNTDgMSrfBLUHgmK4Apw
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-27 12:33:52
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:C0I/YBC8g6yf6cLtVToEjg
 
 __PACKAGE__->load_components('ForceUTF8');
 __PACKAGE__->has_many(map_user_roles => 'CAP::Schema::Result::UserRole', 'role_id');
