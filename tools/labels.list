@@ -1,3 +1,5 @@
+# Updated: 2010-09-15
+#
 # This is the master list of label mappings for the cap.labels database.
 # To update the databaase with the contents of the current file, do:
 #
@@ -14,23 +16,29 @@
 
 # Contributors - English
 contributor:alouette:en:Alouette Canada
-contributor:oocihm:en:Canadiana.org
+contributor:bvau:en:University of British Columbia
 contributor:mun:en:Memorial University
+contributor:oocihm:en:Canadiana.org
 contributor:ooe:en:Foreign Affairs and International Trade Canada
+contributor:okq:en:Queen's University
 contributor:oonl:en:Library and Archives Canada
 contributor:otu:en:University of Toronto
 contributor:qmbn:en:Bibliothèque et Archives Nationales du Québec
 contributor:sfu:en:Simon Fraser University
+contributor:ssu:en:University of Saskatchewan
 
 # Contributors - French
 contributor:alouette:fr:Alouette Canada
-contributor:oocihm:fr:Canadiana.org
+contributor:bvau:fr:University of British Columbia
 contributor:mun:fr:Memorial University
+contributor:oocihm:fr:Canadiana.org
 contributor:ooe:fr:Affaires étrangères et Commerce international Canada
+contributor:okq:fr:Queen's University
 contributor:oonl:fr:Bibliothèque et Archives Canada
 contributor:otu:fr:University of Toronto
 contributor:qmbn:fr:Bibliothèque et Archives Nationales du Québec
 contributor:sfu:fr:Simon Fraser University
+contributor:ssu:fr:University of Saskatchewan
 
 # Media Types - English
 media:data:en:Computer data

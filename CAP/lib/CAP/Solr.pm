@@ -104,6 +104,11 @@ sub _set_params
     $self->{status_msg} = "nil"; 
 
     # Process caller-supplied parameters
+    
+    # Fields to return
+    if ($param->{fl}) {
+        $self->{param}->{fl} = join(',', @{$param->{fl}});
+    }
 
     # Faceting
     if ($param->{facets}) {
@@ -125,6 +130,11 @@ sub _set_params
     # Starting record (page)
     if ($param->{page}) {
         $self->{param}->{start} = ($self->_int($param->{page}) - 1) * $self->{param}->{rows};
+    }
+
+    # Number of rows to return per page
+    if ($param->{rows} && $param->{rows} =~ /^\d+$/) {
+        $self->{param}->{rows} = $param->{rows};
     }
 }
 
@@ -588,7 +598,8 @@ sub search
     my($self, $query, $param) = @_;
     $self->_set_query($query);
     $self->_set_params($param);
-    $self->{param}->{fl} = $self->{fl}->{search};
+    # Retrieve the default fields if none are supplied.
+    $self->{param}->{fl} = $self->{fl}->{search} unless ($param->{fl});
     $self->{status_msg} = "search(): main query";
     $self->_run_query();
     return $self->{result};

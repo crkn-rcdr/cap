@@ -28,7 +28,7 @@ my $db = {Config::General->new((
 my $dbh = DBI->connect($db->{dsn}, $db->{user}, $db->{password}) or die(DBI->errstr);
 
 
-my $list_all = $dbh->prepare("SELECT * FROM $database") or die($dbh->errstr);
+my $list_all = $dbh->prepare("SELECT * FROM $database ORDER BY field, code, lang") or die($dbh->errstr);
 my $row_exists = $dbh->prepare("SELECT * FROM $database WHERE field = ? AND code = ? AND lang = ?") or die($dbh->errstr);
 my $update_row = $dbh->prepare("UPDATE $database SET label = ? WHERE field = ? AND code = ? AND lang = ?") or die($dbh->errstr);
 my $insert_row = $dbh->prepare("INSERT INTO $database VALUES (?,?,?,?)") or die($dbh->errstr);
