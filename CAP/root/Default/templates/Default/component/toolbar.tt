@@ -80,8 +80,8 @@
         [% ELSE %]
 
             [% FOREACH facet IN response.facet.lang %]
-                [% SET LANGNAME = language(facet.name) %]
-                menulabel = '[% LANGNAME FILTER remove("\n") %] ([% facet.count %])';
+                [% SET LANGNAME = label.lang.${facet.name}  %]
+                menulabel = '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])';
                 langmenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]');
                 i++;
             [% END %]
@@ -103,7 +103,7 @@
 
             [% FOREACH facet IN response.facet.contributor %]
                 [% SET CONTRIBNAME = contributor(facet.name) %]
-                menulabel = '[% CONTRIBNAME FILTER remove("\n") %] ([% facet.count %])';
+                menulabel = '[% CONTRIBNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])';
                 contribmenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]');
                 i++;
             [% END %]
@@ -124,8 +124,8 @@
         [% ELSE %]        
 
             [% FOREACH facet IN response.facet.media %]
-                [% SET MEDIANAME = media(facet.name) %]
-                menulabel = '[% MEDIANAME FILTER remove("\n") %] ([% facet.count %])';
+                [% SET MEDIANAME = label.media.${facet.name} %]
+                menulabel = '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])';
                 mediamenuValues[i] = new Array(menulabel,   '[% c.uri_for(root, 'search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]');
                 i++;
             [% END %]
