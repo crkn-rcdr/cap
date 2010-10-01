@@ -27,14 +27,15 @@ foreach my $dir (@ARGV) {
 
     # Make sure the source directory exists.
     -d $src or abort("Source directory '$src' does not exist");
-
     print("Processing collection in: $src\n");
 
     # Process the source MARCXML files
     foreach my $marcxml (bsd_glob("$src/*.xml")) {
-        print("Processing MARCXML file: $marcxml\n");
+        my $id = basename($marcxml, "_marc.xml");
+        my $path = $dir; $path =~ s!/$!!;
+        print("Processing MARCXML file: $marcxml (ID=$id, PATH=$path)\n");
         ($temp_fh, $tempfile) = tempfile();
-        abort("$dir: quitting due to errors. Exit code: $?") if (system("$CMR/cmr", '-dump', 'utoronto', $marcxml, $tempfile));
+        abort("$dir: quitting due to errors. Exit code: $?") if (system("$CMR/cmr", "-debug", "-param=id:'$id'", "-param=path:'$path'", '-dump', 'otu', $marcxml, $tempfile));
         build_cmr($data, $tempfile, $src);
         unlink($tempfile) or die("Could not remove $tempfile: $!\n");
     }
@@ -108,12 +109,12 @@ sub build_cmr
             print("  $key: $page_count pages\n");
         }
         else {
-            print("Text directory '$text_dir' not found.\n");
+            #print("Text directory '$text_dir' not found.\n");
         }
 
         eval { $schema->validate($cmr) };
         if ($@) {
-            print $cmr->toString(1);
+            #print $cmr->toString(1);
             abort("$title: CMR record does not validate: $@");
         }
         abort("Failed to write $output_file: $!") unless $cmr->toFile($output_file, 1);

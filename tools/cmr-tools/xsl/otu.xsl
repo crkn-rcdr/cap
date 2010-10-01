@@ -6,7 +6,7 @@
   xmlns:marcxml="http://www.canadiana.ca/XML/cmr-marcxml"
 >
 
-<xsl:import href="marcxml.xsl"/>
+<xsl:import href="lib/marcxml.xsl"/>
 
 <xsl:param name="id"/>
 <xsl:param name="path"/>
@@ -53,15 +53,20 @@
 
     <resource>
       <canonicalUri>
+        <xsl:value-of select="concat('http://books.scholarsportal.info/viewdoc.html?id=/', $path)"/>
+      </canonicalUri>
+      <!--
+      <canonicalUri>
         <xsl:choose>
           <xsl:when test="marc:datafield[@tag='856']/marc:subfield[@code='u']">
             <xsl:value-of select="marc:datafield[@tag='856']/marc:subfield[@code='u']"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="concat('http://ebooks.scholarsportal.info/viewdoc.html?id=/', $path)"/>
+            <xsl:value-of select="concat('http://books.scholarsportal.info/viewdoc.html?id=/', $path)"/>
           </xsl:otherwise>
         </xsl:choose>
       </canonicalUri>
+      -->
     </resource>
   </record>
 </xsl:template>

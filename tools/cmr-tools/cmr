@@ -20,11 +20,15 @@ use Getopt::Long;
 
 my $xsd_file = "$basedir/cmr.xsd";
 my $dump_invalid = 0;
+my $debug = 0;
+my @xslparam = ();
 
 GetOptions(
     "xsd=s" => \$xsd_file,
     "dump" => \$dump_invalid,
-) or die("Usage: $0 [-xsd=FILE] TRANSFORM INPUT_FILE [OUTPUT_FILE]\n");
+    "debug" => \$debug,
+    "param=s" => \@xslparam,
+) or die("Usage: $0 [-param=name:value ...] [-xsd=FILE] XSL_FILE INPUT_FILE [OUTPUT_FILE]\n");
 
 my $xsl_file = "$basedir/xsl/" . shift(@ARGV) . ".xsl";
 my $input_file = shift(@ARGV);
@@ -34,9 +38,78 @@ my $xml = XML::LibXML->new();
 my $xsl = XML::LibXSLT->new();
 my $xsd = XML::LibXML::Schema->new(location => $xsd_file);
 
+#
+# Transform the source document using the specified stylesheet
+#
+
+my %params = ();
+foreach my $param (@xslparam) {
+    my($key, $value) = split(':', $param, 2);
+    $params{$key} = $value;
+}
+
 my $doc = $xml->parse_file($input_file);
 my $stylesheet = $xsl->parse_stylesheet($xml->parse_file($xsl_file));
-$doc = $stylesheet->transform($doc);
+$doc = $stylesheet->transform($doc, %params);
+
+#
+# Post Processing
+#
+
+# Rewrite identifiers (key, pkey, gkey) so that they contain only legal
+# characters.
+# TODO
+
+#
+# Delete language fields that contain illegal characters
+#
+
+foreach my $lang ($doc->findnodes('/recordset/record/lang')) {
+    my $value = $lang->findvalue('.');
+    unless ($value =~ /^[a-z][a-z][a-z]$/) {
+        warn("Removing invalid language code: $value\n") if ($debug);
+        $lang->parentNode->removeChild($lang);
+    }
+}
+
+# Convert pubdate values to standardized ISO-8601 dates. If this cannot be
+# done, remove the pubdate field altogether.
+foreach my $pubdate ($doc->findnodes('/recordset/record/pubdate')) {
+    my $min = $pubdate->getAttribute('min');
+    my $max = $pubdate->getAttribute('max');
+    $min = iso8601($min, 0) unless ($min =~ /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    $max = iso8601($max, 1) unless ($max =~ /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    if ($min && $max) {
+        $pubdate->setAttribute('min', $min);
+        $pubdate->setAttribute('max', $max);
+    }
+    else {
+        $pubdate->parentNode->removeChild($pubdate);
+    }
+}
+
+# Delete any description fields with zero-length content or illegal
+# attribute values
+foreach my $field ($doc->findnodes('/recordset/record/description/*')) {
+    my $name = $field->nodeName();
+    my $text = $field->findvalue('.');
+    if ($text =~ /^\s*$/) {
+        warn("Removing invalid empty field: $name\n") if ($debug);
+        $field->parentNode->removeChild($field);
+    }
+    elsif ($field->hasAttribute('lang') && $field->getAttribute('lang') !~ /^[a-z][a-z][a-z]$/) {
+        my $lang = $field->getAttribute('lang');
+        warn("Removing invalid language attribute for $name: '$lang'\n") if ($debug);
+        $field->removeAttribute('lang');
+    }
+}
+
+#
+# Filters
+#
+
+# Ideally, we'd like to remove this altogether and just do standard
+# post-processing.
 
 # Process the filters in order
 if ($doc->findnodes('/recordset/filters')) {
@@ -136,7 +209,10 @@ if ($doc->findnodes('/recordset/filters')) {
     $doc->documentElement()->removeChild($filters);
 }
 
-# Validate the transformed document
+#
+# Validate and output the final result
+#
+
 eval { $xsd->validate($doc) };
 if ($@) {
     my $error = $@;
@@ -144,7 +220,6 @@ if ($@) {
     die($error);
 }
 
-# Write out the validated CMR record
 if ($output_file) {
     $doc->toFile($output_file, 1) or die("Failed to write $output_file: $!\n");
 }
