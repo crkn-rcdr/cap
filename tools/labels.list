@@ -43,6 +43,7 @@ contributor:sfu:fr:Simon Fraser University
 contributor:ssu:fr:University of Saskatchewan
 
 # Media Types - English
+media:audio:en:Audio
 media:data:en:Computer data
 media:image:en:Image
 media:plaintext:en:Plain text
@@ -51,6 +52,7 @@ media:sound:en:Sound recording
 media:video:en:Video
 
 # Media Types - French
+media:audio:fr:Audio
 media:data:fr:Données informatiques
 media:image:fr:Image
 media:plaintext:fr:Texte en clair
@@ -58,66 +60,205 @@ media:sound:fr:Enregistrement sonore
 media:text:fr:Texte
 media:video:fr:Vidéo
 
+
+
 # Languages - English - ISO 693-3
+lang:afr:en:Afrikaans
+lang:akk:en:Akkadian
 lang:alq:en:Algonquin
+lang:amh:en:Amharic
+lang:ang:en:Old English (ca. 450-1100)
+lang:ara:en:Arabic
+lang:arc:en:Official Aramaic (700-300 BCE)
+lang:ave:en:Avestan
+lang:aym:en:Aymara
+lang:bag:en:Tuki
+lang:bal:en:Baluchi
+lang:ben:en:Bengali
+lang:bod:en:Tibetan
+lang:bul:en:Bulgarian
+lang:cat:en:Catalan
 lang:ces:en:Czech
 lang:chn:en:Chinook Jargon
+lang:cho:en:Choctaw
 lang:chp:en:Chipewyan
+lang:chu:en:Church Slavic
+lang:cmn:en:Mandarin Chinese
+lang:cop:en:Coptic
+lang:cor:en:Cornish
 lang:cre:en:Cree
+lang:cro:en:Crow
 lang:cym:en:Welsh
-lang:ell:en:Greek
-lang:eng:en:English
-lang:gla:en:Scottish Gaelic
+lang:dak:en:Dakota
+lang:dan:en:Danish
+lang:del:en:Delaware
 lang:deu:en:German
+lang:dua:en:Duala
+lang:dum:en:Middle Dutch (ca. 1050-1350)
+lang:ebg:en:Ebughu
+lang:egy:en:Egyptian (Ancient)
+lang:ell:en:Greek
+lang:elx:en:Elamite
+lang:emg:en:Eastern Meohang
+lang:enf:en:Forest Enets
+lang:eng:en:English
+lang:enm:en:Middle English (1100-1500)
+lang:enn:en:Engenni
+lang:epo:en:Esperanto
+lang:esk:en:Northwest Alaska Inupiatun
+lang:est:en:Estonian
+lang:eth:en:Ethiopian Sign Language
+lang:eus:en:Basque
+lang:far:en:Fataleka
+lang:fas:en:Persian
+lang:fin:en:Finnish
 lang:fra:en:French
+lang:frc:en:Cajun French
+lang:frm:en:Middle French (ca. 1400-1600)
+lang:fro:en:Old French (842-ca. 1400)
+lang:fry:en:Western Frisian
+lang:gag:en:Gagauz
+lang:gcr:en:Guianese Creole French
+lang:geb:en:Kire
+lang:gez:en:Geez
+lang:gla:en:Scottish Gaelic
+lang:gle:en:Irish
+lang:gmh:en:Middle High German (ca. 1050-1500)
+lang:gno:en:Northern Gondi
+lang:goh:en:Old High German (ca. 750-1050)
+lang:got:en:Gothic
+lang:grc:en:Ancient Greek (to 1453)
+lang:hau:en:Hausa
+lang:haw:en:Hawaiian
+lang:heb:en:Hebrew
 lang:hin:en:Hindi
+lang:hor:en:Horo
 lang:hun:en:Hungarian
+lang:hye:en:Armenian
 lang:iku:en:Inuktitut
+lang:ilo:en:Iloko
+lang:ind:en:Indonesian
+lang:iri:en:Irigwe
+lang:isl:en:Nkem-Nkum
 lang:ita:en:Italian
 lang:jpn:en:Japanese
-lang:jor:en:Korean
+lang:kab:en:Kabyle
+lang:kan:en:Kannada
+lang:kau:en:Kanuri
+lang:kor:en:Korean
+lang:kor:en:Korean
+lang:lad:en:Ladino
+lang:lan:en:Laru
 lang:lat:en:Latin
+lang:lav:en:Latvian
+lang:lhu:en:Lahu
 lang:lit:en:Lithuanian
+lang:mar:en:Marathi
 lang:mic:en:Mi'kmaq
+lang:mix:en:Mixtepec Mixtec
 lang:moh:en:Mohawk
+lang:msa:en:Malay
 lang:mul:en:Multiple languages
+lang:new:en:Newari
+lang:nge:en:Ngemba
 lang:nld:en:Dutch
+lang:nng:en:Maring Naga
+lang:nor:en:Norwegian
 lang:oji:en:Ojibwa
+lang:ong:en:Olo
+lang:ori:en:Oriya
+lang:ota:en:Ottoman Turkish (1500-1928)
+lang:pal:en:Pahlavi
 lang:pan:en:Panjabi
+lang:peo:en:Old Persian (ca. 600-400 B.C.)
+lang:pli:en:Pali
 lang:pol:en:Polish
 lang:por:en:Portugese
+lang:pro:en:Old Provençal (to 1500)
+lang:pus:en:Pushto
+lang:raj:en:Rajasthani
+lang:roh:en:Romansh
+lang:ron:en:Romanian
 lang:rus:en:Russian
+lang:sag:en:Sango
+lang:san:en:Sanskrit
+lang:sao:en:Sause
+lang:sco:en:Scots
+lang:ser:en:Serrano
+lang:sga:en:Old Irish (to 900)
+lang:slk:en:Slovak
+lang:slv:en:Slovenian
+lang:snh:en:Shinabo
 lang:spa:en:Spanish
+lang:sqi:en:Albanian
+lang:sso:en:Sissano
+lang:sux:en:Sumerian
+lang:swa:en:Swahili
 lang:swe:en:Swedish
+lang:syr:en:Syriac
+lang:sze:en:Seze
+lang:tag:en:Tagoi
+lang:tam:en:Tamil
+lang:tat:en:Tatar
+lang:tel:en:Telugu
+lang:tem:en:Timne
+lang:tha:en:Thai
+lang:tig:en:Tigre
 lang:tur:en:Turkish
+lang:twi:en:Twi
 lang:ukr:en:Ukrainian
+lang:ung:en:Ngarinyin
+lang:urd:en:Urdu
 lang:vie:en:Vietnamese
+lang:xmu:en:Kamu
 lang:yid:en:Yiddish
 lang:zho:en:Chinese
+lang:zul:en:Zulu
 
 # Languages - French - ISO 693-3
+lang:akk:fr:Akkadien
 lang:alq:fr:Algonquin
+lang:ang:fr:Vieil anglais (v. 450-1100)
+lang:ara:fr:Arabe
+lang:arc:fr:Araméen officiel (700-300 av. J.C.)
+lang:ben:fr:Bengali
+lang:bod:fr:Tibétain
+lang:cat:fr:Catalan
 lang:ces:fr:Tchèque
 lang:chn:fr:Jargon chinook
 lang:chp:fr:Chipewyan
+lang:chu:fr:Slave d'église
+lang:cmn:fr:Chinois mandarin
+lang:cop:fr:Copte
+lang:cor:fr:Cornouaillais
 lang:cre:fr:Cris
 lang:cym:fr:Gallois
-lang:ell:fr:Grec
-lang:eng:fr:Anglais
-lang:gla:fr:Gaélique écossais
+lang:dan:fr:Danois
 lang:deu:fr:Allemand
+lang:ebg:fr:Ebughu
+lang:egy:fr:Égyptien (ancien)
+lang:ell:fr:Grec
+lang:emg:fr:Meohang oriental
+lang:eng:fr:Anglais
+lang:enm:fr:Anglais moyen (1100-1500)
+lang:epo:fr:Espéranto
+lang:esk:fr:Inupiatun (Nord-Ouest de l'Alaska)
+lang:eth:fr:Langue éthiopienne des signes
+lang:eus:fr:Basque
 lang:fra:fr:Français
+lang:gla:fr:Gaélique écossais
 lang:hin:fr:Hindi
 lang:hun:fr:Hongrois
 lang:iku:fr:Inuktitut
 lang:ita:fr:Italien
+lang:kor:fr:Coréen
 lang:jpn:fr:Japonais
-lang:jor:fr:Coréen
 lang:lat:fr:Latin
 lang:lit:fr:Lithuanien
 lang:mic:fr:Micmac
 lang:moh:fr:Mohawk
 lang:mul:fr:Langues multiples
+lang:nge:fr:Ngemba
 lang:nld:fr:Hollandais
 lang:oji:fr:Ojibwa
 lang:pan:fr:Pendjabi

@@ -92,7 +92,7 @@ msgstr ""
 
 #: ../../../root/dfait/templates/Default/component/footer.tt:11
 msgid "All content copyright © Foreign Affairs and International Trade"
-msgstr "Tous droits réservés © Affaires étrangers et Commerce international"
+msgstr "Tous droits réservés © Affaires étrangères et Commerce international"
 
 #. (recordtype(item.doc.type)
 #: ../../../root/Default/templates/Default/component/rlist.tt:62
