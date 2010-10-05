@@ -65,7 +65,9 @@ my $solr_uri=$config{'solr'}->{'update_uri'};
 
 
 if($use_cmr) {
+    my %counts = ( files => 0, ok => 0, fail => 0 );
     foreach my $file (@ARGV) {
+        ++$counts{files};
         if($verbose) {print "Posting file $file to $solr_uri\n"};
         my $xsl=$FindBin::Bin.'/../cmr-tools/cmr2solr.xsl';
         my $solr_cmd='xsltproc '.$FindBin::Bin.'/../cmr-tools/cmr2solr.xsl '.$file.' 2>/dev/null';
@@ -81,6 +83,7 @@ if($use_cmr) {
         };
         if($@) {
             print "FAIL: $file\n";
+            ++$counts{fail};
             #print "Caught Error: ".Dumper($@);
         }
         else {
@@ -103,9 +106,11 @@ if($use_cmr) {
                     if ( -e "$dirname/files/$download_file") {
                         my $fqfn=$ingest->ingest_file("$dirname/files/$download_file", $contributor);
                         if ($verbose) { print "ingested: $fqfn\n" };
+                        ++$counts{ok};
                     }
                     else {
-                        print "FAIL: did not injest expected file";
+                        print "FAIL: did not ingest expected file";
+                        ++$counts{fail};
                     }
                 }
 
@@ -113,14 +118,16 @@ if($use_cmr) {
             }
             elsif ($response->is_success) {
                 if ( $verbose) {print "SUCCESSFUL POST: $file\n"; };
+                ++$counts{ok};
             }
             else {
 
                 print "FAIL POST $file\n";
-
+                ++$counts{fail};
             }
         }
     }
+    printf("Files processed: %d (%d OK, %d failures)\n", $counts{files}, $counts{ok}, $counts{fail});
 }
 else {
     foreach my $file (@ARGV) {
