@@ -1,0 +1,13 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Encode;
+use Perl6::Slurp;
+
+foreach my $file (@ARGV) {
+    print("$file\n");
+    my $text = decode('ISO-8859-1', slurp($file));
+    open(FILE, ">$file") or die("Failed to open $file for writing: $!\n");
+    print(FILE encode_utf8($text));
+    close(FILE);
+}

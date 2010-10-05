@@ -65,7 +65,7 @@ sub build_cmr
         $recordset->appendChild($record);
 
         # Read in the OCR text for each page in the document.
-        my $text_dir = "$data/src/text/$key";
+        my $text_dir = "$data/src/txt";
         my $page_count = 0;
         if (-d $text_dir) {
             foreach my $text_file (bsd_glob("$text_dir/*.txt")) {

@@ -15,7 +15,7 @@ my $basedir = $FindBin::Bin;
 
 use XML::LibXML;
 use XML::LibXSLT;
-use CIHM::CMR;
+use CIHM::CMR::Filters;
 use Getopt::Long;
 
 my $xsd_file = "$basedir/cmr.xsd";

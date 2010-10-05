@@ -1,0 +1,10 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use CIHM::CMR::Archive;
+
+my $CMR_ROOT = '/cihm/collections/cmr';
+
+foreach my $archive(find_archives("$CMR_ROOT/bvau")) {
+    print "$archive\n";
+}
