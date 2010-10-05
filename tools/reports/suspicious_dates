@@ -10,7 +10,7 @@ use CAP::Solr;
 my $config_file = "$FindBin::Bin/../../CAP/cap.conf";
 my $config = {Config::General->new(('-ConfigFile' => $config_file, '-AutoTrue' => 1))->getall}->{solr};
 
-my $min_date = '1000-01-01:00:00.000';
+my $min_date = '1000-01-01T00:00:00.000Z';
 my $max_date = '2010-10-01T00:00:00.000Z'; # FIXME: should be today's date
 my $max_rows = 100;
 
@@ -22,6 +22,8 @@ $result = $solr->search(
     { _pubmin => "[* TO $min_date]" },
     { rows => $max_rows, "sort" => "oldest", fl => ["key", "pubmin"] }
 );
+
+die("Solr query error\n") unless ($result);
 
 #use Data::Dumper;
 #print Dumper($result);

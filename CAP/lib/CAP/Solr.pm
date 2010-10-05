@@ -176,7 +176,9 @@ sub _run_query
     else {
         $request = HTTP::Request->new(GET => join("?", $self->{select_uri}, join("&", @param)));
     }
-    my $response = $self->{agent}->request($request)->content;
+    my $http_response = $self->{agent}->request($request);
+    return undef unless ($http_response->is_success);
+    my $response = $http_response->content;
 
     # Parse the request
     if ($self->{wt} eq 'xml') {
