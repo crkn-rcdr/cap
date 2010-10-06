@@ -1,0 +1,29 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my $batch_files = 10000; # maximum number of files per batch
+my $batch_filesize = 10; # maximum file size (MB) per batch.
+
+my @files = ();
+my $filesize = 0;
+$batch_filesize = 10 * 1024 * 1024; # Convert to bytes
+while (my $file = <STDIN>) {
+    chomp($file);
+    push(@files, $file);
+    $filesize += (stat($file))[7];
+    ingest_batch() if (int(@files) >= $batch_files || $filesize >= $batch_filesize);
+}
+ingest_batch() if (int(@files));
+
+sub ingest_batch
+{
+    my $time_start = time();
+    printf("Ingesting batch of %d records (%d MB).\n", int(@files), $filesize / 1024 / 1024);
+    system("/opt/cap-beta/cap/current/tools/ingest/post.pl",  "--cmr", "--conf", "/opt/cap-beta/cap/current/CAP/cap.conf", @files);
+    my $time_end = time();
+    my $time_elapsed = $time_end - $time_start;
+    printf("Batch ingested in %d seconds (%4.1f records/second)\n", $time_elapsed, @files / $time_elapsed);
+    @files = ();
+    $filesize = 0;
+}
