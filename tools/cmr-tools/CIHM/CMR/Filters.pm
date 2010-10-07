@@ -1,4 +1,4 @@
-package CIHM::CMR;
+package CIHM::CMR::Filters;
 
 use strict;
 use warnings;

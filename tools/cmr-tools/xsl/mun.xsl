@@ -11,10 +11,12 @@
   xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
   xmlns:dc="http://purl.org/dc/elements/1.1/"
   xmlns:marcxml="http://www.canadiana.ca/XML/cmr-marcxml"
-  exclude-result-prefixes="oai dc oai_dc marcxml"
+  xmlns:iso693="http://www.canadiana.ca/XML/cmr-iso693"
+  exclude-result-prefixes="oai dc oai_dc marcxml iso693"
 >
 
 <xsl:import href="marcxml.xsl"/>
+<xsl:import href="lib/iso693.xsl"/>
 
 <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
@@ -50,28 +52,9 @@
     </xsl:if>
     
     <xsl:for-each select="descendant::dc:language">
-      <xsl:choose>
-        <xsl:when test="$set = 'cbu_mag'">
-          <lang>eng</lang>
-          <lang>fra</lang>
-          <lang>mic</lang>
-        </xsl:when>
-        <xsl:when test="$set = 'moravian'">
-          <xsl:if test="contains(., 'English')"><lang>eng</lang></xsl:if>
-          <xsl:if test="contains(., 'French')"><lang>fra</lang></xsl:if>
-          <xsl:if test="contains(., 'German')"><lang>deu</lang></xsl:if>
-          <xsl:if test="contains(., 'Inuktitut')"><lang>iku</lang></xsl:if>
-          <xsl:if test="contains(., 'Inuit')"><lang>iku</lang></xsl:if>
-        </xsl:when>
-        <xsl:when test="$set = 'hrr' or $set = 'unb'">
-          <lang>eng</lang>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:call-template name="marcxml:languages">
-            <xsl:with-param name="langstr" select="translate(., '; ', '')"/>
-          </xsl:call-template>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:call-template name="iso693:lang">
+        <xsl:with-param name="arg" select="."/>
+      </xsl:call-template>
     </xsl:for-each>
 
     <!-- Media type -->
@@ -202,17 +185,6 @@
   </record>
 </xsl:template>
 
-
-
-
-<xsl:template name="mun_lang">
-  <xsl:param name="langstr"/>
-  <xsl:if test="substring($langstr, 'Eng')"><lang>eng</lang></xsl:if>
-  <xsl:if test="substring($langstr, 'French')"><lang>fra</lang></xsl:if>
-  <xsl:if test="substring($langstr, 'Gaelic')"><lang>gla</lang></xsl:if>
-  <xsl:if test="substring($langstr, 'Kmaq')"><lang>mic</lang></xsl:if>
-</xsl:template>
-            
 </xsl:stylesheet>
 
 

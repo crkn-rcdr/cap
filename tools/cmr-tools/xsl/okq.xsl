@@ -23,17 +23,12 @@
   <xsl:template match="/">
     <recordset version="1.0">
       <xsl:apply-templates select="descendant::oai:record"/>
-      <filters>
-        <filter xpath="//record/pubdate" attribute="min" type="code">iso8601($_[0], 0)</filter>
-        <filter xpath="//record/pubdate" attribute="max" type="code">iso8601($_[0], 1)</filter>
-        <filter xpath="//record/pubdate[@min = '']" type="delete"/>
-        <filter xpath="//record/pubdate[@max = '']" type="delete"/>
-      </filters>
     </recordset>
   </xsl:template>
 
   <xsl:template match="oai:record">
     <record>
+
       <type>monograph</type>
       <contributor>okq</contributor>
       <key><xsl:value-of select="translate(oai:header/oai:identifier, '/:', '..')"/></key>
@@ -66,6 +61,7 @@
       <resource>
         <canonicalUri><xsl:value-of select="descendant::dc:identifier[position() = last()]"/></canonicalUri>
       </resource>
+
     </record>
   </xsl:template>
 

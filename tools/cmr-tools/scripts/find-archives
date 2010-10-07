@@ -1,10 +1,13 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use FindBin;
+use lib $FindBin::Bin . "/.." ;
 use CIHM::CMR::Archive;
 
-my $CMR_ROOT = '/cihm/collections/cmr';
-
-foreach my $archive(find_archives("$CMR_ROOT/bvau")) {
-    print "$archive\n";
+foreach my $root (@ARGV) {
+    print "$root\n";
+    foreach my $archive(find_archives($root)) {
+        print "$archive\n";
+    }
 }

@@ -47,7 +47,6 @@
 
     <xsl:if test="
       contains($data, 'application/pdf') or
-
       contains($data, 'article') or
       contains($data, 'atlas') or
       contains($data, 'book') or
