@@ -21,15 +21,16 @@
           </div>
           <div id="logo" style="background-image: url([% c.uri_for(root,'static','images', "logoSub_${iface}.png")|xml_escape %])"> </div>
           <div id="search">
-            <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+ <!--           <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
                           <p>
               <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
               <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
                 
               </p>
-    
+            </form>
+-->
             <div id="searchOptions">
-              <p>
+              <p style="float:right;">
 
                 <!--<a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>-->
                 [% IF iface == 'fr' %]
@@ -39,6 +40,7 @@
                 [% END %]
               </p>
 
+<!--
               <div id="ddownContributors" style="display:none;">
                 <ul>
                   <li>Bibliothèque et Archives nationales du Québec</li>
@@ -48,8 +50,9 @@
                   <li>University of Toronto</li>
                 </ul>
               </div>
+-->
+
             </div>
-            </form>
           </div> 
         </div>
     </div>
