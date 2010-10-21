@@ -27,8 +27,13 @@
     <xsl:apply-templates select="gkey"/>
     <xsl:apply-templates select="seq"/>
     <xsl:apply-templates select="pubdate"/>
-    <xsl:apply-templates select="lang"/>
-    <xsl:apply-templates select="media"/>
+    <xsl:apply-templates select="lang[not(. = preceding::lang)]"/>
+    <xsl:apply-templates select="media[not(. = preceding::media)]"/>
+
+    <!-- Search sets -->
+    <xsl:if test="contributor = 'sfu'">
+      <field name="set">bceln</field>
+    </xsl:if>
 
     <!-- Description and content -->
     <xsl:apply-templates select="description"/>
@@ -64,11 +69,12 @@
       <xsl:when test="name() = 'subject'">su</xsl:when>
       <xsl:when test="name() = 'note'">no</xsl:when>
       <xsl:when test="name() = 'descriptor'">de</xsl:when>
-      <xsl:when test="name() = 'text'">tx</xsl:when>
+      <xsl:when test="name() = 'text' and @type = 'content'">tx</xsl:when>
+      <xsl:when test="name() = 'text' and @type = 'description'">ab</xsl:when>
     </xsl:choose>
   </xsl:variable>
   <xsl:variable name="suffix">
-    <xsl:if test="@lang='eng' or @lang='fre'">
+    <xsl:if test="@lang='eng' or @lang='fra'">
       <xsl:value-of select="concat('_', substring(@lang, 1, 2))"/>
     </xsl:if>
   </xsl:variable>

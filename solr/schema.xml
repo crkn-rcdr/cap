@@ -78,6 +78,7 @@
     <field name="pubmax" type="date" indexed="true" stored="true"/>
     <field name="lang" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="media" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="set" type="string" indexed="true" stored="true" multiValued="true"/>
 
     <!-- Description and content -->
     <field name="ti" type="text" indexed="true" stored="true" multiValued="true"/><!-- title -->
@@ -86,6 +87,7 @@
     <field name="su" type="text" indexed="true" stored="true" multiValued="true"/><!-- subject -->
     <field name="no" type="text" indexed="true" stored="true" multiValued="true"/><!-- note -->
     <field name="de" type="text" indexed="true" stored="true" multiValued="true"/><!-- descriptor -->
+    <field name="ab" type="text" indexed="true" stored="true" multiValued="true"/><!-- abstract/summary -->
     <field name="tx" type="text" indexed="true" stored="true" multiValued="true"/><!-- full text -->
 
     <!-- The preceding are duplicated for a keyword anywhere search -->
@@ -110,9 +112,6 @@
     <field name="canonicalDownloadMime" type="text" indexed="true" stored="true"/>
     <field name="canonicalDownloadMD5" type="text" indexed="true" stored="true"/>
 
-    <!-- Deprecated Fields -->
-    <field name="clabel" type="string" required="false" indexed="true" stored="true"/>
-
   </fields>
 
   <copyField source="ti_*" dest="ti"/>
@@ -122,6 +121,7 @@
   <copyField source="no_*" dest="no"/>
   <copyField source="de_*" dest="no"/>
   <copyField source="tx_*" dest="tx"/>
+  <copyField source="ab_*" dest="ab"/>
   <copyField source="kw_*" dest="kw"/>
 
   <uniqueKey>key</uniqueKey>
