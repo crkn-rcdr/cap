@@ -1,0 +1,53 @@
+<VirtualHost *:80>
+    ServerName   beta.canadiana.ca
+    ServerAlias  beta.canadiana.org
+
+    ServerAdmin webmaster@canadiana.ca
+
+    DocumentRoot /opt/cap-beta/cap/current/CAP
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    <Directory /var/www/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ErrorLog /var/log/apache2/beta.canadiana.ca-error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog /var/log/apache2/beta.canadiana.ca-access.log combined
+
+    FastCgiExternalServer   /tmp/beta.fcgi -socket /tmp/beta.socket
+
+
+    RewriteEngine On
+    RewriteLog "/tmp/rewrite.log"
+    RewriteLogLevel 25
+
+
+    RewriteCond %{SCRIPT_FILENAME} /dfait/(.*)/static/(.*)$
+    RewriteCond %{DOCUMENT_ROOT}/root/dfait/static/%2 -s
+    RewriteRule ^/dfait/.*/static /root/dfait/static/%2 [L,PT]
+
+
+    RewriteCond %{SCRIPT_FILENAME} /dfait/(.*)/static/(.*)$
+    RewriteCond %{DOCUMENT_ROOT}/root/dfait/static/%2 !-s
+    RewriteCond %{DOCUMENT_ROOT}/root/Default/static/%2 -s
+    RewriteRule ^/dfait/.*/static /root/Default/static/%2 [L,PT]
+
+
+
+    AliasMatch       /root/(.*)/static/(.*)        /opt/cap-beta/cap/current/CAP/root/$1/static/$2
+    Alias        /     /tmp/beta.fcgi/
+
+
+</VirtualHost>
+
