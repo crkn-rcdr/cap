@@ -76,7 +76,7 @@ sub auto :Private
     $c->stash('response' => {
         request => "" . $c->req->{uri}, # need to stringify this
         status => 200,
-        version => '1.0',
+        version => '0.1',
     });
 
     # Clean up any expired sessions

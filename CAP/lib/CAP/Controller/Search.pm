@@ -51,7 +51,7 @@ sub search : Chained('/base') PathPart('search') Args() {
     foreach my $facet (keys(%{$facets})) {
         my $i = 0;
         while ($i < @{$facets->{$facet}}) {
-            warn $facets->{$facet}->[$i]->{name};
+            #warn $facets->{$facet}->[$i]->{name};
             if ($c->stash->{label}->{$facet}->{$facets->{$facet}->[$i]->{name}}) {
                 ++$i;
             }
@@ -102,6 +102,7 @@ sub prepare_search : Private {
     $self->add_query($c, 'media');
     $self->add_query($c, 'lang');
     $self->add_query($c, 'contributor');
+    $self->add_query($c, 'set');
 
     # Date range searching
     if ($c->req->params->{df}) {
@@ -145,7 +146,7 @@ sub prepare_search : Private {
 
     # Add faceting
     $facet->{facet} = 'true';
-    $facet->{'facet.field'} = ['lang', 'media', 'contributor'];
+    $facet->{'facet.field'} = ['lang', 'media', 'contributor', 'set'];
 
     # Limit results by type, if requested.
     $query->{_type} = $type if ($type);
@@ -165,7 +166,7 @@ sub run_search : Private {
     }
     else {
         $result = $solr->search($c->stash->{query}, {
-            facets   => [ 'contributor', 'lang', 'media' ],
+            facets   => [ 'contributor', 'lang', 'media', 'set' ],
             page     => $start,
             'sort'   => $c->req->params->{so} || '',
         });
@@ -217,16 +218,16 @@ sub add_query {
 
 
 # TODO: this looks to be deprecated.
-sub add_param {
-
-    my($self, $c, $solr_param, $request_param) = @_;
-    # Treat a value of '-' as a null value (so that we can use checkboxes,
-    # etc. in the interface)
-    if ($c->request->params->{$request_param} && $c->request->params->{$request_param} ne '-') {
-        $c->stash->{param}->{$solr_param} = $c->request->params->{$request_param};
-    }
-
-}
+#sub add_param {
+#
+#    my($self, $c, $solr_param, $request_param) = @_;
+#    # Treat a value of '-' as a null value (so that we can use checkboxes,
+#    # etc. in the interface)
+#    if ($c->request->params->{$request_param} && $c->request->params->{$request_param} ne '-') {
+#        $c->stash->{param}->{$solr_param} = $c->request->params->{$request_param};
+#    }
+#
+#}
 
 
 

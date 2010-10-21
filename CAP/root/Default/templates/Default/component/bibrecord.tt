@@ -43,6 +43,10 @@
     [% IF record.ancestors.last.type == 'collection' %]
       [% row("Collection", record.ancestors.last.label) %]
     [% END %]
+    [%
+      # TODO: once there are no abstracts indexed as tx fields, remove the tx entry
+    %]
     [% row("Description", record.tx) %]
+    [% row("Description", record.ab) %]
   </table>
 </div>
