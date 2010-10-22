@@ -10,11 +10,11 @@
   languages =   [];
 
   FOREACH field IN record.media;
-    media_types.push(media(field));
+    media_types.push(label.media.${field});
   END;
 
   FOREACH field IN record.lang;
-    languages.push(language(field));
+    languages.push(label.lang.${field});
   END;
 
 %]
@@ -37,8 +37,8 @@
     [% row("Publication", record.pu) %]
     [% row("Subject", record.su) %]
     [% row("Note", record.no) %]
-    [% row("Media", media_types.join(', ')) %]
-    [% row("Language", languages.join(', ')) %]
+    [% row("Media", media_types.sort.unique.join(', ')) %]
+    [% row("Language", languages.sort.unique.join(', ')) %]
     [% row("Contributor", label.contributor.${record.contributor}) %]
     [% IF record.ancestors.last.type == 'collection' %]
       [% row("Collection", record.ancestors.last.label) %]
