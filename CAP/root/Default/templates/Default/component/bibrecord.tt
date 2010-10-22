@@ -39,7 +39,7 @@
     [% row("Note", record.no) %]
     [% row("Media", media_types.join(', ')) %]
     [% row("Language", languages.join(', ')) %]
-    [% row("Contributor", contributor(record.contributor)) %]
+    [% row("Contributor", label.contributor.${record.contributor}) %]
     [% IF record.ancestors.last.type == 'collection' %]
       [% row("Collection", record.ancestors.last.label) %]
     [% END %]
