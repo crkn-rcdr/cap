@@ -4,12 +4,7 @@
   #   This template is generally called to handle show/* requests.
   #   (Yes, there is a name mismatch that should be rectified.)
 
-  IF response.item.doc.type == 'issue';
-    record = response.item.ancestors.first;
-  ELSE;
-    record = response.item.doc;
-  END;
-
+  record = response.item.doc;
   USE XML.Escape;
   
   MACRO label(item) INCLUDE macro/label.tt;
