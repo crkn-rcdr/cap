@@ -43,7 +43,7 @@
           [% IF l OR m OR f OR t %]
             [% c.loc('Results limited to: ') | xml_escape %]
             [% IF l %]
-              <em class="filter">[% language(l)  %]</em>[% IF m OR f OR t %],[% ELSE %].[% END %]
+              <em class="filter">[% label.lang.${l}  %]</em>[% IF m OR f OR t %],[% ELSE %].[% END %]
             [% END %]
             [% IF m %]
               <em class="filter">[% media(m)  %]</em>[% IF f OR t %],[% ELSE %].[% END %]
