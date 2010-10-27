@@ -61,7 +61,6 @@ media:text:fr:Texte
 media:video:fr:Vidéo
 
 
-
 # Languages - English - ISO 693-3
 lang:afr:en:Afrikaans
 lang:akk:en:Akkadian
@@ -146,7 +145,6 @@ lang:kab:en:Kabyle
 lang:kan:en:Kannada
 lang:kau:en:Kanuri
 lang:kor:en:Korean
-lang:kor:en:Korean
 lang:lad:en:Ladino
 lang:lan:en:Laru
 lang:lat:en:Latin
@@ -216,24 +214,24 @@ lang:zho:en:Chinese
 lang:zul:en:Zulu
 
 # Languages - French - ISO 693-3
-lang:afr:fr:Afrikaans 
+lang:afr:fr:Afrikaans
 lang:akk:fr:Akkadien
 lang:alq:fr:Algonquin
-lang:amh:fr:Amharique 
+lang:amh:fr:Amharique
 lang:ang:fr:Vieil anglais (v. 450-1100)
 lang:ara:fr:Arabe
 lang:arc:fr:Araméen officiel (700-300 av. J.C.)
-lang:ave:fr:Avestique 
+lang:ave:fr:Avestique
 lang:aym:fr:Aymara 
-lang:bag:fr:Tuki  
-lang:bal:fr:Baloutchi 
+lang:bag:fr:Tuki 
+lang:bal:fr:Baloutchi
 lang:ben:fr:Bengali
 lang:bod:fr:Tibétain
-lang:bul:fr:Bulgare 
+lang:bul:fr:Bulgare
 lang:cat:fr:Catalan
 lang:ces:fr:Tchèque
 lang:chn:fr:Jargon chinook
-lang:cho:fr:Choctaw  
+lang:cho:fr:Choctaw 
 lang:chp:fr:Chipewyan
 lang:chu:fr:Slave d'église
 lang:cmn:fr:Chinois mandarin
@@ -244,130 +242,128 @@ lang:cro:fr:Crow
 lang:cym:fr:Gallois
 lang:dak:fr:Dakota 
 lang:dan:fr:Danois
-lang:del:fr:Delaware  
+lang:del:fr:Delaware 
 lang:deu:fr:Allemand
-lang:dua:fr:Douala 
-lang:dum:fr:Moyen-néerlandais (v. 1050-1350) 
+lang:dua:fr:Douala
+lang:dum:fr:Moyen-néerlandais (v. 1050-1350)
 lang:ebg:fr:Ebughu
 lang:egy:fr:Égyptien (ancien)
 lang:ell:fr:Grec
-lang:elx:fr:Élamite 
+lang:elx:fr:Élamite
 lang:emg:fr:Meohang oriental
-lang:enf:fr:Énètse des forêts 
+lang:enf:fr:Énètse des forêts
 lang:eng:fr:Anglais
 lang:enm:fr:Anglais moyen (1100-1500)
-lang:enn:fr:Engenni 
+lang:enn:fr:Engenni
 lang:epo:fr:Espéranto
 lang:esk:fr:Inupiatun (Nord-Ouest de l'Alaska)
-lang:est:fr:Estonien 
+lang:est:fr:Estonien
 lang:eth:fr:Langue éthiopienne des signes
 lang:eus:fr:Basque
-lang:far:fr:Fataleka 
+lang:far:fr:Fataleka
 lang:fas:fr:Persan
-lang:fin:fr:Finnois 
+lang:fin:fr:Finnois
 lang:fra:fr:Français
-lang:frc:fr:Français cajun 
-lang:frm:fr:Moyen français (v. 1400-1600) 
-lang:fro:fr:Ancien français (842-v. 1400) 
-lang:fry:fr:Frison occidental 
-lang:gag:fr:Gagaouze 
-lang:gcr:fr:Créole de la Guyane française 
+lang:frc:fr:Français cajun
+lang:frm:fr:Moyen français (v. 1400-1600)
+lang:fro:fr:Ancien français (842-v. 1400)
+lang:fry:fr:Frison occidental
+lang:gag:fr:Gagaouze
+lang:gcr:fr:Créole de la Guyane française
 lang:geb:fr:Kire
-lang:gez:fr:Guèze 
+lang:gez:fr:Guèze
 lang:gla:fr:Gaélique écossais
-lang:gle:fr:Irlandais 
-lang:gmh:fr:Moyen haut-allemand (v. 1050-1500) 
-lang:gno:fr:Gondi du Nord 
-lang:goh:fr:Vieux haut-allemand (v. 750-1050) 
-lang:got:fr:Gotique 
-lang:grc:fr:Grec ancien (jusqu’en 1453) 
-lang:hau:fr:Haoussa 
-lang:haw:fr:Hawaïen 
-lang:heb:fr:Hébreu 
+lang:gle:fr:Irlandais
+lang:gmh:fr:Moyen haut-allemand (v. 1050-1500)
+lang:gno:fr:Gondi du Nord
+lang:goh:fr:Vieux haut-allemand (v. 750-1050)
+lang:got:fr:Gotique
+lang:grc:fr:Grec ancien (jusqu’en 1453)
+lang:hau:fr:Haoussa
+lang:haw:fr:Hawaïen
+lang:heb:fr:Hébreu
 lang:hin:fr:Hindi
-lang:hor:fr:Horo 
+lang:hor:fr:Horo
 lang:hun:fr:Hongrois
-lang:hye:fr:Arménien 
+lang:hye:fr:Arménien
 lang:iku:fr:Inuktitut
 lang:ilo:fr:Ilokano 
-lang:ind:fr:Indonésien 
-lang:iri:fr:Irigwe 
-lang:isl:fr:Nkem-Nkum 
+lang:ind:fr:Indonésien
+lang:iri:fr:Irigwe
+lang:isl:fr:Nkem-Nkum
 lang:ita:fr:Italien
 lang:jpn:fr:Japonais
-lang:kab:fr:Kabyle 
-lang:kan:fr:Kannada 
-lang:kau:fr:Kanouri 
+lang:kab:fr:Kabyle
+lang:kan:fr:Kannada
+lang:kau:fr:Kanouri
 lang:kor:fr:Coréen
-lang:kor:fr:Coréen 
-lang:lad:fr:Ladino 
-lang:lan:fr:Laru 
+lang:lad:fr:Ladino
+lang:lan:fr:Laru
 lang:lat:fr:Latin
-lang:lav:fr:Letton 
-lang:lhu:fr:Lahu 
+lang:lav:fr:Letton
+lang:lhu:fr:Lahu
 lang:lit:fr:Lithuanien
-lang:mar:fr:Marathi 
+lang:mar:fr:Marathi
 lang:mic:fr:Micmac
-lang:mix:fr:Mixtèque Mixtepec  
+lang:mix:fr:Mixtèque Mixtepec 
 lang:moh:fr:Mohawk
-lang:msa:fr:Malais 
+lang:msa:fr:Malais
 lang:mul:fr:Langues multiples
-lang:new:fr:Newari 
+lang:new:fr:Newari
 lang:nge:fr:Ngemba
 lang:nld:fr:Hollandais
-lang:nng:fr:Maring naga 
-lang:nor:fr:Norvégien 
+lang:nng:fr:Maring naga
+lang:nor:fr:Norvégien
 lang:oji:fr:Ojibwa
-lang:ong:fr:Olo 
-lang:ori:fr:Oriya 
-lang:ota:fr:Turc ottoman (1500-1928) 
-lang:pal:fr:Pahlavi  
+lang:ong:fr:Olo
+lang:ori:fr:Oriya
+lang:ota:fr:Turc ottoman (1500-1928)
+lang:pal:fr:Pahlavi 
 lang:pan:fr:Pendjabi
-lang:peo:fr:Vieux-perse (v. 600-400 av. J.-C.) 
-lang:pli:fr:Pâli 
+lang:peo:fr:Vieux-perse (v. 600-400 av. J.-C.)
+lang:pli:fr:Pâli
 lang:pol:fr:Polonais
 lang:por:fr:Portugais
-lang:pro:fr:Vieux provençal (jusqu’en 1500) 
-lang:pus:fr:Pachto 
-lang:raj:fr:Radjasthani  
-lang:roh:fr:Romanche 
-lang:ron:fr:Roumain 
+lang:pro:fr:Vieux provençal (jusqu’en 1500)
+lang:pus:fr:Pachto
+lang:raj:fr:Radjasthani 
+lang:roh:fr:Romanche
+lang:ron:fr:Roumain
 lang:rus:fr:Russe
-lang:sag:fr:Sango 
-lang:san:fr:Sanskrit 
-lang:sao:fr:Sause  
-lang:sco:fr:Écossais 
+lang:sag:fr:Sango
+lang:san:fr:Sanskrit
+lang:sao:fr:Sause 
+lang:sco:fr:Écossais
 lang:ser:fr:Serrano 
-lang:sga:fr:Vieil irlandais (jusqu’en 900) 
-lang:slk:fr:Slovaque 
-lang:slv:fr:Slovène 
-lang:snh:fr:Shinabo 
+lang:sga:fr:Vieil irlandais (jusqu’en 900)
+lang:slk:fr:Slovaque
+lang:slv:fr:Slovène
+lang:snh:fr:Shinabo
 lang:spa:fr:Espagnol
-lang:sqi:fr:Albanais 
-lang:sso:fr:Sissano 
-lang:sux:fr:Sumérien 
-lang:swa:fr:Swahili 
+lang:sqi:fr:Albanais
+lang:sso:fr:Sissano
+lang:sux:fr:Sumérien
+lang:swa:fr:Swahili
 lang:swe:fr:Suédois
-lang:syr:fr:Syriaque 
-lang:sze:fr:Seze 
-lang:tag:fr:Tagoi 
-lang:tam:fr:Tamoul 
-lang:tat:fr:Tatar 
-lang:tel:fr:Télougou 
-lang:tem:fr:Temné 
-lang:tha:fr:Thaï 
-lang:tig:fr:Tigréen 
+lang:syr:fr:Syriaque
+lang:sze:fr:Seze
+lang:tag:fr:Tagoi
+lang:tam:fr:Tamoul
+lang:tat:fr:Tatar
+lang:tel:fr:Télougou
+lang:tem:fr:Temné
+lang:tha:fr:Thaï
+lang:tig:fr:Tigréen
 lang:tur:fr:Turc
-lang:twi:fr:Twi  
+lang:twi:fr:Twi 
 lang:ukr:fr:Ukrainien
-lang:ung:fr:Ngarinjin  
-lang:urd:fr:Ourdou 
+lang:ung:fr:Ngarinjin 
+lang:urd:fr:Ourdou
 lang:vie:fr:Vietnamien
-lang:xmu:fr:Kamu  
+lang:xmu:fr:Kamu 
 lang:yid:fr:Yiddish
 lang:zho:fr:Chinois
 lang:zul:fr:Zoulou
-
 
 # Languages - English - additional MARC codes (non-ISO 693-3)
 lang:alg:en:Algonquian languages
@@ -384,3 +380,15 @@ lang:cpe:fr:Langues créoles et pidgins à base lexicale anglaise
 lang:iro:fr:Langues iroquoises
 lang:nai:fr:Langues amérindiennes de l'Amérique du Nord
 lang:sal:fr:Langues salish
+
+
+# External URLs - English
+url:about:en:http://www.canadiana.org/en/about
+url:contributors:en:http://www.canadiana.org/en/cdp/contributors
+url:legal:en:http://www.canadiana.org/en/legal
+
+# External URLs - French
+url:about:fr:http://www.canadiana.org/fr/apropos
+url:contributors:fr:http://www.canadiana.org/fr/prc/organisations
+url:legal:fr:http://www.canadiana.org/fr/avis
+
