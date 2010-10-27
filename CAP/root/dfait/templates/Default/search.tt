@@ -20,7 +20,7 @@
 [% INCLUDE component/header.tt; %]
 
 <div class="newsearch_bar">
-                <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+                <form action="[% c.uri_for_action('search') | xml_escape %]" method="get">
                   <input dojoType="dijit.form.TextBox" type="text" name="q" value="[% c.session.search.params.q | xml_escape %]"/>
                   <button dojoType="dijit.form.Button" type="submit">
                       [% c.loc("Search") | xml_escape %]

@@ -10,20 +10,20 @@
 %]
 
 
-    <div id="header" style="background-image: url([% c.uri_for(root,'static','images', "bkgHeader.png")|xml_escape %])">
-        <div id="headerContent" style="background-image: url([% c.uri_for(root,'static','images', "bkgHeader.png")|xml_escape %])">
+    <div id="header" style="background-image: url([% c.uri_for_action('static','images', "bkgHeader.png")|xml_escape %])">
+        <div id="headerContent" style="background-image: url([% c.uri_for_action('static','images', "bkgHeader.png")|xml_escape %])">
           <div id="topNav">
             <p>
-              <a href="[% c.uri_for(root) | xml_escape %]">[% c.loc("New search") | xml_escape %]</a> &nbsp;&nbsp;|&nbsp;&nbsp;
-              [% IF iface != 'fr' %]<a href="[% c.uri_for('/', portal, 'fr', uri_tail, c.req.params) | xml_escape %]">Français</a>[% END %]
-              [% IF iface != 'en' %]<a href="[% c.uri_for('/', portal, 'en', uri_tail, c.req.params) | xml_escape %]">English</a>[% END %]
+              <a href="[% c.uri_for_action('index') | xml_escape %]">[% c.loc("New search") | xml_escape %]</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+              [% IF lang != 'fr' %]<a href="[% c.uri_for('/' c.req.path, refine(c.req.params, { usrlang => 'fr' })) | xml_escape %]">Français</a>[% END %]
+              [% IF lang != 'en' %]<a href="[% c.uri_for('/', c.req.path, refine(c.req.params, { usrlang => 'en' })) | xml_escape %]">English</a>[% END %]
             </p>
           </div>
-          <div id="logo" style="background-image: url([% c.uri_for(root,'static','images', "logoSub_${iface}.png")|xml_escape %])"> </div>
+          <div id="logo" style="background-image: url([% c.uri_for_action('static', 'images', "logoSub_${lang}.png")|xml_escape %])"> </div>
           <div id="search">
- <!--           <form action="[% c.uri_for(root,'search') | xml_escape %]" method="get">
+ <!--           <form action="[% c.uri_for_action('search') | xml_escape %]" method="get">
                           <p>
-              <input class="searchBtn" name="" type="image" src="[% c.uri_for(root,'static','images', "searchBtn_${iface}.gif")|xml_escape%]" />
+              <input class="searchBtn" name="" type="image" src="[% c.uri_for_action('static','images', "searchBtn_${lang}.gif")|xml_escape%]" />
               <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
                 
               </p>
@@ -33,7 +33,7 @@
               <p style="float:right;">
 
                 <!--<a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>-->
-                [% IF iface == 'fr' %]
+                [% IF lang == 'fr' %]
                   <a href="http://www.canadiana.org/fr/prc/organisations">[% c.loc('Collection contributors') | xml_escape %]</a>
                 [% ELSE %]
                   <a href="http://www.canadiana.org/en/cdp/contributors">[% c.loc('Collection contributors') | xml_escape %]</a>

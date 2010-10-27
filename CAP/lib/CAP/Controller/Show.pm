@@ -4,7 +4,8 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 
-sub index : Chained('/base') PathPart('show') Args()
+#sub index : Chained('/base') PathPart('show') Args()
+sub index :Private
 {
     my($self, $c, $key, $start) = @_;
     $start = 1 unless ($start);

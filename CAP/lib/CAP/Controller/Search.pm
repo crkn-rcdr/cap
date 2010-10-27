@@ -5,9 +5,8 @@ use feature qw(switch);
 use warnings;
 use parent 'Catalyst::Controller';
 
-
-sub search : Chained('/base') PathPart('search') Args() {
-
+sub index :Private
+{
     my($self, $c, $start) = @_;
     $start = 1 unless ($start);
 

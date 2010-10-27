@@ -10,7 +10,7 @@
 [% ELSE %]
 [% END %]
 
-<form method="post" action="[% c.uri_for(root, 'login') %]">
+<form method="post" action="[% c.uri_for_action('auth/login') %]">
   <div>
     <input type="hidden" name="page" value="[% page | html %]"/>
     <table>

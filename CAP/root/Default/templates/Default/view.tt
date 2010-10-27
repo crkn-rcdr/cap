@@ -16,7 +16,7 @@
 <div id="content">
 
   <div>
-    <a href="[% c.uri_for(root, 'search', c.session.search.start, c.session.search.params) | xml_escape %]">[% c.loc("Back to search results") | xml_escape %]</a>
+    <a href="[% c.uri_for_action('search', c.session.search.start, c.session.search.params) | xml_escape %]">[% c.loc("Back to search results") | xml_escape %]</a>
   </div>
 
   <h1>
@@ -39,17 +39,17 @@
   [% IF response.item.doc.type == 'issue' %]
     <div>
       [% c.loc("Issue [_1] of [_2] available issues", response.item.position, response.item.counts.siblings) %]
-      <a href="[% c.uri_for(root, 'search', { type => 'issue', pkey => response.item.doc.pkey, so => 'pubmin asc', t => 'all' }) | xml_escape %]">
+      <a href="[% c.uri_for_action('search/index', { type => 'issue', pkey => response.item.doc.pkey, so => 'pubmin asc', t => 'all' }) | xml_escape %]">
         [% c.loc("Show all issues") | xml_escape %]
       </a>
-      <a href="[% c.uri_for(root, 'show', response.item.doc.pkey) %]">
+      <a href="[% c.uri_for_action('show/index', response.item.doc.pkey) %]">
         [% c.loc("Show serial record") | xml_escape %]
       </a>
     </div>
   [% ELSIF response.item.counts.issues > 0 %]
     <div>
       [% c.loc("[_1] issues available", response.item.counts.issues) | xml_escape %]
-      <a href="[% c.uri_for(root, 'search', { pkey => response.item.doc.key, so => 'pubmin asc' }) %]">
+      <a href="[% c.uri_for_action('search/index', { pkey => response.item.doc.key, so => 'pubmin asc' }) %]">
         [% c.loc("Show all issues") | xml_escape %]
       </a>
     </div>

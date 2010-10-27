@@ -1,12 +1,12 @@
 ﻿<div class="dfait_header"style="background-image: url([% c.uri_for(root,'static','images', "dfait_header_bg.png")|xml_escape %])">
-<img id="dfait_logo" src="[% c.uri_for(root,'static','images', "dfait_header_${iface}.png")|xml_escape%]" width="760" height="116" />
+<img id="dfait_logo" src="[% c.uri_for(root,'static','images', "dfait_header_${lang}.png")|xml_escape%]" width="760" height="116" />
 </div>
 <div class="topbar">
 <div class="navbox">&nbsp;</div>
 <div class="navbox_separator"></div>
 <div class="navbox">
-          [% IF iface != 'fr' %]<a href="[% c.uri_for('/', portal, 'fr', uri_tail, c.req.params) | xml_escape %]">Français</a>[% END %]
-          [% IF iface != 'en' %]<a href="[% c.uri_for('/', portal, 'en', uri_tail, c.req.params) | xml_escape %]">English</a>[% END %]
+          [% IF lang != 'fr' %]<a href="[% c.uri_for('/', c.req.path, refine(c.req.params, { usrlang => 'fr' })) | xml_escape %]">Français</a>[% END %]
+          [% IF lang != 'en' %]<a href="[% c.uri_for('/', c.req.path, refine(c.req.params, { usrlang => 'en' })) | xml_escape %]">English</a>[% END %]
 </div>
 <div class="navbox_separator"></div>
 <div class="navbox">

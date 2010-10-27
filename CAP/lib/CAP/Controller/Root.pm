@@ -15,10 +15,35 @@ use utf8;
 #
 __PACKAGE__->config->{namespace} = '';
 
-sub index : Chained('base') PathPart('') Args(0)
+
+sub begin :Private
 {
     my($self, $c) = @_;
-    $c->stash->{template} = "index.tt";
+
+    # Determine which portal configuration to use
+    my $portal = $c->forward('config_portal');
+
+    # TODO: this should be deprecated once none of the templates reference
+    # root.
+    $c->stash->{root} = "/";
+
+    # Set the user interface language
+    my $lang = $c->forward('set_usrlang');
+    $c->stash->{lang} = $lang;
+    $c->languages([$lang]);
+    $c->res->cookies->{usrlang} = { value => $lang, expires => time() + 7776000 }; # Cookie expires in 90 days
+    $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
+
+    $c->stash('response' => {
+        request => "" . $c->req->{uri}, # need to stringify this
+        status => 200,
+        version => '0.1',
+    });
+
+    # Clean up any expired sessions
+    my $expired = $c->model('DB::Sessions')->remove_expired();
+    warn("[debug] Cleaned up $expired expired sessions") if ($expired);
+    return 1;
 }
 
 sub post : Chained('base') PathPart('post') Args(0)
@@ -69,41 +94,53 @@ sub access_denied : Private
     $c->detach('error', [403, "NOACCESS"]);
 }
 
-sub auto :Private
+sub set_usrlang : Private
 {
     my($self, $c) = @_;
+    my $lang;
 
-    $c->stash('response' => {
-        request => "" . $c->req->{uri}, # need to stringify this
-        status => 200,
-        version => '0.1',
-    });
+    # Decide what user interface language to used based on the following
+    # criteria, in descending order of preference:
 
-    # Clean up any expired sessions
-    my $expired = $c->model('DB::Sessions')->remove_expired();
-    warn("[debug] Cleaned up $expired expired sessions") if ($expired);
-    return 1;
+    # Check for an explicit usrlang query parameter.
+    if ($c->req->params->{usrlang}) {
+        $lang = $c->req->params->{usrlang};
+        delete($c->req->params->{usrlang});
+        return $lang if ($c->stash->{config}->{languages}->{$lang});
+    }
+
+    # If a cookie is present and contains a supported language, use it.
+    if ($c->req->cookie('usrlang')) {
+        $lang = $c->req->cookie('usrlang')->value;
+        if ($c->stash->{config}->{languages}->{$lang}) {
+            return $lang;
+        }
+    }
+
+    # Override with the supported language with the highest q value from
+    # the Accept-Language header.
+    my $lang_q = -1;
+    foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
+        my ($val, $q) = split(';q=', $accept_lang);
+        $q = 0 unless ($q);
+        $q = 1 if ($q && $q eq '');
+        if ($val) {
+            $val = lc(substr($val, 0, 2));
+            if ($c->stash->{config}->{languages}->{$val} && int($q) > $lang_q) {
+                $lang = $val;
+                $lang_q = int($q);
+            }
+        }
+    }
+    return $lang if ($lang_q != -1);
+
+    # Use the default language
+    return $c->stash->{config}->{default_lang};
 }
 
-sub base : Chained('/') PathPart('') CaptureArgs(2)
+sub base : Chained('/') PathPart('') CaptureArgs(0)
 {
-    my($self, $c, $portal, $lang) = @_;
-    $portal = lc($portal);
-    $lang = lc($lang);
-
-    # Configure the requested portal (or return an error)
-    $c->forward('config_portal', [$portal]);
-
-    # Set the user interface language. Use the default if the supplied
-    # language is not supported. Get the set of code->label mappings for
-    # the selected language.
-    $lang = $c->stash->{config}->{default_lang} unless ($lang && $c->stash->{config}->{languages}->{$lang});
-    $c->languages( $lang ? [$lang] : []);
-    $c->stash->{lang}  = $lang;
-    $c->stash->{iface} = $lang; # Deprecated
-    $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
-
-    $c->forward('set_root', [$portal, $lang]);
+    my($self, $c) = @_;
 
     # Use the default output format unless the specified format is supplied
     my $format = 'Default';
@@ -156,7 +193,8 @@ sub base : Chained('/') PathPart('') CaptureArgs(2)
     }
 
     if (! $action_enabled) {
-        warn("[info] request for disabled action \"$requested_action\" for portal \"$portal\"\n");
+        #warn("[info] request for disabled action \"$requested_action\" for portal \"$portal\"\n");
+        warn("[info] request for disabled action \"$requested_action\" for portal \"" . $c->stash->{portal} . "\"\n");
         $c->detach('error', [404]);
     }
 
@@ -196,92 +234,20 @@ sub base : Chained('/') PathPart('') CaptureArgs(2)
 
 
     return 1;
-
-    ################## TODO: Everything below here can be removed at some point.
-
-
-
-
-
-
-    # Determine whether the selected application allows the requested
-    # action and set up role-based ACLs.
-    # It seems we have to roll our own ACL solution, since rules created
-    # using the ACL plugin seem to persist between requests, leading to an
-    # ever-increasing denial of privilege (FIXME?)
-    my %action_ok = ();
-    my %role_required = ();
-
-    # First process all of the rules specific to the portal.
-    if ($c->stash->{config}->{actions}) {
-        while (my($action, $auth) = each(%{$c->stash->{config}->{actions}})) {
-            if (! $auth || $auth eq '!') {
-                $action_ok{$action} = 0;
-            }
-            elsif ($auth eq '*') {
-                $action_ok{$action} = 1;
-            }
-            else {
-                $action_ok{$action} = 1;
-                $role_required{$action} = $auth;
-            }
-        }
-    }
-
-    # Process those global rules that don't have a portal-specific rule.
-    if ($c->config->{actions}) {
-        while (my($action, $auth) = each(%{$c->config->{actions}})) {
-            next if (
-                $c->stash->{config}->{action} &&
-                defined($c->stash->{config}->{action}->{$action})
-            );
-            if (! $auth || $auth eq '*') {
-                $action_ok{$action} = 1;
-            }
-            elsif ($auth eq '!') {
-                $action_ok{$action} = 0;
-            }
-            else {
-                $action_ok{$action} = 1;
-                $role_required{$action} = $auth;
-            }
-        }
-    }
-
-    # Check whether the action is supported by this portal.
-    if (! $action_ok{$c->request->{action}}) {
-        $c->detach('error', [404]);
-    }
-
-    # If a specific role is required, make sure the user has it.
-    # (FIXME?)
-    if ($role_required{$c->request->{action}}) {
-        my @roles = split(/\s+/, $role_required{$c->request->{action}});
-
-        # Verify that the defined roles all exist in the database.
-        # Otherwise, an error may be generated.
-        #if (! $c->model('DB::Role')->role_exists(@roles)) {
-        #    $c->detach('/error', [500, "Role list \"@roles\" contains undefined role(s)\n"]);
-        #}
-        
-        my $has_role = 0;
-        if ($c->user_exists) {
-            #$has_role = $c->check_any_user_role(@roles);
-            $c->detach('access_denied') unless ($c->check_any_user_role(@roles));
-        }
-        else {
-            warn("[debug] unauthenticated request for page requiring one of \"@roles\"\n") if ($c->config->{debug});
-            warn("[debug] redirect to login page with forwarding URI \"" . $c->stash->{uri} . "\"\n") if ($c->config->{debug});
-            $c->res->redirect($c->uri_for($c->stash->{root}, 'login', { page => $c->stash->{uri}, redirected => 1 }));
-        }
-    }
-
 }
 
 # Read the portal configuration file and apply its characteristics.
 sub config_portal : Private
 {
-    my($self, $c, $portal) = @_;
+    my($self, $c) = @_;
+    my $portal;
+
+    if ($c->config->{portal}->{$c->req->base}) {
+        $portal = $c->config->{portal}->{$c->req->base};
+    }
+    else {
+        $portal = $c->config->{default_portal};
+    }
 
     # Load the portal configuration from the config file. If no portal
     # config file exists, return a not found error.
@@ -312,7 +278,7 @@ sub config_portal : Private
     }
 
     $c->stash->{portal} = $portal;
-    return 1;
+    return $portal;
 }
 
 
@@ -325,10 +291,11 @@ forward to I<error> with a 404 (Not Found) code.
 
 =back
 =cut
-sub default :Path :Args() {
-    my($self, $c, $portal, $iface, @args) = @_;
-    $c->forward->('config_portal', [$portal]) if ($portal);
-    $c->forward('set_root', [$portal, undef]);
+sub default :Path {
+    my($self, $c) = @_;
+    #my($self, $c, $portal, $iface, @args) = @_;
+    #$c->forward->('config_portal', [$portal]) if ($portal);
+    #$c->forward('set_root', [$portal]);
     $c->detach('error', [404]);
 }
 
@@ -340,11 +307,11 @@ When called without arguments, forward to the default portal.
 
 =back
 =cut
-sub default_portal :Path :Args(0)
-{
-    my($self, $c) = @_;
-    $c->res->redirect($c->uri_for($c->config->{default_portal}));
-}
+#sub default_portal :Path :Args(0)
+#{
+#    my($self, $c) = @_;
+#    $c->res->redirect($c->uri_for($c->config->{default_portal}));
+#}
 
 
 =over 4
@@ -355,12 +322,12 @@ If a valid portal is specified but nothing else, redirect to the default interfa
 
 =back
 =cut
-sub default_lang :Path :Args(1)
-{
-    my($self, $c, $portal) = @_;
-    $c->forward('config_portal', [$portal]);
-    $c->res->redirect($c->uri_for($c->stash->{portal}, $c->stash->{config}->{default_lang}));
-}
+#sub default_lang :Path :Args(1)
+#{
+#    my($self, $c, $portal) = @_;
+#    $c->forward('config_portal', [$portal]);
+#    $c->res->redirect($c->uri_for($c->stash->{portal}, $c->stash->{config}->{default_lang}));
+#}
 
 
 
@@ -375,11 +342,11 @@ I</foo/en/slay/grue>. Forwards to I<error> with a 404.
 
 =back
 =cut
-sub default2 : Chained('base') PathPart('') Args()
-{
-    my($self, $c) = @_;
-    $c->detach('error', [404]);
-}
+#sub default2 : Chained('base') PathPart('') Args()
+#{
+#    my($self, $c) = @_;
+#    $c->detach('error', [404]);
+#}
 
 
 =over 4
@@ -474,50 +441,27 @@ sub error : Private
 }
 
 
-=over 4
+#
+# These are the basic actions we have to handle. Most of them will simply
+# dispatch to a method in another controller, but putting them here means
+# that we can simplify uri_for_action strings.
+#
 
-=item set_root
-
-Sets the value of I<< $c->stash->{root} >> and I<< $c->stash->{uri} >> based on
-the particulars of the request. All URIs in the template should use the
-root as the first part of any internal URIs they construct, while uri is a
-self-referential URI that points to the page itself, for use with some of
-the authentication routines and other functions that may intercept and
-temporarily redirect a request. (In order to allow the request to
-eventually be forwarded to the original URI.)
-
-=back
-=cut
-sub set_root : Private
+sub index :Path :Args(0)
 {
-    my($self, $c, $portal, $lang) = @_;
-    my $root = $portal;
-    my $uri = $c->request->uri;
-    $root .= "/$lang" if ($lang);
-
-    if ($c->config->{prefix}->{$c->request->{base}}) {
-        my $prefix = $c->config->{prefix}->{$c->request->{base}};
-        $root = substr($root, length($prefix));
-        $uri =~ s#\Q/$prefix\E##;
-    }
-    $root =~ s/\/$//;
-    $c->stash->{root} = "/$root";
-    $c->stash->{uri} = $uri; # $uri is a self-referential URI.
-    $c->stash->{uri_tail} = substr($c->req->path, length($c->stash->{root}));
+    my($self, $c) = @_;
+    $c->stash->{template} = "index.tt";
 }
 
-=head1 LICENSE AND COPYRIGHT
+sub search : Chained('/base') PathPart('search') Args() {
+    my($self, $c, $start) = @_;
+    return $c->forward('search/index', [$start]);
+}
 
-See I<CAP/license.txt>.
-
-=head1 AUTHOR
-
-William Wueppelmann L<<william.wueppelmann@canadiana.ca>>
-
-=head1 SEE ALSO
-
-cap.conf, L<CAP>
-
-=cut
+sub show : Chained('/base') PathPart('show') Args() {
+    my($self, $c, @args) = @_;
+    return $c->forward('show/index', [@args]);
+}
 
 1;
+

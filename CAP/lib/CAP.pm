@@ -127,15 +127,15 @@ These methods override those from the superclass.
     path. The value should be either a portal name or a portal/iface
     combination.
 =cut
-sub prepare_path
-{
-    my($c, @path) = @_;
-    $c->SUPER::prepare_path(@path);
-    if ($c->config->{prefix}->{$c->request->{base}}) {
-        $c->request->path(join('/', $c->config->{prefix}->{$c->request->{base}} , $c->request->path));
-    }
-    return 1;
-}
+#sub prepare_path
+#{
+#    my($c, @path) = @_;
+#    $c->SUPER::prepare_path(@path);
+#    if ($c->config->{prefix}->{$c->request->{base}}) {
+#        $c->request->path(join('/', $c->config->{prefix}->{$c->request->{base}} , $c->request->path));
+#    }
+#    return 1;
+#}
 
 =head1 SEE ALSO
 

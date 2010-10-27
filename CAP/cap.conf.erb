@@ -35,7 +35,24 @@ debug_auth false
 # Application-Specific Configuration
 #
 
+# The default portal to serve if the request base does not match something
+# in the <portal> section below.
 default_portal co
+
+# Add base URLs to respond to portals other than the default (including
+# the default is optional). The full <protocol>://<host>[<:port>]/ address
+# must be specified.
+<portal>
+    # Example: for local development/testing using the Catalyst server.
+    # You may need to update /etc/hosts so that these resolve to 127.0.0.1
+    http://dfait.localhost:3000/ dfait
+    http://co.localhost:3000/ co
+
+    # Live installations
+    http://alpha.canadiana.ca/ co
+    http://beta.canadiana.ca/ co
+    http://dfait-aeci.canadiana.ca/ dfait
+</portal>
 
 version 0.6
 
@@ -66,6 +83,7 @@ netpbm_path /opt/cap-libs/netpbm/bin
     start     0
     score     score desc
     wt        json
+    fl        *
   </defaults>
 
   # Fields to return for various search types
@@ -162,12 +180,12 @@ netpbm_path /opt/cap-libs/netpbm/bin
   public true
 </action>
 
-<action "/search/search">
+<action "/search">
   enabled true
   public true
 </action>
 
-<action "/show/index">
+<action "/show">
   enabled true
   public true
 </action>
@@ -181,23 +199,3 @@ netpbm_path /opt/cap-libs/netpbm/bin
   enabled true
   public true
 </action>
-
-# List of valid contributor namespaces with the name of the contributor.
-# (To be replaced)
-<contributor>
-  sfu    Simon Fraser University
-  oocihm Canadiana.org
-  ooe    Department of Foreign Affairs and International Trade
-  oonl   Library and Archives Canada
-  otu    University of Toronto
-  qmbn   Bibliothèque et Archives Nationales du Québec
-</contributor>
-
-# Automatically prefix an application and interface to all requests
-# using the specified URL. The trailing slash must be included.
-<prefix>
-  # Example:
-  # http://www.myserver.com/ = myapp/en
-  # Requests for http://www.myserver.com/foo will be processed as myap/en/foo, not foo
-</prefix>
-

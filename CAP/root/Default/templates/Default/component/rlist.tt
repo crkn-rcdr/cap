@@ -25,7 +25,7 @@
            # flags rather than go by file suffix.
         %]
         [% IF item.doc.canonicalUri.match('\.jpg$') %]
-          <a href="[% c.uri_for(root, 'show', item.main_record, {'embed' => item.doc.canonicalUri }) %]">[% doc_label(item) %]</a>
+          <a href="[% c.uri_for_action('show', item.main_record, {'embed' => item.doc.canonicalUri }) %]">[% doc_label(item) %]</a>
         [% ELSE %]
           <a href="[% item.doc.canonicalUri | xml_escape %]">[% doc_label(item) %]</a>
         [% END %]

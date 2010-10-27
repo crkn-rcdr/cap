@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use lib "/opt/cap-libs/perl/lib/perl5";
 use FindBin;
 use Config::General;
 use DBI;
@@ -61,7 +62,7 @@ if ($opt->{insert}) {
 }
 
 $list_all->execute() or die ($dbh->errstr);
-printf("%-16s  %-10s  %-4s  %s\n", "Field", "Code", "Lang", "Label");
+printf("%-16s  %-14s  %-4s  %s\n", "Field", "Code", "Lang", "Label");
 while (my($field, $code, $lang, $label) = $list_all->fetchrow_array()) {
-    printf("%-16s  %-10s  %-4s  %s\n", $field, $code, $lang, $label);
+    printf("%-16s  %-14s  %-4s  %s\n", $field, $code, $lang, $label);
 }

@@ -28,30 +28,30 @@
     </title>
   [%- END -%]
 
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'cap.css') %]"/>
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/tundra/tundra.css') %]" />
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dojo/resources/dojo.css') %]" />
-    [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', template.css) %]"/>[% END %]
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'override.css') %]"/>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'css', 'cap.css') %]"/>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'dojo', 'dijit', 'themes', 'tundra', 'tundra.css') %]" />
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'dojo', 'dojo', 'resources', 'dojo.css') %]" />
+    [% IF template.css %]<link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'css', template.css) %]"/>[% END %]
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'css', 'override.css') %]"/>
     <script type="text/javascript">
       var CAP = {
         base_uri : "[% c.req.base | xml_escape %][% c.req.path | xml_escape %]",
-        icon_expand : "[% c.uri_for(root, 'static', 'widgets', 'expand.png') %]",
-        icon_collapse : "[% c.uri_for(root, 'static', 'widgets', 'collapse.png') %]",
+        icon_expand : "[% c.uri_for_action('static', 'widgets', 'expand.png') %]",
+        icon_collapse : "[% c.uri_for_action('static', 'widgets', 'collapse.png') %]",
       }
     </script>
-    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'jquery.js') %]">1;</script>
-    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'cap.js') %]">1;</script>
-    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'dojo', 'dojo/dojo.js') %]" djConfig="parseOnLoad: true">1;</script>
+    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'jquery.js') %]">1;</script>
+    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'cap.js') %]">1;</script>
+    <script type="text/javascript" src="[% c.uri_for_action('static', 'dojo', 'dojo', 'dojo.js') %]" djConfig="parseOnLoad: true">1;</script>
 
   [%- # Additional scripts and stylesheets to include based on the action executed -%]
-  [%- IF c.action == "show/show" -%]
-    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'show.js') %]">1;</script>
+  [%- IF c.action == "show/index" -%]
+    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'show.js') %]">1;</script>
   [%- ELSIF c.action == "system/i18n" -%]
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'i18n.css') %]"/>
-    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'i18n.js') %]">1;</script>
-  [%- ELSIF c.action == "search/search" -%]
-    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'search.js') %]">1;</script>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'css', 'i18n.css') %]"/>
+    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'i18n.js') %]">1;</script>
+  [%- ELSIF c.action == "search/index" -%]
+    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'search.js') %]">1;</script>
   [%- END -%]  
     <script type="text/javascript">
 

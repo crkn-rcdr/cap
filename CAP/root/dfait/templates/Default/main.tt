@@ -8,12 +8,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="[% iface %]" lang="[% iface %]">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="[% lang %]" lang="[% lang %]">
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     [% IF response.item.doc.type == 'monograph' %]
-      <meta http-equiv="refresh" content="0;url=[% c.uri_for(root, 'show', response.item.doc.key, { rel => 'start' }) %]">
+      <meta http-equiv="refresh" content="0;url=[% c.uri_for_action('show', response.item.doc.key, { rel => 'start' }) %]">
     [% END %]
 
   [%-
@@ -46,11 +46,8 @@
     <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'cap.js') %]">1;</script>
     <script type="text/javascript" src="[% c.uri_for(root, 'static', 'dojo', 'dojo/dojo.js') %]" djConfig="parseOnLoad: true">1;</script>
   [%- # Additional scripts and stylesheets to include based on the action executed -%]
-  [%- IF c.action == "show/show" -%]
-    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'show.js') %]">1;</script>
-  [%- ELSIF c.action == "system/i18n" -%]
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'i18n.css') %]"/>
-    <script type="text/javascript" src="[% c.uri_for(root, 'static', 'js', 'i18n.js') %]">1;</script>
+  [%- IF c.action == "show" -%]
+    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'show.js') %]">1;</script>
   [%- END -%]
 
   </head>
