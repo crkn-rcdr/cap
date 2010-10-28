@@ -2,7 +2,6 @@
   # component/bibrec.tt - full bibliographic record
 
   USE XML.Escape;
-  MACRO media(code) INCLUDE macro/media.tt;
 
   media_types = [];
   languages =   [];

@@ -6,7 +6,6 @@
   # Identifier prefix: rs
   # Modified: 2010-04-19
   USE XML.Escape;
-  MACRO media(code) INCLUDE macro/media.tt;
   MACRO sort_order(code) INCLUDE macro/sort_order.tt;
   MACRO format_number(number) INCLUDE macro/format_number.tt;
   SET keywords = c.req.params.q;
@@ -45,7 +44,7 @@
               <em class="filter">[% label.lang.${l}  %]</em>[% IF m OR f OR t %],[% ELSE %].[% END %]
             [% END %]
             [% IF m %]
-              <em class="filter">[% media(m)  %]</em>[% IF f OR t %],[% ELSE %].[% END %]
+              <em class="filter">[% label.media.${m}  %]</em>[% IF f OR t %],[% ELSE %].[% END %]
             [% END %]
             [% IF f OR t %]
               <em class="filter">[% f | xml_escape %] [% c.loc('to') | xml_escape %] [% t | xml_escape %]</em>.
