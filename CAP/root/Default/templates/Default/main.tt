@@ -40,17 +40,10 @@
         icon_collapse : "[% c.uri_for_action('static', 'widgets', 'collapse.png') %]",
       }
     </script>
-    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'jquery.js') %]">1;</script>
-    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'cap.js') %]">1;</script>
     <script type="text/javascript" src="[% c.uri_for_action('static', 'dojo', 'dojo', 'dojo.js') %]" djConfig="parseOnLoad: true">1;</script>
 
   [%- # Additional scripts and stylesheets to include based on the action executed -%]
-  [%- IF c.action == "show/index" -%]
-    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'show.js') %]">1;</script>
-  [%- ELSIF c.action == "system/i18n" -%]
-    <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'css', 'i18n.css') %]"/>
-    <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'i18n.js') %]">1;</script>
-  [%- ELSIF c.action == "search/index" -%]
+  [%- IF c.action == 'search' || c.action == "search/index" -%]
     <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'search.js') %]">1;</script>
   [%- END -%]  
     <script type="text/javascript">

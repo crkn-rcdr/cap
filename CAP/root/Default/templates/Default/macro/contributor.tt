@@ -1,5 +1,0 @@
-﻿[%-
-  # Map contributor codes to display names.
-  # This is deprecated: use label.contributor.CODE directly.
--%]
-[%- label.contributor.${code} -%]

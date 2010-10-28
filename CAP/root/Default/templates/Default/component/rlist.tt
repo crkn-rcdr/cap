@@ -3,7 +3,6 @@
 
   USE XML.Escape;
   MACRO media(code) INCLUDE macro/media.tt;
-  MACRO contributor(code) INCLUDE macro/contributor.tt;
   MACRO doc_label(item) INCLUDE macro/label.tt;
 
 %]

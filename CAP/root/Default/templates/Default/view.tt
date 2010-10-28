@@ -8,7 +8,6 @@
   USE XML.Escape;
   
   MACRO item_label(item) INCLUDE macro/label.tt;
-  MACRO contributor(code) INCLUDE macro/contributor.tt;
 %]
 
 [% INCLUDE component/header.tt; %]
@@ -27,7 +26,7 @@
 
   [% IF c.req.params.embed %]
     <div>
-      <p>[% c.loc("From a collection held by [_1]", contributor(record.contributor)) | xml_escape %]</p>
+      <p>[% c.loc("From a collection held by [_1]", label.contributor.${record.contributor}) | xml_escape %]</p>
       <img src="[% c.req.params.embed | xml_escape %]"/>
       <p>
         [% c.loc("Download image:") | xml_escape %]

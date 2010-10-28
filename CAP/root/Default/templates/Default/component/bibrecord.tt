@@ -3,8 +3,6 @@
 
   USE XML.Escape;
   MACRO media(code) INCLUDE macro/media.tt;
-  MACRO contributor(code) INCLUDE macro/contributor.tt;
-  MACRO language(lang) INCLUDE macro/language.tt;
 
   media_types = [];
   languages =   [];

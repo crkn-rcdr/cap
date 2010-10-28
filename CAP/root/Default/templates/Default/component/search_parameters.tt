@@ -7,7 +7,6 @@
   # Modified: 2010-04-19
   USE XML.Escape;
   MACRO media(code) INCLUDE macro/media.tt;
-  MACRO language(lang) INCLUDE macro/language.tt;
   MACRO sort_order(code) INCLUDE macro/sort_order.tt;
   MACRO format_number(number) INCLUDE macro/format_number.tt;
   SET keywords = c.req.params.q;
