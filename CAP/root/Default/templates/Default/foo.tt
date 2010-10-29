@@ -1,0 +1,12 @@
+[%-
+  # search.tt - search results template
+
+  USE XML.Escape;
+-%]
+
+
+
+
+<div id="border_container"></div>
+
+<p>Hello world!</p>
