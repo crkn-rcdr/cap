@@ -1,3 +1,7 @@
+[%
+  # Login and logout no longer work this way; they will need to be
+  #re-implemented in the future
+%]
 <h2>[% c.loc("Log In") | html %]</h2>
 
 [% IF login_msg %]

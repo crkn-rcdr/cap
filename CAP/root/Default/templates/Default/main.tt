@@ -12,22 +12,7 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-  [%-
-    # Page title
-  -%]
-  [%- IF config.label -%]
-    <title>
-      [% c.loc(config.label) | xml_escape -%]
-      [%- IF title -%] - [%- title | xml_escape -%][%- END %]
-    </title>
-  [%- ELSE -%]
-    <title>
-      [% c.loc("CAP") | xml_escape -%]
-      [%- IF title -%] - [%- title | xml_escape -%] [%- END %]
-    </title>
-  [%- END -%]
-
+    <title>[% config.lang.${lang} | xml_escape %]</title>
     <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'css', 'cap.css') %]"/>
     <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'dojo', 'dijit', 'themes', 'tundra', 'tundra.css') %]" />
     <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'dojo', 'dojo', 'resources', 'dojo.css') %]" />

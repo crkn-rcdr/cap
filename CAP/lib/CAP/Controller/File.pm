@@ -40,14 +40,14 @@ parameters are therefore ignored.
 
 =cut
 
-sub get :Chained('/base') PartPath('/get') Args(2)
+sub get :Path('/get') Args(2)
 {
     my($self, $c, $key, $file) = @_;
     my $suffix = "";
 
     # Retrieve the record for the requested document. Verify that it
     # exists.
-    my $solr = CAP::Solr->new($c->config->{solr});
+    my $solr = $c->stash->{solr};
     my $doc = $solr->document($key);
     if (! $doc){
         $c->detach('/error', [ 404, "No record for: $key" ]);
@@ -67,13 +67,13 @@ sub get :Chained('/base') PartPath('/get') Args(2)
     $c->detach( '/error', [ 404, "No suitable file for $key" ] );
 }
 
-sub download :Chained('/base') PartPath('/download') Args(2)
+sub download :Path('/download') Args(2)
 {
     my($self, $c, $key, $file) = @_;
 
     # Retrieve the record for the requested document. Verify that it
     # exists.
-    my $solr = CAP::Solr->new($c->config->{solr});
+    my $solr = $c->stash->{solr};
     my $doc = $solr->document($key);
     if (! $doc){
         $c->detach( '/error', [ 404, "No record for: $key" ] );

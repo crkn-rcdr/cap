@@ -5,7 +5,7 @@ use feature qw(switch);
 use warnings;
 use parent 'Catalyst::Controller';
 
-sub index :Private
+sub main :Private
 {
     my($self, $c, $start) = @_;
     $start = 1 unless ($start);
@@ -157,7 +157,7 @@ sub prepare_search : Private {
 sub run_search : Private {
 
     my($self, $c, $start, $grouped) = @_;
-    my $solr = CAP::Solr->new($c->config->{solr});
+    my $solr = $c->stash->{solr};
 
     my $result;
     if ($grouped) {

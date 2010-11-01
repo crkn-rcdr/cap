@@ -1,8 +1,0 @@
-[%
-  # Output the request, response, and response version as JSON
-  USE JSON(pretty => 1);
-  IF ! c.config.debug;
-    response.delete('solr');
-  END;
-  response.json;
-%] 

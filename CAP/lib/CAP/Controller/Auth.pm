@@ -36,7 +36,8 @@ unsuccessful login.
 
 =back
 =cut
-sub login :Chained('/base') PathPart('login') Args(0)
+#sub login :Chained('/base') PathPart('login') Args(0)
+sub login
 {
     my($self, $c) = @_;
     my $username = $c->request->params->{username};
@@ -87,7 +88,8 @@ Logs the user out (if logged in) ending the session and redirects to the login p
 
 =back
 =cut
-sub logout :Chained('/base') PathPart('logout') Args(0)
+#sub logout :Chained('/base') PathPart('logout') Args(0)
+sub logout
 {
     my($self, $c) = @_;
 
@@ -122,26 +124,27 @@ supply either a username or password.
 
 =back
 =cut
-sub authenticate :Private
+#sub authenticate :Private
+sub authenticate
 {
     my($self, $c) = @_;
     my $username = $c->request->params->{username};
     my $password = $c->request->params->{password};
 
-    warn("[debug] authenticate: trying to authenticate with \"$username\" = \"$password\"\n") if ($c->config->{debug_auth});
+    warn("[debug] authenticate: trying to authenticate with \"$username\" = \"$password\"\n") if ($c->config->{debug});
 
     if ($username && $password) {
         if ($c->authenticate({ username => $username, password => $password})) {
             return 1;
         }
         else {
-            warn("[debug] authenticate: password \"$password\" does not match user \"$username\"\n") if ($c->config->{debug_auth});
+            warn("[debug] authenticate: password \"$password\" does not match user \"$username\"\n") if ($c->config->{debug});
             $c->stash->{login_msg} = "NOMATCH";
             return 0;
         }
     }
 
-    warn("[debug] authenticate: missing username ($username) or password ($password)\n") if ($c->config->{debug_auth});
+    warn("[debug] authenticate: missing username ($username) or password ($password)\n") if ($c->config->{debug});
     $c->stash->{login_msg} = "NOUSERID";
     return 0;
 }

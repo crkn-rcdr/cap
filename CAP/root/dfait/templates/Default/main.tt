@@ -16,20 +16,7 @@
       <meta http-equiv="refresh" content="0;url=[% c.uri_for_action('show', response.item.doc.key, { rel => 'start' }) %]">
     [% END %]
 
-  [%-
-    # Page title
-  -%]
-  [%- IF config.label -%]
-    <title>
-      [% c.loc(config.label) | xml_escape -%]
-      [%- IF title -%] - [%- title | xml_escape -%][%- END %]
-    </title>
-  [%- ELSE -%]
-    <title>
-      [% c.loc("CAP") | xml_escape -%]
-      [%- IF title -%] - [%- title | xml_escape -%] [%- END %]
-    </title>
-  [%- END -%]
+    <title>[% config.lang.${lang} | xml_escape %]</title>
 
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'dojo', 'dijit/themes/nihilo/nihilo.css') %]" />
     <link rel="stylesheet" type="text/css" href="[% c.uri_for(root, 'static', 'css', 'cap.css') %]"/>

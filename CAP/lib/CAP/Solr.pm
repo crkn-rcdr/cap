@@ -23,7 +23,7 @@ CAP::Solr - Solr interface for CAP
 # Create a new Solr object.
 sub new
 {
-    my($self, $config) = @_;
+    my($self, $config, $subset) = @_;
     my $solr = {};
     $solr->{qtime} = 0;
     $solr->{qcount} = 0;
@@ -45,7 +45,7 @@ sub new
     }
 
     $solr->{subset} = {};
-    $solr->{subset} = {%{$config->{subset}}} if ($config->{subset});
+    $solr->{subset} = {%{$subset}} if ($subset);
 
     $solr->{rows} = $solr->{param_default}->{rows} || 10;
 

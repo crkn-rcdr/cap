@@ -5,13 +5,13 @@ use warnings;
 use parent 'Catalyst::Controller';
 
 #sub index : Chained('/base') PathPart('show') Args()
-sub index :Private
+sub main :Private
 {
     my($self, $c, $key, $start) = @_;
     $start = 1 unless ($start);
     $key = $c->req->params->{key} if ($c->req->params->{key});
 
-    my $solr = CAP::Solr->new($c->config->{solr});
+    my $solr = $c->stash->{solr};
     my $doc = $solr->document($key);
     $c->detach('/error', [404, "NOTFOUND"]) unless ($doc);
     my $type = $doc->{type};

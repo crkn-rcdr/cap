@@ -1,27 +1,30 @@
-# cap.conf file for CAP version 0.6
-# Modified on 2010-08-19
-# This is the standard configuration file for CAP. In order to use it, you
-# will need to replace all of the <PATH> placeholders with the appropriate
-# directory paths for your environment. Additional customizations may also
-# be made to tailor operation to your particular environment.
+# cap.conf.erb
+# This is the Ruby template file for the main CAP configuration file. To
+# use locally (e.g. for testing) copy to cap.conf and edit to replace all
+# of the variables with local values. You may also need to edit the
+# <portal> section to enable local aliases for the non-default portals you
+# want to run.
 
-#
-#  General Catalyst Configuration 
-#
+# For Boolean values, you can use "1", "true", "yes", and "on"
+# interchangeably. Likewise, you can use "0", "false", "no" and "off".
 
+
+# Name of the Catalyst application.
 name CAP
 
+# Application version information. This needs to be >=  to the value of
+# $VERSION in CAP.pm or else the portal will not work.
+version 0.62
+
+# Name of the default view to render.
 default_view Default
 
-# Set to true to enable additional debugging information (useful for
-# development)
+# Set to true to enable some addtional profiling and debugging output both
+# in the log files and on the templates. Set to false for production
+# installations.
 debug <%= debug_var %>
 
-# Set to true to see additional debug information relating to
-# authorization.
-debug_auth false
-
-# Database connection info
+# MySQL database connection information.
 <Component Model::DB>
     schema_class CAP::Schema
     <connect_info>
@@ -30,10 +33,6 @@ debug_auth false
         password ""
     </connect_info>
 </Component>
-
-#
-# Application-Specific Configuration
-#
 
 # The default portal to serve if the request base does not match something
 # in the <portal> section below.
@@ -45,8 +44,8 @@ default_portal co
 <portal>
     # Example: for local development/testing using the Catalyst server.
     # You may need to update /etc/hosts so that these resolve to 127.0.0.1
-    http://dfait.localhost:3000/ dfait
-    http://co.localhost:3000/ co
+    #http://dfait.localhost:3000/ dfait
+    #http://co.localhost:3000/ co
 
     # Live installations
     http://alpha.canadiana.ca/ co
@@ -54,14 +53,10 @@ default_portal co
     http://dfait-aeci.canadiana.ca/ dfait
 </portal>
 
-version 0.6
-
-# These path names must be absolute or else relative to the application 'root'.
-
 # Path to the content repository (TIFF images, PDFs, etc.)
 content <%= app_var %>/content
 
-# Where we can find the NetPBM programs
+# Exec path to the netpbm programs.
 netpbm_path /opt/cap-libs/netpbm/bin
 
 # Default parameters. These should all be set to sensible values, or the
@@ -142,60 +137,23 @@ netpbm_path /opt/cap-libs/netpbm/bin
 
 </solr>
 
-# Controls whether an action can be accessed at all, whether it is public,
-# and if not, what role(s) are allowed to access the action.
+# In addition to the default view, the following views are enabled. You
+# can override these on a per-portal basis in the relevant portal.conf
+# file. Note that 'xml' and 'json' have built-in handlers and are not
+# handled by the view.
+<fmt>
+ xml  = on
+ json = on
+</fmt>
 
-<action "/auth/login">
-  enabled false
-  public true
-</action>
-
-<action "/auth/logout">
-  enabled false
-  public true
-</action>
-
-<action "/file/file">
-  enabled true
-  public true
-</action>
-
-<action "/file/get">
-  enabled true
-  public true
-</action>
-
-<action "/page">
-  enabled true
-  public true
-</action>
-
-<action "/post">
-  enabled true
-  public true
-</action>
-
-<action "/index">
-  enabled true
-  public true
-</action>
-
-<action "/search">
-  enabled true
-  public true
-</action>
-
-<action "/show">
-  enabled true
-  public true
-</action>
-
-<action "/static">
-  enabled true
-  public true
-</action>
-
-<action "/test_error">
-  enabled true
-  public true
+# Action paths that are enabled/disabled by default.
+<action>
+  /        = on
+  search   = on
+  show     = on
+  static   = on
+  get      = on
+  download = on
+  error    = off
+  ajax/hello = off
 </action>
