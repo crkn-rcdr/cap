@@ -102,7 +102,7 @@
         [% ELSE %]
 
             [% FOREACH facet IN response.facet.contributor %]
-                [% SET CONTRIBNAME = contributor(facet.name) %]
+                [% SET CONTRIBNAME = label.contributor.${facet.name} %]
                 menulabel = '[% CONTRIBNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])';
                 contribmenuValues[i] = new Array(menulabel,   '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]');
                 i++;
