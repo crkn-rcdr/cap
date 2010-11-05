@@ -1,5 +1,7 @@
 package CIHM::CMR::Archive;
 
+# DEPRECATED: Use CAP::CMR instead
+
 =head1  NAME
 
 CIHM::CMR::Archive

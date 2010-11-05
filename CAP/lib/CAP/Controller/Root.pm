@@ -161,20 +161,22 @@ sub set_usrlang : Private
 
     # Override with the supported language with the highest q value from
     # the Accept-Language header.
-    my $lang_q = -1;
-    foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
-        my ($val, $q) = split(';q=', $accept_lang);
-        $q = 0 unless ($q);
-        $q = 1 if ($q && $q eq '');
-        if ($val) {
-            $val = lc(substr($val, 0, 2));
-            if ($c->stash->{config}->{lang}->{$val} && int($q) > $lang_q) {
-                $lang = $val;
-                $lang_q = int($q);
+    if ($c->req->header('Accept-Language')) {
+        my $lang_q = -1;
+        foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
+            my ($val, $q) = split(';q=', $accept_lang);
+            $q = 0 unless ($q);
+            $q = 1 if ($q && $q eq '');
+            if ($val) {
+                $val = lc(substr($val, 0, 2));
+                if ($c->stash->{config}->{lang}->{$val} && int($q) > $lang_q) {
+                    $lang = $val;
+                    $lang_q = int($q);
+                }
             }
         }
+        return $lang if ($lang_q != -1);
     }
-    return $lang if ($lang_q != -1);
 
     # Use the default language
     return $c->stash->{config}->{default_lang};
@@ -229,19 +231,11 @@ sub config_portal : Private
     return $portal;
 }
 
-
-=over 4
-
-=item default
-
-Called if no other actions match the request. The default action is to
-forward to I<error> with a 404 (Not Found) code.
-
-=back
-=cut
+# The default action is to redirect back to the main page.
 sub default :Path {
     my($self, $c) = @_;
-    $c->detach('error', [404]);
+    $c->res->redirect($c->uri_for_action('index'));
+    $c->detach();
 }
 
 sub end : ActionClass('RenderView')
@@ -362,6 +356,12 @@ sub static : Path('static') Args()
     }
 
     return 1;
+}
+
+sub favicon :Path('favicon.ico') Args(0)
+{
+    my($self, $c) = @_;
+    $c->res->redirect($c->uri_for_action('static', ['favicon.ico']));
 }
 
 sub test_error :Path('error') Args(1)

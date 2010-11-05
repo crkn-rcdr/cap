@@ -50,15 +50,14 @@
                 <p>
                 <b>[% c.loc("Sort") | xml_escape %]</b>
                 <select  name="so" title="[% c.loc("Sort") | xml_escape %]">
-                <option  value="pubmin asc" selected> [% c.loc("oldest") | xml_escape %]
-                <option  value="pubmax desc" /> [% c.loc("newest") | xml_escape %]
-                <option  value="score" /> [% c.loc("relevance") | xml_escape %]
+                <option  value="oldest" selected="selected"> [% c.loc("oldest") | xml_escape %]
+                <option  value="newest" /> [% c.loc("newest") | xml_escape %]
                 </select>
                 </p>
                 <p>
                 <b>[% c.loc("Type") | xml_escape %]</b>
                 <select  name="de" title="[% c.loc("Type") | xml_escape %]">
-                <option  value="-" selected /> [% c.loc("any") | xml_escape %]
+                <option  value="-" selected="selected" /> [% c.loc("any") | xml_escape %]
                 <option  value="press" /> [% c.loc("press release") | xml_escape %]
                 <option  value="statement" /> [% c.loc("statement") | xml_escape %]
                 <option  value="speech" /> [% c.loc("speech") | xml_escape %]
@@ -69,7 +68,7 @@
                 <p>
                 <b>[% c.loc("Language") | xml_escape %]</b>
                 <select  name="lang" title="[% c.loc("Language") | xml_escape %]">
-                <option  value="-" selected /> [% c.loc("any") | xml_escape %]
+                <option  value="-" selected="selected" /> [% c.loc("any") | xml_escape %]
                 <option  value="eng" /> [% c.loc("English") | xml_escape %]
                 <option  value="fra" /> [% c.loc("French") | xml_escape %]
                 </select>

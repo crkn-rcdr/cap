@@ -7960,8 +7960,7 @@
       sequences of delimiters into spaces.
     -->
     <xsl:variable name="string" select="normalize-space(
-      translate(
-        $arg,
+      translate($arg,
         'ABCDEFGHIJKLMNOPQRSTUVWXYZ/:;,',
         'abcdefghijklmnopqrstuvwxyz    '
       )
@@ -7977,13 +7976,49 @@
             'cree' and 'creek'. We can't properly detect languages with
             spaces or delimiter characters in them.
           -->
+          <xsl:when test="starts-with($string, 'welsh')">cym</xsl:when>
+          <xsl:when test="starts-with($string, 'swedish')">swe</xsl:when>
+          <xsl:when test="starts-with($string, 'slovak')">slk</xsl:when>
+          <xsl:when test="starts-with($string, 'russian')">rus</xsl:when>
+          <xsl:when test="starts-with($string, 'ojibwa')">oji</xsl:when>
+          <xsl:when test="starts-with($string, &quot;mi'kmaq&quot;)">mic</xsl:when>
+          <xsl:when test="starts-with($string, 'norwegian')">nor</xsl:when>
+          <xsl:when test="starts-with($string, 'latin')">lat</xsl:when>
+          <xsl:when test="starts-with($string, 'italian')">ita</xsl:when>
           <xsl:when test="starts-with($string, 'inuktitut')">iku</xsl:when>
           <xsl:when test="starts-with($string, 'inuit')">iku</xsl:when>
           <xsl:when test="starts-with($string, 'german')">deu</xsl:when>
           <xsl:when test="starts-with($string, 'gaelic')">gla</xsl:when>
           <xsl:when test="starts-with($string, 'french')">fra</xsl:when>
+          <xsl:when test="starts-with($string, 'dutch')">nld</xsl:when>
+          <xsl:when test="starts-with($string, 'danish')">dan</xsl:when>
           <xsl:when test="starts-with($string, 'english')">eng</xsl:when>
-          <xsl:when test="starts-with($string, &quot;mi'kmaq&quot;)">mic</xsl:when>
+          <xsl:when test="starts-with($string, 'chipewyan')">chp</xsl:when>
+          <xsl:when test="starts-with($string, 'chippewa')">chp</xsl:when>
+          <xsl:when test="starts-with($string, 'cree')">cre</xsl:when>
+          <xsl:when test="starts-with($string, 'algonquin')">alq</xsl:when>
+
+          <!--
+            Other names we've seen:
+            czech
+            finnish
+            saulteaux
+            (soun'line)
+            icelandic
+            hare
+            locheux
+            beaver
+            flemish
+            icelandic
+            blackfoot
+            tukkuthkutchin
+            ukrainian
+            polish
+            hungarian
+            sarsi
+            yiddish
+            (low)
+          -->
 
           <xsl:otherwise>
             <!--
