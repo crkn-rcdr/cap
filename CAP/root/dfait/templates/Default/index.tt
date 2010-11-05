@@ -41,35 +41,47 @@
 </div>
 
 <div class="index_browse_button">
-        <div dojoType="dijit.form.DropDownButton" label="&nbsp;[% c.loc("Browse by title") | xml_escape %]&nbsp;">
+        <div label="&nbsp;[% c.loc("Browse by title") | xml_escape %]&nbsp;">
 
-        <div dojoType="dijit.TooltipDialog" style="text-align:left;margin-left:auto;margin-right:auto;width:100%;border: solid 0px #ff0000;">
-        <noscript><h4>[% c.loc("Browse by title") | xml_escape %]</h4></noscript>
+        <div style="text-align:left;margin-left:40%;margin-right:auto;width:100%;border: solid 0px #0000ff;">
+        <h4>[% c.loc("Browse by title") | xml_escape %]</h4>
                 <form action="[% c.uri_for(root,'search') | xml_escape %]" method="GET">
                   <input type="hidden" name="t" value="titles"/>
-                <b>[% c.loc("Sort") | xml_escape %]</b> <br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="so" value="pubmin asc" checked="checked" /> [% c.loc("oldest") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="so" value="pubmax desc" /> [% c.loc("newest") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="so" value="score" /> [% c.loc("relevance") | xml_escape %]<br /><br />
-                <b>[% c.loc("Type") | xml_escape %]</b> <br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="de" value="-" checked="checked" /> [% c.loc("any") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="de" value="press" /> [% c.loc("press release") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="de" value="statement" /> [% c.loc("statement") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="de" value="speech" /> [% c.loc("speech") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="de" value="index" /> [% c.loc("index") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="de" value="toc" /> [% c.loc("table of contents") | xml_escape %]<br /><br />
-                <b>[% c.loc("Language") | xml_escape %]</b> <br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="lang" value="-" checked="checked" /> [% c.loc("any") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="lang" value="eng" /> [% c.loc("English") | xml_escape %]<br />
-                <input dojoType="dijit.form.RadioButton" type="radio" name="lang" value="fra" /> [% c.loc("French") | xml_escape %]<br /><br />
+                <p>
+                <b>[% c.loc("Sort") | xml_escape %]</b>
+                <select  name="so" title="[% c.loc("Sort") | xml_escape %]">
+                <option  value="pubmin asc" selected> [% c.loc("oldest") | xml_escape %]
+                <option  value="pubmax desc" /> [% c.loc("newest") | xml_escape %]
+                <option  value="score" /> [% c.loc("relevance") | xml_escape %]
+                </select>
+                </p>
+                <p>
+                <b>[% c.loc("Type") | xml_escape %]</b>
+                <select  name="de" title="[% c.loc("Type") | xml_escape %]">
+                <option  value="-" selected /> [% c.loc("any") | xml_escape %]
+                <option  value="press" /> [% c.loc("press release") | xml_escape %]
+                <option  value="statement" /> [% c.loc("statement") | xml_escape %]
+                <option  value="speech" /> [% c.loc("speech") | xml_escape %]
+                <option  value="index" /> [% c.loc("index") | xml_escape %]
+                <option  value="toc" /> [% c.loc("table of contents") | xml_escape %]
+                </select>
+                </p>
+                <p>
+                <b>[% c.loc("Language") | xml_escape %]</b>
+                <select  name="lang" title="[% c.loc("Language") | xml_escape %]">
+                <option  value="-" selected /> [% c.loc("any") | xml_escape %]
+                <option  value="eng" /> [% c.loc("English") | xml_escape %]
+                <option  value="fra" /> [% c.loc("French") | xml_escape %]
+                </select>
+                </p>
 
                                  
                 <label for="dr">
                     <b>[% c.loc("Years") | xml_escape %]</b><br />
                 </label>
-                <input dojoType="dijit.form.TextBox" type="text" id="dr" name="dr"/><br /><br />
+                <input type="text" id="dr" name="dr"/><br /><br />
 
-                <button dojoType="dijit.form.Button" type="submit">
+                <button type="submit">
                     [% c.loc("Browse") | xml_escape %]
                 </button> 
                 </form>
