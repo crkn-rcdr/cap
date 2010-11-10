@@ -10,12 +10,12 @@ use feature qw(switch);
 # Set up a library path and base directory relative to the executable,
 # then try to load other libraries.
 use FindBin;
-use lib $FindBin::Bin;
+use lib "$FindBin::Bin/../../CAP/lib";
 my $basedir = $FindBin::Bin;
 
 use XML::LibXML;
 use XML::LibXSLT;
-use CIHM::CMR::Filters;
+use CAP::CMR;
 use Getopt::Long;
 
 my $xsd_file = "$basedir/cmr.xsd";
