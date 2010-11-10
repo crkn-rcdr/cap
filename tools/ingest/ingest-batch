@@ -2,6 +2,11 @@
 use strict;
 use warnings;
 
+use FindBin;
+my $config_file = "$FindBin::Bin/../../CAP/cap.conf";
+my $post = "$FindBin::Bin/post.pl";
+
+
 my $batch_files = 12000; # maximum number of files per batch
 my $batch_filesize = 50; # maximum file size (MB) per batch.
 
@@ -20,7 +25,7 @@ sub ingest_batch
 {
     my $time_start = time();
     printf("Ingesting batch of %d files (%d MB).\n", int(@files), $filesize / 1024 / 1024);
-    system("/opt/cap-beta/cap/current/tools/ingest/post.pl",  "--cmr", "--conf", "/opt/cap-beta/cap/current/CAP/cap.conf", @files);
+    system($post,  "--cmr", "--conf", $config_file, @files);
     my $time_end = time();
     my $time_elapsed = $time_end - $time_start + 1;
     printf(

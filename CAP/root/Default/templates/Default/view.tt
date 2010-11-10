@@ -48,7 +48,7 @@
   [% ELSIF response.item.counts.issues > 0 %]
     <div>
       [% c.loc("[_1] issues available", response.item.counts.issues) | xml_escape %]
-      <a href="[% c.uri_for_action('search/index', { pkey => response.item.doc.key, so => 'pubmin asc' }) %]">
+      <a href="[% c.uri_for_action('search', { pkey => response.item.doc.key, so => 'pubmin asc' }) %]">
         [% c.loc("Show all issues") | xml_escape %]
       </a>
     </div>

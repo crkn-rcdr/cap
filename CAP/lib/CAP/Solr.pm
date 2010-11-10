@@ -16,242 +16,77 @@ CAP::Solr - Solr interface for CAP
 
 =cut
 
-#
-# General methods
-#
-
 # Create a new Solr object.
 sub new
 {
     my($self, $config, $subset) = @_;
     my $solr = {};
-    $solr->{qtime} = 0;
-    $solr->{qcount} = 0;
-    $solr->{select_uri} = $config->{select_uri};
-    $solr->{update_uri} = $config->{update_uri};
-    $solr->{param_default} = {%{$config->{defaults}}};
 
-    $solr->{fl} = {
-        ancestors => '*',
-        search => '*',
+    # Initialize internal metrics and debugging information.
+    $solr->{status} = {
+        count       => 0,      # total number of queries run
+        query_time  => 0,      # total time running Solr queries (seconds)
+        exec_time   => 0,      # total time spent in solr_query()
+        queries     => [],     # log of all queries run
+        message     => 'nil',  # status message to attach to next query log entry
     };
-    foreach my $type (keys(%{$config->{fl}})) {
-        if (ref($config->{fl}->{$type}) eq 'ARRAY') {
-            $solr->{fl}->{$type} = join(',', @{$config->{fl}->{$type}});
-        }
-        else {
-            $solr->{fl}->{$type} = $config->{fl}->{$type};
-        }
+
+    #
+    # Configure the Solr object
+    #
+    
+    # URLs for select and update requests.
+    $solr->{select_url} = $config->{select_url};
+    $solr->{update_url} = $config->{update_url};
+
+    # Default Solr parameters. We need to restore true/false values to
+    # boolean string values for a couple parameters.
+    $solr->{defaults} = {%{$config->{defaults}}};
+    if ($solr->{defaults}->{facet}) {
+        $solr->{defaults}->{facet} = 'true';
+    }
+    else {
+        $solr->{defaults}->{facet} = 'false';
+    }
+    if ($solr->{defaults}->{'facet.sort'}) {
+        $solr->{defaults}->{'facet.sort'} = 'true';
+    }
+    else {
+        $solr->{defaults}->{'facet.sort'} = 'false';
     }
 
-    $solr->{subset} = {};
-    $solr->{subset} = {%{$subset}} if ($subset);
+    # A subset restriction on all searches (except those using
+    # solr_query() directly). Must be a Solr query (q) fragment. E.g.:
+    # 'foo:bar OR baz'
+    $solr->{subset} = $subset || "";
 
-    $solr->{rows} = $solr->{param_default}->{rows} || 10;
+    # A mapping of field aliases to Solr query fragments, with '%' as a
+    # placeholder for the query text. E.g.:
+    # 'su' => 'su:(%) OR su_en:(%) OR su_fr:(%)'
+    $solr->{'fields'} = {};
+    $solr->{'fields'} = {%{$config->{'fields'}}} if ($config->{'fields'});
 
-    $solr->{alias} = {};
-    foreach my $field (keys(%{$config->{fields}})) {
-        if (ref($config->{fields}->{$field}) eq 'ARRAY') {
-            $solr->{alias}->{$field} = [@{$config->{fields}->{$field}}];
-        }
-        else {
-            $solr->{alias}->{$field} = [$config->{fields}->{$field}];
-        }
-    }
+    # A mapping of sort rules to Solr sort rules. E.g.:
+    # 'oldest' => 'pubmin asc'
+    $solr->{'sort'} = {};
+    $solr->{'sort'} = {%{$config->{'sort'}}} if ($config->{'sort'});
 
+    # A mapping of rules to restrict by arbitrary type. E.g.:
+    # 'titles' => 'type:monograph OR serial'
+    $solr->{'type'} = {};
+    $solr->{'type'} = {%{$config->{'type'}}} if ($config->{'type'});
+
+    # A user agent for making Solr requests and a LibXML object for
+    # processing XML responses.
     $solr->{agent} = LWP::UserAgent->new();
     $solr->{parser} = XML::LibXML->new();
-    $solr->{param} = { %{$solr->{param_default}} };
-    $solr->{facet} = {};
-    $solr->{wt} = $solr->{param}->{wt};
-
-    $solr->{status} = {
-        query_count => 0,
-        query_time => 0,
-        exec_time => 0,
-        queries => [],
-    };
-
-    # This should be set to a descriptive message for logging purposes in
-    # each query method.
-    $solr->{status_msg} = "nil"; 
-
 
     return bless($solr);
 }
 
-# Retrieve the query status log.
-sub status
-{
-    my($self) = @_;
-    return $self->{status};
-}
 
-#
-# Private methods
-# 
-
-# Process standard search parameters.
-sub _set_params
-{
-    my($self, $param) = @_;
-
-    # Reset parameters to their defaults.
-    $self->{param} = { %{$self->{param_default}} };
-
-    # For debugging purposes, unset the status message (so we can detect
-    # if a method is not setting it properly).
-    $self->{status_msg} = "nil"; 
-
-    # Process caller-supplied parameters
-    
-    # Fields to return
-    if ($param->{fl}) {
-        $self->{param}->{fl} = join(',', @{$param->{fl}});
-    }
-
-    # Faceting
-    if ($param->{facets}) {
-        $self->{param}->{facet} = 'true';
-        $self->{param}->{'facet.sort'} = 'true';
-        $self->{param}->{'facet.mincount'} = 1;
-        $self->{param}->{'facet.limit'} = -1;
-        $self->{param}->{'facet.field'} = $param->{facets};
-    }
-
-    # Sorting
-    given ($param->{'sort'}) {
-        when ('score')  { $self->{param}->{'sort'} = 'score desc' }
-        when ('oldest') { $self->{param}->{'sort'} = 'pubmin asc'}
-        when ('newest') { $self->{param}->{'sort'} = 'pubmax desc'}
-        when ('seq')    { $self->{param}->{'sort'} = 'pkey asc,seq asc'}
-    }
-
-    # Starting record (page)
-    if ($param->{page}) {
-        $self->{param}->{start} = ($self->_int($param->{page}) - 1) * $self->{param}->{rows};
-    }
-
-    # Number of rows to return per page
-    if ($param->{rows} && $param->{rows} =~ /^\d+$/) {
-        $self->{param}->{rows} = $param->{rows};
-    }
-}
-
-# Run the Solr query.
-sub _run_query
-{
-    my($self) = @_;
-    my $time = gettimeofday();
-
-    # Create the parameter string from the query parmeter q, plus any
-    # parameters that were specified in the parameter hash.
-    my @param = ("q=" . join(" AND ", @{$self->{q}}));
-
-    # Append all other query parameters.
-    while (my($param, $value) = each(%{$self->{param}})) {
-        if (! defined($value)) {
-            ; # Ignore parameters with null, empty, or undefined values.
-        }
-        elsif (ref($value) eq 'ARRAY') {
-            foreach my $aval (@{$value}) {
-                if (defined($aval)) {
-                    push(@param, join("=", (uri_escape($param), uri_escape($aval))));
-                }
-            }
-        }
-        else {
-            push(@param, join("=", (uri_escape($param), uri_escape($value))));
-        }
-    }
-
-    $self->{result} = {};
-    my $request;
-    my $metrics;
-
-    # Make the request
-    if ($self->{wt} eq 'xml') {
-        $request = HTTP::Request->new(GET => join("?", $self->{select_uri}, join("&", @param, 'wt=json')));
-    }
-    else {
-        $request = HTTP::Request->new(GET => join("?", $self->{select_uri}, join("&", @param)));
-    }
-    my $http_response = $self->{agent}->request($request);
-    return undef unless ($http_response->is_success);
-    my $response = $http_response->content;
-
-    # Parse the request
-    if ($self->{wt} eq 'xml') {
-        $metrics = $self->_response_xml($response);
-    }
-    else {
-        $metrics = $self->_response_json($response);
-    }
-    ++$self->{qcount};
-    $self->{qtime} += $metrics->{query_time};
-    $self->{result}->{q} = uri_unescape(join("&", @param));
-    $self->{result}->{hits} = $metrics->{hits};
-    $self->{result}->{hitsPerPage} = $metrics->{hitsPerPage};
-    $self->{result}->{hitsFrom} = $metrics->{hitsFrom};
-    $self->{result}->{hitsTo} = $self->{result}->{hitsPerPage} + $self->{result}->{hitsFrom} - 1;
-    if ($self->{result}->{hitsTo} > $self->{result}->{hits}) {
-        $self->{result}->{hitsTo} = $self->{result}->{hits};
-    }
-    $self->_setPageInfo($self->{result});
-
-    # Record execution metrics
-    my $exec_time = sprintf('%5.3f', gettimeofday() - $time);
-    ++$self->{status}->{query_count};
-    $self->{status}->{query_time} += $metrics->{query_time};
-    $self->{status}->{exec_time} += $exec_time;
-    push(@{$self->{status}->{queries}}, {
-        query => $self->{result}->{q},
-        query_time => $metrics->{query_time},
-        exec_time => $exec_time,
-        hits => $metrics->{hits},
-        msg => $self->{status_msg},
-    });
-    $self->{status_msg} = "nil";
-
-    return 1;
-}
-
-
-sub _set_query
-{
-    my($self, $query) = @_;
-    $self->{q} = [];
-    foreach my $param ($query, $self->{subset}) {
-        while (my($field, $value) = each(%{$param})) {
-            # Field "_foo" means search "foo" without escaping.
-            if (substr($field, 0, 1) eq '_') {
-                $field = substr($field, 1);
-            }
-            else {
-                $value = $self->_escape($value);
-            }
-
-            # Normalize space and skip empty fields.
-            $value =~ s/^\s+//;
-            $value =~ s/\s+$//;
-            $value =~ s/\s+/ /g;
-            next unless($value);
-
-            if ($self->{alias}->{$field}) {
-                my @aliases = ();
-                foreach my $alias (@{$self->{alias}->{$field}}) {
-                    push(@aliases, "($alias:($value))");
-                }
-                push(@{$self->{q}}, "(" . join(" OR ", @aliases) . ")");
-            }
-            else {
-                push(@{$self->{q}}, "($field:($value))");
-            }
-        }
-    }
-}
-
-sub _response_xml {
+# Called by solr_query() to decode XML responses from Solr.
+sub _decode_xml {
     my($self, $response) = @_;
     my $xml;
     $self->{facet_fields} = {};
@@ -312,7 +147,9 @@ sub _response_xml {
     };
 }
 
-sub _response_json {
+
+# Called by solr_query() to decode JSON responses from Solr.
+sub _decode_json {
     my($self, $response) = @_;
     my $json = {};
     $self->{facet_fields} = {};
@@ -354,6 +191,7 @@ sub _response_json {
     }
 }
 
+
 # Calculate some paging information for the $result set.
 sub _setPageInfo
 {
@@ -379,28 +217,27 @@ sub _setPageInfo
 
     # The page number of the previous results page (0 = no previous page).
     if ($result->{page} > 1) {
-        $result->{pagePrev} = $result->{page} - 1; # TODO: deprecated
         $result->{prev_page} = $result->{page} - 1;
     }
     else {
-        $result->{pagePrev} = 0; # TODO: deprecated
         $result->{prev_page} = 0;
     }
 
     # The page number of the net results page (0 = no next page).
     if ($result->{page} < $result->{pages}) {
-        $result->{pageNext} = $result->{page} + 1; # TODO: deprecated
         $result->{next_page} = $result->{page} + 1;
     }
     else {
-        $result->{pageNext} = 0; # TODO: deprecated
         $result->{next_page} = 0;
     }
 
     return $result;
 }
 
-# Escape Lucene characters.
+
+# Return a Lucene-escaped string. This disables Lucene features we don't
+# want to support, and makes safe constructs we don't want to parse out
+# more carefully.
 sub _escape
 {
     my($self, $string) = @_;
@@ -421,15 +258,16 @@ sub _escape
     }
 
     # Downcase AND, OR, NOT to turn them into ordinary keywords.
-    $string =~ s/\bAND\b/ and /g;
-    $string =~ s/\bOR\b/ or /g;
-    $string =~ s/\bNOT\b/ not /g;
+    $string =~ s/\bAND\b/and/g;
+    $string =~ s/\bOR\b/or/g;
+    $string =~ s/\bNOT\b/not/g;
     return $string;
 }
 
 # Force $param to be an integer >= $min. Returns $param or $min, if $param
 # does not meet these criteria. If $min is not specified, a value of 1 is
-# assumed.
+# assumed. TODO: this is only used in one place, so we should move it
+# there.
 sub _int
 {
     my($self, $param, $min) = @_;
@@ -444,122 +282,25 @@ sub _int
 
 
 #
-# Database query methods
+# TODO:
+# Old Database query methods
+# We need to re-write these if/when they become needed again.
+# Currently, they die if called.
 #
 
-
-# Return an array of all the ancestors (if any) of $document, starting
-# with the parent and working up the hierarchy.
-sub ancestors
-{
-    my($self, $doc) = @_;
-    my $ancestors = [];
-    my %keys = ( $doc->{key} => 1 ); # Keep track of keys we've seen to avoid circular references
-    while($doc->{pkey}) {
-        $self->_set_query({key => $doc->{pkey}});
-        $self->_set_params({});
-        $self->{param}->{rows} = 1;
-        $self->{param}->{fl} = $self->{fl}->{ancestors};
-        $self->{status_msg} = "ancestors(): $doc->{key}";
-        $self->_run_query();
-        last unless ($self->{result}->{hits});
-        $doc= $self->{result}->{documents}->[0];
-        last if ($keys{$doc->{key}}); # Abort on circular reference
-        $keys{$doc->{key}} = 1;
-        push(@{$ancestors}, $doc);
-    }
-
-    return $ancestors;
-}
-
-# Run a general search of the database and return the number of records
-# found.
-sub count
-{
-    my($self, $query, $what) = @_;
-    $what = "" unless ($what);
-    $self->_set_query($query);
-    $self->_set_params({});
-    $self->{param}->{rows} = 0;
-    $self->{param}->{'sort'} = undef;
-    $self->{status_msg} = "count(): $what";
-    $self->_run_query();
-    return 0 unless ($self->{result}->{hits});
-    return $self->{result}->{hits};
-}
-
-# Retrieves a single document by key.
-sub document
-{
-    my($self, $key) = @_;
-    $self->_set_query({key => $key});
-    $self->_set_params({});
-    $self->{param}->{rows} = 1;
-    $self->{param}->{sort} = undef;
-    $self->{status_msg} = "document(): $key";
-    $self->_run_query();
-    if ($self->{result}->{hits} == 0) { return undef }
-    return $self->{result}->{documents}->[0];
-}
-
-# Retreives the $field from the document in the query set with the lowest
-# or highest (depending on whether $max is nonzero) value of $field.
-sub limit
-{
-    my($self, $query, $field, $max) = @_;
-    my $direction = 'asc';
-    $direction = 'desc' if ($max);
-    $self->_set_query($query);
-    $self->_set_params({});
-    $self->{param}->{rows} = 1;
-    $self->{param}->{'sort'} = "$field $direction";
-    $self->{status_msg} = "limit(): $field $direction";
-    $self->_run_query();
-    return "" unless ($self->{result}->{hits});
-    return $self->{result}->{documents}->[0]->{$field};
-}
-
-sub next_doc
-{
-    my($self, $doc) = @_;
-    return undef unless ($doc->{seq});
-    my $seq = $doc->{seq} + 1;
-    $self->_set_query({pkey => $doc->{pkey}, _seq => "[$seq TO *]"});
-    $self->_set_params({}); # Set paremeter defaults
-    $self->{param}->{rows} = 1;
-    $self->{param}->{'sort'} = "seq asc";
-    $self->{status_msg} = "next_doc(): $doc->{key}";
-    $self->_run_query();
-    return $self->{result}->{documents}->[0] if ($self->{result}->{hits});
-    return undef;
-}
-
-sub prev_doc
-{
-    my($self, $doc) = @_;
-    return undef unless ($doc->{seq});
-    my $seq =  $doc->{seq} - 1;
-    $self->_set_query({pkey => $doc->{pkey}, _seq => "[* TO $seq]"});
-    $self->_set_params({}); # Set paremeter defaults
-    $self->{param}->{rows} = 1;
-    $self->{param}->{'sort'} = "seq desc";
-    $self->{status_msg} = "prev_doc(): $doc->{key}";
-    $self->_run_query();
-    return $self->{result}->{documents}->[0] if ($self->{result}->{hits});
-    return undef;
-}
 
 # Return the document that is the $pos'th sibling of $doc (the document
 # in position $pos with the same pkey and type as $doc).
 sub sibling
 {
     my($self, $doc, $pos) = @_;
+    die "sibling";
     $self->_set_query({ pkey => $doc->{pkey}, type => $doc->{type}});
     $self->_set_params({});
     $self->{param}->{'sort'} = "seq asc";
     $self->{param}->{'rows'} = 1;
     $self->{param}->{'start'} = $pos - 1;
-    $self->{status_msg} = "sibling(): $doc->{key} ($doc->{type}) @ $pos";
+    $self->{status}->{message} = "sibling(): $doc->{key} ($doc->{type}) @ $pos";
     $self->_run_query();
     return $self->{result}->{documents}->[0] if ($self->{result}->{hits});
     return undef;
@@ -568,12 +309,13 @@ sub sibling
 sub child
 {
     my($self, $doc, $type, $pos) = @_;
+    die "child";
     $self->_set_query({ pkey => $doc->{key}, type => $type});
     $self->_set_params({});
     $self->{param}->{'rows'} = 1;
     $self->{param}->{'start'} = $pos - 1;
     $self->{param}->{'sort'} = "seq asc";
-    $self->{status_msg} = "child(): $doc->{key} ($doc->{type}) @ $pos";
+    $self->{status}->{message} = "child(): $doc->{key} ($doc->{type}) @ $pos";
     $self->_run_query();
     return $self->{result}->{documents}->[0] if ($self->{result}->{hits});
     return undef;
@@ -584,11 +326,12 @@ sub child
 sub position
 {
     my($self, $doc) = @_;
+    die "position";
     $self->_set_query({ pkey => $doc->{pkey}, type => $doc->{type}, _seq => "[* TO $doc->{seq}]" });
     $self->_set_params({}); # Set parameter defaults
     $self->{param}->{rows} = 0;
     $self->{param}->{sort} = "seq asc";
-    $self->{status_msg} = "position(): $doc->{key} (type=$doc->{type})";
+    $self->{status}->{message} = "position(): $doc->{key} (type=$doc->{type})";
     $self->_run_query();
     return 0 unless ($self->{result}->{hits}); # This shouldn't happen if $doc is actually in the database
     return $self->{result}->{hits};
@@ -598,11 +341,12 @@ sub position
 sub search
 {
     my($self, $query, $param) = @_;
+    die "search";
     $self->_set_query($query);
     $self->_set_params($param);
     # Retrieve the default fields if none are supplied.
     $self->{param}->{fl} = $self->{fl}->{search} unless ($param->{fl});
-    $self->{status_msg} = "search(): main query";
+    $self->{status}->{message} = "search(): main query";
     $self->_run_query();
     return $self->{result};
 }
@@ -614,6 +358,7 @@ sub search
 sub search_grouped
 {
     my($self, $query, $param) = @_;
+    die "search_grouped";
 
     # This is our starting page for the grouped result set.
     my $start = ($self->_int($param->{page}) - 1) * $self->{param}->{rows};
@@ -632,7 +377,7 @@ sub search_grouped
     $self->{param}->{'facet.sort'} = 'true';
     $self->{param}->{'facet.mincount'} = 1;
     $self->{param}->{'facet.limit'} = -1;
-    $self->{status_msg} = "search_parent(): main query";
+    $self->{status}->{message} = "search_parent(): main query";
     $self->_run_query();
 
     return {hits => 0} unless ($self->{facet_fields}->{pkey});
@@ -676,6 +421,7 @@ sub search_grouped
 sub stats_contributor
 {
     my($self) = @_;
+    die "stats_contributor";
     my $stats = { record => {} };
     
     $self->_set_params({
@@ -685,7 +431,7 @@ sub stats_contributor
 
     foreach my $type (("page", "monograph", "issue", "serial", "collection")) {
         $self->_set_query({type => $type});
-        $self->{status_msg} = "stats_contributor(): $type";
+        $self->{status}->{message} = "stats_contributor(): $type";
         $self->_run_query();
         $stats->{$type} = {};
         foreach my $facet (@{$self->{facet_fields}->{contributor}}) {
@@ -709,6 +455,7 @@ sub stats_contributor
 sub facet_counts
 {
     my($self, @facets) = @_;
+    die "facet_counts";
     my $facets = {};
 
     $self->_set_query({_key => '[* TO *]'});
@@ -724,6 +471,328 @@ sub facet_counts
     }
 
     return $facets;
+}
+
+
+
+#########################
+
+
+
+
+
+#
+# Methods
+#
+
+
+# A raw Solr query. Use this if you need absolute control over the Solr
+# query. No escaping (other than URL encoding) is done.
+sub solr_query
+{
+    my($self, @params) = @_;
+    my $time = gettimeofday();
+    my $metrics;
+    my $wt = "";
+
+    $self->{result} = {};
+
+    # Construct the query string. We expect @params to contain a list of
+    # arrays containing [$field, $value] pairs.
+    my @query_params = ();
+    foreach my $param (@params) {
+        # Try to determine what kind of output we're going to get from
+        # Solr based on the first wt found.
+        $wt = $param->[1] if (! $wt && $param->[0] eq 'wt' && $param->[1]);
+        push(@query_params, join('=', uri_escape($param->[0]), uri_escape($param->[1])));
+    }
+
+    # Run the query
+    my $request = HTTP::Request->new(GET => join("?", $self->{select_url}, join('&', @query_params)));
+    my $http_response = $self->{agent}->request($request);
+    return undef unless ($http_response->is_success);
+    my $response = $http_response->content;
+
+    # Parse the response based on the output writer we expect to be used.
+    if ($wt eq 'json') {
+        $metrics = $self->_decode_json($response);
+    } else {
+        $metrics = $self->_decode_xml($response);
+    }
+
+    $self->{status}->{qtime} += $metrics->{query_time};
+    $self->{result}->{q} = uri_unescape(join("&", @query_params));
+    $self->{result}->{hits} = $metrics->{hits};
+    $self->{result}->{hitsPerPage} = $metrics->{hitsPerPage};
+    $self->{result}->{hitsFrom} = $metrics->{hitsFrom};
+    $self->{result}->{hitsTo} = $self->{result}->{hitsPerPage} + $self->{result}->{hitsFrom} - 1;
+    if ($self->{result}->{hitsTo} > $self->{result}->{hits}) {
+        $self->{result}->{hitsTo} = $self->{result}->{hits};
+    }
+    $self->_setPageInfo($self->{result});
+
+    # Record execution metrics
+    my $exec_time = sprintf('%5.3f', gettimeofday() - $time);
+    ++$self->{status}->{count};
+    $self->{status}->{query_time} += $metrics->{query_time};
+    $self->{status}->{exec_time} += $exec_time;
+    push(@{$self->{status}->{queries}}, {
+        query => $self->{result}->{q},
+        query_time => $metrics->{query_time},
+        exec_time => $exec_time,
+        hits => $metrics->{hits},
+        msg => $self->{status}->{message},
+    });
+    $self->{status}->{message} = "nil";
+
+    return $self->{result};
+}
+
+
+# General Solr query
+sub query
+{
+    #TODO: check for undefined $query, $params
+    # don't run a search if there are no query parameters in $query.
+
+    my($self, $field, $param) = @_;
+    my @query = ();
+    my @params = ();
+
+    # Load the default solr parameters
+    my %solr = (%{$self->{defaults}});
+
+    # Add all recognized fields to the query. Skip fields with empty
+    # values or whose value is '-'. Field contents are escaped to protect
+    # Solr/Lucene special characters we don't want interpreted.
+    while (my($key, $value) = each(%{$field})) {
+        if ($self->{fields}->{$key}) {
+            $value =~ s/^\s+//;
+            $value =~ s/\s+$//;
+            $value =~ s/\s+/ /g;
+            if ($value && $value ne '-') {
+                $value = $self->_escape($value);
+                my $template = $self->{fields}->{$key};
+                $template =~ s/\%/$value/g;
+                push(@query, "($template)");
+            }
+        }
+    }
+
+
+    #
+    # Modify the query based on additional directives in $param
+    #
+
+    # Sort according to the sorting rule
+    if ($param->{'sort'} && ($self->{'sort'}->{$param->{'sort'}})) {
+        $solr{'sort'} = $self->{'sort'}->{$param->{'sort'}};
+    }
+
+    # Limit by type
+    if ($param->{'type'} && ($self->{'type'}->{$param->{'type'}})) {
+        push(@query, "($self->{'type'}->{$param->{'type'}})");
+    }
+
+    # Limit by date
+    if ($param->{'date'}) {
+        my $min = $param->{date}->[0];
+        my $max = $param->{date}->[1];
+
+        # We'll only accept dates as 4-digit years. (We may need to expand
+        # on this at a later, um, date.)
+        if ($min =~ /^\d{4}$/ && $max =~ /^\d{4}$/) {
+            push(@query, "pubmin:[* TO $max-12-31T23:59:59.999Z]");
+            push(@query, "pubmax:[$min-01-01T00:00:00.000Z TO *]");
+        }
+    }
+
+    # Add all of the pairs under field as "($key:$value)" to the query.
+    # Note that $value will not be escaped or otherwise altered.
+    if ($param->{'field'}) {
+        while (my($key, $value) = each(%{$param->{'field'}})) {
+            push(@query, "($key:$value)");
+        }
+    }
+
+    # Append additional Solr query parameters.
+    if ($param->{solr}) {
+        while (my($key, $value) = each(%{$param->{solr}})) {
+            $solr{$key} = $value;
+        }
+    }
+
+    # If a start page is specified, calculate the Solr start parameter.
+    if ($param->{page}) {
+        $solr{start} = (int($param->{page}) - 1) * $solr{rows} if (int($param->{page}) > 0);
+    }
+
+
+    # Translate the key->value pairs in %solr (defaults +
+    # additions/overrides from $param->{solr}) into a list of query
+    # parameters.
+    while (my($param, $value) = each(%solr)) {
+        if (ref($value) eq 'ARRAY') {
+            foreach my $listval (@{$value}) {
+                push(@params, [$param, $listval]);
+            }
+        }
+        else {
+            push(@params, [$param, $value]);
+        }
+    }
+
+    # The $solr->{subset} field further limits every search.
+    push(@query, "($self->{subset})") if ($self->{subset});
+    #while (my($param, $value) = each(%{$self->{subset}})) {
+    #    push(@query, "($param:$value)");
+    #}
+
+    # Add the query itself to the parameter list.
+    push(@params, ['q', join(' AND ', @query)]);
+
+    # Execute the query and return the result.
+    return $self->solr_query(@params);
+}
+
+
+# Return an array of all the ancestors (if any) of $document, starting
+# with the parent and working up the hierarchy.
+sub ancestors
+{
+    my($self, $doc) = @_;
+    my $ancestors = [];
+    my %keys = ( $doc->{key} => 1 ); # Keep track of keys we've seen to avoid circular references
+    while($doc->{pkey}) {
+        $self->{status}->{message} = "ancestors(): $doc->{key} (pkey = $doc->{pkey})";
+        my $result = $self->query(
+            { key => $doc->{pkey} },
+            { solr => { rows => 1, facet => 'false' } }
+        );
+        last unless ($result->{hits});
+        $doc= $result->{documents}->[0];
+        last if ($keys{$doc->{key}}); # Abort on circular reference
+        $keys{$doc->{key}} = 1;
+        push(@{$ancestors}, $doc);
+    }
+
+    return $ancestors;
+}
+
+
+# Count the number of records found. $what is optional and will be
+# appended to the status message for debugging purposes.
+sub count
+{
+    my($self, $query, $what) = @_;
+    $what = "" unless ($what);
+
+    $self->{status}->{message} = "count(): $what";
+    my $result = $self->query(
+        $query,
+        {
+            solr => {
+                rows => 0,
+                facet => 'false',
+            }
+        }
+    );
+    return $result->{hits} or 0;
+}
+
+
+# Retrieve a single document by key.
+sub document
+{
+    my($self, $key) = @_;
+    $self->{status}->{message} = "document(): $key";
+    my $result = $self->query(
+        { key => $key },
+        {
+            solr => {
+                rows => 1,
+                facet => 'false',
+            }
+        }
+    );
+    return undef unless ($result->{hits});
+    return $result->{documents}->[0];
+}
+
+
+# Retreives the $field from the document in the query set with the lowest
+# or highest (depending on whether $max is nonzero) value of $field.
+sub limit
+{
+    my($self, $query, $field, $max) = @_;
+    my $direction = 'asc';
+    $direction = 'desc' if ($max);
+    $self->{status}->{message} = "limit(): $field $direction";
+
+    my $result = $self->query(
+        $query,
+        { solr => { rows => 1, 'sort' => "$field $direction" } }
+    );
+    return "" unless ($result->{hits});
+    return $result->{documents}->[0]->{$field};
+}
+
+sub next_doc
+{
+    my($self, $doc) = @_;
+    return undef unless ($doc->{seq});
+    my $seq = $doc->{seq} + 1;
+    $self->{status}->{message} = "next_doc(): $doc->{key}";
+
+    my $result = $self->query(
+        { pkey => $doc->{pkey} },
+        {
+            solr => {
+                rows => 0,
+                facet => 'false',
+                'sort' => 'seq asc',
+            },
+            field => {
+                seq => "[$seq TO *]",
+            }
+        }
+    );
+
+    return undef unless ($result->{documents}->[0]);
+    return $result->{documents}->[0];
+}
+
+sub prev_doc
+{
+    my($self, $doc) = @_;
+    return undef unless ($doc->{seq});
+    my $seq =  $doc->{seq} - 1;
+    $self->{status}->{message} = "prev_doc(): $doc->{key}";
+
+    my $result = $self->query(
+        { pkey => $doc->{pkey} },
+        {
+            solr => {
+                rows => 0,
+                facet => 'false',
+                'sort' => 'seq desc',
+            },
+            field => {
+                seq => "[* TO $seq]"
+            },
+        }
+    );
+
+    return undef unless ($result->{documents}->[0]);
+    return $result->{documents}->[0];
+}
+
+
+# Retrieve the query status log.
+sub status
+{
+    my($self) = @_;
+    return $self->{status};
 }
 
 1;

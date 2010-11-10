@@ -330,8 +330,10 @@ sub index :Path('') Args(0)
 }
 
 sub search : Path('search') Args() {
-    my($self, $c, $start) = @_;
-    return $c->forward('search/main', [$start]);
+    my($self, $c, $page) = @_;
+    $page = 1 unless ($page);
+    my $param = { page => 1};
+    return $c->forward('search/main', [$page]);
 }
 
 sub show :Path('show') Args() {

@@ -25,7 +25,7 @@
         <td>[% response.solr.query_time | xml_escape %]</td>
         <td>[% response.solr.exec_time | xml_escape %]</td>
         <td>&#160;</td>
-        <td>Queries: [% response.solr.query_count | xml_escape %]</td>
+        <td>Queries: [% response.solr.count | xml_escape %]</td>
       </tr>
   </table>
 </div>

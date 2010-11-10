@@ -20,7 +20,7 @@ Catalyst Controller.
 sub auto :Private
 {
     my($self, $c) = @_;
-    $c->stash->{current_view} = 'Ajax';
+    $c->stash->{fmt} = 'ajax';
     return 1;
 }
 
@@ -31,6 +31,15 @@ sub hello :Path('hello') :Args(0)
         text => 'Hello, World!'
     };
     $c->stash->{template} = 'ajax/hello.tt';
+}
+
+sub facet :Path('facet') :Args(0)
+{
+    my($self, $c) = @_;
+    $c->forward('/search/main', [1, { rows => 0 }]);
+    $c->stash->{response} = $c->stash->{response}->{facet};
+    $c->stash->{template} = 'ajax/facet.tt';
+    return 1;
 }
 
 __PACKAGE__->meta->make_immutable;

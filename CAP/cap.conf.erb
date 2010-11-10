@@ -67,73 +67,67 @@ netpbm_path /opt/cap-libs/netpbm/bin
     image_max  = 1200 # maximum size allowed for derivative images
 </defaults>
 
+
+# Configure Solr defaults and search behaviour.
 <solr>
 
+  # Where we can find Solr
   select_uri <%= select_uri %>
   update_uri <%= update_uri %>
 
+  # Default Solr query parameters. These parameters will be used for every
+  # query unless overridden by a particular function. If they are not
+  # properly set, Solr may not function well or at all.
   <defaults>
-    version   2.2
-    rows      10
-    start     0
-    score     score desc
-    wt        json
-    fl        *
+    facet          = true
+    facet.field    = lang
+    facet.field    = media
+    facet.field    = contributor
+    facet.field    = set
+    facet.limit    = -1
+    facet.mincount = 1
+    facet.sort     = true
+    fl             = *
+    rows           = 10
+    sort           = score desc
+    start          = 0
+    wt             = json
+    version        = 2.2
   </defaults>
 
-  # Fields to return for various search types
-  <fl>
-    ancestors key
-    ancestors type
-    ancestors label
-    ancestors pkey
-    ancestors gkey
-    ancestors canonicalDownload
-    ancestors canonicalDownloadMime
-    ancestors canonicalDownloadSize
-    ancestors canonicalDownloadMD5
-
-    search key
-    search type
-    search contributor
-    search label
-    search pkey
-    search gkey
-    search seq
-    search lang
-    search media
-    search canonicalUri
-    search canonicalDownload
-    search canonicalDownloadMime
-    search canonicalDownloadSize
-    search canonicalDownloadMD5
-  </fl>
-
-  # Field aliases mapping internal search field names to one or more Solr
-  # field names.
+  # Field query aliases get expanded into Solr query fragments. Each
+  # instance of '%' will be replaced with the parameter value.
   <fields>
-    tx tx    # global text field
-    tx tx_en # English text
-    tx tx_fr # French text
-    ti ti    # global title field
-    ti ti_en # etc.
-    ti ti_fr
-    au au
-    au au_en
-    au au_fr
-    su su
-    su su_en
-    su su_fr
-    no no
-    no no_en
-    no no_fr
-    kw kw
-    kw kw_en
-    kw kw_fr
-    q  kw
-    q  kw_en
-    q  kw_fr
+    contributor = contributor:%
+    gkey        = gkey:%
+    key         = key:%
+    lang        = lang:%
+    media       = media:%
+    pkey        = pkey:%
+    q           = kw:(%) OR kw_en:(%) OR kw_fr:(%)
+    set         = set:%
+    #tx          = tx:(%) OR tx_en:(%) OR tx_fr:(%)
+    #ti          = ti:(%) OR ti_en:(%) OR ti_fr:(%)
+    #au          = au:(%) OR au_en:(%) OR au_fr:(%)
+    #su          = su:(%) OR su_en:(%) OR su_fr:(%)
+    #no          = no:(%) OR no_en:(%) OR no_fr:(%)
+    #kw          = kw:(%) OR kw_en:(%) OR kw_fr:(%)
   </fields>
+
+  # Map allowed values for the sort query parameter to the Solr sort
+  # parameter.
+  <sort>
+   newest = pubmax desc
+   oldest = pubmin asc
+   seq    = pkey asc,seq asc
+   score  = score desc
+  </sort>
+
+  # Map type searches to Solr query fragments.
+  <type>
+   pages  = type:page
+   titles = type:monograph OR serial
+  </type>
 
 </solr>
 
