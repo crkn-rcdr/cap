@@ -20,7 +20,11 @@ Catalyst Controller.
 sub auto :Private
 {
     my($self, $c) = @_;
-    $c->stash->{fmt} = 'ajax';
+
+    # All Ajax methods use the Ajax view by default, but if the default
+    # method has been overridden using fmt, we use that instead.
+    # FIXME: this is kind of a backwards hackey way of doing this.
+    $c->stash->{fmt} = 'ajax' if ($c->stash->{fmt} eq 'Default');
     return 1;
 }
 
@@ -30,7 +34,7 @@ sub hello :Path('hello') :Args(0)
     $c->stash->{response} = {
         text => 'Hello, World!'
     };
-    $c->stash->{template} = 'ajax/hello.tt';
+    $c->stash->{template} = 'hello.tt';
 }
 
 sub facet :Path('facet') :Args(0)
@@ -38,7 +42,7 @@ sub facet :Path('facet') :Args(0)
     my($self, $c) = @_;
     $c->forward('/search/main', [1, { rows => 0 }]);
     $c->stash->{response} = $c->stash->{response}->{facet};
-    $c->stash->{template} = 'ajax/facet.tt';
+    $c->stash->{template} = 'facet.tt';
     return 1;
 }
 

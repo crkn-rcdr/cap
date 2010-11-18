@@ -7,7 +7,7 @@ use base 'Catalyst::View::TT';
 
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
-    INCLUDE_PATH => [CAP->path_to('root/Default/templates/Default')],
+    INCLUDE_PATH => [CAP->path_to('root/Default/templates/Ajax')],
     render_die => 1,
 );
 
