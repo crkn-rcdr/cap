@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+
+Deprecated. Use dublin_core.xsl instead.
+
+-->
+
 <xsl:stylesheet version="1.0"
   xmlns:dc="http://purl.org/dc/elements/1.1/"
   xmlns:cmr_dc="http://www.canadiana.ca/XML/cmr-dc"

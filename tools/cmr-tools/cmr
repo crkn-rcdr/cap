@@ -19,8 +19,8 @@ use CAP::CMR;
 use Getopt::Long;
 
 my $xsd_file = "$basedir/cmr.xsd";
-my $dump_invalid = 0;
-my $debug = 0;
+my $dump_invalid = 1;
+my $debug = 1;
 my @xslparam = ();
 
 GetOptions(
@@ -58,7 +58,16 @@ $doc = $stylesheet->transform($doc, %params);
 
 # Rewrite identifiers (key, pkey, gkey) so that they contain only legal
 # characters.
-# TODO
+foreach my $key (
+    ($doc->findnodes('/recordset/record/key')),
+    ($doc->findnodes('/recordset/record/pkey')),
+    ($doc->findnodes('/recordset/record/gkey')),
+) {
+    my $value = $key->findvalue('.');
+    $value =~ s/[^A-Za-z0-9_\.\-]/_/g;
+    $key->removeChildNodes();
+    $key->appendChild($doc->createTextNode($value));
+}
 
 #
 # Delete language fields that contain illegal characters
