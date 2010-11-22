@@ -7944,17 +7944,23 @@
 
   <!-- Parse $arg and create <lang> elements for all detected languages.  -->
   <xsl:template name="cmr:lang">
-
     <!--
-      Lowercase everything and convert potential delimiters or
-      sequences of delimiters into spaces.
+      Normalize the input string. We expect that the initial call to
+      cmr:lang will not contain $arg, so we process the element value.
+      Recursive calls contain the unprocessed remainder of the normalized
+      string.
     -->
-    <xsl:variable name="string" select="normalize-space(
-      translate(.,
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZ/:;,',
-        'abcdefghijklmnopqrstuvwxyz    '
-      )
-    )"/>
+    <xsl:param name="arg"/>
+    <xsl:variable name="string">
+      <xsl:choose>
+        <xsl:when test="$arg">
+          <xsl:value-of select="translate($arg, ' ', '')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ/:;,', 'abcdefghijklmnopqrstuvwxyz    ')"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
     <xsl:if test="$string != '' and not(starts-with($string, 'none'))">
       <lang>
@@ -8079,6 +8085,8 @@
       contains($data, 'atlas') or
       contains($data, 'business card') or
       contains($data, 'drawing') or
+      contains($data, 'illustration') or
+      contains($data, 'jpg') or
       contains($data, 'map') or
       contains($data, 'photo') or
       contains($data, 'postcard') or
@@ -8091,12 +8099,15 @@
     </xsl:if>
 
     <xsl:if test="
+      contains($data, 'announcement') or
       contains($data, 'application/pdf') or
       contains($data, 'article') or
       contains($data, 'atlas') or
+      contains($data, 'binding') or
       contains($data, 'book') or
       contains($data, 'correspondance') or
       contains($data, 'document') or
+      contains($data, 'finding aid') or
       contains($data, 'journal') or
       contains($data, 'letter') or
       contains($data, 'magazine') or
@@ -8123,10 +8134,7 @@
     </xsl:if>
 
     <!-- Other types we've seen that should probably get categorized:
-      announcement
       archival
-      binding
-      finding aid
       collection permissions
       interactive resource
     -->

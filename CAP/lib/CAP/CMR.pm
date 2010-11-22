@@ -34,7 +34,7 @@ our @EXPORT = qw(
 );
 
 
-our $DEBUG = 0;  # Output extended debugging information to stderr
+our $DEBUG  = 0;  # Output extended debugging information to stderr
 our $FAILED = 1; # Output notices of failure to find a date to stderr
 
 =head2 bagit(I<$archive>)
@@ -215,7 +215,14 @@ sub iso8601
     }
 
     # Remove some characters that we never want to see
-    $date =~ s/[\[\]\.\`]//g;
+    $date =~ s/[\[\]\.\`_]//g;
+
+    # Anything that contains a string of 5 or more digits is likely to
+    # return garbage results, so we won't try to parse it.
+    if ($date =~ /\d{5}/) {
+        warn("Unparseble sequence of digits in date: $date\n") if ($FAILED);
+        return "";
+    }
 
     # The pattern ####-## is ambiguous, but we will assume it is a year
     # range, so we intercept it here.
@@ -258,10 +265,10 @@ sub iso8601
     # these might just be the defaults and not the actual date.
     my $parsed_date = ParseDate($date);
     if ($parsed_date) {
-        warn("Parsed date: $date = $parsed_date") if ($DEBUG);
         $date = UnixDate($date, "%Y-%m-%d");
         $date =~ s/-01-01$//;
         $date =~ s/-01$//;
+        warn("Parsed date: $date = $parsed_date") if ($DEBUG);
     }
 
     # Otherwise, try to parse out the date based on some common AACR2 date
@@ -364,6 +371,26 @@ sub iso8601
         elsif ($date =~ /^(?:$CA)?(\d{3})$/) {
             warn "iso8601: matched $date" if ($DEBUG);
             if ($max) { $date = "${1}9" } else { $date = "${1}0" }
+        }
+
+        # E.g. nov-77, jan-81; we assume 20th Century.
+        elsif ($date =~ /^([a-zA-Z]{3})[ -](\d{2})$/) {
+            my $month = lc($1);
+            given ($month) {
+                when('jan') { $date = "19$2-01" };
+                when('feb') { $date = "19$2-02" };
+                when('mar') { $date = "19$2-03" };
+                when('apr') { $date = "19$2-04" };
+                when('may') { $date = "19$2-05" };
+                when('jun') { $date = "19$2-06" };
+                when('jul') { $date = "19$2-07" };
+                when('aug') { $date = "19$2-08" };
+                when('sep') { $date = "19$2-09" };
+                when('oct') { $date = "19$2-10" };
+                when('nov') { $date = "19$2-11" };
+                when('dec') { $date = "19$2-12" };
+                default     { $date = "19$2"    };
+            }
         }
 
         # E.g. 2-6-98 or 1-1-1998: we don't know which is the month, but

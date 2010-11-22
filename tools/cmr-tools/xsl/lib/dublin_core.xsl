@@ -65,9 +65,7 @@
         </xsl:for-each>
 
         <xsl:for-each select="descendant::dc:coverage">
-          <xsl:call-template name="cmr:note">
-            <xsl:with-param name="type">coverage</xsl:with-param>
-          </xsl:call-template>
+          <xsl:call-template name="cmr:note"/>
         </xsl:for-each>
 
         <xsl:for-each select="descendant::dc:creator">

@@ -21,31 +21,35 @@ GetOptions(
 ) or die("$!");
 
 my $CMR  = "$FindBin::Bin/../cmr";
-my($TEMPLATE, $ROOT) = @ARGV;
+my($TEMPLATE) = shift(@ARGV);
 
-foreach my $dir (find_archive_dirs($ROOT)) {
+foreach my $ROOT (@ARGV) {
+    print("Looking in $ROOT for archives\n");
 
-    my $data = join('/', $dir, 'data');
-    my $src  = join('/', $dir, 'data/src');
+    foreach my $dir (find_archive_dirs($ROOT)) {
 
-    print("Found archive root: $dir\n");
-    foreach my $file (bsd_glob("$src/*.xml")) {
-        print("Reading source file: $file\n");
-        my $outfile = join('/', $data, basename($file));
-        if ($opt_clean) {
-            if (-f $outfile) {
-                print("Removing $outfile\n");
-                unlink($outfile) or die("That didn't work: $!\n");
+        my $data = join('/', $dir, 'data');
+        my $src  = join('/', $dir, 'data/src');
+
+        print("Found archive root: $dir\n");
+        foreach my $file (bsd_glob("$src/*.xml")) {
+            print("Reading source file: $file\n");
+            my $outfile = join('/', $data, basename($file));
+            if ($opt_clean) {
+                if (-f $outfile) {
+                    print("Removing $outfile\n");
+                    unlink($outfile) or die("That didn't work: $!\n");
+                }
+            }
+            elsif (-f $outfile && ! $opt_clobber) {
+                print("Skipping: $outfile exists\n");
+            }
+            else {
+                die("Quitting due to errors. Exit code: $?") if (system("$CMR", '-debug', $TEMPLATE, $file, $outfile));
+                print("Wrote $outfile\n");
             }
         }
-        elsif (-f $outfile && ! $opt_clobber) {
-            print("Skipping: $outfile exists\n");
-        }
-        else {
-            die("Quitting due to errors. Exit code: $?") if (system("$CMR", '-debug', $TEMPLATE, $file, $outfile));
-            print("Wrote $outfile\n");
-        }
+        print("Creating Bagit archive in $dir\n");
+        bagit($dir) or die("Well, that didn't work\n");
     }
-    print("Creating Bagit archive in $dir\n");
-    bagit($dir) or die("Well, that didn't work\n");
 }

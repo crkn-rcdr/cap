@@ -19,8 +19,8 @@ use CAP::CMR;
 use Getopt::Long;
 
 my $xsd_file = "$basedir/cmr.xsd";
-my $dump_invalid = 1;
-my $debug = 1;
+my $dump_invalid = 0;
+my $debug = 0;
 my @xslparam = ();
 
 GetOptions(
@@ -88,7 +88,7 @@ foreach my $pubdate ($doc->findnodes('/recordset/record/pubdate')) {
     my $max = $pubdate->getAttribute('max');
     $min = iso8601($min, 0) unless ($min =~ /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
     $max = iso8601($max, 1) unless ($max =~ /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
-    if ($min && $max) {
+    if ($min && $max && $min !~ /^0000/ && $max !~ /^0000/) {
         $pubdate->setAttribute('min', $min);
         $pubdate->setAttribute('max', $max);
     }
