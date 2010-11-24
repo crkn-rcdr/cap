@@ -2,11 +2,13 @@
 
 <!--
 
-  2010-11-19
+  2010-11-24
 
-  MUN - Memorial University
+  Queen's University (okq)
 
-  OAI Dublin Core records
+  OAI Dublin Core OAI metadata
+
+  http://library.queensu.ca/ojs/index.php/index/oai 
 
 -->
 
@@ -25,7 +27,7 @@
 
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
-  <xsl:param name="contributor">mun</xsl:param>
+  <xsl:param name="contributor">okq</xsl:param>
 
   <xsl:template match="/">
     <recordset version="1.0">
@@ -36,9 +38,9 @@
   <xsl:template match="oai_dc:dc">
     <xsl:call-template name="cmr_dc:record">
       <xsl:with-param name="contributor" select="$contributor"/>
-      <xsl:with-param name="key" select="substring-after(dc:identifier[position()=last()]/text(), '/u?/')"/>
-      <xsl:with-param name="pubdate_from" select="dc:date[position()=last()]"/>
-      <xsl:with-param name="pubdate_to" select="dc:date[position()=last()]"/>
+      <xsl:with-param name="key" select="translate(oai:header/oai:identifier, '/:', '..')"/>
+      <xsl:with-param name="pubdate_from" select="dc:date[position()=1]"/>
+      <xsl:with-param name="pubdate_to" select="dc:date[position()=1]"/>
       <xsl:with-param name="canonicalUri" select="dc:identifier[position()=last()]"/>
     </xsl:call-template>
   </xsl:template>

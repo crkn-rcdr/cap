@@ -56,6 +56,49 @@ $doc = $stylesheet->transform($doc, %params);
 # Post Processing
 #
 
+
+foreach my $record ($doc->findnodes('/recordset/record')) {
+
+    # Replace any <media> elements with a new set containing normalized
+    # values.
+    my @media = $record->findnodes('media');
+    if (@media) {
+        my $parent = $media[0]->parentNode();
+        my @values = ();
+        foreach my $node (@media) {
+            push(@values, $node->findvalue('.'));
+        }
+        @values = cmr_media(@values);
+        foreach my $value (@values) {
+            my $node = $doc->createElement('media');
+            $node->appendChild($doc->createTextNode($value));
+            $parent->insertBefore($node, $media[0]);
+        }
+        foreach my $node (@media) {
+            $parent->removeChild($node);
+        }
+    }
+
+    # Replace <lang> elements as above.
+    my @lang = $record->findnodes('lang');
+    if (@lang) {
+        my $parent = $lang[0]->parentNode();
+        my @values = ();
+        foreach my $node (@lang) {
+            push(@values, $node->findvalue('.'));
+        }
+        @values = cmr_lang(@values);
+        foreach my $value (@values) {
+            my $node = $doc->createElement('lang');
+            $node->appendChild($doc->createTextNode($value));
+            $parent->insertBefore($node, $lang[0]);
+        }
+        foreach my $node (@lang) {
+            $parent->removeChild($node);
+        }
+    }
+}
+
 # Rewrite identifiers (key, pkey, gkey) so that they contain only legal
 # characters.
 foreach my $key (
@@ -73,13 +116,14 @@ foreach my $key (
 # Delete language fields that contain illegal characters
 #
 
-foreach my $lang ($doc->findnodes('/recordset/record/lang')) {
-    my $value = $lang->findvalue('.');
-    unless ($value =~ /^[a-z][a-z][a-z]$/) {
-        warn("Removing invalid language code: $value\n") if ($debug);
-        $lang->parentNode->removeChild($lang);
-    }
-}
+#foreach my $lang ($doc->findnodes('/recordset/record/lang')) {
+#    my $value = $lang->findvalue('.');
+#    unless ($value =~ /^[a-z][a-z][a-z]$/) {
+#        warn("Removing invalid language code: $value\n") if ($debug);
+#        $lang->parentNode->removeChild($lang);
+#    }
+#}
+
 
 # Convert pubdate values to standardized ISO-8601 dates. If this cannot be
 # done, remove the pubdate field altogether.

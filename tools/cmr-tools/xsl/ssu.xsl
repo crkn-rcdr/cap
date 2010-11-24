@@ -2,11 +2,13 @@
 
 <!--
 
-  2010-11-19
+  2010-11-23
 
-  MUN - Memorial University
+  University of Saskatchewan (ssu)
 
-  OAI Dublin Core records
+  CONTENTdm Dublin Core OAI metadata
+
+  http://cdm15126.contentdm.oclc.org/cgi-bin/oai.exe
 
 -->
 
@@ -25,7 +27,7 @@
 
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
-  <xsl:param name="contributor">mun</xsl:param>
+  <xsl:param name="contributor">ssu</xsl:param>
 
   <xsl:template match="/">
     <recordset version="1.0">
@@ -36,9 +38,9 @@
   <xsl:template match="oai_dc:dc">
     <xsl:call-template name="cmr_dc:record">
       <xsl:with-param name="contributor" select="$contributor"/>
-      <xsl:with-param name="key" select="substring-after(dc:identifier[position()=last()]/text(), '/u?/')"/>
-      <xsl:with-param name="pubdate_from" select="dc:date[position()=last()]"/>
-      <xsl:with-param name="pubdate_to" select="dc:date[position()=last()]"/>
+      <xsl:with-param name="key" select="substring(translate(oai:header/oai:identifier, '/', '.'), 33)"/>
+      <xsl:with-param name="pubdate_from" select="dc:date[position()=1]"/>
+      <xsl:with-param name="pubdate_to" select="dc:date[position()=1]"/>
       <xsl:with-param name="canonicalUri" select="dc:identifier[position()=last()]"/>
     </xsl:call-template>
   </xsl:template>

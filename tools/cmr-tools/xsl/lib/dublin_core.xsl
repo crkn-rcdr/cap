@@ -2,13 +2,15 @@
 
 <!--
 
-  2010-11-19
+  2010-11-24
 
   cmr_dc:record - parse a Dublin Core record.
 
   Parameters:
   contributor - required
   key - defaults to the value of dc:identifier[position()=1]
+  pubdate_from - defaults to the value of dc:date[position()=last()]
+  pubdate_to - defaults to the value of dc:date[position()=last()]
   canonicalUri - defaults to dc:identifier[position()=last()]
 
 -->
@@ -26,6 +28,8 @@
   <xsl:template name="cmr_dc:record">
     <xsl:param name="contributor"/>
     <xsl:param name="key"/>
+    <xsl:param name="pubdate_from"/>
+    <xsl:param name="pubdate_to"/>
     <xsl:param name="canonicalUri"/>
 
     <record>
@@ -41,18 +45,55 @@
           </xsl:otherwise>
         </xsl:choose>
       </key>
-      <label><xsl:value-of select="normalize-space(dc:title[position()=1])"/></label>
 
-      <xsl:if test="dc:date">
-        <pubdate min="{descendant::dc:date[position()= 1]}" max="{descendant::dc:date[position()=1]}"/>
-      </xsl:if>
+      <label>
+        <xsl:choose>
+          <xsl:when test="dc:title">
+            <xsl:value-of select="dc:title[position()=1]"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="dc:identifier[position()=1]"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </label>
+
+      <xsl:choose>
+        <xsl:when test="$pubdate_from != '' and $pubdate_to != ''">
+          <pubdate min="{$pubdate_from}" max="{$pubdate_to}"/>
+        </xsl:when>
+        <xsl:when test="dc:date">
+          <pubdate min="{descendant::dc:date[position()= 1]}" max="{descendant::dc:date[position()=1]}"/>
+        </xsl:when>
+      </xsl:choose>
     
+      <!--
       <xsl:for-each select="dc:language">
         <xsl:call-template name="cmr:lang"/>
       </xsl:for-each>
+      -->
 
+      <xsl:for-each select="dc:language">
+        <lang>
+          <xsl:value-of select="."/>
+        </lang>
+      </xsl:for-each>
+
+      <!--
       <xsl:for-each select="dc:type">
         <xsl:call-template name="cmr:media"/>
+      </xsl:for-each>
+      -->
+
+      <xsl:for-each select="dc:type">
+        <media>
+          <xsl:value-of select="."/>
+        </media>
+      </xsl:for-each>
+
+      <xsl:for-each select="dc:format">
+        <media>
+          <xsl:value-of select="."/>
+        </media>
       </xsl:for-each>
 
       <description>
