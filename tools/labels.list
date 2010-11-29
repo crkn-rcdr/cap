@@ -24,6 +24,7 @@ contributor:oocihm:en:Canadiana.org
 contributor:ooe:en:Foreign Affairs and International Trade Canada
 contributor:okq:en:Queen's University
 contributor:oonl:en:Library and Archives Canada
+contributor:otp:en:Toronto Public Library
 contributor:otu:en:University of Toronto
 contributor:qmbn:en:Bibliothèque et Archives Nationales du Québec
 contributor:sfu:en:Simon Fraser University
@@ -39,6 +40,7 @@ contributor:oocihm:fr:Canadiana.org
 contributor:ooe:fr:Affaires étrangères et Commerce international Canada
 contributor:okq:fr:Queen's University
 contributor:oonl:fr:Bibliothèque et Archives Canada
+contributor:otp:fr:Toronto Public Library
 contributor:otu:fr:University of Toronto
 contributor:qmbn:fr:Bibliothèque et Archives Nationales du Québec
 contributor:sfu:fr:Simon Fraser University
@@ -385,12 +387,12 @@ lang:sal:fr:Langues salish
 
 
 # External URLs - English
-url:about:en:http://www.canadiana.org/en/about
-url:contributors:en:http://www.canadiana.org/en/cdp/contributors
-url:legal:en:http://www.canadiana.org/en/legal
+url:about:en:http://www.canadiana.ca/en/about
+url:contributors:en:http://www.canadiana.ca/en/contributors
+url:legal:en:http://www.canadiana.ca/en/legal
 
 # External URLs - French
-url:about:fr:http://www.canadiana.org/fr/apropos
-url:contributors:fr:http://www.canadiana.org/fr/prc/organisations
-url:legal:fr:http://www.canadiana.org/fr/avis
+url:about:fr:http://www.canadiana./ca/fr/à_propos
+url:contributors:fr:http://www.canadiana.ca/fr/fournisseurs
+url:legal:fr:http://www.canadiana.org/fr/politique
 

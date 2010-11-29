@@ -53,7 +53,6 @@ sub xmlify
 sub begin :Private
 {
     my($self, $c) = @_;
-    $c->stash->{fmt} = 'Default';
 
     unless ($c->config->{version} >= $CAP::VERSION) {
         $c->res->body(
@@ -79,8 +78,7 @@ sub begin :Private
         version => '0.1',
     });
 
-    # If a non-default format is requested using the fmt query parameter,
-    # configure the format, if it is allowed.
+    # Check for an alternative format request.
     if ($c->req->params->{fmt}) {
         my $fmt = $c->req->params->{fmt};
         if ($c->stash->{config}->{fmt}->{$fmt}) {
@@ -249,8 +247,10 @@ sub end : ActionClass('RenderView')
 
     # Automatically handle some builtin format types. Otherwise, set the
     # view to use.
-    use JSON;
-    if ($c->stash->{fmt} eq 'json') {
+    if (! $c->stash->{fmt}) {
+        ; # Use whatever is in $c->stash->{current_view} or $c->config->{default_view}
+    }
+    elsif ($c->stash->{fmt} eq 'json') {
         $c->res->content_type('application/json');
         $c->res->body(to_json($c->stash->{response}, { utf8 => 1, pretty => 1 }));
         return 1;

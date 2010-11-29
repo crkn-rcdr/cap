@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="cap" version="1.1">
+<schema name="CanadianaOnline" version="1.1">
 
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
@@ -72,6 +72,7 @@
   
     <!-- Optional control fields -->
     <field name="pkey" type="string" indexed="true" stored="true"/>
+    <field name="plabel" type="string" indexed="false" stored="true"/>
     <field name="gkey" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="seq" type="sint" indexed="true" stored="true"/>
     <field name="pubmin" type="date" indexed="true" stored="true"/>
@@ -88,7 +89,7 @@
     <field name="no" type="text" indexed="true" stored="true" multiValued="true"/><!-- note -->
     <field name="de" type="text" indexed="true" stored="true" multiValued="true"/><!-- descriptor -->
     <field name="ab" type="text" indexed="true" stored="true" multiValued="true"/><!-- abstract/summary -->
-    <field name="tx" type="text" indexed="true" stored="true" multiValued="true"/><!-- full text -->
+    <field name="tx" type="text" indexed="true" stored="false" multiValued="true"/><!-- full text -->
 
     <!-- The preceding are duplicated for a keyword anywhere search -->
     <field name="kw" type="text" indexed="true" stored="false" multiValued="true"/>
