@@ -60,7 +60,7 @@ my $conf = new Config::General(
 
 my %config = $conf->getall;
 
-my $solr_uri=$config{'solr'}->{'update_uri'};
+my $solr_uri=$config{'solr'}->{'update_url'};
 
 
 
