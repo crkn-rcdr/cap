@@ -10,19 +10,10 @@ after "deploy:setup", :custom_chown, :deploy_libs, :configure
 after "deploy", "deploy:cleanup"
 after "deploy:migrations", "deploy:cleanup"
 
+set(:netpbm_path) { "#{netpbm_var}" }
 
 task :custom_chown do
     sudo "chown -R #{user} #{deploy_to}"
-    #sudo "a2ensite voyageur"
-    #sudo "a2ensite staging"
-    #sudo "a2ensite dfait"
-    #sudo "a2ensite canadianaonline"
-    #sudo "a2dismod deflate"
-    #sudo "a2enmod rewrite"
-    #sudo "ln -fs /opt/cap/current/tools/cap-prod /etc/init.d"
-    #sudo "ln -fs /opt/cap/current/tools/jetty /etc/init.d"
-    #sudo "ln -fs /opt/cap-staging/cap/current/tools/cap-staging /etc/init.d"
-    #sudo "ln -fs /opt/cap-dfait/cap/current/tools/cap-dfait /etc/init.d"
 end
 
 task :configure do
@@ -39,7 +30,7 @@ end
 
     
 task :deploy_libs do
-    sudo "svn co http://192.168.1.132/svn/cap-libs/debian-amd64 /opt/cap-libs"
+    sudo "svn co http://192.168.1.132/svn/cap-libs/debian-amd64 #{cap_libs}"
 end
 
 task :uname do

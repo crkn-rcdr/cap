@@ -16,7 +16,7 @@
 
 APPNAME=CAP
 UNIXNAME=cap
-APPDIR=/opt/cap/current/CAP
+APPDIR=/opt/cap-dev/cap/current/CAP
 PROCS=5
 SOCKET=/tmp/dev.socket
 # Leave these unset and we won't try to setuid/setgid.
@@ -27,7 +27,7 @@ GROUP=root
 PIDSUFFIX=dev
 
 # local::lib path, if you want to use it.
-LOCALLIB=/opt/cap-libs/perl
+LOCALLIB=/opt/cap-dev/cap-libs/perl
 
 if [ -f "/etc/default/"$UNIXNAME ]; then
 . "/etc/default/"$UNIXNAME
