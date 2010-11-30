@@ -74,17 +74,18 @@ select, input, button, textarea {
 #header {
 	position: static;
 	top: 0px;
-	bottom:147px;
+	bottom:92px;
 	width:100%;
 	background-image:url(../images/bkgHeaderStretch.png);
 	background-repeat:repeat-x;
 	background-position:top left;
+	border: 0px solid #ff0000;
 }
 #headerContent {
 	 background-image:url(../images/bkgHeader.png);
 	 background-repeat:no-repeat;
 	 background-position:top right;
-	 height:147px;	
+	 height:92px;	
      /* border: 1px solid #000077; */
 }
 #headerContent #logo {
