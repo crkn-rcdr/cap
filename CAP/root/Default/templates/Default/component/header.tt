@@ -20,39 +20,6 @@
             </p>
           </div>
           <div id="logo" style="background-image: url([% c.uri_for_action('static', 'images', "logoSub_${lang}.png")|xml_escape %])"> </div>
-          <div id="search">
- <!--           <form action="[% c.uri_for_action('search') | xml_escape %]" method="get">
-                          <p>
-              <input class="searchBtn" name="" type="image" src="[% c.uri_for_action('static','images', "searchBtn_${lang}.gif")|xml_escape%]" />
-              <input class="searchBox" name="q" type="text" value="[% c.session.search.params.q | xml_escape %]" />
-                
-              </p>
-            </form>
--->
-            <div id="searchOptions">
-              <p style="float:right;">
 
-                <!--<a id="btnContributors" href="#">[% c.loc('Collection contributors') | xml_escape %]</a>-->
-                [% IF lang == 'fr' %]
-                  <a href="http://www.canadiana.org/fr/prc/organisations">[% c.loc('Collection contributors') | xml_escape %]</a>
-                [% ELSE %]
-                  <a href="http://www.canadiana.org/en/cdp/contributors">[% c.loc('Collection contributors') | xml_escape %]</a>
-                [% END %]
-              </p>
-
-<!--
-              <div id="ddownContributors" style="display:none;">
-                <ul>
-                  <li>Bibliothèque et Archives nationales du Québec</li>
-                  <li>Canadiana.org</li>
-                  <li>[% c.loc("Foreign Affairs and International Trade") %]</li>
-                  <li>Simon Fraser University</li>
-                  <li>University of Toronto</li>
-                </ul>
-              </div>
--->
-
-            </div>
-          </div> 
         </div>
     </div>
