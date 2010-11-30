@@ -30,7 +30,7 @@ use Catalyst qw/
                 Session::Store::DBI
                /;
                 #I18N::DBIC
-our $VERSION = 0.62; # Minimum config file version required
+our $VERSION = 0.63; # Minimum config file version required
 #                Authorization::ACL
 #                Session::Store::FastMmap
 

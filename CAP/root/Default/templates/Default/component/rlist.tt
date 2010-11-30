@@ -74,6 +74,23 @@
       <p>
         <a href="[% c.uri_for(root, 'show', item.main_record) %]">[% c.loc("Full Record") | xml_escape %]</a>
       </p>
+      [%
+        # Matching pages
+      %]
+      [% IF item.pages.hits %]
+      <p>
+        [% c.loc("Matching pages:") |xml_escape %]
+        [% FOR page IN item.pages.documents %]
+          <a href="[% page.canonicalUri | xml_escape %]">[% page.label %]</a>[% IF page != item.pages.documents.last %],[% END %]
+        [% END %]
+        [% IF item.pages.hits > item.pages.hitsTo %]
+          -- 
+          <a href="[% c.uri_for_action('search', { q => c.req.params.q, pkey => item.doc.key, t => 'page', so => 'seq'}) %]">
+          [% c.loc("Show all [_1] matches", item.pages.hits) | xml_escape %]
+          </a>
+        [% END %]
+      </p>
+      [% END %]
     </div>
   [% END %]
 </div>

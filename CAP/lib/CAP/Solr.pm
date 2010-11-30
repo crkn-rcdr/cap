@@ -593,6 +593,9 @@ sub query
     if ($param->{'type'} && ($self->{'type'}->{$param->{'type'}})) {
         push(@query, "($self->{'type'}->{$param->{'type'}})");
     }
+    elsif ($self->{'type'}->{'default'}) {
+        push(@query, "($self->{'type'}->{'default'})");
+    }
 
     # Limit by date
     if ($param->{'date'}) {

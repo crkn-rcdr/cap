@@ -248,7 +248,8 @@ sub end : ActionClass('RenderView')
     # Automatically handle some builtin format types. Otherwise, set the
     # view to use.
     if (! $c->stash->{fmt}) {
-        ; # Use whatever is in $c->stash->{current_view} or $c->config->{default_view}
+        # Use the current view if set; otherwise set it to the default
+        $c->stash->{current_view} = $c->config->{default_view} unless ($c->stash->{current_view});
     }
     elsif ($c->stash->{fmt} eq 'json') {
         $c->res->content_type('application/json');
@@ -264,6 +265,8 @@ sub end : ActionClass('RenderView')
     else {
         $c->stash->{current_view} = ucfirst($c->stash->{fmt});
     }
+
+    # Set the current view from the default if none of the above set it.
 
     # Don't cache anything (TODO: this is a bit harsh, but it does control
     # the login/logout refresh problem.) TODO: revisit this; a lot has

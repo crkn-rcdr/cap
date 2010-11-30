@@ -69,7 +69,20 @@ sub search :Private
     # Create and store the result set.
     my $set = [];
     foreach my $doc (@{$result->{documents}}) {
-        push(@{$set}, $c->forward('/common/build_item', [$solr, $doc, 1])); 
+        my $record = $c->forward('/common/build_item', [$solr, $doc, 1]);
+
+        # Retrieve the first five pages from this item (if it has pages)
+        # that match the general query string.
+        if ($query->{q}) {
+            $record->{pages} = $solr->query(
+                { q => $query->{q}, pkey => $record->{doc}->{key} },
+                { type => 'page', 'sort' => 'seq',
+                    solr => { rows => 5, fl => 'key seq label canonicalUri' }
+                }
+            );
+        }
+
+        push(@{$set}, $record);
     }
     $c->stash->{response}->{set} = $set;
 
