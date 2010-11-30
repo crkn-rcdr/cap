@@ -12,10 +12,23 @@
 
 <xsl:template match="record">
   <doc>
+    <xsl:variable name="type">
+      <xsl:choose>
+        <xsl:when test="type = 'serial' or type = 'collection'">
+          series
+        </xsl:when>
+        <xsl:when test="type = 'monograph' or type = 'issue'">
+          document
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="type"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
     <!-- Required control fields -->
     <field name="key"><xsl:value-of select="concat(contributor, '.', key)"/></field>
-    <field name="type"><xsl:value-of select="type"/></field>
+    <field name="type"><xsl:value-of select="$type"/></field>
     <field name="contributor"><xsl:value-of select="contributor"/></field>
     <field name="label"><xsl:value-of select="label"/></field>
     <!--
