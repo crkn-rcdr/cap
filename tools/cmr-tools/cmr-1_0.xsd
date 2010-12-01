@@ -10,14 +10,8 @@
       into a wide variety of application-specific formats, in particular,
       Solr database records.
 
-      Version: 1.1 (DRAFT)
-      Date: 2010-11-30
-
-      Changes:
-      recordset version attribute allowable values: 1.0, 1.1
-      type element: other values deprecated in favour of series/document/page
-      gkey: deprecated (?)
-
+      Version: 1.0
+      Date: 2010-07-19
     </xs:documentation>
   </xs:annotation>
 
@@ -34,12 +28,10 @@
               <xs:element name="type">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:enumeration value="collection"/><!-- Deprecated synonym for 'series' -->
-                    <xs:enumeration value="issue"/><!-- Deprecated synonym for 'document' -->
-                    <xs:enumeration value="serial"/><!-- Deprecated synonym for 'series' -->
-                    <xs:enumeration value="monograph"/><!-- Deprecated synonym for 'document' -->
-                    <xs:enumeration value="series"/>
-                    <xs:enumeration value="document"/>
+                    <xs:enumeration value="collection"/>
+                    <xs:enumeration value="serial"/>
+                    <xs:enumeration value="issue"/>
+                    <xs:enumeration value="monograph"/>
                     <xs:enumeration value="page"/>
                   </xs:restriction>
                 </xs:simpleType>
@@ -50,7 +42,7 @@
 
               <!-- Optional control fields -->
               <xs:element name="pkey" type="key" minOccurs="0"/>
-              <xs:element name="gkey" type="key" minOccurs="0" maxOccurs="unbounded"/><!-- Deprecated ? -->
+              <xs:element name="gkey" type="key" minOccurs="0" maxOccurs="unbounded"/>
               <xs:element name="seq" type="xs:positiveInteger" minOccurs="0"/>
               <xs:element name="pubdate" minOccurs="0">
                 <xs:complexType>
@@ -95,7 +87,7 @@
           </xs:complexType>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="version" type="version" use="required"/>
+      <xs:attribute name="version" type="xs:decimal" use="required" fixed="1.0"/>
     </xs:complexType>
   </xs:element>
 
@@ -274,13 +266,6 @@
       <xs:enumeration value="application/pdf"/>
       <xs:enumeration value="image/jpeg"/>
       <xs:enumeration value="image/tiff"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="version">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="1.0"/>
-      <xs:enumeration value="1.1"/>
     </xs:restriction>
   </xs:simpleType>
 

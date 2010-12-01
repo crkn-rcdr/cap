@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+
+  Convert cmr version 1.1 and earlier to the CanadianaOnline-1.1 Solr schema
+
+-->
+
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
@@ -12,17 +18,12 @@
 
 <xsl:template match="record">
   <doc>
+    <!-- Map deprecated types into new onese -->
     <xsl:variable name="type">
       <xsl:choose>
-        <xsl:when test="type = 'serial' or type = 'collection'">
-          series
-        </xsl:when>
-        <xsl:when test="type = 'monograph' or type = 'issue'">
-          document
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="type"/>
-        </xsl:otherwise>
+        <xsl:when test="type = 'serial' or type = 'collection'">series</xsl:when>
+        <xsl:when test="type = 'monograph' or type = 'issue'">document</xsl:when>
+        <xsl:otherwise><xsl:value-of select="type"/></xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
@@ -50,6 +51,12 @@
 
     <!-- Description and content -->
     <xsl:apply-templates select="description"/>
+
+    <!-- Description and content from child pages -->
+    <xsl:if test="type/text() = 'monograph' or type/text() = 'issue'">
+      <xsl:variable name="key" select="key"/>
+      <xsl:apply-templates select="//recordset/record/pkey[text() = $key]/following-sibling::description/*"/>
+    </xsl:if>
 
     <!-- Resources and links -->
     <xsl:apply-templates select="resource"/>
