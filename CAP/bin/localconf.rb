@@ -17,8 +17,8 @@ app_var        = "/tmp"
 db_user        = "cap"
 db_password    = '""'
 netpbm_var     = "/usr/local/bin"
-select_uri     = "http://localhost:3000/solr/select"
-update_uri     = "http://localhost:3000/solr/update"
+select_uri     = "http://localhost:8983/solr/select"
+update_uri     = "http://localhost:8983/solr/update"
 
 # Generate the config file
 template = ERB.new(ARGF.read)

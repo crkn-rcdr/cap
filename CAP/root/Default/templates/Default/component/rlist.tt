@@ -58,6 +58,19 @@
         [% item.doc.pu.join("; ") | xml_escape %]
       </p>
       [%
+        # Show what series this item is part of, if its direct parent is a
+        # series.
+      %]
+      [% IF item.ancestors.first.type == 'series' %]
+        <p>
+          [% c.loc("Part of") | xml_escape %]
+          <a href="[% item.ancestors.first.canonicalUri | xml_escape %]">
+            [% item.ancestors.first.label | xml_escape %]
+          </a>
+        </p>
+      [% END %]
+<!-- Ignore this
+      [%
         # If we have a parent and aren't already constraining by it, offer
         # the option to show all results for that parent
       %]
@@ -68,12 +81,7 @@
           </a>
         </p>
       [% END %]
-      [%
-        # Full record
-      %]
-      <p>
-        <a href="[% c.uri_for(root, 'show', item.main_record) %]">[% c.loc("Full Record") | xml_escape %]</a>
-      </p>
+-->
       [%
         # Matching pages
       %]
@@ -91,6 +99,13 @@
         [% END %]
       </p>
       [% END %]
+
+      [%
+        # Full record
+      %]
+      <p>
+        <a href="[% c.uri_for(root, 'show', item.main_record) %]">[% c.loc("Full Record") | xml_escape %]</a>
+      </p>
     </div>
   [% END %]
 </div>

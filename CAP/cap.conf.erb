@@ -126,11 +126,12 @@ netpbm_path <%= netpbm_var %>
   # Map type searches to Solr query fragments.
   <type>
    page    = type:page
-   default = type:document
+   default = type:(document OR series)
 
    #  Deprecated
    pages   = type:page
    titles  = type:(monograph OR serial OR document)
+   titles  = type:(monograph OR serial OR document OR series)
   </type>
 
 </solr>
