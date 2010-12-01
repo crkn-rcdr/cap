@@ -12,6 +12,9 @@ set :debug_var, "true"
 
 set :repository, "http://dev.cihm/svn/cap/branches/alpha"
 
+set :db_user, "cap"
+set :db_password, ""
+
 set :deploy_via, :remote_cache
 
 task :mk_init do
