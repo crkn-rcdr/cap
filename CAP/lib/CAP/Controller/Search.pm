@@ -69,7 +69,12 @@ sub search :Private
     # Create and store the result set.
     my $set = [];
     foreach my $doc (@{$result->{documents}}) {
-        my $record = $c->forward('/common/build_item', [$solr, $doc, 1]);
+        my $parent = {};
+        $parent = $solr->document($doc->{pkey}, 'key', 'label', 'canonicalUri') if ($doc->{pkey});
+        my $record = {
+            parent => $parent,
+            doc    => $doc,
+        };
 
         # Retrieve the first five pages from this item (if it has pages)
         # that match the general query string.
@@ -101,6 +106,7 @@ sub search :Private
         type => $type,
         start => $param->{page},
         params => $c->req->params,
+        hits => $result->{hits},
     };
 
     # Remove any facets that don't have a corresponding label in the

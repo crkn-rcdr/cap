@@ -5,6 +5,7 @@ use warnings;
 use parent 'Catalyst::Controller';
 use Config::General;
 use CAP::Solr;
+use Encode;
 use JSON;
 use XML::LibXML;
 
@@ -75,7 +76,7 @@ sub begin :Private
     $c->stash('response' => {
         request => "" . $c->req->{uri}, # need to stringify this
         status => 200,
-        version => '0.1',
+        version => '0.2',
     });
 
     # Check for an alternative format request.
@@ -253,13 +254,13 @@ sub end : ActionClass('RenderView')
     }
     elsif ($c->stash->{fmt} eq 'json') {
         $c->res->content_type('application/json');
-        $c->res->body(to_json($c->stash->{response}, { utf8 => 1, pretty => 1 }));
+        $c->res->body(decode_utf8(to_json($c->stash->{response}, { utf8 => 1, pretty => 1 })));
         return 1;
     }
     elsif ($c->stash->{fmt} eq 'xml') {
         my $xml = xmlify('response', $c->stash->{response});
         $c->res->content_type('application/xml');
-        $c->res->body($xml->toString(1));
+        $c->res->body(decode_utf8($xml->toString(1)));
         return 1;
     }
     else {
@@ -312,6 +313,7 @@ sub error : Private
 {
     my($self, $c, $error, $error_message) = @_;
     $error_message = "" unless ($error_message);
+    $c->stash->{response}->{type} = "error";
     $c->stash->{response}->{status} = $error;
     $c->stash->{error} = $error_message;
     $c->stash->{status} = $error;
@@ -340,8 +342,14 @@ sub search : Path('search') Args() {
 }
 
 sub show :Path('show') Args() {
-    my($self, $c, @args) = @_;
-    return $c->forward('show/main', [@args]);
+    my($self, $c, $key) = @_;
+    #return $c->forward('show/main', [@args]);
+    return $c->forward('object/main', [$key]);
+}
+
+sub object :Path('obj') Args(1) {
+    my($self, $c, $key) = @_;
+    return $c->forward('object/main', [$key]);
 }
 
 sub static : Path('static') Args()

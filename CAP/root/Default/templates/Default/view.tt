@@ -1,4 +1,9 @@
 [%
+
+  # DEPRECATED - this template is going to be phased out. The object.tt
+  # template will be the standard for displaying object and/or object
+  # records.
+
   # view.tt
   #
   #   This template is generally called to handle show/* requests.
@@ -7,7 +12,7 @@
   record = response.item.doc;
   USE XML.Escape;
   
-  MACRO item_label(item) INCLUDE macro/label.tt;
+  #MACRO item_label(item) INCLUDE macro/label.tt;
 %]
 
 [% INCLUDE component/header.tt; %]

@@ -1,0 +1,11 @@
+<h2>Facets</h2>
+<div>
+  [% FOREACH facet IN response.keys %]
+    <h3>[% facet %]</h3>
+    <ul>
+      [% FOR f IN response.${facet} %]
+        <li>[% f.name %] = [% f.count %]</li>
+      [% END %]
+    </ul>
+  [% END %]
+</div>

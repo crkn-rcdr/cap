@@ -82,7 +82,7 @@ sub main :Private
         template => "view.tt",
     );
 
-    $c->stash->{response}->{item} = $c->forward('/common/build_item', [$solr, $doc]); 
+    #$c->stash->{response}->{item} = $c->forward('/common/build_item', [$solr, $doc]); 
 
     $c->stash->{response}->{solr} = $solr->status();
 

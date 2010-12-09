@@ -18,8 +18,7 @@ set :db_password, ""
 set :cap_libs,   "/opt/cap-libs"
 set :netpbm_var, "#{cap_libs}/netpbm/bin"
 
-set :cap_libs,   "/opt/cap-libs"
-set :netpbm_var, "#{cap_libs}/netpbm/bin"
+set :netpbm_var, "/opt/cap-libs/netpbm/bin"
 
 set :deploy_via, :remote_cache
 

@@ -687,27 +687,24 @@ sub ancestors
 # appended to the status message for debugging purposes.
 sub count
 {
-    my($self, $query, $what) = @_;
+    my($self, $field, $param, $what) = @_;
     $what = "" unless ($what);
 
+    $param->{solr}          = {} unless ($param->{solr});
+    $param->{solr}->{rows}  = 0 unless ($param->{solr}->{rows});
+    $param->{solr}->{facet} = 'false' unless ($param->{solr}->{facet});
+
     $self->{status}->{message} = "count(): $what";
-    my $result = $self->query(
-        $query,
-        {
-            solr => {
-                rows => 0,
-                facet => 'false',
-            }
-        }
-    );
+    my $result = $self->query($field, $param);
     return $result->{hits} or 0;
 }
 
 
-# Retrieve a single document by key.
+# Retrieve a single document by key. Return only the fields named in
+# @fields, or all fields if omitted.
 sub document
 {
-    my($self, $key) = @_;
+    my($self, $key, @fields) = @_;
     $self->{status}->{message} = "document(): $key";
     my $result = $self->query(
         { key => $key },
@@ -715,11 +712,19 @@ sub document
             solr => {
                 rows => 1,
                 facet => 'false',
-            }
+            },
+            type => 'any',
         }
     );
+
     return undef unless ($result->{hits});
-    return $result->{documents}->[0];
+    my $doc = $result->{documents}->[0];
+    if (@fields) {
+        my $fields = {};
+        foreach my $f (@fields) { $fields->{$f} = $doc->{$f} || undef; }
+        return $fields;
+    }
+    return $doc;
 }
 
 

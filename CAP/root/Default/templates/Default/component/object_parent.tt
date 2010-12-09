@@ -1,0 +1,4 @@
+<div>
+  [% c.loc("Part of") | xml_escape %]
+  <a href="[% response.parent.canonicalUri | xml_escape %]">[% response.parent.label | xml_escape %]</a>
+</div>

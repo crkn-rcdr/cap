@@ -1,0 +1,28 @@
+[%-
+  # Dojo-compatible JSON response
+  USE XML.Escape;
+-%]
+[% MACRO facets BLOCK %]
+    {
+      name: '[% name %]',
+      type: 'category',
+      children: [
+        [% FOREACH f IN response.${type} %]
+          {
+            name: '[% label.${type}.${f.name} %]',
+            type: '[% type %]',
+            url:  '[% c.uri_for_action('search', modify_params(c.req.params, {$type => f.name})) %]'
+          }[% IF f != response.${type}.last %],[% END %]
+        [% END %]
+      ]
+    }
+[% END %]
+{
+  identifier: 'name',
+  label:      'name',
+  items: [
+    [% facets(name=c.loc("Language"),    type='lang') %],
+    [% facets(name=c.loc("Media"),       type='media') %],
+    [% facets(name=c.loc("Contributor"), type='contributor') %]
+  ]
+}
