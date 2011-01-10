@@ -1,0 +1,30 @@
+# You can specify any number of top-level components or variables here and
+# their values will replace those in cap.conf. If you specify a component,
+# it will completely clobber the existing component, so you must re-define
+# it completely.
+
+debug = true
+
+# Note that these variables are likely going away in the next few months
+content     = /path/to/content
+netpbm_path = /path/to/netpbm/programs
+
+<Component Model::DB>
+    schema_class = CAP::Schema
+    <connect_info>
+        dsn      = dbi:mysql:cap
+        user     = cap
+        password = ""
+    </connect_info>
+</Component>
+
+# You can override certain individual values in this section. They will
+# replace individual values nested within the config file without
+# requiring that you re-define that entire section of the config file.
+# For boolean variables in this section, you must use 1/0 instead of
+# true/false, yes/no, on/off.
+
+<override>
+    solr_select_url http://dev.cihm:8989/solr/select
+    solr_update_url http://dev.cihm:8989/solr/update
+</override>

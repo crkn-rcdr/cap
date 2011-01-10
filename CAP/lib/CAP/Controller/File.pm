@@ -3,42 +3,135 @@ package CAP::Controller::File;
 use strict;
 use warnings;
 use parent 'Catalyst::Controller';
-use POSIX qw( strftime );
 use CAP::Ingest;
+use Digest::SHA1 qw(sha1_hex);
+use POSIX qw( strftime );
+use URI::Escape;
 
 =head1 NAME
 
 CAP::Controller::File - Catalyst Controller
 
-=head1 DESCRIPTION
-
-Retrieve digital objects
-
-=head1 METHODS
-
-=head2 get($key, $file)
-
-=over 4
-
-Create a derivative from the canonical master for $key. $file is the file
-name that appears in the URL. The name can be anything, but the suffix
-determines the output file format. (E.g. 'file.png' creates a PNG
-derivative). The I<s> and I<r> parameters can be used to specify the file
-size.
-
-=back
-
-=head2 download($key, $file)
-
-=over 4
-
-Works like B<get()> except that it looks for the canonical download file
-and outputs it without any transformation. The I<s> and I<r> query
-parameters are therefore ignored.
-
-=back
-
 =cut
+
+sub main :Private
+{
+
+    my($self, $c, $key) = @_;
+    my $config     = $c->stash->{config}->{settings}->{file};
+    my $solr       = $c->stash->{solr};
+    my $server_url = $config->{server_url};
+    my $format     = $c->req->params->{f} || "";
+
+    my $doc = $solr->document($key);
+    $c->detach('/error', [404, "$key: no such record"]) unless ($doc);
+
+    $c->stash->{params} = [];
+    if ($format && $doc->{canonicalMaster}) {
+        $c->forward('derivative', [$doc, $format]);
+    }
+    elsif ($doc->{canonicalDownload}) {
+        $c->forward('direct', [$doc->{canonicalDownload}]);
+    }
+    elsif ($doc->{canonicalMaster}) {
+        $c->forward('derivative', [$doc]);
+    }
+    else {
+        $c->detach('/error', [404, "Insufficient information to generate file for $key"]);
+    }
+
+    my $filename  = $c->stash->{filename};
+    my @params    = @{$c->stash->{params}};
+
+    my $url = join('?', join('/', $server_url, $filename), join('&', @params));
+    $c->res->redirect($url);
+    return 1;
+}
+
+
+sub direct :Private
+{
+    my($self, $c, $filename) = @_;
+    my $config = $c->stash->{config}->{settings}->{file};
+
+    my $password  = $config->{password};
+    my $expires   = time() + $config->{expires};
+    my $signature = sha1_hex("$password\n$filename\n$expires\n\n\n");
+
+    my $params = [
+        'expires='   . uri_escape($expires),
+        'signature=' . uri_escape($signature),
+    ];
+
+    $c->stash(
+        filename => $filename,
+        params   => $params,
+    );
+
+    return 1;
+}
+
+
+sub derivative :Private
+{
+    my($self, $c, $doc, $format) = @_;
+    my $config = $c->stash->{config}->{settings}->{file};
+    my $rotate = "";
+    my $size   = "";
+
+    my $master = $doc->{canonicalMaster};
+    $c->detach('/error', [400, "$doc->{key}: no master resource to create derivative"]) unless ($master);
+
+    my $mime = $doc->{canonicalMasterMime};
+    $c->detach('/error', [400, "$doc->{key}: cannot determime MIME type of master resource"]) unless ($mime);
+
+    if ($format) {
+        $format =~s/\W//g;
+        $c->detach('/error', [400, "$doc->{key}: derivative format $format is not supported"]) unless
+            ($config->{format}->{$mime} && $config->{format}->{$mime} =~ /\b$format\b/);
+    }
+    else {
+        $c->detach('/error', [400, "$doc->{key}: derivative format $format is not supported"]) unless ($config->{format}->{$mime});
+        $config->{format}->{$mime} =~ /\b(\w+)\b/;
+        $format = $1;
+    }
+
+    my $filename = join('.', $doc->{key}, $format);
+
+    my $password  = $config->{password};
+    my $expires   = time() + $config->{expires};
+
+    my $params = [
+        'from='      . uri_escape($master),
+        'expires='   . uri_escape($expires),
+    ];
+
+    $size = $config->{size}->{default};
+    if ($c->req->params->{s} && $config->{size}->{$c->req->params->{s}}) {
+            $size = $config->{size}->{$c->req->params->{s}};
+    }
+    push(@{$params}, 'size=' . uri_escape($size));
+
+    if ($c->req->params->{r} && $c->req->params->{r} =~ /^(1|2|3)$/) {
+        # TODO validate
+        $rotate = $c->req->params->{r} * 90;
+    }
+    push(@{$params}, 'rotate=' . uri_escape($rotate));
+
+    my $signature = sha1_hex("$password\n$filename\n$expires\n$master\n$size\n$rotate");
+    push(@{$params}, 'signature=' . uri_escape($signature));
+
+    $c->stash(
+        filename => $filename,
+        params   => $params,
+    );
+
+    return 1;
+}
+
+#
+# We can eventually deprecate all of these:
+#
 
 sub get :Path('/get') Args(2)
 {

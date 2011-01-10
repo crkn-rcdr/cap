@@ -63,6 +63,14 @@ sub begin :Private
         return 0;
     }
 
+    # Local configuration overrides for development installs
+    if ($c->config->{override}) {
+        my $config = $c->config;
+        my $override = $c->config->{override};
+        $config->{solr}->{select_url} = $override->{solr_select_url} if ($override->{solr_select_url});
+        $config->{solr}->{update_url} = $override->{solr_update_url} if ($override->{solr_update_url});
+    }
+
     # Determine which portal configuration to use
     $c->forward('config_portal');
 
@@ -289,11 +297,13 @@ sub end : ActionClass('RenderView')
 
     # In addition to the default template path, prepend additional paths
     # based on the portal name and the current view
-    $c->stash->{additional_template_paths} = [ 
-        join('/', $c->config->{root}, $c->stash->{portal}, "templates", $c->stash->{current_view}), 
-        join('/', $c->config->{root}, "Default", "templates", $c->stash->{current_view}), 
-        join('/', $c->config->{root}, $c->stash->{portal}, "templates", 'Default')
-    ];
+    if ($c->stash->{portal}) {
+        $c->stash->{additional_template_paths} = [ 
+            join('/', $c->config->{root}, $c->stash->{portal}, "templates", $c->stash->{current_view}), 
+            join('/', $c->config->{root}, "Default", "templates", $c->stash->{current_view}), 
+            join('/', $c->config->{root}, $c->stash->{portal}, "templates", 'Default')
+        ];
+    }
 
     return 1;
 }
@@ -345,6 +355,17 @@ sub show :Path('show') Args() {
     my($self, $c, $key) = @_;
     #return $c->forward('show/main', [@args]);
     return $c->forward('object/main', [$key]);
+}
+
+sub file :Path('file') Args(1)
+{
+    my($self, $c, $key) = @_;
+    return $c->forward('file/main', [$key]);
+}
+
+sub derivative :Path('file/derivative') Args(2) {
+    my($self, $c, $key, $filename) = @_;
+    return $c->forward('file/derivative', [$key, $filename]);
 }
 
 sub object :Path('obj') Args(1) {
