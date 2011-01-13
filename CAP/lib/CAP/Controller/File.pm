@@ -55,12 +55,14 @@ sub direct :Private
     my $config = $c->stash->{config}->{settings}->{file};
 
     my $password  = $config->{password};
+    my $key       = $config->{key};
     my $expires   = time() + $config->{expires};
     my $signature = sha1_hex("$password\n$filename\n$expires\n\n\n");
 
     my $params = [
         'expires='   . uri_escape($expires),
         'signature=' . uri_escape($signature),
+        'key='       . uri_escape($key),
     ];
 
     $c->stash(
@@ -98,12 +100,14 @@ sub derivative :Private
 
     my $filename = join('.', $doc->{key}, $format);
 
+    my $key       = $config->{key};
     my $password  = $config->{password};
     my $expires   = time() + $config->{expires};
 
     my $params = [
-        'from='      . uri_escape($master),
+        'base='      . uri_escape($master),
         'expires='   . uri_escape($expires),
+        'key='       . uri_escape($key),
     ];
 
     $size = $config->{size}->{default};

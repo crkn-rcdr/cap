@@ -87,11 +87,19 @@ sub begin :Private
         version => '0.2',
     });
 
-    # Check for an alternative format request.
+    # The fmt parameter defines what view to use. There are two builtin
+    # views, and others can be defined in the config file. If no valid
+    # format is specified, the default view is used.
     if ($c->req->params->{fmt}) {
-        my $fmt = $c->req->params->{fmt};
-        if ($c->stash->{config}->{fmt}->{$fmt}) {
-            $c->stash->{fmt} = $c->req->params->{fmt} 
+        my $view = $c->req->params->{fmt};
+        if ($view eq 'json') {
+            $c->stash->{current_view} = 'json';
+        }
+        elsif ($view eq 'xml') {
+            $c->stash->{current_view} = 'xml';
+        }
+        elsif ($c->config->{views}->{$view}) {
+            $c->stash->{current_view} = $c->config->{views}->{$view};
         }
         delete($c->req->params->{fmt});
     }
@@ -113,12 +121,6 @@ sub auto :Private
     # Check that the portal is enabled.
     unless ($c->stash->{config}->{enabled}) {
         $c->forward('error', [503, "portal disabled"]);
-        return 0;
-    }
-
-    # Check that the requested action is enabled.
-    unless ($c->stash->{config}->{action}->{$c->req->action}) {
-        $c->forward('error', [404, $c->req->action . " is not enabled"]);
         return 0;
     }
 }
@@ -200,8 +202,8 @@ sub config_portal : Private
     $c->stash->{debug} = 1 if ($c->config->{debug});
 
     # Determine which portal to configure based on the base URL.
-    if ($c->config->{portal}->{$c->req->base}) {
-        $portal = $c->config->{portal}->{$c->req->base};
+    if ($c->config->{portals}->{$c->req->base}) {
+        $portal = $c->config->{portals}->{$c->req->base};
     }
     else {
         $portal = $c->config->{default_portal};
@@ -254,28 +256,23 @@ sub end : ActionClass('RenderView')
         delete($c->stash->{response}->{solr}) if ($c->stash->{response}->{solr});
     }
 
-    # Automatically handle some builtin format types. Otherwise, set the
-    # view to use.
-    if (! $c->stash->{fmt}) {
-        # Use the current view if set; otherwise set it to the default
-        $c->stash->{current_view} = $c->config->{default_view} unless ($c->stash->{current_view});
+    # If the current view is set to one of the special cases 'xml' or
+    # 'json', handle the output internally, bypassing the normal view
+    # rendering.
+    if (! $c->stash->{current_view}) {
+        ;
     }
-    elsif ($c->stash->{fmt} eq 'json') {
+    elsif ($c->stash->{current_view} eq 'json') {
         $c->res->content_type('application/json');
         $c->res->body(decode_utf8(to_json($c->stash->{response}, { utf8 => 1, pretty => 1 })));
         return 1;
     }
-    elsif ($c->stash->{fmt} eq 'xml') {
+    elsif ($c->stash->{current_view} eq 'xml') {
         my $xml = xmlify('response', $c->stash->{response});
         $c->res->content_type('application/xml');
         $c->res->body(decode_utf8($xml->toString(1)));
         return 1;
     }
-    else {
-        $c->stash->{current_view} = ucfirst($c->stash->{fmt});
-    }
-
-    # Set the current view from the default if none of the above set it.
 
     # Don't cache anything (TODO: this is a bit harsh, but it does control
     # the login/logout refresh problem.) TODO: revisit this; a lot has
