@@ -29,8 +29,8 @@
 
 
     RewriteEngine On
-    RewriteLog "/tmp/rewrite.log"
-    RewriteLogLevel 25
+    #RewriteLog "/tmp/rewrite.log"
+    #RewriteLogLevel 25
 
 
     RewriteCond %{SCRIPT_FILENAME} /dfait/(.*)/static/(.*)$
