@@ -26,6 +26,9 @@ GROUP=root
 # them to step on each other's pidfile.
 PIDSUFFIX=alpha
 
+#  Set to 0 to disable Catalyst debugging, 1 to enable (Debug sent to stderr: )
+export CAP_DEBUG=0
+
 # local::lib path, if you want to use it.
 LOCALLIB=/opt/cap-libs/perl
 
