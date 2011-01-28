@@ -28,15 +28,19 @@
       }
     </script>
     <script type="text/javascript" src="[% c.uri_for_action('static', 'dojo', 'dojo', 'dojo.js') %]" djConfig="parseOnLoad: true">1;</script>
+    <script type="text/javascript" src="[% c.uri_for_action('static', 'dojo', 'dojo', 'canadiana.js') %]" djConfig="parseOnLoad: true">1;</script>
 
   [%- # Additional scripts and stylesheets to include based on the action executed -%]
   [%- IF c.action == 'search' || c.action == "search/index" -%]
+    [% INCLUDE component/facet_data.tt; %]
     <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'search.js') %]">1;</script>
   [%- END -%]
   
   [%- IF c.action == 'foo' || c.action == "foo/index" -%]
   <link rel="stylesheet" type="text/css" href="[% c.uri_for_action('static', 'css', 'test.css') %]"/>
   <script type="text/javascript" src="[% c.uri_for_action('static', 'js', 'border.js') %]">1;</script>
+
+  
   [%- END -%]
   
     <script type="text/javascript">

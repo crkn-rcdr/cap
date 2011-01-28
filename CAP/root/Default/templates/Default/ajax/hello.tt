@@ -1,0 +1,11 @@
+[%-
+  # search.tt - search results template
+
+  USE XML.Escape;
+  MACRO search_query(ignore) INCLUDE macro/search_query.tt;
+-%]
+
+
+[% INCLUDE component/header.tt; %]
+[% INCLUDE component/toolbar.tt; %]
+

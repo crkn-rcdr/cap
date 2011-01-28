@@ -7,28 +7,36 @@
 
 
 
-
-
-
-[% INCLUDE component/header.tt; %]
-  
-[% INCLUDE component/toolbar.tt; %]
-
-
-<div id="content">
-[%
-  INCLUDE component/search_parameters.tt;
+<div id="border_container">
+    <div id="header_pane">[% INCLUDE component/header.tt; %][% INCLUDE component/toolbar.tt; %]</div>
+    <div id="content_pane">
+    </div>
+    <div id="tree_pane">
+        <div id="facet_tree"></div>
+    </div>
+    <div id="results_pane">
+    [%
+      #Search parameters
+      INCLUDE component/search_parameters.tt;
     
-  # Search results list
-  INCLUDE component/rlist.tt;
+      # Search results list
+      INCLUDE component/rlist.tt;
 
-  # Search results page menu
-  INCLUDE component/pager.tt;
-%]
+      # Search results page menu
+      INCLUDE component/pager.tt;
+    %]
+    </div>
+    <div id="footer_pane">[% INCLUDE component/footer.tt; %]</div>
 
 </div>
 
 
 
-[% INCLUDE component/footer.tt; %]
+
+
+
+
+
+
+
 
