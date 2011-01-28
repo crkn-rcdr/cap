@@ -1,17 +1,15 @@
 [% # Toolbar component, mostly for integrating JavaScript code %]
 
      
-    <div id="toolbox">
-        <div id="refine_toolbar_container">
-            <div id="refine_toolbar" style="padding-left:21px;"></div>
-        </div>
-        <div id="newsearch_toolbar_container">
-            <div id="newsearch_toolbar" style="padding-left:21px;">
-                <div id="newsearch_form">
-                    <div id="newsearch_separator"></div>
-                    <div id="newsearch_input" style="float:right;"></div>
-                    <div id="newsearch_submit"></div>
-                </div>
+    <div id="refine_toolbar_container">
+        <div id="refine_toolbar" style="padding-left:21px;"></div>
+    </div>
+    <div id="newsearch_toolbar_container">
+        <div id="newsearch_toolbar" style="padding-left:21px;">
+            <div id="newsearch_form">
+                <div id="newsearch_separator"></div>
+                <div id="newsearch_input" style="float:right;"></div>
+                <div id="newsearch_submit"></div>
             </div>
         </div>
     </div>
@@ -72,6 +70,70 @@
         );
         var sortbuttonvalues =  new Array('[% c.loc("Sort Order") %]','sort_order','sort_order_button');
 
+
+        //Language button parameters
+        langmenuValues = new Array();
+
+        [% IF c.req.params.lang; %]
+            menulabel = '[% c.loc('any') | xml_escape %]';
+            langmenuValues[0] = new Array(menulabel,   '[% c.uri_for_action('search', refine(c.req.params, { lang => "" }))  | replace("'","\\'") %]');
+        [% ELSE %]
+
+            [% FOREACH facet IN response.facet.lang %]
+                [% SET LANGNAME = label.lang.${facet.name}  %]
+                menulabel = '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])';
+                langmenuValues[i] = new Array(menulabel,   '[% c.uri_for_action('search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]');
+                i++;
+            [% END %]
+
+        [% END %]
+
+        langmax = langmenuValues.length;
+        var langbuttonvalues =  new Array('[% c.loc("Language") %]','language_button','language_button');
+
+
+        //Contributor button parameters
+        contribmenuValues = new Array();
+        i = 0;
+
+        [% IF c.req.params.contributor; %]
+            menulabel = '[% c.loc('any') | xml_escape %]';
+            contribmenuValues[0] = new Array(menulabel,   '[% c.uri_for_action('search', refine(c.req.params, { contributor => "" }))  | replace("'","\\'") %]');
+        [% ELSE %]
+
+            [% FOREACH facet IN response.facet.contributor %]
+                [% SET CONTRIBNAME = label.contributor.${facet.name} %]
+                menulabel = '[% CONTRIBNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])';
+                contribmenuValues[i] = new Array(menulabel,   '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]');
+                i++;
+            [% END %]
+
+        [% END %]
+
+        contribmax = contribmenuValues.length;
+        var contribbuttonvalues =  new Array('[% c.loc("Contributor") %]','contributor_button','contributor_button');
+
+
+        //Media button parameters
+        mediamenuValues = new Array();
+        i = 0;
+
+        [% IF c.req.params.media; %]
+            menulabel = '[% c.loc('any') | xml_escape %]';
+            mediamenuValues[0] = new Array(menulabel,   '[% c.uri_for_action('search', refine(c.req.params, { media => "" }))  | replace("'","\\'") %]');
+        [% ELSE %]        
+
+            [% FOREACH facet IN response.facet.media %]
+                [% SET MEDIANAME = label.media.${facet.name} %]
+                menulabel = '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])';
+                mediamenuValues[i] = new Array(menulabel,   '[% c.uri_for_action('search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]');
+                i++;
+            [% END %]
+
+        [% END %]
+
+        mediamax = mediamenuValues.length;
+        var mediabuttonvalues =  new Array('[% c.loc("Media") %]','media_button','media_button');
 
 
         //Date button parameters
@@ -152,6 +214,58 @@
  
 
 
+            // Add the language menu items
+            if ((any_language) || (include_language)) {
+
+                var langmenu = new dijit.Menu({
+                    style: "display: none;"
+                });
+
+                for (i = 0; i < langmax; i++) {
+                  menuitem = CreateMenuItem(langmenuValues[i]);
+                  langmenu.addChild(menuitem);
+                }
+
+                langbutton = CreateButton(langmenu,langbuttonvalues);
+                toolbar.addChild(langbutton);
+            };
+
+
+
+
+            // Add the media menu items
+            if ((any_medium) || (include_medium)) {
+
+                var mediamenu = new dijit.Menu({
+                    style: "display: none;"
+                });
+
+                for (i = 0; i < mediamax; i++) {
+                  menuitem = CreateMenuItem(mediamenuValues[i]);
+                  mediamenu.addChild(menuitem);
+                }
+
+                mediabutton = CreateButton(mediamenu,mediabuttonvalues);
+                toolbar.addChild(mediabutton);
+            };
+
+            // Add the contributor menu items
+            if ((any_contrib) || (include_contrib)) {
+
+                var contribmenu = new dijit.Menu({
+                    style: "display: none;"
+                });
+
+                for (i = 0; i < contribmax; i++) {
+                  menuitem = CreateMenuItem(contribmenuValues[i]);
+                  contribmenu.addChild(menuitem);
+                }
+
+                contribbutton = CreateButton(contribmenu,contribbuttonvalues);
+                toolbar.addChild(contribbutton);
+            };
+
+
 
             var searchbox = new dijit.TooltipDialog({
                 content: datebox_content
@@ -164,11 +278,11 @@
             // toolbar.addChild(vertical_bar);
             
 
-           //var newsearchbar = new dijit.Toolbar({
-           //             label: "stuff",                            
-           //            },"newsearch_toolbar");
+           var newsearchbar = new dijit.Toolbar({
+                        label: "stuff",                            
+                       },"newsearch_toolbar");
 
-          //var vertical_bar = new dijit.ToolbarSeparator({},"newsearch_separator");
+            var vertical_bar = new dijit.ToolbarSeparator({},"newsearch_separator");
 
             var searchform = new dijit.form.Form({
                   method: "GET",
