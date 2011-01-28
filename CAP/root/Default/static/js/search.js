@@ -14,42 +14,98 @@ dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dojo.parser");
 
+dojo.require("dijit.Tree");
+dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("dijit.tree.ForestStoreModel");
 
 
-//Create the content panes
+ 
 dojo.addOnLoad(function() {
             
-         
+            //Create border container
             var border_container = new dijit.layout.BorderContainer({
-                design: "sidebar",
-                gutters: true,
-                liveSplitters: true,
-                style: "width: 100%;",
+                design: "headline",
+                gutters: false,
+                liveSplitters: false,
             },
 	    "border_container");   
+
+             var top_pane = new dijit.layout.ContentPane({
+                style: "width: 100%;height: 159px;",
+                splitter: false,
+                region: "top",
+            },
+            "header_pane"
+            );
+
+
+            var left_pane = new dijit.layout.ContentPane({
+                //href: "test_content.html",
+                style: "width: 3%;",
+                splitter: false,
+                region: "left",
+            },
+            "content_pane"
+            );
             
             var results_pane = new dijit.layout.ContentPane({
-                content: "hello world",
-                style: "width: 400px;",
-                splitter: true,
-                region: "leading",
+                style: "width: 25%;",
+                splitter: false,
+                region: "center",
             },
-            document.createElement("div")
+            "tree_pane"
             );
             
             var document_pane= new dijit.layout.ContentPane({
-                content: "<p>Document Pane</p>",
-                splitter: true,
-                region: "center",
+                // content: "<p>Document Pane<\/p>",
+                // minsize: '400';
+                style: "width: 70%",
+                splitter: false,
+                region: "right",
             },
-            document.createElement("div")
+            "results_pane"
             );
+ 
+
+
             
+            var bottom_pane = new dijit.layout.ContentPane({
+                style: "width: 100%;z-index:1000",
+                splitter: false,
+                region: "bottom",
+            },
+            "footer_pane"
+            );
+
+            //Tree-generating code          
+            var dataStore = new dojo.data.ItemFileReadStore({
+                data: facet_object
+            });
+
+            var model = new dijit.tree.ForestStoreModel({
+                store: dataStore,
+                query: {
+                    "type": "*"
+                }
+            });
+
+            new dijit.Tree({
+                model: model,
+                showRoot: false,
+                persist: false,
+                onClick: function(item,label) { window.location = dataStore.getValue(item,"url") }
+            },
+            "facet_tree");
+                      
             border_container.startup();
             border_container.addChild(results_pane);
             border_container.addChild(document_pane);
+            border_container.addChild(top_pane);
+            border_container.addChild(bottom_pane);
+            border_container.addChild(left_pane);
 
-        });
+});
+
 
     
 //Toolbar
