@@ -5,7 +5,7 @@
 
     var facet_object = {
 
-        identifier: 'name',
+        identifier: 'id',
 
         label: 'name',
 
@@ -18,24 +18,31 @@
 //language tree
         facet_name = '[% c.loc("Language") %]';
         new_item = {
+                       id: facet_name,
                        name: facet_name,
                        type: 'category',
                        children: []
         }
 
         [% IF c.req.params.lang; %]
-            new_child = {name: '[% c.loc('any') | xml_escape %]',
+            new_child = {
+                         id: 'any_language',
+                         name: '[% c.loc('any') | xml_escape %]',
                          type: 'language',
-                         url: '[% c.uri_for_action('search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]'};
+                         url: '[% c.uri_for_action('search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]'
+            };
             new_item.children.push(new_child);
 
         [% ELSE %]
 
             [% FOREACH facet IN response.facet.lang %]
                 [% SET LANGNAME = label.lang.${facet.name}  %]
-                new_child = {name: '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                new_child = {
+                             id: '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                             name: '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
                              type: 'language',
-                             url: '[% c.uri_for_action('search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]'};
+                             url: '[% c.uri_for_action('search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]'
+                };
                 new_item.children.push(new_child);
             [% END %]
 
@@ -45,24 +52,31 @@
 //media tree
         facet_name = '[% c.loc("Media") %]';
         new_item = {
+                       id: facet_name,
                        name: facet_name,
                        type: 'category',
                        children: []
         }
 
         [% IF c.req.params.media; %]
-            new_child = {name: '[% c.loc('any') | xml_escape %]',
+            new_child = {
+                         id: 'any_media',
+                         name: '[% c.loc('any') | xml_escape %]',
                          type: 'media',
-                         url: '[% c.uri_for_action('search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]'};
+                         url: '[% c.uri_for_action('search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]'
+            };
             new_item.children.push(new_child);
 
         [% ELSE %]
 
             [% FOREACH facet IN response.facet.media %]
                 [% SET MEDIANAME = label.media.${facet.name}  %]
-                new_child = {name: '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                new_child = {
+                             id: '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                             name: '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
                              type: 'media',
-                             url: '[% c.uri_for_action('search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]'};
+                             url: '[% c.uri_for_action('search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]'
+                 };
                 new_item.children.push(new_child);
             [% END %]
 
@@ -72,24 +86,31 @@
 //contributor tree
         facet_name = '[% c.loc("Contributor") %]';
         new_item = {
+                       id: facet_name,
                        name: facet_name,
                        type: 'category',
                        children: []
         }
 
         [% IF c.req.params.contributor; %]
-            new_child = {name: '[% c.loc('any') | xml_escape %]',
+            new_child = {
+                         id: 'any_contributor',
+                         name: '[% c.loc('any') | xml_escape %]',
                          type: 'contributor',
-                         url: '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]'};
+                         url: '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]'
+            };
             new_item.children.push(new_child);
 
         [% ELSE %]
 
             [% FOREACH facet IN response.facet.contributor %]
                 [% SET CONTRIBUTORNAME = label.contributor.${facet.name}  %]
-                new_child = {name: '[% CONTRIBUTORNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                new_child = {
+                             id: '[% CONTRIBUTORNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                             name: '[% CONTRIBUTORNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
                              type: 'contributor',
-                             url: '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]'};
+                             url: '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]'
+                };
                 new_item.children.push(new_child);
             [% END %]
 
