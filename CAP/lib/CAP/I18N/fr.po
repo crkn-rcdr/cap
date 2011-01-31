@@ -22,7 +22,7 @@ msgstr "%1 - %2 pages"
 #. (label(response.item)
 #: ../../../root/dfait/templates/Default/view.tt:18
 msgid "%1 : %2 pages"
-msgstr ""
+msgstr "%1 : %2 pages"
 
 #. (response.item.counts.issues)
 #: ../../../root/Default/templates/Default/view.tt:55
@@ -77,11 +77,11 @@ msgid "All content copyright © Foreign Affairs and International Trade"
 msgstr "Tous droits réservés © Affaires étrangères et Commerce international"
 
 #. (recordtype(item.doc.type)
-#: ../../../root/Default/templates/Default/component/rlist.tt:78
+#: ../../../root/Default/templates/Default/component/rlist.tt:81
 msgid "All matching %1 from: %2"
 msgstr "Tous les résultats correspondant à %1 de %2"
 
-#: ../../../root/Default/templates/Default/object.tt:11 ../../../root/Default/templates/Default/view.tt:23
+#: ../../../root/Default/templates/Default/object.tt:12 ../../../root/Default/templates/Default/view.tt:23
 msgid "Back to search results"
 msgstr "Retour à la page des résultats"
 
@@ -107,13 +107,13 @@ msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 
 #: ../../../root/Default/templates/Default/component/footer.tt:9
 msgid "Collection Contributors"
-msgstr ""
+msgstr "Organisations collaboratrices"
 
 #: ../../../root/Default/templates/Default/index.tt:30 ../../../root/Default/templates/Default/index.tt:32 ../../../root/Default/templates/Default/index.tt:34
 msgid "Collection contributors"
 msgstr "Organisations collaboratrices"
 
-#: ../../../root/Default/templates/Default/component/toolbar.tt:114 ../../../root/Default/templates/Dojo/facet.tt:26
+#: ../../../root/Default/templates/Default/component/facet_data.tt:73 ../../../root/Default/templates/Default/component/full_toolbar.tt:114 ../../../root/Default/templates/Dojo/facet.tt:26
 msgid "Contributor"
 msgstr "Collaborateur"
 
@@ -126,7 +126,7 @@ msgstr "© Canadiana.org %1"
 msgid "Corporate"
 msgstr "Enterprises"
 
-#: ../../../root/Default/templates/Default/component/date_range_button.tt:6 ../../../root/Default/templates/Default/component/toolbar.tt:140
+#: ../../../root/Default/templates/Default/component/date_range_button.tt:6 ../../../root/Default/templates/Default/component/full_toolbar.tt:140 ../../../root/Default/templates/Default/component/toolbar.tt:78
 msgid "Date Range"
 msgstr "Année(s)"
 
@@ -183,7 +183,7 @@ msgstr "Privilèges insuffisants"
 msgid "Issue %1 of %2 available issues"
 msgstr "Numéro %1 de %2"
 
-#: ../../../root/Default/templates/Default/component/language_button.tt:24 ../../../root/Default/templates/Default/component/language_button.tt:5 ../../../root/Default/templates/Default/component/toolbar.tt:92 ../../../root/Default/templates/Default/index.tt:68 ../../../root/Default/templates/Dojo/facet.tt:24 ../../../root/dfait/templates/Default/index-dijit.tt:61 ../../../root/dfait/templates/Default/index.tt:69 ../../../root/dfait/templates/Default/index.tt:70
+#: ../../../root/Default/templates/Default/component/facet_data.tt:19 ../../../root/Default/templates/Default/component/full_toolbar.tt:92 ../../../root/Default/templates/Default/component/language_button.tt:24 ../../../root/Default/templates/Default/component/language_button.tt:5 ../../../root/Default/templates/Default/index.tt:68 ../../../root/Default/templates/Dojo/facet.tt:24 ../../../root/dfait/templates/Default/index-dijit.tt:61 ../../../root/dfait/templates/Default/index.tt:69 ../../../root/dfait/templates/Default/index.tt:70
 msgid "Language"
 msgstr "Langue"
 
@@ -199,7 +199,7 @@ msgstr "Description brève "
 msgid "Limit by contributor:"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/component/date_range_button.tt:15 ../../../root/Default/templates/Default/component/toolbar.tt:163 ../../../root/Default/templates/Default/component/year_published.tt:14
+#: ../../../root/Default/templates/Default/component/date_range_button.tt:15 ../../../root/Default/templates/Default/component/full_toolbar.tt:163 ../../../root/Default/templates/Default/component/toolbar.tt:101 ../../../root/Default/templates/Default/component/year_published.tt:14
 msgid "Limit by date range:"
 msgstr "Année(s) de publication :"
 
@@ -215,11 +215,11 @@ msgstr "Limiter par type de média"
 msgid "Log In"
 msgstr "Ouverture de session"
 
-#: ../../../root/Default/templates/Default/component/rlist.tt:88
+#: ../../../root/Default/templates/Default/component/rlist.tt:91
 msgid "Matching pages:"
-msgstr ""
+msgstr "Pages correspondantes :"
 
-#: ../../../root/Default/templates/Default/component/toolbar.tt:136 ../../../root/Default/templates/Dojo/facet.tt:25
+#: ../../../root/Default/templates/Default/component/facet_data.tt:46 ../../../root/Default/templates/Default/component/full_toolbar.tt:136 ../../../root/Default/templates/Dojo/facet.tt:25
 msgid "Media"
 msgstr "Média"
 
@@ -227,7 +227,7 @@ msgstr "Média"
 msgid "Missing username or password"
 msgstr "Nom d’utilisateur ou mot de passe manquant"
 
-#: ../../../root/Default/templates/Default/component/rlist.tt:105
+#: ../../../root/Default/templates/Default/component/rlist.tt:108
 msgid "More about this item ..."
 msgstr ""
 
@@ -235,7 +235,7 @@ msgstr ""
 msgid "More detail"
 msgstr "Description longue"
 
-#: ../../../root/Default/templates/Default/component/toolbar.tt:177
+#: ../../../root/Default/templates/Default/component/full_toolbar.tt:177 ../../../root/Default/templates/Default/component/toolbar.tt:115
 msgid "New Search"
 msgstr "Nouvelle recherche"
 
@@ -272,7 +272,7 @@ msgstr "Page %1"
 msgid "Page Not Found"
 msgstr "Page non trouvée"
 
-#: ../../../root/Default/templates/Default/component/object_parent.tt:2 ../../../root/Default/templates/Default/component/rlist.tt:66
+#: ../../../root/Default/templates/Default/component/object_parent.tt:2 ../../../root/Default/templates/Default/component/rlist.tt:69
 msgid "Part of"
 msgstr ""
 
@@ -319,7 +319,7 @@ msgstr "Résultats limités à :"
 msgid "Results page"
 msgstr "Page des résultats"
 
-#: ../../../root/Default/templates/Default/component/contrib_filter.tt:19 ../../../root/Default/templates/Default/component/date_range_button.tt:22 ../../../root/Default/templates/Default/component/language_button.tt:37 ../../../root/Default/templates/Default/component/language_filter.tt:19 ../../../root/Default/templates/Default/component/media_filter.tt:17 ../../../root/Default/templates/Default/component/object_subsearch.tt:20 ../../../root/Default/templates/Default/component/subsearch.tt:36 ../../../root/Default/templates/Default/component/toolbar.tt:169 ../../../root/Default/templates/Default/component/year_published.tt:25 ../../../root/Default/templates/Default/index.tt:38 ../../../root/dfait/templates/Default/component/sort_order_button.tt:44 ../../../root/dfait/templates/Default/index-dijit.tt:33 ../../../root/dfait/templates/Default/index.tt:33 ../../../root/dfait/templates/Default/search.tt:26 ../../../root/eco/templates/Default/search.tt:30
+#: ../../../root/Default/templates/Default/component/contrib_filter.tt:19 ../../../root/Default/templates/Default/component/date_range_button.tt:22 ../../../root/Default/templates/Default/component/full_toolbar.tt:169 ../../../root/Default/templates/Default/component/language_button.tt:37 ../../../root/Default/templates/Default/component/language_filter.tt:19 ../../../root/Default/templates/Default/component/media_filter.tt:17 ../../../root/Default/templates/Default/component/object_subsearch.tt:20 ../../../root/Default/templates/Default/component/subsearch.tt:36 ../../../root/Default/templates/Default/component/toolbar.tt:107 ../../../root/Default/templates/Default/component/year_published.tt:25 ../../../root/Default/templates/Default/index.tt:38 ../../../root/dfait/templates/Default/component/sort_order_button.tt:44 ../../../root/dfait/templates/Default/index-dijit.tt:33 ../../../root/dfait/templates/Default/index.tt:33 ../../../root/dfait/templates/Default/search.tt:26 ../../../root/eco/templates/Default/search.tt:30
 msgid "Search"
 msgstr "Rechercher"
 
@@ -385,7 +385,7 @@ msgid "Show All Media"
 msgstr ""
 
 #. (item.pages.hits)
-#: ../../../root/Default/templates/Default/component/rlist.tt:95
+#: ../../../root/Default/templates/Default/component/rlist.tt:98
 msgid "Show all %1 matches"
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr "Afficher la notice du périodique"
 msgid "Sort"
 msgstr "Trier par"
 
-#: ../../../root/Default/templates/Default/component/search_parameters.tt:38 ../../../root/Default/templates/Default/component/toolbar.tt:71 ../../../root/Default/templates/Default/search_parameters.tt:38 ../../../root/dfait/templates/Default/component/sort_order_button.tt:28 ../../../root/dfait/templates/Default/component/sort_order_button.tt:5
+#: ../../../root/Default/templates/Default/component/full_toolbar.tt:71 ../../../root/Default/templates/Default/component/search_parameters.tt:38 ../../../root/Default/templates/Default/component/toolbar.tt:73 ../../../root/Default/templates/Default/search_parameters.tt:38 ../../../root/dfait/templates/Default/component/sort_order_button.tt:28 ../../../root/dfait/templates/Default/component/sort_order_button.tt:5
 msgid "Sort Order"
 msgstr "Trier par"
 
@@ -479,7 +479,7 @@ msgstr " Vous devez ouvrir une session pour visionner cette page."
 msgid "and"
 msgstr "et"
 
-#: ../../../root/Default/templates/Default/component/language_button.tt:10 ../../../root/Default/templates/Default/component/language_button.tt:32 ../../../root/Default/templates/Default/component/search.tt:33 ../../../root/Default/templates/Default/component/toolbar.tt:100 ../../../root/Default/templates/Default/component/toolbar.tt:122 ../../../root/Default/templates/Default/component/toolbar.tt:78 ../../../root/Default/templates/Default/index.tt:72 ../../../root/dfait/templates/Default/index-dijit.tt:55 ../../../root/dfait/templates/Default/index-dijit.tt:62 ../../../root/dfait/templates/Default/index.tt:60 ../../../root/dfait/templates/Default/index.tt:71
+#: ../../../root/Default/templates/Default/component/facet_data.tt:27 ../../../root/Default/templates/Default/component/facet_data.tt:54 ../../../root/Default/templates/Default/component/facet_data.tt:81 ../../../root/Default/templates/Default/component/full_toolbar.tt:100 ../../../root/Default/templates/Default/component/full_toolbar.tt:122 ../../../root/Default/templates/Default/component/full_toolbar.tt:78 ../../../root/Default/templates/Default/component/language_button.tt:10 ../../../root/Default/templates/Default/component/language_button.tt:32 ../../../root/Default/templates/Default/component/search.tt:33 ../../../root/Default/templates/Default/index.tt:72 ../../../root/dfait/templates/Default/index-dijit.tt:55 ../../../root/dfait/templates/Default/index-dijit.tt:62 ../../../root/dfait/templates/Default/index.tt:60 ../../../root/dfait/templates/Default/index.tt:71
 msgid "any"
 msgstr "toutes"
 
@@ -503,7 +503,7 @@ msgstr "pour"
 msgid "index"
 msgstr "index"
 
-#: ../../../root/Default/templates/Default/component/search.tt:29 ../../../root/Default/templates/Default/component/sort_order_button.tt:23 ../../../root/Default/templates/Default/component/toolbar.tt:67 ../../../root/Default/templates/Default/index.tt:65 ../../../root/Default/templates/Default/macro/sort_order.tt:7 ../../../root/Default/templates/Default/macro/sort_order.tt:9 ../../../root/dfait/templates/Default/component/sort_order_button.tt:13 ../../../root/dfait/templates/Default/component/sort_order_button.tt:37 ../../../root/dfait/templates/Default/index-dijit.tt:52 ../../../root/dfait/templates/Default/index.tt:54
+#: ../../../root/Default/templates/Default/component/full_toolbar.tt:67 ../../../root/Default/templates/Default/component/search.tt:29 ../../../root/Default/templates/Default/component/sort_order_button.tt:23 ../../../root/Default/templates/Default/component/toolbar.tt:69 ../../../root/Default/templates/Default/index.tt:65 ../../../root/Default/templates/Default/macro/sort_order.tt:7 ../../../root/Default/templates/Default/macro/sort_order.tt:9 ../../../root/dfait/templates/Default/component/sort_order_button.tt:13 ../../../root/dfait/templates/Default/component/sort_order_button.tt:37 ../../../root/dfait/templates/Default/index-dijit.tt:52 ../../../root/dfait/templates/Default/index.tt:54
 msgid "newest"
 msgstr "date décroissante"
 
@@ -515,7 +515,7 @@ msgstr "date décroissante"
 msgid "of"
 msgstr "de"
 
-#: ../../../root/Default/templates/Default/component/search.tt:28 ../../../root/Default/templates/Default/component/sort_order_button.tt:24 ../../../root/Default/templates/Default/component/toolbar.tt:68 ../../../root/Default/templates/Default/index.tt:61 ../../../root/Default/templates/Default/macro/sort_order.tt:10 ../../../root/Default/templates/Default/macro/sort_order.tt:6 ../../../root/dfait/templates/Default/component/sort_order_button.tt:16 ../../../root/dfait/templates/Default/component/sort_order_button.tt:38 ../../../root/dfait/templates/Default/index-dijit.tt:51 ../../../root/dfait/templates/Default/index.tt:53
+#: ../../../root/Default/templates/Default/component/full_toolbar.tt:68 ../../../root/Default/templates/Default/component/search.tt:28 ../../../root/Default/templates/Default/component/sort_order_button.tt:24 ../../../root/Default/templates/Default/component/toolbar.tt:70 ../../../root/Default/templates/Default/index.tt:61 ../../../root/Default/templates/Default/macro/sort_order.tt:10 ../../../root/Default/templates/Default/macro/sort_order.tt:6 ../../../root/dfait/templates/Default/component/sort_order_button.tt:16 ../../../root/dfait/templates/Default/component/sort_order_button.tt:38 ../../../root/dfait/templates/Default/index-dijit.tt:51 ../../../root/dfait/templates/Default/index.tt:53
 msgid "oldest"
 msgstr "date croissante"
 
@@ -539,7 +539,7 @@ msgstr "communiqué"
 msgid "preview"
 msgstr "aperçu"
 
-#: ../../../root/Default/templates/Default/component/search.tt:27 ../../../root/Default/templates/Default/component/sort_order_button.tt:22 ../../../root/Default/templates/Default/component/toolbar.tt:66 ../../../root/Default/templates/Default/index.tt:57 ../../../root/Default/templates/Default/macro/sort_order.tt:5 ../../../root/Default/templates/Default/macro/sort_order.tt:8 ../../../root/dfait/templates/Default/component/sort_order_button.tt:36 ../../../root/dfait/templates/Default/index-dijit.tt:53
+#: ../../../root/Default/templates/Default/component/full_toolbar.tt:66 ../../../root/Default/templates/Default/component/search.tt:27 ../../../root/Default/templates/Default/component/sort_order_button.tt:22 ../../../root/Default/templates/Default/component/toolbar.tt:68 ../../../root/Default/templates/Default/index.tt:57 ../../../root/Default/templates/Default/macro/sort_order.tt:5 ../../../root/Default/templates/Default/macro/sort_order.tt:8 ../../../root/dfait/templates/Default/component/sort_order_button.tt:36 ../../../root/dfait/templates/Default/index-dijit.tt:53
 msgid "relevance"
 msgstr "pertinence"
 
@@ -547,7 +547,7 @@ msgstr "pertinence"
 msgid "score"
 msgstr "pertinence"
 
-#: ../../../root/Default/templates/Default/component/sort_order_button.tt:26 ../../../root/Default/templates/Default/component/toolbar.tt:69 ../../../root/Default/templates/Default/macro/sort_order.tt:11 ../../../root/dfait/templates/Default/component/sort_order_button.tt:40
+#: ../../../root/Default/templates/Default/component/full_toolbar.tt:69 ../../../root/Default/templates/Default/component/sort_order_button.tt:26 ../../../root/Default/templates/Default/component/toolbar.tt:71 ../../../root/Default/templates/Default/macro/sort_order.tt:11 ../../../root/dfait/templates/Default/component/sort_order_button.tt:40
 msgid "sequence"
 msgstr "séquence"
 
@@ -563,6 +563,6 @@ msgstr "declaration"
 msgid "table of contents"
 msgstr "table des matières"
 
-#: ../../../root/Default/templates/Default/component/search_parameters.tt:50 ../../../root/Default/templates/Default/component/toolbar.tt:166 ../../../root/Default/templates/Default/component/year_published.tt:19 ../../../root/Default/templates/Default/search_parameters.tt:50
+#: ../../../root/Default/templates/Default/component/full_toolbar.tt:166 ../../../root/Default/templates/Default/component/search_parameters.tt:50 ../../../root/Default/templates/Default/component/toolbar.tt:104 ../../../root/Default/templates/Default/component/year_published.tt:19 ../../../root/Default/templates/Default/search_parameters.tt:50
 msgid "to"
 msgstr "à"
