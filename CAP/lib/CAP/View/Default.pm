@@ -6,7 +6,9 @@ use base 'Catalyst::View::TT';
 
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
-    INCLUDE_PATH => [CAP->path_to('root/Default/templates/Default')],
+    #INCLUDE_PATH => [CAP->path_to('root/Default/templates/Default')],
+    #INCLUDE_PATH => [CAP->path_to('root', 'templates', 'Default', 'Default')],
+    RELATIVE => 1,
     WRAPPER => 'main.tt',
     FILTERS => {
         escape_js => sub { $_[0] =~ s/["\\]/\\$1/g; return $_[0]; },

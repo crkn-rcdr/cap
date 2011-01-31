@@ -54,15 +54,61 @@ sub xmlify
 sub begin :Private
 {
     my($self, $c) = @_;
+    my %params = ();
+    my %cookies = ();
 
-    unless ($c->config->{version} >= $CAP::VERSION) {
-        $c->res->body(
-            "Your cap.conf file is out of date. " .
-            "Check that you are using version of cap.conf.erb based on version $CAP::VERSION or later"
-        );
-        return 0;
+    # Capture and remove cookies and query parameters that relate to basic request
+    # behaviour and configuration. Parameters (but not cookies) are then
+    # deleted from the array.
+    foreach my $param (("fmt", "usrlang")) {
+        if ($c->req->params->{$param}) {
+            $params{$param} = $c->req->params->{$param};
+            delete($c->req->params->{$param});
+        }
+    }
+    foreach my $cookie (("usrlang")) {
+        if ($c->req->cookie($cookie)) {
+            $cookies{$cookie} = $c->req->cookie($cookie)->value;
+        }
     }
 
+    # Verify that the config file version is correct
+    unless ($c->config->{version} == $CAP::VERSION) {
+        $c->detach("config_error", ["cap.conf (or cap_local.conf) is out of date: version $CAP::VERSION is required"]);
+    }
+
+    # Set debug mode
+    if ($c->config->{debug}) {
+        $c->stash->{debug} = 1;
+    }
+
+    # Set the current view
+    if (! $c->config->{default_view}) {
+        $c->detach("config_error", ["default_view is not set"]);
+    }
+    if ($params{fmt}) {
+        if ($params{fmt} eq 'json') {
+            $c->stash->{current_view} = 'json'; # Builtin view
+        }
+        elsif ($params{fmt} eq 'xml') {
+            $c->stash->{current_view} = 'xml'; # Builtin view
+        }
+        elsif ($c->config->{views}->{$params{fmt}}) {
+            $c->stash->{current_view} = $c->config->{views}->{$params{fmt}};
+        }
+        else {
+            $c->stash->{current_view} = $c->config->{default_view};
+        }
+    }
+    else {
+        $c->stash->{current_view} = $c->config->{default_view};
+    }
+    
+
+
+    ####################################################################################################
+    # TODO: this should be deprecated
+    ####################################################################################################
     # Local configuration overrides for development installs
     if ($c->config->{override}) {
         my $config = $c->config;
@@ -70,43 +116,105 @@ sub begin :Private
         $config->{solr}->{select_url} = $override->{solr_select_url} if ($override->{solr_select_url});
         $config->{solr}->{update_url} = $override->{solr_update_url} if ($override->{solr_update_url});
     }
+    ####################################################################################################
 
-    # Determine which portal configuration to use
-    $c->forward('config_portal');
 
-    # Set the user interface language
-    my $lang = $c->forward('set_usrlang');
-    $c->stash->{lang} = $lang;
-    $c->languages([$lang]);
-    $c->res->cookies->{usrlang} = { value => $lang, expires => time() + 7776000 }; # Cookie expires in 90 days
-    $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
-
-    $c->stash('response' => {
-        request => "" . $c->req->{uri}, # need to stringify this
-        status => 200,
-        version => '0.2',
-    });
-
-    # The fmt parameter defines what view to use. There are two builtin
-    # views, and others can be defined in the config file. If no valid
-    # format is specified, the default view is used.
-    if ($c->req->params->{fmt}) {
-        my $view = $c->req->params->{fmt};
-        if ($view eq 'json') {
-            $c->stash->{current_view} = 'json';
-        }
-        elsif ($view eq 'xml') {
-            $c->stash->{current_view} = 'xml';
-        }
-        elsif ($c->config->{views}->{$view}) {
-            $c->stash->{current_view} = $c->config->{views}->{$view};
-        }
-        delete($c->req->params->{fmt});
+    # Verify that a default portal is set
+    if (! $c->config->{default_portal}) {
+        $c->detach("config_error", ["default_portal is not set"]);
     }
 
-    # Create a Solr object
-    $c->stash->{solr} = CAP::Solr->new($c->config->{solr}, $c->stash->{config}->{subset});
+    # Determine which portal configuration to use
+    my $portal;
+    if ($c->config->{portals} && $c->config->{portals}->{$c->req->base}) {
+        $c->stash->{portal} = $c->config->{portals}->{$c->req->base};
+    }
+    else {
+        $c->stash->{portal} = $c->config->{default_portal};
+    }
 
+    # Configure the portal
+    {
+        # Load and parse the config file
+        my $config_file;
+        my %portal;
+        $config_file = join("/", $c->config->{root}, "config", $c->stash->{portal} . ".conf");
+        if (! -f $config_file) {
+            $c->detach("config_error", ["Missing configuration file: $config_file"]);
+        }
+        else {
+            my $config;
+            eval { $config = Config::General->new( -ConfigFile => $config_file, -AutoTrue => 1, -UTF8 => 1) };
+            if ($@) {
+                $c->detach("config_error", ["Error loading $config_file: $@"]);
+            }
+            %portal = $config->getall;
+        }
+
+        # Determine whether the portal is enabled for access
+        if (! $portal{enabled}) {
+            $c->stash->{template} = 'disabled.tt';
+            $c->detach();
+        }
+
+        # Set the interface language. In order of preference, look for: a
+        # usrlang query parameter that explicitly sets the language; a
+        # usrlang cookie that remembers the last selected preference; the
+        # user agent's accept-language value; and finally the default
+        # language.
+        if (! $portal{default_lang}) {
+            $c->detach("config_error", ["default_lang is not set in $config_file"]);
+        }
+        if ($params{usrlang} && $portal{lang}->{$params{usrlang}}) {
+            $c->stash->{lang} = $params{usrlang};
+        }
+        elsif ($cookies{usrlang} && $portal{lang}->{$cookies{usrlang}}) {
+            $c->stash->{lang} = $cookies{usrlang};
+        }
+        elsif ($c->req->header('Accept-Language')) {
+            foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
+                my ($value) = split(';q=', $accept_lang);
+                if ($value) {
+                    $value = lc(substr($value, 0, 2));
+                    if ($portal{lang}->{$value}) {
+                        $c->stash->{lang} = $value;
+                        last;
+                    }
+                }
+            }
+        }
+        else {
+            $c->stash->{lang} = $portal{default_lang};
+        }
+
+        # Stash the portal name
+        $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};
+
+        # Stash a list of supported interface languages
+        $c->stash->{supported_langs} = [keys(%{$portal{lang}})];
+
+    }
+
+    # Set a cookie to remember the interface language.
+    $c->res->cookies->{usrlang} = { value => $c->stash->{lang}, expires => time() + 7776000 }; # Cookie expires in 90 days TODO: put in cap.conf?
+
+    # Set I18N information for the selected language.
+    $c->languages([$c->stash->{lang}]);
+
+    # Fetch a set of language-appropriate labels and tags.
+    $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
+
+    # Create a Solr object
+    $c->stash->{solr} = CAP::Solr->new($c->config->{solr_url}, $c->config->{solr}, $c->stash->{config}->{subset});
+
+    # Initialize the query response with default values. These may be
+    # added to or overwritten when a search query is executed.
+    $c->stash('response' => {
+        request => "" . $c->req->{uri}, # we need to prepend "" in order to force this to a string
+        status => 200,
+        version => '0.2', # TODO: this should be in cap.conf
+    });
+    
     # Clean up any expired sessions
     my $expired = $c->model('DB::Sessions')->remove_expired();
     warn("[debug] Cleaned up $expired expired sessions") if ($expired);
@@ -114,130 +222,12 @@ sub begin :Private
 }
 
 
-sub auto :Private
-{
-    my($self, $c) = @_;
-
-    # Check that the portal is enabled.
-    unless ($c->stash->{config}->{enabled}) {
-        $c->forward('error', [503, "portal disabled"]);
-        return 0;
-    }
-}
-
-#sub post : Chained('base') PathPart('post') Args(0)
-#{
-#    my($self, $c) = @_;
-#    my @parts = ();
-#    my $i = 0;
-#    while ($c->request->params->{$i}) {
-#        push(@parts, $c->request->params->{$i});
-#        $i += 1;
-#    }
-#    $c->response->redirect(join('/', @parts), 303);
-#}
-
 sub access_denied : Private
 {
     my($self, $c) = @_;
     warn("[debug] Access denied (insufficient privileges)") if ($c->config->{debug});
     $c->stash->{page} = $c->{stash}->{uri};
     $c->detach('error', [403, "NOACCESS"]);
-}
-
-sub set_usrlang : Private
-{
-    my($self, $c) = @_;
-    my $lang;
-
-    # Decide what user interface language to used based on the following
-    # criteria, in descending order of preference:
-
-    # Check for an explicit usrlang query parameter.
-    if ($c->req->params->{usrlang}) {
-        $lang = $c->req->params->{usrlang};
-        delete($c->req->params->{usrlang});
-        return $lang if ($c->stash->{config}->{lang}->{$lang});
-    }
-
-    # If a cookie is present and contains a supported language, use it.
-    if ($c->req->cookie('usrlang')) {
-        $lang = $c->req->cookie('usrlang')->value;
-        if ($c->stash->{config}->{lang}->{$lang}) {
-            return $lang;
-        }
-    }
-
-    # Override with the supported language with the highest q value from
-    # the Accept-Language header.
-    if ($c->req->header('Accept-Language')) {
-        my $lang_q = -1;
-        foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
-            my ($val, $q) = split(';q=', $accept_lang);
-            $q = 0 unless ($q);
-            $q = 1 if ($q && $q eq '');
-            if ($val) {
-                $val = lc(substr($val, 0, 2));
-                if ($c->stash->{config}->{lang}->{$val} && int($q) > $lang_q) {
-                    $lang = $val;
-                    $lang_q = int($q);
-                }
-            }
-        }
-        return $lang if ($lang_q != -1);
-    }
-
-    # Use the default language
-    return $c->stash->{config}->{default_lang};
-}
-
-# Read the portal configuration file and apply its characteristics.
-sub config_portal : Private
-{
-    my($self, $c) = @_;
-    my $portal;
-    my $config;
-
-    # Are we in debug mode?
-    $c->stash->{debug} = 1 if ($c->config->{debug});
-
-    # Determine which portal to configure based on the base URL.
-    if ($c->config->{portals}->{$c->req->base}) {
-        $portal = $c->config->{portals}->{$c->req->base};
-    }
-    else {
-        $portal = $c->config->{default_portal};
-    }
-
-    # Load the portal configuration from the config file. If no portal
-    # config file exists, return a not found error.
-    my $config_file = join('/', $c->config->{root}, $portal, 'portal.conf');
-    if (-f $config_file) {
-        warn("[debug] Reading config file \"$config_file\"\n") if ($c->config->{debug});
-        my $config_general;
-        eval { $config_general = Config::General->new( -ConfigFile => $config_file, -AutoTrue => 1, -UTF8 => 1) };
-        $c->detach('/error', [500, "Failed to parse $config_file"]) if ($@);
-        $config = { $config_general->getall };
-        $c->stash->{config} = $config;
-    }
-    else {
-        $c->detach('error', [404, "BADPORTAL"]); # Test this. Should probably die.
-    }
-
-    # Use defaults from cap.conf in cases where a corresponding value is
-    # not specified in the portal config file.
-    foreach my $item (qw(fmt  action)) {
-        $config->{$item} = {} unless (exists($config->{$item}));
-        if (exists($c->config->{$item})) {
-            while (my($key, $value) = each(%{$c->config->{$item}})) {
-                $config->{$item}->{$key} = $value unless (defined($config->{$item}->{$key}));
-            }
-        }
-    }
-
-    $c->stash->{config} = $config;
-    $c->stash->{portal} = $portal;
-    return $portal;
 }
 
 # The default action is to redirect back to the main page.
@@ -259,10 +249,7 @@ sub end : ActionClass('RenderView')
     # If the current view is set to one of the special cases 'xml' or
     # 'json', handle the output internally, bypassing the normal view
     # rendering.
-    if (! $c->stash->{current_view}) {
-        ;
-    }
-    elsif ($c->stash->{current_view} eq 'json') {
+    if ($c->stash->{current_view} eq 'json') {
         $c->res->content_type('application/json');
         $c->res->body(decode_utf8(to_json($c->stash->{response}, { utf8 => 1, pretty => 1 })));
         return 1;
@@ -288,19 +275,25 @@ sub end : ActionClass('RenderView')
     }
 
     # If no template is defined, use the default.
-    if (! $c->stash->{template}) {
-        $c->stash->{template} = "default.tt";
-    }
+#    if (! $c->stash->{template}) {
+#        $c->stash->{template} = "default.tt";
+#    }
 
     # In addition to the default template path, prepend additional paths
     # based on the portal name and the current view
-    if ($c->stash->{portal}) {
-        $c->stash->{additional_template_paths} = [ 
-            join('/', $c->config->{root}, $c->stash->{portal}, "templates", $c->stash->{current_view}), 
-            join('/', $c->config->{root}, "Default", "templates", $c->stash->{current_view}), 
-            join('/', $c->config->{root}, $c->stash->{portal}, "templates", 'Default')
-        ];
-    }
+#    if ($c->stash->{portal}) {
+#        $c->stash->{additional_template_paths} = [ 
+#            join('/', $c->config->{root}, $c->stash->{portal}, "templates", $c->stash->{current_view}), 
+#            join('/', $c->config->{root}, "Default", "templates", $c->stash->{current_view}), 
+#            join('/', $c->config->{root}, $c->stash->{portal}, "templates", 'Default')
+#        ];
+#   
+
+    #$c->stash->{additional_template_paths} = [ join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Default') ];
+    $c->stash->{additional_template_paths} = [
+        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->stash->{portal}),
+        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
+    ];
 
     return 1;
 }
@@ -370,25 +363,7 @@ sub object :Path('obj') Args(1) {
     return $c->forward('object/main', [$key]);
 }
 
-sub static : Path('static') Args()
-{
-    my($self, $c, @path) = @_;
-    my $file = join('/', $c->config->{root}, $c->stash->{portal}, 'static', @path);
-    my $default_file = join('/', $c->config->{root}, 'Default', 'static', @path);
-
-    if (-f $file) {
-        $c->serve_static_file($file);
-    }
-    elsif (-f $default_file) {
-        $c->serve_static_file($default_file);
-    }
-    else {
-        $c->detach('error', [404, $file]);
-    }
-
-    return 1;
-}
-
+# TODO: this should be removed and favicon handling should be smarter.
 sub favicon :Path('favicon.ico') Args(0)
 {
     my($self, $c) = @_;
@@ -399,6 +374,33 @@ sub test_error :Path('error') Args(1)
 {
     my($self, $c, $error) = @_;
     $c->detach('error', [$error, 'Test error']);
+}
+
+# Generate a basic system error message. This action is intended to catch
+# serious system misconfigurations that cannot or should not be handled
+# using the templating system.
+sub config_error :Private
+{
+    my($self, $c, $message) = @_;
+    $c->res->status(500);
+    $c->res->body("<html><head><title>Configuration Error</title><body><h1>Configuration Error</h1><p>$message</p></body></html>");
+    return 0;
+}
+
+# Serve a file in the static directory under root. In production, requests
+# for /static should be intercepted and handled by the web server.
+sub static : Path('static') Args()
+{
+    my($self, $c, @path) = @_;
+    my $file = join('/', $c->config->{root}, 'static', @path);
+
+    if (-f $file) {
+        $c->serve_static_file($file);
+    }
+    else {
+        $c->detach('error', [404, $file]);
+    }
+    return 1;
 }
 
 1;

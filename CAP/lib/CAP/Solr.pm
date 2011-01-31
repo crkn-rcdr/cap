@@ -19,7 +19,7 @@ CAP::Solr - Solr interface for CAP
 # Create a new Solr object.
 sub new
 {
-    my($self, $config, $subset) = @_;
+    my($self, $url, $config, $subset) = @_;
     my $solr = {};
 
     # Initialize internal metrics and debugging information.
@@ -35,9 +35,7 @@ sub new
     # Configure the Solr object
     #
     
-    # URLs for select and update requests.
-    $solr->{select_url} = $config->{select_url};
-    $solr->{update_url} = $config->{update_url};
+    $solr->{url} = $url;
 
     # Default Solr parameters. We need to restore true/false values to
     # boolean string values for a couple parameters.
@@ -508,7 +506,7 @@ sub solr_query
     }
 
     # Run the query
-    my $request = HTTP::Request->new(GET => join("?", $self->{select_url}, join('&', @query_params)));
+    my $request = HTTP::Request->new(GET => join("?", $self->{url}, join('&', @query_params)));
     my $http_response = $self->{agent}->request($request);
     return undef unless ($http_response->is_success);
     my $response = $http_response->content;
