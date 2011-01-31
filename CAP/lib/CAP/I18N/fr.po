@@ -229,7 +229,7 @@ msgstr "Nom d’utilisateur ou mot de passe manquant"
 
 #: ../../../root/Default/templates/Default/component/rlist.tt:108
 msgid "More about this item ..."
-msgstr ""
+msgstr "Autres information sur ce document..."
 
 #: ../../../root/Default/templates/Default/component/record.tt:57
 msgid "More detail"
@@ -274,7 +274,7 @@ msgstr "Page non trouvée"
 
 #: ../../../root/Default/templates/Default/component/object_parent.tt:2 ../../../root/Default/templates/Default/component/rlist.tt:69
 msgid "Part of"
-msgstr ""
+msgstr "Fait partie de :"
 
 #: ../../../root/Default/templates/Default/login.tt:29
 msgid "Password"
@@ -338,7 +338,7 @@ msgstr "Recherche dans la collection"
 #. (childcount, childtypes.join(childjoin)
 #: ../../../root/Default/templates/Default/component/object_subsearch.tt:16
 msgid "Search this item's %1 %2"
-msgstr ""
+msgstr "Effectuer une recherche dans les %1 %2 de ce document"
 
 #. (response.item.counts.gpages)
 #: ../../../root/Default/templates/Default/component/subsearch.tt:9
