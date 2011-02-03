@@ -5,11 +5,8 @@
 
 [% USE XML.Escape; %]
 
-[%  # Dojo toolkit block %]
-
       
 [% # No Javascript block %]
-    <noscript>
     <p>
     <form method="GET" action="">
           [% FOREACH param IN c.req.params.pairs %]
@@ -31,4 +28,3 @@
           </button>          
     </form>
     </p>      
-    </noscript>

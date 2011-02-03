@@ -3,119 +3,129 @@
      
 <script type="text/javascript">
 
-    var facet_object = {
+     var facet_object = {
 
-        identifier: 'id',
+         identifier: 'id',
+         label: 'name',
+         items: []
 
-        label: 'name',
+    }
 
-        items: []
+    var facet_name;
+    var new_item;
 
-   }
-   var facet_name;
-   var new_item;
+    //language tree
+    facet_name = '[% c.loc("Language") %]';
+    new_item = {
+                   id: facet_name,
+                   name: facet_name,
+                   type: 'category',
+                   children: []
+    }
 
-//language tree
-        facet_name = '[% c.loc("Language") %]';
-        new_item = {
-                       id: facet_name,
-                       name: facet_name,
-                       type: 'category',
-                       children: []
-        }
+    [% IF c.req.params.lang; %]
+        new_child = {
+                     id: 'any_language',
+                     name: '[% c.loc('any') | xml_escape %]',
+                     type: 'language',
+                     url: '[% c.uri_for_action('search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]'
+        };
+        new_item.children.push(new_child);
+        facet_object.items.push(new_item);
 
-        [% IF c.req.params.lang; %]
+    [% ELSE %]
+
+        [% FOREACH facet IN response.facet.lang %]
+            [% SET LANGNAME = label.lang.${facet.name}  %]
             new_child = {
-                         id: 'any_language',
-                         name: '[% c.loc('any') | xml_escape %]',
+                         id: '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                         name: '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
                          type: 'language',
                          url: '[% c.uri_for_action('search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]'
             };
             new_item.children.push(new_child);
-
-        [% ELSE %]
-
-            [% FOREACH facet IN response.facet.lang %]
-                [% SET LANGNAME = label.lang.${facet.name}  %]
-                new_child = {
-                             id: '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
-                             name: '[% LANGNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
-                             type: 'language',
-                             url: '[% c.uri_for_action('search', refine(c.req.params, { lang => facet.name }))  | replace("'","\\'") %]'
-                };
-                new_item.children.push(new_child);
-            [% END %]
-
         [% END %]
+
+        if (new_item.children.length > 1 ) {
+            facet_object.items.push(new_item);
+        }
+    [% END %]
+
+    //media tree
+    facet_name = '[% c.loc("Media") %]';
+    new_item = {
+                   id: facet_name,
+                   name: facet_name,
+                   type: 'category',
+                   children: []
+    }
+
+    [% IF c.req.params.media; %]
+        new_child = {
+                     id: 'any_media',
+                     name: '[% c.loc('any') | xml_escape %]',
+                     type: 'media',
+                     url: '[% c.uri_for_action('search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]'
+        };
+        new_item.children.push(new_child);
         facet_object.items.push(new_item);
 
-//media tree
-        facet_name = '[% c.loc("Media") %]';
-        new_item = {
-                       id: facet_name,
-                       name: facet_name,
-                       type: 'category',
-                       children: []
-        }
+    [% ELSE %]
 
-        [% IF c.req.params.media; %]
+        [% FOREACH facet IN response.facet.media %]
+            [% SET MEDIANAME = label.media.${facet.name}  %]
             new_child = {
-                         id: 'any_media',
-                         name: '[% c.loc('any') | xml_escape %]',
+                         id: '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                         name: '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
                          type: 'media',
                          url: '[% c.uri_for_action('search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]'
-            };
+             };
             new_item.children.push(new_child);
-
-        [% ELSE %]
-
-            [% FOREACH facet IN response.facet.media %]
-                [% SET MEDIANAME = label.media.${facet.name}  %]
-                new_child = {
-                             id: '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
-                             name: '[% MEDIANAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
-                             type: 'media',
-                             url: '[% c.uri_for_action('search', refine(c.req.params, { media => facet.name }))  | replace("'","\\'") %]'
-                 };
-                new_item.children.push(new_child);
-            [% END %]
-
         [% END %]
-        facet_object.items.push(new_item);
 
-//contributor tree
-        facet_name = '[% c.loc("Contributor") %]';
-        new_item = {
-                       id: facet_name,
-                       name: facet_name,
-                       type: 'category',
-                       children: []
+        if (new_item.children.length > 1 ) {
+            facet_object.items.push(new_item);
         }
 
-        [% IF c.req.params.contributor; %]
+    [% END %]
+
+    //contributor tree
+    facet_name = '[% c.loc("Contributor") %]';
+    new_item = {
+                   id: facet_name,
+                   name: facet_name,
+                   type: 'category',
+                   children: []
+    }
+
+    [% IF c.req.params.contributor; %]
+        new_child = {
+                     id: 'any_contributor',
+                     name: '[% c.loc('any') | xml_escape %]',
+                     type: 'contributor',
+                     url: '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]'
+        };
+        new_item.children.push(new_child);
+        facet_object.items.push(new_item);
+
+    [% ELSE %]
+
+        [% FOREACH facet IN response.facet.contributor %]
+            [% SET CONTRIBUTORNAME = label.contributor.${facet.name}  %]
             new_child = {
-                         id: 'any_contributor',
-                         name: '[% c.loc('any') | xml_escape %]',
+                         id: '[% CONTRIBUTORNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
+                         name: '[% CONTRIBUTORNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
                          type: 'contributor',
                          url: '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]'
             };
             new_item.children.push(new_child);
-
-        [% ELSE %]
-
-            [% FOREACH facet IN response.facet.contributor %]
-                [% SET CONTRIBUTORNAME = label.contributor.${facet.name}  %]
-                new_child = {
-                             id: '[% CONTRIBUTORNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
-                             name: '[% CONTRIBUTORNAME FILTER remove("\n") | replace("'","\\'") %] ([% facet.count %])',
-                             type: 'contributor',
-                             url: '[% c.uri_for_action('search', refine(c.req.params, { contributor => facet.name }))  | replace("'","\\'") %]'
-                };
-                new_item.children.push(new_child);
-            [% END %]
-
         [% END %]
-        facet_object.items.push(new_item);
+
+        if (new_item.children.length > 1 ) {
+            facet_object.items.push(new_item);
+        }
+
+    [% END %]
 
 </script>
  

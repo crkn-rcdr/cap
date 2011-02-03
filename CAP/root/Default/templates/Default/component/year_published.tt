@@ -1,24 +1,24 @@
 ﻿﻿[% # Button that pops up date range search %]
 
 [% USE XML.Escape; %]
-[% MACRO search_query(ignore) INCLUDE macro/search_query.tt %]
-
 
 
         [% # No JavaScript block %]
-        <div class="noscript_daterange">
-        <noscript>
-	  
+
+
+	<div class="noscript_daterange">
         <form method="GET">
           [% search_query(['df','dt']) %]
             <p>[% c.loc("Limit by date range:") %]&#160;&#160;
-          <input id="fromDate"
+          <input id="fromDateNS"
                  type="text"
+                 size="4"
                  name="df"
                  value="[% response.result.pubmin_year | xml_escape %]">
           &#160;&#160;[% c.loc("to") %]:&#160;&#160;
-          <input id="toDate"
+          <input id="toDateNS"
                  type="text"
+                 size="4"
                  name="dt"
                  value='[% response.result.pubmax_year | xml_escape %]'>&#160;&#160;
           <button type="submit">
@@ -27,7 +27,7 @@
           </p>
         </form>
 
-	  
-        </noscript>
-        </div>
+	</div>
+
+
 

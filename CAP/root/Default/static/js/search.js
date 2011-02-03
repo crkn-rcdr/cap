@@ -26,14 +26,13 @@ dojo.addOnLoad(function() {
             var border_container = new dijit.layout.BorderContainer({
                 design: "headline",
                 gutters: false,
-                liveSplitters: false,
+                liveSplitters: false
             },
 	    "border_container");   
 
              var top_pane = new dijit.layout.ContentPane({
-                style: "width: 100%;height: 159px;",
                 splitter: false,
-                region: "top",
+                region: "top"
             },
             "header_pane"
             );
@@ -41,17 +40,15 @@ dojo.addOnLoad(function() {
 
             var left_pane = new dijit.layout.ContentPane({
                 //href: "test_content.html",
-                style: "width: 3%;",
                 splitter: false,
-                region: "left",
+                region: "left"
             },
             "content_pane"
             );
             
             var results_pane = new dijit.layout.ContentPane({
-                style: "width: 25%;",
                 splitter: false,
-                region: "center",
+                region: "center"
             },
             "tree_pane"
             );
@@ -59,9 +56,8 @@ dojo.addOnLoad(function() {
             var document_pane= new dijit.layout.ContentPane({
                 // content: "<p>Document Pane<\/p>",
                 // minsize: '400';
-                style: "width: 70%",
                 splitter: false,
-                region: "right",
+                region: "right"
             },
             "results_pane"
             );
@@ -70,9 +66,8 @@ dojo.addOnLoad(function() {
 
             
             var bottom_pane = new dijit.layout.ContentPane({
-                style: "width: 100%;z-index:1000",
                 splitter: false,
-                region: "bottom",
+                region: "bottom"
             },
             "footer_pane"
             );

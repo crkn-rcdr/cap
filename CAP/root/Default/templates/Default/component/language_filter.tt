@@ -1,12 +1,7 @@
 ﻿[% USE XML.Escape; %]
 
-
-[% # Dojo dropdown menu button %]
-    
-    <script type="text/javascript">include_language = 1;</script>
-
 [% # No JavaScript block %]
-    <noscript>
+
           <p>
           <form method="get" action="[% c.uri_for(root, 'search') %]">
           [% search_query('lang') %]
@@ -19,4 +14,4 @@
             <button type="submit">[% c.loc("Search") %]</button>
           </form>
           </p>
-    </noscript>
+

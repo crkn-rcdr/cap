@@ -21,10 +21,31 @@ body {
 }
 
 #border_container {
-    
    width: 100%;
-   height: 100%
-   
+   height: 100%;
+}
+
+#header_pane {
+   width: 100%;
+   height: 159px;
+}
+
+#content_pane {
+   width: 3%;
+}
+
+#tree_pane {
+   width: 25%;
+   padding-bottom: 20px;
+}
+
+#results_pane {
+   width: 72%;
+}
+
+#footer_pane {
+   width: 100%;
+   z-index: 1000;
 }
 
 h1 {

@@ -1,8 +1,5 @@
 ﻿[% USE XML.Escape; %]
 
-<div id="media_button_container"></div>
-[% # Dojo dropdown menu button %]
-             <script type="text/javascript">include_medium = 1;</script>
 [% # No JavaScript block %]
     <noscript>
       <p>
@@ -17,4 +14,4 @@
         <button type="submit">[% c.loc("Search") %]</button>
       </form>
       </p>
-    </noscript>
+

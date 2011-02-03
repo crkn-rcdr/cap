@@ -24,7 +24,7 @@
       var CAP = {
         base_uri : "[% c.req.base | xml_escape %][% c.req.path | xml_escape %]",
         icon_expand : "[% c.uri_for_action('static', 'widgets', 'expand.png') %]",
-        icon_collapse : "[% c.uri_for_action('static', 'widgets', 'collapse.png') %]",
+        icon_collapse : "[% c.uri_for_action('static', 'widgets', 'collapse.png') %]"
       }
     </script>
     <script type="text/javascript" src="[% c.uri_for_action('static', 'dojo', 'dojo', 'dojo.js') %]" djConfig="parseOnLoad: true">1;</script>

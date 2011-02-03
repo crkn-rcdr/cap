@@ -13,6 +13,37 @@
     </div>
     <div id="tree_pane">
         <div id="facet_tree"></div>
+        <noscript>
+     [%
+         # Sort order: only display when not showing grouped results
+         INCLUDE component/sort_order_button.tt;
+
+         # Filter results by language
+         IF c.req.params.lang;
+             INCLUDE component/any_language.tt;
+         ELSIF response.facet.lang.size > 1;
+             INCLUDE component/language_filter.tt;
+         END;
+         
+         # Filter by media type
+         IF c.req.params.media;
+             INCLUDE component/any_medium.tt;
+         ELSIF response.facet.media.size > 1;
+             INCLUDE component/media_filter.tt;
+         END;
+    
+         # Filter by contributor
+         IF c.req.params.contributor;
+             INCLUDE component/any_contrib.tt;
+         ELSIF response.facet.contributor.size > 1;
+             INCLUDE component/contrib_filter.tt;
+         END;
+    
+         # Limit results by publication date
+         INCLUDE component/year_published.tt;
+ 
+    %]
+           </noscript>
     </div>
     <div id="results_pane">
     [%
