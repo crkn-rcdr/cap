@@ -1,7 +1,6 @@
 ﻿[% USE XML.Escape; %]
 
 [% # No JavaScript block %]
-    <noscript>
           <p>
           <form method="get" action="[% c.uri_for(root, 'search') %]">
           [% search_query('lang') %]
