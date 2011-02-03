@@ -1,0 +1,21 @@
+# You can specify any number of top-level components or variables here and
+# their values will replace those in cap.conf. If you specify a component,
+# it will completely clobber the existing component, so you must re-define
+# it completely.
+
+root /Users/william/Projects/cap-root
+
+debug = true
+
+default_portal co
+
+<Component Model::DB>
+    schema_class = CAP::Schema
+    <connect_info>
+        dsn      = dbi:mysql:cap
+        user     = cap
+        password = ""
+    </connect_info>
+</Component>
+
+solr_url http://dev.cihm:8983/solr/select
