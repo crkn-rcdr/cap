@@ -3,9 +3,9 @@
 # it will completely clobber the existing component, so you must re-define
 # it completely.
 
-root /Users/william/Projects/cap-root
+root <%= cap_root %>
 
-debug = true
+debug = false
 
 default_portal co
 
@@ -18,4 +18,4 @@ default_portal co
     </connect_info>
 </Component>
 
-solr_url http://dev.cihm:8983/solr/select
+solr_url http://localhost:8983/solr/select
