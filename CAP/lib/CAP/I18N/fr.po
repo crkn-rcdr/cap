@@ -229,7 +229,7 @@ msgstr "Nom d’utilisateur ou mot de passe manquant"
 
 #: ../../../root/Default/templates/Default/component/rlist.tt:108
 msgid "More about this item ..."
-msgstr "Autres information sur ce document..."
+msgstr "Autres informations sur ce document..."
 
 #: ../../../root/Default/templates/Default/component/record.tt:57
 msgid "More detail"

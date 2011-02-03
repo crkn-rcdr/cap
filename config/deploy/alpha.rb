@@ -3,8 +3,8 @@
 
 role :appservers, "asiago.cihm", "brie.cihm"
 
-set :select_uri, "http://localhost:8989/solr/select"
-set :update_uri, "http://localhost:8989/solr/update"
+set :select_uri, "http://localhost:8983/solr/select"
+set :update_uri, "http://localhost:8983/solr/update"
 
 set :deploy_to, "/opt/cap-alpha/cap"
 set :app_var, "/opt/cap-alpha/cap-var"

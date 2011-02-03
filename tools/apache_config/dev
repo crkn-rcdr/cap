@@ -4,7 +4,7 @@
 
     ServerAdmin webmaster@canadiana.ca
 
-    DocumentRoot /opt/cap-dev/cap/current/CAP
+    DocumentRoot /opt/cap/current/CAP
 
     <Directory />
         Options FollowSymLinks
@@ -45,7 +45,7 @@
 
 
 
-    AliasMatch       /root/(.*)/static/(.*)        /opt/cap-dev/cap/current/CAP/root/$1/static/$2
+    AliasMatch       /root/(.*)/static/(.*)        /opt/cap/current/CAP/root/$1/static/$2
     Alias        /     /tmp/dev.fcgi/
 
 

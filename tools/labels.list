@@ -15,13 +15,16 @@
 # Blank lines and lines beginning with '#' are ignored.
 
 # Contributors - English
+contributor:ac:en:Calgary Public Library
 contributor:aeu:en:University of Alberta
 contributor:alouette:en:Alouette Canada
 contributor:bva:en:Vancouver Public Library
 contributor:bvau:en:University of British Columbia
+contributor:manitobia:en:Manitobia
 contributor:mun:en:Memorial University
 contributor:oocihm:en:Canadiana.org
 contributor:ooe:en:Foreign Affairs and International Trade Canada
+contributor:oong:en:National Gallery of Canada
 contributor:okq:en:Queen's University
 contributor:oonl:en:Library and Archives Canada
 contributor:otp:en:Toronto Public Library
@@ -31,13 +34,16 @@ contributor:sfu:en:Simon Fraser University
 contributor:ssu:en:University of Saskatchewan
 
 # Contributors - French
+contributor:ac:fr:Calgary Public Library
 contributor:aeu:fr:University of Alberta
 contributor:alouette:fr:Alouette Canada
 contributor:bva:fr:Vancouver Public Library
 contributor:bvau:fr:University of British Columbia
+contributor:manitobia:fr:Manitobia
 contributor:mun:fr:Memorial University
 contributor:oocihm:fr:Canadiana.org
 contributor:ooe:fr:Affaires étrangères et Commerce international Canada
+contributor:oong:fr:Musée des beaux-arts du Canada
 contributor:okq:fr:Queen's University
 contributor:oonl:fr:Bibliothèque et Archives Canada
 contributor:otp:fr:Toronto Public Library

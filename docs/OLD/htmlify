@@ -1,7 +1,0 @@
-#!/bin/sh
-
-for pod in *.pod; do
-    html=$(basename $pod .pod).html
-    echo "HTMLifying $pod"
-    pod2html --infile=$pod --outfile=html/$html
-done
