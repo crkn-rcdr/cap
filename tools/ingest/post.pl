@@ -1,18 +1,8 @@
 #!/usr/bin/perl
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+
+# Post one or more Solr XML files to a Solr index.
+# By default, data will be posted to http://localhost:8983/solr/update.
+# Use the -solr parameter to specify a different URL.
 
 use strict;
 use warnings;
@@ -33,8 +23,7 @@ use CAP::Ingest;
 
 
 my $prog = basename($0);
-my $usage = "Usage: $prog --conf CONFIG_FILE [FILE...]";
-my $conf_file;
+my $usage = "Usage: $prog [-verbose] [-solr=SOLR_URL] [FILE...]\n";
 my $use_cmr;
 my $verbose;
 my $do_ingest;
@@ -44,25 +33,17 @@ my $err_log = "/tmp/ingest.log";
 
 open my $err_out, '>', $err_log or croak "Couldn't open '$err_log': $!";
 
+my $solr_uri = 'http://localhost:8983/solr/update';
+
 GetOptions(
-    'conf=s' => \$conf_file,
-    'cmr' => \$use_cmr,
+    #'cmr' => \$use_cmr,
     'verbose' => \$verbose,
-    'ingest' => \$do_ingest,
-    'contributor=s' => \$contributor,
+    #'ingest' => \$do_ingest,
+    #'contributor=s' => \$contributor,
+    'solr=s' => \$solr_uri,
 ) or die ($usage);
 
-die ($usage) unless($conf_file);
-
-my $conf = new Config::General(
-    -ConfigFile => $conf_file,
-    );
-
-my %config = $conf->getall;
-
-my $solr_uri=$config{'solr'}->{'update_url'};
-
-
+warn("Posting records to $solr_uri (use the -solr parameter to specify a different URL)\n");
 
 if($use_cmr) {
     my %counts = ( files => 0, ok => 0, fail => 0 );
@@ -87,36 +68,9 @@ if($use_cmr) {
             #print "Caught Error: ".Dumper($@);
         }
         else {
-            #my $message = `$solr_cmd`;
-            #print $message;
             my $userAgent = LWP::UserAgent->new(agent=>'perl post');
             my $response = $userAgent->request(POST $solr_uri, Content_Type=>'text/xml', Content=>$message);
-            if ($do_ingest && $response->is_success) {
-                #get ingest list from file
-                my $repos=$config{'content'};
-                my $ingest = new Ingest($repos);
-                my $parser = XML::LibXML->new();
-                my $tree=$parser->parse_file($file);
-                my $root=$tree->getDocumentElement;
-                my @downloads;
-                push(@downloads, $root->findnodes('//resource/canonicalDownload'));
-                push(@downloads, $root->findnodes('//resource/canonicalMaster'));
-                foreach my $download (@downloads) {
-                    my $download_file=$download->findvalue('.');
-                    if ( -e "$dirname/files/$download_file") {
-                        my $fqfn=$ingest->ingest_file("$dirname/files/$download_file", $contributor);
-                        if ($verbose) { print "ingested: $fqfn\n" };
-                        ++$counts{ok};
-                    }
-                    else {
-                        print "FAIL: did not ingest expected file";
-                        ++$counts{fail};
-                    }
-                }
-
-
-            }
-            elsif ($response->is_success) {
+            if ($response->is_success) {
                 if ( $verbose) {print "SUCCESSFUL POST: $file\n"; };
                 ++$counts{ok};
             }

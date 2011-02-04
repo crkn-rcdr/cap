@@ -1,9 +1,0 @@
-﻿<div class="banner_container" style="background-color:#e6e0da;margin-bottom:10px;">
-  <div id="topNav" style="background:none;">
-      <p>
-        [% IF iface != 'fr' %]<a href="[% c.uri_for('/', portal, 'fr', uri_tail, c.req.params) | xml_escape %]">Français</a>[% END %]
-        [% IF iface != 'en' %]<a href="[% c.uri_for('/', portal, 'en', uri_tail, c.req.params) | xml_escape %]">English</a>[% END %]
-      </p>
-  </div>
-  <div class="banner_logo" style="height:80px;width:100%;background-repeat:no-repeat;background-image:url([% c.uri_for(root,'static','images', "logoSubECO_${iface}.png")|xml_escape%])"></div>
-</div>
