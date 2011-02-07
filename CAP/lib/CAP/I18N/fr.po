@@ -14,555 +14,556 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. (doc.label sibling_count)
-#: ../../../root/eco/templates/Default/view.tt:11
+#:
 msgid "%1 - %2 pages"
 msgstr "%1 - %2 pages"
 
-#. (label(response.item)
-#: ../../../root/dfait/templates/Default/view.tt:18
+#:
 msgid "%1 : %2 pages"
 msgstr "%1 : %2 pages"
 
 #. (response.item.counts.issues)
-#: ../../../root/Default/templates/Default/view.tt:55
+#: /Users/william/Projects/cap-root//templates/Default/co/view.tt:55
 msgid "%1 issues available"
 msgstr "%1 numéros disponibles"
 
-#. (item.doc.hits)
-#: ../../../root/dfait/templates/Default/component/rlist.tt:26
+#:
 msgid "%1 matching pages"
 msgstr "%1 pages correspondantes"
 
-#. (result.hits)
-#: ../../../root/eco/templates/Default/component/results.tt:18
+#:
 msgid "%1 results"
 msgstr "%1 résultats"
 
 #. (response.result.hits)
-#: ../../../root/Default/templates/Default/component/results.tt:17 ../../../root/Default/templates/Default/component/search_parameters.tt:28 ../../../root/Default/templates/Default/search_parameters.tt:28
+#: /Users/william/Projects/cap-root//templates/Default/co/component/results.tt:17 /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:28 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:28
 msgid "%1 results for"
 msgstr "%1 résultats pour"
 
-#: ../../../root/eco/templates/Default/component/results.tt:16
+#:
 msgid "1 result"
 msgstr "1 résultat"
 
-#: ../../../root/Default/templates/Default/component/results.tt:15 ../../../root/Default/templates/Default/component/search_parameters.tt:26 ../../../root/Default/templates/Default/search_parameters.tt:26
+#: /Users/william/Projects/cap-root//templates/Default/co/component/results.tt:15 /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:26 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:26
 msgid "1 result for"
 msgstr "1 résultat pour"
 
-#: ../../../root/Default/templates/Default/component/footer.tt:10
+#: /Users/william/Projects/cap-root//templates/Default/co/component/footer.tt:10
 msgid "About Canadiana Discovery Portal"
 msgstr "À propos du Portail de recherche de Canadiana"
 
-#: ../../../root/Default/templates/Default/component/footer.tt:8
+#: /Users/william/Projects/cap-root//templates/Default/co/component/footer.tt:8
 msgid "About Canadiana.org"
 msgstr "À propos de Canadiana.org"
 
-#: ../../../root/Default/templates/Default/error.tt:17
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:17
 msgid "Access Restricted"
 msgstr "Accès restreint"
 
-#: ../../../root/Default/templates/Default/error.tt:35
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:35
 msgid "Additional Debugging Information"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/index.tt:28
+#: /Users/william/Projects/cap-root//templates/Default/co/index.tt:35
 msgid "Advanced search"
 msgstr "Recherche avancée"
 
-#: ../../../root/dfait/templates/Default/component/footer.tt:11
+#:
 msgid "All content copyright © Foreign Affairs and International Trade"
 msgstr "Tous droits réservés © Affaires étrangères et Commerce international"
 
 #. (recordtype(item.doc.type)
-#: ../../../root/Default/templates/Default/component/rlist.tt:81
+#: /Users/william/Projects/cap-root//templates/Default/co/component/rlist.tt:81
 msgid "All matching %1 from: %2"
 msgstr "Tous les résultats correspondant à %1 de %2"
 
-#: ../../../root/Default/templates/Default/object.tt:12 ../../../root/Default/templates/Default/view.tt:23
+#: /Users/william/Projects/cap-root//templates/Default/co/object.tt:12 /Users/william/Projects/cap-root//templates/Default/co/view.tt:23
 msgid "Back to search results"
 msgstr "Retour à la page des résultats"
 
-#: ../../../root/Default/templates/Default/error.tt:11
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:11
 msgid "Bad Request"
 msgstr "Requête inadéquate"
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:73 ../../../root/dfait/templates/Default/index.tt:84
+#:
 msgid "Browse"
 msgstr "Parcourir"
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:44 ../../../root/dfait/templates/Default/index-dijit.tt:47 ../../../root/dfait/templates/Default/index.tt:44 ../../../root/dfait/templates/Default/index.tt:47
+#:
 msgid "Browse by title"
 msgstr "Parcourir par titre"
 
-#: ../../../root/eco/templates/Default/main.tt:29
-msgid "CAP"
-msgstr ""
-
-#: ../../../root/dfait/templates/Default/component/page.tt:17
+#:
 msgid "Click here if your browser does not automatically redirect you"
 msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 
-#: ../../../root/Default/templates/Default/component/footer.tt:9
+#: /Users/william/Projects/cap-root//templates/Default/co/component/footer.tt:9
 msgid "Collection Contributors"
 msgstr "Organisations collaboratrices"
 
-#: ../../../root/Default/templates/Default/index.tt:30 ../../../root/Default/templates/Default/index.tt:32 ../../../root/Default/templates/Default/index.tt:34
+#: /Users/william/Projects/cap-root//templates/Default/co/index.tt:37 /Users/william/Projects/cap-root//templates/Default/co/index.tt:39 /Users/william/Projects/cap-root//templates/Default/co/index.tt:41
 msgid "Collection contributors"
 msgstr "Organisations collaboratrices"
 
-#: ../../../root/Default/templates/Default/component/facet_data.tt:73 ../../../root/Default/templates/Default/component/full_toolbar.tt:114 ../../../root/Default/templates/Dojo/facet.tt:26
+#: /Users/william/Projects/cap-root//templates/Default/co/component/facet_data.tt:93 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:114
 msgid "Contributor"
 msgstr "Collaborateur"
 
 #. (2010)
-#: ../../../root/Default/templates/Default/component/footer.tt:13
+#: /Users/william/Projects/cap-root//templates/Default/co/component/footer.tt:13
 msgid "Copyright © Canadiana.org %1"
 msgstr "© Canadiana.org %1"
 
-#: ../../../root/Default/templates/Default/component/footer.tt:11
+#: /Users/william/Projects/cap-root//templates/Default/co/component/footer.tt:11
 msgid "Corporate"
 msgstr "Enterprises"
 
-#: ../../../root/Default/templates/Default/component/date_range_button.tt:6 ../../../root/Default/templates/Default/component/full_toolbar.tt:140 ../../../root/Default/templates/Default/component/toolbar.tt:78
+#: /Users/william/Projects/cap-root//templates/Default/co/component/date_range_button.tt:6 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:140 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:50
 msgid "Date Range"
 msgstr "Année(s)"
 
-#: ../../../root/dfait/templates/Default/component/navigation.tt:37
+#:
 msgid "Download PDF"
 msgstr "Télécharger PDF"
 
-#: ../../../root/Default/templates/Default/component/object_embed.tt:5 ../../../root/Default/templates/Default/view.tt:37
+#: /Users/william/Projects/cap-root//templates/Default/co/component/object_embed.tt:5 /Users/william/Projects/cap-root//templates/Default/co/view.tt:37
 msgid "Download image:"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/component/language_button.tt:13 ../../../root/Default/templates/Default/component/language_button.tt:33 ../../../root/Default/templates/Default/component/search.tt:34 ../../../root/Default/templates/Default/index.tt:76 ../../../root/dfait/templates/Default/index-dijit.tt:63 ../../../root/dfait/templates/Default/index.tt:72
+#: /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:13 /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:33 /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:34 /Users/william/Projects/cap-root//templates/Default/co/index.tt:83
 msgid "English"
 msgstr "Anglais"
 
-#: ../../../root/Default/templates/Default/error.tt:26
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:26
 msgid "Error"
 msgstr "Erreur"
 
 #. (error)
-#: ../../../root/Default/templates/Default/error.tt:37
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:37
 msgid "Error:"
 msgstr "Erreur :"
 
 # Contributor names - bilingual
-#: ../../../root/Default/templates/Default/index.tt:94
+#: /Users/william/Projects/cap-root//templates/Default/co/index.tt:101
 msgid "Foreign Affairs and International Trade"
 msgstr "Affaires étrangers et Commerce international"
 
-#: ../../../root/Default/templates/Default/component/language_button.tt:16 ../../../root/Default/templates/Default/component/language_button.tt:34 ../../../root/Default/templates/Default/component/search.tt:35 ../../../root/Default/templates/Default/index.tt:80 ../../../root/dfait/templates/Default/index-dijit.tt:64 ../../../root/dfait/templates/Default/index.tt:73
+#: /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:16 /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:34 /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:35 /Users/william/Projects/cap-root//templates/Default/co/index.tt:87
 msgid "French"
 msgstr "Français"
 
 #. (label.contributor.${response.doc.contributor})
 #. (label.contributor.${record.contributor})
-#: ../../../root/Default/templates/Default/component/object_embed.tt:3 ../../../root/Default/templates/Default/view.tt:34
+#: /Users/william/Projects/cap-root//templates/Default/co/component/object_embed.tt:3 /Users/william/Projects/cap-root//templates/Default/co/view.tt:34
 msgid "From a collection held by %1"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/component/group_by_doc_button.tt:21 ../../../root/Default/templates/Default/component/group_by_doc_button.tt:6
+#: /Users/william/Projects/cap-root//templates/Default/co/component/group_by_doc_button.tt:21 /Users/william/Projects/cap-root//templates/Default/co/component/group_by_doc_button.tt:6
 msgid "Group by document"
 msgstr "Regrouper les pages de chaque document"
 
-#: ../../../root/Default/templates/Default/component/individual_page_button.tt:23 ../../../root/Default/templates/Default/component/individual_page_button.tt:8
+#: /Users/william/Projects/cap-root//templates/Default/co/component/individual_page_button.tt:23 /Users/william/Projects/cap-root//templates/Default/co/component/individual_page_button.tt:8
 msgid "Individual page results"
 msgstr "Afficher les résultats page par page"
 
-#: ../../../root/Default/templates/Default/error.tt:14
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:14
 msgid "Insufficient Privileges"
 msgstr "Privilèges insuffisants"
 
 #. (response.item.position, response.item.counts.siblings)
-#: ../../../root/Default/templates/Default/view.tt:45
+#: /Users/william/Projects/cap-root//templates/Default/co/view.tt:45
 msgid "Issue %1 of %2 available issues"
 msgstr "Numéro %1 de %2"
 
-#: ../../../root/Default/templates/Default/component/facet_data.tt:19 ../../../root/Default/templates/Default/component/full_toolbar.tt:92 ../../../root/Default/templates/Default/component/language_button.tt:24 ../../../root/Default/templates/Default/component/language_button.tt:5 ../../../root/Default/templates/Default/index.tt:68 ../../../root/Default/templates/Dojo/facet.tt:24 ../../../root/dfait/templates/Default/index-dijit.tt:61 ../../../root/dfait/templates/Default/index.tt:69 ../../../root/dfait/templates/Default/index.tt:70
+#: /Users/william/Projects/cap-root//templates/Default/co/component/facet_data.tt:19 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:92 /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:24 /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:5 /Users/william/Projects/cap-root//templates/Default/co/index.tt:75
 msgid "Language"
 msgstr "Langue"
 
-#: ../../../root/Default/templates/Default/component/search.tt:32
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:32
 msgid "Language:"
 msgstr "Langue :"
 
-#: ../../../root/Default/templates/Default/component/record.tt:52
+#: /Users/william/Projects/cap-root//templates/Default/co/component/record.tt:52
 msgid "Less detail"
 msgstr "Description brève "
 
-#: ../../../root/Default/templates/Default/component/contrib_filter.tt:14
+#: /Users/william/Projects/cap-root//templates/Default/co/component/contrib_filter.tt:9
 msgid "Limit by contributor:"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/component/date_range_button.tt:15 ../../../root/Default/templates/Default/component/full_toolbar.tt:163 ../../../root/Default/templates/Default/component/toolbar.tt:101 ../../../root/Default/templates/Default/component/year_published.tt:14
+#: /Users/william/Projects/cap-root//templates/Default/co/component/date_range_button.tt:15 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:163 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:73 /Users/william/Projects/cap-root//templates/Default/co/component/year_published.tt:12
 msgid "Limit by date range:"
 msgstr "Année(s) de publication :"
 
-#: ../../../root/Default/templates/Default/component/language_filter.tt:14
+#: /Users/william/Projects/cap-root//templates/Default/co/component/language_filter.tt:9
 msgid "Limit by language:"
 msgstr "Langue :"
 
-#: ../../../root/Default/templates/Default/component/media_filter.tt:12
+#: /Users/william/Projects/cap-root//templates/Default/co/component/media_filter.tt:9
 msgid "Limit by media type"
 msgstr "Limiter par type de média"
 
-#: ../../../root/Default/templates/Default/login.tt:25 ../../../root/Default/templates/Default/login.tt:5
+#: /Users/william/Projects/cap-root//templates/Default/co/login.tt:25 /Users/william/Projects/cap-root//templates/Default/co/login.tt:5
 msgid "Log In"
 msgstr "Ouverture de session"
 
-#: ../../../root/Default/templates/Default/component/rlist.tt:91
+#: /Users/william/Projects/cap-root//templates/Default/co/component/rlist.tt:91
 msgid "Matching pages:"
 msgstr "Pages correspondantes :"
 
-#: ../../../root/Default/templates/Default/component/facet_data.tt:46 ../../../root/Default/templates/Default/component/full_toolbar.tt:136 ../../../root/Default/templates/Dojo/facet.tt:25
+#: /Users/william/Projects/cap-root//templates/Default/co/component/facet_data.tt:56 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:136
 msgid "Media"
 msgstr "Média"
 
-#: ../../../root/Default/templates/Default/login.tt:9
+#: /Users/william/Projects/cap-root//templates/Default/co/login.tt:9
 msgid "Missing username or password"
 msgstr "Nom d’utilisateur ou mot de passe manquant"
 
-#: ../../../root/Default/templates/Default/component/rlist.tt:108
+#: /Users/william/Projects/cap-root//templates/Default/co/component/rlist.tt:108
 msgid "More about this item ..."
 msgstr "Autres informations sur ce document..."
 
-#: ../../../root/Default/templates/Default/component/record.tt:57
+#: /Users/william/Projects/cap-root//templates/Default/co/component/record.tt:57
 msgid "More detail"
 msgstr "Description longue"
 
-#: ../../../root/Default/templates/Default/component/full_toolbar.tt:177 ../../../root/Default/templates/Default/component/toolbar.tt:115
+#: /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:177 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:87
 msgid "New Search"
 msgstr "Nouvelle recherche"
 
-#: ../../../root/Default/templates/Default/component/context.tt:16 ../../../root/Default/templates/Default/component/header.tt:17 ../../../root/dfait/templates/Default/component/header.tt:13
+#: /Users/william/Projects/cap-root//templates/Default/co/component/context.tt:16 /Users/william/Projects/cap-root//templates/Default/co/component/header.tt:17
 msgid "New search"
 msgstr "Nouvelle recherche"
 
-#: ../../../root/Default/templates/Default/component/issues.tt:37
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:37
 msgid "No issues found"
 msgstr "Aucun numéro trouvé"
 
-#: ../../../root/eco/templates/Default/component/results.tt:14
+#:
 msgid "No items match your search criteria"
 msgstr "Votre recherche n'a produit aucun résultat"
 
-#: ../../../root/Default/templates/Default/component/results.tt:13 ../../../root/Default/templates/Default/component/search_parameters.tt:24 ../../../root/Default/templates/Default/search_parameters.tt:24
+#: /Users/william/Projects/cap-root//templates/Default/co/component/results.tt:13 /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:24 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:24
 msgid "No results for"
 msgstr "Aucun résultat pour"
 
-#: ../../../root/eco/templates/Default/component/results.tt:13
+#:
 msgid "Nothing Found"
 msgstr "Aucun résultat"
 
-#: ../../../root/dfait/templates/Default/component/navigation.tt:65
+#:
 msgid "Page"
 msgstr "Page"
 
-#. (i)
-#: ../../../root/dfait/templates/Default/component/navigation.tt:49
+#:
 msgid "Page %1"
 msgstr "Page %1"
 
-#: ../../../root/Default/templates/Default/error.tt:20
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:20
 msgid "Page Not Found"
 msgstr "Page non trouvée"
 
-#: ../../../root/Default/templates/Default/component/object_parent.tt:2 ../../../root/Default/templates/Default/component/rlist.tt:69
+#: /Users/william/Projects/cap-root//templates/Default/co/component/object_parent.tt:2 /Users/william/Projects/cap-root//templates/Default/co/component/rlist.tt:69
 msgid "Part of"
 msgstr "Fait partie de :"
 
-#: ../../../root/Default/templates/Default/login.tt:29
+#: /Users/william/Projects/cap-root//templates/Default/co/login.tt:29
 msgid "Password"
 msgstr "Mot de passe"
 
-#: ../../../root/Default/templates/Default/component/footer.tt:12
+#: /Users/william/Projects/cap-root//templates/Default/example/disabled.tt:3
+msgid "Portal is unavailable at this time"
+msgstr ""
+
+#: /Users/william/Projects/cap-root//templates/Default/co/component/footer.tt:12
 msgid "Privacy Policy and Legal"
 msgstr "Politique sur la vie privée et avis juridiques"
 
-#: ../../../root/dfait/templates/Default/component/footer.tt:12
+#:
 msgid "Produced by Canadiana.org"
 msgstr "Réalisée par Canadiana.org"
 
-#: ../../../root/Default/templates/Default/index.tt:83
+#: /Users/william/Projects/cap-root//templates/Default/co/index.tt:90
 msgid "Publication years"
 msgstr "Années de publication"
 
-#: ../../../root/Default/templates/Default/component/search.tt:38
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:38
 msgid "Publication years:"
 msgstr "Année(s) de publication :"
 
-#: ../../../root/Default/templates/Default/component/search_parameters.tt:30 ../../../root/Default/templates/Default/search_parameters.tt:30
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:30 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:30
 msgid "Results"
 msgstr "Résultats"
 
 #. (issues.hitsFrom, issues.hitsTo, issues.hits)
-#. (result.hitsFrom, result.hitsTo, result.hits)
-#: ../../../root/Default/templates/Default/component/issues.tt:29 ../../../root/eco/templates/Default/component/results.tt:20
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:29
 msgid "Results %1 - %2 of %3"
 msgstr "%1 - %2 de %3 résultats"
 
 #. (response.result.hits_from, response.result.hits_to, response.result.hits)
-#: ../../../root/Default/templates/Default/component/results.tt:19
+#: /Users/william/Projects/cap-root//templates/Default/co/component/results.tt:19
 msgid "Results %1 - %2 of %3 for"
 msgstr "%1 - %2 de %3 résultats pour"
 
-#: ../../../root/Default/templates/Default/component/search_parameters.tt:42 ../../../root/Default/templates/Default/search_parameters.tt:42
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:42 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:42
 msgid "Results limited to: "
 msgstr "Résultats limités à :"
 
-#: ../../../root/Default/templates/Default/component/issues.tt:58 ../../../root/Default/templates/Default/component/pager.tt:31
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:58 /Users/william/Projects/cap-root//templates/Default/co/component/pager.tt:31
 msgid "Results page"
 msgstr "Page des résultats"
 
-#: ../../../root/Default/templates/Default/component/contrib_filter.tt:19 ../../../root/Default/templates/Default/component/date_range_button.tt:22 ../../../root/Default/templates/Default/component/full_toolbar.tt:169 ../../../root/Default/templates/Default/component/language_button.tt:37 ../../../root/Default/templates/Default/component/language_filter.tt:19 ../../../root/Default/templates/Default/component/media_filter.tt:17 ../../../root/Default/templates/Default/component/object_subsearch.tt:20 ../../../root/Default/templates/Default/component/subsearch.tt:36 ../../../root/Default/templates/Default/component/toolbar.tt:107 ../../../root/Default/templates/Default/component/year_published.tt:25 ../../../root/Default/templates/Default/index.tt:38 ../../../root/dfait/templates/Default/component/sort_order_button.tt:44 ../../../root/dfait/templates/Default/index-dijit.tt:33 ../../../root/dfait/templates/Default/index.tt:33 ../../../root/dfait/templates/Default/search.tt:26 ../../../root/eco/templates/Default/search.tt:30
+#: /Users/william/Projects/cap-root//templates/Default/co/component/contrib_filter.tt:14 /Users/william/Projects/cap-root//templates/Default/co/component/date_range_button.tt:22 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:169 /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:37 /Users/william/Projects/cap-root//templates/Default/co/component/language_filter.tt:14 /Users/william/Projects/cap-root//templates/Default/co/component/media_filter.tt:14 /Users/william/Projects/cap-root//templates/Default/co/component/object_subsearch.tt:20 /Users/william/Projects/cap-root//templates/Default/co/component/subsearch.tt:36 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:79 /Users/william/Projects/cap-root//templates/Default/co/component/year_published.tt:25 /Users/william/Projects/cap-root//templates/Default/co/index.tt:45
 msgid "Search"
 msgstr "Rechercher"
 
-#: ../../../root/Default/templates/Default/component/search.tt:23
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:23
 msgid "Search options"
 msgstr "Options de recherche"
 
-#: ../../../root/Default/templates/Default/component/context.tt:14 ../../../root/dfait/templates/Default/component/navigation.tt:32
+#: /Users/william/Projects/cap-root//templates/Default/co/component/context.tt:14
 msgid "Search results"
 msgstr "Liste des résultats"
 
-#: ../../../root/Default/templates/Default/component/search.tt:16
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:16
 msgid "Search the collection"
 msgstr "Recherche dans la collection"
 
 #. (childcount, childtypes.join(childjoin)
-#: ../../../root/Default/templates/Default/component/object_subsearch.tt:16
+#: /Users/william/Projects/cap-root//templates/Default/co/component/object_subsearch.tt:16
 msgid "Search this item's %1 %2"
 msgstr "Effectuer une recherche dans les %1 %2 de ce document"
 
 #. (response.item.counts.gpages)
-#: ../../../root/Default/templates/Default/component/subsearch.tt:9
+#: /Users/william/Projects/cap-root//templates/Default/co/component/subsearch.tt:9
 msgid "Search within this collection (%1 pages)"
 msgstr "Recherche dans cette collection (%1 pages)"
 
 #. (response.item.counts.pages)
-#: ../../../root/Default/templates/Default/component/subsearch.tt:19
+#: /Users/william/Projects/cap-root//templates/Default/co/component/subsearch.tt:19
 msgid "Search within this issue (%1 pages)"
 msgstr "Recherche dans ce numéro (%1 pages)"
 
 #. (response.item.counts.pages)
-#: ../../../root/Default/templates/Default/component/subsearch.tt:24
+#: /Users/william/Projects/cap-root//templates/Default/co/component/subsearch.tt:24
 msgid "Search within this item (%1 pages)"
 msgstr "Recherche dans ce document (%1 pages)"
 
 #. (response.item.counts.gpages)
-#: ../../../root/Default/templates/Default/component/subsearch.tt:14
+#: /Users/william/Projects/cap-root//templates/Default/co/component/subsearch.tt:14
 msgid "Search within this publication (%1 pages)"
 msgstr "Recherche dans cette publication (%1 pages)"
 
-#: ../../../root/Default/templates/Default/component/search.tt:18
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:18
 msgid "Search:"
 msgstr "Recherche :"
 
-#: ../../../root/Default/templates/Default/error.tt:23
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:23
 msgid "Server Error"
 msgstr "Erreur du serveur"
 
-#: ../../../root/dfait/templates/Default/component/navigation.tt:52 ../../../root/dfait/templates/Default/component/navigation.tt:80
+#:
 msgid "Show"
 msgstr "Afficher"
 
-#: ../../../root/Default/templates/Default/component/any_contrib.tt:10
+#: /Users/william/Projects/cap-root//templates/Default/co/component/any_contrib.tt:7
 msgid "Show All Contributors"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/component/any_language.tt:10
+#: /Users/william/Projects/cap-root//templates/Default/co/component/any_language.tt:7
 msgid "Show All Languages"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/component/any_medium.tt:12
+#: /Users/william/Projects/cap-root//templates/Default/co/component/any_medium.tt:9
 msgid "Show All Media"
 msgstr ""
 
 #. (item.pages.hits)
-#: ../../../root/Default/templates/Default/component/rlist.tt:98
+#: /Users/william/Projects/cap-root//templates/Default/co/component/rlist.tt:98
 msgid "Show all %1 matches"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/view.tt:47 ../../../root/Default/templates/Default/view.tt:57
+#: /Users/william/Projects/cap-root//templates/Default/co/view.tt:47 /Users/william/Projects/cap-root//templates/Default/co/view.tt:57
 msgid "Show all issues"
 msgstr "Afficher tous les numéros"
 
-#: ../../../root/Default/templates/Default/component/issues.tt:12
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:12
 msgid "Show only issues published between the years"
 msgstr "Afficher uniquement les numéros publiés entre les années"
 
-#. (c.req.params.q)
-#: ../../../root/dfait/templates/Default/component/rlist.tt:35 ../../../root/dfait/templates/Default/component/rlist.tt:41
+#:
 msgid "Show pages containing: %1"
 msgstr "Afficher pages contenant : %1"
 
-#: ../../../root/Default/templates/Default/view.tt:50
+#: /Users/william/Projects/cap-root//templates/Default/co/view.tt:50
 msgid "Show serial record"
 msgstr "Afficher la notice du périodique"
 
-#: ../../../root/Default/templates/Default/component/sort_order_button.tt:30 ../../../root/Default/templates/Default/index.tt:53 ../../../root/dfait/templates/Default/index-dijit.tt:50 ../../../root/dfait/templates/Default/index.tt:51 ../../../root/dfait/templates/Default/index.tt:52
+#: /Users/william/Projects/cap-root//templates/Default/co/component/sort_order_button.tt:27 /Users/william/Projects/cap-root//templates/Default/co/index.tt:60
 msgid "Sort"
 msgstr "Trier par"
 
-#: ../../../root/Default/templates/Default/component/full_toolbar.tt:71 ../../../root/Default/templates/Default/component/search_parameters.tt:38 ../../../root/Default/templates/Default/component/toolbar.tt:73 ../../../root/Default/templates/Default/search_parameters.tt:38 ../../../root/dfait/templates/Default/component/sort_order_button.tt:28 ../../../root/dfait/templates/Default/component/sort_order_button.tt:5
+#: /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:71 /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:38 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:45 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:38
 msgid "Sort Order"
 msgstr "Trier par"
 
-#: ../../../root/Default/templates/Default/component/sort_order_button.tt:21
+#: /Users/william/Projects/cap-root//templates/Default/co/component/sort_order_button.tt:18
 msgid "Sort Order:"
 msgstr "Ordre de trie :"
 
-#: ../../../root/Default/templates/Default/component/issues.tt:19
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:19
 msgid "Sort by"
 msgstr "Trier par"
 
-#: ../../../root/Default/templates/Default/component/search.tt:26
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:26
 msgid "Sort:"
 msgstr "Trier :"
 
 #. (status)
-#: ../../../root/Default/templates/Default/error.tt:36
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:36
 msgid "Status:"
 msgstr "Statut :"
 
-#: ../../../root/Default/templates/Default/component/issues.tt:16
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:16
 msgid "Submit"
 msgstr "Soumettre"
 
-#: ../../../root/Default/templates/Default/error.tt:12
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:12
 msgid "The page you requested cannot be displayed."
 msgstr "La page demandée ne peut être affichée."
 
-#: ../../../root/Default/templates/Default/error.tt:21
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:21
 msgid "The page you were looking for cannot be found."
 msgstr "La page demandée est introuvable."
 
-#: ../../../root/Default/templates/Default/login.tt:10
+#: /Users/william/Projects/cap-root//templates/Default/co/login.tt:10
 msgid "The username and password do not match"
 msgstr "Le nom d’utilisateur et le mot de passe ne correspondent pas"
 
-#: ../../../root/Default/templates/Default/error.tt:24
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:24
 msgid "There was a problem with your request; try again in a few moments."
 msgstr "Un problème est survenu lors de votre requête. Essayez de nouveau dans quelques instants."
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:54 ../../../root/dfait/templates/Default/index.tt:58 ../../../root/dfait/templates/Default/index.tt:59
+#:
 msgid "Type"
 msgstr "Type"
 
-#: ../../../root/Default/templates/Default/login.tt:22
+#: /Users/william/Projects/cap-root//templates/Default/example/disabled.tt:1
+msgid "Unavailable"
+msgstr ""
+
+#: /Users/william/Projects/cap-root//templates/Default/co/login.tt:22
 msgid "Username"
 msgstr "Nom de utilisateur"
 
-#: ../../../root/Default/templates/Default/error.tt:27
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:27
 msgid "We're sorry; we were unable to process your request."
 msgstr "Désolé, nous ne pouvons pas traiter votre requête."
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:68 ../../../root/dfait/templates/Default/index.tt:79
+#:
 msgid "Years"
 msgstr "Années"
 
-#: ../../../root/Default/templates/Default/error.tt:15
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:15
 msgid "You do not have sufficient privileges to view this page."
 msgstr "Vos privilèges sont insuffisants pour visionner cette page."
 
-#: ../../../root/Default/templates/Default/error.tt:18
+#: /Users/william/Projects/cap-root//templates/Default/co/error.tt:18
 msgid "You must be logged in to view this page."
 msgstr " Vous devez ouvrir une session pour visionner cette page."
 
-#: ../../../root/Default/templates/Default/component/issues.tt:14 ../../../root/Default/templates/Default/component/object_subsearch.tt:4
+#: /Users/william/Projects/cap-root//templates/Default/co/index.tt:26
+msgid "Your single best source for discovering Canadian documentary heritage"
+msgstr "La source par excellence pour découvrir le patrimoine documentaire canadien"
+
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:14 /Users/william/Projects/cap-root//templates/Default/co/component/object_subsearch.tt:4
 msgid "and"
 msgstr "et"
 
-#: ../../../root/Default/templates/Default/component/facet_data.tt:27 ../../../root/Default/templates/Default/component/facet_data.tt:54 ../../../root/Default/templates/Default/component/facet_data.tt:81 ../../../root/Default/templates/Default/component/full_toolbar.tt:100 ../../../root/Default/templates/Default/component/full_toolbar.tt:122 ../../../root/Default/templates/Default/component/full_toolbar.tt:78 ../../../root/Default/templates/Default/component/language_button.tt:10 ../../../root/Default/templates/Default/component/language_button.tt:32 ../../../root/Default/templates/Default/component/search.tt:33 ../../../root/Default/templates/Default/index.tt:72 ../../../root/dfait/templates/Default/index-dijit.tt:55 ../../../root/dfait/templates/Default/index-dijit.tt:62 ../../../root/dfait/templates/Default/index.tt:60 ../../../root/dfait/templates/Default/index.tt:71
+#: /Users/william/Projects/cap-root//templates/Default/co/component/facet_data.tt:104 /Users/william/Projects/cap-root//templates/Default/co/component/facet_data.tt:30 /Users/william/Projects/cap-root//templates/Default/co/component/facet_data.tt:67 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:100 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:122 /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:78 /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:10 /Users/william/Projects/cap-root//templates/Default/co/component/language_button.tt:32 /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:33 /Users/william/Projects/cap-root//templates/Default/co/index.tt:79
 msgid "any"
 msgstr "toutes"
 
-#: ../../../root/Default/templates/Default/component/search.tt:21 ../../../root/Default/templates/Default/index.tt:50
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:21 /Users/william/Projects/cap-root//templates/Default/co/index.tt:57
 msgid "document metadata"
 msgstr "métadonnées du document"
 
-#: ../../../root/Default/templates/Default/component/object_subsearch.tt:6
+#: /Users/william/Projects/cap-root//templates/Default/co/component/object_subsearch.tt:6
 msgid "documents"
 msgstr ""
 
-#: ../../../root/Default/templates/Default/component/search.tt:19 ../../../root/Default/templates/Default/index.tt:42
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:19 /Users/william/Projects/cap-root//templates/Default/co/index.tt:49
 msgid "everywhere"
 msgstr "partout"
 
-#: ../../../root/Default/templates/Default/component/search_parameters.tt:35 ../../../root/Default/templates/Default/search_parameters.tt:35
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:35 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:35
 msgid "for"
 msgstr "pour"
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:59 ../../../root/dfait/templates/Default/index.tt:64
+#:
 msgid "index"
 msgstr "index"
 
-#: ../../../root/Default/templates/Default/component/full_toolbar.tt:67 ../../../root/Default/templates/Default/component/search.tt:29 ../../../root/Default/templates/Default/component/sort_order_button.tt:23 ../../../root/Default/templates/Default/component/toolbar.tt:69 ../../../root/Default/templates/Default/index.tt:65 ../../../root/Default/templates/Default/macro/sort_order.tt:7 ../../../root/Default/templates/Default/macro/sort_order.tt:9 ../../../root/dfait/templates/Default/component/sort_order_button.tt:13 ../../../root/dfait/templates/Default/component/sort_order_button.tt:37 ../../../root/dfait/templates/Default/index-dijit.tt:52 ../../../root/dfait/templates/Default/index.tt:54
+#: /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:67 /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:29 /Users/william/Projects/cap-root//templates/Default/co/component/sort_order_button.tt:20 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:41 /Users/william/Projects/cap-root//templates/Default/co/index.tt:72 /Users/william/Projects/cap-root//templates/Default/co/macro/sort_order.tt:7 /Users/william/Projects/cap-root//templates/Default/co/macro/sort_order.tt:9
 msgid "newest"
 msgstr "date décroissante"
 
-#: ../../../root/Default/templates/Default/component/issues.tt:23
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:23
 msgid "newest first"
 msgstr "date décroissante"
 
-#: ../../../root/Default/templates/Default/component/search_parameters.tt:33 ../../../root/Default/templates/Default/search_parameters.tt:33
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:33 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:33
 msgid "of"
 msgstr "de"
 
-#: ../../../root/Default/templates/Default/component/full_toolbar.tt:68 ../../../root/Default/templates/Default/component/search.tt:28 ../../../root/Default/templates/Default/component/sort_order_button.tt:24 ../../../root/Default/templates/Default/component/toolbar.tt:70 ../../../root/Default/templates/Default/index.tt:61 ../../../root/Default/templates/Default/macro/sort_order.tt:10 ../../../root/Default/templates/Default/macro/sort_order.tt:6 ../../../root/dfait/templates/Default/component/sort_order_button.tt:16 ../../../root/dfait/templates/Default/component/sort_order_button.tt:38 ../../../root/dfait/templates/Default/index-dijit.tt:51 ../../../root/dfait/templates/Default/index.tt:53
+#: /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:68 /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:28 /Users/william/Projects/cap-root//templates/Default/co/component/sort_order_button.tt:21 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:42 /Users/william/Projects/cap-root//templates/Default/co/index.tt:68 /Users/william/Projects/cap-root//templates/Default/co/macro/sort_order.tt:10 /Users/william/Projects/cap-root//templates/Default/co/macro/sort_order.tt:6
 msgid "oldest"
 msgstr "date croissante"
 
-#: ../../../root/Default/templates/Default/component/issues.tt:21
+#: /Users/william/Projects/cap-root//templates/Default/co/component/issues.tt:21
 msgid "oldest first"
 msgstr "date croissante"
 
-#: ../../../root/Default/templates/Default/component/search.tt:20 ../../../root/Default/templates/Default/index.tt:46
+#: /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:20 /Users/william/Projects/cap-root//templates/Default/co/index.tt:53
 msgid "page text"
 msgstr "texte de la page"
 
-#: ../../../root/Default/templates/Default/component/object_subsearch.tt:9
+#: /Users/william/Projects/cap-root//templates/Default/co/component/object_subsearch.tt:9
 msgid "pages"
 msgstr ""
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:56 ../../../root/dfait/templates/Default/index.tt:61
+#:
 msgid "press release"
 msgstr "communiqué"
 
-#: ../../../root/dfait/templates/Default/component/rlist.tt:18
+#:
 msgid "preview"
 msgstr "aperçu"
 
-#: ../../../root/Default/templates/Default/component/full_toolbar.tt:66 ../../../root/Default/templates/Default/component/search.tt:27 ../../../root/Default/templates/Default/component/sort_order_button.tt:22 ../../../root/Default/templates/Default/component/toolbar.tt:68 ../../../root/Default/templates/Default/index.tt:57 ../../../root/Default/templates/Default/macro/sort_order.tt:5 ../../../root/Default/templates/Default/macro/sort_order.tt:8 ../../../root/dfait/templates/Default/component/sort_order_button.tt:36 ../../../root/dfait/templates/Default/index-dijit.tt:53
+#: /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:66 /Users/william/Projects/cap-root//templates/Default/co/component/search.tt:27 /Users/william/Projects/cap-root//templates/Default/co/component/sort_order_button.tt:19 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:40 /Users/william/Projects/cap-root//templates/Default/co/index.tt:64 /Users/william/Projects/cap-root//templates/Default/co/macro/sort_order.tt:5 /Users/william/Projects/cap-root//templates/Default/co/macro/sort_order.tt:8
 msgid "relevance"
 msgstr "pertinence"
 
-#: ../../../root/dfait/templates/Default/component/sort_order_button.tt:10
+#:
 msgid "score"
 msgstr "pertinence"
 
-#: ../../../root/Default/templates/Default/component/full_toolbar.tt:69 ../../../root/Default/templates/Default/component/sort_order_button.tt:26 ../../../root/Default/templates/Default/component/toolbar.tt:71 ../../../root/Default/templates/Default/macro/sort_order.tt:11 ../../../root/dfait/templates/Default/component/sort_order_button.tt:40
+#: /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:69 /Users/william/Projects/cap-root//templates/Default/co/component/sort_order_button.tt:23 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:43 /Users/william/Projects/cap-root//templates/Default/co/macro/sort_order.tt:11
 msgid "sequence"
 msgstr "séquence"
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:58 ../../../root/dfait/templates/Default/index.tt:63
+#:
 msgid "speech"
 msgstr "discours"
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:57 ../../../root/dfait/templates/Default/index.tt:62
+#:
 msgid "statement"
 msgstr "declaration"
 
-#: ../../../root/dfait/templates/Default/index-dijit.tt:60 ../../../root/dfait/templates/Default/index.tt:65
+#:
 msgid "table of contents"
 msgstr "table des matières"
 
-#: ../../../root/Default/templates/Default/component/full_toolbar.tt:166 ../../../root/Default/templates/Default/component/search_parameters.tt:50 ../../../root/Default/templates/Default/component/toolbar.tt:104 ../../../root/Default/templates/Default/component/year_published.tt:19 ../../../root/Default/templates/Default/search_parameters.tt:50
+#: /Users/william/Projects/cap-root//templates/Default/co/component/full_toolbar.tt:166 /Users/william/Projects/cap-root//templates/Default/co/component/search_parameters.tt:50 /Users/william/Projects/cap-root//templates/Default/co/component/toolbar.tt:76 /Users/william/Projects/cap-root//templates/Default/co/component/year_published.tt:18 /Users/william/Projects/cap-root//templates/Default/co/search_parameters.tt:50
 msgid "to"
 msgstr "à"

@@ -2,7 +2,7 @@
 # placed here will override those in cap.conf
 
 # Example: set a new default portal
-# default_portal myPortal
+# default_portal myportal
 
 # Example: use a password with the MySQL database user
 #<Component Model::DB>
