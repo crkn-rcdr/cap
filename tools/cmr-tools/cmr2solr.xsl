@@ -46,7 +46,7 @@
 
     <!-- Search sets -->
     <xsl:if test="contributor = 'sfu'">
-      <field name="set">bceln</field>
+      <field name="set">bc</field>
     </xsl:if>
 
     <!-- Description and content -->

@@ -24,7 +24,7 @@ use CAP::Ingest;
 
 my $prog = basename($0);
 my $usage = "Usage: $prog [-verbose] [-solr=SOLR_URL] [FILE...]\n";
-my $use_cmr;
+my $use_cmr = 1;
 my $verbose;
 my $do_ingest;
 my $contributor;

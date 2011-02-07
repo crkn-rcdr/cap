@@ -250,8 +250,9 @@ sub end : ActionClass('RenderView')
     # 'json', handle the output internally, bypassing the normal view
     # rendering.
     if ($c->stash->{current_view} eq 'json') {
-        $c->res->content_type('application/json');
-        $c->res->body(decode_utf8(to_json($c->stash->{response}, { utf8 => 1, pretty => 1 })));
+        $c->res->content_type('application/json; charset=UTF-8');
+        #$c->res->body(decode_utf8(to_json($c->stash->{response}, { utf8 => 1, pretty => 1 })));
+        $c->res->body(encode_json($c->stash->{response}));
         return 1;
     }
     elsif ($c->stash->{current_view} eq 'xml') {
