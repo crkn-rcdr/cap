@@ -25,7 +25,7 @@ sub ingest_batch
 {
     my $time_start = time();
     printf("Ingesting batch of %d files (%d MB).\n", int(@files), $filesize / 1024 / 1024);
-    system($post,  "--cmr", "--conf", $config_file, @files);
+    system($post, @files);
     my $time_end = time();
     my $time_elapsed = $time_end - $time_start + 1;
     printf(
