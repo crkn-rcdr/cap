@@ -9,11 +9,13 @@ use Getopt::Long;
 
 
 my $opt =  {
-    insert => 0,
-    clear  => [],
+    updatge => 0,
+    insert  => 0,
+    clear   => [],
 };
 
 GetOptions(
+    'update!' => \$opt->{update},
     'insert!' => \$opt->{insert},
     'clear=s' => $opt->{clear},
 ) or die($!);
@@ -42,9 +44,18 @@ foreach my $field (@{$opt->{clear}}) {
 }
 
 # Insert new rows into the database
-if ($opt->{insert}) {
-    print("Reading rows to insert from STDIN\n");
-    while (my $row = <STDIN>) {
+if ($opt->{insert} || $opt->{update}) {
+    my $fh;
+    my $src = "/opt/cap-conf/data/labels.txt";
+    if ($opt->{update}) {
+        open(FH, "<$src") or die("Cannot open $src: $!");
+        $fh = *FH;
+    }
+    else {
+        print("Reading rows to insert from STDIN\n");
+        $fh = *STDIN;
+    }
+    while (my $row = <$fh>) {
         chomp $row;
         next unless $row =~ /\S/;
         next if $row =~ /^\s*#/;
@@ -60,6 +71,7 @@ if ($opt->{insert}) {
         }
     }
 }
+
 
 $list_all->execute() or die ($dbh->errstr);
 printf("%-16s  %-14s  %-4s  %s\n", "Field", "Code", "Lang", "Label");
