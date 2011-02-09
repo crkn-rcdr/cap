@@ -20,7 +20,6 @@ use Catalyst qw/
                 Static::Simple
                 StackTrace
                 I18N
-                Unicode
                 Unicode::Encoding
 
                 Authentication

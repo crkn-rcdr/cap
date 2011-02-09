@@ -12,6 +12,16 @@ __PACKAGE__->config(
     WRAPPER => 'main.tt',
     FILTERS => {
         escape_js => sub { $_[0] =~ s/["\\]/\\$1/g; return $_[0]; },
+
+        # Works basically like xml_escape, but doesn't turn ' into &quot;,
+        # saving a lot of grief with Internet Explorer.
+        xhtml => sub {
+            $_[0] =~ s/&/&amp;/g;
+            $_[0] =~ s/</&lt;/g;
+            $_[0] =~ s/>/&gt;/g;
+            $_[0] =~ s/"/&quot;/g;
+            return $_[0];
+        }
     },
     EVAL_PERL => 1,
     VARIABLES => {

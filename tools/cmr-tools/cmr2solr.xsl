@@ -41,8 +41,8 @@
     <xsl:apply-templates select="gkey"/>
     <xsl:apply-templates select="seq"/>
     <xsl:apply-templates select="pubdate"/>
-    <xsl:apply-templates select="lang[not(. = preceding::lang)]"/>
-    <xsl:apply-templates select="media[not(. = preceding::media)]"/>
+    <xsl:apply-templates select="lang"/>
+    <xsl:apply-templates select="media"/>
 
     <!-- Search sets -->
     <xsl:if test="contributor = 'sfu'">
