@@ -38,7 +38,7 @@
 
 
   <xsl:template match="eco2">
-    <recordset version="1.0">
+    <recordset version="1.1">
       <xsl:apply-templates select="series"/>
       <xsl:apply-templates select="digital"/>
     </recordset>

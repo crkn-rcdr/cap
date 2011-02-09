@@ -63,7 +63,7 @@ if($use_cmr) {
             $message = $stylesheet->output_as_bytes($result);
         };
         if($@) {
-            print "FAIL: $file\n";
+            print "*FAIL: $file\n";
             ++$counts{fail};
             #print "Caught Error: ".Dumper($@);
         }

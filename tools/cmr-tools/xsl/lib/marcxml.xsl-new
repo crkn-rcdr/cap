@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsl:stylesheet version="1.0"
+  xmlns:marc="http://www.loc.gov/MARC21/slim"
+  xmlns:cmr_marc="http://www.canadiana.ca/XML/cmr-marc"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  exclude-result-prefixes="marc cmr_marc"
+>
+
+  <xsl:template name="cmr_marc:record">
+    <xsl:param name="contributor"/>
+    <xsl:param name="key"/>
+
+    <record>
+      <type>document</type>
+      <contributor><xsl:value-of select="$contributor"/></contributor>
+      <key><xsl:value-of select="$key"/></key>
+      <label><xsl:value-of select="normalize-space(marc:datafield[@tag='245'])"/></label>
+      <!--
+      pkey
+      gkey
+      seq
+      -->
+      <xsl:if test="marc:datafield[@tag='260']/marc:subfield[@code='c']">
+        <pubdate min="{marc:datafield[@tag='260']/marc:subfield[@code='c']}" max="{marc:datafield[@tag='260']/marc:subfield[@code='c']}"/>
+      </xsl:if>
+    </record>
+  </xsl:template>
+
+</xsl:stylesheet>

@@ -115,13 +115,14 @@ sub find_archive
 }
 
 
+=head2 find_archive_dirs(I<$path>)
+
 =head2 find_archives(I<$path>)
 
 Generate a list of all bagit archive roots found under I<$path> and
 returns them as a list. Bagit archives within other Bagit archives will
-not be found. If $find_data_dir is true, the list will return potential
-bagit archives based on the existence of a data subdirectory, rather than
-actual bagit archives based on the presence of a bagit.txt file.
+not be found. B<find_archive_dirs> looks for the existence of a I<data>
+subdirectory, while B<find_archives> looks for a I<bagit.txt> file.
 
 =cut
 sub find_archive_dirs {
