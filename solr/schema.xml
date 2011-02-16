@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="CanadianaOnline-1.1" version="1.1">
+<schema name="CanadianaOnline-1.2" version="1.1">
 
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
@@ -80,6 +80,10 @@
     <field name="lang" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="media" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="set" type="string" indexed="true" stored="true" multiValued="true"/>
+
+    <!-- Labels and keys for the pages belonging to this document -->
+    <field name="pg_key"   type="string" indexed="false" stored="true" multiValued="true"/>
+    <field name="pg_label" type="string" indexed="false" stored="true" multiValued="true"/>
 
     <!-- Description and content -->
     <field name="ti" type="text" indexed="true" stored="true" multiValued="true"/><!-- title -->
