@@ -104,21 +104,6 @@ sub begin :Private
         $c->stash->{current_view} = $c->config->{default_view};
     }
     
-
-
-    ####################################################################################################
-    # TODO: this should be deprecated
-    ####################################################################################################
-    # Local configuration overrides for development installs
-    if ($c->config->{override}) {
-        my $config = $c->config;
-        my $override = $c->config->{override};
-        $config->{solr}->{select_url} = $override->{solr_select_url} if ($override->{solr_select_url});
-        $config->{solr}->{update_url} = $override->{solr_update_url} if ($override->{solr_update_url});
-    }
-    ####################################################################################################
-
-
     # Verify that a default portal is set
     if (! $c->config->{default_portal}) {
         $c->detach("config_error", ["default_portal is not set"]);
@@ -193,6 +178,17 @@ sub begin :Private
         # Stash a list of supported interface languages
         $c->stash->{supported_langs} = [keys(%{$portal{lang}})];
 
+        # Stash the solr subset to search (try that tongue twister twice)
+        $c->stash->{search_subset} = $portal{search_subset} || "";
+
+
+        # Stash the content sets hosted by this portal
+        $c->stash->{hosted} = {};
+        foreach my $set (keys(%{$portal{hosted}})) {
+            # TODO: allow for lists of values...
+            $c->stash->{hosted}->{$set} = $portal{hosted}->{$set};
+        }
+
     }
 
     # Set a cookie to remember the interface language.
@@ -205,7 +201,7 @@ sub begin :Private
     $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
 
     # Create a Solr object
-    $c->stash->{solr} = CAP::Solr->new($c->config->{solr_url}, $c->config->{solr}, $c->stash->{config}->{subset});
+    $c->stash->{solr} = CAP::Solr->new($c->config->{solr_url}, $c->config->{solr}, $c->stash->{search_subset});
 
     # Initialize the query response with default values. These may be
     # added to or overwritten when a search query is executed.
@@ -348,20 +344,43 @@ sub show :Path('show') Args() {
     return $c->forward('object/main', [$key]);
 }
 
-sub file :Path('file') Args(1)
-{
-    my($self, $c, $key) = @_;
-    return $c->forward('file/main', [$key]);
-}
+#sub file :Path('file') Args(1)
+#{
+#    my($self, $c, $key) = @_;
+#    return $c->forward('file/main', [$key]);
+#}
 
-sub derivative :Path('file/derivative') Args(2) {
+#sub derivative :Path('file/derivative') Args(2) {
+#    my($self, $c, $key, $filename) = @_;
+#    return $c->forward('file/derivative', [$key, $filename]);
+#}
+
+sub file :Path('file') Args(2)
+{
     my($self, $c, $key, $filename) = @_;
-    return $c->forward('file/derivative', [$key, $filename]);
+    return $c->forward('file/main', [$key, $filename]);
 }
 
 sub object :Path('obj') Args(1) {
     my($self, $c, $key) = @_;
     return $c->forward('object/main', [$key]);
+}
+
+sub view :Path('view') Args() {
+    my($self, $c, $key, $seq, $extra) = @_;
+    if ($extra) {
+        $c->detach('/error', [404]);
+    }
+    elsif ($seq) {
+        # TODO: check if int > 0
+        return $c->forward('view/page', [$key, $seq]);
+    }
+    elsif ($key) {
+        return $c->forward('view/main', [$key]);
+    }
+    else {
+        $c->detach('/error', [404]);
+    }
 }
 
 # TODO: this should be removed and favicon handling should be smarter.

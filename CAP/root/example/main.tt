@@ -1,0 +1,12 @@
+[%-
+  USE XML.Escape;
+-%]
+<html>
+  <head>
+    <title>[% portal_name | xml_escape %]</title>
+    <link rel="stylesheet" type="text/css" href="[% c.uri_for_action("static", "css", "default.css") %]">
+  </head>
+  <body>
+    [% content %]
+  </body>
+</html>

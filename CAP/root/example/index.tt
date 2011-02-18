@@ -1,0 +1,33 @@
+[%-
+  USE XML.Escape;
+-%]
+<h1>Main Page</h1>
+
+<h2>Standard Catalyst Variables</h2>
+
+<ul>
+   <li>current_view = [% current_view | xml_escape %]</li>
+</ul>
+
+<h2>Other Variables</h2>
+
+<ul>
+  <li>debug = [% debug | xml_escape %]</li>
+  <li>portal = [% portal | xml_escape %]</li>
+  <li>portal_name = [% portal_name | xml_escape %]</li>
+  <li>lang = [% lang | xml_escape %]</li>
+  <li>label = [% label | xml_escape %]</li>
+  <li>response = [% response | xml_escape %]</li>
+  <li>solr = [% solr | xml_escape %]</li>
+  <li>supported_langs = [% supported_langs | xml_escape %]</li>
+</ul>
+
+<h2>Supported Languages</h2>
+
+<p>[% supported_langs.join(", ") | xml_escape %]</p>
+
+<h2>Cookies</h2>
+
+<ul>
+  <li>usrlang = [% c.req.cookie('usrlang').value | xml_escape %]</li>
+</ul>
