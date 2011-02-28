@@ -53,7 +53,7 @@
     <xsl:apply-templates select="description"/>
 
     <!-- Description and content from child pages -->
-    <xsl:if test="type/text() = 'monograph' or type/text() = 'issue'">
+    <xsl:if test="type/text() = 'document' or type/text() = 'monograph' or type/text() = 'issue'">
       <xsl:variable name="key" select="key"/>
       <xsl:apply-templates select="//recordset/record/pkey[text() = $key]/following-sibling::description/*"/>
     </xsl:if>
