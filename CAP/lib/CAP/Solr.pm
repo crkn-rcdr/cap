@@ -502,7 +502,7 @@ sub solr_query
         # Try to determine what kind of output we're going to get from
         # Solr based on the first wt found.
         $wt = $param->[1] if (! $wt && $param->[0] eq 'wt' && $param->[1]);
-        push(@query_params, join('=', uri_escape($param->[0]), uri_escape($param->[1])));
+        push(@query_params, join('=', uri_escape_utf8($param->[0]), uri_escape_utf8($param->[1])));
     }
 
     # Run the query
