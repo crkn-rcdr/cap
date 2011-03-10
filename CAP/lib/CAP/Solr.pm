@@ -560,16 +560,34 @@ sub query
     # Load the default solr parameters
     my %solr = (%{$self->{defaults}});
 
-    # Add all recognized fields to the query. Skip fields with empty
-    # values or whose value is '-'. Field contents are escaped to protect
-    # Solr/Lucene special characters we don't want interpreted.
+    # Add all recognized fields to the query.
     while (my($key, $value) = each(%{$field})) {
         if ($self->{fields}->{$key}) {
-            $value =~ s/^\s+//;
-            $value =~ s/\s+$//;
-            $value =~ s/\s+/ /g;
-            if ($value && $value ne '-') {
-                $value = $self->_escape($value);
+
+            my @terms = ();
+            while ($value =~ /
+                ([\+\-])?                # boolean prefix operator (optional)
+                (                        # the search term or phrase:
+                  (?:"[^\+\-\*\?\"]+") | # double-quoted phrase (cannot contain wildcards)
+                  (?:[^\+\-\"\s]+)       # single keyword
+                )      
+            /gx) {
+                my $prefix = $1 || "";
+                my $token  = $2;
+
+                # Escape additional Lucene/Solr special characters
+                $token =~ s/([:!(){}\\[\]^~\\])/\\$1/g;
+                $token =~ s/\bAND\b/and/g;
+                $token =~ s/\bOR\b/or/g;
+                $token =~ s/\bNOT\b/not/g;
+                
+                push(@terms, "$prefix$token") if ($token);
+            }
+
+            # If we found any terms, add them to the query in the
+            # appropriate fields.
+            if (int(@terms)) {
+                my $value = join(' ', @terms);
                 my $template = $self->{fields}->{$key};
                 $template =~ s/\%/$value/g;
                 push(@query, "($template)");
@@ -645,9 +663,6 @@ sub query
 
     # The $solr->{subset} field further limits every search.
     push(@query, "($self->{subset})") if ($self->{subset});
-    #while (my($param, $value) = each(%{$self->{subset}})) {
-    #    push(@query, "($param:$value)");
-    #}
 
     # Add the query itself to the parameter list.
     push(@params, ['q', join(' AND ', @query)]);
