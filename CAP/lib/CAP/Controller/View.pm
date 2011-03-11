@@ -22,12 +22,18 @@ sub main :Private
         $c->res->redirect($c->uri_for('/view', $key, $c->req->params->{seq}));
     }
 
-    # Redirect requests for page-level items to the parent object.
+    # Redirect requests for page-level items to the parent object, or to
+    # the page itself if this portal is the content host.
     if ($doc->{type} eq 'page') {
         my $parent = $doc->{pkey};
         if ($parent) {
-            $c->res->redirect($c->uri_for('/view', $parent));
-            $c->detach();
+            if ($hosted) {
+                $c->res->redirect($c->uri_for('/view', $doc->{pkey}, $doc->{seq}));
+            }
+            else {
+                $c->res->redirect($c->uri_for('/view', $parent));
+                $c->detach();
+            }
         }
         else {
             $c->detach('/error', [404, "Page document has no parent: $key"]);
