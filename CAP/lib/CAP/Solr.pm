@@ -566,14 +566,20 @@ sub query
 
             my @terms = ();
             while ($value =~ /
-                ([\+\-])?                # boolean prefix operator (optional)
+                ((?:^|\s)[\+\-])?        # boolean prefix operator (optional); cannot be in the middle of a string
                 (                        # the search term or phrase:
-                  (?:"[^\+\-\*\?\"]+") | # double-quoted phrase (cannot contain wildcards)
+                  (?:".+?") |            # double-quoted phrase
                   (?:[^\+\-\"\s]+)       # single keyword
                 )      
             /gx) {
                 my $prefix = $1 || "";
                 my $token  = $2;
+
+                # If $token is a quoted string, convert + - * and ? to
+                # whitespace
+                if (substr($token, 0, 1) eq '"') {
+                    $token =~ s/[*?+-]/ /g;
+                }
 
                 # Escape additional Lucene/Solr special characters
                 $token =~ s/([:!(){}\\[\]^~\\])/\\$1/g;
