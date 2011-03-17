@@ -59,7 +59,8 @@ sub download :Private
 
     my $password  = $c->config->{content}->{password};
     my $key       = $c->config->{content}->{key};
-    my $expires   = time() + $c->config->{content}->{expires};
+    #my $expires   = time() + $c->config->{content}->{expires};
+    my $expires   = _expires();
     my $signature = sha1_hex("$password\n$filename\n$expires\n\n\n");
 
     return [
@@ -75,7 +76,8 @@ sub derivative :Private
 
     my $password  = $c->config->{content}->{password};
     my $key       = $c->config->{content}->{key};
-    my $expires   = time() + $c->config->{content}->{expires};
+    #my $expires   = time() + $c->config->{content}->{expires};
+    my $expires   = _expires();
     my $signature = sha1_hex("$password\n$filename\n$expires\n$from\n$size\n$rotate");
 
     return [
@@ -87,6 +89,13 @@ sub derivative :Private
         'size='      . uri_escape($size),
         'rotate='    . uri_escape($rotate),
     ];
+}
+
+sub _expires
+{
+    my $time = time() + 90000; # 25 hours in the future
+    $time = $time - ($time % 86400); # normalize the expiry time to the closest 24 hour period
+    return $time; # minimum 1 hour from now, maximum 25
 }
 
 1;
