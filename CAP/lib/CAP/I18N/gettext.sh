@@ -16,5 +16,5 @@ if [ -d $caproot ]; then
 
     find $caproot -name '*.tt' | xargs xgettext.pl -o $pofile
 else
-    echo "Usage $0 PAT_TO_CAP_ROOT"
+    echo "Usage $0 PATH_TO_CAP_ROOT"
 fi
