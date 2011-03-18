@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2011-03-17 09:32-0500\n"
+"PO-Revision-Date: 2011-03-18 09:11-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,7 @@ msgstr "Requête inadéquate"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/footer.tt:4
 msgid "Brought to you by Agriculture and Agri-Food Canada"
-msgstr ""
+msgstr "Présenté par Agriculture et Agroalimentaire Canada"
 
 msgid "Browse"
 msgstr "Parcourir"
@@ -102,7 +102,7 @@ msgstr "Parcourir par titre"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/footer.tt:8
 msgid "Canada Agriculture Library-Bibliothèque canadienne de l’agriculture publications contained herein are protected by Crown copyright (unless otherwise indicated), held by the Queen's Printer. These works may not be reproduced, in all or in part, for any commercial purpose except under a license from the Queen's Printer or if credit is given and Crown copyright is acknowledged."
-msgstr ""
+msgstr "Les publications de Canada Agriculture Library-Bibliothèque canadienne de l’agriculture présentées ici sont protégées (à moins d’indication contraire) par le droit d’auteur de la Couronne détenu par l’Imprimeur de la Reine. Ces documents ne peuvent être reproduits, en tout ou en partie, pour des fins commerciales à moins de détenir une licence de l’Imprimeur de la Reine ou d’indiquer la source et l’autorisation de la Couronne en vertu du droit d’auteur. "
 
 msgid "Click here if your browser does not automatically redirect you"
 msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
@@ -142,7 +142,7 @@ msgstr "Année(s)"
 
 #: /Users/william/Projects/cap-root/templates/Default/Common/view_dh.tt:35
 msgid "Document Record"
-msgstr ""
+msgstr "Notice bibliographique du document"
 
 msgid "Download PDF"
 msgstr "Télécharger PDF"
@@ -193,7 +193,7 @@ msgstr "Français"
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_embed.tt:3
 #: /Users/william/Projects/cap-root/templates/Default/co/component/object_embed.tt:3
 msgid "From a collection held by %1"
-msgstr ""
+msgstr "Provient de la collection de %1"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/group_by_doc_button.tt:19
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/group_by_doc_button.tt:4
@@ -238,7 +238,7 @@ msgstr "Description brève "
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/contrib_filter.tt:7
 #: /Users/william/Projects/cap-root/templates/Default/co/component/contrib_filter.tt:7
 msgid "Limit by contributor:"
-msgstr ""
+msgstr "Limiter la recherche par fournisseur :"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/date_range_button.tt:15
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:163
@@ -430,7 +430,7 @@ msgstr "Rechercher"
 #: /Users/william/Projects/cap-root/templates/Default/Common/component/search_document.tt:10
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:50
 msgid "Search Document"
-msgstr ""
+msgstr "Rechercher dans le document"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:22
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:22
@@ -492,24 +492,24 @@ msgstr "Afficher"
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/any_contrib.tt:7
 #: /Users/william/Projects/cap-root/templates/Default/co/component/any_contrib.tt:7
 msgid "Show All Contributors"
-msgstr ""
+msgstr "Afficher tous les fournisseurs"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/any_language.tt:7
 #: /Users/william/Projects/cap-root/templates/Default/co/component/any_language.tt:7
 msgid "Show All Languages"
-msgstr ""
+msgstr "Afficher toutes les langues"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/any_medium.tt:9
 #: /Users/william/Projects/cap-root/templates/Default/co/component/any_medium.tt:9
 msgid "Show All Media"
-msgstr ""
+msgstr "Afficher tous les médias"
 
 #. (item.pages.hits)
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/rlist.tt:94
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_results.tt:40
 #: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:94
 msgid "Show all %1 matches"
-msgstr ""
+msgstr "Afficher les %1 résultats correspondants"
 
 msgid "Show all issues"
 msgstr "Afficher tous les numéros"
@@ -584,7 +584,7 @@ msgstr "Un problème est survenu lors de votre requête. Essayez de nouveau dans
 #. (n_pages)
 #: /Users/william/Projects/cap-root/templates/Default/Common/view_dh.tt:19
 msgid "This document contains %1 pages"
-msgstr ""
+msgstr " Ce document contient %1 pages"
 
 msgid "Type"
 msgstr "Type"
