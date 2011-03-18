@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2011-03-18 09:11-0500\n"
+"PO-Revision-Date: 2011-03-18 14:15-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -131,6 +131,10 @@ msgstr "© Canadiana.org %1"
 msgid "Corporate"
 msgstr "Enterprises"
 
+#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:21
+msgid "Creator"
+msgstr "Créateur"
+
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/date_range_button.tt:6
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:140
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:50
@@ -220,6 +224,7 @@ msgstr "Numéro %1 de %2"
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:92
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:24
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:5
+#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:26
 #: /Users/william/Projects/cap-root/templates/Default/co/component/facet_data.tt:17
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:92
 #: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:24
@@ -322,6 +327,10 @@ msgstr "Votre recherche n'a produit aucun résultat"
 msgid "No results for"
 msgstr "Aucun résultat pour"
 
+#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:25
+msgid "Notes"
+msgstr "Notes"
+
 msgid "Nothing Found"
 msgstr "Aucun résultat"
 
@@ -352,7 +361,7 @@ msgid "Password"
 msgstr "Mot de passe"
 
 #: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:39
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:55
+#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:57
 msgid "Previous"
 msgstr "précédente"
 
@@ -371,6 +380,10 @@ msgstr "Années de publication"
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:37
 msgid "Publication years:"
 msgstr "Année(s) de publication :"
+
+#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:23
+msgid "Published"
+msgstr "Adresse bibliographique"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:30
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:30
@@ -509,7 +522,7 @@ msgstr "Afficher tous les médias"
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_results.tt:40
 #: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:94
 msgid "Show all %1 matches"
-msgstr "Afficher les %1 résultats correspondants"
+msgstr "Afficher chacune des %1 pages correspondantes"
 
 msgid "Show all issues"
 msgstr "Afficher tous les numéros"
@@ -560,6 +573,10 @@ msgstr "Trier :"
 msgid "Status:"
 msgstr "Statut :"
 
+#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:24
+msgid "Subject"
+msgstr "Sujet"
+
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:16
 #: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:16
 msgid "Submit"
@@ -585,6 +602,10 @@ msgstr "Un problème est survenu lors de votre requête. Essayez de nouveau dans
 #: /Users/william/Projects/cap-root/templates/Default/Common/view_dh.tt:19
 msgid "This document contains %1 pages"
 msgstr " Ce document contient %1 pages"
+
+#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:22
+msgid "Title"
+msgstr "Titre"
 
 msgid "Type"
 msgstr "Type"
