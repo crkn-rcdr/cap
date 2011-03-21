@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2011-03-18 14:35-0500\n"
+"PO-Revision-Date: 2011-03-21 10:00-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -305,11 +305,15 @@ msgid "New Search"
 msgstr "Nouvelle recherche"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/context.tt:6
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/header.tt:18
 #: /Users/william/Projects/cap-root/templates/Default/co/component/context.tt:6
 #: /Users/william/Projects/cap-root/templates/Default/co/component/header.tt:18
 msgid "New search"
 msgstr "Nouvelle recherche"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:48
+#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:62
+msgid "Next"
+msgstr "Suivante"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:37
 #: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:37
@@ -360,7 +364,7 @@ msgstr "Fait partie de :"
 msgid "Password"
 msgstr "Mot de passe"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:39
+#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:41
 #: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:57
 msgid "Previous"
 msgstr "précédente"
@@ -410,7 +414,7 @@ msgid "Results limited to: "
 msgstr "Résultats limités à :"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:58
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/pager.tt:20
+#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/pager.tt:21
 #: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:58
 #: /Users/william/Projects/cap-root/templates/Default/co/component/pager.tt:20
 msgid "Results page"
