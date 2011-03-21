@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2011-03-21 10:00-0500\n"
+"PO-Revision-Date: 2011-03-21 10:02-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -313,7 +313,7 @@ msgstr "Nouvelle recherche"
 #: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:48
 #: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:62
 msgid "Next"
-msgstr "Suivante"
+msgstr "suivante"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:37
 #: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:37
