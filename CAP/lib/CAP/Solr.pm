@@ -519,7 +519,7 @@ sub solr_query
     }
 
     $self->{status}->{qtime} += $metrics->{query_time};
-    $self->{result}->{q} = uri_unescape(join("&", @query_params));
+    #$self->{result}->{q} = uri_unescape(join("&", @query_params));
     $self->{result}->{hits} = $metrics->{hits};
     $self->{result}->{hitsPerPage} = $metrics->{hitsPerPage};
     $self->{result}->{hitsFrom} = $metrics->{hitsFrom};

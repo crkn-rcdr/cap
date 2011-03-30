@@ -36,6 +36,40 @@ sub main :Private
     return $c->forward('search', [$c->req->params, $param]);
 }
 
+
+sub advanced :Private
+{
+    my($self, $c) = @_;
+    my @query = ();
+    my $adv_any = $c->req->params->{'adv_any'} || "";
+    my $adv_all = $c->req->params->{'adv_all'} || "";
+    my $adv_not = $c->req->params->{'adv_not'} || "";
+    my $adv_fl  = $c->req->params->{'adv_fl'}  || $c->config->{adv}->{default_field};
+
+    # If adv_fl is invalid, use the default instead.
+    if (! $c->config->{adv}->{fields}->{$adv_fl}) {
+        $adv_fl = $c->config->{adv}->{default_field};
+    }
+
+    # Add tokens (keywords and phrases) from the any, all and none fields
+    # to the query string.
+    my @param = ($adv_any, "", $adv_all, "+", $adv_not, "-");
+    while (@param) {
+        my $field  = shift(@param);
+        my $prefix = shift(@param);
+        while ($field =~ /((?:".*?")|(?:[^\+\-\"\s]+))/g) {
+            my $token = $1;
+            if (substr($token, 0, 1) eq '"') {
+                $token =~ s/[*?+-]/ /g;
+            }
+            push(@query, $prefix . $token);
+        }
+    }
+
+    $c->res->redirect($c->uri_for_action('search', { $adv_fl => join(' ', @query) }));
+}
+
+
 sub search :Private
 {
     my($self, $c, $query, $param) = @_;

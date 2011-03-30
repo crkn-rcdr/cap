@@ -72,11 +72,6 @@ sub begin :Private
         }
     }
 
-    # Verify that the config file version is correct
-    unless ($c->config->{version} == $CAP::VERSION) {
-        $c->detach("config_error", ["cap.conf (or cap_local.conf) is out of date: version $CAP::VERSION is required"]);
-    }
-
     # Set debug mode
     if ($c->config->{debug}) {
         $c->stash->{debug} = 1;
@@ -335,7 +330,15 @@ sub search : Path('search') Args() {
     my($self, $c, $page) = @_;
     $page = 1 unless ($page);
     my $param = { page => 1};
-    return $c->forward('search/main', [$page]);
+
+    # If the adv parameter is set, parse the advanced search variables.
+    # Otherwise, do a regular search.
+    if ($c->req->params->{adv}) {
+        return $c->forward('search/advanced', [$page]);
+    }
+    else {
+        return $c->forward('search/main');
+    }
 }
 
 sub show :Path('show') Args() {
