@@ -46,9 +46,17 @@ sub advanced :Private
     my $adv_not = $c->req->params->{'adv_not'} || "";
     my $adv_fl  = $c->req->params->{'adv_fl'}  || $c->config->{adv}->{default_field};
 
-    # If adv_fl is invalid, use the default instead.
-    if (! $c->config->{adv}->{fields}->{$adv_fl}) {
-        $adv_fl = $c->config->{adv}->{default_field};
+    # Include the field name if we are using something other than the
+    # default field. If the specified field is not one of the enabled
+    # fields, treat as the default.
+    if ($adv_fl eq $c->config->{adv}->{default_field}) {
+        $adv_fl = "";
+    }
+    if ($c->config->{adv}->{fields}->{$adv_fl}) {
+        $adv_fl .= ':';
+    }
+    else {
+        $adv_fl = "";
     }
 
     # Add tokens (keywords and phrases) from the any, all and none fields
@@ -62,11 +70,11 @@ sub advanced :Private
             if (substr($token, 0, 1) eq '"') {
                 $token =~ s/[*?+-]/ /g;
             }
-            push(@query, $prefix . $token);
+            push(@query, $prefix . $adv_fl . $token);
         }
     }
 
-    $c->res->redirect($c->uri_for_action('search', { $adv_fl => join(' ', @query) }));
+    $c->res->redirect($c->uri_for_action('search', { $c->config->{adv}->{default_field} => join(' ', @query) }));
 }
 
 

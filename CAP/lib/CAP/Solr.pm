@@ -560,6 +560,12 @@ sub query
     # Load the default solr parameters
     my %solr = (%{$self->{defaults}});
 
+    # Create arrays to hold terms for each allowed field.
+    my %fields = ();
+    foreach my $field (keys(%{$self->{fields}})) {
+        $fields{$field} = [];
+    }
+
     # Add all recognized fields to the query.
     while (my($key, $value) = each(%{$field})) {
         if ($self->{fields}->{$key}) {
@@ -567,13 +573,31 @@ sub query
             my @terms = ();
             while ($value =~ /
                 ((?:^|\s)[\+\-])?        # boolean prefix operator (optional); cannot be in the middle of a string
+                (?:([a-z]+):)?           # field prefix
                 (                        # the search term or phrase:
                   (?:".+?") |            # double-quoted phrase
                   (?:[^\+\-\"\s]+)       # single keyword
                 )      
             /gx) {
                 my $prefix = $1 || "";
-                my $token  = $2;
+                my $field  = $2 || "";
+                my $token  = $3;
+
+                # Within any field, a field specifier can be used to
+                # assign that term to a diferent field. This makes:
+                # q=su:canada quebec
+                # equivalent to
+                # q=quebec&su=canada
+                my $solr_field;
+                if ($self->{fields}->{$field}) {
+                    $solr_field = $field;
+                }
+                elsif ($self->{fields}->{$key}) {
+                    $solr_field = $key;
+                }
+                else {
+                    $solr_field = $self->{default_field};
+                }
 
                 # If $token is a quoted string, convert + - * and ? to
                 # whitespace
@@ -587,17 +611,22 @@ sub query
                 $token =~ s/\bOR\b/or/g;
                 $token =~ s/\bNOT\b/not/g;
                 
-                push(@terms, "$prefix$token") if ($token);
+                #push(@terms, "$prefix$token") if ($token);
+                push(@{$fields{$solr_field}}, "$prefix$token") if ($token);
             }
 
-            # If we found any terms, add them to the query in the
-            # appropriate fields.
-            if (int(@terms)) {
-                my $value = join(' ', @terms);
-                my $template = $self->{fields}->{$key};
-                $template =~ s/\%/$value/g;
-                push(@query, "($template)");
-            }
+        }
+    }
+
+    # Add terms to the respective fields
+    foreach my $field (keys(%fields)) {
+        warn("????? $field\n");
+        my @terms = @{$fields{$field}};
+        if (int(@terms)) {
+            my $value = join(' ', @terms);
+            my $template = $self->{fields}->{$field};
+            $template =~ s/\%/$value/g;
+            push(@query, "($template)");
         }
     }
 
