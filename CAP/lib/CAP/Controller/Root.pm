@@ -386,11 +386,16 @@ sub view :Path('view') Args() {
     }
 }
 
-# TODO: this should be removed and favicon handling should be smarter.
-sub favicon :Path('favicon.ico') Args(0)
-{
-    my($self, $c) = @_;
-    $c->res->redirect($c->uri_for_action('static', ['favicon.ico']));
+sub info :Path('info') Args() {
+    my($self, $c, @resource) = @_;
+    my $info = join('/', $c->config->{root}, 'info', $c->stash->{portal}, $c->stash->{lang}, @resource) . ".tt";
+    if(! open(INFO, "<$info")) {
+        $c->detach('/error', [404]);
+    }
+    $c->stash->{info}     = join("", <INFO>);
+    close(INFO);
+    $c->stash->{template} = 'info.tt';
+    return 1;
 }
 
 sub test_error :Path('error') Args(1)
