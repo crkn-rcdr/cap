@@ -620,12 +620,12 @@ sub query
 
     # Add terms to the respective fields
     foreach my $field (keys(%fields)) {
-        warn("????? $field\n");
         my @terms = @{$fields{$field}};
         if (int(@terms)) {
             my $value = join(' ', @terms);
             my $template = $self->{fields}->{$field};
             $template =~ s/\%/$value/g;
+            warn "### $template\n";
             push(@query, "($template)");
         }
     }

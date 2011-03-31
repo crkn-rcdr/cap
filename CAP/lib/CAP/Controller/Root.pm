@@ -386,15 +386,15 @@ sub view :Path('view') Args() {
     }
 }
 
-sub info :Path('info') Args() {
+sub support :Path('support') Args() {
     my($self, $c, @resource) = @_;
-    my $info = join('/', $c->config->{root}, 'info', $c->stash->{portal}, $c->stash->{lang}, @resource) . ".tt";
-    if(! open(INFO, "<$info")) {
+    my $support = join('/', $c->config->{root}, 'support', $c->stash->{portal}, $c->stash->{lang}, @resource) . ".tt";
+    if(! open(INFO, "<$support")) {
         $c->detach('/error', [404]);
     }
-    $c->stash->{info}     = join("", <INFO>);
+    $c->stash->{support}     = decode_utf8(join("", <INFO>));
     close(INFO);
-    $c->stash->{template} = 'info.tt';
+    $c->stash->{template} = 'support.tt';
     return 1;
 }
 
