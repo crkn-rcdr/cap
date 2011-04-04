@@ -625,7 +625,6 @@ sub query
             my $value = join(' ', @terms);
             my $template = $self->{fields}->{$field};
             $template =~ s/\%/$value/g;
-            warn "### $template\n";
             push(@query, "($template)");
         }
     }

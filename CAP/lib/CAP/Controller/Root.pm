@@ -57,10 +57,15 @@ sub begin :Private
     my %params = ();
     my %cookies = ();
 
+    # Set debug mode
+    if ($c->config->{debug}) {
+        $c->stash->{debug} = 1;
+    }
+
     # Capture and remove cookies and query parameters that relate to basic request
     # behaviour and configuration. Parameters (but not cookies) are then
     # deleted from the array.
-    foreach my $param (("fmt", "usrlang")) {
+    foreach my $param (("fmt", "usrlang", "size", "rotate")) {
         if ($c->req->params->{$param}) {
             $params{$param} = $c->req->params->{$param};
             delete($c->req->params->{$param});
@@ -72,10 +77,29 @@ sub begin :Private
         }
     }
 
-    # Set debug mode
-    if ($c->config->{debug}) {
-        $c->stash->{debug} = 1;
+
+    #
+    # Set session variables
+    #
+
+    # Image size
+    if ($params{'size'} && $c->config->{derivative}->{size}->{$params{'size'}}) {
+        $c->session->{'size'} = $params{'size'};
     }
+    if ($params{'rotate'} eq 'on') {
+        $c->session->{'rotate'} = 1;
+    }
+    if ($params{'rotate'} eq 'off') {
+        $c->session->{'rotate'} = 0;
+    }
+
+    #
+    # Set stash variables from the session
+    #
+
+    $c->stash->{'size'} = $c->session->{'size'}     || "";
+    $c->stash->{'rotate'} = $c->session->{'rotate'} || 0;
+
 
     # Set the current view
     if (! $c->config->{default_view}) {
