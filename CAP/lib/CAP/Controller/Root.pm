@@ -86,10 +86,10 @@ sub begin :Private
     if ($params{'size'} && $c->config->{derivative}->{size}->{$params{'size'}}) {
         $c->session->{'size'} = $params{'size'};
     }
-    if ($params{'rotate'} eq 'on') {
+    if ($params{'rotate'} && $params{'rotate'} eq 'on') {
         $c->session->{'rotate'} = 1;
     }
-    if ($params{'rotate'} eq 'off') {
+    if ($params{'rotate'} && $params{'rotate'} eq 'off') {
         $c->session->{'rotate'} = 0;
     }
 
@@ -412,7 +412,7 @@ sub view :Path('view') Args() {
 
 sub support :Path('support') Args() {
     my($self, $c, @resource) = @_;
-    my $support = join('/', $c->config->{root}, 'support', $c->stash->{portal}, $c->stash->{lang}, @resource) . ".tt";
+    my $support = join('/', $c->config->{root}, 'support', $c->stash->{portal}, @resource) . ".tt";
     if(! open(INFO, "<$support")) {
         $c->detach('/error', [404]);
     }

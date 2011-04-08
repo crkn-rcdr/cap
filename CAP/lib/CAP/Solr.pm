@@ -566,66 +566,88 @@ sub query
         $fields{$field} = [];
     }
 
+    my $or_terms = 0; # Flag to OR together a pair of terms
+
     # Add all recognized fields to the query.
     while (my($key, $value) = each(%{$field})) {
         if ($self->{fields}->{$key}) {
 
             my @terms = ();
             while ($value =~ /
-                ((?:^|\s)[\+\-])?        # boolean prefix operator (optional); cannot be in the middle of a string
+                ((?!:^|\s)[\-])?         # boolean prefix operator (optional); cannot be in the middle of a string
                 (?:([a-z]+):)?           # field prefix
                 (                        # the search term or phrase:
                   (?:".+?") |            # double-quoted phrase
-                  (?:[^\+\-\"\s]+)       # single keyword
+                  (?:[^\-\"\s]+)         # single keyword
                 )      
             /gx) {
-                my $prefix = $1 || "";
-                my $field  = $2 || "";
-                my $token  = $3;
+                my $prefix = $1 || "";   # Negation operator (TODO: possibly others as well)
+                my $field  = $2 || "";   # Field name
+                my $token  = $3;         # Query term or phrase
 
-                # Within any field, a field specifier can be used to
-                # assign that term to a diferent field. This makes:
-                # q=su:canada quebec
-                # equivalent to
-                # q=quebec&su=canada
-                my $solr_field;
+                # | is the OR operator. If specified by itself and an OR
+                # is allowed at this point, set the or_terms flag so that
+                # we OR the next token with the previous.
+                if ($prefix eq '' && $field eq '' && $token eq '|' && int(@query) > 0) {
+                    $or_terms = 1;
+                    next;
+                }
+
+                # Escape the token. Depending on whether it is a phrase or
+                # single term, we use a different set of escapes.
+                if (substr($token, 0, 1) eq '"') {
+                    $token =~ s/[*?-]/ /g;
+                    $token =~ s/([+:!(){}\\[\]^~\\])/\\$1/g;
+                    $token =~ s/\bOR\b/or/g;
+                    $token =~ s/\bAND\b/and/g;
+                    $token =~ s/\bNOT\b/not/g;
+                }
+                else {
+                    $token =~ s/(["+:!(){}\\[\]^~\\])/\\$1/g;
+                    $token =~ s/\bOR\b/or/g;
+                    $token =~ s/\bAND\b/and/g;
+                    $token =~ s/\bNOT\b/not/g;
+                }
+                
+                # Select which Solr field to use based on $field, the
+                # query parameter $key, and the default field, in that
+                # order of preference.
+                my $solr_field = $self->{default_field};
                 if ($self->{fields}->{$field}) {
                     $solr_field = $field;
                 }
                 elsif ($self->{fields}->{$key}) {
                     $solr_field = $key;
                 }
+
+                # Add the term to the query by applying the Solr search
+                # template to it.
+                my $template = $self->{fields}->{$solr_field};
+                $template =~ s/\%/$token/g;
+                if ($or_terms) {
+                    $query[-1] = '(' . $query[-1] . ' OR ' . "$prefix($template)" . ')';
+                    $or_terms = 0;
+                }
                 else {
-                    $solr_field = $self->{default_field};
+                    push(@query, "$prefix($template)");
                 }
-
-                # If $token is a quoted string, convert + - * and ? to
-                # whitespace
-                if (substr($token, 0, 1) eq '"') {
-                    $token =~ s/[*?+-]/ /g;
-                }
-
-                # Escape additional Lucene/Solr special characters
-                $token =~ s/([:!(){}\\[\]^~\\])/\\$1/g;
-                $token =~ s/\bAND\b/and/g;
-                $token =~ s/\bOR\b/or/g;
-                $token =~ s/\bNOT\b/not/g;
-                
-                #push(@terms, "$prefix$token") if ($token);
-                push(@{$fields{$solr_field}}, "$prefix$token") if ($token);
             }
 
         }
     }
+    
 
     # Add terms to the respective fields
     foreach my $field (keys(%fields)) {
         my @terms = @{$fields{$field}};
         if (int(@terms)) {
-            my $value = join(' ', @terms);
-            my $template = $self->{fields}->{$field};
-            $template =~ s/\%/$value/g;
-            push(@query, "($template)");
+            my @subquery = ();
+            foreach my $term (@terms) {
+                my $template = $self->{fields}->{$field};
+                $template =~ s/\%/$term/g;
+                push(@subquery, $template);
+            }
+            push(@query, '(' . join(' ', @subquery) . ')');
         }
     }
 
@@ -699,7 +721,7 @@ sub query
     push(@query, "($self->{subset})") if ($self->{subset});
 
     # Add the query itself to the parameter list.
-    push(@params, ['q', join(' AND ', @query)]);
+    push(@params, ['q', join(' ', @query)]);
 
     # Execute the query and return the result.
     return $self->solr_query(@params);

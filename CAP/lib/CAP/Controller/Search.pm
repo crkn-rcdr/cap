@@ -61,17 +61,30 @@ sub advanced :Private
 
     # Add tokens (keywords and phrases) from the any, all and none fields
     # to the query string.
-    my @param = ($adv_any, "", $adv_all, "+", $adv_not, "-");
-    while (@param) {
-        my $field  = shift(@param);
-        my $prefix = shift(@param);
-        while ($field =~ /((?:".*?")|(?:[^\+\-\"\s]+))/g) {
-            my $token = $1;
-            if (substr($token, 0, 1) eq '"') {
-                $token =~ s/[*?+-]/ /g;
-            }
-            push(@query, $prefix . $adv_fl . $token);
+    my @adv_any = ();
+    while ($adv_any =~ /((?:".*?")|(?:[^\+\-\"\s]+))/g) {
+        my $token = $1;
+        if (substr($token, 0, 1) eq '"') {
+            $token =~ s/[*?-]/ /g;
         }
+        push(@adv_any, $adv_fl . $token);
+    }
+    push(@query, join(' | ', @adv_any));
+
+    while ($adv_all =~ /((?:".*?")|(?:[^\+\-\"\s]+))/g) {
+        my $token = $1;
+        if (substr($token, 0, 1) eq '"') {
+            $token =~ s/[*?-]/ /g;
+        }
+        push(@query, $adv_fl . $token);
+    }
+
+    while ($adv_not =~ /((?:".*?")|(?:[^\+\-\"\s]+))/g) {
+        my $token = $1;
+        if (substr($token, 0, 1) eq '"') {
+            $token =~ s/[*?-]/ /g;
+        }
+        push(@query, '-' . $adv_fl . $token);
     }
 
     $c->res->redirect($c->uri_for_action('search', { $c->config->{adv}->{default_field} => join(' ', @query) }));

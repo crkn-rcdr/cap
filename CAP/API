@@ -1,0 +1,6 @@
+QUERY PARAMETERS
+
+    Page image size and orientation
+
+        size = 1|2|3       (default = none)
+        landscape = on|off (default = none)
