@@ -1,7 +1,9 @@
 package CAP::Solr;
 use strict;
 use warnings;
-use feature qw(switch);
+use utf8;
+#use feature qw(switch);
+
 
 use Encode;
 use LWP::UserAgent;
@@ -608,6 +610,22 @@ sub query
                     $token =~ s/\bAND\b/and/g;
                     $token =~ s/\bNOT\b/not/g;
                 }
+
+                # If a wildcard (? or *) is used, Solr does not apply any
+                # filters (e.g. ISOLAtin1Accent) so we need to do it
+                # ourselves. :(
+                # TODO: this list is not exhaustive.
+                $token =~ tr/ÀàÁáÂâÄäÃãÅå/a/;
+                $token =~ tr/ÈèÉéÊêËë/e/;
+                $token =~ tr/ÌìÍíÎîÏï/i/;
+                $token =~ tr/ÒòÓóÔôÖöÕõØo/o/;
+                $token =~ tr/ÙùÚúÛûÜü/u/;
+                $token =~ tr/Çç/c/;
+                $token =~ tr/Ññ/n/;
+                $token =~ s/[Œœ]/oe/g;
+                $token =~ s/[Ææ]/ae/g;
+                $token = lc($token);
+
                 
                 # Select which Solr field to use based on $field, the
                 # query parameter $key, and the default field, in that
