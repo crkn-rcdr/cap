@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2011-03-21 10:02-0500\n"
+"PO-Revision-Date: 2011-04-18 13:18-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -54,11 +54,10 @@ msgstr "1 résultat"
 msgid "1 result for"
 msgstr "1 résultat pour"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:6
+#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:10
 msgid "About Canadiana Discovery Portal"
 msgstr "À propos du Portail de recherche de Canadiana"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:4
 msgid "About Canadiana.org"
 msgstr "À propos de Canadiana.org"
 
@@ -69,6 +68,12 @@ msgstr "Accès restreint"
 #: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:34
 msgid "Additional Debugging Information"
 msgstr ""
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:8
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:85
+#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:39
+msgid "Advanced Search"
+msgstr "Recherche avancée"
 
 msgid "Advanced search"
 msgstr "Recherche avancée"
@@ -81,6 +86,22 @@ msgstr "Tous droits réservés © Affaires étrangères et Commerce internationa
 #: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:77
 msgid "All matching %1 from: %2"
 msgstr "Tous les résultats correspondant à %1 de %2"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:126
+msgid "All of"
+msgstr ""
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:12
+msgid "All of these words:"
+msgstr "Tous ces mots :"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:123
+msgid "Any of"
+msgstr ""
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:24
+msgid "Appearing:"
+msgstr "Apparaissant :"
 
 #: /Users/william/Projects/cap-root/templates/Default/co/object.tt:10
 msgid "Back to search results"
@@ -100,34 +121,36 @@ msgstr "Parcourir"
 msgid "Browse by title"
 msgstr "Parcourir par titre"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/footer.tt:8
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:20
+msgid "But avoiding the words:"
+msgstr "Mais en évitant les mots :"
+
 msgid "Canada Agriculture Library-Bibliothèque canadienne de l’agriculture publications contained herein are protected by Crown copyright (unless otherwise indicated), held by the Queen's Printer. These works may not be reproduced, in all or in part, for any commercial purpose except under a license from the Queen's Printer or if credit is given and Crown copyright is acknowledged."
 msgstr "Les publications de Canada Agriculture Library-Bibliothèque canadienne de l’agriculture présentées ici sont protégées (à moins d’indication contraire) par le droit d’auteur de la Couronne détenu par l’Imprimeur de la Reine. Ces documents ne peuvent être reproduits, en tout ou en partie, pour des fins commerciales à moins de détenir une licence de l’Imprimeur de la Reine ou d’indiquer la source et l’autorisation de la Couronne en vertu du droit d’auteur. "
 
 msgid "Click here if your browser does not automatically redirect you"
 msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:5
+#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:9
 msgid "Collection Contributors"
 msgstr "Organisations collaboratrices"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:32
+#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:42
 msgid "Collection contributors"
 msgstr "Organisations collaboratrices"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/facet_data.tt:91
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:91
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:114
-#: /Users/william/Projects/cap-root/templates/Default/co/component/facet_data.tt:91
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:114
 msgid "Contributor"
 msgstr "Collaborateur"
 
-#. (2010)
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:9
+#. ('2010-11')
+#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:13
 msgid "Copyright © Canadiana.org %1"
 msgstr "© Canadiana.org %1"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:7
+#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:11
 msgid "Corporate"
 msgstr "Enterprises"
 
@@ -135,12 +158,11 @@ msgstr "Enterprises"
 msgid "Creator"
 msgstr "Créateur"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:50
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/date_range_button.tt:6
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:140
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:50
 #: /Users/william/Projects/cap-root/templates/Default/co/component/date_range_button.tt:6
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:140
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:50
 msgid "Date Range"
 msgstr "Année(s)"
 
@@ -180,7 +202,6 @@ msgid "Error:"
 msgstr "Erreur :"
 
 # Contributor names - bilingual
-#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:39
 msgid "Foreign Affairs and International Trade"
 msgstr "Affaires étrangers et Commerce international"
 
@@ -220,12 +241,11 @@ msgstr "Privilèges insuffisants"
 msgid "Issue %1 of %2 available issues"
 msgstr "Numéro %1 de %2"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/facet_data.tt:17
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:17
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:92
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:24
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:5
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:26
-#: /Users/william/Projects/cap-root/templates/Default/co/component/facet_data.tt:17
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:92
 #: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:24
 #: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:5
@@ -245,13 +265,12 @@ msgstr "Description brève "
 msgid "Limit by contributor:"
 msgstr "Limiter la recherche par fournisseur :"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:73
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/date_range_button.tt:15
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:163
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:73
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/year_published.tt:11
 #: /Users/william/Projects/cap-root/templates/Default/co/component/date_range_button.tt:15
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:163
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:73
 #: /Users/william/Projects/cap-root/templates/Default/co/component/year_published.tt:11
 msgid "Limit by date range:"
 msgstr "Année(s) de publication :"
@@ -271,15 +290,18 @@ msgstr "Limiter par type de média"
 msgid "Log In"
 msgstr "Ouverture de session"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:9
+msgid "Look for..."
+msgstr "Rechercher..."
+
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/rlist.tt:87
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_results.tt:33
 #: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:87
 msgid "Matching pages:"
 msgstr "Pages correspondantes :"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/facet_data.tt:54
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:54
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:136
-#: /Users/william/Projects/cap-root/templates/Default/co/component/facet_data.tt:54
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:136
 msgid "Media"
 msgstr "Média"
@@ -297,16 +319,12 @@ msgid "More detail"
 msgstr "Description longue"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:177
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:87
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:49
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:177
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:87
 msgid "New Search"
 msgstr "Nouvelle recherche"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/context.tt:6
 #: /Users/william/Projects/cap-root/templates/Default/co/component/context.tt:6
-#: /Users/william/Projects/cap-root/templates/Default/co/component/header.tt:18
 msgid "New search"
 msgstr "Nouvelle recherche"
 
@@ -331,12 +349,20 @@ msgstr "Votre recherche n'a produit aucun résultat"
 msgid "No results for"
 msgstr "Aucun résultat pour"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:129
+msgid "None of"
+msgstr ""
+
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:25
 msgid "Notes"
 msgstr "Notes"
 
 msgid "Nothing Found"
 msgstr "Aucun résultat"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:16
+msgid "One or more of these words:"
+msgstr "Au moins un de ces mots : "
 
 msgid "Page"
 msgstr "Page"
@@ -369,7 +395,7 @@ msgstr "Mot de passe"
 msgid "Previous"
 msgstr "précédente"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:8
+#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:12
 msgid "Privacy Policy and Legal"
 msgstr "Politique sur la vie privée et avis juridiques"
 
@@ -408,7 +434,7 @@ msgid "Results %1 - %2 of %3 for"
 msgstr "%1 - %2 de %3 résultats pour"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:42
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:42
+#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:43
 #: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:41
 msgid "Results limited to: "
 msgstr "Résultats limités à :"
@@ -420,6 +446,10 @@ msgstr "Résultats limités à :"
 msgid "Results page"
 msgstr "Page des résultats"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:33
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:135
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:143
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:79
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/contrib_filter.tt:12
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/date_range_button.tt:22
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:169
@@ -427,10 +457,9 @@ msgstr "Page des résultats"
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_filter.tt:13
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/media_filter.tt:13
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_subsearch.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/subsearch.tt:34
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:79
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/year_published.tt:24
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:35
+#: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:49
 #: /Users/william/Projects/cap-root/templates/Default/co/component/contrib_filter.tt:12
 #: /Users/william/Projects/cap-root/templates/Default/co/component/date_range_button.tt:22
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:169
@@ -438,16 +467,29 @@ msgstr "Page des résultats"
 #: /Users/william/Projects/cap-root/templates/Default/co/component/language_filter.tt:13
 #: /Users/william/Projects/cap-root/templates/Default/co/component/media_filter.tt:13
 #: /Users/william/Projects/cap-root/templates/Default/co/component/object_subsearch.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/co/component/subsearch.tt:34
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:79
 #: /Users/william/Projects/cap-root/templates/Default/co/component/year_published.tt:24
+#: /Users/william/Projects/cap-root/templates/Default/co/main.tt:36
+#: /Users/william/Projects/cap-root/templates/Default/co/main.tt:52
+#: /Users/william/Projects/cap-root/templates/Default/dfait/main.tt:35
+#: /Users/william/Projects/cap-root/templates/Default/dfait/main.tt:49
 msgid "Search"
 msgstr "Rechercher"
 
 #: /Users/william/Projects/cap-root/templates/Default/Common/component/search_document.tt:10
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:50
+#: /Users/william/Projects/cap-root/templates/Default/co/main.tt:53
+#: /Users/william/Projects/cap-root/templates/Default/dfait/main.tt:50
 msgid "Search Document"
 msgstr "Rechercher dans le document"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:40
+#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:40
+msgid "Search Tips"
+msgstr "Conseils de recherche"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:132
+msgid "Search in"
+msgstr ""
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:22
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:22
@@ -470,27 +512,15 @@ msgstr "Recherche dans la collection"
 msgid "Search this item's %1 %2"
 msgstr "Effectuer une recherche dans les %1 %2 de ce document"
 
-#. (response.item.counts.gpages)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/subsearch.tt:7
-#: /Users/william/Projects/cap-root/templates/Default/co/component/subsearch.tt:7
 msgid "Search within this collection (%1 pages)"
 msgstr "Recherche dans cette collection (%1 pages)"
 
-#. (response.item.counts.pages)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/subsearch.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/co/component/subsearch.tt:17
 msgid "Search within this issue (%1 pages)"
 msgstr "Recherche dans ce numéro (%1 pages)"
 
-#. (response.item.counts.pages)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/subsearch.tt:22
-#: /Users/william/Projects/cap-root/templates/Default/co/component/subsearch.tt:22
 msgid "Search within this item (%1 pages)"
 msgstr "Recherche dans ce document (%1 pages)"
 
-#. (response.item.counts.gpages)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/subsearch.tt:12
-#: /Users/william/Projects/cap-root/templates/Default/co/component/subsearch.tt:12
 msgid "Search within this publication (%1 pages)"
 msgstr "Recherche dans cette publication (%1 pages)"
 
@@ -551,12 +581,11 @@ msgstr "Afficher tous les résultats"
 msgid "Sort"
 msgstr "Trier par"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:45
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:71
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:38
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:45
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:71
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:38
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:45
 #: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:37
 msgid "Sort Order"
 msgstr "Trier par"
@@ -575,6 +604,10 @@ msgstr "Trier par"
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:25
 msgid "Sort:"
 msgstr "Trier :"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:39
+msgid "Standard Search"
+msgstr ""
 
 #. (status)
 #: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:35
@@ -624,6 +657,8 @@ msgstr "Nom de utilisateur"
 
 #: /Users/william/Projects/cap-root/templates/Default/Common/component/page_selector.tt:15
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:51
+#: /Users/william/Projects/cap-root/templates/Default/co/main.tt:54
+#: /Users/william/Projects/cap-root/templates/Default/dfait/main.tt:51
 msgid "View Page"
 msgstr "Afficher page"
 
@@ -651,7 +686,6 @@ msgstr "Vos privilèges sont insuffisants pour visionner cette page."
 msgid "You must be logged in to view this page."
 msgstr " Vous devez ouvrir une session pour visionner cette page."
 
-#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:23
 msgid "Your single best source for discovering Canadian documentary heritage"
 msgstr "La source par excellence pour découvrir le patrimoine documentaire canadien"
 
@@ -662,18 +696,15 @@ msgstr "La source par excellence pour découvrir le patrimoine documentaire cana
 msgid "and"
 msgstr "et"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/facet_data.tt:102
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/facet_data.tt:28
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/facet_data.tt:65
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:102
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:28
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:65
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:100
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:122
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:78
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:10
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:32
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:32
-#: /Users/william/Projects/cap-root/templates/Default/co/component/facet_data.tt:102
-#: /Users/william/Projects/cap-root/templates/Default/co/component/facet_data.tt:28
-#: /Users/william/Projects/cap-root/templates/Default/co/component/facet_data.tt:65
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:100
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:122
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:78
@@ -682,6 +713,14 @@ msgstr "et"
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:32
 msgid "any"
 msgstr "toutes"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:26
+msgid "anywhere"
+msgstr "n'importe où"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:27
+msgid "as part of the title"
+msgstr "dans le titre"
 
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:20
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:20
@@ -704,19 +743,26 @@ msgstr "partout"
 msgid "for"
 msgstr "pour"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:28
+msgid "in the author/creator's name"
+msgstr "dans le nom de l'auteur/du créateur"
+
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:29
+msgid "in the subject or description"
+msgstr "ans le sujet ou la description"
+
 msgid "index"
 msgstr "index"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:41
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:67
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:28
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:41
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:7
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:9
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:67
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:28
 #: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:41
 #: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:7
 #: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:9
 msgid "newest"
@@ -733,16 +779,15 @@ msgstr "date décroissante"
 msgid "of"
 msgstr "de"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:42
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:68
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:27
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:18
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:42
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:10
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:6
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:68
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:27
 #: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:18
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:42
 #: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:10
 #: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:6
 msgid "oldest"
@@ -769,16 +814,15 @@ msgstr "communiqué"
 msgid "preview"
 msgstr "aperçu"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:40
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:66
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:26
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:16
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:40
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:5
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:8
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:66
 #: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:26
 #: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:16
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:40
 #: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:5
 #: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:8
 msgid "relevance"
@@ -787,13 +831,12 @@ msgstr "pertinence"
 msgid "score"
 msgstr "pertinence"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:43
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:69
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:43
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:11
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:69
 #: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:43
 #: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:11
 msgid "sequence"
 msgstr "séquence"
@@ -807,13 +850,12 @@ msgstr "declaration"
 msgid "table of contents"
 msgstr "table des matières"
 
+#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:76
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:166
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:53
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/toolbar.tt:76
 #: /Users/william/Projects/cap-root/templates/Default/agriculture/component/year_published.tt:17
 #: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:166
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:53
-#: /Users/william/Projects/cap-root/templates/Default/co/component/toolbar.tt:76
+#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:62
 #: /Users/william/Projects/cap-root/templates/Default/co/component/year_published.tt:17
 #: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:49
 msgid "to"
