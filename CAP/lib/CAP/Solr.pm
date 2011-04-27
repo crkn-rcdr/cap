@@ -66,6 +66,10 @@ sub new
     $solr->{'fields'} = {};
     $solr->{'fields'} = {%{$config->{'fields'}}} if ($config->{'fields'});
 
+    # A list of query fields that should be interpreted as text fields
+    # (not string fields).
+    $solr->{'textfields'} = $config->{'textfields'};
+
     # A mapping of sort rules to Solr sort rules. E.g.:
     # 'oldest' => 'pubmin asc'
     $solr->{'sort'} = {};
@@ -611,21 +615,6 @@ sub query
                     $token =~ s/\bNOT\b/not/g;
                 }
 
-                # If a wildcard (? or *) is used, Solr does not apply any
-                # filters (e.g. ISOLAtin1Accent) so we need to do it
-                # ourselves. :(
-                # TODO: this list is not exhaustive.
-                $token =~ tr/ÀàÁáÂâÄäÃãÅå/a/;
-                $token =~ tr/ÈèÉéÊêËë/e/;
-                $token =~ tr/ÌìÍíÎîÏï/i/;
-                $token =~ tr/ÒòÓóÔôÖöÕõØo/o/;
-                $token =~ tr/ÙùÚúÛûÜü/u/;
-                $token =~ tr/Çç/c/;
-                $token =~ tr/Ññ/n/;
-                $token =~ s/[Œœ]/oe/g;
-                $token =~ s/[Ææ]/ae/g;
-                $token = lc($token);
-
                 
                 # Select which Solr field to use based on $field, the
                 # query parameter $key, and the default field, in that
@@ -638,10 +627,29 @@ sub query
                     $solr_field = $key;
                 }
 
-                # Some fields have separately indexed phrase versions:
-                if (substr($token, 0, 1) eq '"' && $self->{fields}->{uc($solr_field)}) {
-                    $solr_field = uc($solr_field);
+                # If a wildcard (? or *) is used, Solr does not apply any
+                # filters (e.g. ISOLAtin1Accent) so we need to do it
+                # ourselves. :(
+                # This filter should only be applied to fields that are
+                # indexed as normalized text; not literal string fields.
+                # TODO: this list is not exhaustive.
+                if ($self->{'textfields'}->{$solr_field}) {
+                    $token =~ tr/ÀàÁáÂâÄäÃãÅå/a/;
+                    $token =~ tr/ÈèÉéÊêËë/e/;
+                    $token =~ tr/ÌìÍíÎîÏï/i/;
+                    $token =~ tr/ÒòÓóÔôÖöÕõØo/o/;
+                    $token =~ tr/ÙùÚúÛûÜü/u/;
+                    $token =~ tr/Çç/c/;
+                    $token =~ tr/Ññ/n/;
+                    $token =~ s/[Œœ]/oe/g;
+                    $token =~ s/[Ææ]/ae/g;
+                    $token = lc($token);
                 }
+
+                # Some fields have separately indexed phrase versions:
+                #if (substr($token, 0, 1) eq '"' && $self->{fields}->{uc($solr_field)}) {
+                #    $solr_field = uc($solr_field);
+                #}
 
 
                 # Add the term to the query by applying the Solr search
