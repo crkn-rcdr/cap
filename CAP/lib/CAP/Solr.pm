@@ -638,6 +638,12 @@ sub query
                     $solr_field = $key;
                 }
 
+                # Some fields have separately indexed phrase versions:
+                if (substr($token, 0, 1) eq '"' && $self->{fields}->{uc($solr_field)}) {
+                    $solr_field = uc($solr_field);
+                }
+
+
                 # Add the term to the query by applying the Solr search
                 # template to it.
                 my $template = $self->{fields}->{$solr_field};
