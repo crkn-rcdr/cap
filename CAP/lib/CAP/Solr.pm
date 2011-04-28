@@ -584,7 +584,7 @@ sub query
                 (?:([a-z]+):)?           # field prefix
                 (                        # the search term or phrase:
                   (?:".+?") |            # double-quoted phrase
-                  (?:[^\-\"\s]+)         # single keyword
+                  (?:[^\"\s]+)           # single keyword
                 )      
             /gx) {
                 my $prefix = $1 || "";   # Negation operator (TODO: possibly others as well)
