@@ -365,32 +365,10 @@ sub search : Path('search') Args() {
     }
 }
 
-sub show :Path('show') Args() {
-    my($self, $c, $key) = @_;
-    #return $c->forward('show/main', [@args]);
-    return $c->forward('object/main', [$key]);
-}
-
-#sub file :Path('file') Args(1)
-#{
-#    my($self, $c, $key) = @_;
-#    return $c->forward('file/main', [$key]);
-#}
-
-#sub derivative :Path('file/derivative') Args(2) {
-#    my($self, $c, $key, $filename) = @_;
-#    return $c->forward('file/derivative', [$key, $filename]);
-#}
-
 sub file :Path('file') Args(2)
 {
     my($self, $c, $key, $filename) = @_;
     return $c->forward('file/main', [$key, $filename]);
-}
-
-sub object :Path('obj') Args(1) {
-    my($self, $c, $key) = @_;
-    return $c->forward('object/main', [$key]);
 }
 
 sub view :Path('view') Args() {
