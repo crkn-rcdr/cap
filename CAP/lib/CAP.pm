@@ -22,15 +22,18 @@ use Catalyst qw/
                 I18N
                 Unicode::Encoding
 
+                Email
+
                 Authentication
                 Authorization::Roles
 
                 Session
+                Session::DynamicExpiry
                 Session::State::Cookie
                 Session::Store::DBI
                /;
                 #I18N::DBIC
-our $VERSION = 0.66; # Minimum config file version required
+#our $VERSION = 0.66; # Minimum config file version required
 #                Authorization::ACL
 #                Session::Store::FastMmap
 
@@ -54,33 +57,30 @@ __PACKAGE__->config(
             }, 
         },
     },
+
+    'Plugin::Authentication' => {
+        default => {
+            class         => 'SimpleDB',
+            user_model    => 'DB::User',
+            password_type => 'self_check',
+        },
+    },
+
+    'Plugin::Session' => {
+        cookie_expires => 0, # session cookie
+        expires => 7200,     # 2 hours
+        dbi_dbh => 'DB',
+        dbi_table => 'sessions',
+        cookie_name => 'cap_session'
+    },
+
+    'static' => {
+        include_path => [ __PACKAGE__->config->{root} . "/Default/static/" ],
+    },
     
-    #'I18N::DBIC' => {
-    #    lexicon => 'DB::Lexicon',
-    #},
 );
 
-__PACKAGE__->config->{'Plugin::Authentication'} = {
-    default => {
-        class         => 'SimpleDB',
-        user_model    => 'DB::User',
-        password_type => 'self_check',
-    },
-};
-
-__PACKAGE__->config->{static} = {
-    include_path => [ __PACKAGE__->config->{root} . "/Default/static/" ],
-};
-
-
-# Configure session managemnet
-__PACKAGE__->config('Plugin::Session' => {
-    expires => 3600,
-    dbi_dbh => 'DB',
-    dbi_table => 'sessions',
-    #cookie_name => 'cap_session', # optional: specify a cookie name
-});
-
+#__PACKAGE__->config->{email} = [qw/SMTP asiago.cihm/];
 
 # Start the application
 __PACKAGE__->setup();

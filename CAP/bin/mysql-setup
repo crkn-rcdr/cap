@@ -6,8 +6,8 @@ use DBI;
 use File::Basename;
 use Getopt::Long;
 
-my $version = 0.20091118;
-my $prog = basename($0);
+my $version = 0.20110527;
+my $prog    = basename($0);
 
 my $do_install = undef;
 my $do_uninstall = undef;
@@ -20,43 +20,16 @@ GetOptions(install => \$do_install, uninstall => \$do_uninstall, 'password=s' =>
 my @install = (
     'CREATE DATABASE IF NOT EXISTS cap DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci',
 
-    'CREATE TABLE IF NOT EXISTS cap.lexicon (' .
-    '   id INT PRIMARY KEY AUTO_INCREMENT,' .
-    '   language VARCHAR(15) DEFAULT NULL,' .
-    '   path VARCHAR(255) DEFAULT NULL,' .
-    '   message TEXT,' .
-    '   value TEXT,' .
-    '   notes TEXT' .
-    ')',
-
-    'CREATE TABLE IF NOT EXISTS cap.master_image (' .
-    '   id VARCHAR(128) PRIMARY KEY,' .
-    '   path VARCHAR(128) NOT NULL,' .
-    '   format VARCHAR(32) NOT NULL,' .
-    '   ctime INT NOT NULL,' .
-    '   bytes INT NOT NULL,' .
-    '   md5 VARCHAR(32) NOT NULL' .
-    ')',
-
-    'CREATE TABLE IF NOT EXISTS cap.pimg_cache (' .
-    '   id  VARCHAR(128) NOT NULL,' .
-    '   format VARCHAR(32) NOT NULL,' .
-    '   size INT NOT NULL,' .
-    '   rot INT NOT NULL,' .
-    '   data LONGBLOB NOT NULL,' .
-    '   ctime INT NOT NULL,' .
-    '   atime DATETIME NOT NULL,' .
-    '   acount INT NOT NULL,' .
-    '   PRIMARY KEY(id, format, size, rot)' .
-    ')',
-
     'CREATE TABLE IF NOT EXISTS cap.user (' .
-    '   id INT PRIMARY KEY AUTO_INCREMENT,' .
-    '   username VARCHAR(32) UNIQUE NOT NULL,' .
-    '   password VARCHAR(50),' .
-    '   email VARCHAR(128),' .
-    '   name VARCHAR(128),' .
-    '   active INT NOT NULL' .
+    '   id        INT PRIMARY KEY AUTO_INCREMENT,' .
+    '   username  VARCHAR(128) UNIQUE NOT NULL,' .
+    '   password  VARCHAR(50) NOT NULL,' .
+    '   name      VARCHAR(128),' .
+    '   token     VARCHAR(128),' .
+    '   confirmed INT NOT NULL,' .
+    '   active    INT NOT NULL,' .
+    '   lastseen  INT NOT NULL,' .
+    '   INDEX(token)' .
     ')',
 
     'CREATE TABLE IF NOT EXISTS cap.role (' .

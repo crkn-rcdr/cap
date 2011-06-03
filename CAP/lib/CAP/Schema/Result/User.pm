@@ -30,19 +30,13 @@ __PACKAGE__->table("user");
 
   data_type: 'varchar'
   is_nullable: 0
-  size: 32
+  size: 128
 
 =head2 password
 
   data_type: 'varchar'
-  is_nullable: 1
+  is_nullable: 0
   size: 50
-
-=head2 email
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 128
 
 =head2 name
 
@@ -50,7 +44,23 @@ __PACKAGE__->table("user");
   is_nullable: 1
   size: 128
 
+=head2 token
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 128
+
+=head2 confirmed
+
+  data_type: 'integer'
+  is_nullable: 0
+
 =head2 active
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=head2 lastseen
 
   data_type: 'integer'
   is_nullable: 0
@@ -61,22 +71,26 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "username",
-  { data_type => "varchar", is_nullable => 0, size => 32 },
+  { data_type => "varchar", is_nullable => 0, size => 128 },
   "password",
-  { data_type => "varchar", is_nullable => 1, size => 50 },
-  "email",
-  { data_type => "varchar", is_nullable => 1, size => 128 },
+  { data_type => "varchar", is_nullable => 0, size => 50 },
   "name",
   { data_type => "varchar", is_nullable => 1, size => 128 },
+  "token",
+  { data_type => "varchar", is_nullable => 1, size => 128 },
+  "confirmed",
+  { data_type => "integer", is_nullable => 0 },
   "active",
+  { data_type => "integer", is_nullable => 0 },
+  "lastseen",
   { data_type => "integer", is_nullable => 0 },
 );
 __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("username", ["username"]);
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-27 12:33:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:J83xiyxVfvz50B5rNxotZg
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-06-01 13:20:22
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bNMFcVsZfgzb/X2Rhf0Kqw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

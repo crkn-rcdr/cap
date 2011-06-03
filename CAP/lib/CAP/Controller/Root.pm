@@ -62,6 +62,24 @@ sub begin :Private
         $c->stash->{debug} = 1;
     }
 
+    # If this is an anonymous request, check for a persistence token and,
+    # if valid, automatically login the user.
+    if (! $c->user_exists) {
+        if ($c->request->cookie("persistent")) {
+            my $id = $c->model('DB::User')->validate_token($c->request->cookie("persistent")->value);
+            if ($id) {
+                $c->set_authenticated($c->find_user({id => $id}));
+                $c->persist_user();
+            }
+        }
+    }
+
+    # Update the user's last access time.
+    if ($c->user_exists) {
+        eval { $c->user->update({lastseen => time()}) };
+        $c->detach('/error', 500) if ($@);
+    }
+
     # Capture and remove cookies and query parameters that relate to basic request
     # behaviour and configuration. Parameters (but not cookies) are then
     # deleted from the array.
@@ -190,6 +208,9 @@ sub begin :Private
         else {
             $c->stash->{lang} = $portal{default_lang};
         }
+
+        # Stash whether or not user account functions are enabled
+        $c->stash->{user_accounts} = $portal{user_accounts};
 
         # Stash the portal name
         $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};
