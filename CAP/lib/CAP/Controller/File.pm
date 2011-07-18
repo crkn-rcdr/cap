@@ -25,7 +25,9 @@ sub main :Private
     my $doc    = $solr->document($key);
     my $url    = $c->config->{content}->{url};
 
+    # Make sure the item exists and that the user has access permission to it.
     $c->detach('/error', [404, "$key: no such record"]) unless ($doc);
+    $c->detach('/error', [403, "No access for $key"]) unless ($c->forward('/user/has_access', [$doc]));
 
     # Determine the image size to generate.
     if ($c->req->params->{s} && $c->config->{derivative}->{size}->{$c->req->params->{s}}) {

@@ -174,6 +174,9 @@ sub login :Path('login') :Args(0) {
         }
     }
 
+    # Initialize some session variables
+    $c->forward('init');
+
     # Display the login page
     return 1;
 }
@@ -266,6 +269,20 @@ sub reset :Path('reset') :Args() {
 
 sub profile :Path('profile') :Args(0) {
     my($self, $c) = @_;
+    my $solr = $c->stash->{solr};
+
+    # Fetch labels for all of the user's documents, skipping the lookup if
+    # we already know the label.
+    foreach my $book (@{$c->session->{user_bookshelf}}) {
+        next if ($book->{label});
+        my $record = $solr->document($book->{key});
+        $book->{label} = $record->{label};
+    }
+
+    ### TEST: retrieve annotations
+    #$c->stash->{annotations} = [ $c->model('DB::Annotation')->search({
+    #    user_id => $c->user->id,
+    #})->all ];
 }
 
 
@@ -369,6 +386,72 @@ sub sendmail :Private
     });
 
     return 1;
+}
+
+# This should be called at login and when a new session is established,
+# whether or not the requester is an authenticated user. It also needs to
+# be called when a user's subscriptions, group memberships, etc. change.
+# TODO: it may be a good idea to call this every X requests to ensure that
+# changes are reflected in long-running sessions.
+sub init :Private
+{
+    my($self, $c) = @_;
+
+    #
+    # Part 1: initialize for both authenticated and anonymous users
+    #
+
+    # The user's IP address
+    $c->session->{address} = $c->request->address;
+
+    $c->session->{groups} = {};
+    $c->session->{subscriptions} = {};
+    $c->session->{user_subscriptions} = [];
+    $c->session->{group_subscriptions} = [];
+    $c->session->{user_bookshelf} = [];
+    $c->session->{bookshelf} = {};
+
+    # Find the user's group association (if any) based on IP address.
+    # Retrieve any subscriptions associated with the group.
+    my $group = $c->model('DB::GroupsIpaddr')->group_for_ip($c->session->{address});
+    if ($group) {
+        $c->session->{groups}->{$group->id} = $group;
+    }
+
+    # Group subscriptions
+    foreach my $collection ($c->model('DB::GroupsCollection')->collections_for_group($group->id)) {
+        $c->session->{subscriptions}->{$collection->{id}} = $collection;
+        push(@{$c->session->{group_subscriptions}}, $collection);
+    }
+
+    if ($c->user_exists) {
+        # Add the user's personal memberships to the groups list.
+        foreach $group ($c->model('DB::UserGroups')->groups_for_user($c->user->id)) {
+            $c->session->{groups}->{$group->id} = $group;
+        }
+
+        # Personal subscriptions
+        foreach my $collection ($c->model('DB::UserCollection')->collections_for_user($c->user->id)) {
+            $c->session->{subscriptions}->{$collection->{id}} = $collection;
+            push(@{$c->session->{user_subscriptions}}, $collection);
+        }
+
+        # Individual document acquisitions
+        $c->model('DB::UserDocument')->documents_for_user($c);
+    }
+
+    return 1;
+}
+
+sub has_access :Private
+{
+    my($self, $c, $doc) = @_;
+
+    # Always grant access if access control is turned off
+    return 1 unless $c->stash->{access_model};
+
+    # Forward to the access control logic for the configured access model
+    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'has_access'), [$doc]);
 }
 
 __PACKAGE__->meta->make_immutable;

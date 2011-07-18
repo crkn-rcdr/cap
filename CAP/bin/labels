@@ -22,7 +22,7 @@ GetOptions(
 
 my $database = 'cap.labels';
 
-my $config_file = "$FindBin::Bin/../CAP/cap.conf";
+my $config_file = "$FindBin::Bin/../cap.conf";
 my $db = {Config::General->new((
     '-ConfigFile' => $config_file,
     '-AutoTrue' => 1,

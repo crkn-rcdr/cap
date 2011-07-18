@@ -1,0 +1,217 @@
+#!/usr/bin/perl -I/opt/cap-libs/perl
+# CAP database administration tool
+use strict;
+use warnings;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use Config::General;
+use File::Basename;
+use Net::IP;
+use POSIX qw(strftime);
+use CAP::Schema;
+
+my $config_file = "$FindBin::Bin/../cap.conf";
+my $config = {Config::General->new((
+    '-ConfigFile' => $config_file,
+    '-AutoTrue' => 1,
+))->getall}->{Component}->{'Model::DB'}->{connect_info};
+my $schema = CAP::Schema->connect($config->{dsn}, $config->{user}, $config->{password}) or die("Failed to connect to database: $!");
+ 
+my $prog  = basename($0);
+my $USAGE = <<END_USAGE;
+USAGE: $prog COMMAND [ARGS...]
+Try $prog help for more info   
+END_USAGE
+
+my $HELP = <<END_HELP;
+Usage: $prog ACTION [ARGS...]
+  collection create ID                      - create a new collection
+    +group COLLECTION_ID GROUP_ID [EXPIRES] - subscribe group to collection
+    +user COLLECTION_ID USER_ID [EXPIRES]   - subscribe user to collection
+  document add USER_ID DOCUMENT_ID          - add document to user's collection
+  group create GROUP_NAME                   - create a new subscriber group
+    delete GROUP_ID                         - delete a group
+    +ip GROUP_ID IP_ADDRESS                 - add an ip address range
+    +user GROUP_ID USER_ID [EXPIRES]        - add a user
+    -user GROUP_ID USER_ID                  - remove a user
+  user create user EMAIL PASSWORD NAME      - create a new user
+  help                                      - show help message
+END_HELP
+
+die($USAGE) unless (@ARGV);
+my $action = shift(@ARGV);
+admin_collection($schema, @ARGV) && exit 0 if ($action eq 'collection');
+admin_document($schema, @ARGV)   && exit 0 if ($action eq 'document');
+admin_group($schema, @ARGV)      && exit 0 if ($action eq 'group');
+admin_user($schema, @ARGV)       && exit 0 if ($action eq 'user');
+admin_help($schema, @ARGV)       && exit 0 if ($action eq 'help');
+die($USAGE);
+
+#
+# Admin utilities
+#
+
+sub admin_collection
+{
+    my($schema, $action, @args) = @_;
+    die("Missing one of: create, +group, +user\n") unless ($action);
+
+    if ($action eq 'create') {
+        my($id) = @args;
+        die("Missing collection id\n") unless ($id);
+        $schema->resultset('Collection')->create({ id => $id });
+    }
+    elsif ($action eq '+group') {
+        my($collection_id, $group_id, $expires) = @args;
+        die("Missing collection identifier\n") unless ($collection_id);
+        die("Missing group identifier\n") unless ($group_id);
+        $schema->resultset('GroupsCollection')->create({
+            collection_id => $collection_id,
+            group_id  => $group_id,
+            joined   => strftime("%Y-%m-%d %H:%M:%S", localtime(time())),
+            expires  => $expires,
+        });
+    }
+    elsif ($action eq '+user') {
+        my($collection_id, $user_id, $expires) = @args;
+        die("Missing collection identifier\n") unless ($collection_id);
+        die("Missing user identifier\n") unless ($user_id);
+        $schema->resultset('UserCollection')->create({
+            collection_id => $collection_id,
+            user_id       => $user_id,
+            joined        => strftime("%Y-%m-%d %H:%M:%S", localtime(time())),
+            expires       => $expires,
+        });
+    }
+    else {
+        die("Unsupported action '$action' for collection\n");
+    }
+}
+
+
+sub admin_document
+{
+    my($schema, $action, @args) = @_;
+    die("Missing one of: add\n") unless ($action);
+
+    if ($action eq 'add') {
+        my($user_id, $document) = @args;
+        die("Missing user identifier\n") unless ($user_id);
+        die("Missing document key\n") unless ($document);
+        $schema->resultset('UserDocument')->create({
+            user_id   => $user_id,
+            document  => $document,
+            acquired  => strftime("%Y-%m-%d %H:%M:%S", localtime(time())),
+        });
+    }
+    else {
+        die("Unsupported action '$action' for document\n");
+    }
+}
+
+# Add, delete, modify subscriber groups
+sub admin_group
+{
+    my($schema, $action, @args) = @_;
+    die("Missing one of: create, delete, +ip +user -user\n") unless ($action);
+
+    if ($action eq 'create') {
+        my($name) = @args;
+        die("Missing group name\n") unless ($name);
+        $schema->resultset('Groups')->create({ name => $name });
+    }
+    elsif ($action eq 'delete') {
+        my($id) = @args;
+        die("Missing group identifier\n") unless ($id);
+        my $record = $schema->resultset('Groups')->find({ id => $id });
+        die("No such group\n") unless ($record);
+        $record->delete({ id => $id });
+    }
+    elsif ($action eq '+ip') {
+        my($group_id, $address) = @args;
+        die("Missing group identifier\n") unless ($group_id);
+        die("Missing IP address range\n") unless ($address);
+
+        my $ip_addr = Net::IP->new($address);
+        my $cidr = $ip_addr->print();
+        my $start = $ip_addr->intip();
+        my $end = $ip_addr->last_int();
+
+        # Make sure we don't overlap with an existing range.
+        foreach my $row ($schema->resultset('GroupsIpaddr')->all) {
+            my $db_addr = Net::IP->new($row->cidr);
+            if ($ip_addr->version eq $db_addr->version) {
+                if ($ip_addr->overlaps($db_addr) != $IP_NO_OVERLAP) {
+                    die("Address overlaps with " . $row->cidr . "\n");
+                }
+            }
+        }
+
+        # Try to add the address range
+        $schema->resultset('GroupsIpaddr')->create({
+            cidr     => $cidr,
+            group_id => $group_id,
+            start    => $start,
+            end      => $end,
+        });
+    }
+    elsif ($action eq '+user') {
+        my($group_id, $user_id, $expires) = @args;
+        die("Missing group identifier\n") unless ($group_id);
+        die("Missing user identifier\n") unless ($user_id);
+        $schema->resultset('UserGroups')->create({
+            group_id => $group_id,
+            user_id  => $user_id,
+            joined   => strftime("%Y-%m-%d %H:%M:%S", localtime(time())),
+            expires  => $expires,
+        });
+    }
+    elsif ($action eq '-user') {
+        my($group_id, $user_id, $expires) = @args;
+        die("Missing group identifier\n") unless ($group_id);
+        die("Missing user identifier\n") unless ($user_id);
+        my $record = $schema->resultset('UserGroups')->find({
+            group_id => $group_id,
+            user_id  => $user_id,
+        });
+        if ($record) {
+            $record->delete;
+        }
+        else {
+            die("No such user/group combination\n");
+        }
+    }
+    else {
+        die("Unsupported action '$action' for group\n");
+    }
+}
+
+# Add, delete or modify a user account
+sub admin_user
+{
+    my($schema, $action, @args) = @_;
+    die("Missing one of: create\n") unless ($action);
+
+    if ($action eq 'create') {
+        my($email, $password, $name) = @args;
+        die("Missing email address\n") unless ($email);
+        die("Missing password\n") unless ($password);
+        die("Missing user name\n") unless ($name);
+        $schema->resultset('User')->create({
+            username  => $email,
+            password  => $password,
+            name      => $name,
+            confirmed => 1,
+            active    => 1,
+        });
+    }
+    else {
+        die("Unsupported action '$action' for user\n");
+    }
+}
+
+# Print help file
+sub admin_help
+{
+    print($HELP);
+}

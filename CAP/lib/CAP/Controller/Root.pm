@@ -6,6 +6,7 @@ use parent 'Catalyst::Controller';
 use Config::General;
 use CAP::Solr;
 use Encode;
+use Net::IP;
 use JSON;
 use XML::LibXML;
 
@@ -51,7 +52,7 @@ sub xmlify
 }
 
 
-sub begin :Private
+sub auto :Private
 {
     my($self, $c) = @_;
     my %params = ();
@@ -79,32 +80,43 @@ sub begin :Private
         eval { $c->user->update({lastseen => time()}) };
         $c->detach('/error', 500) if ($@);
     }
-
-    # Capture and remove cookies and query parameters that relate to basic request
-    # behaviour and configuration. Parameters (but not cookies) are then
-    # deleted from the array.
-    foreach my $param (("fmt", "usrlang", "size", "rotate")) {
-        if ($c->req->params->{$param}) {
-            $params{$param} = $c->req->params->{$param};
-            delete($c->req->params->{$param});
-        }
-    }
-    foreach my $cookie (("usrlang")) {
-        if ($c->req->cookie($cookie)) {
-            $cookies{$cookie} = $c->req->cookie($cookie)->value;
-        }
-    }
-
+    
 
     #
     # Set session variables
     #
+    
+    # Force the creation of a session and sessionid if they don't already
+    # exist. We need this so that logging doesn't barf on the first
+    # request of a new session.
+    $c->session();
 
-    # Image size
-    if ($params{'size'} && $c->config->{derivative}->{size}->{$params{'size'}}) {
-        $c->session->{'size'} = $params{'size'};
+
+    # Check whether the user's IP address has changed.
+    if (! $c->session->{address} || $c->session->{address} ne $c->request->address) {
+        $c->session->{address} = "";
     }
-    if ($params{'rotate'} && $params{'rotate'} eq 'on') {
+
+    # If not set, set the user's IP address and check group membership.
+    $c->forward('user/init') unless ($c->session->{address});
+
+    # Increment the session counter
+    $c->session->{count} = 0 unless ($c->session->{count});
+    ++$c->session->{count};
+
+    # Call init after a predetermined number of transactions to ensure
+    # we're up to date
+    if ($c->session->{count} % $c->config->{init_interval} == 0) {
+        warn("### Re-running user/init due to session count");
+        $c->forward('user/init');
+    }
+    
+
+    # Set image size and rotation
+    if ($c->request->params->{'size'} && $c->config->{derivative}->{size}->{$params{'size'}}) {
+        $c->session->{'size'} = $c->request->params->{'size'};
+    }
+    if ($c->request->params->{'rotate'} && $c->request->params->{'rotate'} eq 'on') {
         $c->session->{'rotate'} = 1;
     }
     if ($params{'rotate'} && $params{'rotate'} eq 'off') {
@@ -123,15 +135,15 @@ sub begin :Private
     if (! $c->config->{default_view}) {
         $c->detach("config_error", ["default_view is not set"]);
     }
-    if ($params{fmt}) {
+    if ($c->request->params->{fmt}) {
         if ($params{fmt} eq 'json') {
             $c->stash->{current_view} = 'json'; # Builtin view
         }
-        elsif ($params{fmt} eq 'xml') {
+        elsif ($c->request->params->{fmt} eq 'xml') {
             $c->stash->{current_view} = 'xml'; # Builtin view
         }
-        elsif ($c->config->{views}->{$params{fmt}}) {
-            $c->stash->{current_view} = $c->config->{views}->{$params{fmt}};
+        elsif ($c->config->{views}->{$c->request->params->{fmt}}) {
+            $c->stash->{current_view} = $c->config->{views}->{$c->Request->params->{fmt}};
         }
         else {
             $c->stash->{current_view} = $c->config->{default_view};
@@ -187,11 +199,11 @@ sub begin :Private
         if (! $portal{default_lang}) {
             $c->detach("config_error", ["default_lang is not set in $config_file"]);
         }
-        if ($params{usrlang} && $portal{lang}->{$params{usrlang}}) {
-            $c->stash->{lang} = $params{usrlang};
+        if ($c->request->params->{usrlang} && $portal{lang}->{$c->request->params->{usrlang}}) {
+            $c->stash->{lang} = $c->request->params->{usrlang};
         }
-        elsif ($cookies{usrlang} && $portal{lang}->{$cookies{usrlang}}) {
-            $c->stash->{lang} = $cookies{usrlang};
+        elsif ($c->request->cookie('usrlang') && $portal{lang}->{$c->request->cookie('usrlang')->value}) {
+            $c->stash->{lang} = $c->request->cookie('usrlang')->value;
         }
         elsif ($c->req->header('Accept-Language')) {
             foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
@@ -209,8 +221,9 @@ sub begin :Private
             $c->stash->{lang} = $portal{default_lang};
         }
 
-        # Stash whether or not user account functions are enabled
-        $c->stash->{user_accounts} = $portal{user_accounts};
+        # Stash whether or not user account and access control functions are enabled
+        $c->stash->{user_accounts}  = $portal{user_accounts};
+        $c->stash->{access_model} = $portal{access_model};
 
         # Stash the portal name
         $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};
@@ -250,7 +263,7 @@ sub begin :Private
         status => 200,
         version => '0.2', # TODO: this should be in cap.conf
     });
-    
+
     # Clean up any expired sessions
     my $expired = $c->model('DB::Sessions')->remove_expired();
     warn("[debug] Cleaned up $expired expired sessions") if ($expired);
@@ -277,6 +290,13 @@ sub end : ActionClass('RenderView')
 {
     my($self, $c) = @_;
 
+
+    # Log the request:
+    my $request_log = $c->model('DB::RequestLog')->log($c); # Basic request information
+    $c->model('DB::SearchLog')->log($c, $request_log) if ($c->action eq 'search'); # Search query
+    # TODO: user login/out
+    # TODO: item access
+
     # Remove some information from the response if we're not in debug mode.
     if (! $c->stash->{debug}) {
         delete($c->stash->{response}->{solr}) if ($c->stash->{response}->{solr});
@@ -287,7 +307,6 @@ sub end : ActionClass('RenderView')
     # rendering.
     if ($c->stash->{current_view} eq 'json') {
         $c->res->content_type('application/json; charset=UTF-8');
-        #$c->res->body(decode_utf8(to_json($c->stash->{response}, { utf8 => 1, pretty => 1 })));
         $c->res->body(encode_json($c->stash->{response}));
         return 1;
     }
@@ -304,29 +323,10 @@ sub end : ActionClass('RenderView')
     if ($c->action eq 'static') {
         $c->res->header('Cache-Control' => 'max-age=3600');
     }
-    elsif ($c->action eq 'file/file') {
-        $c->res->header('Cache-Control' => 'max-age=3600');
-    }
     else {
         $c->res->header('Cache-Control' => 'no-cache');
     }
 
-    # If no template is defined, use the default.
-#    if (! $c->stash->{template}) {
-#        $c->stash->{template} = "default.tt";
-#    }
-
-    # In addition to the default template path, prepend additional paths
-    # based on the portal name and the current view
-#    if ($c->stash->{portal}) {
-#        $c->stash->{additional_template_paths} = [ 
-#            join('/', $c->config->{root}, $c->stash->{portal}, "templates", $c->stash->{current_view}), 
-#            join('/', $c->config->{root}, "Default", "templates", $c->stash->{current_view}), 
-#            join('/', $c->config->{root}, $c->stash->{portal}, "templates", 'Default')
-#        ];
-#   
-
-    #$c->stash->{additional_template_paths} = [ join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Default') ];
     $c->stash->{additional_template_paths} = [
         join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->stash->{portal}),
         join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')

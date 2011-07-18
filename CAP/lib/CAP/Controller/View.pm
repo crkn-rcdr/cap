@@ -1,6 +1,7 @@
 package CAP::Controller::View;
 use Moose;
 use namespace::autoclean;
+use POSIX qw(strftime);
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -56,7 +57,12 @@ sub main :Private
             $template = 'view_sh.tt';
         }
         elsif ($doc->{type} eq 'document') {
-            $template = 'view_dh.tt';
+            if ($c->forward('/user/has_access', [$doc])) {
+                $template = 'view_dh.tt';
+            }
+            else {
+                $template = 'view_dh_nosub.tt';
+            }
         }
     }
     else {
@@ -88,11 +94,13 @@ sub page :Private
     }
 
     # Retrieve the requested page.
-    my $page = $solr->query({}, { type => 'page', field => { pkey => $key, seq => $seq } });
-    $c->detach('/error', [404, "Page not found: seq $seq for $key"]) unless ($page->{documents}->[0]);
+    my $result = $solr->query({}, { type => 'page', field => { pkey => $key, seq => $seq } });
+    $c->detach('/error', [404, "Page not found: seq $seq for $key"]) unless ($result->{documents}->[0]);
+    my $page = $result->{documents}->[0];
 
-    $c->stash->{response}->{page} = $page->{documents}->[0];
     $c->stash->{template}         = 'view_ph.tt';
+    $c->stash->{response}->{page} = $page;
+
     return 1;
 }
 
@@ -114,6 +122,43 @@ sub is_hosted :Private
     return 1 if ($hosted->{contributor} && $doc->{contributor} eq $hosted->{contributor});
     return 0;
 }
+
+# Perform user-related functions
+#sub user_annotate :Private
+#{
+#    my($self, $c) = @_;
+#    my $annotation = $c->request->params->{annotation} || "";
+#    my $annotation_delete = $c->request->params->{annotation_delete} || "";
+#    return 1 unless ($c->user_exists);
+#
+#    # Delete an old annotation
+#    if ($annotation_delete) {
+#        my $old_annotation = $c->model('DB::Annotation')->find({
+#            id      => $annotation_delete,
+#            user_id => $c->user->id
+#        });
+#
+#        $old_annotation->delete if ($old_annotation);
+#    }
+#
+#    # Save a user's new annotation
+#    if ($annotation) {
+#        $c->model('DB::Annotation')->create({
+#            user_id     => $c->user->id,
+#            record_key  => $c->stash->{response}->{page}->{key},
+#            record_pkey => $c->stash->{response}->{page}->{pkey},
+#            timestamp   => strftime("%Y-%m-%d %H:%M:%S", localtime(time())),
+#            annotation  => $annotation
+#        });
+#    }
+#
+#    # Retrieve saved annotations
+#    $c->stash->{annotations} = [ $c->model('DB::Annotation')->search({
+#        user_id => $c->user->id,
+#        record_key => $c->stash->{response}->{page}->{key}
+#    })->all ];
+
+#}
 
 __PACKAGE__->meta->make_immutable;
 

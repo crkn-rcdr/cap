@@ -4,3 +4,19 @@ QUERY PARAMETERS
 
         size = 1|2|3       (default = none)
         landscape = on|off (default = none)
+
+
+
+URLS
+
+/view
+/search
+/user
+    /login
+    /logout
+    /create
+    /confirm
+    /reset
+    /profile
+    /edit
+
