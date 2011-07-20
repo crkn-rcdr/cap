@@ -419,9 +419,12 @@ sub init :Private
     }
 
     # Group subscriptions
-    foreach my $collection ($c->model('DB::GroupsCollection')->collections_for_group($group->id)) {
-        $c->session->{subscriptions}->{$collection->{id}} = $collection;
-        push(@{$c->session->{group_subscriptions}}, $collection);
+    my @collections = $c->model('DB::GroupsCollection')->collections_for_group($group->id);
+    if (@collections) {
+        foreach my $collection (@collections) {
+            $c->session->{subscriptions}->{$collection->{id}} = $collection;
+            push(@{$c->session->{group_subscriptions}}, $collection);
+        }
     }
 
     if ($c->user_exists) {
