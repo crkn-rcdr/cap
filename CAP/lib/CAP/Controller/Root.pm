@@ -92,6 +92,8 @@ sub auto :Private
     $c->session();
 
 
+    # TODO: only run this if the portal actually supports user accounts
+    
     # Check whether the user's IP address has changed.
     if (! $c->session->{address} || $c->session->{address} ne $c->request->address) {
         $c->session->{address} = "";
@@ -110,6 +112,8 @@ sub auto :Private
         warn("### Re-running user/init due to session count");
         $c->forward('user/init');
     }
+
+    #### END TODO
     
 
     # Set image size and rotation
