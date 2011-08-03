@@ -26,9 +26,10 @@ sub auto :Private {
     # Actions relating to creating a new account, logging in, or
     # recovering a lost password are only available to anonymous users.
     if (
-        $c->action eq 'user/create'  ||
-        $c->action eq 'user/confirm' ||
-        $c->action eq 'user/login'   ||
+        $c->action eq 'user/create'    ||
+        $c->action eq 'user/confirm'   ||
+        $c->action eq 'user/login'     ||
+        $c->action eq 'user/reconfirm' ||
         $c->action eq 'user/reset'
     ) {
         if ($c->user_exists()) {
@@ -133,6 +134,37 @@ sub create :Path('create') :Args(0) {
 }
 
 
+sub reconfirm :Path('reconfirm') :Args(1) {
+    my($self, $c, $username) = @_;
+
+    # Retrieve the record for the user
+    my $new_user = $c->find_user({ username => $username, confirmed => 0 });
+
+    # Make sure the user is valid and not yet confirmed
+    if (! $new_user) {
+        $c->response->redirect($c->uri_for('/index'));
+    }
+
+    $c->stash->{formdata} = {
+        username => $username,
+        name     => $new_user->name,
+    };
+
+    # Resend an activation email
+    $c->stash->{confirm_link} = $c->uri_for('/user', 'confirm', $c->model('DB::User')->confirmation_token($new_user->id));
+    $c->stash->{mail} = {
+        to => $username,
+        subject => 'ECO Account Activation',
+        template => 'activate.tt'
+    };
+    $c->forward('sendmail');
+    $c->stash->{completed}  = 1;
+    $c->stash->{template} = 'user/create.tt';
+
+    return 1;
+}
+
+
 sub login :Path('login') :Args(0) {
     my ( $self, $c ) = @_;
     my $username    = $c->request->params->{username}   || "";
@@ -147,6 +179,9 @@ sub login :Path('login') :Args(0) {
     if ($c->user_exists()) {
         # User is already logged in, so redirect to the main page.
         $c->response->redirect($c->uri_for('index'));
+    }
+    elsif ($c->find_user({ username => $username, confirmed => 0 })) {
+        $c->stash->{errors}->{confirmed} = 1;
     }
     elsif ($username) {
         if ($c->authenticate(({ username => $username, password => $password, confirmed => 1, active => 1 }))) {
