@@ -1,7 +1,6 @@
 package CAP::Controller::User;
 use Moose;
 use namespace::autoclean;
-use URI::Escape;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -121,7 +120,7 @@ sub create :Path('create') :Args(0) {
     my $new_user = $c->find_user({ username => $username });
 
     # Send an activation email
-    $c->stash->{confirm_link} = $c->uri_for('/user', 'confirm', uri_escape($c->model('DB::User')->confirmation_token($new_user->id)));
+    $c->stash->{confirm_link} = $c->uri_for('/user', 'confirm', $c->model('DB::User')->confirmation_token($new_user->id));
     $c->stash->{mail} = {
         to => $username,
         subject => 'ECO Account Activation',
@@ -152,7 +151,7 @@ sub reconfirm :Path('reconfirm') :Args(1) {
     };
 
     # Resend an activation email
-    $c->stash->{confirm_link} = $c->uri_for('/user', 'confirm', uri_escape($c->model('DB::User')->confirmation_token($new_user->id)));
+    $c->stash->{confirm_link} = $c->uri_for('/user', 'confirm', $c->model('DB::User')->confirmation_token($new_user->id));
     $c->stash->{mail} = {
         to => $username,
         subject => 'ECO Account Activation',

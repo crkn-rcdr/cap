@@ -12,7 +12,7 @@ sub confirmation_token
     my($self, $id) = @_;
     my $user = $self->find({ id => $id });
     return undef unless ($user);
-    return join(":", $user->id, $user->password);
+    return join(":", $user->id, sha1_hex($user->password));
 }
 
 sub validate_confirmation
@@ -23,7 +23,7 @@ sub validate_confirmation
     return 0 unless ($token);                    # Token is null/empty
     return 0 unless ($user);                     # User does not exist
     return 0 unless ($user->password);           # Token is null/empty
-    return 0 unless ($user->password eq $token); # Tokens do not match
+    return 0 unless (sha1_hex($user->password) eq $token); # Tokens do not match
     return $id;
 }
 
@@ -34,7 +34,7 @@ sub confirm_new_user
     my $user = $self->find({ id => $id });
     return 0 unless ($user);                     # User does not exist
     return 0 unless ($token);                    # Token is null/empty
-    return 0 unless ($user->password eq $token); # Authentication token mismatch
+    return 0 unless (sha1_hex($user->password) eq $token); # Authentication token mismatch
     return 0 unless ($user->confirmed == 0);     # User is already confirmed
 
     # Confirm the user
