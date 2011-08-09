@@ -73,6 +73,17 @@ __PACKAGE__->table("user");
   data_type: 'integer'
   is_nullable: 0
 
+=head2 subscriber
+
+  data_type: 'integer'
+  default_value: 0
+  is_nullable: 0
+
+=head2 subexpires
+
+  data_type: 'datetime'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -94,6 +105,10 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "lastseen",
   { data_type => "integer", is_nullable => 0 },
+  "subscriber",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "subexpires",
+  { data_type => "datetime", is_nullable => 1 },
 );
 __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("username", ["username"]);
@@ -130,24 +145,9 @@ __PACKAGE__->has_many(
   {},
 );
 
-=head2 user_groups
 
-Type: has_many
-
-Related object: L<CAP::Schema::Result::UserGroups>
-
-=cut
-
-__PACKAGE__->has_many(
-  "user_groups",
-  "CAP::Schema::Result::UserGroups",
-  { "foreign.user_id" => "self.id" },
-  {},
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-06-20 15:21:31
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PwhYTvw3SeBI0AYRxhWvmA
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-08-04 13:16:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1ydZ2S7eAPBo7AjfTLQN1A
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

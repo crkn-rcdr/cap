@@ -57,12 +57,8 @@ sub main :Private
             $template = 'view_sh.tt';
         }
         elsif ($doc->{type} eq 'document') {
-            if ($c->forward('/user/has_access', [$doc])) {
-                $template = 'view_dh.tt';
-            }
-            else {
-                $template = 'view_dh_nosub.tt';
-            }
+            $c->stash->{access_level} = $c->forward('/user/access_level', [$doc]);
+            $template = 'view_dh.tt';
         }
     }
     else {

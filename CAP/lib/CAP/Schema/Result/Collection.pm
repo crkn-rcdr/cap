@@ -26,27 +26,34 @@ __PACKAGE__->table("collection");
   is_nullable: 0
   size: 16
 
+=head2 price
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
   "id",
   { data_type => "varchar", is_nullable => 0, size => 16 },
+  "price",
+  { data_type => "integer", is_nullable => 1 },
 );
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 groups_collections
+=head2 institution_collections
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::GroupsCollection>
+Related object: L<CAP::Schema::Result::InstitutionCollection>
 
 =cut
 
 __PACKAGE__->has_many(
-  "groups_collections",
-  "CAP::Schema::Result::GroupsCollection",
+  "institution_collections",
+  "CAP::Schema::Result::InstitutionCollection",
   { "foreign.collection_id" => "self.id" },
   {},
 );
@@ -67,8 +74,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-06-20 08:08:50
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:i8NeusBhG83/97khEHSCsw
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-08-04 13:16:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3VEO65CUawEKw8QB53Oa8w
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

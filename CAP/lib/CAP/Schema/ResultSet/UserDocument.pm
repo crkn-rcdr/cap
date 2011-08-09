@@ -24,6 +24,16 @@ sub documents_for_user
     }
 }
 
+sub purchased_documents
+{
+    my($self, $user_id) = @_;
+    my $purchased = {};
+    foreach my $document ($self->search({ user_id => $user_id })) {
+        $purchased->{$document->document} = $document;
+    }
+    return $purchased;
+}
+
 
 1;
 

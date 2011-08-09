@@ -432,53 +432,50 @@ sub init :Private
 {
     my($self, $c) = @_;
 
-    #
-    # Part 1: initialize for both authenticated and anonymous users
-    #
-
-    # The user's IP address
+    # Store the user's IP address.
     $c->session->{address} = $c->request->address;
 
-    $c->session->{groups} = {};
-    $c->session->{subscriptions} = {};
-    $c->session->{user_subscriptions} = [];
-    $c->session->{group_subscriptions} = [];
-    $c->session->{user_bookshelf} = [];
-    $c->session->{bookshelf} = {};
-
-    # Find the user's group association (if any) based on IP address.
-    # Retrieve any subscriptions associated with the group.
-    my $group = $c->model('DB::GroupsIpaddr')->group_for_ip($c->session->{address});
-    if ($group) {
-        $c->session->{groups}->{$group->id} = $group;
-
-        # Group subscriptions
-        foreach my $collection ($c->model('DB::GroupsCollection')->collections_for_group($group->id)) {
-            $c->session->{subscriptions}->{$collection->{id}} = $collection;
-            push(@{$c->session->{group_subscriptions}}, $collection);
-        }
+    # Find the user's subscribing institution, if any
+    my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->session->{address});
+    if ($institution && $institution->subscriber) {
+        $c->session->{subscribing_institution} = $institution->name;
+        $c->session->{has_institutional_subscription} = 1;
+    }
+    else {
+        $c->session->{subscribing_institution} = "";
+        $c->session->{has_institutional_subscription} = 0;
     }
 
+    # Build a table of sponsored collections, mapped to the sponsor name
+    $c->session->{sponsored_collections} = {};
+    foreach my $collection ($c->model('DB::InstitutionCollection')->all) {
+        $c->session->{sponsored_collections}->{$collection->collection_id->id} = $collection->institution_id->name;
+    }
+
+    $c->session->{is_subscriber} = 0;
     if ($c->user_exists) {
-        # Add the user's personal memberships to the groups list.
-        foreach $group ($c->model('DB::UserGroups')->groups_for_user($c->user->id)) {
-            $c->session->{groups}->{$group->id} = $group;
-        }
 
-        # Personal subscriptions
-        foreach my $collection ($c->model('DB::UserCollection')->collections_for_user($c->user->id)) {
-            $c->session->{subscriptions}->{$collection->{id}} = $collection;
-            push(@{$c->session->{user_subscriptions}}, $collection);
-        }
+        # Update the user information to reflect any background changes
+        # (e.g. expired subscriptions) that might have taken place.
+        # TODO: this might not be necessary, but it's probably a good
+        # sanity check anyway; need to consider further.
+        $c->set_authenticated($c->find_user({ id => $c->user->id }));
+        $c->persist_user();
 
-        # Individual document acquisitions
-        $c->model('DB::UserDocument')->documents_for_user($c);
+        # Check the user's subscription status
+        $c->session->{is_subscriber} = $c->model('DB::User')->has_active_subscription($c->user->id);
+
+        # Get a list of individual collection subscriptions
+        $c->session->{subscribed_collections} = $c->model('DB::UserCollection')->subscribed_collections($c->user->id);
+
+        # Get a list of purchased documents
+        $c->session->{purchased_documents} = $c->model('DB::UserDocument')->purchased_documents($c->user->id);
     }
 
     return 1;
 }
 
-sub has_access :Private
+sub access_level :Private
 {
     my($self, $c, $doc) = @_;
 
@@ -486,7 +483,7 @@ sub has_access :Private
     return 1 unless $c->stash->{access_model};
 
     # Forward to the access control logic for the configured access model
-    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'has_access'), [$doc]);
+    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'access_level'), [$doc]);
 }
 
 __PACKAGE__->meta->make_immutable;

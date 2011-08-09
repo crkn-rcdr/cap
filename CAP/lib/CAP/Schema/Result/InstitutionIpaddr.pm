@@ -1,4 +1,4 @@
-package CAP::Schema::Result::GroupsIpaddr;
+package CAP::Schema::Result::InstitutionIpaddr;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
@@ -12,11 +12,11 @@ __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedCol
 
 =head1 NAME
 
-CAP::Schema::Result::GroupsIpaddr
+CAP::Schema::Result::InstitutionIpaddr
 
 =cut
 
-__PACKAGE__->table("groups_ipaddr");
+__PACKAGE__->table("institution_ipaddr");
 
 =head1 ACCESSORS
 
@@ -26,7 +26,7 @@ __PACKAGE__->table("groups_ipaddr");
   is_nullable: 0
   size: 64
 
-=head2 group_id
+=head2 institution_id
 
   data_type: 'integer'
   is_foreign_key: 1
@@ -49,7 +49,7 @@ __PACKAGE__->table("groups_ipaddr");
 __PACKAGE__->add_columns(
   "cidr",
   { data_type => "varchar", is_nullable => 0, size => 64 },
-  "group_id",
+  "institution_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "start",
   { data_type => "bigint", extra => { unsigned => 1 }, is_nullable => 0 },
@@ -60,23 +60,23 @@ __PACKAGE__->set_primary_key("cidr");
 
 =head1 RELATIONS
 
-=head2 group_id
+=head2 institution_id
 
 Type: belongs_to
 
-Related object: L<CAP::Schema::Result::Groups>
+Related object: L<CAP::Schema::Result::Institution>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "group_id",
-  "CAP::Schema::Result::Groups",
-  { id => "group_id" },
+  "institution_id",
+  "CAP::Schema::Result::Institution",
+  { id => "institution_id" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-06-17 12:27:50
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5OQF9rDJbyova2T5M6pSKA
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-08-04 13:16:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0cBPhQsrNnw4aSQVXeho+g
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

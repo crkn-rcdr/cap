@@ -21,7 +21,7 @@ Catalyst Controller.
 
 =cut
 
-sub has_access :Private {
+sub access_level :Private {
     my ($self, $c, $doc) = @_;
     my $solr = $c->stash->{solr};
 
@@ -29,12 +29,49 @@ sub has_access :Private {
     # page (which is the most common case) get the collection from the
     # parent object.
     my $collection;
+    my $doc_key;
     if ($doc->{type} eq 'page') {
         $collection = $solr->document($doc->{pkey})->{collection} || "";
+        $doc_key = $doc->{pkey};
     }
     else {
         $collection = $doc->{collection} || "";
+        $doc_key = $doc->{key};
     }
+
+
+    ##################################
+
+    # Registered user, document purchased: full access
+    if ($c->session->{purchased_documents}->{$doc_key}) {
+        return 2;
+    }
+
+    # Registered user, subscriber: full access
+    elsif ($c->session->{is_subscriber}) {
+        return 2;
+    }
+
+    # Registered user, individual collection subscription: full access
+    elsif ($c->session->{subscribed_collections}->{$collection}) {
+    }
+
+    # Institutional subscriber: full access
+    elsif ($c->session->{subscribing_institution}) {
+        return 2;
+    }
+
+    # Sponsored collection: view access
+    elsif ($c->session->{sponsored_collection}->{$collection}) {
+        return 1;
+    }
+
+    # Non-subscribed collection: preview access (depends on page position)
+    else {
+        return 0;
+    }
+
+    ##################################
 
     # TODO: check for individual document ownership here
     return 1 if ($c->session->{bookshelf}->{$doc->{key}});

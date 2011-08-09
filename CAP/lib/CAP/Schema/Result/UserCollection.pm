@@ -33,7 +33,7 @@ __PACKAGE__->table("user_collection");
   is_foreign_key: 1
   is_nullable: 0
 
-=head2 joined
+=head2 subscribed
 
   data_type: 'datetime'
   is_nullable: 1
@@ -50,7 +50,7 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_foreign_key => 1, is_nullable => 0, size => 16 },
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "joined",
+  "subscribed",
   { data_type => "datetime", is_nullable => 1 },
   "expires",
   { data_type => "datetime", is_nullable => 1 },
@@ -84,8 +84,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-06-20 08:08:50
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:yLzbki8eXyRRTdP4ZGd8Ww
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-08-04 13:16:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:eLIHHG8ognFMSzKyBg2L/A
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

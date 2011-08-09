@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';
 use Digest::SHA1 qw(sha1_hex);
+use POSIX qw(strftime);
 
 # Account confirmation/password reset token: consists of the user's ID and
 # password hash.
@@ -87,6 +88,14 @@ sub validate_token
     return $id;
 }
 
+
+# Determine if the user has a currently-active subscription
+sub has_active_subscription
+{
+    my($self, $id) = @_;
+    my $now = strftime("%Y-%m-%d %H:%M:%S", localtime);
+    return $self->search({ id => $id, subscriber => 1, subexpires => { '>=', $now } })->count;
+}
 
 
 1;
