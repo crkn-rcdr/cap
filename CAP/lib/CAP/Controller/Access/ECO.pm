@@ -40,8 +40,6 @@ sub access_level :Private {
     }
 
 
-    ##################################
-
     # Registered user, document purchased: full access
     if ($c->session->{purchased_documents}->{$doc_key}) {
         return 2;
@@ -54,6 +52,7 @@ sub access_level :Private {
 
     # Registered user, individual collection subscription: full access
     elsif ($c->session->{subscribed_collections}->{$collection}) {
+        return 2;
     }
 
     # Institutional subscriber: full access
@@ -70,20 +69,6 @@ sub access_level :Private {
     else {
         return 0;
     }
-
-    ##################################
-
-    # TODO: check for individual document ownership here
-    return 1 if ($c->session->{bookshelf}->{$doc->{key}});
-
-    # Records that belong to no collection are not accessible via
-    # subscription.
-    return 0 unless($collection);
-
-    # Otherwise, check whether the user subscribes to this collection.
-    return 1 if ($c->session->{subscriptions}->{$collection});
-
-    return 0;
 
 }
 
