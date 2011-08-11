@@ -140,7 +140,7 @@ sub auto :Private
         $c->detach("config_error", ["default_view is not set"]);
     }
     if ($c->request->params->{fmt}) {
-        if ($params{fmt} eq 'json') {
+        if ($c->request->params->{fmt} eq 'json') {
             $c->stash->{current_view} = 'json'; # Builtin view
         }
         elsif ($c->request->params->{fmt} eq 'xml') {
@@ -227,7 +227,12 @@ sub auto :Private
 
         # Stash whether or not user account and access control functions are enabled
         $c->stash->{user_accounts}  = $portal{user_accounts};
-        $c->stash->{access_model} = $portal{access_model};
+        if ($portal{access_model}) {
+            $c->stash->{access_model} = $portal{access_model};
+        }
+        else {
+            $c->stash->{access_model} = 'default';
+        }
 
         # Stash the portal name
         $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};
@@ -305,6 +310,8 @@ sub end : ActionClass('RenderView')
     if (! $c->stash->{debug}) {
         delete($c->stash->{response}->{solr}) if ($c->stash->{response}->{solr});
     }
+
+    warn "########## " . $c->stash->{current_view};
 
     # If the current view is set to one of the special cases 'xml' or
     # 'json', handle the output internally, bypassing the normal view

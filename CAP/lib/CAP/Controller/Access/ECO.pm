@@ -4,22 +4,40 @@ use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-=head1 NAME
+sub has_access :Private {
+    my ($self, $c, $doc, $key, $resource_type, $size) = @_;
+    my $access_level = $c->forward('access_level', [$doc]);
 
-CAP::Controller::Access::ECO - Catalyst Controller
+    # Access level 2: always grant access
+    if ($access_level == 2) {
+        return 1;
+    }
+    
+    # Access level 1: grant access for derivatives only.
+    if ($access_level == 1) {
+        if ($resource_type eq 'derivative') {
+            return 1;
+        }
+        return 0;
+    }
+    
+    # Otherwise, only allow restricted preview access:
 
-=head1 DESCRIPTION
+    # Only derivative images are allowed; no PDF downloads
+    return 0 if ($resource_type ne 'derivative');
 
-Catalyst Controller.
+    # Only show the first 10 pages maximum
+    return 0 if ($doc->{seq} > 10);
 
-=head1 METHODS
+    # Maximum image width is 600 pixels
+    my($width, $height) = split(/x/, $size);
+    return 0 if int($width) > 600;
 
-=cut
 
+    # Grant preview access
+    return 1;
 
-=head2 index
-
-=cut
+}
 
 sub access_level :Private {
     my ($self, $c, $doc) = @_;
@@ -61,7 +79,7 @@ sub access_level :Private {
     }
 
     # Sponsored collection: view access
-    elsif ($c->session->{sponsored_collection}->{$collection}) {
+    elsif ($c->session->{sponsored_collections}->{$collection}) {
         return 1;
     }
 

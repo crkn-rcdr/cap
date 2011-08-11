@@ -25,9 +25,8 @@ sub main :Private
     my $doc    = $solr->document($key);
     my $url    = $c->config->{content}->{url};
 
-    # Make sure the item exists and that the user has access permission to it.
+    # Make sure the item exists.
     $c->detach('/error', [404, "$key: no such record"]) unless ($doc);
-    $c->detach('/error', [403, "No access for $key"]) unless ($c->forward('/user/access_level', [$doc]));
 
     # Determine the image size to generate.
     if ($c->req->params->{s} && $c->config->{derivative}->{size}->{$c->req->params->{s}}) {
@@ -40,16 +39,22 @@ sub main :Private
     }
 
 
+    my $resource_type = "";
     if ($format && $doc->{canonicalMaster}) {
         $params = $c->forward('derivative', [$filename, $doc->{canonicalMaster}, $format, $size, $rotate]);
+        $resource_type = 'derivative';
     }
     elsif ($doc->{canonicalDownload}) {
         $params = $c->forward('download', [$doc->{canonicalDownload}]);
         $filename = $doc->{canonicalDownload};
+        $resource_type = 'download';
     }
     else {
         $c->detach('/error', [404, "Insufficient information to generate file for $key"]);
     }
+
+    # Check whether the user can access the item
+    $c->detach('/error', [403, "No access for $key"]) unless ($c->forward('/user/has_access', [$doc, $key, $resource_type, $size]));
 
     $c->res->redirect(join('?', join('/', $url, $filename), join('&', @{$params})));
     $c->detach();
