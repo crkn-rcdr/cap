@@ -307,13 +307,8 @@ sub profile :Path('profile') :Args(0) {
     my($self, $c) = @_;
     my $solr = $c->stash->{solr};
 
-    # Fetch labels for all of the user's documents, skipping the lookup if
-    # we already know the label.
-    foreach my $book (@{$c->session->{user_bookshelf}}) {
-        next if ($book->{label});
-        my $record = $solr->document($book->{key});
-        $book->{label} = $record->{label};
-    }
+    # Get a list of the user's purchased documents 
+    $c->stash->{purchased} = $c->model('DB::UserDocument')->list_purchased($c->user->id, $solr);
 
     ### TEST: retrieve annotations
     #$c->stash->{annotations} = [ $c->model('DB::Annotation')->search({
