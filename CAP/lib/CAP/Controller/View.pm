@@ -50,6 +50,9 @@ sub main :Private
         docs  => $solr->count({pkey => $doc->{key}}, {type => 'document'}),
     };
 
+    # Get the credit cost to purchase this document.
+    $c->stash->{credit_cost} = $c->forward('/user/credit_cost', [$doc]);
+
     my $template;
 
     if ($hosted) {

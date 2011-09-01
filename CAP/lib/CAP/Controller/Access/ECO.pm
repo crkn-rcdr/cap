@@ -90,5 +90,19 @@ sub access_level :Private {
 
 }
 
+# Determine the number of credits required to purchase the selected document.
+sub credit_cost :Private {
+    my ($self, $c, $doc) = @_;
+
+    # Only documents can be purchased; not pages or series.
+    return 0 unless ($doc->{type} eq 'document');
+
+    my $pages = int(@{$doc->{pg_label}});
+    return 0 if ($pages == 0); # Shouldn't ever happen, but...
+    return 1 if ($pages <= 50);
+    return 2 if ($pages <= 500);
+    return 3;
+}
+
 __PACKAGE__->meta->make_immutable;
 

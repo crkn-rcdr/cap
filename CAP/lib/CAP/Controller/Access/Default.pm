@@ -14,5 +14,11 @@ sub access_level :Private {
     return 1;
 }
 
+# Determine the number of credits required to purchase the selected document.
+sub credit_cost :Private {
+    my ($self, $c, $doc) = @_;
+    return 0;
+}
+
 __PACKAGE__->meta->make_immutable;
 

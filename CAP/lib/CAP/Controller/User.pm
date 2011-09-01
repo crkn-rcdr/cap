@@ -471,12 +471,10 @@ sub init :Private
     return 1;
 }
 
+
 sub has_access :Private
 {
     my($self, $c, $doc, $key, $resource_type, $size) = @_;
-
-    # Always grant access if access control is off.
-    #return 1 unless $c->stash->{access_model};
 
     # Forward to the access control logic for the configured access model
     return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'has_access'), [$doc, $key, $resource_type, $size]);
@@ -486,12 +484,16 @@ sub access_level :Private
 {
     my($self, $c, $doc) = @_;
 
-    # If access control is not turned on, access_level is basically
-    # meaningless; we return a nominal value of 1.
-    #return 1 unless $c->stash->{access_model};
-
     # Forward to the access control logic for the configured access model
     return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'access_level'), [$doc]);
+}
+
+sub credit_cost :Private
+{
+    my($self, $c, $doc) = @_;
+
+    # Forward to the credit cost control logic for the configured access model
+    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'credit_cost'), [$doc]);
 }
 
 __PACKAGE__->meta->make_immutable;
