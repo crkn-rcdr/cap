@@ -96,6 +96,7 @@ sub search :Private
     my($self, $c, $query, $param) = @_;
     my $solr = $c->stash->{solr};
 
+    $c->stash->{log_search} = 1;
     $c->stash->{response}->{type} = 'set';
     
     my $type = 'all'; # FIXME: get rid of this and in session update below;

@@ -302,7 +302,7 @@ sub end : ActionClass('RenderView')
 
     # Log the request:
     my $request_log = $c->model('DB::RequestLog')->log($c); # Basic request information
-    $c->model('DB::SearchLog')->log($c, $request_log) if ($c->action eq 'search'); # Search query
+    $c->model('DB::SearchLog')->log($c, $request_log) if ($c->stash->{log_search}); # Search query
     # TODO: user login/out
     # TODO: item access
 
