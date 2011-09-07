@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2011-05-13 14:35-0500\n"
+"PO-Revision-Date: 2011-09-07 08:16-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,9 @@ msgid "%1 matching pages"
 msgstr "%1 pages correspondantes"
 
 #. (record.pg_label.size)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_results.tt:18
+#: ../../../../../cap-root/templates/Default/agriculture/component/search_results.tt:18
+#: ../../../../../cap-root/templates/Default/dfait/component/search_results.tt:18
+#: ../../../../../cap-root/templates/Default/eco/component/search_results.tt:18
 msgid "%1 pages"
 msgstr "%1 pages"
 
@@ -35,83 +37,158 @@ msgid "%1 results"
 msgstr "%1 résultats"
 
 #. (response.result.hits)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/results.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:28
-#: /Users/william/Projects/cap-root/templates/Default/co/component/results.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:28
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:27
+#: ../../../../../cap-root/templates/Default/Common/component/results.tt:17
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:29
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:27
 msgid "%1 results for"
 msgstr "%1 résultats pour"
+
+#. (c.user.name)
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:5
+msgid "%1's Profile"
+msgstr ""
 
 msgid "1 result"
 msgstr "1 résultat"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/results.tt:15
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:26
-#: /Users/william/Projects/cap-root/templates/Default/co/component/results.tt:15
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:26
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:25
+#: ../../../../../cap-root/templates/Default/Common/component/results.tt:15
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:27
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:25
 msgid "1 result for"
 msgstr "1 résultat pour"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:10
+#. (formdata.username)
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:9
+msgid "A message has been sent to you at %1 with instructions for activating your account."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/co/component/footer.tt:10
+#: ../../../../../cap-root/templates/Default/eco/component/footer.tt:10
 msgid "About Canadiana Discovery Portal"
 msgstr "À propos du Portail de recherche de Canadiana"
 
 msgid "About Canadiana.org"
 msgstr "À propos de Canadiana.org"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:15
+#: ../../../../../cap-root/templates/Default/Common/error.tt:15
 msgid "Access Restricted"
 msgstr "Accès restreint"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:34
+#. (c.session.sponsored_collections.item(response.doc.collection)
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:28
+msgid "Access to this document sponsored by %1. For full access, purchase or subscribe"
+msgstr ""
+
+#. (label.collection.item(response.doc.collection)
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:35
+msgid "Access via subscription to %1 collection"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:28
+msgid "Active"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:51
+msgid "Add"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:97
+msgid "Add Range"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:63
+msgid "Add Sponsored Collection"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:49
+msgid "Add annotation"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institutions.tt:16
+msgid "Add new Institution"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/users.tt:13
+msgid "Add new User"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:29
+msgid "Add new collection"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/error.tt:34
 msgid "Additional Debugging Information"
 msgstr ""
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:8
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:85
-#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:39
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:32
+msgid "Admin"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:5
+msgid "Admin Menu"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:8
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:85
+#: ../../../../../cap-root/templates/Default/agriculture/index.tt:48
+#: ../../../../../cap-root/templates/Default/co/index.tt:40
+#: ../../../../../cap-root/templates/Default/dfait/index.tt:45
+#: ../../../../../cap-root/templates/Default/eco/index.tt:39
 msgid "Advanced Search"
 msgstr "Recherche avancée"
 
 msgid "Advanced search"
 msgstr "Recherche avancée"
 
+#: ../../../../../cap-root/templates/Default/dfait/component/footer.tt:3
 msgid "All content copyright © Foreign Affairs and International Trade"
 msgstr "Tous droits réservés © Affaires étrangères et Commerce international"
 
 #. (recordtype(item.doc.type)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/rlist.tt:77
-#: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:77
+#: ../../../../../cap-root/templates/Default/agriculture/component/rlist.tt:77
+#: ../../../../../cap-root/templates/Default/co/component/rlist.tt:77
+#: ../../../../../cap-root/templates/Default/dfait/component/rlist.tt:77
 msgid "All matching %1 from: %2"
 msgstr "Tous les résultats correspondant à %1 de %2"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:126
-msgid "All of"
-msgstr ""
-
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:12
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:14
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:121
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:15
 msgid "All of these words:"
 msgstr "Tous ces mots :"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:123
-msgid "Any of"
+#: ../../../../../cap-root/templates/Default/Common/component/user_errors.tt:9
+msgid "An account already exists for that email address."
 msgstr ""
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:24
+#. (mail_sent)
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:8
+msgid "An email message has been sent to %1 with instructions for resetting your password."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:34
+msgid "Annotations"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:26
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:130
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:27
 msgid "Appearing:"
 msgstr "Apparaissant :"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/object.tt:10
+#: ../../../../../cap-root/templates/Default/co/object.tt:10
 msgid "Back to search results"
 msgstr "Retour à la page des résultats"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:9
+#: ../../../../../cap-root/templates/Default/Common/error.tt:9
 msgid "Bad Request"
 msgstr "Requête inadéquate"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/footer.tt:4
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:7
+msgid "Basic Information"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/agriculture/component/footer.tt:4
 msgid "Brought to you by Agriculture and Agri-Food Canada"
 msgstr "Présenté par Agriculture et Agroalimentaire Canada"
 
@@ -121,52 +198,101 @@ msgstr "Parcourir"
 msgid "Browse by title"
 msgstr "Parcourir par titre"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:20
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:22
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:127
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:23
 msgid "But avoiding the words:"
 msgstr "Mais en évitant les mots :"
 
 msgid "Canada Agriculture Library-Bibliothèque canadienne de l’agriculture publications contained herein are protected by Crown copyright (unless otherwise indicated), held by the Queen's Printer. These works may not be reproduced, in all or in part, for any commercial purpose except under a license from the Queen's Printer or if credit is given and Crown copyright is acknowledged."
 msgstr "Les publications de Canada Agriculture Library-Bibliothèque canadienne de l’agriculture présentées ici sont protégées (à moins d’indication contraire) par le droit d’auteur de la Couronne détenu par l’Imprimeur de la Reine. Ces documents ne peuvent être reproduits, en tout ou en partie, pour des fins commerciales à moins de détenir une licence de l’Imprimeur de la Reine ou d’indiquer la source et l’autorisation de la Couronne en vertu du droit d’auteur. "
 
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:13
+msgid "Choose a new password for your account"
+msgstr ""
+
 msgid "Click here if your browser does not automatically redirect you"
 msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:9
+#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:13
+#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:32
+msgid "Code"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/co/component/footer.tt:9
+#: ../../../../../cap-root/templates/Default/eco/component/footer.tt:9
 msgid "Collection Contributors"
 msgstr "Organisations collaboratrices"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:42
+#: ../../../../../cap-root/templates/Default/co/index.tt:43
 msgid "Collection contributors"
 msgstr "Organisations collaboratrices"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:91
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:114
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:114
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:24
+msgid "Confirmed"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/facet_data.tt:91
 msgid "Contributor"
 msgstr "Collaborateur"
 
 #. ('2010-11')
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:13
+#: ../../../../../cap-root/templates/Default/co/component/footer.tt:13
+#: ../../../../../cap-root/templates/Default/eco/component/footer.tt:13
 msgid "Copyright © Canadiana.org %1"
 msgstr "© Canadiana.org %1"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:11
+#: ../../../../../cap-root/templates/Default/co/component/footer.tt:11
+#: ../../../../../cap-root/templates/Default/eco/component/footer.tt:11
 msgid "Corporate"
 msgstr "Enterprises"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:21
+#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:40
+msgid "Create"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:47
+msgid "Create Account"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:5
+msgid "Create new user account"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/agriculture/component/record.tt:21
+#: ../../../../../cap-root/templates/Default/dfait/component/record.tt:21
+#: ../../../../../cap-root/templates/Default/eco/component/record.tt:21
 msgid "Creator"
 msgstr "Créateur"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:50
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/date_range_button.tt:6
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:140
-#: /Users/william/Projects/cap-root/templates/Default/co/component/date_range_button.tt:6
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:140
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:20
+msgid "Current password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/date_range_button.tt:6
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:50
 msgid "Date Range"
 msgstr "Année(s)"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_dh.tt:35
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:40
+msgid "Delete"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:104
+msgid "Delete Institution"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:52
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:86
+msgid "Delete Selected"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/user_errors.tt:11
+msgid "Did you forget your password?"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/view_dh.tt:35
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:59
 msgid "Document Record"
 msgstr "Notice bibliographique du document"
 
@@ -174,193 +300,281 @@ msgid "Download PDF"
 msgstr "Télécharger PDF"
 
 #. (record.canonicalDownloadMime)
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/download_resource.tt:8
+#: ../../../../../cap-root/templates/Default/Common/component/download_resource.tt:8
 msgid "Download file (%1)"
 msgstr "Télécharger (%1)"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_embed.tt:5
-#: /Users/william/Projects/cap-root/templates/Default/co/component/object_embed.tt:5
+#: ../../../../../cap-root/templates/Default/Common/component/object_embed.tt:5
 msgid "Download image:"
 msgstr "Télécharger image"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:13
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:33
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:33
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:13
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:33
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:33
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:33
+msgid "ECO Subscriber"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/eco/index.tt:13
+msgid "Early Canadiana Online"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:4
+msgid "Edit Profile"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:19
+msgid "Edit details/change password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/user_info.tt:2
+msgid "Email Address"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:16
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:27
+#: ../../../../../cap-root/templates/Default/Common/user/login.tt:21
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:15
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:40
+msgid "Email address"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:47
+msgid "Ends"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:13
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:33
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:33
 msgid "English"
 msgstr "Anglais"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:24
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:36
+msgid "Enter your email address to receive instructions on how to reset your password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/error.tt:24
 msgid "Error"
 msgstr "Erreur"
 
 #. (error)
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:36
+#: ../../../../../cap-root/templates/Default/Common/error.tt:36
 msgid "Error:"
 msgstr "Erreur :"
+
+#. (c.user.subexpires)
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:34
+msgid "Expires on %1"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:35
+msgid "Extend subcription"
+msgstr ""
 
 # Contributor names - bilingual
 msgid "Foreign Affairs and International Trade"
 msgstr "Affaires étrangers et Commerce international"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:16
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:34
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:34
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:16
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:34
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:34
+#: ../../../../../cap-root/templates/Default/Common/user/login.tt:37
+msgid "Forgot your password?"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:16
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:34
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:34
 msgid "French"
 msgstr "Français"
 
 #. (label.contributor.${response.doc.contributor})
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_embed.tt:3
-#: /Users/william/Projects/cap-root/templates/Default/co/component/object_embed.tt:3
+#: ../../../../../cap-root/templates/Default/Common/component/object_embed.tt:3
 msgid "From a collection held by %1"
 msgstr "Provient de la collection de %1"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/group_by_doc_button.tt:19
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/group_by_doc_button.tt:4
-#: /Users/william/Projects/cap-root/templates/Default/co/component/group_by_doc_button.tt:19
-#: /Users/william/Projects/cap-root/templates/Default/co/component/group_by_doc_button.tt:4
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:61
+msgid "Group Subscriptions"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/group_by_doc_button.tt:19
+#: ../../../../../cap-root/templates/Default/Common/component/group_by_doc_button.tt:4
 msgid "Group by document"
 msgstr "Regrouper les pages de chaque document"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/individual_page_button.tt:23
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/individual_page_button.tt:8
-#: /Users/william/Projects/cap-root/templates/Default/co/component/individual_page_button.tt:23
-#: /Users/william/Projects/cap-root/templates/Default/co/component/individual_page_button.tt:8
+#. (c.session.subscribing_institution)
+#: ../../../../../cap-root/templates/Default/eco/component/footer.tt:27
+msgid "Group subscription: %1"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:14
+msgid "ID"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/user_errors.tt:2
+msgid "Incorrect password."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/individual_page_button.tt:23
+#: ../../../../../cap-root/templates/Default/Common/component/individual_page_button.tt:8
 msgid "Individual page results"
 msgstr "Afficher les résultats page par page"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:12
+#: ../../../../../cap-root/templates/Default/Common/admin/institutions.tt:14
+msgid "Institutional subscriber"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/error.tt:12
 msgid "Insufficient Privileges"
 msgstr "Privilèges insuffisants"
+
+#: ../../../../../cap-root/templates/Default/Common/component/user_errors.tt:17
+msgid "Invalid full name"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/login.tt:12
+msgid "Invalid username or password. Please try again."
+msgstr ""
 
 msgid "Issue %1 of %2 available issues"
 msgstr "Numéro %1 de %2"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:92
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:24
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:5
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:26
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:92
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:24
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:5
+#: ../../../../../cap-root/templates/Default/Common/component/facet_data.tt:17
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:24
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:5
+#: ../../../../../cap-root/templates/Default/agriculture/component/record.tt:26
+#: ../../../../../cap-root/templates/Default/dfait/component/record.tt:26
+#: ../../../../../cap-root/templates/Default/eco/component/record.tt:26
 msgid "Language"
 msgstr "Langue"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:31
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:31
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:31
 msgid "Language:"
 msgstr "Langue :"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:36
+msgid "Last Seen"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:90
+msgid "Learn More"
+msgstr ""
 
 msgid "Less detail"
 msgstr "Description brève "
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/contrib_filter.tt:7
-#: /Users/william/Projects/cap-root/templates/Default/co/component/contrib_filter.tt:7
+#: ../../../../../cap-root/templates/Default/Common/component/contrib_filter.tt:7
 msgid "Limit by contributor:"
 msgstr "Limiter la recherche par fournisseur :"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:73
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/date_range_button.tt:15
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:163
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/year_published.tt:11
-#: /Users/william/Projects/cap-root/templates/Default/co/component/date_range_button.tt:15
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:163
-#: /Users/william/Projects/cap-root/templates/Default/co/component/year_published.tt:11
+#: ../../../../../cap-root/templates/Default/Common/component/date_range_button.tt:15
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:73
+#: ../../../../../cap-root/templates/Default/Common/component/year_published.tt:11
 msgid "Limit by date range:"
 msgstr "Année(s) de publication :"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_filter.tt:8
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_filter.tt:8
+#: ../../../../../cap-root/templates/Default/Common/component/language_filter.tt:8
 msgid "Limit by language:"
 msgstr "Langue :"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/media_filter.tt:8
-#: /Users/william/Projects/cap-root/templates/Default/co/component/media_filter.tt:8
+#: ../../../../../cap-root/templates/Default/Common/component/media_filter.tt:8
 msgid "Limit by media type"
 msgstr "Limiter par type de média"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/login.tt:25
-#: /Users/william/Projects/cap-root/templates/Default/co/login.tt:5
 msgid "Log In"
 msgstr "Ouverture de session"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:9
+#: ../../../../../cap-root/templates/Default/Common/user/login.tt:33
+msgid "Login"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:11
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:119
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:13
 msgid "Look for..."
 msgstr "Rechercher..."
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/rlist.tt:87
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_results.tt:33
-#: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:87
+#: ../../../../../cap-root/templates/Default/agriculture/component/rlist.tt:87
+#: ../../../../../cap-root/templates/Default/agriculture/component/search_results.tt:33
+#: ../../../../../cap-root/templates/Default/co/component/rlist.tt:87
+#: ../../../../../cap-root/templates/Default/dfait/component/rlist.tt:87
+#: ../../../../../cap-root/templates/Default/dfait/component/search_results.tt:33
+#: ../../../../../cap-root/templates/Default/eco/component/search_results.tt:59
 msgid "Matching pages:"
 msgstr "Pages correspondantes :"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:54
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:136
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:136
+#: ../../../../../cap-root/templates/Default/Common/component/facet_data.tt:54
 msgid "Media"
 msgstr "Média"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/login.tt:9
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:22
+msgid "Member of"
+msgstr ""
+
 msgid "Missing username or password"
 msgstr "Nom d’utilisateur ou mot de passe manquant"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/rlist.tt:104
-#: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:104
+#: ../../../../../cap-root/templates/Default/agriculture/component/rlist.tt:104
+#: ../../../../../cap-root/templates/Default/co/component/rlist.tt:104
+#: ../../../../../cap-root/templates/Default/dfait/component/rlist.tt:104
 msgid "More about this item ..."
 msgstr "Autres informations sur ce document..."
 
 msgid "More detail"
 msgstr "Description longue"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:177
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:177
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:18
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:20
+#: ../../../../../cap-root/templates/Default/Common/component/user_info.tt:6
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:11
+msgid "Name"
+msgstr ""
+
 msgid "New Search"
 msgstr "Nouvelle recherche"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/context.tt:6
-#: /Users/william/Projects/cap-root/templates/Default/co/component/context.tt:6
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:23
+msgid "New password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:24
+msgid "New password (leave blank to keep unchanged)"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/context.tt:6
 msgid "New search"
 msgstr "Nouvelle recherche"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:48
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:62
+#: ../../../../../cap-root/templates/Default/Common/view_ph.tt:48
+#: ../../../../../cap-root/templates/Default/Common/view_ph.tt:62
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:70
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:84
 msgid "Next"
 msgstr "suivante"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:37
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:37
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:37
 msgid "No issues found"
 msgstr "Aucun numéro trouvé"
 
 msgid "No items match your search criteria"
 msgstr "Votre recherche n'a produit aucun résultat"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/results.tt:13
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:24
-#: /Users/william/Projects/cap-root/templates/Default/co/component/results.tt:13
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:24
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:23
+#: ../../../../../cap-root/templates/Default/Common/component/results.tt:13
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:24
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:23
 msgid "No results for"
 msgstr "Aucun résultat pour"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:129
-msgid "None of"
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:37
+msgid "Not a subscriber"
 msgstr ""
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:25
+#: ../../../../../cap-root/templates/Default/agriculture/component/record.tt:25
+#: ../../../../../cap-root/templates/Default/dfait/component/record.tt:25
+#: ../../../../../cap-root/templates/Default/eco/component/record.tt:25
 msgid "Notes"
 msgstr "Notes"
 
 msgid "Nothing Found"
 msgstr "Aucun résultat"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:16
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:18
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:124
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:19
 msgid "One or more of these words:"
 msgstr "Au moins un de ces mots : "
 
@@ -371,144 +585,202 @@ msgid "Page %1"
 msgstr "Page %1"
 
 #. (page.seq, n_pages, page.label)
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:19
+#: ../../../../../cap-root/templates/Default/Common/view_ph.tt:19
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:19
 msgid "Page %1 of %2: %3"
 msgstr "Page %1 de %2: %3"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:18
+#: ../../../../../cap-root/templates/Default/Common/error.tt:18
 msgid "Page Not Found"
 msgstr "Page non trouvée"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_parent.tt:2
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/rlist.tt:65
-#: /Users/william/Projects/cap-root/templates/Default/co/component/object_parent.tt:2
-#: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:65
+#: ../../../../../cap-root/templates/Default/Common/component/object_parent.tt:2
+#: ../../../../../cap-root/templates/Default/agriculture/component/rlist.tt:65
+#: ../../../../../cap-root/templates/Default/co/component/rlist.tt:65
+#: ../../../../../cap-root/templates/Default/dfait/component/rlist.tt:65
 msgid "Part of"
 msgstr "Fait partie de :"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/login.tt:29
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:37
+#: ../../../../../cap-root/templates/Default/Common/user/login.tt:25
 msgid "Password"
 msgstr "Mot de passe"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:41
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:57
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:5
+msgid "Password reset"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:7
+msgid "Personal details"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:94
+msgid "Personal documents"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:41
+msgid "Personal subscriptions"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:25
+msgid "Preview access. To access the complete document, purchase it or subscribe to ECO"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/view_ph.tt:41
+#: ../../../../../cap-root/templates/Default/Common/view_ph.tt:57
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:63
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:79
 msgid "Previous"
 msgstr "précédente"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/component/footer.tt:12
+#: ../../../../../cap-root/templates/Default/co/component/footer.tt:12
+#: ../../../../../cap-root/templates/Default/eco/component/footer.tt:12
 msgid "Privacy Policy and Legal"
 msgstr "Politique sur la vie privée et avis juridiques"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/footer.tt:5
+#: ../../../../../cap-root/templates/Default/agriculture/component/footer.tt:5
+#: ../../../../../cap-root/templates/Default/dfait/component/footer.tt:4
 msgid "Produced by Canadiana.org"
 msgstr "Réalisée par Canadiana.org"
 
 msgid "Publication years"
 msgstr "Années de publication"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:37
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:37
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:37
 msgid "Publication years:"
 msgstr "Année(s) de publication :"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:23
+#: ../../../../../cap-root/templates/Default/agriculture/component/record.tt:23
+#: ../../../../../cap-root/templates/Default/dfait/component/record.tt:23
+#: ../../../../../cap-root/templates/Default/eco/component/record.tt:23
 msgid "Published"
 msgstr "Adresse bibliographique"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:30
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:30
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:29
+#. (credit_cost)
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:39
+msgid "Purchase Document (%1 credits)"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/eco/component/search_results.tt:36
+msgid "Purchased"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:31
+msgid "Purchased document"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:28
+msgid "Re-enter new password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:42
+msgid "Re-enter password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/login.tt:31
+msgid "Remember me on this computer"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:28
+msgid "Repeat password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:33
+msgid "Reset Password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:31
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:29
 msgid "Results"
 msgstr "Résultats"
 
 #. (issues.hitsFrom, issues.hitsTo, issues.hits)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:29
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:29
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:29
 msgid "Results %1 - %2 of %3"
 msgstr "%1 - %2 de %3 résultats"
 
 #. (response.result.hits_from, response.result.hits_to, response.result.hits)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/results.tt:19
-#: /Users/william/Projects/cap-root/templates/Default/co/component/results.tt:19
+#: ../../../../../cap-root/templates/Default/Common/component/results.tt:19
 msgid "Results %1 - %2 of %3 for"
 msgstr "%1 - %2 de %3 résultats pour"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:42
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:43
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:41
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:46
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:41
 msgid "Results limited to: "
 msgstr "Résultats limités à :"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:58
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/pager.tt:21
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:58
-#: /Users/william/Projects/cap-root/templates/Default/co/component/pager.tt:20
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:58
+#: ../../../../../cap-root/templates/Default/Common/component/pager.tt:21
 msgid "Results page"
 msgstr "Page des résultats"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:33
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:135
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:143
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:79
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/contrib_filter.tt:12
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/date_range_button.tt:22
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:169
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:37
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_filter.tt:13
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/media_filter.tt:13
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_subsearch.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/year_published.tt:24
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:35
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:49
-#: /Users/william/Projects/cap-root/templates/Default/co/component/contrib_filter.tt:12
-#: /Users/william/Projects/cap-root/templates/Default/co/component/date_range_button.tt:22
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:169
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:37
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_filter.tt:13
-#: /Users/william/Projects/cap-root/templates/Default/co/component/media_filter.tt:13
-#: /Users/william/Projects/cap-root/templates/Default/co/component/object_subsearch.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/co/component/year_published.tt:24
-#: /Users/william/Projects/cap-root/templates/Default/co/main.tt:36
-#: /Users/william/Projects/cap-root/templates/Default/co/main.tt:52
-#: /Users/william/Projects/cap-root/templates/Default/dfait/main.tt:35
-#: /Users/william/Projects/cap-root/templates/Default/dfait/main.tt:49
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:11
+msgid "Return to the main page"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/eco/component/footer.tt:30
+msgid "SUBSCRIBER"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:32
+msgid "Save Changes"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:35
+#: ../../../../../cap-root/templates/Default/Common/component/contrib_filter.tt:12
+#: ../../../../../cap-root/templates/Default/Common/component/date_range_button.tt:22
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:37
+#: ../../../../../cap-root/templates/Default/Common/component/language_filter.tt:13
+#: ../../../../../cap-root/templates/Default/Common/component/media_filter.tt:13
+#: ../../../../../cap-root/templates/Default/Common/component/object_subsearch.tt:20
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:133
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:141
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:79
+#: ../../../../../cap-root/templates/Default/Common/component/year_published.tt:24
+#: ../../../../../cap-root/templates/Default/agriculture/main.tt:35
+#: ../../../../../cap-root/templates/Default/agriculture/main.tt:49
+#: ../../../../../cap-root/templates/Default/co/main.tt:36
+#: ../../../../../cap-root/templates/Default/co/main.tt:52
+#: ../../../../../cap-root/templates/Default/dfait/main.tt:35
+#: ../../../../../cap-root/templates/Default/dfait/main.tt:49
+#: ../../../../../cap-root/templates/Default/eco/main.tt:36
+#: ../../../../../cap-root/templates/Default/eco/main.tt:52
 msgid "Search"
 msgstr "Rechercher"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/search_document.tt:10
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:50
-#: /Users/william/Projects/cap-root/templates/Default/co/main.tt:53
-#: /Users/william/Projects/cap-root/templates/Default/dfait/main.tt:50
+#: ../../../../../cap-root/templates/Default/Common/component/search_document.tt:10
+#: ../../../../../cap-root/templates/Default/agriculture/main.tt:50
+#: ../../../../../cap-root/templates/Default/co/main.tt:53
+#: ../../../../../cap-root/templates/Default/dfait/main.tt:50
+#: ../../../../../cap-root/templates/Default/eco/main.tt:53
 msgid "Search Document"
 msgstr "Rechercher dans le document"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:40
-#: /Users/william/Projects/cap-root/templates/Default/co/index.tt:40
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:42
+#: ../../../../../cap-root/templates/Default/agriculture/index.tt:49
+#: ../../../../../cap-root/templates/Default/co/index.tt:41
+#: ../../../../../cap-root/templates/Default/dfait/index.tt:46
+#: ../../../../../cap-root/templates/Default/eco/index.tt:40
 msgid "Search Tips"
 msgstr "Conseils de recherche"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:132
 msgid "Search in"
 msgstr "Recherche dans"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:22
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:22
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:22
 msgid "Search options"
 msgstr "Options de recherche"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/context.tt:4
-#: /Users/william/Projects/cap-root/templates/Default/co/component/context.tt:4
+#: ../../../../../cap-root/templates/Default/Common/component/context.tt:4
 msgid "Search results"
 msgstr "Liste des résultats"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:15
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:15
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:15
 msgid "Search the collection"
 msgstr "Recherche dans la collection"
 
 #. (childcount, childtypes.join(childjoin)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_subsearch.tt:16
-#: /Users/william/Projects/cap-root/templates/Default/co/component/object_subsearch.tt:16
+#: ../../../../../cap-root/templates/Default/Common/component/object_subsearch.tt:16
 msgid "Search this item's %1 %2"
 msgstr "Effectuer une recherche dans les %1 %2 de ce document"
 
@@ -524,45 +796,47 @@ msgstr "Recherche dans ce document (%1 pages)"
 msgid "Search within this publication (%1 pages)"
 msgstr "Recherche dans cette publication (%1 pages)"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:17
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:17
 msgid "Search:"
 msgstr "Recherche :"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:21
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:44
+msgid "Send instructions"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/error.tt:21
 msgid "Server Error"
 msgstr "Erreur du serveur"
 
 msgid "Show"
 msgstr "Afficher"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/any_contrib.tt:7
-#: /Users/william/Projects/cap-root/templates/Default/co/component/any_contrib.tt:7
+#: ../../../../../cap-root/templates/Default/Common/component/any_contrib.tt:7
 msgid "Show All Contributors"
 msgstr "Afficher tous les fournisseurs"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/any_language.tt:7
-#: /Users/william/Projects/cap-root/templates/Default/co/component/any_language.tt:7
+#: ../../../../../cap-root/templates/Default/Common/component/any_language.tt:7
 msgid "Show All Languages"
 msgstr "Afficher toutes les langues"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/any_medium.tt:9
-#: /Users/william/Projects/cap-root/templates/Default/co/component/any_medium.tt:9
+#: ../../../../../cap-root/templates/Default/Common/component/any_medium.tt:9
 msgid "Show All Media"
 msgstr "Afficher tous les médias"
 
 #. (item.pages.hits)
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/rlist.tt:94
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_results.tt:40
-#: /Users/william/Projects/cap-root/templates/Default/co/component/rlist.tt:94
+#: ../../../../../cap-root/templates/Default/agriculture/component/rlist.tt:94
+#: ../../../../../cap-root/templates/Default/agriculture/component/search_results.tt:40
+#: ../../../../../cap-root/templates/Default/co/component/rlist.tt:94
+#: ../../../../../cap-root/templates/Default/dfait/component/rlist.tt:94
+#: ../../../../../cap-root/templates/Default/dfait/component/search_results.tt:40
+#: ../../../../../cap-root/templates/Default/eco/component/search_results.tt:66
 msgid "Show all %1 matches"
 msgstr "Afficher chacune des %1 pages correspondantes"
 
 msgid "Show all issues"
 msgstr "Afficher tous les numéros"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:12
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:12
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:12
 msgid "Show only issues published between the years"
 msgstr "Afficher uniquement les numéros publiés entre les années"
 
@@ -572,239 +846,342 @@ msgstr "Afficher pages contenant : %1"
 msgid "Show serial record"
 msgstr "Afficher la notice du périodique"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:56
 msgid "Showing all results"
 msgstr "Afficher tous les résultats"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:24
-#: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:24
+#: ../../../../../cap-root/templates/Default/Common/component/sort_order_button.tt:24
 msgid "Sort"
 msgstr "Trier par"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:45
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:71
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:38
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:71
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:38
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:37
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:41
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:45
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:37
 msgid "Sort Order"
 msgstr "Trier par"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:15
-#: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:15
+#: ../../../../../cap-root/templates/Default/Common/component/sort_order_button.tt:15
 msgid "Sort Order:"
 msgstr "Ordre de trie :"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:19
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:19
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:19
 msgid "Sort by"
 msgstr "Trier par"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:25
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:25
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:25
 msgid "Sort:"
 msgstr "Trier :"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:39
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:30
+msgid "Sponsored Collections"
+msgstr ""
+
+#. (c.session.sponsored_collections.item(record.collection)
+#: ../../../../../cap-root/templates/Default/eco/component/search_results.tt:31
+msgid "Sponsored by: %1"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:41
 msgid "Standard Search"
 msgstr "Recherche de bas"
 
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:46
+msgid "Started"
+msgstr ""
+
 #. (status)
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:35
+#: ../../../../../cap-root/templates/Default/Common/error.tt:35
 msgid "Status:"
 msgstr "Statut :"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:24
+#: ../../../../../cap-root/templates/Default/agriculture/component/record.tt:24
+#: ../../../../../cap-root/templates/Default/dfait/component/record.tt:24
+#: ../../../../../cap-root/templates/Default/eco/component/record.tt:24
 msgid "Subject"
 msgstr "Sujet"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:16
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:16
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:16
 msgid "Submit"
 msgstr "Soumettre"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:10
+#: ../../../../../cap-root/templates/Default/eco/component/search_results.tt:41
+msgid "Subscribed"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:22
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:40
+msgid "Subscriber"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:45
+msgid "Subscription"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:44
+msgid "Subscription Expires"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:67
+msgid "Subscription IP Blocks"
+msgstr ""
+
+#. (c.session.subscribing_institition)
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:33
+msgid "Subscription access via %1"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:17
+#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:36
+msgid "Subscription price"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:51
+msgid "Terms of service"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/error.tt:10
 msgid "The page you requested cannot be displayed."
 msgstr "La page demandée ne peut être affichée."
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:19
+#: ../../../../../cap-root/templates/Default/Common/error.tt:19
 msgid "The page you were looking for cannot be found."
 msgstr "La page demandée est introuvable."
 
-#: /Users/william/Projects/cap-root/templates/Default/co/login.tt:10
+#: ../../../../../cap-root/templates/Default/Common/component/user_errors.tt:21
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:15
+msgid "The passwords you entered do not match."
+msgstr ""
+
 msgid "The username and password do not match"
 msgstr "Le nom d’utilisateur et le mot de passe ne correspondent pas"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:22
+#: ../../../../../cap-root/templates/Default/Common/error.tt:22
 msgid "There was a problem with your request; try again in a few moments."
 msgstr "Un problème est survenu lors de votre requête. Essayez de nouveau dans quelques instants."
 
 #. (n_pages)
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_dh.tt:19
+#: ../../../../../cap-root/templates/Default/Common/view_dh.tt:19
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:43
 msgid "This document contains %1 pages"
 msgstr " Ce document contient %1 pages"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/record.tt:22
+#: ../../../../../cap-root/templates/Default/agriculture/component/record.tt:22
+#: ../../../../../cap-root/templates/Default/dfait/component/record.tt:22
+#: ../../../../../cap-root/templates/Default/eco/component/record.tt:22
 msgid "Title"
 msgstr "Titre"
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:12
+msgid "To create a Canadiana user account, enter the following information. You will receive instructions on activating your account by email."
+msgstr ""
 
 msgid "Type"
 msgstr "Type"
 
-#: /Users/william/Projects/cap-root/templates/Default/co/login.tt:22
+#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:21
+#: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:26
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:48
+msgid "Update"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user.tt:12
+msgid "Userid"
+msgstr ""
+
 msgid "Username"
 msgstr "Nom de utilisateur"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/page_selector.tt:15
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/main.tt:51
-#: /Users/william/Projects/cap-root/templates/Default/co/main.tt:54
-#: /Users/william/Projects/cap-root/templates/Default/dfait/main.tt:51
+#: ../../../../../cap-root/templates/Default/Common/component/page_selector.tt:15
+#: ../../../../../cap-root/templates/Default/agriculture/main.tt:51
+#: ../../../../../cap-root/templates/Default/co/main.tt:54
+#: ../../../../../cap-root/templates/Default/dfait/main.tt:51
+#: ../../../../../cap-root/templates/Default/eco/main.tt:54
 msgid "View Page"
 msgstr "Afficher page"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_dh.tt:22
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_dh.tt:40
+#: ../../../../../cap-root/templates/Default/Common/view_dh.tt:22
+#: ../../../../../cap-root/templates/Default/Common/view_dh.tt:40
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:46
+#: ../../../../../cap-root/templates/Default/eco/view_dh.tt:64
 msgid "View document"
 msgstr "Afficher document"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/view_ph.tt:23
+#: ../../../../../cap-root/templates/Default/Common/view_ph.tt:23
+#: ../../../../../cap-root/templates/Default/eco/view_ph.tt:23
 msgid "View document record"
 msgstr "Afficher notice"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:25
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:16
+msgid "We could not create your account due to the following:"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/error.tt:25
 msgid "We're sorry; we were unable to process your request."
 msgstr "Désolé, nous ne pouvons pas traiter votre requête."
 
 msgid "Years"
 msgstr "Années"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:13
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:42
+msgid "You are subscribed to the following collections"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/error.tt:13
 msgid "You do not have sufficient privileges to view this page."
 msgstr "Vos privilèges sont insuffisants pour visionner cette page."
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/error.tt:16
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:88
+msgid "You have no purchased documents."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/login.tt:5
+msgid "You have not yet confirmed your user account. Check your email for further instructions"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/error.tt:16
 msgid "You must be logged in to view this page."
 msgstr " Vous devez ouvrir une session pour visionner cette page."
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:76
+msgid "Your Purchased Documents"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/user_errors.tt:6
+msgid "Your email address is invalid."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:32
+msgid "Your name"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:10
+msgid "Your password has successfully been reset."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/user_errors.tt:23
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:17
+msgid "Your password must be at least six characters and may not contain spaces."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:8
+msgid "Your profile could not be changed because of the following:"
+msgstr ""
 
 msgid "Your single best source for discovering Canadian documentary heritage"
 msgstr "La source par excellence pour découvrir le patrimoine documentaire canadien"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:14
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_subsearch.tt:4
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:14
-#: /Users/william/Projects/cap-root/templates/Default/co/component/object_subsearch.tt:4
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:29
+msgid "a valid email address is required"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:14
+#: ../../../../../cap-root/templates/Default/Common/component/object_subsearch.tt:4
 msgid "and"
 msgstr "et"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:102
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:28
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/facet_data.tt:65
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:100
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:122
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:78
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:10
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/language_button.tt:32
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:32
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:100
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:122
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:78
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:10
-#: /Users/william/Projects/cap-root/templates/Default/co/component/language_button.tt:32
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:32
+#: ../../../../../cap-root/templates/Default/Common/component/facet_data.tt:102
+#: ../../../../../cap-root/templates/Default/Common/component/facet_data.tt:28
+#: ../../../../../cap-root/templates/Default/Common/component/facet_data.tt:65
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:10
+#: ../../../../../cap-root/templates/Default/Common/component/language_button.tt:32
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:32
 msgid "any"
 msgstr "toutes"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:26
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:28
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:112
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:29
 msgid "anywhere"
 msgstr "n'importe où"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:27
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:29
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:113
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:30
 msgid "as part of the title"
 msgstr "dans le titre"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:20
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:20
 msgid "document metadata"
 msgstr "métadonnées du document"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_subsearch.tt:6
-#: /Users/william/Projects/cap-root/templates/Default/co/component/object_subsearch.tt:6
+#: ../../../../../cap-root/templates/Default/Common/component/object_subsearch.tt:6
 msgid "documents"
 msgstr "documents"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:18
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:18
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:18
 msgid "everywhere"
 msgstr "partout"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:35
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:35
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:34
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:36
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:34
 msgid "for"
 msgstr "pour"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:28
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:30
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:114
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:31
 msgid "in the author/creator's name"
 msgstr "dans le nom de l'auteur/du créateur"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/advanced_search.tt:29
+#: ../../../../../cap-root/templates/Default/Common/component/advanced_search.tt:31
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:115
+#: ../../../../../cap-root/templates/Default/Common/component/view_toolbar.tt:32
 msgid "in the subject or description"
 msgstr "ans le sujet ou la description"
 
 msgid "index"
 msgstr "index"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:41
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:67
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:28
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:7
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:9
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:67
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:28
-#: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:7
-#: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:9
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:39
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:25
+msgid "minimum 6 characters, no spaces allowed"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:28
+#: ../../../../../cap-root/templates/Default/Common/component/sort_order_button.tt:17
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:41
+#: ../../../../../cap-root/templates/Default/agriculture/macro/sort_order.tt:7
+#: ../../../../../cap-root/templates/Default/agriculture/macro/sort_order.tt:9
+#: ../../../../../cap-root/templates/Default/co/macro/sort_order.tt:7
+#: ../../../../../cap-root/templates/Default/co/macro/sort_order.tt:9
+#: ../../../../../cap-root/templates/Default/dfait/macro/sort_order.tt:7
+#: ../../../../../cap-root/templates/Default/dfait/macro/sort_order.tt:9
+#: ../../../../../cap-root/templates/Default/eco/macro/sort_order.tt:7
+#: ../../../../../cap-root/templates/Default/eco/macro/sort_order.tt:9
 msgid "newest"
 msgstr "date décroissante"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:23
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:23
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:23
 msgid "newest first"
 msgstr "date décroissante"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:33
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:33
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:32
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:34
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:32
 msgid "of"
 msgstr "de"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:42
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:68
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:27
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:18
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:10
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:6
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:68
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:27
-#: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:18
-#: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:10
-#: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:6
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:27
+#: ../../../../../cap-root/templates/Default/Common/component/sort_order_button.tt:18
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:42
+#: ../../../../../cap-root/templates/Default/agriculture/macro/sort_order.tt:10
+#: ../../../../../cap-root/templates/Default/agriculture/macro/sort_order.tt:6
+#: ../../../../../cap-root/templates/Default/co/macro/sort_order.tt:10
+#: ../../../../../cap-root/templates/Default/co/macro/sort_order.tt:6
+#: ../../../../../cap-root/templates/Default/dfait/macro/sort_order.tt:10
+#: ../../../../../cap-root/templates/Default/dfait/macro/sort_order.tt:6
+#: ../../../../../cap-root/templates/Default/eco/macro/sort_order.tt:10
+#: ../../../../../cap-root/templates/Default/eco/macro/sort_order.tt:6
 msgid "oldest"
 msgstr "date croissante"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/issues.tt:21
-#: /Users/william/Projects/cap-root/templates/Default/co/component/issues.tt:21
+#: ../../../../../cap-root/templates/Default/Common/component/issues.tt:21
 msgid "oldest first"
 msgstr "date croissante"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:19
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:19
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:19
 msgid "page text"
 msgstr "texte de la page"
 
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/object_subsearch.tt:9
-#: /Users/william/Projects/cap-root/templates/Default/co/component/object_subsearch.tt:9
+#: ../../../../../cap-root/templates/Default/Common/component/object_subsearch.tt:9
 msgid "pages"
 msgstr "pages"
 
@@ -814,30 +1191,37 @@ msgstr "communiqué"
 msgid "preview"
 msgstr "aperçu"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:40
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:66
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search.tt:26
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:16
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:5
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:8
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:66
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search.tt:26
-#: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:16
-#: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:5
-#: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:8
+#: ../../../../../cap-root/templates/Default/Common/component/search.tt:26
+#: ../../../../../cap-root/templates/Default/Common/component/sort_order_button.tt:16
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:40
+#: ../../../../../cap-root/templates/Default/agriculture/macro/sort_order.tt:5
+#: ../../../../../cap-root/templates/Default/agriculture/macro/sort_order.tt:8
+#: ../../../../../cap-root/templates/Default/co/macro/sort_order.tt:5
+#: ../../../../../cap-root/templates/Default/co/macro/sort_order.tt:8
+#: ../../../../../cap-root/templates/Default/dfait/macro/sort_order.tt:5
+#: ../../../../../cap-root/templates/Default/dfait/macro/sort_order.tt:8
+#: ../../../../../cap-root/templates/Default/eco/macro/sort_order.tt:5
+#: ../../../../../cap-root/templates/Default/eco/macro/sort_order.tt:8
 msgid "relevance"
 msgstr "pertinence"
+
+#: ../../../../../cap-root/templates/Default/Common/user/reset.tt:30
+msgid "repeat your new password"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:44
+msgid "repeat your password"
+msgstr ""
 
 msgid "score"
 msgstr "pertinence"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:43
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:69
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/sort_order_button.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/macro/sort_order.tt:11
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:69
-#: /Users/william/Projects/cap-root/templates/Default/co/component/sort_order_button.tt:20
-#: /Users/william/Projects/cap-root/templates/Default/co/macro/sort_order.tt:11
+#: ../../../../../cap-root/templates/Default/Common/component/sort_order_button.tt:20
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:43
+#: ../../../../../cap-root/templates/Default/agriculture/macro/sort_order.tt:11
+#: ../../../../../cap-root/templates/Default/co/macro/sort_order.tt:11
+#: ../../../../../cap-root/templates/Default/dfait/macro/sort_order.tt:11
+#: ../../../../../cap-root/templates/Default/eco/macro/sort_order.tt:11
 msgid "sequence"
 msgstr "séquence"
 
@@ -850,14 +1234,18 @@ msgstr "declaration"
 msgid "table of contents"
 msgstr "table des matières"
 
-#: /Users/william/Projects/cap-root/templates/Default/Common/component/toolbar.tt:76
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/full_toolbar.tt:166
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/search_parameters.tt:53
-#: /Users/william/Projects/cap-root/templates/Default/agriculture/component/year_published.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/co/component/full_toolbar.tt:166
-#: /Users/william/Projects/cap-root/templates/Default/co/component/search_parameters.tt:62
-#: /Users/william/Projects/cap-root/templates/Default/co/component/year_published.tt:17
-#: /Users/william/Projects/cap-root/templates/Default/co/search_parameters.tt:49
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:66
+#: ../../../../../cap-root/templates/Default/Common/component/toolbar.tt:76
+#: ../../../../../cap-root/templates/Default/Common/component/year_published.tt:17
+#: ../../../../../cap-root/templates/Default/co/search_parameters.tt:49
 msgid "to"
 msgstr "à"
+
+#: ../../../../../cap-root/templates/Default/Common/component/search_parameters.tt:51
+msgid "undo"
+msgstr "suprimer"
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:34
+msgid "what you would like us to call you"
+msgstr ""
 
