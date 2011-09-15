@@ -62,100 +62,6 @@ sub auto :Private
     if ($c->config->{debug}) {
         $c->stash->{debug} = 1;
     }
-
-    # If this is an anonymous request, check for a persistence token and,
-    # if valid, automatically login the user.
-    if (! $c->user_exists) {
-        if ($c->request->cookie("persistent")) {
-            my $id = $c->model('DB::User')->validate_token($c->request->cookie("persistent")->value);
-            if ($id) {
-                $c->set_authenticated($c->find_user({id => $id}));
-                $c->persist_user();
-            }
-        }
-    }
-
-    # Update the user's last access time.
-    if ($c->user_exists) {
-        eval { $c->user->update({lastseen => time()}) };
-        $c->detach('/error', 500) if ($@);
-    }
-    
-
-    #
-    # Set session variables
-    #
-    
-    # Force the creation of a session and sessionid if they don't already
-    # exist. We need this so that logging doesn't barf on the first
-    # request of a new session.
-    $c->session();
-
-
-    # TODO: only run this if the portal actually supports user accounts
-    
-    # Check whether the user's IP address has changed.
-    if (! $c->session->{address} || $c->session->{address} ne $c->request->address) {
-        $c->session->{address} = "";
-    }
-
-    # If not set, set the user's IP address and check group membership.
-    $c->forward('user/init') unless ($c->session->{address});
-
-    # Increment the session counter
-    $c->session->{count} = 0 unless ($c->session->{count});
-    ++$c->session->{count};
-
-    # Call init after a predetermined number of transactions to ensure
-    # we're up to date
-    if ($c->session->{count} % $c->config->{init_interval} == 0) {
-        warn("### Re-running user/init due to session count");
-        $c->forward('user/init');
-    }
-
-    #### END TODO
-    
-
-    # Set image size and rotation
-    if ($c->request->params->{'size'} && $c->config->{derivative}->{size}->{$params{'size'}}) {
-        $c->session->{'size'} = $c->request->params->{'size'};
-    }
-    if ($c->request->params->{'rotate'} && $c->request->params->{'rotate'} eq 'on') {
-        $c->session->{'rotate'} = 1;
-    }
-    if ($params{'rotate'} && $params{'rotate'} eq 'off') {
-        $c->session->{'rotate'} = 0;
-    }
-
-    #
-    # Set stash variables from the session
-    #
-
-    $c->stash->{'size'} = $c->session->{'size'}     || "";
-    $c->stash->{'rotate'} = $c->session->{'rotate'} || 0;
-
-
-    # Set the current view
-    if (! $c->config->{default_view}) {
-        $c->detach("config_error", ["default_view is not set"]);
-    }
-    if ($c->request->params->{fmt}) {
-        if ($c->request->params->{fmt} eq 'json') {
-            $c->stash->{current_view} = 'json'; # Builtin view
-        }
-        elsif ($c->request->params->{fmt} eq 'xml') {
-            $c->stash->{current_view} = 'xml'; # Builtin view
-        }
-        elsif ($c->config->{views}->{$c->request->params->{fmt}}) {
-            $c->stash->{current_view} = $c->config->{views}->{$c->Request->params->{fmt}};
-        }
-        else {
-            $c->stash->{current_view} = $c->config->{default_view};
-        }
-    }
-    else {
-        $c->stash->{current_view} = $c->config->{default_view};
-    }
     
     # Verify that a default portal is set
     if (! $c->config->{default_portal}) {
@@ -253,6 +159,94 @@ sub auto :Private
 
     }
 
+    # If this is an anonymous request, check for a persistence token and,
+    # if valid, automatically login the user.
+    if (! $c->user_exists) {
+        if ($c->request->cookie("persistent")) {
+            my $id = $c->model('DB::User')->validate_token($c->request->cookie("persistent")->value);
+            if ($id) {
+                $c->set_authenticated($c->find_user({id => $id}));
+                $c->persist_user();
+            }
+        }
+    }
+
+    # Update the user's last access time.
+    if ($c->user_exists) {
+        eval { $c->user->update({lastseen => time()}) };
+        $c->detach('/error', 500) if ($@);
+    }
+    
+
+    #
+    # Set session variables
+    #
+    
+    # Force the creation of a session and sessionid if they don't already
+    # exist. We need this so that logging doesn't barf on the first
+    # request of a new session.
+    $c->session();
+
+    # Check whether the user's IP address has changed.
+    if (! $c->session->{address} || $c->session->{address} ne $c->request->address) {
+        $c->session->{address} = "";
+    }
+
+    # If not set, set the user's IP address and check group membership.
+    $c->forward('user/init') unless ($c->session->{address});
+
+    # Increment the session counter
+    $c->session->{count} = 0 unless ($c->session->{count});
+    ++$c->session->{count};
+
+    # Call init after a predetermined number of transactions to ensure
+    # we're up to date
+    if ($c->session->{count} % $c->config->{init_interval} == 0) {
+        $c->forward('user/init');
+    }
+    
+
+    # Set image size and rotation
+    if ($c->request->params->{'size'} && $c->config->{derivative}->{size}->{$params{'size'}}) {
+        $c->session->{'size'} = $c->request->params->{'size'};
+    }
+    if ($c->request->params->{'rotate'} && $c->request->params->{'rotate'} eq 'on') {
+        $c->session->{'rotate'} = 1;
+    }
+    if ($params{'rotate'} && $params{'rotate'} eq 'off') {
+        $c->session->{'rotate'} = 0;
+    }
+
+    #
+    # Set stash variables from the session
+    #
+
+    $c->stash->{'size'} = $c->session->{'size'}     || "";
+    $c->stash->{'rotate'} = $c->session->{'rotate'} || 0;
+
+
+    # Set the current view
+    if (! $c->config->{default_view}) {
+        $c->detach("config_error", ["default_view is not set"]);
+    }
+    if ($c->request->params->{fmt}) {
+        if ($c->request->params->{fmt} eq 'json') {
+            $c->stash->{current_view} = 'json'; # Builtin view
+        }
+        elsif ($c->request->params->{fmt} eq 'xml') {
+            $c->stash->{current_view} = 'xml'; # Builtin view
+        }
+        elsif ($c->config->{views}->{$c->request->params->{fmt}}) {
+            $c->stash->{current_view} = $c->config->{views}->{$c->Request->params->{fmt}};
+        }
+        else {
+            $c->stash->{current_view} = $c->config->{default_view};
+        }
+    }
+    else {
+        $c->stash->{current_view} = $c->config->{default_view};
+    }
+
     # Set a cookie to remember the interface language.
     $c->res->cookies->{usrlang} = { value => $c->stash->{lang}, expires => time() + 7776000 }; # Cookie expires in 90 days TODO: put in cap.conf?
 
@@ -310,8 +304,6 @@ sub end : ActionClass('RenderView')
     if (! $c->stash->{debug}) {
         delete($c->stash->{response}->{solr}) if ($c->stash->{response}->{solr});
     }
-
-    warn "########## " . $c->stash->{current_view};
 
     # If the current view is set to one of the special cases 'xml' or
     # 'json', handle the output internally, bypassing the normal view
