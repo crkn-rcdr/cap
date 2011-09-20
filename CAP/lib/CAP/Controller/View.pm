@@ -50,6 +50,12 @@ sub main :Private
         docs  => $solr->count({pkey => $doc->{key}}, {type => 'document'}),
     };
 
+    # Get the first page of the item if the item is a hosted document
+    if ($hosted && $doc->{type} eq 'document') {
+        my $first_page_query = $solr->query({}, { type => 'page', field => {pkey => $doc->{key}, seq => 1 } });
+        $c->stash->{response}->{first_page} = $first_page_query->{documents}->[0];
+    }
+
     # Get the credit cost to purchase this document.
     $c->stash->{credit_cost} = $c->forward('/user/credit_cost', [$doc]);
 
