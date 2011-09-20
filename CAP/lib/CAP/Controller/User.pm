@@ -4,16 +4,6 @@ use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-=head1 NAME
-
-CAP::Controller::User - Catalyst Controller
-
-=head1 DESCRIPTION
-
-Catalyst Controller.
-
-=cut
-
 sub auto :Private {
     my($self, $c) = @_;
 
@@ -471,6 +461,9 @@ sub init :Private
     return 1;
 }
 
+
+# These are wrappers for calling the like-named methods in the appropriate
+# Access module.
 
 sub has_access :Private
 {
