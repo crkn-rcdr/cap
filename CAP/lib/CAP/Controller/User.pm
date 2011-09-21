@@ -104,7 +104,7 @@ sub create :Path('create') :Args(0) {
             'lastseen'  => time(),
         });
     };
-    $c->detach('/error', 500) if ($@);
+    $c->detach('/error', [500]) if ($@);
 
     # Retrieve the record for the newly-created user.
     my $new_user = $c->find_user({ username => $username });
@@ -267,7 +267,7 @@ sub reset :Path('reset') :Args() {
                 # Reset the user's password and log them in.
                 my $user_account = $c->find_user({ id => $id });
                 eval { $user_account->update({ password => $password }) };
-                $c->detach('/error', 500) if ($@);
+                $c->detach('/error', [500]) if ($@);
                 $c->set_authenticated($user_account);
                 $c->persist_user();
                 $c->stash->{password_reset} = 1;
@@ -375,12 +375,12 @@ sub edit :Path('edit') :Args(0) {
             'name'     => $name,
         });
     };
-    $c->detach('/error', 500) if ($@);
+    $c->detach('/error', [500]) if ($@);
 
     # Change the password, if requested.
     if ($password1) {
         eval { $c->user->update({ 'password' => $password1 }); };
-        $c->detach('/error', 500) if ($@);
+        $c->detach('/error', [500]) if ($@);
     }
 
     $c->persist_user();

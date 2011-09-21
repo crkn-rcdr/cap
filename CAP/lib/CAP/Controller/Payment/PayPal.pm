@@ -4,40 +4,42 @@ use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-=head1 NAME
+sub auto :Private {
+    my($self, $c) = @_;
 
-CAP::Controller::Payment::PayPal - Catalyst Controller
+    # If payment processing is not enabled for this portal, do not perform
+    # any actions in this controller.
+    if (! $c->stash->{payment_processing}) {
+        $c->response->redirect('/index');
+        return 0;
+    }
 
-=head1 DESCRIPTION
-
-Catalyst Controller.
-
-=head1 METHODS
-
-=cut
-
-
-=head2 index
-
-=cut
-
-sub index :Path :Args(0) {
-    my ( $self, $c ) = @_;
-
-    $c->response->body('Matched CAP::Controller::Payment::PayPal in Payment::PayPal.');
+    # Proceed with normal processing.
+    return 1;
 }
 
+# Detach to this method to initiate a PayPal payment transaction
+sub pay :Private {
+    my($self, $c) = @_;
+}
 
-=head1 AUTHOR
+# PayPal calls this URL when the transaction is complete
+sub finalize :Path('finalize') {
+    my($self, $c) = @_;
+    
+    # If this isn't a legitimate query, generate an error
+    $c->detach('/error', [400, "Invalid query parameters"]);
+    return 0;
+}
 
-William Wueppelmann
+# PayPal calls this URL when the transact
+sub ipn :Path('ipn') {
+    my($self, $c) = @_;
 
-=head1 LICENSE
-
-This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut
+    # If this isn't a legitimate query, generate an error
+    $c->detach('/error', [400, "Invalid query parameters"]);
+    return 0;
+}
 
 __PACKAGE__->meta->make_immutable;
 

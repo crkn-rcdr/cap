@@ -133,6 +133,7 @@ sub auto :Private
 
         # Stash whether or not user account and access control functions are enabled
         $c->stash->{user_accounts}  = $portal{user_accounts};
+        $c->stash->{payment_processing} = $portal{payment_processing};
         if ($portal{access_model}) {
             $c->stash->{access_model} = $portal{access_model};
         }
