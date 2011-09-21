@@ -141,6 +141,11 @@ sub auto :Private
             $c->stash->{access_model} = 'default';
         }
 
+        # Set the subscription price and eligible tax receipt amount, if
+        # any
+        $c->stash->{subscription_price} = $portal{subscription_price} || 0;
+        $c->stash->{tax_receipt} = $portal{tax_receipt} || 0;
+
         # Stash the portal name
         $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};
 
