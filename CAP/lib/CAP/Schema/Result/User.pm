@@ -73,6 +73,12 @@ __PACKAGE__->table("user");
   data_type: 'integer'
   is_nullable: 0
 
+=head2 credits
+
+  data_type: 'integer'
+  default_value: 0
+  is_nullable: 0
+
 =head2 subscriber
 
   data_type: 'integer'
@@ -105,6 +111,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "lastseen",
   { data_type => "integer", is_nullable => 0 },
+  "credits",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
   "subscriber",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "subexpires",
@@ -114,6 +122,21 @@ __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("username", ["username"]);
 
 =head1 RELATIONS
+
+=head2 subscriptions
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Subscription>
+
+=cut
+
+__PACKAGE__->has_many(
+  "subscriptions",
+  "CAP::Schema::Result::Subscription",
+  { "foreign.user_id" => "self.id" },
+  {},
+);
 
 =head2 user_collections
 
@@ -146,8 +169,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-08-04 13:16:51
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1ydZ2S7eAPBo7AjfTLQN1A
+# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-09-21 10:45:40
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0qztt0n+QaYOo9zot3/6Pw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
