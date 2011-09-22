@@ -388,6 +388,14 @@ sub edit :Path('edit') :Args(0) {
     return 1;
 }
 
+sub subscribe :Path('subscribe') :Args(0) {
+
+    my($self, $c) = @_;
+    $c->stash->{template} = 'user/subscribe.tt';
+    return 1;
+
+}
+
 sub sendmail :Private
 {
     my($self, $c) = @_;

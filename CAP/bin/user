@@ -1,0 +1,40 @@
+#!/usr/bin/perl -Ilib
+
+use strict;
+use warnings;
+
+use CAP::Schema;
+my $schema = CAP::Schema->connect('dbi:mysql:cap', 'cap', 'catalyst');
+
+adduser();
+
+
+sub adduser
+{
+    print("Username: ");
+    chomp(my $username = <STDIN>);
+    print("Password: ");
+    chomp(my $password = <STDIN>);
+    print("Email: ");
+    chomp(my $email = <STDIN>);
+    print("Name: ");
+    chomp(my $name = <STDIN>);
+
+    eval {
+        $schema->resultset('User')->create({
+            username  => $username,
+            password  => $password,
+            email     => $email,
+            name      => $name,
+            confirmed => 1,
+            active    => 1,
+            lastseen  => time()
+        });
+    };
+    if ($@) {
+        die("Error: $@");
+    }
+
+    my $record = $schema->resultset('User')->find({ username => $username });
+    printf("Username: %s\n", $record->username);
+}
