@@ -52,8 +52,7 @@ sub main :Private
 
     # Get the first page of the item if the item is a hosted document
     if ($hosted && $doc->{type} eq 'document') {
-        my $first_page_query = $solr->query({}, { type => 'page', field => {pkey => $doc->{key}, seq => 1 } });
-        $c->stash->{response}->{first_page} = $first_page_query->{documents}->[0];
+        $c->stash->{response}->{first_page} = $c->forward('get_page', [$doc->{key}, 1]);
     }
 
     # Get the credit cost to purchase this document.
@@ -99,9 +98,7 @@ sub page :Private
     }
 
     # Retrieve the requested page.
-    my $result = $solr->query({}, { type => 'page', field => { pkey => $key, seq => $seq } });
-    $c->detach('/error', [404, "Page not found: seq $seq for $key"]) unless ($result->{documents}->[0]);
-    my $page = $result->{documents}->[0];
+    my $page = $c->forward('get_page', [$key, $seq]);
 
     $c->stash->{template}         = 'view_ph.tt';
     $c->stash->{response}->{page} = $page;
@@ -118,6 +115,25 @@ sub get_doc :Private
     $c->stash->{response}->{doc} = $doc;
     $c->stash->{response}->{type} = 'object';
     return $doc;
+}
+
+sub get_page :Private
+{
+    my($self, $c, $key, $seq) = @_;
+    my $solr = $c->stash->{solr};
+    my $result = $solr->query({}, { type => 'page', field => { pkey => $key , seq => $seq } });
+    my $page = $result->{documents}->[0];
+    $c->detach('/error', [404, "Page not found: seq $seq for $key"]) unless ($page);
+
+    # can we view the page at this size?
+    my $size   = $c->config->{derivative}->{default_size};
+    if ($c->req->params->{s} && $c->config->{derivative}->{size}->{$c->req->params->{s}}) {
+        $size = $c->config->{derivative}->{size}->{$c->req->params->{s}};
+    }
+
+    $c->stash->{derivative_access} = $c->forward('/user/has_access', [$page, $key, 'derivative', $size]);
+    $c->stash->{download_access} = $c->forward('/user/has_access', [$page, $key, 'download', $size]);
+    return $page;
 }
 
 sub is_hosted :Private
