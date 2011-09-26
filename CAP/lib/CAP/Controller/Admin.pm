@@ -179,6 +179,24 @@ sub institutions :Path('institutions') :Args(0) {
     return 1;
 }
 
+sub promocodes :Path('promocodes') :Args(0) {
+    my($self, $c) = @_;
+
+    # TODO: this does not do ANY validity checking...
+    if ($c->req->params->{action} eq 'add') {
+        $c->model('DB::Promocode')->create({
+            id => $c->req->params->{id},
+            expires => $c->req->params->{expires},
+            amount => $c->req->params->{amount},
+        });
+
+    }
+
+    $c->stash->{promocodes} = [$c->model('DB::Promocode')->all];
+
+    return 1;
+}
+
 
 __PACKAGE__->meta->make_immutable;
 
