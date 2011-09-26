@@ -89,6 +89,17 @@ sub page :Private
     my $doc    = $c->forward('get_doc',   [$key]);
     my $hosted = $c->forward('is_hosted', [$doc]);
 
+    # Get some information about the parent item, if it exists.
+    $c->stash->{response}->{parent} = $solr->document($doc->{pkey}, 'label', 'key', 'canonicalUri') if ($doc->{pkey});
+
+    # Count the number of child documents and pages.
+    $c->stash->{response}->{children} = {
+        pages => $solr->count({pkey => $doc->{key}}, {type => 'page'}),
+        docs  => $solr->count({pkey => $doc->{key}}, {type => 'document'}),
+    };
+
+    # Get the credit cost to purchase this document.
+    $c->stash->{credit_cost} = $c->forward('/user/credit_cost', [$doc]);
 
     # If this document is not hosted by this portal, redirect to the basic
     # record view.
