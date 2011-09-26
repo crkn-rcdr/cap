@@ -391,6 +391,35 @@ sub edit :Path('edit') :Args(0) {
 sub subscribe :Path('subscribe') :Args(0) {
 
     my($self, $c) = @_;
+    
+    # Get the form parameters
+    my $mode        = defined($c->request->params->{mode})      ? $c->request->params->{mode}      : "default";                       # check if they clicked the promo button 
+    my $trname      = defined($c->request->params->{trname})    ? $c->request->params->{trname}    : "";                              # name on tax receipt   
+    my $amount      = defined($c->request->params->{amount})    ? $c->request->params->{amount}    : $c->stash->{subscription_price}; # subscription amount   
+    my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : 0;                               # promo code
+
+ 
+    # Apply the promo code
+    if ($mode eq "addpromo") {
+        my $valid_code = 'abcd5'; # this will be in the database
+        my $promoamount = 25; #we'll get that from the database eventually
+        if ($promocode eq $valid_code) {
+            $c->stash->{subscription_price} -= $promoamount;
+            $c->session->{promo_applied} = 1; # stuff it in the session so that we know it's been applied
+        }
+        else {
+            # tell user to submit valid promo code
+            $c->stash->{invalid_promocode} = 1;
+        }
+    }
+    
+    # Process the subscription request and detach to e-bay
+    elsif ($mode eq "subscribenow") {
+  #      continue;
+    }
+
+    
+    # Otherwise go/return to "subscribe" page
     $c->stash->{template} = 'user/subscribe.tt';
     return 1;
 
