@@ -99,8 +99,6 @@ sub search :Private
     $c->stash->{log_search} = 1;
     $c->stash->{response}->{type} = 'set';
     
-    my $type = 'all'; # FIXME: get rid of this and in session update below;
-
     my $result = {};
     if ($c->request->params->{gr}) {
         #$c->forward('run_search', [$start, 1]);
@@ -159,8 +157,7 @@ sub search :Private
 
     # Record the last search parameters
     $c->session->{search} = {
-        type => $type,
-        start => $param->{page},
+        start => $param->{page} || 1,
         params => $c->req->params,
         hits => $result->{hits},
     };
@@ -182,10 +179,6 @@ sub search :Private
     }
 
     $c->stash(
-        search   => {
-            type    => $type,
-            #grouped => $c->req->params->{gr},
-        },
         template => "search.tt",
     );
 
