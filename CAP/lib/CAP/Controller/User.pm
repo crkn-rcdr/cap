@@ -415,7 +415,7 @@ sub subscribe :Path('subscribe') :Args(0) {
     
     # Process the subscription request and detach to e-bay
     elsif ($mode eq "subscribenow") {
-  #      continue;
+  #      do stuff
     }
 
     
