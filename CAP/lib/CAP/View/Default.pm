@@ -60,7 +60,7 @@ __PACKAGE__->config(
             my($hash, @keys) = @_;
             my $joined = {};
             while (my($key, $value) = each(%{$hash})) { $joined->{$key} = $value; }
-            foreach my $key (@keys) { delete($joined->{$key}) if ($joined->{$key}); }
+            foreach my $key (@keys) { delete($joined->{$key}) if (defined($joined->{$key})); }
             return $joined;
         },
     }
