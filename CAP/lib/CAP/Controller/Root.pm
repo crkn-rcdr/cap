@@ -230,7 +230,7 @@ sub auto :Private
     # Set stash variables from the session
     #
 
-    $c->stash->{size} = $c->session->{size} || 0;
+    $c->stash->{size} = $c->session->{size} || 1;
     $c->stash->{rotate} = $c->session->{rotate} || 0;
 
 
