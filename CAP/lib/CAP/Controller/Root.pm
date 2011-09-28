@@ -219,10 +219,10 @@ sub auto :Private
     
 
     # Set image size and rotation
-    if ($c->request->params->{s} && $c->config->{derivative}->{size}->{$c->request->params->{s}}) {
+    if (exists($c->request->params->{s}) && $c->config->{derivative}->{size}->{$c->request->params->{s}}) {
         $c->session->{size} = $c->request->params->{s};
     }
-    if ($c->request->params->{r} && $c->config->{derivative}->{rotate}->{$c->request->params->{r}}) {
+    if (exists($c->request->params->{r}) && $c->config->{derivative}->{rotate}->{$c->request->params->{r}} || $c->request->params->{r} == 0) {
         $c->session->{rotate} = $c->request->params->{r};
     }
 
