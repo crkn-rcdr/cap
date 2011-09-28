@@ -141,6 +141,9 @@ sub auto :Private
             $c->stash->{access_model} = 'default';
         }
 
+        # Stash whether or not to show media icons
+        $c->stash->{media_icons} = $portal{media_icons} || 0;
+
         # Set the subscription price and eligible tax receipt amount, if
         # any
         $c->stash->{subscription_price} = $portal{subscription_price} || 0;
@@ -148,6 +151,9 @@ sub auto :Private
 
         # Stash the portal name
         $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};
+
+        # Stash the search bar placeholder text
+        $c->stash->{search_bar_placeholder} = $portal{lang}->{$c->stash->{lang}}->{search_bar_placeholder} || "";
 
         # Stash a list of supported interface languages
         $c->stash->{supported_langs} = [keys(%{$portal{lang}})];
