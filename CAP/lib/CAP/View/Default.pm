@@ -54,6 +54,15 @@ __PACKAGE__->config(
             while (my($key, $value) = each(%{$refine})) { $joined->{$key} = $value; }
             return $joined;
         },
+        
+        # Delete keys from the hash
+        'delete' => sub {
+            my($hash, @keys) = @_;
+            my $joined = {};
+            while (my($key, $value) = each(%{$hash})) { $joined->{$key} = $value; }
+            foreach my $key (@keys) { delete($joined->{$key}) if ($joined->{$key}); }
+            return $joined;
+        },
     }
 );
 
