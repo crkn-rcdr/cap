@@ -219,22 +219,19 @@ sub auto :Private
     
 
     # Set image size and rotation
-    if ($c->request->params->{'size'} && $c->config->{derivative}->{size}->{$params{'size'}}) {
-        $c->session->{'size'} = $c->request->params->{'size'};
+    if ($c->request->params->{s} && $c->config->{derivative}->{size}->{$c->request->params->{s}}) {
+        $c->session->{size} = $c->request->params->{s};
     }
-    if ($c->request->params->{'rotate'} && $c->request->params->{'rotate'} eq 'on') {
-        $c->session->{'rotate'} = 1;
-    }
-    if ($params{'rotate'} && $params{'rotate'} eq 'off') {
-        $c->session->{'rotate'} = 0;
+    if ($c->request->params->{r} && $c->config->{derivative}->{rotate}->{$c->request->params->{r}}) {
+        $c->session->{rotate} = $c->request->params->{r};
     }
 
     #
     # Set stash variables from the session
     #
 
-    $c->stash->{'size'} = $c->session->{'size'}     || "";
-    $c->stash->{'rotate'} = $c->session->{'rotate'} || 0;
+    $c->stash->{size} = $c->session->{size} || 0;
+    $c->stash->{rotate} = $c->session->{rotate} || 0;
 
 
     # Set the current view
