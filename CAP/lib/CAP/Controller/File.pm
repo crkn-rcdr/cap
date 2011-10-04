@@ -14,6 +14,16 @@ CAP::Controller::File - Catalyst Controller
 
 =cut
 
+sub for_page :Private {
+    my($self, $c, $key, $seq, $filename) = @_;
+    my $solr   = $c->stash->{solr};
+
+    my $child = $solr->child($key, $seq);
+    $c->detach('/error', [404, "$key: no such child seq $seq"]) unless ($child);
+    $c->forward('main', [$child->{key}, $filename]);
+    return 1;
+}
+
 sub main :Private
 {
     my($self, $c, $key, $filename) = @_;

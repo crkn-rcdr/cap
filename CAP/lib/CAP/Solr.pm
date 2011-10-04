@@ -310,7 +310,7 @@ sub sibling
     return undef;
 }
 
-sub child
+sub child_
 {
     my($self, $doc, $type, $pos) = @_;
     die "child";
@@ -826,6 +826,27 @@ sub document
         return $fields;
     }
     return $doc;
+}
+
+
+# Retrieve the record for the child document $seq for document $key.
+sub child {
+    my($self, $key, $seq) = @_;
+    $self->{status}->{message} = "child(): $key";
+    my $result = $self->query(
+        { pkey => $key },
+        {
+            solr => {
+                rows => 1,
+                facet => 'false',
+            },
+            type => 'any',
+            field => { seq => $seq },
+        }
+    );
+
+    return undef unless ($result->{hits});
+    return $result->{documents}->[0];
 }
 
 

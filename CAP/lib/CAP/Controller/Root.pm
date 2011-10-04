@@ -62,6 +62,12 @@ sub auto :Private
     if ($c->config->{debug}) {
         $c->stash->{debug} = 1;
     }
+
+    # TODO:
+    # Check the MySQL database version; make sure we are up to date
+    #if (! $c->model('DB::Info')->check_version($c->config->{db_version})) {
+    #    $c->detach("config_error", ["Incorrect MySQL database version (should be " . $c->config->{db_version} . ")"]);
+    #}
     
     # Verify that a default portal is set
     if (! $c->config->{default_portal}) {
@@ -303,11 +309,13 @@ sub end : ActionClass('RenderView')
     my($self, $c) = @_;
 
 
-    # Log the request:
-    my $request_log = $c->model('DB::RequestLog')->log($c); # Basic request information
-    $c->model('DB::SearchLog')->log($c, $request_log) if ($c->stash->{log_search}); # Search query
-    # TODO: user login/out
-    # TODO: item access
+    # Log the request, unless logging has been disabled by a configuration error.
+    if (! $c->stash->{config_error}) {
+        my $request_log = $c->model('DB::RequestLog')->log($c); # Basic request information
+        $c->model('DB::SearchLog')->log($c, $request_log) if ($c->stash->{log_search}); # Search query
+        # TODO: user login/out
+        # TODO: item access
+    }
 
     # Remove some information from the response if we're not in debug mode.
     if (! $c->stash->{debug}) {
@@ -404,6 +412,11 @@ sub file :Path('file') Args(2)
     return $c->forward('file/main', [$key, $filename]);
 }
 
+sub file_for_page :Path('file') Args(3) {
+    my($self, $c, $key, $seq, $filename) = @_;
+    return $c->forward('file/for_page', [$key, $seq, $filename]);
+}
+
 sub view :Path('view') Args() {
     my($self, $c, $key, $seq, $extra) = @_;
     if ($extra) {
@@ -445,6 +458,7 @@ sub test_error :Path('error') Args(1)
 sub config_error :Private
 {
     my($self, $c, $message) = @_;
+    $c->stash->{config_error} = 1;
     $c->res->status(500);
     $c->res->body("<html><head><title>Configuration Error</title><body><h1>Configuration Error</h1><p>$message</p></body></html>");
     return 0;
