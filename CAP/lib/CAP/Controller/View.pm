@@ -20,7 +20,9 @@ sub main :Private
 
     # Redirect requests with a seq parameter to that page.
     if ($c->req->params->{seq}) {
-        $c->res->redirect($c->uri_for('/view', $key, $c->req->params->{seq}));
+        my $seq = $c->req->params->{seq};
+        delete $c->req->params->{seq};
+        $c->res->redirect($c->uri_for('/view', $key, $seq, $c->req->params));
     }
 
     # Redirect requests for page-level items to the parent object, or to
