@@ -242,31 +242,31 @@ sub _setPageInfo
 # Return a Lucene-escaped string. This disables Lucene features we don't
 # want to support, and makes safe constructs we don't want to parse out
 # more carefully.
-sub _escape
-{
-    my($self, $string) = @_;
-    return "" unless ($string);
+#sub _escape
+#{
+#    my($self, $string) = @_;
+#    return "" unless ($string);
 
     #$string =~ s/([:+!(){}\\[\]^"~*?\\-])/\\$1/g; # Escapes everything
 
     # Escape most special Lucene characters. We will allow * for
     # wildcards, and also " for quoting (but see below).
-    $string =~ s/([:+!(){}\\[\]^~?\\-])/\\$1/g;
+#    $string =~ s/([:+!(){}\\[\]^~?\\-])/\\$1/g;
 
     # If the string contains an even number of double quotes, let them
     # pass through as-is. Otherwise, escape the last quote to
     # prevent an open string.
-    my $nquotes = ($string =~ tr/"//);
-    if ($nquotes % 2 == 1) {
-        $string =~ s/(.*)"/$1\\"/;
-    }
+#    my $nquotes = ($string =~ tr/"//);
+#    if ($nquotes % 2 == 1) {
+#        $string =~ s/(.*)"/$1\\"/;
+#    }
 
     # Downcase AND, OR, NOT to turn them into ordinary keywords.
-    $string =~ s/\bAND\b/and/g;
-    $string =~ s/\bOR\b/or/g;
-    $string =~ s/\bNOT\b/not/g;
-    return $string;
-}
+#    $string =~ s/\bAND\b/and/g;
+#    $string =~ s/\bOR\b/or/g;
+#    $string =~ s/\bNOT\b/not/g;
+#    return $string;
+#}
 
 # Force $param to be an integer >= $min. Returns $param or $min, if $param
 # does not meet these criteria. If $min is not specified, a value of 1 is
@@ -282,206 +282,6 @@ sub _int
     $param = $min unless ($param > $min);
     return $param;
 }
-
-
-
-#
-# TODO:
-# Old Database query methods
-# We need to re-write these if/when they become needed again.
-# Currently, they die if called.
-#
-
-
-# Return the document that is the $pos'th sibling of $doc (the document
-# in position $pos with the same pkey and type as $doc).
-sub sibling
-{
-    my($self, $doc, $pos) = @_;
-    die "sibling";
-    $self->_set_query({ pkey => $doc->{pkey}, type => $doc->{type}});
-    $self->_set_params({});
-    $self->{param}->{'sort'} = "seq asc";
-    $self->{param}->{'rows'} = 1;
-    $self->{param}->{'start'} = $pos - 1;
-    $self->{status}->{message} = "sibling(): $doc->{key} ($doc->{type}) @ $pos";
-    $self->_run_query();
-    return $self->{result}->{documents}->[0] if ($self->{result}->{hits});
-    return undef;
-}
-
-sub child_
-{
-    my($self, $doc, $type, $pos) = @_;
-    die "child";
-    $self->_set_query({ pkey => $doc->{key}, type => $type});
-    $self->_set_params({});
-    $self->{param}->{'rows'} = 1;
-    $self->{param}->{'start'} = $pos - 1;
-    $self->{param}->{'sort'} = "seq asc";
-    $self->{status}->{message} = "child(): $doc->{key} ($doc->{type}) @ $pos";
-    $self->_run_query();
-    return $self->{result}->{documents}->[0] if ($self->{result}->{hits});
-    return undef;
-}
-
-# Returns the ordinal position of $doc among its siblings (documents of
-# the same type and belonging to the same parent).
-sub position
-{
-    my($self, $doc) = @_;
-    die "position";
-    $self->_set_query({ pkey => $doc->{pkey}, type => $doc->{type}, _seq => "[* TO $doc->{seq}]" });
-    $self->_set_params({}); # Set parameter defaults
-    $self->{param}->{rows} = 0;
-    $self->{param}->{sort} = "seq asc";
-    $self->{status}->{message} = "position(): $doc->{key} (type=$doc->{type})";
-    $self->_run_query();
-    return 0 unless ($self->{result}->{hits}); # This shouldn't happen if $doc is actually in the database
-    return $self->{result}->{hits};
-}
-
-# Run a general search of the database.
-sub search
-{
-    my($self, $query, $param) = @_;
-    die "search";
-    $self->_set_query($query);
-    $self->_set_params($param);
-    # Retrieve the default fields if none are supplied.
-    $self->{param}->{fl} = $self->{fl}->{search} unless ($param->{fl});
-    $self->{status}->{message} = "search(): main query";
-    $self->_run_query();
-    return $self->{result};
-}
-
-# Run a search and return a result set consisting of the parent objects,
-# sorted by the number of matching child objects. (E.g.,
-# monographs/serials ordered by number of child pages which matched the
-# query.)
-sub search_grouped
-{
-    my($self, $query, $param) = @_;
-    die "search_grouped";
-
-    # This is our starting page for the grouped result set.
-    my $start = ($self->_int($param->{page}) - 1) * $self->{param}->{rows};
-
-    # We are going to create a result set that follows the same structure
-    # as the one returned by _run_query().
-    my $result = {};
-
-    # First, find out how many documents contain matches by counting the
-    # facets.
-    $self->_set_query($query);
-    $self->_set_params($param);
-    $self->{param}->{rows} = 0;
-    $self->{param}->{facet} = 'true';
-    $self->{param}->{'facet.field'} = 'pkey';
-    $self->{param}->{'facet.sort'} = 'true';
-    $self->{param}->{'facet.mincount'} = 1;
-    $self->{param}->{'facet.limit'} = -1;
-    $self->{status}->{message} = "search_parent(): main query";
-    $self->_run_query();
-
-    return {hits => 0} unless ($self->{facet_fields}->{pkey});
-
-    # Record the number of matching documents.
-    $result->{hits} = int(@{$self->{facet_fields}->{pkey}});
-
-    # Take the facet slice corresponding to the page we are interested in.
-    my $facet_from = $start;
-    my $facet_to = $facet_from + $self->{rows} - 1;
-    $facet_to = $result->{hits} - 1 if ($facet_to >= $result->{hits});
-    my @docs = @{$self->{facet_fields}->{pkey}}[$facet_from .. $facet_to];
-
-    # Fetch each document in this "page" and add it to the result
-    # documents. We also copy over the number of pages matched in this
-    # document.
-    $result->{documents} = [];
-    foreach my $doc (@docs) {
-        my $record = $self->document($doc->{name});
-        $record->{hits} = $doc->{count};
-        push(@{$result->{documents}}, $record);
-    }
-
-    #use Data::Dumper;
-    #warn Dumper($result);
-
-    # Set some additional result data.
-    $result->{hitsPerPage} = $self->{param_default}->{rows};
-    $result->{hitsFrom} = $start + 1;
-    $result->{hitsTo} = $result->{hitsPerPage} + $result->{hitsFrom} - 1;
-    if ($result->{hitsTo} > $result->{hits}) {
-        $result->{hitsTo} = $result->{hits};
-    }
-    $result = $self->_setPageInfo($result);
-
-    return $result;
-}
-
-
-# Return various counts by contributor
-sub stats_contributor
-{
-    my($self) = @_;
-    die "stats_contributor";
-    my $stats = { record => {} };
-    
-    $self->_set_params({
-        rows => 0,
-        facets => [ 'contributor' ],
-    });
-
-    foreach my $type (("page", "monograph", "issue", "serial", "collection")) {
-        $self->_set_query({type => $type});
-        $self->{status}->{message} = "stats_contributor(): $type";
-        $self->_run_query();
-        $stats->{$type} = {};
-        foreach my $facet (@{$self->{facet_fields}->{contributor}}) {
-            my $name = $facet->{name};
-            my $count = $facet->{count};
-            $stats->{$type}->{$name} = $count;
-            if ($stats->{record}->{$name}) {
-                $stats->{record}->{$name} = $stats->{record}->{$name} + $count;
-            }
-            else {
-                $stats->{record}->{$name} = $count;
-            }
-        }
-    }
-    return $stats;
-}
-
-# Counts the number of occurrences of each specified facet within the
-# entire collection and returns a hash mapping of name-value pairs for
-# each one.
-sub facet_counts
-{
-    my($self, @facets) = @_;
-    die "facet_counts";
-    my $facets = {};
-
-    $self->_set_query({_key => '[* TO *]'});
-    $self->_set_params({ rows => 0, facets => [ @facets ]});
-    $self->_run_query();
-    foreach my $facet (@facets) {
-        $facets->{$facet} = {};
-        foreach my $value (@{$self->{facet_fields}->{$facet}}) {
-            my $name = $value->{name};
-            my $count = $value->{count};
-            $facets->{$facet}->{$name} = $count;
-        }
-    }
-
-    return $facets;
-}
-
-
-
-#########################
-
-
 
 
 
@@ -762,26 +562,26 @@ sub query
 
 # Return an array of all the ancestors (if any) of $document, starting
 # with the parent and working up the hierarchy.
-sub ancestors
-{
-    my($self, $doc) = @_;
-    my $ancestors = [];
-    my %keys = ( $doc->{key} => 1 ); # Keep track of keys we've seen to avoid circular references
-    while($doc->{pkey}) {
-        $self->{status}->{message} = "ancestors(): $doc->{key} (pkey = $doc->{pkey})";
-        my $result = $self->query(
-            { key => $doc->{pkey} },
-            { solr => { rows => 1, facet => 'false' } }
-        );
-        last unless ($result->{hits});
-        $doc= $result->{documents}->[0];
-        last if ($keys{$doc->{key}}); # Abort on circular reference
-        $keys{$doc->{key}} = 1;
-        push(@{$ancestors}, $doc);
-    }
-
-    return $ancestors;
-}
+#sub ancestors
+#{
+#    my($self, $doc) = @_;
+#    my $ancestors = [];
+#    my %keys = ( $doc->{key} => 1 ); # Keep track of keys we've seen to avoid circular references
+#    while($doc->{pkey}) {
+#        $self->{status}->{message} = "ancestors(): $doc->{key} (pkey = $doc->{pkey})";
+#        my $result = $self->query(
+#            { key => $doc->{pkey} },
+#            { solr => { rows => 1, facet => 'false' } }
+#        );
+#        last unless ($result->{hits});
+#        $doc= $result->{documents}->[0];
+#        last if ($keys{$doc->{key}}); # Abort on circular reference
+#        $keys{$doc->{key}} = 1;
+#        push(@{$ancestors}, $doc);
+#    }
+#
+#    return $ancestors;
+#}
 
 
 # Count the number of records found. $what is optional and will be
@@ -867,55 +667,55 @@ sub limit
     return $result->{documents}->[0]->{$field};
 }
 
-sub next_doc
-{
-    my($self, $doc) = @_;
-    return undef unless ($doc->{seq});
-    my $seq = $doc->{seq} + 1;
-    $self->{status}->{message} = "next_doc(): $doc->{key}";
+#sub next_doc
+#{
+#    my($self, $doc) = @_;
+#    return undef unless ($doc->{seq});
+#    my $seq = $doc->{seq} + 1;
+#    $self->{status}->{message} = "next_doc(): $doc->{key}";
 
-    my $result = $self->query(
-        { pkey => $doc->{pkey} },
-        {
-            solr => {
-                rows => 0,
-                facet => 'false',
-                'sort' => 'seq asc',
-            },
-            field => {
-                seq => "[$seq TO *]",
-            }
-        }
-    );
+#    my $result = $self->query(
+#        { pkey => $doc->{pkey} },
+#        {
+#            solr => {
+#                rows => 0,
+#                facet => 'false',
+#                'sort' => 'seq asc',
+#            },
+#            field => {
+#                seq => "[$seq TO *]",
+#            }
+#        }
+#    );
+#
+#    return undef unless ($result->{documents}->[0]);
+#    return $result->{documents}->[0];
+#}
 
-    return undef unless ($result->{documents}->[0]);
-    return $result->{documents}->[0];
-}
+#sub prev_doc
+#{
+#    my($self, $doc) = @_;
+#    return undef unless ($doc->{seq});
+#    my $seq =  $doc->{seq} - 1;
+#    $self->{status}->{message} = "prev_doc(): $doc->{key}";
 
-sub prev_doc
-{
-    my($self, $doc) = @_;
-    return undef unless ($doc->{seq});
-    my $seq =  $doc->{seq} - 1;
-    $self->{status}->{message} = "prev_doc(): $doc->{key}";
+#    my $result = $self->query(
+#        { pkey => $doc->{pkey} },
+#        {
+#            solr => {
+#                rows => 0,
+#                facet => 'false',
+#                'sort' => 'seq desc',
+#            },
+#            field => {
+#                seq => "[* TO $seq]"
+#            },
+#        }
+#    );
 
-    my $result = $self->query(
-        { pkey => $doc->{pkey} },
-        {
-            solr => {
-                rows => 0,
-                facet => 'false',
-                'sort' => 'seq desc',
-            },
-            field => {
-                seq => "[* TO $seq]"
-            },
-        }
-    );
-
-    return undef unless ($result->{documents}->[0]);
-    return $result->{documents}->[0];
-}
+#    return undef unless ($result->{documents}->[0]);
+#    return $result->{documents}->[0];
+#}
 
 
 # Retrieve the query status log.

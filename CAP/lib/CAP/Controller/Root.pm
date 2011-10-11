@@ -63,11 +63,10 @@ sub auto :Private
         $c->stash->{debug} = 1;
     }
 
-    # TODO:
     # Check the MySQL database version; make sure we are up to date
-    #if (! $c->model('DB::Info')->check_version($c->config->{db_version})) {
-    #    $c->detach("config_error", ["Incorrect MySQL database version (should be " . $c->config->{db_version} . ")"]);
-    #}
+    if (! $c->model('DB::Info')->check_version($c->config->{db_version})) {
+        $c->detach("config_error", ["Incorrect MySQL database version (should be " . $c->config->{db_version} . ")"]);
+    }
     
     # Verify that a default portal is set
     if (! $c->config->{default_portal}) {

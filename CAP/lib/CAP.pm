@@ -27,6 +27,8 @@ use Catalyst qw/
                 Authentication
                 Authorization::Roles
 
+                RequireSSL
+
                 Session
                 Session::DynamicExpiry
                 Session::State::Cookie
@@ -64,6 +66,11 @@ __PACKAGE__->config(
             user_model    => 'DB::User',
             password_type => 'self_check',
         },
+    },
+
+    'require_ssl' => {
+        remain_in_ssl => 0, # Set to 1 to keep the user in SSL once directed there
+        no_cache      => 0, # Would need to be set if running multiple domains w/wildcard cert.
     },
 
     'Plugin::Session' => {

@@ -13,6 +13,9 @@ sub auto :Private {
         return 0;
     }
 
+    # Require SSL for all operations
+    $c->require_ssl;
+
     # Actions relating to creating a new account, logging in, or
     # recovering a lost password are only available to anonymous users.
     if (
