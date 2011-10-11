@@ -69,7 +69,7 @@ __PACKAGE__->config(
     },
 
     'require_ssl' => {
-        remain_in_ssl => 0, # Set to 1 to keep the user in SSL once directed there
+        remain_in_ssl => 1, # Set to 1 to keep the user in SSL once directed there
         no_cache      => 0, # Would need to be set if running multiple domains w/wildcard cert.
     },
 
