@@ -29,9 +29,9 @@ sub has_access :Private {
     # Only show the first 10 pages maximum
     return 0 if ($doc->{seq} > 10);
 
-    # Maximum image width is 600 pixels
+    # Maximum image width is 1200 pixels
     my($width, $height) = split(/x/, $size);
-    return 0 if int($width) > 600;
+    return 0 if int($width) > 800;
 
 
     # Grant preview access
