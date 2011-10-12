@@ -15,7 +15,6 @@ use Catalyst::Runtime '5.70';
 
 use parent qw/Catalyst/;
 use Catalyst qw/
-                -Debug
                 ConfigLoader
                 Static::Simple
                 StackTrace
@@ -34,8 +33,8 @@ use Catalyst qw/
                 Session::State::Cookie
                 Session::Store::DBI
                /;
+                #-Debug
                 #I18N::DBIC
-#our $VERSION = 0.66; # Minimum config file version required
 #                Authorization::ACL
 #                Session::Store::FastMmap
 
