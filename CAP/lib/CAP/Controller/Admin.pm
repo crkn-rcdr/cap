@@ -8,12 +8,17 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub auto :Private {
     my($self, $c) = @_;
 
+    # Require SSL for all operations
+    $c->require_ssl;
+
     # Only allow administrators to access any of these functions. Everyone
     # else gets a 404.
     unless ($c->user_exists && $c->user->admin) {
-        $c->response->redirect($c->uri_for('/index'));
+        $c->session->{login_redirect} = $c->req->uri;
+        $c->response->redirect($c->uri_for('/user', 'login'));
         return 0;
     }
+
     return 1;
 }
 
