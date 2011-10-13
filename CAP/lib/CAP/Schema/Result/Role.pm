@@ -47,7 +47,7 @@ __PACKAGE__->add_unique_constraint("role", ["role"]);
 # Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-27 12:33:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:C0I/YBC8g6yf6cLtVToEjg
 
-__PACKAGE__->load_components('ForceUTF8');
+#__PACKAGE__->load_components('ForceUTF8');
 __PACKAGE__->has_many(map_user_roles => 'CAP::Schema::Result::UserRole', 'role_id');
 
 1;

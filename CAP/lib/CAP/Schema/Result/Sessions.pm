@@ -52,7 +52,7 @@ __PACKAGE__->set_primary_key("id");
 # Created by DBIx::Class::Schema::Loader v0.06001 @ 2010-09-27 12:33:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:txW0bD89WASJgf7lraWHYQ
 
-__PACKAGE__->load_components('ForceUTF8');
+#__PACKAGE__->load_components('ForceUTF8');
 
 # You can replace this text with custom content, and it will be preserved on regeneration
 1;

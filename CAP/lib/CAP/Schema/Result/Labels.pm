@@ -67,6 +67,6 @@ __PACKAGE__->set_primary_key("field", "code", "lang");
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
-__PACKAGE__->load_components('ForceUTF8');
+#__PACKAGE__->load_components('ForceUTF8');
 
 1;

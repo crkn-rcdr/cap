@@ -175,7 +175,7 @@ __PACKAGE__->has_many(
 
 # You can replace this text with custom content, and it will be preserved on regeneration
 
-__PACKAGE__->load_components('ForceUTF8');
+#__PACKAGE__->load_components('ForceUTF8');
 __PACKAGE__->add_columns(
     'password' => {
         data_type => 'VARCHAR',

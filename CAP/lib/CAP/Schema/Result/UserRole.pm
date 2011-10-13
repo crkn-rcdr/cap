@@ -49,7 +49,7 @@ __PACKAGE__->set_primary_key("user_id", "role_id");
 
 # You can replace this text with custom content, and it will be preserved on regeneration
 
-__PACKAGE__->load_components('ForceUTF8');
+#__PACKAGE__->load_components('ForceUTF8');
 __PACKAGE__->belongs_to(user => 'CAP::Schema::Result::User', 'user_id');
 __PACKAGE__->belongs_to(role => 'CAP::Schema::Result::Role', 'role_id');
 
