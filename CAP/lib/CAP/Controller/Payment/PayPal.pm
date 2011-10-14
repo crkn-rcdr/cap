@@ -19,6 +19,28 @@ sub auto :Private {
     return 1;
 }
 
+
+# Common function that will output debug information related to the
+# PayPal API calls
+sub debugPPAPI {
+  my($c, $func, %apiret) = @_;
+
+  for my $key ( keys %apiret ) {
+    if ($key eq "Errors") {
+	for my $errorno ( 0 .. $#{ $apiret{$key} }) {
+	    for my $errorkey ( keys %{ $apiret{$key}[$errorno] } ) {
+		$c->log->debug("Payment/Paypal/$func Error: $errorkey\[$errorno\] => $apiret{$key}[$errorno]{$errorkey}");
+	    }
+	}
+    } else {
+	my $value = $apiret{$key};
+	$c->log->debug("Payment/Paypal/$func: $key => $value");
+    }
+  }
+}
+
+
+
 # Detach to this method to initiate a PayPal payment transaction
 #sub pay :Private {
 # temporary for initial test, just use /payment/paypal/pay
@@ -53,16 +75,12 @@ sub pay :Path('pay') {
     my %PPresp = $pp->SetExpressCheckout(
       OrderTotal => $orderTotal,
       currencyID => 'CAD',
+      LocaleCode => 'CA',
       OrderDescription => $orderDescription,
       ReturnURL  => "<![CDATA[$ReturnURL]]>" ,
       CancelURL  => "<![CDATA[$CancelURL]]>" );
 
-    if ($c->config->{debug}) {
-      for my $key ( keys %PPresp ) {
-        my $value = $PPresp{$key};
-        $c->log->debug("Payment/Paypal/Pay: $key => $value");
-      } 
-    }
+    debugPPAPI($c, "Pay", %PPresp ) if $c->config->{debug};
 
     # TODO: Check if "Ack => Success", and that we have a token.
     # We need to decide what we want to do if Paypal is down/etc. Message?
@@ -104,12 +122,10 @@ sub finalize :Path('finalize') {
 
     my %details = $pp->GetExpressCheckoutDetails($token);
 
-    if ($c->config->{debug}) {
-      for my $key ( keys %details ) {
-        my $value = $details{$key};
-        $c->log->debug("Payment/Paypal/Finalize: $key => $value");
-      } 
-    }
+    # TODO: Check if "Ack => Success"
+
+    #$c->stash->{details} = \%details;
+    debugPPAPI($c, "Finalize/Get...Details", %details ) if $c->config->{debug};
 
     # TODO:  How much needs to be pulled out of the transaction database.
     my $orderTotal = 123.45;
@@ -120,7 +136,14 @@ sub finalize :Path('finalize') {
       PayerID => $details{PayerID},
       OrderTotal => $orderTotal,
       currencyID => 'CAD',
+      LocaleCode => 'CA',
     );
+
+
+    # TODO: Check if "Ack => Success"
+
+    #$c->stash->{payinfo} = \%payinfo;
+    debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if $c->config->{debug};
 
     # TODO: Not an error, but I don't know where to detach to yet.
     $c->detach('/error', [200, "Payment of $orderTotal completed."]);
@@ -137,4 +160,3 @@ sub ipn :Path('ipn') {
 }
 
 __PACKAGE__->meta->make_immutable;
-
