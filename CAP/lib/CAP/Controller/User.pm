@@ -402,19 +402,28 @@ sub subscribe :Path('subscribe') :Args(0) {
     my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : 0;                               # promo code
 
  
-    # Apply the promo code
-    if ($mode eq "addpromo") {
-        my $valid_code = 'abcd5'; # this will be in the database
+    # Apply the promo code                
+    if ($mode eq "addpromo") {       
+
         my $promoamount = 25; #we'll get that from the database eventually
-        if ($promocode eq $valid_code) {
+
+        # first check to see if promocode even exists
+        $c->stash->{promocode_exists} = $c->model('DB::Promocode')->code_exists($promocode);
+         
+        
+        # now check to see of it's expired
+        my $valid = $c->model('DB::Promocode')->validate_code($promocode);
+        if ($valid) {
             $c->stash->{subscription_price} -= $promoamount;
+            $c->stash->{promocode_expired} = 0;
             $c->session->{promo_applied} = 1; # stuff it in the session so that we know it's been applied
         }
         else {
             # tell user to submit valid promo code
-            $c->stash->{invalid_promocode} = 1;
+            $c->stash->{promocode_expired} = 1;
         }
     }
+    
     
     # Process the subscription request and detach to e-bay
     elsif ($mode eq "subscribenow") {
