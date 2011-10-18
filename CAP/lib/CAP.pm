@@ -32,6 +32,8 @@ use Catalyst qw/
                 Session::DynamicExpiry
                 Session::State::Cookie
                 Session::Store::DBI
+
+                MessageStack
                /;
                 #-Debug
                 #I18N::DBIC
