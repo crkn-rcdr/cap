@@ -67,7 +67,6 @@ sub main :Private
             $template = 'view_sh.tt';
         }
         elsif ($doc->{type} eq 'document') {
-            $c->stash->{access_level} = $c->forward('/user/access_level', [$doc]);
             $template = 'view_dh.tt';
         }
     }
@@ -127,6 +126,7 @@ sub get_doc :Private
     $c->detach('/error', [404, "Record not found: $key"]) unless ($doc);
     $c->stash->{response}->{doc} = $doc;
     $c->stash->{response}->{type} = 'object';
+    $c->stash->{access_level} = $c->forward('/user/access_level', [$doc]);
     return $doc;
 }
 
