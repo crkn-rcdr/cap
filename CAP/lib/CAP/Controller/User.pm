@@ -164,7 +164,6 @@ sub login :Path('login') :Args(0) {
     my $password    = $c->request->params->{password}   || "";
     my $persistent  = $c->request->params->{persistent} || 0;
 
-    $c->stash->{errors} =  {};
     $c->stash->{formdata} = {
         username => $username,
     };
@@ -174,11 +173,10 @@ sub login :Path('login') :Args(0) {
         $c->response->redirect($c->uri_for('index'));
     }
     elsif ($c->find_user({ username => $username, confirmed => 0 })) {
-        $c->stash->{errors}->{confirmed} = 1;
+        $c->stash->{needs_to_confirm} = 1;
     }
     elsif ($username) {
         if ($c->authenticate(({ username => $username, password => $password, confirmed => 1, active => 1 }))) {
-
             if ($persistent) {
                 # Set the session to be persistent or a session cookie.
                 my $token = $c->model('DB::User')->set_token($c->user->id);
@@ -193,12 +191,13 @@ sub login :Path('login') :Args(0) {
                 $c->response->cookies->{persistent} = { value => '', expires => 0 }
             }
 
-            my $redirect = $c->session->{login_redirect}   || $c->uri_for('index');
+            my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
             delete($c->session->{login_redirect});
+            $c->message({ type => "success", message => "login_success" });
             $c->response->redirect($redirect);
         }
         else {
-            $c->stash->{errors}->{password} = 1;
+            $c->message({ type => "error", message => "auth_failed" });
         }
     }
 
@@ -219,7 +218,8 @@ sub logout :Path('logout') :Args(0) {
     $c->logout();
     $c->forward('init'); # Reinitialize after logout to clear current subscription, etc. info
 
-    return $c->response->redirect($c->uri_for('/index'));
+    $c->message({ type => "success", message => "logout_success" });
+    return $c->response->redirect($c->uri_for_action('index'));
 }
 
 
