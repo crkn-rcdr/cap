@@ -56,7 +56,7 @@ sub pay :Path('pay') {
     my $signature = $c->config->{payment}->{paypal}->{signature};
     my $sandbox = $c->config->{payment}->{paypal}->{sandbox};
 
-    $c->log->debug("Payment/Paypal/Pay: username:$username , password:$password , signature:$signature , sandbox:$sandbox") if ($c->config->{debug});
+    $c->log->debug("Payment/Paypal/Pay: username:$username , password:$password , signature:$signature , sandbox:$sandbox") if ($c->debug);
 
     my $pp = new Business::PayPal::API::ExpressCheckout(
       Username   => $username,
@@ -80,14 +80,14 @@ sub pay :Path('pay') {
       ReturnURL  => "<![CDATA[$ReturnURL]]>" ,
       CancelURL  => "<![CDATA[$CancelURL]]>" );
 
-    debugPPAPI($c, "Pay", %PPresp ) if $c->config->{debug};
+    debugPPAPI($c, "Pay", %PPresp ) if $c->debug;
 
     # TODO: Check if "Ack => Success", and that we have a token.
     # We need to decide what we want to do if Paypal is down/etc. Message?
     my $sandboxURL = $sandbox ? ".sandbox" : "";
     my $paypalURL="https://www" . $sandboxURL . ".paypal.com/webscr?cmd=_express-checkout&token=" .$PPresp{Token};
 
-    $c->log->debug("Payment/Paypal/Pay: ReturnURL => $ReturnURL , CancelURL => $CancelURL , paypalURL => $paypalURL") if ($c->config->{debug});
+    $c->log->debug("Payment/Paypal/Pay: ReturnURL => $ReturnURL , CancelURL => $CancelURL , paypalURL => $paypalURL") if ($c->debug);
 
     $c->response->redirect($paypalURL);
     return 0;
@@ -103,7 +103,7 @@ sub finalize :Path('finalize') {
     my $signature = $c->config->{payment}->{paypal}->{signature};
     my $sandbox = $c->config->{payment}->{paypal}->{sandbox};
 
-    $c->log->debug("Payment/Paypal/finalize: username:$username , password:$password , signature:$signature , sandbox:$sandbox") if ($c->config->{debug});
+    $c->log->debug("Payment/Paypal/finalize: username:$username , password:$password , signature:$signature , sandbox:$sandbox") if ($c->debug);
 
     my $pp = new Business::PayPal::API::ExpressCheckout(
       Username   => $username,
@@ -112,7 +112,7 @@ sub finalize :Path('finalize') {
       sandbox    => $sandbox);
 
     my $token = $c->request->param( 'token' );
-    $c->log->debug("Payment/Paypal/finalize: token = $token") if ($c->config->{debug});
+    $c->log->debug("Payment/Paypal/finalize: token = $token") if ($c->debug);
     if (! $token) {
       # If this isn't a legitimate query, generate an error
       $c->detach('/error', [400, "Invalid query parameters"]);
@@ -125,7 +125,7 @@ sub finalize :Path('finalize') {
     # TODO: Check if "Ack => Success"
 
     #$c->stash->{details} = \%details;
-    debugPPAPI($c, "Finalize/Get...Details", %details ) if $c->config->{debug};
+    debugPPAPI($c, "Finalize/Get...Details", %details ) if ($c->debug);
 
     # TODO:  How much needs to be pulled out of the transaction database.
     my $orderTotal = 123.45;
@@ -143,7 +143,7 @@ sub finalize :Path('finalize') {
     # TODO: Check if "Ack => Success"
 
     #$c->stash->{payinfo} = \%payinfo;
-    debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if $c->config->{debug};
+    debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
 
     # TODO: Not an error, but I don't know where to detach to yet.
     $c->detach('/error', [200, "Payment of $orderTotal completed."]);

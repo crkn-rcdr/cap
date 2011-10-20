@@ -58,11 +58,6 @@ sub auto :Private
     my %params = ();
     my %cookies = ();
 
-    # Set debug mode
-    if ($c->config->{debug}) {
-        $c->stash->{debug} = 1;
-    }
-
     # Check the MySQL database version; make sure we are up to date
     if (! $c->model('DB::Info')->check_version($c->config->{db_version})) {
         $c->detach("config_error", ["Incorrect cap.info database version (should be " . $c->config->{db_version} . "). Upgrade database."]);
@@ -291,7 +286,7 @@ sub auto :Private
 sub access_denied : Private
 {
     my($self, $c) = @_;
-    warn("[debug] Access denied (insufficient privileges)") if ($c->config->{debug});
+    warn("[debug] Access denied (insufficient privileges)") if ($c->debug);
     $c->stash->{page} = $c->{stash}->{uri};
     $c->detach('error', [403, "NOACCESS"]);
 }
@@ -317,7 +312,7 @@ sub end : ActionClass('RenderView')
     }
 
     # Remove some information from the response if we're not in debug mode.
-    if (! $c->stash->{debug}) {
+    if (! $c->debug) {
         delete($c->stash->{response}->{solr}) if ($c->stash->{response}->{solr});
     }
 
