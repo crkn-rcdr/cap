@@ -54,7 +54,7 @@ sub create :Path('create') :Args(0) {
     my $password  = $c->request->params->{password}  || ""; # Password
     my $password2 = $c->request->params->{password2} || ""; # Password, re-entered
 
-    $c->stash->{errors}     = {};
+    my $error = 0;
     $c->stash->{userinfo}   = {};
     $c->stash->{completed}  = 0;
 
@@ -72,29 +72,34 @@ sub create :Path('create') :Args(0) {
     my $user_for_username = $c->find_user({ username => $username });
     my $re_username = $c->config->{user}->{fields}->{username};
     if ($user_for_username) {
-        $c->stash->{errors}->{username} = 2;
+        $c->message({ type => "error", message => "account_exists" });
+        $error = 1;
     }
     elsif ($username !~ /$re_username/) {
-        $c->stash->{errors}->{username} = 1;
+        $c->message({ type => "error", message => "email_invalid" });
+        $error = 1;
     }
 
     # Check for minimum name requirements
     my $re_name     = $c->config->{user}->{fields}->{name};
     if ($name !~ /$re_name/) {
-        $c->stash->{errors}->{name} = 1;
+        $c->message({ type => "error", message => "name_invalid" });
+        $error = 1;
     }
 
     # Both passwords must match and meet minimum criteria.
     my $re_password = $c->config->{user}->{fields}->{password};
     if ($password ne $password2) {
-        $c->stash->{errors}->{password} = 1;
+        $c->message({ type => "error", message => "password_match_failed" });
+        $error = 1;
     }
     elsif ($password !~ /$re_password/) {
-        $c->stash->{errors}->{password} = 2;
+        $c->message({ type => "error", message => "password_invalid" });
+        $error = 1;
     }
 
     # Don't update anything if there were any errors.
-    return 1 if (int(keys(%{$c->stash->{errors}})) != 0);
+    return 1 if ($error);
 
     # Create the user
     eval {
@@ -255,16 +260,15 @@ sub reset :Path('reset') :Args() {
             return 0;
         }
         $c->stash->{key} = $key;
-        $c->stash->{errors} = {};
 
         # Check for a new password.
         if ($password) {
             my $re_password = $c->config->{user}->{fields}->{password};
             if ($password ne $password2) {
-                $c->stash->{errors}->{password} = 1;
+                $c->message({ type => "error", message => "password_match_failed" });
             }
             elsif ($password !~ /$re_password/) {
-                $c->stash->{errors}->{password} = 2;
+                $c->message({ type => "error", message => "password_invalid" });
             }
             else {
                 # Reset the user's password and log them in.
@@ -324,7 +328,7 @@ sub edit :Path('edit') :Args(0) {
     my $re_name     = $c->config->{user}->{fields}->{name};
     my $re_password = $c->config->{user}->{fields}->{password};
 
-    $c->stash->{errors} = {};
+    my $error = 0;
 
     #  Just show the form if this request isn't a form submission.
     if (! $submitted) {
@@ -340,34 +344,40 @@ sub edit :Path('edit') :Args(0) {
 
     # Verify the user's original password.
     if (! $c->authenticate({ username => $c->user->username, password => $password })) {
-        $c->stash->{errors}->{auth} = 1;
+        $c->message({ type => "error", message => "password_check_failed" });
+        $error = 1;
     }
 
     # Verify that the new passwords match and are acceptable
     if ($password1 ne $password2) {
-        $c->stash->{errors}->{password} = 1;
+        $c->message({ type => "error", message => "password_match_failed" });
+        $error = 1;
     }
     elsif ($password1 && $password1 !~ /$re_password/) {
-        $c->stash->{errors}->{password} = 2;
+        $c->message({ type => "error", message => "password_invalid" });
+        $error = 1;
     }
 
     # Username must meet minimum requirements and must not be in use by
     # another account
     my $user_for_username = $c->find_user({ username => $username });
     if ($user_for_username && $user_for_username->id != $c->user->id) {
-        $c->stash->{errors}->{username} = 2;
+        $c->message({ type => "error", message => "account_exists" });
+        $error = 1;
     }
     elsif ($username !~ /$re_username/) {
-        $c->stash->{errors}->{username} = 1;
+        $c->message({ type => "error", message => "email_invalid" });
+        $error = 1;
     }
 
     # Check for minimum name requirements
     if ($name !~ /$re_name/) {
-        $c->stash->{errors}->{name} = 1;
+        $c->message({ type => "error", message => "name_invalid" });
+        $error = 1;
     }
 
     # Don't update anything if there were any errors.
-    if (int(keys(%{$c->stash->{errors}})) != 0) {
+    if ($error) {
         return 1;
     }
 
@@ -386,7 +396,9 @@ sub edit :Path('edit') :Args(0) {
         $c->detach('/error', [500]) if ($@);
     }
 
+    $c->message({ type => "success", message => "profile_updated" });
     $c->persist_user();
+    $c->response->redirect($c->uri_for_action("user/profile"));
 
     return 1;
 }
