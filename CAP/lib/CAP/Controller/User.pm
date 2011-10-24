@@ -198,7 +198,7 @@ sub login :Path('login') :Args(0) {
 
             my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
             delete($c->session->{login_redirect});
-            $c->message({ type => "success", message => "login_success" });
+            $c->message(Message::Stack::Message->new(level => "success", msgid => "login_success", params => [$c->user->{name}]));
             $c->response->redirect($redirect);
         }
         else {
