@@ -413,33 +413,48 @@ sub subscribe :Path('subscribe') :Args(0) {
     my $amount      = defined($c->request->params->{amount})    ? $c->request->params->{amount}    : $c->stash->{subscription_price}; # subscription amount   
     my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : 0;                               # promo code
 
+    $c->stash->{promocode_message} = ' '; # default promocode message
+ 
  
     # Apply the promo code                
     if ($mode eq "addpromo") {       
 
-        my $promoamount = 25; #we'll get that from the database eventually
+        $c->stash->{template} = 'user/subscribe.tt'; # we'll be returning here no matter what
+
+
+
+        my $promoamount = $c->model('DB::Promocode')->promo_amount($promocode);
+        
+
 
         # first check to see if promocode even exists
-        $c->stash->{promocode_exists} = $c->model('DB::Promocode')->code_exists($promocode);
-         
+        my $promocode_exists = $c->model('DB::Promocode')->code_exists($promocode);
+        unless ($promocode_exists) {
+            $c->stash->{promocode_message} = 'promocode invalid';
+            return 1;
+        }
         
         # now check to see of it's expired
-        my $valid = $c->model('DB::Promocode')->validate_code($promocode);
-        if ($valid) {
-            $c->stash->{subscription_price} -= $promoamount;
-            $c->stash->{promocode_expired} = 0;
-            $c->session->{promo_applied} = 1; # stuff it in the session so that we know it's been applied
+        my $code_expired = $c->model('DB::Promocode')->expired_promocode($promocode);
+        if ($code_expired) {
+            # tell user to submit valid promo code
+            $c->stash->{promocode_message} = 'promocode expired';
+            return 1;
         }
         else {
-            # tell user to submit valid promo code
-            $c->stash->{promocode_expired} = 1;
+            # this means the promocode still good, we can go ahead and apply it
+            $c->stash->{subscription_price} -= $promoamount;
+            $c->stash->{promocode_expired} = 0;
+            $c->stash->{promocode_message} = 'promocode applied';
+            $c->session->{promo_applied} = 1; # stuff it in the session so that we know it's been applied
+            return 1;
         }
     }
     
     
     # Process the subscription request and detach to e-bay
     elsif ($mode eq "subscribenow") {
-  #      do stuff
+        my $id = $c->session->{id};
     }
 
     

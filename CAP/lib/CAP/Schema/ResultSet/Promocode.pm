@@ -28,7 +28,7 @@ sub get_promo_codes
 
 sub code_exists
 {
-    # checks to see if promo code exists
+    # returns the first active promo code
     my($self, $promocode) = @_;
            
     my $check_promo =  $self->search(
@@ -47,7 +47,7 @@ sub code_exists
 
 
 
-sub validate_code
+sub expired_promocode
 {
     # checks to see if promo code has expired
     my($self, $promocode) = @_;
