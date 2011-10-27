@@ -406,14 +406,17 @@ sub edit :Path('edit') :Args(0) {
 sub subscribe :Path('subscribe') :Args(0) {
 
     my($self, $c) = @_;
+
+    $c->stash->{promocode_message} = ' '; # default promocode message
+    my $amount = $c->config->{subscription_amount};
     
     # Get the form parameters
     my $mode        = defined($c->request->params->{mode})      ? $c->request->params->{mode}      : "default";                       # check if they clicked the promo button 
     my $trname      = defined($c->request->params->{trname})    ? $c->request->params->{trname}    : "";                              # name on tax receipt   
-    my $amount      = defined($c->request->params->{amount})    ? $c->request->params->{amount}    : $c->stash->{subscription_price}; # subscription amount   
-    my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : 0;                               # promo code
+    my $sub_amount  = defined($c->request->params->{amount})    ? $c->request->params->{amount}    : 0;                               # submitted subscription amount   
+    my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : $c->model('DB::Promocode')->get_promocode();   # promo code
 
-    $c->stash->{promocode_message} = ' '; # default promocode message
+    my $promoamount = $c->model('DB::Promocode')->promo_amount($promocode);
  
  
     # Apply the promo code                
@@ -423,7 +426,7 @@ sub subscribe :Path('subscribe') :Args(0) {
 
 
 
-        my $promoamount = $c->model('DB::Promocode')->promo_amount($promocode);
+
         
 
 
@@ -443,7 +446,7 @@ sub subscribe :Path('subscribe') :Args(0) {
         }
         else {
             # this means the promocode still good, we can go ahead and apply it
-            $c->stash->{subscription_price} -= $promoamount;
+            $c->stash->{subscription_price} = $amount - $promoamount;
             $c->stash->{promocode_expired} = 0;
             $c->stash->{promocode_message} = 'promocode applied';
             $c->session->{promo_applied} = 1; # stuff it in the session so that we know it's been applied
@@ -459,7 +462,13 @@ sub subscribe :Path('subscribe') :Args(0) {
 
     
     # Otherwise go/return to "subscribe" page
+    
+    # my $new_code = $c->model('DB::Promocode')->promo_amount($promocode);
+    
+    $c->stash->{subscription_price} = $amount;
+    $c->stash->{promoamount} = $promoamount;
     $c->stash->{template} = 'user/subscribe.tt';
+
     return 1;
 
 }

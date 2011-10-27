@@ -6,7 +6,7 @@ use base 'DBIx::Class::ResultSet';
 use POSIX qw(strftime);
 
 
-sub get_promo_codes
+sub get_promocode
 {
     ## returns an arrayref of valid codes
     my ($self) = @_;
