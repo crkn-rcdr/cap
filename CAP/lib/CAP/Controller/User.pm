@@ -414,10 +414,10 @@ sub subscribe :Path('subscribe') :Args(0) {
     my $mode        = defined($c->request->params->{mode})      ? $c->request->params->{mode}      : "default";                       # check if they clicked the promo button 
     my $trname      = defined($c->request->params->{trname})    ? $c->request->params->{trname}    : "";                              # name on tax receipt   
     my $sub_amount  = defined($c->request->params->{amount})    ? $c->request->params->{amount}    : 0;                               # submitted subscription amount   
-    my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : $c->model('DB::Promocode')->get_promocode();   # promo code
+    my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : "";                              # promo code
 
     my $promoamount = $c->model('DB::Promocode')->promo_amount($promocode);
- 
+    $c->stash->{prevmode} = $mode;
  
     # Apply the promo code                
     if ($mode eq "addpromo") {       
@@ -457,13 +457,17 @@ sub subscribe :Path('subscribe') :Args(0) {
     
     # Process the subscription request and detach to e-bay
     elsif ($mode eq "subscribenow") {
-        my $id = $c->session->{id};
+        my $id = $c->user->id;
+        $c->stash->{subscribing_now} = 1;
+        my $subscribed = $c->model('DB::Subscription')->new_subscription($id,$promocode,$amount,367);
+        $c->stash->{template} = 'user/subscribe.tt';
+        return 1;
     }
 
     
     # Otherwise go/return to "subscribe" page
     
-    # my $new_code = $c->model('DB::Promocode')->promo_amount($promocode);
+    # $c->stash{promocode} = $c->model('DB::Promocode')->get_promocode();
     
     $c->stash->{subscription_price} = $amount;
     $c->stash->{promoamount} = $promoamount;
