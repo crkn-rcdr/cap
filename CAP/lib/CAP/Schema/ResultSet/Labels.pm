@@ -2,6 +2,7 @@ package CAP::Schema::ResultSet::Labels;
 
 use strict;
 use warnings;
+use Encode qw(decode_utf8);
 use base 'DBIx::Class::ResultSet';
 
 sub get_labels
@@ -13,7 +14,7 @@ sub get_labels
 
     while (my $label = $result->next) {
         $labels->{$label->field} = {} unless ($labels->{$label->field});
-        $labels->{$label->field}->{$label->code} = $label->label;
+        $labels->{$label->field}->{$label->code} = decode_utf8($label->label);
     }
     return $labels;
 }
