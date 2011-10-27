@@ -3,6 +3,7 @@ package CAP::Schema::ResultSet::Subscription;
 use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';
+use base 'DBIx::Class::Row';
 use POSIX qw(strftime);
 
 
@@ -11,12 +12,14 @@ sub new_subscription
     ## inserts new row into subscriprion table
     my ($self, $user_id, $promo, $amount, $period) = @_;
     
-    $self->create({
+    my $row = $self->create({
         user_id   =>   $user_id,
         promo     =>   $promo,
         amount    =>   $amount,
         period    =>   $period
     });                       
+
+    # $row->insert();
 
     return 1;
 }
