@@ -458,8 +458,9 @@ sub subscribe :Path('subscribe') :Args(0) {
     # Process the subscription request and detach to e-bay
     elsif ($mode eq "subscribenow") {
         my $id = $c->user->id;
+        my $period = $c->config->{subscription_period};
         $c->stash->{subscribing_now} = 1;
-        my $subscribed = $c->model('DB::Subscription')->new_subscription($id,$promocode,$amount,367);
+        my $subscribed = $c->model('DB::Subscription')->new_subscription($id,$promocode,$amount,$period,$trname);
         $c->stash->{template} = 'user/subscribe.tt';
         return 1;
     }
