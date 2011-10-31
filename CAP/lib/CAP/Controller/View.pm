@@ -157,42 +157,23 @@ sub is_hosted :Private
     return 0;
 }
 
-# Perform user-related functions
-#sub user_annotate :Private
-#{
-#    my($self, $c) = @_;
-#    my $annotation = $c->request->params->{annotation} || "";
-#    my $annotation_delete = $c->request->params->{annotation_delete} || "";
-#    return 1 unless ($c->user_exists);
-#
-#    # Delete an old annotation
-#    if ($annotation_delete) {
-#        my $old_annotation = $c->model('DB::Annotation')->find({
-#            id      => $annotation_delete,
-#            user_id => $c->user->id
-#        });
-#
-#        $old_annotation->delete if ($old_annotation);
-#    }
-#
-#    # Save a user's new annotation
-#    if ($annotation) {
-#        $c->model('DB::Annotation')->create({
-#            user_id     => $c->user->id,
-#            record_key  => $c->stash->{response}->{page}->{key},
-#            record_pkey => $c->stash->{response}->{page}->{pkey},
-#            timestamp   => strftime("%Y-%m-%d %H:%M:%S", localtime(time())),
-#            annotation  => $annotation
-#        });
-#    }
-#
-#    # Retrieve saved annotations
-#    $c->stash->{annotations} = [ $c->model('DB::Annotation')->search({
-#        user_id => $c->user->id,
-#        record_key => $c->stash->{response}->{page}->{key}
-#    })->all ];
+# Select a random document
+sub random_doc : Path('/viewrandom') Args() {
+    my($self, $c) = @_;
+    my $solr = $c->stash->{solr};
 
-#}
+    # Pick a document at random
+    my $ndocs = $solr->count({}, { type => 'document' });
+    my $index = int(rand() * $ndocs) + 1;
+
+    # Get the record
+    my $doc = $solr->query({}, { type => 'document', page => $index, solr => { rows => 1 } })->{documents}->[0];
+    if ($doc) {
+        $c->res->redirect($c->uri_for_action('view', $doc->{key}));
+        return 1;
+    }
+    $c->detach('/error', [500, "Failed to retrieve document"]);
+}
 
 __PACKAGE__->meta->make_immutable;
 
