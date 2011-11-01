@@ -6,8 +6,8 @@ use DBI;
 use File::Basename;
 use Getopt::Long;
 
-my $version = 0.20091118;
-my $prog = basename($0);
+my $version = 0.20110527;
+my $prog    = basename($0);
 
 my $do_install = undef;
 my $do_uninstall = undef;
@@ -20,61 +20,138 @@ GetOptions(install => \$do_install, uninstall => \$do_uninstall, 'password=s' =>
 my @install = (
     'CREATE DATABASE IF NOT EXISTS cap DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci',
 
-    'CREATE TABLE IF NOT EXISTS cap.lexicon (' .
-    '   id INT PRIMARY KEY AUTO_INCREMENT,' .
-    '   language VARCHAR(15) DEFAULT NULL,' .
-    '   path VARCHAR(255) DEFAULT NULL,' .
-    '   message TEXT,' .
-    '   value TEXT,' .
-    '   notes TEXT' .
-    ')',
-
-    'CREATE TABLE IF NOT EXISTS cap.master_image (' .
-    '   id VARCHAR(128) PRIMARY KEY,' .
-    '   path VARCHAR(128) NOT NULL,' .
-    '   format VARCHAR(32) NOT NULL,' .
-    '   ctime INT NOT NULL,' .
-    '   bytes INT NOT NULL,' .
-    '   md5 VARCHAR(32) NOT NULL' .
-    ')',
-
-    'CREATE TABLE IF NOT EXISTS cap.pimg_cache (' .
-    '   id  VARCHAR(128) NOT NULL,' .
-    '   format VARCHAR(32) NOT NULL,' .
-    '   size INT NOT NULL,' .
-    '   rot INT NOT NULL,' .
-    '   data LONGBLOB NOT NULL,' .
-    '   ctime INT NOT NULL,' .
-    '   atime DATETIME NOT NULL,' .
-    '   acount INT NOT NULL,' .
-    '   PRIMARY KEY(id, format, size, rot)' .
-    ')',
-
+    # Primary user account table
     'CREATE TABLE IF NOT EXISTS cap.user (' .
-    '   id INT PRIMARY KEY AUTO_INCREMENT,' .
-    '   username VARCHAR(32) UNIQUE NOT NULL,' .
-    '   password VARCHAR(50),' .
-    '   email VARCHAR(128),' .
-    '   name VARCHAR(128),' .
-    '   active INT NOT NULL' .
-    ')',
+    '   id        INT PRIMARY KEY AUTO_INCREMENT,' .
+    '   username  VARCHAR(128) UNIQUE NOT NULL,' .
+    '   password  VARCHAR(50) NOT NULL,' .
+    '   name      VARCHAR(128),' .
+    '   token     VARCHAR(128),' .
+    '   confirmed INT NOT NULL DEFAULT 0,' .
+    '   active    INT NOT NULL DEFAULT 1,' .
+    '   admin     INT NOT NULL DEFAULT 0,' .
+    '   lastseen  INT NOT NULL,' .
+    '   INDEX(token)' .
+    ') ENGINE=INNODB',
 
-    'CREATE TABLE IF NOT EXISTS cap.role (' .
-    '   id INT PRIMARY KEY AUTO_INCREMENT,' .
-    '   role VARCHAR(128) UNIQUE NOT NULL' .
-    ')',
+    # Primary subscriber groups table
+    'CREATE TABLE IF NOT EXISTS cap.groups (' .
+    '  id INT PRIMARY KEY AUTO_INCREMENT,' .
+    '  name VARCHAR(128) NOT NULL UNIQUE' .
+    ') ENGINE=INNODB',
 
+    # Active sessions table
     'CREATE TABLE IF NOT EXISTS cap.sessions (' .
     '   id CHAR(72) PRIMARY KEY,' .
     '   session_data TEXT,' .
     '   expires INT(10)' .
-    ')',
+    ') ENGINE=INNODB',
 
-    'CREATE TABLE IF NOT EXISTS cap.user_role (' .
-    '   user_id INT,' .
-    '   role_id INT,' .
-    '   PRIMARY KEY(user_id, role_id)' .
-    ')',
+    # User membership in a group
+    'CREATE TABLE IF NOT EXISTS cap.user_groups (' .
+    '  user_id INT NOT NULL, ' .
+    '    FOREIGN KEY(user_id) REFERENCES cap.user(id) ON DELETE CASCADE, ' .
+    '  group_id INT NOT NULL, ' .
+    '    FOREIGN KEY(group_id) REFERENCES cap.groups(id) ON DELETE CASCADE, ' .
+    '  joined DATETIME, ' .
+    '  expires DATETIME, ' .
+    '  PRIMARY KEY(user_id, group_id)' .
+    ') ENGINE=INNODB',
+
+    # Assign IP address blocks to subscriber groups
+    'CREATE TABLE IF NOT EXISTS cap.groups_ipaddr (' .
+    '  cidr VARCHAR(64) PRIMARY KEY, ' .
+    '  group_id INT NOT NULL, ' .
+    '    FOREIGN KEY(group_id) REFERENCES cap.groups(id) ON DELETE CASCADE, ' .
+    '  start BIGINT UNSIGNED NOT NULL, ' .
+    '    INDEX(start), ' .
+    '  end BIGINT UNSIGNED NOT NULL, ' .
+    '    INDEX(end)' .
+    ') ENGINE=INNODB',
+
+    # Collections
+    'CREATE TABLE IF NOT EXISTS cap.collection (' .
+    '  id VARCHAR(16) PRIMARY KEY ' .
+    # TODO: add pricing, etc.
+    ') ENGINE=INNODB',
+
+    # Subscriber group collection list
+    'CREATE TABLE IF NOT EXISTS cap.groups_collection (' .
+    '  collection_id VARCHAR(16) NOT NULL, ' .
+    '    FOREIGN KEY(collection_id) REFERENCES cap.collection(id) ON DELETE CASCADE ON UPDATE CASCADE, ' .
+    '  group_id INT NOT NULL, ' .
+    '    FOREIGN KEY(group_id) REFERENCES cap.groups(id) ON DELETE CASCADE ON UPDATE CASCADE, ' .
+    '  joined DATETIME, ' .
+    '  expires DATETIME, ' .
+    '  PRIMARY KEY(collection_id, group_id)' .
+    ') ENGINE=INNODB',
+
+    # Individual user collection list
+    'CREATE TABLE IF NOT EXISTS cap.user_collection (' .
+    '  collection_id VARCHAR(16) NOT NULL, ' .
+    '    FOREIGN KEY(collection_id) REFERENCES cap.collection(id) ON DELETE CASCADE ON UPDATE CASCADE, ' .
+    '  user_id INT NOT NULL, ' .
+    '    FOREIGN KEY(user_id) REFERENCES cap.user(id) ON DELETE CASCADE ON UPDATE CASCADE, ' .
+    '  joined DATETIME, ' .
+    '  expires DATETIME, ' .
+    '  PRIMARY KEY(collection_id, user_id)' .
+    ') ENGINE=INNODB',
+
+    # User document list
+    'CREATE TABLE IF NOT EXISTS cap.user_document (' .
+    '  user_id INT NOT NULL, ' .
+    '    FOREIGN KEY(user_id) REFERENCES cap.user(id) ON DELETE CASCADE, ' .
+    '  document VARCHAR(160) NOT NULL, ' .
+    '  acquired DATETIME, ' .
+    '  PRIMARY KEY(user_id, document)' .
+    ') ENGINE=INNODB',
+
+    # Code to text label mappings for language, media type, etc.
+    'CREATE TABLE IF NOT EXISTS cap.labels (' .
+    '  field VARCHAR(32),' .
+    '  code VARCHAR(32),' .
+    '  lang VARCHAR(2),' .
+    '  label VARCHAR(128),' .
+    '  PRIMARY KEY(field, code, lang)' .
+    ') ENGINE=MYIASM',
+
+    # Main request log
+    'CREATE TABLE IF NOT EXISTS cap.request_log (' .
+    '  id INT PRIMARY KEY AUTO_INCREMENT,' .
+    '  time DATETIME NOT NULL,' .
+    '  session VARCHAR(40) NOT NULL,' .
+    '  session_count INT NOT NULL,' .
+    '  portal VARCHAR(64) NOT NULL,' .
+    '  view VARCHAR(64) NOT NULL,' .
+    '  action VARCHAR(64) NOT NULL,' .
+    '  status INT NOT NULL' .
+    ') ENGINE=INNODB',
+
+    # Search request log
+    'CREATE TABLE IF NOT EXISTS cap.search_log (' .
+    ' id INT PRIMARY KEY AUTO_INCREMENT, ' .
+    ' request_id INT NOT NULL, ' .
+    '   INDEX(request_id),' .
+    '   FOREIGN KEY(request_id) REFERENCES cap.request_log(id) ON DELETE CASCADE, ' .
+    ' query VARCHAR(256), ' .
+    ' results INT NOT NULL' .
+    ') ENGINE=INNODB',
+
+    # Possible bookmark table (sample)
+    #'CREATE TABLE IF NOT EXISTS cap.bookmark (' .
+    #'  id INT UNIQUE AUTO_INCREMENT, ' .
+    #'  user_id INT NOT NULL, ' .
+    #'    INDEX(user_id), ' .
+    #'    FOREIGN KEY(user_id) REFERENCES user(id),' .
+    #'  page_id VARCHAR(128) NOT NULL, ' .
+    #'    INDEX(page_id), ' .
+    #'  doc_id VARCHAR(128) NOT NULL, ' .
+    #'    INDEX(doc_id), ' .
+    #'  seq INT, ' .
+    #'  timestamp DATETIME NOT NULL, ' .
+    #'  note TEXT, ' .
+    #'  PRIMARY KEY(user_id, page_id) ' .
+    #')',
 
     "CREATE USER 'cap'\@'localhost' IDENTIFIED BY '$cap_password'",
 
@@ -153,15 +230,5 @@ C<-uninstall> before trying again.
 
 The password prompt echoes the password on-screen. This needs to be fixed
 so that the password is not echoed.
-
-=head1 COPYRIGHT
-
-(c) 2009 Canadiana.org.
-
-This program is free software. It may be distributed under the terms of the GNU General Public License (GPL) version 3 or later.
-
-=head1 AUTHOR
-
-William Wueppelmann <william.wueppelmann@canadiana.ca>
 
 =cut

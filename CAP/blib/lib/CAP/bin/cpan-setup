@@ -1,6 +1,8 @@
 #!/bin/sh
 # Run this script as root to install all of the CPAN modules required to
 # run CAP.
+# NOTE: this script is out of date. It will install the majority of what
+# you need, but other modules are required as well
 cpan  \
  Catalyst \
  Catalyst::Authentication::Realm::SimpleDB \

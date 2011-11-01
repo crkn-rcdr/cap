@@ -14,15 +14,15 @@
 #     AUTHOR => q[William Wueppelmann <william.wueppelmann@canadiana.ca>]
 #     DIR => []
 #     DISTNAME => q[CAP]
-#     EXE_FILES => [q[script/cap_cgi.pl], q[script/cap_create.pl], q[script/cap_fastcgi.pl], q[script/cap_server.pl], q[script/cap_test.pl]]
+#     EXE_FILES => []
 #     NAME => q[CAP]
 #     NO_META => q[1]
 #     PL_FILES => {  }
 #     PREREQ_PM => { parent=>q[0], Catalyst::Plugin::Static::Simple=>q[0], Catalyst::Plugin::ConfigLoader=>q[0], ExtUtils::MakeMaker=>q[6.42], Catalyst::Plugin::Session=>q[0], Catalyst::Action::RenderView=>q[0], Catalyst::Plugin::Session::Store::FastMmap=>q[0], Catalyst::Plugin::Session::State::Cookie=>q[0], Catalyst::Plugin::Authentication=>q[0], Catalyst::Plugin::Authorization::Roles=>q[0], Config::General=>q[0], Catalyst::Runtime=>q[5.7015] }
-#     VERSION => q[0.20091127]
+#     VERSION => q[undef]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
-#     test => { TESTS=>q[t/01app.t t/02pod.t t/03podcoverage.t t/controller_Auth.t t/controller_Content.t t/controller_File.t t/controller_Search.t t/controller_Show.t t/controller_System.t t/controller_User.t t/model_DB.t t/view_Main.t] }
+#     test => { TESTS=>q[t/01app.t t/02pod.t t/03podcoverage.t t/controller_Access-Default.t t/controller_Access-ECO.t t/controller_Admin.t t/controller_Ajax.t t/controller_File.t t/controller_Payment-PayPal.t t/controller_Search.t t/controller_User.t t/controller_View.t t/model_DB.t t/view_Ajax.t t/view_Default.t t/view_Dojo.t t/view_Mail.t t/view_Test.t] }
 
 # --- MakeMaker post_initialize section:
 
@@ -61,11 +61,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = CAP
 NAME_SYM = CAP
-VERSION = 0.20091127
+VERSION = undef
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_20091127
+VERSION_SYM = undef
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.20091127
+XS_VERSION = undef
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -164,29 +164,41 @@ XS_FILES =
 C_FILES  = 
 O_FILES  = 
 H_FILES  = 
-MAN1PODS = script/cap_cgi.pl \
-	script/cap_create.pl \
-	script/cap_fastcgi.pl \
-	script/cap_server.pl \
-	script/cap_test.pl
+MAN1PODS = 
 MAN3PODS = lib/BagIt.pm \
 	lib/CAP.pm \
-	lib/CAP/Controller/Auth.pm \
-	lib/CAP/Controller/Content.pm \
+	lib/CAP/Controller/Ajax.pm \
 	lib/CAP/Controller/File.pm \
+	lib/CAP/Controller/Foo.pm \
 	lib/CAP/Controller/Root.pm \
-	lib/CAP/Controller/Search.pm \
-	lib/CAP/Controller/System.pm \
-	lib/CAP/Controller/User.pm \
+	lib/CAP/Controller/View.pm \
 	lib/CAP/Model/DB.pm \
-	lib/CAP/Schema/ResultSet/Lexicon.pm \
-	lib/CAP/Schema/ResultSet/MasterImage.pm \
-	lib/CAP/Schema/ResultSet/PimgCache.pm \
+	lib/CAP/Schema/Result/Collection.pm \
+	lib/CAP/Schema/Result/Groups.pm \
+	lib/CAP/Schema/Result/GroupsCollection.pm \
+	lib/CAP/Schema/Result/Info.pm \
+	lib/CAP/Schema/Result/Institution.pm \
+	lib/CAP/Schema/Result/InstitutionCollection.pm \
+	lib/CAP/Schema/Result/InstitutionIpaddr.pm \
+	lib/CAP/Schema/Result/Labels.pm \
+	lib/CAP/Schema/Result/Promocode.pm \
+	lib/CAP/Schema/Result/RequestLog.pm \
+	lib/CAP/Schema/Result/Role.pm \
+	lib/CAP/Schema/Result/SearchLog.pm \
+	lib/CAP/Schema/Result/Sessions.pm \
+	lib/CAP/Schema/Result/Subscription.pm \
+	lib/CAP/Schema/Result/User.pm \
+	lib/CAP/Schema/Result/UserCollection.pm \
+	lib/CAP/Schema/Result/UserDocument.pm \
+	lib/CAP/Schema/Result/UserGroups.pm \
+	lib/CAP/Schema/Result/UserRole.pm \
 	lib/CAP/Schema/ResultSet/Sessions.pm \
-	lib/CAP/Schema/ResultSet/User.pm \
 	lib/CAP/Solr.pm \
-	lib/CAP/View/Main.pm \
-	lib/CAP_DEBUG/Catalyst/Plugin/I18N/DBIC.pm
+	lib/CAP/View/Ajax.pm \
+	lib/CAP/View/Default.pm \
+	lib/CAP/View/Dojo.pm \
+	lib/CAP/View/Mail.pm \
+	lib/CAP/View/Test.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
@@ -208,119 +220,188 @@ PERL_ARCHIVE       =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = lib/.DS_Store \
-	lib/BagIt.pm \
+TO_INST_PM = lib/BagIt.pm \
 	lib/CAP.pm \
-	lib/CAP/.DS_Store \
-	lib/CAP/Controller/.DS_Store \
-	lib/CAP/Controller/Auth.pm \
-	lib/CAP/Controller/Content.pm \
+	lib/CAP/Controller/Access/Default.pm \
+	lib/CAP/Controller/Access/ECO.pm \
+	lib/CAP/Controller/Admin.pm \
+	lib/CAP/Controller/Ajax.pm \
 	lib/CAP/Controller/File.pm \
+	lib/CAP/Controller/Foo.pm \
+	lib/CAP/Controller/Payment/PayPal.pm \
 	lib/CAP/Controller/Root.pm \
 	lib/CAP/Controller/Search.pm \
-	lib/CAP/Controller/Show.pm \
-	lib/CAP/Controller/System.pm \
 	lib/CAP/Controller/User.pm \
-	lib/CAP/I18N/.DS_Store \
+	lib/CAP/Controller/View.pm \
+	lib/CAP/I18N/fr.mo \
 	lib/CAP/I18N/fr.po \
-	lib/CAP/I18N/xx.po \
+	lib/CAP/I18N/gettext.sh \
+	lib/CAP/Ingest.pm \
 	lib/CAP/Model/DB.pm \
-	lib/CAP/Profiler.pm \
 	lib/CAP/Schema.pm \
-	lib/CAP/Schema/.DS_Store \
-	lib/CAP/Schema/Result/Lexicon.pm \
-	lib/CAP/Schema/Result/MasterImage.pm \
-	lib/CAP/Schema/Result/PimgCache.pm \
+	lib/CAP/Schema/Result/Collection.pm \
+	lib/CAP/Schema/Result/Groups.pm \
+	lib/CAP/Schema/Result/GroupsCollection.pm \
+	lib/CAP/Schema/Result/Info.pm \
+	lib/CAP/Schema/Result/Institution.pm \
+	lib/CAP/Schema/Result/InstitutionCollection.pm \
+	lib/CAP/Schema/Result/InstitutionIpaddr.pm \
+	lib/CAP/Schema/Result/Labels.pm \
+	lib/CAP/Schema/Result/Promocode.pm \
+	lib/CAP/Schema/Result/RequestLog.pm \
 	lib/CAP/Schema/Result/Role.pm \
+	lib/CAP/Schema/Result/SearchLog.pm \
 	lib/CAP/Schema/Result/Sessions.pm \
+	lib/CAP/Schema/Result/Subscription.pm \
 	lib/CAP/Schema/Result/User.pm \
+	lib/CAP/Schema/Result/UserCollection.pm \
+	lib/CAP/Schema/Result/UserDocument.pm \
+	lib/CAP/Schema/Result/UserGroups.pm \
 	lib/CAP/Schema/Result/UserRole.pm \
-	lib/CAP/Schema/ResultSet/Lexicon.pm \
-	lib/CAP/Schema/ResultSet/MasterImage.pm \
-	lib/CAP/Schema/ResultSet/PimgCache.pm \
+	lib/CAP/Schema/ResultSet/Collection.pm \
+	lib/CAP/Schema/ResultSet/GroupsCollection.pm \
+	lib/CAP/Schema/ResultSet/Info.pm \
+	lib/CAP/Schema/ResultSet/InstitutionCollection.pm \
+	lib/CAP/Schema/ResultSet/InstitutionIpaddr.pm \
+	lib/CAP/Schema/ResultSet/Labels.pm \
+	lib/CAP/Schema/ResultSet/Promocode.pm \
+	lib/CAP/Schema/ResultSet/RequestLog.pm \
 	lib/CAP/Schema/ResultSet/Role.pm \
+	lib/CAP/Schema/ResultSet/SearchLog.pm \
 	lib/CAP/Schema/ResultSet/Sessions.pm \
+	lib/CAP/Schema/ResultSet/Subscription.pm \
 	lib/CAP/Schema/ResultSet/User.pm \
+	lib/CAP/Schema/ResultSet/UserCollection.pm \
+	lib/CAP/Schema/ResultSet/UserDocument.pm \
+	lib/CAP/Schema/ResultSet/UserGroups.pm \
 	lib/CAP/Schema/ResultSet/UserRole.pm \
 	lib/CAP/Solr.pm \
-	lib/CAP/SolrSax.pm \
-	lib/CAP/View/Main.pm \
-	lib/CAP_DEBUG/Catalyst/Plugin/I18N/DBIC.pm
+	lib/CAP/View/Ajax.pm \
+	lib/CAP/View/Default.pm \
+	lib/CAP/View/Dojo.pm \
+	lib/CAP/View/Mail.pm \
+	lib/CAP/View/Test.pm
 
-PM_TO_BLIB = lib/CAP/Schema/Result/Lexicon.pm \
-	blib/lib/CAP/Schema/Result/Lexicon.pm \
+PM_TO_BLIB = lib/CAP/Schema/ResultSet/InstitutionCollection.pm \
+	blib/lib/CAP/Schema/ResultSet/InstitutionCollection.pm \
+	lib/CAP/I18N/gettext.sh \
+	blib/lib/CAP/I18N/gettext.sh \
 	lib/CAP/I18N/fr.po \
 	blib/lib/CAP/I18N/fr.po \
+	lib/CAP/Ingest.pm \
+	blib/lib/CAP/Ingest.pm \
+	lib/CAP/Schema/ResultSet/GroupsCollection.pm \
+	blib/lib/CAP/Schema/ResultSet/GroupsCollection.pm \
 	lib/CAP/Schema/ResultSet/Role.pm \
 	blib/lib/CAP/Schema/ResultSet/Role.pm \
-	lib/CAP/I18N/xx.po \
-	blib/lib/CAP/I18N/xx.po \
+	lib/CAP/Schema/Result/Subscription.pm \
+	blib/lib/CAP/Schema/Result/Subscription.pm \
+	lib/CAP/Schema/Result/Labels.pm \
+	blib/lib/CAP/Schema/Result/Labels.pm \
+	lib/CAP/Schema/Result/Institution.pm \
+	blib/lib/CAP/Schema/Result/Institution.pm \
+	lib/CAP/Controller/Ajax.pm \
+	blib/lib/CAP/Controller/Ajax.pm \
+	lib/CAP/Schema/ResultSet/Info.pm \
+	blib/lib/CAP/Schema/ResultSet/Info.pm \
+	lib/CAP/Schema/ResultSet/Subscription.pm \
+	blib/lib/CAP/Schema/ResultSet/Subscription.pm \
 	lib/CAP/Controller/User.pm \
 	blib/lib/CAP/Controller/User.pm \
 	lib/CAP/Controller/File.pm \
 	blib/lib/CAP/Controller/File.pm \
-	lib/CAP/Schema/ResultSet/PimgCache.pm \
-	blib/lib/CAP/Schema/ResultSet/PimgCache.pm \
 	lib/CAP/Schema/Result/User.pm \
 	blib/lib/CAP/Schema/Result/User.pm \
-	lib/.DS_Store \
-	blib/lib/.DS_Store \
-	lib/CAP_DEBUG/Catalyst/Plugin/I18N/DBIC.pm \
-	blib/lib/CAP_DEBUG/Catalyst/Plugin/I18N/DBIC.pm \
+	lib/CAP/Schema/Result/UserDocument.pm \
+	blib/lib/CAP/Schema/Result/UserDocument.pm \
 	lib/CAP/Schema.pm \
 	blib/lib/CAP/Schema.pm \
-	lib/CAP/Controller/.DS_Store \
-	blib/lib/CAP/Controller/.DS_Store \
+	lib/CAP/Schema/Result/RequestLog.pm \
+	blib/lib/CAP/Schema/Result/RequestLog.pm \
+	lib/CAP/Schema/ResultSet/UserDocument.pm \
+	blib/lib/CAP/Schema/ResultSet/UserDocument.pm \
 	lib/CAP/Schema/ResultSet/User.pm \
 	blib/lib/CAP/Schema/ResultSet/User.pm \
-	lib/CAP/SolrSax.pm \
-	blib/lib/CAP/SolrSax.pm \
 	lib/CAP/Controller/Root.pm \
 	blib/lib/CAP/Controller/Root.pm \
+	lib/CAP/Controller/Access/ECO.pm \
+	blib/lib/CAP/Controller/Access/ECO.pm \
+	lib/CAP/Schema/ResultSet/RequestLog.pm \
+	blib/lib/CAP/Schema/ResultSet/RequestLog.pm \
 	lib/CAP/Solr.pm \
 	blib/lib/CAP/Solr.pm \
-	lib/CAP/Schema/Result/MasterImage.pm \
-	blib/lib/CAP/Schema/Result/MasterImage.pm \
-	lib/CAP/Schema/.DS_Store \
-	blib/lib/CAP/Schema/.DS_Store \
-	lib/CAP/I18N/.DS_Store \
-	blib/lib/CAP/I18N/.DS_Store \
+	lib/CAP/View/Ajax.pm \
+	blib/lib/CAP/View/Ajax.pm \
+	lib/CAP/Schema/Result/UserGroups.pm \
+	blib/lib/CAP/Schema/Result/UserGroups.pm \
+	lib/CAP/Schema/Result/Collection.pm \
+	blib/lib/CAP/Schema/Result/Collection.pm \
+	lib/CAP/Schema/ResultSet/Promocode.pm \
+	blib/lib/CAP/Schema/ResultSet/Promocode.pm \
+	lib/CAP/Controller/Access/Default.pm \
+	blib/lib/CAP/Controller/Access/Default.pm \
+	lib/CAP/View/Default.pm \
+	blib/lib/CAP/View/Default.pm \
 	lib/CAP/Schema/Result/Role.pm \
 	blib/lib/CAP/Schema/Result/Role.pm \
-	lib/CAP/Schema/ResultSet/Lexicon.pm \
-	blib/lib/CAP/Schema/ResultSet/Lexicon.pm \
-	lib/CAP/Schema/ResultSet/MasterImage.pm \
-	blib/lib/CAP/Schema/ResultSet/MasterImage.pm \
-	lib/CAP/.DS_Store \
-	blib/lib/CAP/.DS_Store \
-	lib/CAP/Controller/System.pm \
-	blib/lib/CAP/Controller/System.pm \
+	lib/CAP/Schema/ResultSet/UserGroups.pm \
+	blib/lib/CAP/Schema/ResultSet/UserGroups.pm \
+	lib/CAP/Schema/Result/InstitutionCollection.pm \
+	blib/lib/CAP/Schema/Result/InstitutionCollection.pm \
 	lib/CAP/Schema/ResultSet/UserRole.pm \
 	blib/lib/CAP/Schema/ResultSet/UserRole.pm \
-	lib/CAP/Controller/Auth.pm \
-	blib/lib/CAP/Controller/Auth.pm \
-	lib/CAP/Controller/Show.pm \
-	blib/lib/CAP/Controller/Show.pm \
+	lib/CAP/Schema/ResultSet/UserCollection.pm \
+	blib/lib/CAP/Schema/ResultSet/UserCollection.pm \
+	lib/CAP/View/Test.pm \
+	blib/lib/CAP/View/Test.pm \
 	lib/CAP/Controller/Search.pm \
 	blib/lib/CAP/Controller/Search.pm \
-	lib/CAP/Profiler.pm \
-	blib/lib/CAP/Profiler.pm \
+	lib/CAP/Controller/Admin.pm \
+	blib/lib/CAP/Controller/Admin.pm \
 	lib/BagIt.pm \
 	blib/lib/BagIt.pm \
+	lib/CAP/View/Dojo.pm \
+	blib/lib/CAP/View/Dojo.pm \
 	lib/CAP/Schema/Result/Sessions.pm \
 	blib/lib/CAP/Schema/Result/Sessions.pm \
 	lib/CAP/Schema/Result/UserRole.pm \
 	blib/lib/CAP/Schema/Result/UserRole.pm \
+	lib/CAP/Controller/Foo.pm \
+	blib/lib/CAP/Controller/Foo.pm \
 	lib/CAP.pm \
 	blib/lib/CAP.pm \
-	lib/CAP/Controller/Content.pm \
-	blib/lib/CAP/Controller/Content.pm \
-	lib/CAP/View/Main.pm \
-	blib/lib/CAP/View/Main.pm \
+	lib/CAP/Schema/Result/UserCollection.pm \
+	blib/lib/CAP/Schema/Result/UserCollection.pm \
+	lib/CAP/I18N/fr.mo \
+	blib/lib/CAP/I18N/fr.mo \
+	lib/CAP/View/Mail.pm \
+	blib/lib/CAP/View/Mail.pm \
+	lib/CAP/Schema/ResultSet/Labels.pm \
+	blib/lib/CAP/Schema/ResultSet/Labels.pm \
+	lib/CAP/Schema/ResultSet/SearchLog.pm \
+	blib/lib/CAP/Schema/ResultSet/SearchLog.pm \
+	lib/CAP/Schema/ResultSet/InstitutionIpaddr.pm \
+	blib/lib/CAP/Schema/ResultSet/InstitutionIpaddr.pm \
 	lib/CAP/Model/DB.pm \
 	blib/lib/CAP/Model/DB.pm \
-	lib/CAP/Schema/Result/PimgCache.pm \
-	blib/lib/CAP/Schema/Result/PimgCache.pm \
+	lib/CAP/Schema/Result/Promocode.pm \
+	blib/lib/CAP/Schema/Result/Promocode.pm \
+	lib/CAP/Controller/Payment/PayPal.pm \
+	blib/lib/CAP/Controller/Payment/PayPal.pm \
+	lib/CAP/Schema/Result/Groups.pm \
+	blib/lib/CAP/Schema/Result/Groups.pm \
+	lib/CAP/Schema/Result/Info.pm \
+	blib/lib/CAP/Schema/Result/Info.pm \
+	lib/CAP/Schema/Result/SearchLog.pm \
+	blib/lib/CAP/Schema/Result/SearchLog.pm \
+	lib/CAP/Schema/Result/InstitutionIpaddr.pm \
+	blib/lib/CAP/Schema/Result/InstitutionIpaddr.pm \
+	lib/CAP/Schema/Result/GroupsCollection.pm \
+	blib/lib/CAP/Schema/Result/GroupsCollection.pm \
+	lib/CAP/Schema/ResultSet/Collection.pm \
+	blib/lib/CAP/Schema/ResultSet/Collection.pm \
+	lib/CAP/Controller/View.pm \
+	blib/lib/CAP/Controller/View.pm \
 	lib/CAP/Schema/ResultSet/Sessions.pm \
 	blib/lib/CAP/Schema/ResultSet/Sessions.pm
 
@@ -391,7 +472,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = CAP
-DISTVNAME = CAP-0.20091127
+DISTVNAME = CAP-undef
 
 
 # --- MakeMaker macro section:
@@ -544,53 +625,74 @@ POD2MAN = $(POD2MAN_EXE)
 
 
 manifypods : pure_all  \
-	script/cap_test.pl \
-	script/cap_cgi.pl \
-	script/cap_server.pl \
-	script/cap_fastcgi.pl \
-	script/cap_create.pl \
-	lib/CAP/Schema/ResultSet/Lexicon.pm \
-	lib/CAP/Schema/ResultSet/MasterImage.pm \
-	lib/CAP/Controller/System.pm \
-	lib/CAP/Controller/Auth.pm \
-	lib/CAP/Controller/Search.pm \
+	lib/CAP/View/Default.pm \
+	lib/CAP/Schema/Result/Role.pm \
+	lib/CAP/Schema/Result/InstitutionCollection.pm \
+	lib/CAP/View/Test.pm \
 	lib/BagIt.pm \
-	lib/CAP/Controller/User.pm \
+	lib/CAP/Schema/Result/Subscription.pm \
+	lib/CAP/Schema/Result/Labels.pm \
+	lib/CAP/Controller/Ajax.pm \
+	lib/CAP/Schema/Result/Institution.pm \
+	lib/CAP/Schema/Result/Sessions.pm \
+	lib/CAP/View/Dojo.pm \
+	lib/CAP/Schema/Result/UserRole.pm \
+	lib/CAP/Controller/Foo.pm \
 	lib/CAP/Controller/File.pm \
-	lib/CAP/Schema/ResultSet/PimgCache.pm \
-	lib/CAP_DEBUG/Catalyst/Plugin/I18N/DBIC.pm \
+	lib/CAP/Schema/Result/User.pm \
+	lib/CAP/Schema/Result/UserDocument.pm \
 	lib/CAP.pm \
-	lib/CAP/Schema/ResultSet/User.pm \
+	lib/CAP/Schema/Result/RequestLog.pm \
+	lib/CAP/Schema/Result/UserCollection.pm \
 	lib/CAP/Controller/Root.pm \
-	lib/CAP/Controller/Content.pm \
-	lib/CAP/View/Main.pm \
+	lib/CAP/View/Mail.pm \
 	lib/CAP/Solr.pm \
 	lib/CAP/Model/DB.pm \
+	lib/CAP/Schema/Result/Promocode.pm \
+	lib/CAP/Schema/Result/UserGroups.pm \
+	lib/CAP/View/Ajax.pm \
+	lib/CAP/Schema/Result/Collection.pm \
+	lib/CAP/Schema/Result/Groups.pm \
+	lib/CAP/Schema/Result/Info.pm \
+	lib/CAP/Schema/Result/SearchLog.pm \
+	lib/CAP/Schema/Result/InstitutionIpaddr.pm \
+	lib/CAP/Schema/Result/GroupsCollection.pm \
+	lib/CAP/Controller/View.pm \
 	lib/CAP/Schema/ResultSet/Sessions.pm
-	$(NOECHO) $(POD2MAN) --section=1 --perm_rw=$(PERM_RW) \
-	  script/cap_test.pl $(INST_MAN1DIR)/cap_test.pl.$(MAN1EXT) \
-	  script/cap_cgi.pl $(INST_MAN1DIR)/cap_cgi.pl.$(MAN1EXT) \
-	  script/cap_server.pl $(INST_MAN1DIR)/cap_server.pl.$(MAN1EXT) \
-	  script/cap_fastcgi.pl $(INST_MAN1DIR)/cap_fastcgi.pl.$(MAN1EXT) \
-	  script/cap_create.pl $(INST_MAN1DIR)/cap_create.pl.$(MAN1EXT) 
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
-	  lib/CAP/Schema/ResultSet/Lexicon.pm $(INST_MAN3DIR)/CAP::Schema::ResultSet::Lexicon.$(MAN3EXT) \
-	  lib/CAP/Schema/ResultSet/MasterImage.pm $(INST_MAN3DIR)/CAP::Schema::ResultSet::MasterImage.$(MAN3EXT) \
-	  lib/CAP/Controller/System.pm $(INST_MAN3DIR)/CAP::Controller::System.$(MAN3EXT) \
-	  lib/CAP/Controller/Auth.pm $(INST_MAN3DIR)/CAP::Controller::Auth.$(MAN3EXT) \
-	  lib/CAP/Controller/Search.pm $(INST_MAN3DIR)/CAP::Controller::Search.$(MAN3EXT) \
+	  lib/CAP/View/Default.pm $(INST_MAN3DIR)/CAP::View::Default.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Role.pm $(INST_MAN3DIR)/CAP::Schema::Result::Role.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/InstitutionCollection.pm $(INST_MAN3DIR)/CAP::Schema::Result::InstitutionCollection.$(MAN3EXT) \
+	  lib/CAP/View/Test.pm $(INST_MAN3DIR)/CAP::View::Test.$(MAN3EXT) \
 	  lib/BagIt.pm $(INST_MAN3DIR)/BagIt.$(MAN3EXT) \
-	  lib/CAP/Controller/User.pm $(INST_MAN3DIR)/CAP::Controller::User.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Subscription.pm $(INST_MAN3DIR)/CAP::Schema::Result::Subscription.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Labels.pm $(INST_MAN3DIR)/CAP::Schema::Result::Labels.$(MAN3EXT) \
+	  lib/CAP/Controller/Ajax.pm $(INST_MAN3DIR)/CAP::Controller::Ajax.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Institution.pm $(INST_MAN3DIR)/CAP::Schema::Result::Institution.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Sessions.pm $(INST_MAN3DIR)/CAP::Schema::Result::Sessions.$(MAN3EXT) \
+	  lib/CAP/View/Dojo.pm $(INST_MAN3DIR)/CAP::View::Dojo.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/UserRole.pm $(INST_MAN3DIR)/CAP::Schema::Result::UserRole.$(MAN3EXT) \
+	  lib/CAP/Controller/Foo.pm $(INST_MAN3DIR)/CAP::Controller::Foo.$(MAN3EXT) \
 	  lib/CAP/Controller/File.pm $(INST_MAN3DIR)/CAP::Controller::File.$(MAN3EXT) \
-	  lib/CAP/Schema/ResultSet/PimgCache.pm $(INST_MAN3DIR)/CAP::Schema::ResultSet::PimgCache.$(MAN3EXT) \
-	  lib/CAP_DEBUG/Catalyst/Plugin/I18N/DBIC.pm $(INST_MAN3DIR)/CAP_DEBUG::Catalyst::Plugin::I18N::DBIC.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/User.pm $(INST_MAN3DIR)/CAP::Schema::Result::User.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/UserDocument.pm $(INST_MAN3DIR)/CAP::Schema::Result::UserDocument.$(MAN3EXT) \
 	  lib/CAP.pm $(INST_MAN3DIR)/CAP.$(MAN3EXT) \
-	  lib/CAP/Schema/ResultSet/User.pm $(INST_MAN3DIR)/CAP::Schema::ResultSet::User.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/RequestLog.pm $(INST_MAN3DIR)/CAP::Schema::Result::RequestLog.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/UserCollection.pm $(INST_MAN3DIR)/CAP::Schema::Result::UserCollection.$(MAN3EXT) \
 	  lib/CAP/Controller/Root.pm $(INST_MAN3DIR)/CAP::Controller::Root.$(MAN3EXT) \
-	  lib/CAP/Controller/Content.pm $(INST_MAN3DIR)/CAP::Controller::Content.$(MAN3EXT) \
-	  lib/CAP/View/Main.pm $(INST_MAN3DIR)/CAP::View::Main.$(MAN3EXT) \
+	  lib/CAP/View/Mail.pm $(INST_MAN3DIR)/CAP::View::Mail.$(MAN3EXT) \
 	  lib/CAP/Solr.pm $(INST_MAN3DIR)/CAP::Solr.$(MAN3EXT) \
 	  lib/CAP/Model/DB.pm $(INST_MAN3DIR)/CAP::Model::DB.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Promocode.pm $(INST_MAN3DIR)/CAP::Schema::Result::Promocode.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/UserGroups.pm $(INST_MAN3DIR)/CAP::Schema::Result::UserGroups.$(MAN3EXT) \
+	  lib/CAP/View/Ajax.pm $(INST_MAN3DIR)/CAP::View::Ajax.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Collection.pm $(INST_MAN3DIR)/CAP::Schema::Result::Collection.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Groups.pm $(INST_MAN3DIR)/CAP::Schema::Result::Groups.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/Info.pm $(INST_MAN3DIR)/CAP::Schema::Result::Info.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/SearchLog.pm $(INST_MAN3DIR)/CAP::Schema::Result::SearchLog.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/InstitutionIpaddr.pm $(INST_MAN3DIR)/CAP::Schema::Result::InstitutionIpaddr.$(MAN3EXT) \
+	  lib/CAP/Schema/Result/GroupsCollection.pm $(INST_MAN3DIR)/CAP::Schema::Result::GroupsCollection.$(MAN3EXT) \
+	  lib/CAP/Controller/View.pm $(INST_MAN3DIR)/CAP::Controller::View.$(MAN3EXT) \
 	  lib/CAP/Schema/ResultSet/Sessions.pm $(INST_MAN3DIR)/CAP::Schema::ResultSet::Sessions.$(MAN3EXT) 
 
 
@@ -600,48 +702,6 @@ manifypods : pure_all  \
 
 
 # --- MakeMaker installbin section:
-
-EXE_FILES = script/cap_cgi.pl script/cap_create.pl script/cap_fastcgi.pl script/cap_server.pl script/cap_test.pl
-
-pure_all :: $(INST_SCRIPT)/cap_test.pl $(INST_SCRIPT)/cap_cgi.pl $(INST_SCRIPT)/cap_server.pl $(INST_SCRIPT)/cap_fastcgi.pl $(INST_SCRIPT)/cap_create.pl
-	$(NOECHO) $(NOOP)
-
-realclean ::
-	$(RM_F) \
-	  $(INST_SCRIPT)/cap_test.pl $(INST_SCRIPT)/cap_cgi.pl \
-	  $(INST_SCRIPT)/cap_server.pl $(INST_SCRIPT)/cap_fastcgi.pl \
-	  $(INST_SCRIPT)/cap_create.pl 
-
-$(INST_SCRIPT)/cap_test.pl : script/cap_test.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/cap_test.pl
-	$(CP) script/cap_test.pl $(INST_SCRIPT)/cap_test.pl
-	$(FIXIN) $(INST_SCRIPT)/cap_test.pl
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/cap_test.pl
-
-$(INST_SCRIPT)/cap_cgi.pl : script/cap_cgi.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/cap_cgi.pl
-	$(CP) script/cap_cgi.pl $(INST_SCRIPT)/cap_cgi.pl
-	$(FIXIN) $(INST_SCRIPT)/cap_cgi.pl
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/cap_cgi.pl
-
-$(INST_SCRIPT)/cap_server.pl : script/cap_server.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/cap_server.pl
-	$(CP) script/cap_server.pl $(INST_SCRIPT)/cap_server.pl
-	$(FIXIN) $(INST_SCRIPT)/cap_server.pl
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/cap_server.pl
-
-$(INST_SCRIPT)/cap_fastcgi.pl : script/cap_fastcgi.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/cap_fastcgi.pl
-	$(CP) script/cap_fastcgi.pl $(INST_SCRIPT)/cap_fastcgi.pl
-	$(FIXIN) $(INST_SCRIPT)/cap_fastcgi.pl
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/cap_fastcgi.pl
-
-$(INST_SCRIPT)/cap_create.pl : script/cap_create.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
-	$(NOECHO) $(RM_F) $(INST_SCRIPT)/cap_create.pl
-	$(CP) script/cap_create.pl $(INST_SCRIPT)/cap_create.pl
-	$(FIXIN) $(INST_SCRIPT)/cap_create.pl
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/cap_create.pl
-
 
 
 # --- MakeMaker subdirs section:
@@ -960,7 +1020,7 @@ $(MAKE_APERL_FILE) : $(FIRST_MAKEFILE) pm_to_blib
 TEST_VERBOSE=0
 TEST_TYPE=test_$(LINKTYPE)
 TEST_FILE = test.pl
-TEST_FILES = t/01app.t t/02pod.t t/03podcoverage.t t/controller_Auth.t t/controller_Content.t t/controller_File.t t/controller_Search.t t/controller_Show.t t/controller_System.t t/controller_User.t t/model_DB.t t/view_Main.t
+TEST_FILES = t/01app.t t/02pod.t t/03podcoverage.t t/controller_Access-Default.t t/controller_Access-ECO.t t/controller_Admin.t t/controller_Ajax.t t/controller_File.t t/controller_Payment-PayPal.t t/controller_Search.t t/controller_User.t t/controller_View.t t/model_DB.t t/view_Ajax.t t/view_Default.t t/view_Dojo.t t/view_Mail.t t/view_Test.t
 TESTDB_SW = -d
 
 testdb :: testdb_$(LINKTYPE)
@@ -986,7 +1046,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.20091127">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="undef">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>Catalyst based application</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>William Wueppelmann &lt;william.wueppelmann@canadiana.ca&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
@@ -1012,43 +1072,66 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  lib/CAP/Schema/Result/Lexicon.pm blib/lib/CAP/Schema/Result/Lexicon.pm \
+	  lib/CAP/Schema/ResultSet/InstitutionCollection.pm blib/lib/CAP/Schema/ResultSet/InstitutionCollection.pm \
+	  lib/CAP/I18N/gettext.sh blib/lib/CAP/I18N/gettext.sh \
 	  lib/CAP/I18N/fr.po blib/lib/CAP/I18N/fr.po \
+	  lib/CAP/Ingest.pm blib/lib/CAP/Ingest.pm \
+	  lib/CAP/Schema/ResultSet/GroupsCollection.pm blib/lib/CAP/Schema/ResultSet/GroupsCollection.pm \
 	  lib/CAP/Schema/ResultSet/Role.pm blib/lib/CAP/Schema/ResultSet/Role.pm \
-	  lib/CAP/I18N/xx.po blib/lib/CAP/I18N/xx.po \
+	  lib/CAP/Schema/Result/Subscription.pm blib/lib/CAP/Schema/Result/Subscription.pm \
+	  lib/CAP/Schema/Result/Labels.pm blib/lib/CAP/Schema/Result/Labels.pm \
+	  lib/CAP/Schema/Result/Institution.pm blib/lib/CAP/Schema/Result/Institution.pm \
+	  lib/CAP/Controller/Ajax.pm blib/lib/CAP/Controller/Ajax.pm \
+	  lib/CAP/Schema/ResultSet/Info.pm blib/lib/CAP/Schema/ResultSet/Info.pm \
+	  lib/CAP/Schema/ResultSet/Subscription.pm blib/lib/CAP/Schema/ResultSet/Subscription.pm \
 	  lib/CAP/Controller/User.pm blib/lib/CAP/Controller/User.pm \
 	  lib/CAP/Controller/File.pm blib/lib/CAP/Controller/File.pm \
-	  lib/CAP/Schema/ResultSet/PimgCache.pm blib/lib/CAP/Schema/ResultSet/PimgCache.pm \
 	  lib/CAP/Schema/Result/User.pm blib/lib/CAP/Schema/Result/User.pm \
-	  lib/.DS_Store blib/lib/.DS_Store \
-	  lib/CAP_DEBUG/Catalyst/Plugin/I18N/DBIC.pm blib/lib/CAP_DEBUG/Catalyst/Plugin/I18N/DBIC.pm \
+	  lib/CAP/Schema/Result/UserDocument.pm blib/lib/CAP/Schema/Result/UserDocument.pm \
 	  lib/CAP/Schema.pm blib/lib/CAP/Schema.pm \
-	  lib/CAP/Controller/.DS_Store blib/lib/CAP/Controller/.DS_Store \
+	  lib/CAP/Schema/Result/RequestLog.pm blib/lib/CAP/Schema/Result/RequestLog.pm \
+	  lib/CAP/Schema/ResultSet/UserDocument.pm blib/lib/CAP/Schema/ResultSet/UserDocument.pm \
 	  lib/CAP/Schema/ResultSet/User.pm blib/lib/CAP/Schema/ResultSet/User.pm \
-	  lib/CAP/SolrSax.pm blib/lib/CAP/SolrSax.pm \
 	  lib/CAP/Controller/Root.pm blib/lib/CAP/Controller/Root.pm \
+	  lib/CAP/Controller/Access/ECO.pm blib/lib/CAP/Controller/Access/ECO.pm \
+	  lib/CAP/Schema/ResultSet/RequestLog.pm blib/lib/CAP/Schema/ResultSet/RequestLog.pm \
 	  lib/CAP/Solr.pm blib/lib/CAP/Solr.pm \
-	  lib/CAP/Schema/Result/MasterImage.pm blib/lib/CAP/Schema/Result/MasterImage.pm \
-	  lib/CAP/Schema/.DS_Store blib/lib/CAP/Schema/.DS_Store \
-	  lib/CAP/I18N/.DS_Store blib/lib/CAP/I18N/.DS_Store \
+	  lib/CAP/View/Ajax.pm blib/lib/CAP/View/Ajax.pm \
+	  lib/CAP/Schema/Result/UserGroups.pm blib/lib/CAP/Schema/Result/UserGroups.pm \
+	  lib/CAP/Schema/Result/Collection.pm blib/lib/CAP/Schema/Result/Collection.pm \
+	  lib/CAP/Schema/ResultSet/Promocode.pm blib/lib/CAP/Schema/ResultSet/Promocode.pm \
+	  lib/CAP/Controller/Access/Default.pm blib/lib/CAP/Controller/Access/Default.pm \
+	  lib/CAP/View/Default.pm blib/lib/CAP/View/Default.pm \
 	  lib/CAP/Schema/Result/Role.pm blib/lib/CAP/Schema/Result/Role.pm \
-	  lib/CAP/Schema/ResultSet/Lexicon.pm blib/lib/CAP/Schema/ResultSet/Lexicon.pm \
-	  lib/CAP/Schema/ResultSet/MasterImage.pm blib/lib/CAP/Schema/ResultSet/MasterImage.pm \
-	  lib/CAP/.DS_Store blib/lib/CAP/.DS_Store \
-	  lib/CAP/Controller/System.pm blib/lib/CAP/Controller/System.pm \
+	  lib/CAP/Schema/ResultSet/UserGroups.pm blib/lib/CAP/Schema/ResultSet/UserGroups.pm \
+	  lib/CAP/Schema/Result/InstitutionCollection.pm blib/lib/CAP/Schema/Result/InstitutionCollection.pm \
 	  lib/CAP/Schema/ResultSet/UserRole.pm blib/lib/CAP/Schema/ResultSet/UserRole.pm \
-	  lib/CAP/Controller/Auth.pm blib/lib/CAP/Controller/Auth.pm \
-	  lib/CAP/Controller/Show.pm blib/lib/CAP/Controller/Show.pm \
+	  lib/CAP/Schema/ResultSet/UserCollection.pm blib/lib/CAP/Schema/ResultSet/UserCollection.pm \
+	  lib/CAP/View/Test.pm blib/lib/CAP/View/Test.pm \
 	  lib/CAP/Controller/Search.pm blib/lib/CAP/Controller/Search.pm \
-	  lib/CAP/Profiler.pm blib/lib/CAP/Profiler.pm \
+	  lib/CAP/Controller/Admin.pm blib/lib/CAP/Controller/Admin.pm \
 	  lib/BagIt.pm blib/lib/BagIt.pm \
+	  lib/CAP/View/Dojo.pm blib/lib/CAP/View/Dojo.pm \
 	  lib/CAP/Schema/Result/Sessions.pm blib/lib/CAP/Schema/Result/Sessions.pm \
 	  lib/CAP/Schema/Result/UserRole.pm blib/lib/CAP/Schema/Result/UserRole.pm \
+	  lib/CAP/Controller/Foo.pm blib/lib/CAP/Controller/Foo.pm \
 	  lib/CAP.pm blib/lib/CAP.pm \
-	  lib/CAP/Controller/Content.pm blib/lib/CAP/Controller/Content.pm \
-	  lib/CAP/View/Main.pm blib/lib/CAP/View/Main.pm \
+	  lib/CAP/Schema/Result/UserCollection.pm blib/lib/CAP/Schema/Result/UserCollection.pm \
+	  lib/CAP/I18N/fr.mo blib/lib/CAP/I18N/fr.mo \
+	  lib/CAP/View/Mail.pm blib/lib/CAP/View/Mail.pm \
+	  lib/CAP/Schema/ResultSet/Labels.pm blib/lib/CAP/Schema/ResultSet/Labels.pm \
+	  lib/CAP/Schema/ResultSet/SearchLog.pm blib/lib/CAP/Schema/ResultSet/SearchLog.pm \
+	  lib/CAP/Schema/ResultSet/InstitutionIpaddr.pm blib/lib/CAP/Schema/ResultSet/InstitutionIpaddr.pm \
 	  lib/CAP/Model/DB.pm blib/lib/CAP/Model/DB.pm \
-	  lib/CAP/Schema/Result/PimgCache.pm blib/lib/CAP/Schema/Result/PimgCache.pm \
+	  lib/CAP/Schema/Result/Promocode.pm blib/lib/CAP/Schema/Result/Promocode.pm \
+	  lib/CAP/Controller/Payment/PayPal.pm blib/lib/CAP/Controller/Payment/PayPal.pm \
+	  lib/CAP/Schema/Result/Groups.pm blib/lib/CAP/Schema/Result/Groups.pm \
+	  lib/CAP/Schema/Result/Info.pm blib/lib/CAP/Schema/Result/Info.pm \
+	  lib/CAP/Schema/Result/SearchLog.pm blib/lib/CAP/Schema/Result/SearchLog.pm \
+	  lib/CAP/Schema/Result/InstitutionIpaddr.pm blib/lib/CAP/Schema/Result/InstitutionIpaddr.pm \
+	  lib/CAP/Schema/Result/GroupsCollection.pm blib/lib/CAP/Schema/Result/GroupsCollection.pm \
+	  lib/CAP/Schema/ResultSet/Collection.pm blib/lib/CAP/Schema/ResultSet/Collection.pm \
+	  lib/CAP/Controller/View.pm blib/lib/CAP/Controller/View.pm \
 	  lib/CAP/Schema/ResultSet/Sessions.pm blib/lib/CAP/Schema/ResultSet/Sessions.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
