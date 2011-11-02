@@ -15,6 +15,7 @@ sub main :Private
     $param->{'solr'} = $solrparam || {};
     $param->{'type'} = $c->req->params->{'t'}  || undef;
     $param->{'sort'} = $c->req->params->{'so'} || undef;
+    $param->{'allfields'} = 1 if ($c->req->params->{'allfields'});
 
     if ($c->req->params->{df} || $c->req->params->{dt}) {
         my $min = $c->req->params->{df} || $c->req->params->{dt};
@@ -99,14 +100,7 @@ sub search :Private
     $c->stash->{log_search} = 1;
     $c->stash->{response}->{type} = 'set';
     
-    my $result = {};
-    if ($c->request->params->{gr}) {
-        #$c->forward('run_search', [$start, 1]);
-        die "NOT IMPLEMENTED";
-    }
-    else {
-        $result = $solr->query($query, $param);
-    }
+    my $result = $solr->query($query, $param);
 
     $c->stash->{response}->{result} = {
         page => $result->{page},

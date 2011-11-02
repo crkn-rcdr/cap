@@ -281,7 +281,7 @@ sub auto :Private
 
     # Clean up any expired sessions
     my $expired = $c->model('DB::Sessions')->remove_expired();
-    warn("[debug] Cleaned up $expired expired sessions") if ($expired);
+    warn("[info] Cleaned up $expired expired sessions") if ($expired);
     return 1;
 }
 

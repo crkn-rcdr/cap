@@ -522,6 +522,11 @@ sub query
         }
     }
 
+    # Append additional fields to retrieve
+    if ($param->{allfields}) {
+        $solr{fl} = '*';
+    }
+
     # Append additional Solr query parameters.
     if ($param->{solr}) {
         while (my($key, $value) = each(%{$param->{solr}})) {
