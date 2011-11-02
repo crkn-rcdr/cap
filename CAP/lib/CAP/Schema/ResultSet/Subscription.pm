@@ -10,13 +10,12 @@ use POSIX qw(strftime);
 sub new_subscription
 {
     ## inserts new row into subscriprion table
-    my ($self, $user_id, $promo, $amount, $period, $trname) = @_;
+    my ($self, $user_id, $promo, $amount, $trname) = @_;
     
     my $row = $self->create({
         user_id   =>   $user_id,
         promo     =>   $promo,
         amount    =>   $amount,
-        period    =>   $period,
         rcpt_name =>   $trname
     });                       
 
@@ -25,6 +24,25 @@ sub new_subscription
     return 1;
 }
 
+
+sub get_row
+{
+    # returns an arrayref of all the
+    my($self, $user_id) = @_;
+           
+    my $check_user_id =  $self->search(
+                                {
+
+                                
+                                    user_id => $user_id
+                                  
+                                }           
+                             );
+    my $getrow = $check_user_id->next();
+    my $row = defined($getrow) ? $getrow : 0;
+
+    return $row;
+}
 
 sub confirm_subscription
 {

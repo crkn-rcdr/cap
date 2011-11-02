@@ -408,7 +408,7 @@ sub subscribe :Path('subscribe') :Args(0) {
     my($self, $c) = @_;
 
     $c->stash->{promocode_message} = ' '; # default promocode message
-    my $amount = $c->config->{subscription_amount};
+    my $amount = $c->config->{subscription_amount}; # get the subscription price from the config file for now
     
     # Get the form parameters
     my $mode        = defined($c->request->params->{mode})      ? $c->request->params->{mode}      : "default";                       # check if they clicked the promo button 
@@ -457,18 +457,23 @@ sub subscribe :Path('subscribe') :Args(0) {
     
     # Process the subscription request and detach to e-bay
     elsif ($mode eq "subscribenow") {
-        my $id = $c->user->id;
-        my $period = $c->config->{subscription_period};
+        my $userid = $c->user->id;
+        my $period = $c->config->{subscription_period}; # replace with expiry dates
         $c->stash->{subscribing_now} = 1;
-        my $subscribed = $c->model('DB::Subscription')->new_subscription($id,$promocode,$amount,$period,$trname);
+        my $subscribed = $c->model('DB::Subscription')->new_subscription($userid,$promocode,$amount,$trname);
+        # my $row = $c->model('DB::Subscription')->get_row($userid);
         $c->stash->{template} = 'user/subscribe.tt';
+        my $payment_args = [$userid, $amount, $period, $trname];
+        # $c->stash->{subscription_row} = $row;
+
+        $c->detach('/payment/paypal/pay', [$payment_args]);
         return 1;
     }
 
     
-    # Otherwise go/return to "subscribe" page
+    # If we're not applying the promo or processing the subscription just go/return to "subscribe" page
     
-    # $c->stash{promocode} = $c->model('DB::Promocode')->get_promocode();
+       # $c->stash{promocode} = $c->model('DB::Promocode')->get_promocode();
     
     $c->stash->{subscription_price} = $amount;
     $c->stash->{promoamount} = $promoamount;
