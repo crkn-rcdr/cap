@@ -55,10 +55,14 @@ __PACKAGE__->table("subscription");
   is_nullable: 1
   size: 32
 
-=head2 period
+=head2 oldexpire
 
-  data_type: 'integer'
-  default_value: 0
+  data_type: 'datetime'
+  is_nullable: 1
+
+=head2 newexpire
+
+  data_type: 'datetime'
   is_nullable: 1
 
 =head2 processor
@@ -67,7 +71,7 @@ __PACKAGE__->table("subscription");
   extra: {list => ["paypal"]}
   is_nullable: 1
 
-=head2 ipn
+=head2 message
 
   data_type: 'text'
   is_nullable: 1
@@ -114,11 +118,13 @@ __PACKAGE__->add_columns(
   },
   "promo",
   { data_type => "varchar", is_nullable => 1, size => 32 },
-  "period",
-  { data_type => "integer", default_value => 0, is_nullable => 1 },
+  "oldexpire",
+  { data_type => "datetime", is_nullable => 1 },
+  "newexpire",
+  { data_type => "datetime", is_nullable => 1 },
   "processor",
   { data_type => "enum", extra => { list => ["paypal"] }, is_nullable => 1 },
-  "ipn",
+  "message",
   { data_type => "text", is_nullable => 1 },
   "rcpt_amt",
   {
@@ -150,8 +156,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-09-21 10:45:40
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JAgzmsCSIneaT0IlLAS0Nw
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-11-03 11:21:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xCD9jYhHCXKJqDjsXgMYRQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
