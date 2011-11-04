@@ -42,10 +42,72 @@ sub debugPPAPI {
 
 
 # Detach to this method to initiate a PayPal payment transaction
-#sub pay :Private {
+sub pay : Private {
 # temporary for initial test, just use /payment/paypal/pay
-sub pay :Path('pay') {
-    my($self, $c) = @_;
+#sub pay :Path('pay') {
+    my($self, $c, $amount, $description, $period) = @_;
+
+
+    # This function only needs the following
+    my $orderTotal = ($amount) ? $amount : 0;
+    my $orderDescription = ($description) ? $description : "";
+
+
+### BEGIN functions that should be elsewhere 
+    use Date::Manip::Date;
+    use Date::Manip::Delta;
+
+    my $userid =  $c->user->id;
+    my $subexpires = $c->user->subexpires;
+
+    $period = 300 unless ($period);
+    $c->log->debug("Payment/Paypal/Pay parameters: amount:$orderTotal description:\"$orderDescription\" , period:$period") if ($c->debug);
+
+# Update subscription with correct dates.
+# Following used in testing...
+#$subexpires = "2012-11-04 00:00:00";
+
+    my $dateexp = new Date::Manip::Date;
+    my $err = $dateexp->parse($subexpires);
+
+my $dateexpt = $err ? "error" : $dateexp->value();
+$c->log->debug("Payment/Paypal/Pay Parse: $err $dateexpt") if ($c->debug);
+
+    my $datetoday = new Date::Manip::Date;
+    $datetoday->parse("today");
+
+    # If we couldn't parse expiry date (likely null), or expired in past.
+    if ($err || (($dateexp->cmp($datetoday)) <= 0)) {
+        # The new expiry date is built from today
+	$dateexp=$datetoday;
+    }
+
+    # Create a delta based on the period we were passed in.
+    my $deltaexpire = new Date::Manip::Delta;
+    $err = $deltaexpire->parse($period . " days");
+
+    if ($err) {
+      # If I was passed in a bad period, then what?
+$c->log->debug("Payment/Paypal/Pay Delta Error?  \"$period days\"") if ($c->debug);
+    } else {
+      my $datenew = $dateexp->calc($deltaexpire);
+      my $newexpire = $datenew->printf("%Y-%m-%d");
+$c->log->debug("Payment/Paypal/Pay New Expiry Date: $newexpire") if ($c->debug);
+
+      my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
+      if ($subscriberow) {
+	  $subscriberow->update({
+	      oldexpire => $subexpires,
+              newexpire => $newexpire
+				});
+      } else {
+        # Ouch -- got here, but no pending subscription?
+$c->log->debug("Payment/Paypal/Pay No pending subscription!") if ($c->debug);
+      }
+   }   
+
+### END
+
 
 # Set this for debugging the Paypal transaction
 # $Business::PayPal::API::Debug = 1;
@@ -67,10 +129,6 @@ sub pay :Path('pay') {
     my $ReturnURL = $c->uri_for('/payment/paypal/finalize');
     my $CancelURL = $c->uri_for('/');
 
-    # TODO:  How much and the description will be passed via stash from
-    # elsewhere
-    my $orderTotal = 123.45;
-    my $orderDescription = "More money for tokens valued at \$$orderTotal";
 
     my %PPresp = $pp->SetExpressCheckout(
       OrderTotal => $orderTotal,
@@ -128,7 +186,13 @@ sub finalize :Path('finalize') {
     debugPPAPI($c, "Finalize/Get...Details", %details ) if ($c->debug);
 
     # TODO:  How much needs to be pulled out of the transaction database.
-    my $orderTotal = 123.45;
+    my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
+    $c->stash->{subscriberow} = $subscriberow;
+
+    my $orderTotal = $subscriberow->amount;
+
+
+
 
     my %payinfo = $pp->DoExpressCheckoutPayment(
       Token => $details{Token},
@@ -142,15 +206,20 @@ sub finalize :Path('finalize') {
 
     # TODO: Check if "Ack => Success"
 
-    #$c->stash->{payinfo} = \%payinfo;
     debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
+
+## TODO:  Update subscription with new expire date
+#  user->subscriber = 1, user->subexpires=$subscriberow->newexpire 
+#  Update database, "forward" to user->init to update variables
+
 
     # TODO: Not an error, but I don't know where to detach to yet.
     $c->detach('/error', [200, "Payment of $orderTotal completed."]);
     return 0;
 }
 
-# PayPal calls this URL when the transact
+# This is something we can do in the future if we feel the need to log
+# IPN's.  Duplicates information we receive as part of express-checkout
 sub ipn :Path('ipn') {
     my($self, $c) = @_;
 

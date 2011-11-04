@@ -463,10 +463,11 @@ sub subscribe :Path('subscribe') :Args(0) {
         my $subscribed = $c->model('DB::Subscription')->new_subscription($userid,$promocode,$amount,$trname);
         # my $row = $c->model('DB::Subscription')->get_row($userid);
         $c->stash->{template} = 'user/subscribe.tt';
-        my $payment_args = [$userid, $amount, $period, $trname];
         # $c->stash->{subscription_row} = $row;
 
-        $c->detach('/payment/paypal/pay', [$payment_args]);
+        # Trimmed variables being passed.  Later will not pass "period" which
+        # should be handled elsewhere.
+        $c->detach('/payment/paypal/pay', [$amount, "ECO subscription for \$$amount (Needs localization)", $period]);
         return 1;
     }
 

@@ -44,6 +44,26 @@ sub get_row
     return $row;
 }
 
+# Sometimes need to grab only (and there should only ever be 1)
+# row for a given user that is pending.
+sub get_incomplete_row
+{
+    # returns an arrayref of all the
+    my($self, $user_id) = @_;
+           
+    my $check_user_id =  $self->search(
+                                {
+				    completed => undef,
+                                    user_id => $user_id
+                                  
+                                }           
+                             );
+    my $getrow = $check_user_id->next();
+    my $row = defined($getrow) ? $getrow : 0;
+
+    return $row;
+}
+
 sub confirm_subscription
 {
     # toggles "completed" flag and inserts expiry date
