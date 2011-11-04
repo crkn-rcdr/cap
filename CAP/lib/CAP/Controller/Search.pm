@@ -97,10 +97,10 @@ sub search :Private
     my($self, $c, $query, $param) = @_;
     my $solr = $c->stash->{solr};
 
-    $c->stash->{log_search} = 1;
     $c->stash->{response}->{type} = 'set';
     
     my $result = $solr->query($query, $param);
+    $c->stash->{log_search} = 1 if ($result);
 
     $c->stash->{response}->{result} = {
         page => $result->{page},
