@@ -10,13 +10,14 @@ use POSIX qw(strftime);
 sub new_subscription
 {
     ## inserts new row into subscriprion table
-    my ($self, $user_id, $promo, $amount, $trname) = @_;
+    my ($self, $user_id, $promo, $amount, $trname, $rcpt_amt) = @_;
     
     my $row = $self->create({
         user_id   =>   $user_id,
         promo     =>   $promo,
         amount    =>   $amount,
-        rcpt_name =>   $trname
+        rcpt_name =>   $trname,
+        rcpt_amt  =>   $rcpt_amt    
     });                       
 
     # $row->insert();
