@@ -64,8 +64,6 @@ sub pay : Private {
     $c->log->debug("Payment/Paypal/Pay parameters: amount:$orderTotal description:\"$orderDescription\" , period:$period") if ($c->debug);
 
 # Update subscription with correct dates.
-# Following used in testing...
-#$subexpires = "2012-11-04 00:00:00";
 
     my $dateexp = new Date::Manip::Date;
     my $err = $dateexp->parse($subexpires);
@@ -97,6 +95,7 @@ $c->log->debug("Payment/Paypal/Pay New Expiry Date: $newexpire") if ($c->debug);
       my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
       if ($subscriberow) {
 	  $subscriberow->update({
+	      processor => "paypal",
 	      oldexpire => $subexpires,
               newexpire => $newexpire
 				});
@@ -182,39 +181,78 @@ sub finalize :Path('finalize') {
 
     # TODO: Check if "Ack => Success"
 
-    #$c->stash->{details} = \%details;
     debugPPAPI($c, "Finalize/Get...Details", %details ) if ($c->debug);
 
-    # TODO:  How much needs to be pulled out of the transaction database.
+    # TODO:  Should all model calls be in different function?
     my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
-    $c->stash->{subscriberow} = $subscriberow;
+    if ($subscriberow) {
+	my $orderTotal = $subscriberow->amount;
 
-    my $orderTotal = $subscriberow->amount;
-
-
-
-
-    my %payinfo = $pp->DoExpressCheckoutPayment(
-      Token => $details{Token},
-      PaymentAction => 'Sale',
-      PayerID => $details{PayerID},
-      OrderTotal => $orderTotal,
-      currencyID => 'CAD',
-      LocaleCode => 'CA',
-    );
+	my %payinfo = $pp->DoExpressCheckoutPayment(
+	    Token => $details{Token},
+	    PaymentAction => 'Sale',
+	    PayerID => $details{PayerID},
+	    OrderTotal => $orderTotal,
+	    currencyID => 'CAD',
+	    LocaleCode => 'CA',
+	    );
 
 
-    # TODO: Check if "Ack => Success"
+	# TODO: Check if "Ack => Success"
+        my $success = 1;
 
-    debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
+	debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
 
-## TODO:  Update subscription with new expire date
-#  user->subscriber = 1, user->subexpires=$subscriberow->newexpire 
-#  Update database, "forward" to user->init to update variables
+        use JSON::XS;
+        my $message = encode_json [%details, %payinfo];
+
+### BEGIN functions that should be elsewhere 
+##  $success and $message would be passed into some external function
+
+	my $userid =  $c->user->id;
+	my $newexpires = $subscriberow->newexpire;
+        my $rcpt_amt = $orderTotal - 50;  ## What should be here?
+        my $rcpt_no = 12345; # Get next receipt from...?
 
 
-    # TODO: Not an error, but I don't know where to detach to yet.
-    $c->detach('/error', [200, "Payment of $orderTotal completed."]);
+	my $user_account = $c->find_user({ id => $userid });
+
+	eval { $user_account->update({
+	    subscriber => 1,
+	    subexpires => $newexpires
+				     }) };
+        if ($@) {
+	    $c->log->debug("Payment/Paypal/Pay user account:  " .$@) if ($c->debug);
+	    $c->detach('/error', [500,"user account"]);
+	}
+
+        # Update current session. User may have become subscriber.
+	$c->forward('/user/init');
+
+	eval { $subscriberow->update({
+	    completed => \'now()', #' Makes Emacs Happy
+            success => $success,
+            message => $message,
+      				     }) };  
+        if ($@) {
+	    $c->log->debug("Payment/Paypal/Pay subscriber update:  " .$@) if ($c->debug);
+	    $c->detach('/error', [500,"subscriber update"]);
+	}
+
+##END
+
+        # TODO: $success boolean may suggest different place to detach...
+        if ($success) {
+	    $c->message({ type => "success", message => "payment_complete" });
+        } else {
+	    $c->message({ type => "error", message => "payment_complete" });
+        }
+	$c->detach('/user/subscribe');
+    } else {
+        # Ouch -- got here, but no pending subscription?
+	$c->log->debug("Payment/Paypal/Pay No pending subscription!") if ($c->debug);
+	$c->detach('/error', [200, "No pending subscription. Payment not finalized!"]);
+    }
     return 0;
 }
 
