@@ -460,7 +460,7 @@ sub subscribe :Path('subscribe') :Args(0) {
         my $userid = $c->user->id;
         my $period = $c->config->{subscription_period}; # replace with expiry dates
         $c->stash->{subscribing_now} = 1;
-        my $subscribed = $c->model('DB::Subscription')->new_subscription($userid,$promocode,$amount,$trname);
+        my $subscribed = $c->model('DB::Subscription')->new_subscription($userid,$promocode,$amount,$trname,$c->stash->{tax_receipt});
         # my $row = $c->model('DB::Subscription')->get_row($userid);
         $c->stash->{template} = 'user/subscribe.tt';
         # $c->stash->{subscription_row} = $row;
