@@ -2,6 +2,7 @@ package CAP::View::Default;
 
 use strict;
 use base 'Catalyst::View::TT';
+use Date::Format;
 
 
 __PACKAGE__->config(
@@ -62,6 +63,16 @@ __PACKAGE__->config(
             while (my($key, $value) = each(%{$hash})) { $joined->{$key} = $value; }
             foreach my $key (@keys) { delete($joined->{$key}) if (defined($joined->{$key})); }
             return $joined;
+        },
+
+        format_date => sub {
+            my $date = shift(@_);
+            return $date ? time2str("%Y-%m-%d", $date) : "";
+        },
+
+        format_time => sub {
+            my $time = shift(@_);
+            return $time ? time2str("%Y-%m-%d %T", $time) : "";
         },
     }
 );
