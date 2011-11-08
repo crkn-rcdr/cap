@@ -139,14 +139,46 @@ $c->log->debug("Payment/Paypal/Pay No pending subscription!") if ($c->debug);
 
     debugPPAPI($c, "Pay", %PPresp ) if $c->debug;
 
-    # TODO: Check if "Ack => Success", and that we have a token.
-    # We need to decide what we want to do if Paypal is down/etc. Message?
-    my $sandboxURL = $sandbox ? ".sandbox" : "";
-    my $paypalURL="https://www" . $sandboxURL . ".paypal.com/webscr?cmd=_express-checkout&token=" .$PPresp{Token};
+    if ($PPresp{Ack} eq "Success") {
 
-    $c->log->debug("Payment/Paypal/Pay: ReturnURL => $ReturnURL , CancelURL => $CancelURL , paypalURL => $paypalURL") if ($c->debug);
+	my $sandboxURL = $sandbox ? ".sandbox" : "";
+	my $paypalURL="https://www" . $sandboxURL . ".paypal.com/webscr?cmd=_express-checkout&token=" .$PPresp{Token};
 
-    $c->response->redirect($paypalURL);
+	$c->log->debug("Payment/Paypal/Pay: ReturnURL => $ReturnURL , CancelURL => $CancelURL , paypalURL => $paypalURL") if ($c->debug);
+	$c->response->redirect($paypalURL);
+
+    } else {
+	#TODO: If there is failure, what do we want to say?
+	# Could be paypal down, could be we had wrong password for our
+        # account, ...
+
+	# TODO:  Should all model calls be in different function?
+        # This section duplicates some code in finalize()
+	my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
+	if ($subscriberow) {
+
+	    use JSON;
+	    ## Encode all results from PayPal into single JSON message
+	    my $message = encode_json [["PPresp","",%PPresp]];
+
+	    # record completion and the messages from PayPal
+	    eval { $subscriberow->update({
+		completed => \'now()', #' Makes Emacs Happy
+		    success => 0,
+		    message => $message,
+      				     }) };  
+	    if ($@) {
+		$c->log->debug("Payment/Paypal/Pay subscriber update:  " .$@) if ($c->debug);
+		$c->detach('/error', [500,"subscriber update"]);
+	    }
+	} else {
+	    # Ouch -- got here, but no pending subscription?
+	    $c->log->debug("Payment/Paypal/Finalize No pending subscription!") if ($c->debug);
+	    $c->detach('/error', [200, "No pending subscription. Payment not initiated!"]);
+	}
+	$c->message({ type => "error", message => "payment_failed" });
+        $c->response->redirect('/user/profile');
+    }
     return 0;
 }
 
@@ -195,24 +227,22 @@ sub finalize :Path('finalize') {
 	    LocaleCode => 'CA',
 	    );
 
+debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
+
 	# Verify both interactions with PayPall indicated success.
         my $success = (($payinfo{Ack} eq "Success") 
 		    && ($details{Ack} eq "Success"));
-
 $c->log->debug("Payment/Paypal/finalize: Success? : $success") if ($c->debug);
-debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
 
-        use JSON::XS;
-        my $message = encode_json [%details, %payinfo];
+        use JSON;
+        ## Encode all results from PayPal into single JSON message
+        my $message = encode_json [["Details","",%details],["PayInfo","",%payinfo]];
 
 ### BEGIN functions that should be elsewhere 
 ##  $success and $message would be passed into some external function
 
 	my $userid =  $c->user->id;
 	my $newexpires = $subscriberow->newexpire;
-        my $rcpt_amt = $orderTotal - 50;  ## What should be here?
-        my $rcpt_no = 12345; # Get next receipt from...?
-
 
         if ($success) {
 	    my $user_account = $c->find_user({ id => $userid });
@@ -222,7 +252,7 @@ debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
 		subexpires => $newexpires
 					 }) };
 	    if ($@) {
-		$c->log->debug("Payment/Paypal/Pay user account:  " .$@) if ($c->debug);
+		$c->log->debug("Payment/Paypal/Finalize user account:  " .$@) if ($c->debug);
 		$c->detach('/error', [500,"user account"]);
 	    }
 
@@ -238,7 +268,7 @@ debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
             message => $message,
       				     }) };  
         if ($@) {
-	    $c->log->debug("Payment/Paypal/Pay subscriber update:  " .$@) if ($c->debug);
+	    $c->log->debug("Payment/Paypal/Finalize subscriber update:  " .$@) if ($c->debug);
 	    $c->detach('/error', [500,"subscriber update"]);
 	}
 
@@ -256,7 +286,7 @@ debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
 	$c->response->redirect('/user/profile');
     } else {
         # Ouch -- got here, but no pending subscription?
-	$c->log->debug("Payment/Paypal/Pay No pending subscription!") if ($c->debug);
+	$c->log->debug("Payment/Paypal/Finalize No pending subscription!") if ($c->debug);
 	$c->detach('/error', [200, "No pending subscription. Payment not finalized!"]);
     }
     return 0;
