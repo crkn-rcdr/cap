@@ -179,8 +179,6 @@ sub finalize :Path('finalize') {
 
     my %details = $pp->GetExpressCheckoutDetails($token);
 
-    # TODO: Check if "Ack => Success"
-
     debugPPAPI($c, "Finalize/Get...Details", %details ) if ($c->debug);
 
     # TODO:  Should all model calls be in different function?
@@ -197,11 +195,12 @@ sub finalize :Path('finalize') {
 	    LocaleCode => 'CA',
 	    );
 
+	# Verify both interactions with PayPall indicated success.
+        my $success = (($payinfo{Ack} eq "Success") 
+		    && ($details{Ack} eq "Success"));
 
-	# TODO: Check if "Ack => Success"
-        my $success = 1;
-
-	debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
+$c->log->debug("Payment/Paypal/finalize: Success? : $success") if ($c->debug);
+debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
 
         use JSON::XS;
         my $message = encode_json [%details, %payinfo];
@@ -215,20 +214,24 @@ sub finalize :Path('finalize') {
         my $rcpt_no = 12345; # Get next receipt from...?
 
 
-	my $user_account = $c->find_user({ id => $userid });
+        if ($success) {
+	    my $user_account = $c->find_user({ id => $userid });
 
-	eval { $user_account->update({
-	    subscriber => 1,
-	    subexpires => $newexpires
-				     }) };
-        if ($@) {
-	    $c->log->debug("Payment/Paypal/Pay user account:  " .$@) if ($c->debug);
-	    $c->detach('/error', [500,"user account"]);
-	}
+	    eval { $user_account->update({
+		subscriber => 1,
+		subexpires => $newexpires
+					 }) };
+	    if ($@) {
+		$c->log->debug("Payment/Paypal/Pay user account:  " .$@) if ($c->debug);
+		$c->detach('/error', [500,"user account"]);
+	    }
 
-        # Update current session. User may have become subscriber.
-	$c->forward('/user/init');
+	    # Update current session. User may have become subscriber.
+	    $c->forward('/user/init');
+        }
 
+        # Whether successful or not, record completion and the messages
+        # from PayPal
 	eval { $subscriberow->update({
 	    completed => \'now()', #' Makes Emacs Happy
             success => $success,
@@ -243,11 +246,14 @@ sub finalize :Path('finalize') {
 
         # TODO: $success boolean may suggest different place to detach...
         if ($success) {
-	    $c->message({ type => "success", message => "payment_complete" });
+	    $c->message(Message::Stack::Message->new(
+			    level => "success",
+			    msgid => "payment_complete",
+			params => [$orderTotal]));
         } else {
-	    $c->message({ type => "error", message => "payment_complete" });
+	    $c->message({ type => "error", message => "payment_failed" });
         }
-	$c->detach('/user/subscribe');
+	$c->response->redirect('/user/profile');
     } else {
         # Ouch -- got here, but no pending subscription?
 	$c->log->debug("Payment/Paypal/Pay No pending subscription!") if ($c->debug);
