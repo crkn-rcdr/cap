@@ -55,13 +55,7 @@ sub collections :Path('collections') :Args(0) {
 
 sub user :Path('user') :Args(1) {
     my ($self, $c, $id) = @_;
-    my $user;
-
-    if ($id eq 'new') {
-    }
-    else {
-        $user = $c->model('DB::User')->find({ id => $id });
-    }
+    my $user = $c->model('DB::User')->find({ id => $id });
 
     if (! $user) {
         $c->detach('/error', [404, "No user matches identifier"]);
@@ -69,19 +63,16 @@ sub user :Path('user') :Args(1) {
 
     $c->stash->{user} = $user;
 
-    if ($c->request->params->{update}) {
-        if ($c->request->params->{update} eq 'user') {
-            $user->update({
-                username    => $c->request->params->{username},
-                name        => $c->request->params->{name},
-                confirmed   => $c->request->params->{confirmed},
-                active      => $c->request->params->{active},
-                admin       => $c->request->params->{admin},
-                lastseen    => $c->request->params->{lastseen},
-                subscriber  => $c->request->params->{subscriber},
-                #subexpires  => $c->request->params->{subexpires},  # Can't just take a date string, must pass as Unix time INT
-            });
-        }
+    if ($c->request->method eq "POST") {
+        $user->update({
+            username    => $c->request->params->{username},
+            name        => $c->request->params->{name},
+            confirmed   => ($c->request->params->{confirmed} ? 1 : 0),
+            active      => ($c->request->params->{active} ? 1 : 0),
+            admin       => ($c->request->params->{admin} ? 1 : 0),
+            subscriber  => ($c->request->params->{subscriber} ? 1 : 0),
+            subexpires  => join(" ", $c->request->params->{subexpires}, "00:00:00"),
+        });
     }
 
     return 1;
