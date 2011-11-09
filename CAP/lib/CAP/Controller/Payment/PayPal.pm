@@ -45,68 +45,12 @@ sub debugPPAPI {
 sub pay : Private {
 # temporary for initial test, just use /payment/paypal/pay
 #sub pay :Path('pay') {
-    my($self, $c, $amount, $description, $period) = @_;
+    my($self, $c, $amount, $description, $returnto) = @_;
 
 
     # This function only needs the following
     my $orderTotal = ($amount) ? $amount : 0;
     my $orderDescription = ($description) ? $description : "";
-
-
-### BEGIN functions that should be elsewhere 
-    use Date::Manip::Date;
-    use Date::Manip::Delta;
-
-    my $userid =  $c->user->id;
-    my $subexpires = $c->user->subexpires;
-
-    $period = 300 unless ($period);
-    $c->log->debug("Payment/Paypal/Pay parameters: amount:$orderTotal description:\"$orderDescription\" , period:$period") if ($c->debug);
-
-# Update subscription with correct dates.
-
-    my $dateexp = new Date::Manip::Date;
-    my $err = $dateexp->parse($subexpires);
-
-my $dateexpt = $err ? "error" : $dateexp->value();
-$c->log->debug("Payment/Paypal/Pay Parse: $err $dateexpt") if ($c->debug);
-
-    my $datetoday = new Date::Manip::Date;
-    $datetoday->parse("today");
-
-    # If we couldn't parse expiry date (likely null), or expired in past.
-    if ($err || (($dateexp->cmp($datetoday)) <= 0)) {
-        # The new expiry date is built from today
-	$dateexp=$datetoday;
-    }
-
-    # Create a delta based on the period we were passed in.
-    my $deltaexpire = new Date::Manip::Delta;
-    $err = $deltaexpire->parse($period . " days");
-
-    if ($err) {
-      # If I was passed in a bad period, then what?
-$c->log->debug("Payment/Paypal/Pay Delta Error?  \"$period days\"") if ($c->debug);
-    } else {
-      my $datenew = $dateexp->calc($deltaexpire);
-      my $newexpire = $datenew->printf("%Y-%m-%d");
-$c->log->debug("Payment/Paypal/Pay New Expiry Date: $newexpire") if ($c->debug);
-
-      my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
-      if ($subscriberow) {
-	  $subscriberow->update({
-	      processor => "paypal",
-	      oldexpire => $subexpires,
-              newexpire => $newexpire
-				});
-      } else {
-        # Ouch -- got here, but no pending subscription?
-$c->log->debug("Payment/Paypal/Pay No pending subscription!") if ($c->debug);
-      }
-   }   
-
-### END
-
 
 # Set this for debugging the Paypal transaction
 # $Business::PayPal::API::Debug = 1;
@@ -145,39 +89,17 @@ $c->log->debug("Payment/Paypal/Pay No pending subscription!") if ($c->debug);
 	my $paypalURL="https://www" . $sandboxURL . ".paypal.com/webscr?cmd=_express-checkout&token=" .$PPresp{Token};
 
 	$c->log->debug("Payment/Paypal/Pay: ReturnURL => $ReturnURL , CancelURL => $CancelURL , paypalURL => $paypalURL") if ($c->debug);
+
+	# Set session variables needed by finalize
+	$c->flash->{"PayPal"} = [$returnto,$amount];
 	$c->response->redirect($paypalURL);
-
     } else {
-	#TODO: If there is failure, what do we want to say?
-	# Could be paypal down, could be we had wrong password for our
-        # account, ...
+	use JSON;
+	## Encode all results from PayPal into single JSON message
+	my $message = encode_json [["PPresp","",%PPresp]];
 
-	# TODO:  Should all model calls be in different function?
-        # This section duplicates some code in finalize()
-	my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
-	if ($subscriberow) {
-
-	    use JSON;
-	    ## Encode all results from PayPal into single JSON message
-	    my $message = encode_json [["PPresp","",%PPresp]];
-
-	    # record completion and the messages from PayPal
-	    eval { $subscriberow->update({
-		completed => \'now()', #' Makes Emacs Happy
-		    success => 0,
-		    message => $message,
-      				     }) };  
-	    if ($@) {
-		$c->log->debug("Payment/Paypal/Pay subscriber update:  " .$@) if ($c->debug);
-		$c->detach('/error', [500,"subscriber update"]);
-	    }
-	} else {
-	    # Ouch -- got here, but no pending subscription?
-	    $c->log->debug("Payment/Paypal/Finalize No pending subscription!") if ($c->debug);
-	    $c->detach('/error', [200, "No pending subscription. Payment not initiated!"]);
-	}
-	$c->message({ type => "error", message => "payment_failed" });
-        $c->response->redirect('/user/profile');
+	## Detach to location set when we were called to indicate failure
+	$c->detach($returnto, [0, $message]);
     }
     return 0;
 }
@@ -194,11 +116,19 @@ sub finalize :Path('finalize') {
 
     $c->log->debug("Payment/Paypal/finalize: username:$username , password:$password , signature:$signature , sandbox:$sandbox") if ($c->debug);
 
-    my $pp = new Business::PayPal::API::ExpressCheckout(
-      Username   => $username,
-      Password   => $password,
-      Signature  => $signature,
-      sandbox    => $sandbox);
+    my $flashvars = $c->flash->{"PayPal"};
+    my ($returnto, $amount);
+
+    if ($flashvars) {
+	$returnto = @$flashvars[0];
+	$amount = @$flashvars[1];
+	$c->log->debug("Payment/Paypal/finalize: returnto:$returnto , amount:$amount") if ($c->debug);
+    } else {
+	# If the session is missing key variables, generate an error
+	# TODO: localize
+	$c->detach('/error', [500, "Session variables missing"]);
+	return 0;
+    }
 
     my $token = $c->request->param( 'token' );
     $c->log->debug("Payment/Paypal/finalize: token = $token") if ($c->debug);
@@ -208,87 +138,38 @@ sub finalize :Path('finalize') {
       return 0;
     }
 
+    my $pp = new Business::PayPal::API::ExpressCheckout(
+      Username   => $username,
+      Password   => $password,
+      Signature  => $signature,
+      sandbox    => $sandbox);
 
     my %details = $pp->GetExpressCheckoutDetails($token);
 
     debugPPAPI($c, "Finalize/Get...Details", %details ) if ($c->debug);
 
-    # TODO:  Should all model calls be in different function?
-    my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
-    if ($subscriberow) {
-	my $orderTotal = $subscriberow->amount;
-
-	my %payinfo = $pp->DoExpressCheckoutPayment(
-	    Token => $details{Token},
-	    PaymentAction => 'Sale',
-	    PayerID => $details{PayerID},
-	    OrderTotal => $orderTotal,
-	    currencyID => 'CAD',
-	    LocaleCode => 'CA',
-	    );
+    my %payinfo = $pp->DoExpressCheckoutPayment(
+	Token => $details{Token},
+	PaymentAction => 'Sale',
+	PayerID => $details{PayerID},
+	OrderTotal => $amount,
+	currencyID => 'CAD',
+	LocaleCode => 'CA',
+	);
 
 debugPPAPI($c, "Finalize/Do...Payment", %payinfo ) if ($c->debug);
 
-	# Verify both interactions with PayPall indicated success.
-        my $success = (($payinfo{Ack} eq "Success") 
-		    && ($details{Ack} eq "Success"));
+    # Verify both interactions with PayPal indicated success.
+    my $success = (($payinfo{Ack} eq "Success") 
+		   && ($details{Ack} eq "Success"));
 $c->log->debug("Payment/Paypal/finalize: Success? : $success") if ($c->debug);
 
-        use JSON;
-        ## Encode all results from PayPal into single JSON message
-        my $message = encode_json [["Details","",%details],["PayInfo","",%payinfo]];
+    use JSON;
+    ## Encode all results from PayPal into single JSON message
+    my $message = encode_json [["Details","",%details],["PayInfo","",%payinfo]];
 
-### BEGIN functions that should be elsewhere 
-##  $success and $message would be passed into some external function
-
-	my $userid =  $c->user->id;
-	my $newexpires = $subscriberow->newexpire;
-
-        if ($success) {
-	    my $user_account = $c->find_user({ id => $userid });
-
-	    eval { $user_account->update({
-		subscriber => 1,
-		subexpires => $newexpires
-					 }) };
-	    if ($@) {
-		$c->log->debug("Payment/Paypal/Finalize user account:  " .$@) if ($c->debug);
-		$c->detach('/error', [500,"user account"]);
-	    }
-
-	    # Update current session. User may have become subscriber.
-	    $c->forward('/user/init');
-        }
-
-        # Whether successful or not, record completion and the messages
-        # from PayPal
-	eval { $subscriberow->update({
-	    completed => \'now()', #' Makes Emacs Happy
-            success => $success,
-            message => $message,
-      				     }) };  
-        if ($@) {
-	    $c->log->debug("Payment/Paypal/Finalize subscriber update:  " .$@) if ($c->debug);
-	    $c->detach('/error', [500,"subscriber update"]);
-	}
-
-##END
-
-        # TODO: $success boolean may suggest different place to detach...
-        if ($success) {
-	    $c->message(Message::Stack::Message->new(
-			    level => "success",
-			    msgid => "payment_complete",
-			params => [$orderTotal]));
-        } else {
-	    $c->message({ type => "error", message => "payment_failed" });
-        }
-	$c->response->redirect('/user/profile');
-    } else {
-        # Ouch -- got here, but no pending subscription?
-	$c->log->debug("Payment/Paypal/Finalize No pending subscription!") if ($c->debug);
-	$c->detach('/error', [200, "No pending subscription. Payment not finalized!"]);
-    }
+    # Detach to variable set when Paypal::Pay first called
+    $c->detach($returnto, [$success, $message]);
     return 0;
 }
 

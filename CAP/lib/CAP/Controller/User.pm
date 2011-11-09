@@ -460,14 +460,19 @@ sub subscribe :Path('subscribe') :Args(0) {
         my $userid = $c->user->id;
         my $period = $c->config->{subscription_period}; # replace with expiry dates
         $c->stash->{subscribing_now} = 1;
-        my $subscribed = $c->model('DB::Subscription')->new_subscription($userid,$promocode,$amount,$trname,$c->stash->{tax_receipt});
+
+        # RWM: $period calculated now.  Should this calculation happen
+        # in USer::subscribe_finalize ?
+
+        my $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promocode,$amount,$trname,$c->stash->{tax_receipt},$period,"paypal");
+
         # my $row = $c->model('DB::Subscription')->get_row($userid);
         $c->stash->{template} = 'user/subscribe.tt';
         # $c->stash->{subscription_row} = $row;
 
         # Trimmed variables being passed.  Later will not pass "period" which
         # should be handled elsewhere.
-        $c->detach('/payment/paypal/pay', [$amount, "ECO subscription for \$$amount (Needs localization)", $period]);
+        $c->detach('/payment/paypal/pay', [$amount, "ECO subscription for \$$amount (Needs localization)", '/user/subscribe_finalize']);
         return 1;
     }
 
@@ -482,6 +487,66 @@ sub subscribe :Path('subscribe') :Args(0) {
 
     return 1;
 
+}
+
+sub subscribe_finalize : Private
+{
+    my($self, $c, $success, $message) = @_;
+
+    $c->log->debug("User/subscribe_finalize: Success:$success , Message:$message") if ($c->debug);
+
+    my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
+    if (!$subscriberow) {
+	# Ouch -- got here, but no pending subscription?
+	$c->log->debug("User/subscribe_finalize: No pending subscription!") if ($c->debug);
+	## TODO: localize
+	$c->detach('/error', [500, "No pending subscription"]);
+	return 0;
+    }
+
+    my $userid =  $c->user->id;
+    my $newexpires = $subscriberow->newexpire;
+    my $orderTotal = $subscriberow->amount;
+
+    if ($success) {
+	my $user_account = $c->find_user({ id => $userid });
+	
+	eval { $user_account->update({
+	    subscriber => 1,
+	    subexpires => $newexpires
+				     }) };
+	if ($@) {
+	    $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);
+	    $c->detach('/error', [500,"user account"]);
+	}
+
+	# Update current session. User may have become subscriber.
+	$c->forward('/user/init');
+    }
+
+    # Whether successful or not, record completion and the messages
+    # from PayPal
+    eval { $subscriberow->update({
+	   completed => \'now()', #' Makes Emacs Happy
+           success => $success,
+           message => $message,
+      				     }) };  
+    if ($@) {
+	$c->log->debug("User/subscribe_finalize subscriber update:  " .$@) if ($c->debug);
+	$c->detach('/error', [500,"subscriber update"]);
+    }
+
+    if ($success) {
+	$c->message(Message::Stack::Message->new(
+			level => "success",
+			msgid => "payment_complete",
+			params => [$orderTotal]));
+    } else {
+	$c->message({ type => "error", message => "payment_failed" });
+    }
+    # TODO: $success boolean may suggest different place to redirect.
+    $c->response->redirect('/user/profile');
+    return 0;
 }
 
 sub sendmail :Private
