@@ -2,7 +2,9 @@ package CAP::View::Default;
 
 use strict;
 use base 'Catalyst::View::TT';
-use Date::Format;
+use Date::Format qw(time2str);
+use Date::Parse qw(str2time);
+use Scalar::Util qw(looks_like_number);
 
 
 __PACKAGE__->config(
@@ -67,11 +69,13 @@ __PACKAGE__->config(
 
         format_date => sub {
             my $date = shift(@_);
+            $date = str2time($date) unless looks_like_number($date);
             return $date ? time2str("%Y-%m-%d", $date) : "";
         },
 
         format_time => sub {
             my $time = shift(@_);
+            $time = str2time($time) unless looks_like_number($time);
             return $time ? time2str("%Y-%m-%d %T", $time) : "";
         },
     }
