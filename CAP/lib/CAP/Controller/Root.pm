@@ -58,6 +58,8 @@ sub auto :Private
     my %params = ();
     my %cookies = ();
 
+    $c->stash->{current_view} = 'Default';
+
     # Check the MySQL database version; make sure we are up to date
     if (! $c->model('DB::Info')->check_version($c->config->{db_version})) {
         $c->detach("config_error", ["Incorrect cap.info database version (should be " . $c->config->{db_version} . "). Upgrade database."]);

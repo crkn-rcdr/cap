@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::UserDocument;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::UserDocument
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::UserDocument
+=head1 TABLE: C<user_document>
 
 =cut
 
@@ -35,6 +54,7 @@ __PACKAGE__->table("user_document");
 =head2 acquired
 
   data_type: 'datetime'
+  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =cut
@@ -45,8 +65,25 @@ __PACKAGE__->add_columns(
   "document",
   { data_type => "varchar", is_nullable => 0, size => 160 },
   "acquired",
-  { data_type => "datetime", is_nullable => 1 },
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</user_id>
+
+=item * L</document>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("user_id", "document");
 
 =head1 RELATIONS
@@ -62,8 +99,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-06-20 15:21:31
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jmnjMm+i41irXB00E4C2ow
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2011-11-10 11:12:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Syc4dN034G/nugM8qEHIgw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

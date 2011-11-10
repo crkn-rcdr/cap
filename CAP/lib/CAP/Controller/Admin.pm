@@ -70,7 +70,6 @@ sub user :Path('user') :Args(1) {
             confirmed   => ($c->request->params->{confirmed} ? 1 : 0),
             active      => ($c->request->params->{active} ? 1 : 0),
             admin       => ($c->request->params->{admin} ? 1 : 0),
-            subscriber  => ($c->request->params->{subscriber} ? 1 : 0),
             subexpires  => join(" ", $c->request->params->{subexpires}, "00:00:00"),
         });
     }

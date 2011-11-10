@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::Institution;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::Institution
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::Institution
+=head1 TABLE: C<institution>
 
 =cut
 
@@ -48,7 +67,31 @@ __PACKAGE__->add_columns(
   "subscriber",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</id>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("id");
+
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<name>
+
+=over 4
+
+=item * L</name>
+
+=back
+
+=cut
+
 __PACKAGE__->add_unique_constraint("name", ["name"]);
 
 =head1 RELATIONS
@@ -84,8 +127,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.06001 @ 2011-08-05 09:53:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:qKjCaITLD1kSXEhL8Lkgxw
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2011-11-10 11:12:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ckwXaoSaeZouQGom4oq5AQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
