@@ -7,8 +7,8 @@ use base 'Catalyst::View::TT';
 
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
-    STRICT => 1,
-    INCLUDE_PATH => [CAP->path_to('root/Default/templates/Default')],
+    STRICT => 0,
+    #INCLUDE_PATH => [CAP->path_to('root/Default/templates/Default')],
     render_die => 1,
 );
 
