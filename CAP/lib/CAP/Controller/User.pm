@@ -512,7 +512,6 @@ sub subscribe_finalize : Private
 	my $user_account = $c->find_user({ id => $userid });
 	
 	eval { $user_account->update({
-	    subscriber => 1,
 	    subexpires => $newexpires
 				     }) };
 	if ($@) {
