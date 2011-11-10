@@ -114,6 +114,10 @@ sub create :Path('create') :Args(0) {
     };
     $c->detach('/error', [500]) if ($@);
 
+    # If trial subscriptions are turned on, set the user's initial
+    # subscription data
+    # TODO
+
     # Retrieve the record for the newly-created user.
     my $new_user = $c->find_user({ username => $username });
 
