@@ -462,13 +462,9 @@ sub subscribe :Path('subscribe') :Args(0) {
     # Process the subscription request and detach to e-bay
     elsif ($mode eq "subscribenow") {
         my $userid = $c->user->id;
-        my $period = $c->config->{subscription_period}; # replace with expiry dates
         $c->stash->{subscribing_now} = 1;
 
-        # RWM: $period calculated now.  Should this calculation happen
-        # in USer::subscribe_finalize ?
-
-        my $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promocode,$amount,$trname,$c->stash->{tax_receipt},$period,"paypal");
+        my $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promocode,$amount,$trname,$c->stash->{tax_receipt},"paypal");
 
         # my $row = $c->model('DB::Subscription')->get_row($userid);
         $c->stash->{template} = 'user/subscribe.tt';
@@ -497,6 +493,9 @@ sub subscribe_finalize : Private
 {
     my($self, $c, $success, $message) = @_;
 
+    my $period = $c->config->{subscription_period}; # replace with expiry dates
+    $period = 365 unless ($period);
+
     $c->log->debug("User/subscribe_finalize: Success:$success , Message:$message") if ($c->debug);
 
     my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
@@ -509,12 +508,43 @@ sub subscribe_finalize : Private
     }
 
     my $userid =  $c->user->id;
-    my $newexpires = $subscriberow->newexpire;
     my $orderTotal = $subscriberow->amount;
+
+    ## Date manipulation to set the old and new expiry dates
+    use Date::Manip::Date;
+    use Date::Manip::Delta;
+
+    my $subexpires = $c->user->subexpires;
+
+    my $dateexp = new Date::Manip::Date;
+    my $err = $dateexp->parse($subexpires);
+
+    my $datetoday = new Date::Manip::Date;
+    $datetoday->parse("today");
+
+   # If we couldn't parse expiry date (likely null), or expired in past.
+    if ($err || (($dateexp->cmp($datetoday)) <= 0)) {
+        # The new expiry date is built from today
+	$dateexp=$datetoday;
+    }
+
+    # Create a delta based on the period we were passed in.
+    my $deltaexpire = new Date::Manip::Delta;
+    $err = $deltaexpire->parse($period . " days");
+
+    if ($err) {
+	# If I was passed in a bad period, then what?
+	## TODO: localize
+	$c->detach('/error', [500, "Subscription period invalid"]);
+	return 0;
+    }
+    my $datenew = $dateexp->calc($deltaexpire);
+    my $newexpires = $datenew->printf("%Y-%m-%d");
+    ## END date manipulation
 
     if ($success) {
 	my $user_account = $c->find_user({ id => $userid });
-	
+
 	eval { $user_account->update({
 	    subexpires => $newexpires
 				     }) };
@@ -525,14 +555,18 @@ sub subscribe_finalize : Private
 
 	# Update current session. User may have become subscriber.
 	$c->forward('/user/init');
+    } else {
+	undef $newexpires;
     }
 
     # Whether successful or not, record completion and the messages
     # from PayPal
     eval { $subscriberow->update({
 	   completed => \'now()', #' Makes Emacs Happy
-           success => $success,
-           message => $message,
+	   success => $success,
+	   message => $message,
+	   oldexpire =>   $subexpires,
+	   newexpire =>   $newexpires
       				     }) };  
     if ($@) {
 	$c->log->debug("User/subscribe_finalize subscriber update:  " .$@) if ($c->debug);
