@@ -79,6 +79,11 @@ __PACKAGE__->config(
             $time = str2time($time) unless looks_like_number($time);
             return $time ? time2str("%Y-%m-%d %T", $time) : "";
         },
+
+        has_active_subscription => sub {
+            my ($expiration) = @_;
+            return str2time($expiration) >= localtime;
+        }
     }
 );
 
