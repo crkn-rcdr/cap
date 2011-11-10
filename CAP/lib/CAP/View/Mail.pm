@@ -7,6 +7,7 @@ use base 'Catalyst::View::TT';
 
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
+    STRICT => 1,
     render_die => 1,
 );
 

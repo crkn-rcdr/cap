@@ -9,6 +9,7 @@ use Scalar::Util qw(looks_like_number);
 
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
+    STRICT => 1,
     #INCLUDE_PATH => [CAP->path_to('root/Default/templates/Default')],
     #INCLUDE_PATH => [CAP->path_to('root', 'templates', 'Default', 'Default')],
     RELATIVE => 1,
