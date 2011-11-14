@@ -82,7 +82,11 @@ __PACKAGE__->config(
 
         has_active_subscription => sub {
             my ($expiration) = @_;
-            return str2time($expiration) >= localtime;
+            return $expiration && (str2time($expiration) >= localtime);
+        },
+
+        'now' => sub {
+            return time;
         }
     }
 );

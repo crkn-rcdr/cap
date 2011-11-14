@@ -2,6 +2,7 @@ package CAP::Controller::Admin;
 use Moose;
 use namespace::autoclean;
 use Net::IP;
+use DBIx::Class::ResultClass::HashRefInflator;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -61,17 +62,19 @@ sub user :Path('user') :Args(1) {
         $c->detach('/error', [404, "No user matches identifier"]);
     }
 
-    $c->stash->{user} = $user;
+    $c->stash->{user} = {$user->get_columns};
 
     if ($c->request->method eq "POST") {
-        $user->update({
+        my $fields = {
             username    => $c->request->params->{username},
             name        => $c->request->params->{name},
             confirmed   => ($c->request->params->{confirmed} ? 1 : 0),
             active      => ($c->request->params->{active} ? 1 : 0),
             admin       => ($c->request->params->{admin} ? 1 : 0),
-            subexpires  => join(" ", $c->request->params->{subexpires}, "00:00:00"),
-        });
+        };
+        $fields->{subexpires} = join(" ", $c->request->params->{subexpires}, "00:00:00") if ($c->request->params->{subscriber});
+        $user->update($fields);
+        $c->response->redirect($c->uri_for_action("admin/users"));
     }
 
     return 1;
@@ -79,7 +82,9 @@ sub user :Path('user') :Args(1) {
 
 sub users :Path('users') :Args(0) {
     my ($self, $c, $id) = @_;
-    $c->stash->{users} = [$c->model('DB::User')->all];
+    my $rs = $c->model('DB::User');
+    $rs->result_class('DBIx::Class::ResultClass::HashRefInflator');
+    $c->stash->{users} = [$rs->all];
     return 1;
 }
 
