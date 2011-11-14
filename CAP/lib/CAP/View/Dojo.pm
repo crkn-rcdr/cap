@@ -8,7 +8,7 @@ use base 'Catalyst::View::TT';
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
     STRICT => 0,
-    INCLUDE_PATH => [CAP->path_to('root/Default/templates/Dojo')],
+    #INCLUDE_PATH => [CAP->path_to('root/Default/templates/Dojo')],
     render_die => 1,
     VARIABLES => {
         modify_params => sub {
