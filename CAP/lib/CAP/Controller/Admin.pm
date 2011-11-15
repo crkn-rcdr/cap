@@ -26,6 +26,8 @@ sub auto :Private {
 
 sub index :Path :Args(0) {
     my($self, $c) = @_;
+    $c->stash->{users} = $c->model('DB::User')->count;
+    $c->stash->{subscribers} = $c->model('DB::User')->subscribers;
     return 1;
 }
 

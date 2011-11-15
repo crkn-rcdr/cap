@@ -97,4 +97,11 @@ sub has_active_subscription
     return $self->search({ id => $id, subexpires => { '>=', $now } })->count;
 }
 
+sub subscribers
+{
+    my($self) = @_;
+    my $now = strftime("%Y-%m-%d %H:%M:%S", localtime);
+    return $self->search({ subexpires => { '>=', $now } })->count;
+}
+
 1;
