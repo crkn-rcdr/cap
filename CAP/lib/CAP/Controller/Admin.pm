@@ -3,6 +3,7 @@ use Moose;
 use namespace::autoclean;
 use Net::IP;
 use DBIx::Class::ResultClass::HashRefInflator;
+use feature "switch";
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -56,28 +57,45 @@ sub collections :Path('collections') :Args(0) {
 
 sub user :Path('user') :Args(1) {
     my ($self, $c, $id) = @_;
-    my $user = $c->model('DB::User')->find({ id => $id });
-
-    if (! $user) {
-        $c->detach('/error', [404, "No user matches identifier"]);
-    }
-
-    $c->stash->{user} = {$user->get_columns};
-
-    if ($c->request->method eq "POST") {
-        my $fields = {
-            username    => $c->request->params->{username},
-            name        => $c->request->params->{name},
-            confirmed   => ($c->request->params->{confirmed} ? 1 : 0),
-            active      => ($c->request->params->{active} ? 1 : 0),
-            admin       => ($c->request->params->{admin} ? 1 : 0),
-        };
-        $fields->{subexpires} = join(" ", $c->request->params->{subexpires}, "00:00:00") if ($c->request->params->{subscriber});
-        $user->update($fields);
-        $c->response->redirect($c->uri_for_action("admin/users"));
+    given($c->request->method) {
+        when ("GET") {
+            if ($id eq 'new') {
+                $c->stash->{template} = "admin/user_new.tt";
+            } else {
+                my $user = $c->model('DB::User')->find({ id => $id });
+                $c->detach($c->uri_for_action("error"), [404, "No user with id #" . $id]) if (!$user);
+                $c->stash->{user} = {$user->get_columns};
+            }
+        } when ("POST") {
+            if ($id eq 'new') {
+                #$c->model('DB::User')->create($c->forward("user_attributes_from_params"));
+                $c->message({ type => "error", message => "Would have created a new user, but I'm not sure how to go about doing this just yet." });
+                $c->response->redirect($c->uri_for_action("admin/users"));
+            } else { # would love to use PUT here but we need Catalyst::Action::REST for that
+                my $user = $c->model('DB::User')->find({ id => $id });
+                $c->detach($c->uri_for_action("error"), [404, "No user with id #" . $id]) if (!$user);
+                $user->update($c->forward("user_attributes_from_params"));
+                $c->response->redirect($c->uri_for_action("admin/users"));
+            }
+        } default {
+            $c->detach($c->uri_for_action("error"), [404, "Invalid admin/user request"]);
+        }
     }
 
     return 1;
+}
+
+sub user_attributes_from_params :Private {
+    my ($self, $c) = @_;
+    my $attributes = {
+        username    => $c->request->params->{username},
+        name        => $c->request->params->{name},
+        confirmed   => ($c->request->params->{confirmed} ? 1 : 0),
+        active      => ($c->request->params->{active} ? 1 : 0),
+        admin       => ($c->request->params->{admin} ? 1 : 0),
+    };
+    $attributes->{subexpires} = join(" ", $c->request->params->{subexpires}, "00:00:00") if ($c->request->params->{subscriber});
+    return $attributes;
 }
 
 sub users :Path('users') :Args(0) {
