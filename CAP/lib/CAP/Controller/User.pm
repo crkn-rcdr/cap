@@ -559,6 +559,21 @@ sub subscribe_finalize : Private
 	undef $newexpires;
     }
 
+    # Send an email notification to administrators
+    if (exists($c->config->{subscription_admins})) {
+	$c->stash->{subscribe_success} = $success;
+	$c->stash->{subscribe_message} = $message;
+	$c->stash->{subscribe_oldexpire} = $subexpires;
+	$c->stash->{subscribe_newexpire} = $newexpires;
+	$c->stash->{mail} = {
+	    to => $c->config->{subscription_admins},
+	    subject => 'ECO Subscription Finalized',
+	    template => 'subscribe_finalize.tt'
+	};
+	$c->forward('sendmail');
+    }
+
+
     # Whether successful or not, record completion and the messages
     # from PayPal
     eval { $subscriberow->update({
