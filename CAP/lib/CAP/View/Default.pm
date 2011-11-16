@@ -80,11 +80,6 @@ __PACKAGE__->config(
             return $time ? time2str("%Y-%m-%d %T", $time) : "";
         },
 
-        has_active_subscription => sub {
-            my ($expiration) = @_;
-            return $expiration && (str2time($expiration) >= localtime);
-        },
-
         'now' => sub {
             return time;
         }

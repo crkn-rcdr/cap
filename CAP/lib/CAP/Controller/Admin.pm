@@ -2,7 +2,6 @@ package CAP::Controller::Admin;
 use Moose;
 use namespace::autoclean;
 use Net::IP;
-use DBIx::Class::ResultClass::HashRefInflator;
 use feature "switch";
 
 BEGIN {extends 'Catalyst::Controller'; }
@@ -66,7 +65,7 @@ sub user :Path('user') :Args(1) {
             } else {
                 my $user = $c->model('DB::User')->find({ id => $id });
                 $c->detach($c->uri_for_action("error"), [404, "No user with id #" . $id]) if (!$user);
-                $c->stash->{user} = {$user->get_columns};
+                $c->stash->{user} = $user;
             }
         } when ("POST") {
             if ($id eq 'new') {
@@ -103,7 +102,6 @@ sub user_attributes_from_params :Private {
 sub users :Path('users') :Args(0) {
     my ($self, $c, $id) = @_;
     my $rs = $c->model('DB::User');
-    $rs->result_class('DBIx::Class::ResultClass::HashRefInflator');
     $c->stash->{users} = [$rs->all];
     return 1;
 }
