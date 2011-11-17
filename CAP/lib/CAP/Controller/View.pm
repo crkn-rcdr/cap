@@ -20,22 +20,10 @@ sub page :Path("") :Args(2) {
     my($self, $c, $key, $seq) = @_;
 
     my $doc = $c->model('Solr')->document($key);
-    $c->detach('/error', [404, "Record not found: $key"]) unless ($doc);
-    $doc->active_child($seq);
-
-
-    # STUFF TO BE REMOVED WHEN NO LONGER NEEDED
-    my $solr   =  $c->stash->{solr};
-    my $page;
-    if ($doc->type_is('document')) { $page = $c->forward('get_page', [$key, $seq]); }
-    $c->stash->{response}->{parent} = $solr->document($doc->pkey, 'label', 'key', 'canonicalUri') if ($doc->pkey);
-    $c->stash->{response}->{doc} = $doc->struct;
-    $c->stash->{access_level} = $c->forward('/user/access_level', [$doc->struct]);
-    $c->stash->{response}->{page} = $page;
-    $c->stash->{response}->{children} = {
-        pages => $solr->count({pkey => $doc->key}, {type => 'page'}),
-        docs  => $solr->count({pkey => $doc->key}, {type => 'document'}),
-    };
+    $c->detach("error", [404, "Record not found: $key"]) unless ($doc);
+    my $page = $doc->set_active_child($seq);
+    $c->detach("error", [404, "Page not found: $seq for $key"]) unless $page;
+    my $size = $c->forward('get_size', $page);
 
     #TODO: try to clean this up a bit.
     my $template_suffix;
@@ -51,31 +39,23 @@ sub page :Path("") :Args(2) {
     $c->stash(
         doc => $doc,
         template => "view_$template_suffix.tt",
+        derivative_access => $c->forward("/user/has_access", [$page, $doc->key, 'derivative', $size]),
+        download_access => $c->forward("/user/has_access", [$page, $doc->key, 'download', $size]),
+        access_level => $c->forward("/user/access_level", [$doc]),
     );
     warn "DONE " . $c->stash->{template};
     return 1;
 }
 
-# TO BE REMOVED WHEN NOT NEEDED
-sub get_page :Private
-{
-    my($self, $c, $key, $seq) = @_;
-    warn "$key, $seq";
-    my $solr = $c->stash->{solr};
-    my $result = $solr->query({}, { type => 'page', field => { pkey => $key , seq => $seq } });
-    my $page = $result->{documents}->[0];
-    $c->detach('/error', [404, "Page not found: seq $seq for $key"]) unless ($page);
-
-    # can we view the page at this size?
-    my $size   = $c->config->{derivative}->{default_size};
+sub get_size :Private {
+    my ($self, $c, $page) = @_;
+    my $size = $c->config->{derivative}->{default_size};
     if ($c->req->params->{s} && $c->config->{derivative}->{size}->{$c->req->params->{s}}) {
         $size = $c->config->{derivative}->{size}->{$c->req->params->{s}};
     }
-
-    $c->stash->{derivative_access} = $c->forward('/user/has_access', [$page, $key, 'derivative', $size]);
-    $c->stash->{download_access} = $c->forward('/user/has_access', [$page, $key, 'download', $size]);
-    return $page;
+    return $size;
 }
+
 
 # Select a random document
 sub random : Path('/viewrandom') Args() {
