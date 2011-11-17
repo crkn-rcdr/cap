@@ -21,11 +21,13 @@ Catalyst Controller.
 
 =cut
 
-sub index :Private {
-    my ( $self, $c ) = @_;
+#sub index :Private {
+sub index :Path("") :Args() {
+    my ( $self, $c, $key ) = @_;
 
-    # $c->response->body('Matched CAP::Controller::Foo in Foo.');
-    $c->stash(template => 'foo.tt');
+    use Data::Dumper;
+    $c->stash( doc => $c->model('Solr')->document($key), template => 'foo.tt');
+    return 1;
 }
 
 

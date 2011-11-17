@@ -416,23 +416,6 @@ sub file_for_page :Path('file') Args(3) {
     return $c->forward('file/for_page', [$key, $seq, $filename]);
 }
 
-sub view :Path('view') Args() {
-    my($self, $c, $key, $seq, $extra) = @_;
-    if ($extra) {
-        $c->detach('/error', [404]);
-    }
-    elsif ($seq) {
-        # TODO: check if int > 0
-        return $c->forward('view/page', [$key, $seq]);
-    }
-    elsif ($key) {
-        return $c->forward('view/main', [$key]);
-    }
-    else {
-        $c->detach('/error', [404]);
-    }
-}
-
 sub support :Path('support') Args() {
     my ($self, $c, $resource) = @_;
     if ($c->stash->{support}) { # new method
