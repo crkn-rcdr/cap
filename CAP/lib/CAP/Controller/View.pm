@@ -28,7 +28,7 @@ sub view :Private {
     my($self, $c, $key, $seq) = @_;
 
     my $doc = $c->model("Solr")->document($key);
-    $c->detach("error", [404, "Record not found: $key"]) unless $doc;
+    $c->detach("/error", [404, "Record not found: $key"]) unless $doc;
 
     given ($doc->record_type) {
         when ('series') {
