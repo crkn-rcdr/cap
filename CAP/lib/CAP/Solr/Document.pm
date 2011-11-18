@@ -110,10 +110,11 @@ sub contributor  { my $self = shift; return $self->record->contributor; }
 sub label        { my $self = shift; return $self->record->label; }
 sub pkey         { my $self = shift; return $self->record->pkey; }
 sub seq          { my $self = shift; return $self->record->seq; }
+sub record_type  { my $self = shift; return $self->record->type; }
 
 sub type_is {
     my($self, $type) = @_;
-    return 1 if ($self->record->type eq $type);
+    return 1 if ($self->record_type eq $type);
     return 0;
 }
 
