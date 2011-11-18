@@ -4,7 +4,7 @@ use warnings;
 use Carp;
 use Moose;
 use Moose::Util::TypeConstraints;
-#use MooseX::Method::Signatures;
+use MooseX::Method::Signatures;
 use namespace::autoclean;
 use WebService::Solr;
 use CAP::Solr::Record;
@@ -57,32 +57,40 @@ sub BUILD {
 
 # Return the document for the parent object. Returns undef if
 # there is no parent or there is a retrieval failure.
-sub parent {
-    my $self = shift;
+method parent {
     my $doc;
     return undef unless ($self->record->pkey);
     return $self->{_parent_cache} if ($self->{_parent_cache});
     eval { $doc = new CAP::Solr::Document({ key => $self->record->pkey, server => $self->server }) };
 
-    ## TODO: check that the child is the right type.
+    # Check whether we got a value. Ignore parents that are not of the
+    # right type for the document. (This will prevent circular references
+    # and other invalid structures.)
+    return undef if ($@);
+    return undef if ($self->type_is('series'));
+    return undef if ($self->type_is('document') && ! $doc->type_is('series'));
+    return undef if ($self->type_is('page') && ! $doc->type_is('document'));
 
-    $@ ? return undef : return $self->{_parent_cache} = $doc;
+    return $self->{_parent_cache} = $doc;
 }
 
 # Return the document for the $seq'th child object. Returns undef if
 # there is no such child or there is a retrieval failure.
-sub child {
-    my($self, $seq) = @_;
-#method child (Int $seq) {
+method child (Int $seq) {
     my $doc;
     return undef if ($seq > $self->child_count);
     return $self->{_child_cache}->{$seq} if ($self->{_child_cache}->{$seq});
     my $response = $self->solr->search("pkey:" . $self->key, { so => 'seq asc', rows => 1, start => $seq - 1 });
     eval { $doc = new CAP::Solr::Document({ key => $response->docs->[0]->value_for('key'), server => $self->server }) };
 
-    ## TODO: check that the child is the right type.
+    # Check whether we got a value. Ignore children that are of the wrong
+    # type, to prevent circular references and invalid structures.
+    return undef if ($@);
+    return undef if ($self->type_is('page'));
+    return undef if ($self->type_is('document') && ! $doc->type_is('page'));
+    return undef if ($self->type_is('series') && ! $doc->type_is('document'));
 
-    $@ ? return undef : return $self->{_child_cache}->{$seq} = $doc;
+    return $self->{_child_cache}->{$seq} = $doc;
 }
 
 sub set_active_child {
