@@ -38,9 +38,8 @@ sub view :Private {
             }
             $c->forward("view_series", [$doc]);
         } when ('document') {
-            $seq = $seq || 1;
             $doc->set_auth($c->stash->{access_model}, $c->user, $c->model('DB'));
-            $c->forward("view_doc", [$doc, $seq]);
+            $c->forward("view_doc", [$doc, $seq || 1]);
         } when ('page') {
             $c->response->redirect($c->uri_for_action("view/key_seq", $doc->pkey, $doc->seq));
         } default {
@@ -54,20 +53,10 @@ sub view :Private {
 sub view_doc :Private {
     my ($self, $c, $doc, $seq) = @_;
     my $page = $doc->set_active_child($seq);
-    my $size;
-
-    if ($page) {
-        $size = $self->get_size($c, $page);
-        $c->stash(
-            derivative_access => $c->forward("/user/has_access", [$page, $doc->key, 'derivative', $size]),
-            download_access => $c->forward("/user/has_access", [$page, $doc->key, 'download', $size]),
-        );
-    }
 
     $c->stash(
         doc => $doc,
         template => "view_doc.tt",
-        access_level => $c->forward("/user/access_level", [$doc]),
     );
     return 1;
 }
@@ -79,15 +68,6 @@ sub view_series :Private {
         template => "view_series.tt"
     );
     return 1;
-}
-
-sub get_size {
-    my ($self, $c, $page) = @_;
-    my $size = $c->config->{derivative}->{default_size};
-    if ($c->req->params->{s} && $c->config->{derivative}->{size}->{$c->req->params->{s}}) {
-        $size = $c->config->{derivative}->{size}->{$c->req->params->{s}};
-    }
-    return $size;
 }
 
 # Select a random document
