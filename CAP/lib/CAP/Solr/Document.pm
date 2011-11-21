@@ -25,9 +25,7 @@ has 'struct'        => (is => 'ro', isa => 'HashRef', documentation => 'deserial
 has 'active_child'  => (is => 'ro', isa => 'CAP::Solr::Document');
 has 'auth'          => (is => 'rw', isa => 'CAP::Auth');
 
-sub BUILD {
-    my $self = shift;
-
+method BUILD {
     # Create parent and child caches so we don't have to look up the same
     # record more than once.
     $self->{_parent_cache} = undef;
@@ -97,8 +95,7 @@ method child (Int $seq) {
     return $self->{_child_cache}->{$seq} = $doc;
 }
 
-sub set_active_child {
-    my ($self, $seq) = @_;
+method set_active_child (Int $seq) {
     return $self->{active_child} = $self->child($seq);
 }
 
@@ -107,24 +104,22 @@ method set_auth (Str $rules, $user, $capdb) {
     return $self->auth;
 }
 
-sub canonical_label {
-    my($self) = shift;
+method canonical_label {
     return ($self->parent ? $self->parent->label . " : " : "") . $self->label;
 }
 
 # Convenient accessors for fields used internally by cap so we can
 # reference them as $self->fieldname rather than $self->record->fieldname
-sub canonicalDownload { my $self = shift; return $self->record->canonicalDownload; }
-sub canonicalMaster   { my $self = shift; return $self->record->canonicalMaster; }
-sub canonicalUri      { my $self = shift; return $self->record->canonicalUri; }
-sub contributor       { my $self = shift; return $self->record->contributor; }
-sub label             { my $self = shift; return $self->record->label; }
-sub pkey              { my $self = shift; return $self->record->pkey; }
-sub seq               { my $self = shift; return $self->record->seq; }
-sub record_type       { my $self = shift; return $self->record->type; }
+method canonicalDownload { return $self->record->canonicalDownload; }
+method canonicalMaster   { return $self->record->canonicalMaster; }
+method canonicalUri      { return $self->record->canonicalUri; }
+method contributor       { return $self->record->contributor; }
+method label             { return $self->record->label; }
+method pkey              { return $self->record->pkey; }
+method seq               { return $self->record->seq; }
+method record_type       { return $self->record->type; }
 
-sub type_is {
-    my($self, $type) = @_;
+method type_is (Str $type) {
     return 1 if ($self->record_type eq $type);
     return 0;
 }
