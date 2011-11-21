@@ -101,7 +101,7 @@ sub random : Path('/viewrandom') Args() {
     # Get the record
     my $doc = $solr->query({}, { type => 'document', page => $index, solr => { rows => 1 } })->{documents}->[0];
     if ($doc) {
-        $c->res->redirect($c->uri_for_action('view', $doc->key));
+        $c->res->redirect($c->uri_for_action('view/key', $doc->{key}));
         return 1;
     }
     $c->detach('/error', [500, "Failed to retrieve document"]);
