@@ -30,41 +30,69 @@ sub main :Private
     my $params;
     my $size   = $c->config->{derivative}->{default_size};
     my $rotate = 0;
-    my $solr   = $c->stash->{solr};
     my $format = $c->req->params->{f} || "";
-    my $doc    = $solr->document($key);
     my $url    = $c->config->{content}->{url};
+
+    my $doc = $c->model("Solr")->document($key);
 
     # Make sure the item exists.
     $c->detach('/error', [404, "$key: no such record"]) unless ($doc);
 
-    # Determine the image size to generate.
-    if ($c->req->params->{s} && $c->config->{derivative}->{size}->{$c->req->params->{s}}) {
-        $size = $c->config->{derivative}->{size}->{$c->req->params->{s}};
-    }
+    # Series have no accessible resources, so any such request is a bad request.
+    $c->detach('/error', [400, "$key: is a series"]) if ($doc->type_is('series'));
 
-    # Determine whether or not to rotate the image
-    if ($c->req->params->{r} && $c->config->{derivative}->{rotate}->{$c->req->params->{r}}) {
-        $rotate = $c->config->{derivative}->{rotate}->{$c->req->params->{r}};
-    }
-
-
-    my $resource_type = "";
-    if ($format && $doc->{canonicalMaster}) {
-        $params = $c->forward('derivative', [$filename, $doc->{canonicalMaster}, $format, $size, $rotate]);
-        $resource_type = 'derivative';
-    }
-    elsif ($doc->{canonicalDownload}) {
-        $params = $c->forward('download', [$doc->{canonicalDownload}]);
-        $filename = $doc->{canonicalDownload};
-        $resource_type = 'download';
+    # Generate authorization information for this document.
+    my $user_can_view     = 0;
+    my $user_can_resize   = 0;
+    my $user_can_download = 0;
+    if ($doc->type_is('document')) {
+        $doc->set_auth($c->stash->{access_model}, $c->user, $c->model('DB'));
+        $user_can_download = $doc->auth->download;
     }
     else {
-        $c->detach('/error', [404, "Insufficient information to generate file for $key"]);
+        $doc->parent->set_auth($c->stash->{access_model}, $c->user, $c->model('DB'));
+        $user_can_view     = $doc->parent->auth->page($doc->seq);
+        $user_can_resize   = $doc->parent->auth->resize;
     }
 
-    # Check whether the user can access the item
-    $c->detach('/error', [403, "No access for $key"]) unless ($c->forward('/user/has_access', [$doc, $key, $resource_type, $size]));
+    # If the f (format) parameter is present, we are asking for a
+    # derivative from the canonical master. Otherwise, we want the
+    # canonical download for $key.
+    if ($format) {
+        # Make sure we have a canonical master.
+        $c->detach('/error', [400, "$key does not have a canonical master."]) unless $doc->canonicalMaster;
+
+        # Check whether the user is allowed to access this resource.
+        $c->detach('/error', [403, "Not allowed to view this page"]) unless ($user_can_view);
+        
+        # Determine the image size to generate.
+        if ($c->req->params->{s} && $c->config->{derivative}->{size}->{$c->req->params->{s}}) {
+            $size = $c->config->{derivative}->{size}->{$c->req->params->{s}};
+        }
+
+        # Check whether the user is allowed to resize documents, if that
+        # is requested.
+        $c->detach('/error', [403, "Not allowed to resize this page"]) if ($size ne $c->config->{derivative}->{default_size} && ! $user_can_resize);
+
+        # Determine whether or not to rotate the image
+        if ($c->req->params->{r} && $c->config->{derivative}->{rotate}->{$c->req->params->{r}}) {
+            $rotate = $c->config->{derivative}->{rotate}->{$c->req->params->{r}};
+        }
+
+        # Generate the request parameters
+        $params = $c->forward('derivative', [$filename, $doc->canonicalMaster, $format, $size, $rotate]);
+    }
+    else {
+        # Make sure we have a canonical download.
+        $c->detach('/error', [400, "$key does not have a canonical master."]) unless $doc->canonicalDownload;
+
+        # Check whether the user is allowed to access this resource.
+        $c->detach('/error', [403, "Not allowed to download this resource"]) unless ($user_can_download);
+
+        # Generate the request parameters.
+        $params = $c->forward('download', [$doc->canonicalDownload]);
+        $filename = $doc->canonicalDownload;
+    }
 
     $c->res->redirect(join('?', join('/', $url, $filename), join('&', @{$params})));
     $c->detach();
@@ -76,7 +104,6 @@ sub download :Private
 
     my $password  = $c->config->{content}->{password};
     my $key       = $c->config->{content}->{key};
-    #my $expires   = time() + $c->config->{content}->{expires};
     my $expires   = _expires();
     my $signature = sha1_hex("$password\n$filename\n$expires\n\n\n");
 
@@ -93,7 +120,6 @@ sub derivative :Private
 
     my $password  = $c->config->{content}->{password};
     my $key       = $c->config->{content}->{key};
-    #my $expires   = time() + $c->config->{content}->{expires};
     my $expires   = _expires();
     my $signature = sha1_hex("$password\n$filename\n$expires\n$from\n$size\n$rotate");
 

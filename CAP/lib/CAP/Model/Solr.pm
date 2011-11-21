@@ -14,7 +14,9 @@ sub document {
     my($self, $key) = @_;
     my $doc;
     eval { $doc = new CAP::Solr::Document({ key => $key, server => $self->server }) };
-    $@ ? return undef : return $doc;
+    if ($@) { warn $@; return undef; }
+    return undef if ($@);
+    return $doc;
 }
 
 1;

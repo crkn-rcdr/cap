@@ -42,6 +42,8 @@ sub has_access :Private {
 sub access_level :Private {
     my ($self, $c, $doc) = @_;
     my $solr = $c->stash->{solr};
+#TEMPORARY (though this whole controller is going away, so....)
+return 1; 
 
     # The collection flag is part of the document object; if this is a
     # page (which is the most common case) get the collection from the
