@@ -56,7 +56,7 @@ method pages {
 }
 
 method _is_subscriber {
-    return 1 if ($self->user && $self->capdb->resultset('User')->has_active_subscription($self->user->id));
+    return 1 if ($self->user && $self->user->has_active_subscription);
     return 0;
 }
 
