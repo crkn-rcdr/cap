@@ -30,6 +30,9 @@ sub view :Private {
     my $doc = $c->model("Solr")->document($key);
     $c->detach("/error", [404, "Record not found: $key"]) unless $doc;
 
+    # Put the document structure into the response object for use by the API.
+    $c->stash->{response}->{doc} = $doc->struct;
+
     given ($doc->record_type) {
         when ('series') {
             if ($seq) {

@@ -24,9 +24,15 @@ Catalyst Controller.
 #sub index :Private {
 sub index :Path("") :Args() {
     my ( $self, $c, $key ) = @_;
+    my $search = $c->model('Solr')->search();
+    $search->query('canada lang:fra');
+    $search->run;
+    $c->stash->{response}->{result} = $search->struct('result');
 
-    use Data::Dumper;
-    $c->stash( doc => $c->model('Solr')->document($key), template => 'foo.tt');
+    $c->stash(
+        search   => $search,
+        template => 'foo.tt',
+    );
     return 1;
 }
 

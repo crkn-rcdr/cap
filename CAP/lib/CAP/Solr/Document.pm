@@ -13,6 +13,7 @@ use CAP::Solr::Record;
 # Properties from parameters passed to the constructor
 has 'key'           => (is => 'ro', isa => 'Str', required => 1);
 has 'server'        => (is => 'ro', isa => 'Str', required => 1);
+has 'options'       => (is => 'ro', isa => 'HashRef', default => sub{{}});
 
 # Properties generated at build time
 has 'solr'          => (is => 'ro', isa => 'WebService::Solr', documentation => 'Solr webservice object'); 
@@ -33,7 +34,7 @@ method BUILD {
 
     # Fetch the requested document
     $self->{solr} = new WebService::Solr($self->server);
-    my $response = $self->solr->search("key:" . $self->key);
+    my $response = $self->solr->search("key:" . $self->key, $self->options);
     croak("Solr query failure") unless ($response->ok);
     croak("No such document") unless ($#{$response->docs} == 0);
 
@@ -82,7 +83,7 @@ method child (Int $seq) {
     my $doc;
     return undef if ($seq > $self->child_count);
     return $self->{_child_cache}->{$seq} if ($self->{_child_cache}->{$seq});
-    my $response = $self->solr->search("pkey:" . $self->key, { so => 'seq asc', rows => 1, start => $seq - 1 });
+    my $response = $self->solr->search("pkey:" . $self->key, { so => 'seq asc', rows => 1, start => $seq - 1, fl => 'key' });
     eval { $doc = new CAP::Solr::Document({ key => $response->docs->[0]->value_for('key'), server => $self->server }) };
 
     # Check whether we got a value. Ignore children that are of the wrong
