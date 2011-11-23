@@ -122,13 +122,8 @@ sub create :Path('create') :Args(0) {
     my $new_user = $c->find_user({ username => $username });
 
     # Send an activation email
-    $c->stash->{confirm_link} = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
-    $c->stash->{mail} = {
-        to => $username,
-        subject => 'ECO Account Activation',
-        template => 'activate.tt'
-    };
-    $c->forward('sendmail');
+    my $confirm_link = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
+    $c->forward("/mail/user_activate", [$username, $name, $confirm_link]);
 
     $c->stash->{completed}  = 1;
 
@@ -153,13 +148,9 @@ sub reconfirm :Path('reconfirm') :Args(1) {
     };
 
     # Resend an activation email
-    $c->stash->{confirm_link} = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
-    $c->stash->{mail} = {
-        to => $username,
-        subject => 'ECO Account Activation',
-        template => 'activate.tt'
-    };
-    $c->forward('sendmail');
+    my $confirm_link = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
+    $c->forward("/mail/user_activate", [$username, $new_user->name, $confirm_link]);
+
     $c->stash->{completed}  = 1;
     $c->stash->{template} = 'user/create.tt';
 
@@ -290,13 +281,8 @@ sub reset :Path('reset') :Args() {
         my $user_for_username = $c->find_user({ username => $username });
         die unless ($user_for_username);
 
-        $c->stash->{mail} = {
-            to => $username,
-            subject => 'Password reset',
-            template => 'reset.tt'
-        };
-        $c->stash->{confirm_link} = $c->uri_for_action('user/reset', $user_for_username->confirmation_token);
-        $c->forward('sendmail');
+        my $confirm_link = $c->uri_for_action('user/reset', $user_for_username->confirmation_token);
+        $c->forward('/mail/user_reset', [$username, $confirm_link]);
 
         $c->stash->{mail_sent} = $username;
     }
@@ -561,16 +547,7 @@ sub subscribe_finalize : Private
 
     # Send an email notification to administrators
     if (exists($c->config->{subscription_admins})) {
-	$c->stash->{subscribe_success} = $success;
-	$c->stash->{subscribe_message} = $message;
-	$c->stash->{subscribe_oldexpire} = $subexpires;
-	$c->stash->{subscribe_newexpire} = $newexpires;
-	$c->stash->{mail} = {
-	    to => $c->config->{subscription_admins},
-	    subject => 'ECO Subscription Finalized',
-	    template => 'subscribe_finalize.tt'
-	};
-	$c->forward('sendmail');
+        $c->forward("/mail/subscription_notice", [$c->config->{subscription_admins}, $success, $subexpires, $newexpires, $message]);
     }
 
 
@@ -599,27 +576,6 @@ sub subscribe_finalize : Private
     # TODO: $success boolean may suggest different place to redirect.
     $c->response->redirect('/user/profile');
     return 0;
-}
-
-sub sendmail :Private
-{
-    my($self, $c) = @_;
-    $c->stash->{additional_template_paths} = [
-        join('/', $c->config->{root}, 'templates', 'Mail', $c->stash->{portal}),
-        join('/', $c->config->{root}, 'templates', 'Mail', 'Common')
-    ];
-
-    # TODO: what are the failure modes for this action?
-    $c->email({
-        header => [
-            From    => 'info@canadiana.ca',
-            To      => $c->stash->{mail}->{to},
-            Subject => $c->stash->{mail}->{subject}
-        ],
-        body => $c->view('Mail')->render($c, $c->stash->{mail}->{template})
-    });
-
-    return 1;
 }
 
 # This should be called at login and when a new session is established,
