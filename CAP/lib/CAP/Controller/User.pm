@@ -122,7 +122,7 @@ sub create :Path('create') :Args(0) {
     my $new_user = $c->find_user({ username => $username });
 
     # Send an activation email
-    $c->stash->{confirm_link} = $c->uri_for('/user', 'confirm', $c->model('DB::User')->confirmation_token($new_user->id));
+    $c->stash->{confirm_link} = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
     $c->stash->{mail} = {
         to => $username,
         subject => 'ECO Account Activation',
@@ -153,7 +153,7 @@ sub reconfirm :Path('reconfirm') :Args(1) {
     };
 
     # Resend an activation email
-    $c->stash->{confirm_link} = $c->uri_for('/user', 'confirm', $c->model('DB::User')->confirmation_token($new_user->id));
+    $c->stash->{confirm_link} = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
     $c->stash->{mail} = {
         to => $username,
         subject => 'ECO Account Activation',
@@ -295,7 +295,7 @@ sub reset :Path('reset') :Args() {
             subject => 'Password reset',
             template => 'reset.tt'
         };
-        $c->stash->{confirm_link} = $c->uri_for('/user', 'reset', $c->model('DB::User')->confirmation_token($user_for_username->id));
+        $c->stash->{confirm_link} = $c->uri_for_action('user/reset', $user_for_username->confirmation_token);
         $c->forward('sendmail');
 
         $c->stash->{mail_sent} = $username;

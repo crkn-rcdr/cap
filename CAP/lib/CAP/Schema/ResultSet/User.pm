@@ -6,16 +6,6 @@ use base 'DBIx::Class::ResultSet';
 use Digest::SHA1 qw(sha1_hex);
 use POSIX qw(strftime);
 
-# Account confirmation/password reset token: consists of the user's ID and
-# password hash.
-sub confirmation_token
-{
-    my($self, $id) = @_;
-    my $user = $self->find({ id => $id });
-    return undef unless ($user);
-    return join(":", $user->id, sha1_hex($user->password));
-}
-
 sub validate_confirmation
 {
     my($self, $auth) = @_;
