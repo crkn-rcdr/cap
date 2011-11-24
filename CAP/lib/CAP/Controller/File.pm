@@ -46,11 +46,11 @@ sub main :Private
     my $user_can_resize   = 0;
     my $user_can_download = 0;
     if ($doc->type_is('document')) {
-        $doc->set_auth($c->stash->{access_model}, $c->user, $c->model('DB'));
+        $doc->set_auth($c->stash->{access_model}, $c->user);
         $user_can_download = $doc->auth->download;
     }
     else {
-        $doc->parent->set_auth($c->stash->{access_model}, $c->user, $c->model('DB'));
+        $doc->parent->set_auth($c->stash->{access_model}, $c->user);
         $user_can_view     = $doc->parent->auth->page($doc->seq);
         $user_can_resize   = $doc->parent->auth->resize;
     }

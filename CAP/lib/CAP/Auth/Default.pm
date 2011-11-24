@@ -7,9 +7,8 @@ use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
 use namespace::autoclean;
 
-has 'user'  => (is => 'ro');
+has 'user'  => (is => 'ro', isa => 'Maybe[Catalyst::Authentication::Store::DBIx::Class::User]', required => 1);
 has 'doc'   => (is => 'ro', isa => 'CAP::Solr::Document', required => 1);
-has 'capdb' => (is => 'ro', isa => 'CAP::Model::DB',  required => 1);
 
 method all_pages {
     return 1;

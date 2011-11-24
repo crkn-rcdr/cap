@@ -10,9 +10,8 @@ use namespace::autoclean;
 use CAP::Auth::Default;
 use CAP::Auth::ECO;
 
-has 'user'  => (is => 'ro');
+has 'user'  => (is => 'ro', isa => 'Maybe[Catalyst::Authentication::Store::DBIx::Class::User]', required => 1);
 has 'rules' => (is => 'ro', isa => 'Str', required => 1);
-has 'capdb' => (is => 'ro', isa => 'CAP::Model::DB', required => 1);
 has 'doc'   => (is => 'ro', isa => 'CAP::Solr::Document', required => 1);
 
 has 'all_pages'  => (is => 'ro', isa => 'Int');
@@ -22,10 +21,10 @@ has 'resize'     => (is => 'ro', isa => 'Int');
 method BUILD {
     my $auth_model;
     if ($self->rules eq 'eco') {
-        $auth_model = new CAP::Auth::ECO(user => $self->user, capdb => $self->capdb, doc => $self->doc);
+        $auth_model = new CAP::Auth::ECO(user => $self->user, doc => $self->doc);
     }
     else {
-        $auth_model = new CAP::Auth::Default(user => $self->user, capdb => $self->capdb, doc => $self->doc);
+        $auth_model = new CAP::Auth::Default(user => $self->user, doc => $self->doc);
     }
 
     $self->{download}   = $auth_model->download;   # Can the resource be downloaded (e.g. PDF)
