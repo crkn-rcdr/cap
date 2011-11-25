@@ -9,6 +9,8 @@ use namespace::autoclean;
 use WebService::Solr;
 use CAP::Auth;
 use CAP::Solr::Record;
+use Digest::SHA1 qw(sha1_hex);
+use URI::Escape;
 
 # Properties from parameters passed to the constructor
 has 'key'           => (is => 'ro', isa => 'Str', required => 1);
@@ -107,6 +109,67 @@ method set_auth (Str $rules, $user) {
 
 method canonical_label {
     return ($self->parent ? $self->parent->label . " : " : "") . $self->label;
+}
+
+method derivative_request ($auth, HashRef $content_config, HashRef $derivative_config, Str $filename, Str $size, Int $rotate, Str $format) {
+    return [403, "Not authenticated."] unless $auth;
+    return [403, "Not allowed to view this page."] unless $auth->page($self->seq);
+    return [400, "$self->key does not have a canonical master."] unless $self->canonicalMaster;
+
+    my $size_str = $derivative_config->{size}->{$size};
+    return [403, "Not allowed to resize this page."] unless ($size_str eq $derivative_config->{default_size} || $auth->resize);
+
+    my $expires = $self->_expires();
+    my $from = $self->canonicalMaster;
+    my $signature = $self->_signature($content_config->{password}, $filename, $expires, $from, $size_str, $rotate);
+
+    my $params = [
+        $self->_to_query('expires', $expires),
+        $self->_to_query('signature', $signature),
+        $self->_to_query('key', $content_config->{key}),
+        $self->_to_query('from', $from),
+        $self->_to_query('format', $format),
+        $self->_to_query('size', $size_str),
+        $self->_to_query('rotate', $rotate),
+    ];
+
+    return [200, $self->_request_uri($content_config->{url}, $filename, $params)];
+}
+
+method download_request (HashRef $content_config) {
+    return [403, "Not authenticated."] unless $self->auth;
+    return [403, "Not allowed to download this resource."] unless $self->auth->download;
+    return [400, "Document $self->key does not have a canonical download."] unless $self->canonicalDownload;
+    
+    my $expires = $self->_expires();
+    my $filename = $self->canonicalDownload;
+    my $signature = $self->_signature($content_config->{password}, $filename, $expires, "", "", "");
+
+    my $params = [
+        $self->_to_query('expires', $expires),
+        $self->_to_query('signature', $signature),
+        $self->_to_query('key', $content_config->{key}),
+    ];
+    
+    return [200, $self->_request_uri($content_config->{url}, $filename, $params)];
+}
+
+method _expires {
+    my $time = time() + 90000; # 25 hours in the future
+    $time = $time - ($time % 86400); # normalize the expiry time to the closest 24 hour period
+    return $time; # minimum 1 hour from now, maximum 25
+}
+
+method _signature (Str $password, Str $filename, Str $expires, Str $from, Str $size, Str $rotate) {
+    return sha1_hex("$password\n$filename\n$expires\n$from\n$size\n$rotate");
+}
+
+method _to_query (Str $name, $value) {
+    return $name . '=' . uri_escape($value);
+}
+
+method _request_uri (Str $content_url, Str $filename, ArrayRef $params) {
+    return join('?', join('/', $content_url, $filename), join('&', @{$params}))
 }
 
 # Convenient accessors for fields used internally by cap so we can
