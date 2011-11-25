@@ -251,7 +251,7 @@ sub auto :Private
             $c->stash->{current_view} = 'xml'; # Builtin view
         }
         elsif ($c->config->{views}->{$c->request->params->{fmt}}) {
-            $c->stash->{current_view} = $c->config->{views}->{$c->Request->params->{fmt}};
+            $c->stash->{current_view} = $c->config->{views}->{$c->request->params->{fmt}};
         }
         else {
             $c->stash->{current_view} = $c->config->{default_view};
