@@ -111,7 +111,7 @@ method canonical_label {
     return ($self->parent ? $self->parent->label . " : " : "") . $self->label;
 }
 
-method derivative_request (HashRef $content_config, HashRef $derivative_config, Int $seq, Str $filename, Str $size, Int $rotate, Str $format) {
+method derivative_request (HashRef $content_config, HashRef $derivative_config, Int $seq, Str $filename, Str $size, Str $rotate, Str $format) {
     return [403, "Not authenticated."] unless $self->auth;
 
     my $child = $self->child($seq);
@@ -119,12 +119,13 @@ method derivative_request (HashRef $content_config, HashRef $derivative_config, 
     return [403, "Not allowed to view this page."] unless $self->auth->page($seq);
     return [400, "$child->key does not have a canonical master."] unless $child->canonicalMaster;
 
-    my $size_str = $derivative_config->{size}->{$size};
+    my $size_str = $derivative_config->{size}->{$size} || $derivative_config->{default_size};
     return [403, "Not allowed to resize this page."] unless ($size_str eq $derivative_config->{default_size} || $self->auth->resize);
+    my $rotate_angle = $derivative_config->{rotate}->{$rotate} || "0";
 
     my $expires = $self->_expires();
     my $from = $child->canonicalMaster;
-    my $signature = $self->_signature($content_config->{password}, $filename, $expires, $from, $size_str, $rotate);
+    my $signature = $self->_signature($content_config->{password}, $filename, $expires, $from, $size_str, $rotate_angle);
 
     my $params = [
         $self->_to_query('expires', $expires),
@@ -133,7 +134,7 @@ method derivative_request (HashRef $content_config, HashRef $derivative_config, 
         $self->_to_query('from', $from),
         $self->_to_query('format', $format),
         $self->_to_query('size', $size_str),
-        $self->_to_query('rotate', $rotate),
+        $self->_to_query('rotate', $rotate_angle),
     ];
 
     return [200, $self->_request_uri($content_config->{url}, $filename, $params)];
