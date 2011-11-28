@@ -185,6 +185,12 @@ method _request_uri (Str $content_url, Str $filename, ArrayRef $params) {
     return join('?', join('/', $content_url, $filename), join('&', @{$params}))
 }
 
+method key_periodsafe {
+    my $pskey = $self->key;
+    $pskey =~ s/\./_/g;
+    return $pskey;
+}
+
 # Convenient accessors for fields used internally by cap so we can
 # reference them as $self->fieldname rather than $self->record->fieldname
 method canonicalDownload { return $self->record->canonicalDownload; }

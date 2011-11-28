@@ -61,17 +61,17 @@ sub main :Private {
             my $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => $options, page => $page);
             #$pages->{$doc->key} = $pg_resultset->api('result');
             #$pages->{$doc->key}->{documents} = $pg_resultset->api('docs');
-            $pages->{$doc->key} = $pg_resultset;
+            $pages->{$doc->key_periodsafe} = $pg_resultset if $pg_resultset->hits;
         }
     }
 
-    $c->stash->{response}->{result} = $resultset->api('result');
-    $c->stash->{response}->{result}->{pubmin} = $pubmin;
-    $c->stash->{response}->{result}->{pubmin_year} = substr($pubmin, 0, 4);
-    $c->stash->{response}->{result}->{pubmax} = $pubmax;
-    $c->stash->{response}->{result}->{pubmax_year} = substr($pubmax, 0, 4);
-    $c->stash->{response}->{facet} = $resultset->api('facets');
-    $c->stash->{response}->{set} = $resultset->api('docs');
+    #$c->stash->{response}->{result} = $resultset->api('result');
+    #$c->stash->{response}->{result}->{pubmin} = $pubmin;
+    #$c->stash->{response}->{result}->{pubmin_year} = substr($pubmin, 0, 4);
+    #$c->stash->{response}->{result}->{pubmax} = $pubmax;
+    #$c->stash->{response}->{result}->{pubmax_year} = substr($pubmax, 0, 4);
+    #$c->stash->{response}->{facet} = $resultset->api('facets');
+    #$c->stash->{response}->{set} = $resultset->api('docs');
     #$c->stash->{response}->{pages} = $pages;
 
     $c->stash(
