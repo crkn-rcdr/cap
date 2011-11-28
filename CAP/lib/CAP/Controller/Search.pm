@@ -5,8 +5,13 @@ use feature qw(switch);
 use warnings;
 use parent 'Catalyst::Controller';
 
+sub index :Path('') :Args(0) {
+    my($self, $c) = @_;
+    $c->detach('result_page', [1]);
+}
+
 #sub index :Path("query") :Args(1) {
-sub main :Private {
+sub result_page :Path('') :Args(1) {
     my($self, $c, $page) = @_;
 
     # Retrieve the first page of results unless otherwise requested.
