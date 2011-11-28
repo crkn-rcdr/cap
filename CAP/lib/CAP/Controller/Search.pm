@@ -15,7 +15,6 @@ sub result_page :Path('') :Args(1) {
     my($self, $c, $page) = @_;
 
     # Retrieve the first page of results unless otherwise requested.
-    $page ? $page = int($page) : $page = 1;
     $page = 1 unless ($page > 1);
 
     my $options = {};

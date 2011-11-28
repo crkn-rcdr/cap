@@ -39,8 +39,8 @@ method BUILD {
 
     # Index of the last hit on this page. We need to check for the special
     # case of a partial result (< hits_per_page) on the last page.
-    $self->{hits_to}       = 1 - $self->hits_from + $self->hits_per_page;
-    $self->hits_to > $self->hits ? $self->{hits_to} = $self->hits : 0 ;
+    $self->{hits_to}       = $self->hits_from + $self->hits_per_page - 1;
+    $self->{hits_to}       = $self->hits if $self->hits_to > $self->hits;
 
     # Which page of results this is and how many pages of results in
     # total. In the case of no results, these default to zero. We also need to
