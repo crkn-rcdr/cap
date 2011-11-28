@@ -78,6 +78,13 @@ sub result_page :Path('') :Args(1) {
     #$c->stash->{response}->{set} = $resultset->api('docs');
     #$c->stash->{response}->{pages} = $pages;
 
+    # Record the last search parameters
+    $c->session->{search} = {
+        start => $page,
+        params => $c->req->params,
+        hits => $resultset->hits,
+    };
+
     $c->stash(
         pubmin    => substr($pubmin, 0, 4),
         pubmax    => substr($pubmax, 0, 4),
