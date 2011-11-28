@@ -20,7 +20,7 @@ sub result_page :Path('') :Args(1) {
     my $options = {};
 
     # Sorting
-    given ($c->request->params->{so}) {
+    given ($c->req->params->{so}) {
         when('oldest') {
             $options->{sort} = 'pubmin asc';
         }
@@ -45,7 +45,14 @@ sub result_page :Path('') :Args(1) {
     foreach my $field ($query->list_fields) {
         $query->append($c->req->params->{$field}, parse => 1, base_field => $field);
     }
-    $query->append('type:(series OR document)', parse => 0);
+
+    given ($c->req->params->{t}) {
+        when ('any') { 1 }
+        when ('document') { $query->append('type:document') }
+        when ('series')   { $query->append('type:series') }
+        when ('page')     { $query->append('type:page') }
+        default           { $query->append('type:(series OR document)') }
+    }
 
     # Run the main search
     my $resultset = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page);
