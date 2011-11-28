@@ -31,7 +31,7 @@ sub view :Private {
     $c->detach("/error", [404, "Record not found: $key"]) unless $doc;
 
     # Put the document structure into the response object for use by the API.
-    $c->stash->{response}->{doc} = $doc->struct;
+    $c->stash->{response}->{doc} = $doc->record->api;
 
     given ($doc->record_type) {
         when ('series') {
@@ -76,18 +76,15 @@ sub view_series :Private {
 # Select a random document
 sub random : Path('/viewrandom') Args() {
     my($self, $c) = @_;
-    my $solr = $c->stash->{solr};
+
 
     # Pick a document at random
-    my $ndocs = $solr->count({}, { type => 'document' });
+    my $ndocs = $c->model('Solr')->search($c->stash->{search_subset})->count('type:document');
     my $index = int(rand() * $ndocs) + 1;
 
     # Get the record
-    my $doc = $solr->query({}, { type => 'document', page => $index, solr => { rows => 1 } })->{documents}->[0];
-    if ($doc) {
-        $c->res->redirect($c->uri_for_action('view/key', $doc->{key}));
-        return 1;
-    }
+    my $doc = $c->model('Solr')->search($c->stash->{search_subset})->nth_record('type:document', $index);
+    $c->res->redirect($c->uri_for_action('view/key', $doc->key)) if ($doc);
     $c->detach('/error', [500, "Failed to retrieve document"]);
 }
 

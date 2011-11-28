@@ -10,11 +10,15 @@ extends 'Catalyst::Model';
 
 use CAP::Solr::Document;
 use CAP::Solr::Search;
+use CAP::Solr::Query;
 
-has 'server'  => (is => 'ro', isa => 'Str', default => 'http://localhost:8983/solr', required => 1);
-has 'options' => (is => 'ro', isa => 'Hashref');
+has 'server'        => (is => 'ro', isa => 'Str', default => 'http://localhost:8983/solr', required => 1);
+has 'options'       => (is => 'ro', isa => 'HashRef');
+has 'fields'        => (is => 'ro', isa => 'HashRef');
+has 'default_field' => (is => 'ro', isa => 'HashRef');
 
 method BUILD {
+    # Default options to pass to Solr
     $self->{options} = {
         'facet'          => 'true',
         'facet.field'    => [ qw( lang media contributor ) ],
@@ -30,6 +34,25 @@ method BUILD {
         'wt'             => 'json',
         'version'        => '2.2'
     };
+
+    # Templates for expanding field parameter queries to Solr queries
+    $self->{fields} = {
+        contributor => { type => 'string', template => 'contributor: %' },
+        key =>         { type => 'string', template => 'key: %' },
+        lang =>        { type => 'string', template => 'lang: %' },
+        media =>       { type => 'string', template => 'media: %' },
+        pkey =>        { type => 'string', template => 'pkey: %' },
+        set =>         { type => 'string', template => 'set: %' },
+        q =>           { type => 'text',   template => 'au:% OR ti:% OR su:% OR no:% OR pu:% OR ab:% OR tx:%' },
+        au =>          { type => 'text',   template => 'au:%' },
+        ti =>          { type => 'text',   template => 'ti:%' },
+        su =>          { type => 'text',   template => 'su:%' },
+        tx =>          { type => 'text',   template => 'tx:%' },
+        no =>          { type => 'text',   template => 'ab:% OR no:%' },
+
+    };
+
+    $self->{default_field} = 'q';
 }
 
 method document (Str $key) {
@@ -39,11 +62,15 @@ method document (Str $key) {
     return $doc;
 }
 
-method search {
+method search (Str $subset = "") {
     my $search;
-    eval { $search = new CAP::Solr::Search({ server => $self->server, options => $self->options }) };
+    eval { $search = new CAP::Solr::Search({ server => $self->server, options => $self->options, subset => $subset }) };
     if ($@) { warn $@; return undef; }
     return $search;
+}
+
+method query {
+    return new CAP::Solr::Query(default_field => $self->default_field, fields => $self->fields);
 }
 
 1;

@@ -6,8 +6,10 @@ use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
 use namespace::autoclean;
 
+has server   => (is => 'ro', isa => 'Str', required => 1);
 has response => (is => 'ro', isa => 'WebService::Solr::Response', required => 1);
-
+has facets   => (is => 'ro', isa => 'HashRef', default => sub{{}});
+has docs     => (is => 'ro', isa => 'ArrayRef', default => sub{[]});
 
 has hits          => (is => 'ro', isa => 'Int', documentation => 'Number of records found');
 has hits_from     => (is => 'ro', isa => 'Int', documentation => 'Position of the first record on this page');
@@ -54,14 +56,59 @@ method BUILD {
     $self->{next_page} = $self->page + 1 if ($self->page < $self->pages);
     $self->{prev_page} = $self->page - 1 if ($self->page > 1);
 
-
     # Solr query execution time.
     $self->{query_time}    = $header->{QTime};
 
-    #pubmin_year
-    #pubmin
-    #pubmax
-    #pubmax_year
+
+    # Get facet counts
+    if ($self->response->facet_counts) {
+        foreach my $facet (keys(%{$self->response->facet_counts->{facet_fields}})) {
+            $self->{facets}->{$facet} = [];
+            my @pairs = (@{$self->response->facet_counts->{facet_fields}->{$facet}});
+            while (@pairs) {
+                my $name   = shift(@pairs);
+                my $count  = shift(@pairs);
+                push(@{$self->{facets}->{$facet}}, { name => $name, count => $count });
+            }
+        }
+    }
+
+    # Populate the docs list
+    foreach my $doc ($self->response->docs) {
+        push(@{$self->{docs}}, new CAP::Solr::Document({ server => $self->server, doc => $doc }));
+    }
+
+}
+
+method api (Str $struct) {
+
+    if ($struct eq 'result') {
+        return {
+            hits          => $self->hits,
+            hits_from     => $self->hits_from,
+            hits_to       => $self->hits_to,
+            hits_per_page => $self->hits_per_page,
+            next_page     => $self->next_page,
+            prev_page     => $self->prev_page,
+            page          => $self->page,
+            pages         => $self->pages,
+            query_time    => $self->query_time,
+        }
+    }
+
+    if ($struct eq 'facets') {
+        return $self->facets;
+    }
+
+    if ($struct eq 'docs') {
+        my $set = [];
+        foreach my $doc (@{$self->docs}) {
+            push(@{$set}, { doc => $doc->record->api } );
+        }
+        return $set;
+    }
+
+    return {};
 }
 
 

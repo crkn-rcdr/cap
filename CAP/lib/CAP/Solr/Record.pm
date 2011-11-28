@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Moose;
 use Moose::Util::TypeConstraints;
+use MooseX::Method::Signatures;
 use namespace::autoclean;
 
 enum 'RecordType' => qw( page document series );
@@ -44,6 +45,8 @@ has 'canonicalDownloadMime' => (is => 'ro', isa => 'Str');
 has 'canonicalDownloadMD5'  => (is => 'ro', isa => 'Str');
 has 'canonicalPreviewUri'   => (is => 'ro', isa => 'Str');
 
+has '_fl' => (is => 'ro', isa => 'ArrayRef', default => sub{[]}, documentation => 'A list of fields in the record');
+
 around BUILDARGS => sub {
     my $super = shift;
     my $class = shift;
@@ -51,9 +54,13 @@ around BUILDARGS => sub {
 
     # These are multi-valued fields and must be returned in list form.
     my %multival = map { $_ => 1 } (qw( lang media set collection pg_label ti au pu su no de ab tx ));
-    my %fields = ();
+
+    # Collect the names of all the fields in the record.
+    my $_fl      = [];
+    my %fields   = ( '_fl' => $_fl );
 
     foreach my $field ($doc->field_names) {
+        push(@{$_fl}, $field);
         if ($multival{$field}) {
             $fields{$field} = [$doc->values_for($field)];
         }
@@ -65,5 +72,14 @@ around BUILDARGS => sub {
     return $class->$super(%fields);
     
 };
+
+method api {
+    my $fl = {};
+    foreach my $field (@{$self->_fl}) {
+        $fl->{$field} = $self->$field;
+    }
+    return $fl;
+}
+
 
 __PACKAGE__->meta->make_immutable;

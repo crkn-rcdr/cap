@@ -34,11 +34,12 @@ sub get_page_uri :Local :Args(2) {
 
 sub for_page :Private {
     my($self, $c, $key, $seq, $filename) = @_;
-    my $solr   = $c->stash->{solr};
 
-    my $child = $solr->child($key, $seq);
+    my $doc = $c->model("Solr")->document($key);
+    my $child = $doc->child($seq);
+
     $c->detach('/error', [404, "$key: no such child seq $seq"]) unless ($child);
-    $c->forward('main', [$child->{key}, $filename]);
+    $c->forward('main', [$child->key, $filename]);
     return 1;
 }
 

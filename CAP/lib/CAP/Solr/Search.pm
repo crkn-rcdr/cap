@@ -10,47 +10,69 @@ use CAP::Solr::ResultSet;
 
 # Properties from parameters passed to the constructor
 has 'server'     => (is => 'ro', isa => 'Str', required => 1);
-has 'options'    => (is => 'ro', isa => 'HashRef', default => sub{{}});
+has 'options'    => (is => 'ro', isa => 'HashRef');
+has 'subset'     => (is => 'ro', isa => 'Str', default => '');
 
 has 'resultset'  => (is => 'ro', isa => 'CAP::Solr::ResultSet');
 
-has 'solr_q'     => (is => 'rw', isa => 'Str', default => "");
+method query (Str $query, HashRef :$options = {}, Str :$page = 0) {
 
-sub BUILD {
+    # Merge any supplied options with the default options.
+    $options = { %{$self->options}, %{$options} };
+
+    # If a page number is specified, calculate the starting record based
+    # on the page number and number of rows per page.
+    $options->{start} = ($page - 1) * $options->{rows} if ($page);
+    
+    my $solr = new WebService::Solr($self->server);
+    $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
+    my $response = $solr->search($query, $options);
+    return undef unless ($response->ok);
+    my $resultset = new CAP::Solr::ResultSet({ server => $self->server, response => $response});
+
+    return $resultset;
 }
 
-method query (Str $query, Int :$noescape = 0) {
-    if ($noescape) {
-        warn "LITERAL QUERY";
-        $self->{solr_q} = $query;
+# Get the earliest publication date in the result set for $query
+method pubmin (Str $query) {
+    my $solr = new WebService::Solr($self->server);
+    $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
+    my $result = $solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmin asc', 'fl' => 'pubmin' });
+    if ($result->docs->[0]) {
+        return $result->docs->[0]->value_for('pubmin');
     }
     else {
-        warn "ESCAPING QUERY";
-        $self->{solr_q} = $query;
+        return "";
     }
 }
 
-method run {
-    my $solr     = new WebService::Solr($self->server);
-    my $response = $solr->search($self->solr_q, $self->options);
-    $self->{resultset} = new CAP::Solr::ResultSet({ response => $response});
+# Get the latest publication date in the result set for $query
+method pubmax (Str $query) {
+    my $solr = new WebService::Solr($self->server);
+    $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
+    my $result = $solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmax desc', 'fl' => 'pubmax' });
+    if ($result->docs->[0]) {
+        return $result->docs->[0]->value_for('pubmax');
+    }
+    else {
+        return "";
+    }
 }
 
-method struct (Str $struct) {
-    if ($struct eq 'result') {
-        return {
-            hits          => $self->resultset->hits,
-            hits_from     => $self->resultset->hits_from,
-            hits_to       => $self->resultset->hits_to,
-            hits_per_page => $self->resultset->hits_per_page,
-            next_page     => $self->resultset->next_page,
-            prev_page     => $self->resultset->prev_page,
-            page          => $self->resultset->page,
-            pages         => $self->resultset->pages,
-            query_time    => $self->resultset->query_time,
-        };
-    }
-    return {};
+
+# Return a count of records for $query
+method count (Str $query) {
+    my $response = $self->query($query, options => { rows => 0 });
+    return undef unless ($response);
+    return $response->hits;
+}
+
+# Returns the $pos'th record in the result set (e.g. $pos = 2 == 2nd
+# record in the result set). Returns a CAP::Solr::Document object.
+method nth_record (Str $query, Int $pos) {
+    my $response = $self->query($query, options => { start => $pos, rows => 1 });
+    return undef unless ($response);
+    return $response->docs->[0];
 }
 
 __PACKAGE__->meta->make_immutable;

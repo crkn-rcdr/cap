@@ -292,10 +292,10 @@ sub reset :Path('reset') :Args() {
 
 sub profile :Path('profile') :Args(0) {
     my($self, $c) = @_;
-    my $solr = $c->stash->{solr};
+    #my $solr = $c->stash->{solr};
 
     # Get a list of the user's purchased documents 
-    $c->stash->{purchased} = $c->model('DB::UserDocument')->list_purchased($c->user->id, $solr);
+    #$c->stash->{purchased} = $c->model('DB::UserDocument')->list_purchased($c->user->id, $solr);
 
     ### TEST: retrieve annotations
     #$c->stash->{annotations} = [ $c->model('DB::Annotation')->search({

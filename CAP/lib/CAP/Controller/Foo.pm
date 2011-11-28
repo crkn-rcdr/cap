@@ -23,14 +23,21 @@ Catalyst Controller.
 
 #sub index :Private {
 sub index :Path("") :Args() {
-    my ( $self, $c, $key ) = @_;
-    my $search = $c->model('Solr')->search();
-    $search->query('canada lang:fra');
-    $search->run;
-    $c->stash->{response}->{result} = $search->struct('result');
+    my ( $self, $c, $page ) = @_;
+
+    my $options = { };
+    $page = 1 unless ($page);
+
+    my $query = $c->req->params->{q} . ' AND (type:series OR type:document)';
+    my $resultset = $c->model('Solr')->search($c->stash->{search_subset})->query($query, options => $options, page => $page );
+    #$c->model('Solr')->search($c->stash->{search_subset})->subsearch($query, $resultset);
+
+    $c->stash->{response}->{result} = $resultset->api('result');
+    $c->stash->{response}->{facet} = $resultset->api('facets');
+    $c->stash->{response}->{set} = $resultset->api('docs');
 
     $c->stash(
-        search   => $search,
+        resultset => $resultset,
         template => 'foo.tt',
     );
     return 1;
