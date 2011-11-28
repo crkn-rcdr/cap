@@ -62,7 +62,7 @@ sub result_page :Path('') :Args(1) {
             $pg_query->append($c->req->params->{q}, parse => 1, base_field => 'q');
             $pg_query->append($c->req->params->{tx}, parse => 1, base_field => 'tx');
             $pg_query->append("pkey:" . $doc->key);
-            my $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => $options, page => $page);
+            my $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => $options);
             #$pages->{$doc->key} = $pg_resultset->api('result');
             #$pages->{$doc->key}->{documents} = $pg_resultset->api('docs');
             $pages->{$doc->key_periodsafe} = $pg_resultset if $pg_resultset->hits;
