@@ -14,7 +14,8 @@ sub new_subscription
 
     my $userid =  $c->user->id;
     
-    my $row = $self->create({
+    my $create = $self->create({
+        completed =>   0,
         user_id   =>   $userid,
         promo     =>   $promo,
         amount    =>   $amount,
@@ -24,13 +25,13 @@ sub new_subscription
     });
 
     # Should this return a boolean based on whether the create worked?
-    return 1;
+    return $create;
 }
 
 
 sub get_row
 {
-    # returns an arrayref of all the
+    # returns an arrayref of all the values in the row for a given user_id
     my($self, $user_id) = @_;
            
     my $check_user_id =  $self->search(
@@ -39,7 +40,7 @@ sub get_row
                                 
                                     user_id => $user_id
                                   
-                                }           
+                                }         
                              );
     my $getrow = $check_user_id->next();
     my $row = defined($getrow) ? $getrow : 0;
@@ -67,12 +68,45 @@ sub get_incomplete_row
     return $row;
 }
 
+sub subscription_status {
+    # returns a string indicating the current status of the user's subscription
+    my($self,$user_id) = @_;
+         
+    my $check_user_id =  $self->search(
+                                {
+                                
+                                    user_id => $user_id
+                                  
+                                }           
+                             );
+    my $getrow = $check_user_id->next();
+    my $row = defined($getrow) ? $getrow : 0;
+    return 'unsubscribed' unless $row;
+
+    return $row;
+	
+}
+
 sub confirm_subscription
 {
-    # toggles "completed" flag and inserts expiry date
+    # updates "completed" flag and expiry date
+    my($self,$user_id,$expiry) = @_;
+    
+    my $row = $self->get_row($user_id);
+           
+    my $update =  $row->update(
+                                {
+
+                                
+                                    completed => 1,
+                                    newxpire => $expiry
+                                  
+                                }                                       
+                             );
 
 
-    return 1;
+    return $update;
+
 }
 
 
@@ -80,11 +114,31 @@ sub confirm_subscription
 sub add_receipt
 {
     # updates receipt information
+    my($self,$user_id,$rcpt_amt,$rcpt_name,$rcpt_no) = @_;
+
+    my $row = $self->get_row($user_id);
+
+    my $update =  $row->update(
+                                {
+                                   
+                                    recpt_amt   => $rcpt_amt,
+                                    recpt_name  => $rcpt_name,
+                                    recpt_no    => $rcpt_no
+                                  
+                                }     
+                             );    
+    return $update;
+
+}
+
+sub existing_request_in_progress
+{
+    # checks to see if user already has a pending subscription request in progress
+    # get_incomplete_row() already does this
     
     return 1;
 
 }
-
 
 
 1;

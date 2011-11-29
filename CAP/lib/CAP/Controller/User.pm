@@ -439,7 +439,7 @@ sub subscribe :Path('subscribe') :Args(0) {
             $c->stash->{subscription_price} = $amount - $promoamount;
             $c->stash->{promocode_expired} = 0;
             $c->stash->{promocode_message} = 'promocode applied';
-            $c->session->{promo_applied} = 1; # stuff it in the session so that we know it's been applied
+            $c->session->{promo_applied} = $promocode; # stuff it in the session so that we know it's been applied
             return 1;
         }
     }
@@ -450,7 +450,26 @@ sub subscribe :Path('subscribe') :Args(0) {
         my $userid = $c->user->id;
         $c->stash->{subscribing_now} = 1;
 
-        my $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promocode,$amount,$trname,$c->stash->{tax_receipt},"paypal");
+        my $wtf = $c->session->{promo_applied};
+        $c->stash->{wtf} = $wtf;
+        # deduct promocode amount if applied
+        if ($c->session->{promo_applied}) {
+           $amount = $amount - $c->model('DB::Promocode')->promo_amount($c->session->{promo_applied});
+        }
+        
+        $c->stash->{trueamount} = $amount;
+        $c->stash->{subamount} = $sub_amount;
+        $c->stash->{promoamount} = $promoamount;
+
+        # throw an exception if the submitted amount is not what it's supposed to be
+        $c->detach('/error', [500, "Submitted subscription amount invalid"]) unless $amount == $sub_amount; 
+        
+        # Insert row into subscription table if there's no pending subscrition already        
+        unless ($c->model('DB::Subscription')->get_incomplete_row($c->user->id)) {
+
+           my $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promocode,$amount,$trname,$c->stash->{tax_receipt},"paypal");
+
+        }
 
         # my $row = $c->model('DB::Subscription')->get_row($userid);
         $c->stash->{template} = 'user/subscribe.tt';
