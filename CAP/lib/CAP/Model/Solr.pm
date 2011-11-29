@@ -15,6 +15,8 @@ use CAP::Solr::Query;
 has 'server'        => (is => 'ro', isa => 'Str', default => 'http://localhost:8983/solr', required => 1);
 has 'options'       => (is => 'ro', isa => 'HashRef');
 has 'fields'        => (is => 'ro', isa => 'HashRef');
+has 'types'         => (is => 'ro', isa => 'HashRef');
+has 'sorting'       => (is => 'ro', isa => 'HashRef');
 has 'default_field' => (is => 'ro', isa => 'HashRef');
 
 method BUILD {
@@ -52,6 +54,22 @@ method BUILD {
 
     };
 
+    # Query fragments for limiting by record type
+    $self->{types} = {
+        default  => 'type:(series OR document)',
+        any      => '',
+        page     => 'type:page',
+        document => 'type:document',
+        series   => 'type:series',
+    };
+
+    $self->{sorting} = {
+        default  => 'score desc',
+        oldest   => 'pubmin asc',
+        newest   => 'pubmax desc',
+        seq      => 'pkey asc, seq asc',
+    };
+
     $self->{default_field} = 'q';
 }
 
@@ -70,7 +88,7 @@ method search (Str $subset = "") {
 }
 
 method query {
-    return new CAP::Solr::Query(default_field => $self->default_field, fields => $self->fields);
+    return new CAP::Solr::Query(default_field => $self->default_field, fields => $self->fields, types => $self->types, sorting => $self->sorting);
 }
 
 1;

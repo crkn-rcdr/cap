@@ -390,21 +390,6 @@ sub index :Path('') Args(0)
     $c->stash->{template} = "index.tt";
 }
 
-#sub search : Path('search') Args() {
-#    my($self, $c, $page) = @_;
-#    $page = 1 unless ($page);
-#    my $param = { page => 1};
-#
-#    # If the adv parameter is set, parse the advanced search variables.
-#    # Otherwise, do a regular search.
-#    if ($c->req->params->{adv}) {
-#        return $c->forward('search/advanced', [$page]);
-#    }
-#    else {
-#        return $c->forward('search/main');
-#    }
-#}
-
 sub file :Path('file') Args(2)
 {
     my($self, $c, $key, $filename) = @_;

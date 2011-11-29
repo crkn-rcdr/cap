@@ -1,6 +1,7 @@
 package CAP::Solr::Query;
 use strict;
 use warnings;
+use feature qw(switch);
 use Moose;
 use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
@@ -9,6 +10,8 @@ use utf8;
 
 has 'query'         => (is => 'ro', isa => 'ArrayRef', default => sub{[]});
 has 'fields'        => (is => 'ro', isa => 'HashRef', required  => 1);
+has 'types'         => (is => 'ro', isa => 'HashRef', required  => 1);
+has 'sorting'       => (is => 'ro', isa => 'HashRef', required => 1);
 has 'default_field' => (is => 'ro', isa => 'Str', required => 1);
 
 
@@ -101,6 +104,42 @@ method append (Maybe [Str] $fragment = "", Int :$parse = 0, Str :$base_field = '
 
     push (@{$self->{query}}, join(" AND ", @query));
     return 1;
+}
+
+method limit_type (Maybe [Str] $type) {
+    if (exists($self->types->{$type})) {
+        $self->append($self->types->{$type});
+    }
+    else {
+        $self->append($self->types->{default});
+    }
+}
+
+method limit_date (Maybe [Str] $from, Maybe [Str] $to) {
+    # Make sure we have at least one date. If we have only one, use it for
+    # both dates. Make sure the earlier date comes first.
+    return unless ($to || $from);
+    $to   = $from if ($from && ! $to);
+    $from = $to   if (! $from && $to);
+    $from =~ s/\s+//gs;
+    $to   =~ s/\s+//gs;
+    if ($from gt $to) {
+        my $tmp = $from;
+        $from   = $to;
+        $to     = $tmp;
+    }
+
+    # At the moment, we will only support dates that are 4-digit years.
+    if ($from =~ /^\d{4}$/ && $to  =~ /^\d{4}$/) {
+        $self->append("pubmin:[* TO $to-12-31T23:59:59.999Z] AND pubmax:[$from-01-01T00:00:00.000Z TO * ]");
+    }
+
+}
+
+method sort_order (Maybe [Str] $sort) {
+    return $self->sorting->{default} unless ($sort && $self->sorting->{$sort});
+    return $sort && $self->sorting->{$sort};
+
 }
 
 method to_string {
