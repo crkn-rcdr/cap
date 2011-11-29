@@ -39,7 +39,7 @@ method pubmin (Str $query) {
     $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
     my $result = $solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmin asc', 'fl' => 'pubmin' });
     if ($result->docs->[0]) {
-        return $result->docs->[0]->value_for('pubmin');
+        return $result->docs->[0]->value_for('pubmin') || "";
     }
     else {
         return "";
@@ -52,7 +52,7 @@ method pubmax (Str $query) {
     $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
     my $result = $solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmax desc', 'fl' => 'pubmax' });
     if ($result->docs->[0]) {
-        return $result->docs->[0]->value_for('pubmax');
+        return $result->docs->[0]->value_for('pubmax') || "";
     }
     else {
         return "";
