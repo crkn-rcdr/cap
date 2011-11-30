@@ -24,11 +24,16 @@ sub result_page :Path('') :Args(1) {
     my $query = $c->model('Solr')->query;
     $query->limit_type($c->req->params->{t});
     $query->limit_date($c->req->params->{df}, $c->req->params->{dt});
-    foreach my $field ($query->list_fields) { $query->append($c->req->params->{$field}, parse => 1, base_field => $field) }
+
+    #foreach my $field ($query->list_fields) { $query->append($c->req->params->{$field}, parse => 1, base_field => $field) }
+
+    $query->rewrite_query($c->req->params);
+    my $base_field = $c->req->params->{field} || 'q';
+    my $query_string = $c->req->params->{q} || '';
+    $query->append($query_string, parse => 1, base_field => $base_field);
 
     # Set query options
     $options->{sort} = $query->sort_order($c->req->params->{so});
-
 
     # Run the main search
     my $resultset = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page);

@@ -106,6 +106,49 @@ method append (Maybe [Str] $fragment = "", Int :$parse = 0, Str :$base_field = '
     return 1;
 }
 
+
+# Rewrite query to remove parameterized field queries and add them to the
+# base query object. Parameters in $params that are not field query
+# parameters are kept intact, so (e.g.) an entire set of request
+# parameters can be passed to this method and only the relevant ones will
+# be altered.
+method rewrite_query (HashRef $params) {
+    my @field_params = ();
+    my $query  = "";
+    foreach my $field (keys (%{$params})) {
+        if ($self->fields->{$field}) {
+            if ($self->fields->{$field}->{canonical}) {
+                $query = $field;
+            }
+            else {
+                push(@field_params, $field) if ($params->{$field});
+            }
+        }
+    }
+
+    foreach my $field (@field_params) {
+        if ($params->{$field}) {
+            my @value = ();
+
+            while ($params->{$field} =~ /
+                ((?!:^|\s)[\-])?         # boolean prefix operator (optional); cannot be in the middle of a string
+                (                        # the search term or phrase:
+                  (?:".+?") |            # double-quoted phrase
+                  (?:[^\"\s]+)           # single keyword
+                )      
+            /gx) {
+                my $bool = $1 || "";
+                my $query = $2 || "";
+
+                push(@value, "$bool$field:$query");
+            }
+
+            $params->{$query} = join(" ", $params->{$query}, @value);
+            delete($params->{$field});
+        }
+    }
+}
+
 method limit_type (Maybe [Str] $type) {
     if ($type && exists($self->types->{$type})) {
         $self->append($self->types->{$type});

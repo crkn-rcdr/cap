@@ -37,15 +37,17 @@ method BUILD {
         'version'        => '2.2'
     };
 
-    # Templates for expanding field parameter queries to Solr queries
+    # Templates for expanding field parameter queries to Solr queries. The
+    # canonical parameter is the one that others should be maped to. E.g.
+    # su=foo should be remapped to q=su:foo
     $self->{fields} = {
+        q =>           { type => 'text',   template => 'au:% OR ti:% OR su:% OR no:% OR pu:% OR ab:% OR tx:%', canonical => 1 },
         contributor => { type => 'string', template => 'contributor: %' },
         key =>         { type => 'string', template => 'key: %' },
         lang =>        { type => 'string', template => 'lang: %' },
         media =>       { type => 'string', template => 'media: %' },
         pkey =>        { type => 'string', template => 'pkey: %' },
         set =>         { type => 'string', template => 'set: %' },
-        q =>           { type => 'text',   template => 'au:% OR ti:% OR su:% OR no:% OR pu:% OR ab:% OR tx:%' },
         au =>          { type => 'text',   template => 'au:%' },
         ti =>          { type => 'text',   template => 'ti:%' },
         su =>          { type => 'text',   template => 'su:%' },
