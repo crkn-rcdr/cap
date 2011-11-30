@@ -270,9 +270,6 @@ sub auto :Private
     # Fetch a set of language-appropriate labels and tags.
     $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
 
-    # Create a Solr object
-    $c->stash->{solr} = CAP::Solr->new($c->config->{solr_url}, $c->config->{solr}, $c->stash->{search_subset});
-
     # Initialize the query response with default values. These may be
     # added to or overwritten when a search query is executed.
     $c->stash('response' => {
@@ -314,11 +311,6 @@ sub end : ActionClass('RenderView')
         $c->model('DB::SearchLog')->log($c, $request_log) if ($c->stash->{log_search}); # Search query
         # TODO: user login/out
         # TODO: item access
-    }
-
-    # Remove some information from the response if we're not in debug mode.
-    if (! $c->debug) {
-        delete($c->stash->{response}->{solr}) if ($c->stash->{response}->{solr});
     }
 
     # If the current view is set to one of the special cases 'xml' or
