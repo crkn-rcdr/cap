@@ -436,40 +436,29 @@ sub subscribe :Path('subscribe') :Args(0) {
     }
     
     
-    # Process the subscription request and detach to e-bay
+    # Process the subscription request and detach to PayPal
     elsif ($mode eq "subscribenow") {
         my $userid = $c->user->id;
         $c->stash->{subscribing_now} = 1;
 
-        my $wtf = $c->session->{promo_applied};
-        $c->stash->{wtf} = $wtf;
         # deduct promocode amount if applied
-        if ($c->session->{promo_applied}) {
-           $amount = $amount - $c->model('DB::Promocode')->promo_amount($c->session->{promo_applied});
+        my $promo_applied  = defined($c->session->{promo_applied}) ? $c->session->{promo_applied} : 0;
+        if ($promo_applied) {
+           $c->detach('/error', [500, "Submitted amount invalid: promo code has expired"]) if $c->model('DB::Promocode')->expired_promocode($promo_applied);
+           $amount = $amount - $c->model('DB::Promocode')->promo_amount($promo_applied);
         }
         
-        $c->stash->{trueamount} = $amount;
-        $c->stash->{subamount} = $sub_amount;
-        $c->stash->{promoamount} = $promoamount;
-
         # throw an exception if the submitted amount is not what it's supposed to be
         $c->detach('/error', [500, "Submitted subscription amount invalid"]) unless $amount == $sub_amount; 
         
         # Insert row into subscription table if there's no pending subscrition already        
         unless ($c->model('DB::Subscription')->get_incomplete_row($c->user->id)) {
-
            my $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promocode,$amount,$trname,$c->stash->{tax_receipt},"paypal");
-
         }
 
-        # my $row = $c->model('DB::Subscription')->get_row($userid);
-        $c->stash->{template} = 'user/subscribe.tt';
-        # $c->stash->{subscription_row} = $row;
-
-        # Trimmed variables being passed.  Later will not pass "period" which
-        # should be handled elsewhere.
+        # Now we're ready to forward the subscription request to PayPay
         $c->detach('/payment/paypal/pay', [$amount, "ECO subscription for \$$amount (Needs localization)", '/user/subscribe_finalize']);
-        return 1;
+
     }
 
     

@@ -92,9 +92,9 @@ sub confirm_subscription
     # updates "completed" flag and expiry date
     my($self,$user_id,$expiry) = @_;
     
-    my $row = $self->get_row($user_id);
+    my $resultset = $self->user_id_resultset($user_id);
            
-    my $update =  $row->update(
+    my $update =  $resultset->update(
                                 {
 
                                 
@@ -116,9 +116,9 @@ sub add_receipt
     # updates receipt information
     my($self,$user_id,$rcpt_amt,$rcpt_name,$rcpt_no) = @_;
 
-    my $row = $self->get_row($user_id);
+    my $resultset = $self->user_id_resultset($user_id);
 
-    my $update =  $row->update(
+    my $update =  $resultset->update(
                                 {
                                    
                                     recpt_amt   => $rcpt_amt,
@@ -143,3 +143,21 @@ sub existing_request_in_progress
 
 1;
 
+sub user_id_resultset
+{
+    
+    # does a search and returns a resultset for a given user_id
+    my($self, $user_id) = @_;
+           
+    my $check_user_id =  $self->search(
+                                {
+
+                                
+                                    user_id => $user_id
+                                  
+                                }         
+                             );
+
+    return $check_user_id;
+    
+}
