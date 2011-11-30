@@ -388,8 +388,8 @@ sub subscribe :Path('subscribe') :Args(0) {
 
     my($self, $c) = @_;
 
-    $c->stash->{promocode_message} = ' '; # default promocode message
-    my $amount = $c->config->{subscription_amount}; # get the subscription price from the config file for now
+    $c->stash->{promocode_message} = ' ';                                                                                             # default promocode message
+    my $amount = $c->config->{subscription_amount};                                                                                   # get the subscription price from the config file for now
     
     # Get the form parameters
     my $mode        = defined($c->request->params->{mode})      ? $c->request->params->{mode}      : "default";                       # check if they clicked the promo button 
@@ -398,18 +398,12 @@ sub subscribe :Path('subscribe') :Args(0) {
     my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : "";                              # promo code
 
     my $promoamount = $c->model('DB::Promocode')->promo_amount($promocode);
-    $c->stash->{prevmode} = $mode;
+    # $c->stash->{prevmode} = $mode;
  
     # Apply the promo code                
     if ($mode eq "addpromo") {       
 
         $c->stash->{template} = 'user/subscribe.tt'; # we'll be returning here no matter what
-
-
-
-
-        
-
 
         # first check to see if promocode even exists
         my $promocode_exists = $c->model('DB::Promocode')->code_exists($promocode);
@@ -426,7 +420,7 @@ sub subscribe :Path('subscribe') :Args(0) {
             return 1;
         }
         else {
-            # this means the promocode still good, we can go ahead and apply it
+            # this means the promocode is still good, we can go ahead and apply it
             $c->stash->{subscription_price} = $amount - $promoamount;
             $c->stash->{promocode_expired} = 0;
             $c->stash->{promocode_message} = 'promocode applied';
@@ -463,8 +457,6 @@ sub subscribe :Path('subscribe') :Args(0) {
 
     
     # If we're not applying the promo or processing the subscription just go/return to "subscribe" page
-    
-       # $c->stash{promocode} = $c->model('DB::Promocode')->get_promocode();
     
     $c->stash->{subscription_price} = $amount;
     $c->stash->{promoamount} = $promoamount;
