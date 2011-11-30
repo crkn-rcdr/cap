@@ -107,7 +107,7 @@ method append (Maybe [Str] $fragment = "", Int :$parse = 0, Str :$base_field = '
 }
 
 method limit_type (Maybe [Str] $type) {
-    if (exists($self->types->{$type})) {
+    if ($type && exists($self->types->{$type})) {
         $self->append($self->types->{$type});
     }
     else {
