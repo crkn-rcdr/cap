@@ -51,7 +51,7 @@ sub result_page :Path('') :Args(1) {
             $pg_query->append("pkey:" . $doc->key);
             my $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => { %{$options}, sort => $pg_query->sort_order('seq') } );
             if ($pg_resultset->hits) {
-                $pages->{$doc->key_periodsafe} = $pg_resultset;
+                $pages->{$doc->key} = $pg_resultset;
                 $response_pages->{$doc->key} = {
                     result => $pg_resultset->api('result'),
                     docs   => $pg_resultset->api('docs'),
