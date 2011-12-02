@@ -243,15 +243,17 @@ sub auto :Private
     if (! $c->config->{default_view}) {
         $c->detach("config_error", ["default_view is not set"]);
     }
-    if ($c->request->params->{fmt}) {
-        if ($c->request->params->{fmt} eq 'json') {
+    if ($c->req->params->{fmt}) {
+        if ($c->req->params->{fmt} eq 'json') {
             $c->stash->{current_view} = 'json'; # Builtin view
         }
-        elsif ($c->request->params->{fmt} eq 'xml') {
+        elsif ($c->req->params->{fmt} eq 'xml') {
             $c->stash->{current_view} = 'xml'; # Builtin view
         }
-        elsif ($c->config->{views}->{$c->request->params->{fmt}}) {
-            $c->stash->{current_view} = $c->config->{views}->{$c->request->params->{fmt}};
+        elsif ($c->config->{fmt}->{$c->req->params->{fmt}}) {
+            warn $c->req->params->{fmt};
+            $c->stash->{current_view} = $c->config->{fmt}->{$c->req->params->{fmt}}->{view};
+            $c->res->content_type($c->config->{fmt}->{$c->req->params->{fmt}}->{content_type});
         }
         else {
             $c->stash->{current_view} = $c->config->{default_view};
@@ -275,7 +277,7 @@ sub auto :Private
     $c->stash('response' => {
         request => "" . $c->req->{uri}, # we need to prepend "" in order to force this to a string
         status => 200,
-        version => '0.2', # TODO: this should be in cap.conf
+        version => '0.3', # TODO: this should be in cap.conf
     });
 
     # Clean up any expired sessions
@@ -321,12 +323,12 @@ sub end : ActionClass('RenderView')
         $c->res->body(encode_json($c->stash->{response}));
         return 1;
     }
-    elsif ($c->stash->{current_view} eq 'xml') {
-        my $xml = xmlify('response', $c->stash->{response});
-        $c->res->content_type('application/xml');
-        $c->res->body(decode_utf8($xml->toString(1)));
-        return 1;
-    }
+    #elsif ($c->stash->{current_view} eq 'xml') {
+    #    my $xml = xmlify('response', $c->stash->{response});
+    #    $c->res->content_type('application/xml');
+    #    $c->res->body(decode_utf8($xml->toString(1)));
+    #    return 1;
+    #}
 
     # Don't cache anything (TODO: this is a bit harsh, but it does control
     # the login/logout refresh problem.) TODO: revisit this; a lot has

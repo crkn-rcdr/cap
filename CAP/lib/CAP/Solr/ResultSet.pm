@@ -103,7 +103,7 @@ method api (Str $struct) {
     if ($struct eq 'docs') {
         my $set = [];
         foreach my $doc (@{$self->docs}) {
-            push(@{$set}, { doc => $doc->record->api } );
+            push(@{$set}, $doc->record->api);
         }
         return $set;
     }

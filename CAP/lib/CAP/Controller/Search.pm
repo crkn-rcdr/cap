@@ -25,8 +25,6 @@ sub result_page :Path('') :Args(1) {
     $query->limit_type($c->req->params->{t});
     $query->limit_date($c->req->params->{df}, $c->req->params->{dt});
 
-    #foreach my $field ($query->list_fields) { $query->append($c->req->params->{$field}, parse => 1, base_field => $field) }
-
     $query->rewrite_query($c->req->params);
     my $base_field = $c->req->params->{field} || 'q';
     my $query_string = $c->req->params->{q} || '';
@@ -44,41 +42,63 @@ sub result_page :Path('') :Args(1) {
 
     # Search within the text of the child records
     my $pages = {};
+    my $response_pages = {};
     foreach my $doc (@{$resultset->docs}) {
         if ($doc->type_is('document') && $doc->child_count) {
             my $pg_query = $c->model('Solr')->query;
             $pg_query->append($c->req->params->{q}, parse => 1, base_field => 'q');
             $pg_query->append($c->req->params->{tx}, parse => 1, base_field => 'tx');
             $pg_query->append("pkey:" . $doc->key);
-            my $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => $options);
-            #$pages->{$doc->key} = $pg_resultset->api('result');
-            #$pages->{$doc->key}->{documents} = $pg_resultset->api('docs');
-            $pages->{$doc->key_periodsafe} = $pg_resultset if $pg_resultset->hits;
+            my $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => { %{$options}, sort => $pg_query->sort_order('seq') } );
+            if ($pg_resultset->hits) {
+                $pages->{$doc->key_periodsafe} = $pg_resultset;
+                $response_pages->{$doc->key} = {
+                    result => $pg_resultset->api('result'),
+                    docs   => $pg_resultset->api('docs'),
+                };
+            }
         }
     }
 
-    #$c->stash->{response}->{result} = $resultset->api('result');
-    #$c->stash->{response}->{result}->{pubmin} = $pubmin;
-    #$c->stash->{response}->{result}->{pubmin_year} = substr($pubmin, 0, 4);
-    #$c->stash->{response}->{result}->{pubmax} = $pubmax;
-    #$c->stash->{response}->{result}->{pubmax_year} = substr($pubmax, 0, 4);
-    #$c->stash->{response}->{facet} = $resultset->api('facets');
-    #$c->stash->{response}->{set} = $resultset->api('docs');
-    #$c->stash->{response}->{pages} = $pages;
+
+    # Create the API response object for JSON and RDF requests
+    my $response = {
+        %{$c->stash->{response}},
+        result  => $resultset->api('result'),
+        pubdate => { min => $pubmin, max => $pubmax, min_year => int(substr($pubmin, 0, 4)), max_year => int(substr($pubmax, 0, 4)) },
+        facet   => $resultset->api('facets'),
+        docs    => $resultset->api('docs'),
+        pages    => $response_pages,
+    };
+
+    # Convert next and previous page values into URLs.
+    if ($response->{result}->{next_page}) {
+        $response->{result}->{next_page} = $c->uri_for_action('search/result_page', [$response->{result}->{next_page}], $c->req->params) . "";
+    }
+    else {
+        $response->{result}->{next_page} = "";
+    }
+    if ($response->{result}->{prev_page}) {
+        $response->{result}->{prev_page} = $c->uri_for_action('search/result_page', [$response->{result}->{prev_page}], $c->req->params) . "";
+    }
+    else {
+        $response->{result}->{prev_page} = "";
+    }
 
     # Record the last search parameters
     $c->session->{search} = {
-        start => $page,
-        params => $c->req->params,
-        hits => $resultset->hits,
+        start    => $page,
+        params   => $c->req->params,
+        hits     => $resultset->hits,
     };
 
     $c->stash(
-        pubmin    => substr($pubmin, 0, 4),
-        pubmax    => substr($pubmax, 0, 4),
+        pubmin    => int(substr($pubmin, 0, 4)),
+        pubmax    => int(substr($pubmax, 0, 4)),
         pages     => $pages,
         resultset => $resultset,
         template  => 'search.tt',
+        response  => $response,
     );
 
     return 1;
