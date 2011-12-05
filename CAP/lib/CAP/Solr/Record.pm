@@ -75,9 +75,15 @@ around BUILDARGS => sub {
 
 method api {
     my $fl = {};
-    foreach my $field (@{$self->_fl}) {
-        $fl->{$field} = $self->$field;
-    }
+    $fl->{key}      = $self->key   if ($self->key);
+    $fl->{pkey}     = $self->pkey  if ($self->pkey);
+    $fl->{label}    = $self->label if ($self->label);
+    $fl->{type}     = $self->type  if ($self->type);
+    $fl->{location} = $self->canonicalUri if ($self->canonicalUri);
+    $fl->{title}    = $self->ti    if ($self->ti);
+    $fl->{creator}  = $self->au    if ($self->au);
+    $fl->{subject}  = $self->su    if ($self->su);
+    $fl->{note}     = $self->no    if ($self->no);
     return $fl;
 }
 
