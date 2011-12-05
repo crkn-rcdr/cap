@@ -15,7 +15,7 @@ sub new_subscription
     my $userid =  $c->user->id;
     
     my $create = $self->create({
-        completed =>   0,
+        completed =>   undef,
         user_id   =>   $userid,
         promo     =>   $promo,
         amount    =>   $amount,
