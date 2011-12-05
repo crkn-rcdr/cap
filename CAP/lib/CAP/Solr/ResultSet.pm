@@ -8,7 +8,8 @@ use namespace::autoclean;
 
 has server   => (is => 'ro', isa => 'Str', required => 1);
 has response => (is => 'ro', isa => 'WebService::Solr::Response', required => 1);
-has facets   => (is => 'ro', isa => 'HashRef', default => sub{{}});
+has facets   => (is => 'ro', isa => 'HashRef', default => sub{{}}); # Parsed hash: { lang => { name => eng, count => 8 }, ... }
+has facet    => (is => 'ro', isa => 'HashRef', default => sub{{}}); # List form: { lang => [ eng, 10, fra, 8, zho 2 ], }
 has docs     => (is => 'ro', isa => 'ArrayRef', default => sub{[]});
 
 has hits          => (is => 'ro', isa => 'Int', documentation => 'Number of records found');
@@ -70,6 +71,9 @@ method BUILD {
                 my $count  = shift(@pairs);
                 push(@{$self->{facets}->{$facet}}, { name => $name, count => $count });
             }
+
+            # Don't parse they key-value pairs; leave them as a list.
+            $self->{facet}->{$facet} = $self->response->facet_counts->{facet_fields}->{$facet};
         }
     }
 
@@ -98,6 +102,10 @@ method api (Str $struct) {
 
     if ($struct eq 'facets') {
         return $self->facets;
+    }
+
+    if ($struct eq 'facet') {
+        return $self->facet;
     }
 
     if ($struct eq 'docs') {

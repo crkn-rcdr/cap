@@ -244,14 +244,13 @@ sub auto :Private
         $c->detach("config_error", ["default_view is not set"]);
     }
     if ($c->req->params->{fmt}) {
-        if ($c->req->params->{fmt} eq 'json') {
-            $c->stash->{current_view} = 'json'; # Builtin view
-        }
-        elsif ($c->req->params->{fmt} eq 'xml') {
-            $c->stash->{current_view} = 'xml'; # Builtin view
-        }
-        elsif ($c->config->{fmt}->{$c->req->params->{fmt}}) {
-            warn $c->req->params->{fmt};
+        #if ($c->req->params->{fmt} eq 'json') {
+        #    $c->stash->{current_view} = 'json'; # Builtin view
+        #}
+        #elsif ($c->req->params->{fmt} eq 'xml') {
+        #    $c->stash->{current_view} = 'xml'; # Builtin view
+        #}
+        if ($c->config->{fmt}->{$c->req->params->{fmt}}) {
             $c->stash->{current_view} = $c->config->{fmt}->{$c->req->params->{fmt}}->{view};
             $c->res->content_type($c->config->{fmt}->{$c->req->params->{fmt}}->{content_type});
         }
@@ -318,11 +317,11 @@ sub end : ActionClass('RenderView')
     # If the current view is set to one of the special cases 'xml' or
     # 'json', handle the output internally, bypassing the normal view
     # rendering.
-    if ($c->stash->{current_view} eq 'json') {
-        $c->res->content_type('application/json; charset=UTF-8');
-        $c->res->body(encode_json($c->stash->{response}));
-        return 1;
-    }
+    #if ($c->stash->{current_view} eq 'json') {
+    #    $c->res->content_type('application/json; charset=UTF-8');
+    #    $c->res->body(encode_json($c->stash->{response}));
+    #    return 1;
+    #}
     #elsif ($c->stash->{current_view} eq 'xml') {
     #    my $xml = xmlify('response', $c->stash->{response});
     #    $c->res->content_type('application/xml');
