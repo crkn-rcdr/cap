@@ -443,16 +443,23 @@ sub subscribe :Path('subscribe') :Args(0) {
         }
         
         # throw an exception if the submitted amount is not what it's supposed to be
-        $c->detach('/error', [500, "Submitted subscription amount invalid"]) unless $amount == $sub_amount; 
-        
-        # Insert row into subscription table if there's no pending subscrition already        
-        unless ($c->model('DB::Subscription')->get_incomplete_row($c->user->id)) {
-           my $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promocode,$amount,$trname,$c->stash->{tax_receipt},"paypal");
+        $c->detach('/error', [500, "Submitted subscription amount invalid"]) unless $amount == $sub_amount;
+
+        # Update existing row, or insert row into subscription table
+        my $subscribed = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
+        if($subscribed) {
+	    # Move this to model? Duplicate of what is done for new...
+	    $subscribed->{promo} = $promo_applied;
+	    $subscribed->{amount} = $amount;
+	    $subscribed->{rcpt_name} = $trname;
+	    $subscribed->{rcpt_amt} = $c->stash->{tax_receipt};
+	    $subscribed->{processor} = "paypal";
+	} else {
+	    $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promo_applied,$amount,$trname,$c->stash->{tax_receipt},"paypal");
         }
 
         # Now we're ready to forward the subscription request to PayPay
         $c->detach('/payment/paypal/pay', [$amount, "ECO subscription for \$$amount (Needs localization)", '/user/subscribe_finalize']);
-
     }
 
     
