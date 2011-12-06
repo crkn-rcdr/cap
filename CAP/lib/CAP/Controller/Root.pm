@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 use Config::General;
-use CAP::Solr;
 use Encode;
 use Net::IP;
 use JSON;
