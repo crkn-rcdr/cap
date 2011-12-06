@@ -632,29 +632,29 @@ sub init :Private
 # These are wrappers for calling the like-named methods in the appropriate
 # Access module.
 
-sub has_access :Private
-{
-    my($self, $c, $doc, $key, $resource_type, $size) = @_;
+#sub has_access :Private
+#{
+#    my($self, $c, $doc, $key, $resource_type, $size) = @_;
 
     # Forward to the access control logic for the configured access model
-    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'has_access'), [$doc, $key, $resource_type, $size]);
-}
+#    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'has_access'), [$doc, $key, $resource_type, $size]);
+#}
 
-sub access_level :Private
-{
-    my($self, $c, $doc) = @_;
+#sub access_level :Private
+#{
+#    my($self, $c, $doc) = @_;
 
     # Forward to the access control logic for the configured access model
-    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'access_level'), [$doc]);
-}
+#    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'access_level'), [$doc]);
+#}
 
-sub credit_cost :Private
-{
-    my($self, $c, $doc) = @_;
+#sub credit_cost :Private
+#{
+#    my($self, $c, $doc) = @_;
 
     # Forward to the credit cost control logic for the configured access model
-    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'credit_cost'), [$doc]);
-}
+#    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'credit_cost'), [$doc]);
+#}
 
 __PACKAGE__->meta->make_immutable;
 
