@@ -1,6 +1,7 @@
 package CAP::Controller::User;
 use Moose;
 use namespace::autoclean;
+use Captcha::reCAPTCHA;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -54,9 +55,43 @@ sub create :Path('create') :Args(0) {
     my $password  = $c->request->params->{password}  || ""; # Password
     my $password2 = $c->request->params->{password2} || ""; # Password, re-entered
 
+    # Get keys from config
+    # Generated at https://www.google.com/recaptcha/admin/create
+    my $cappub=$c->config->{captcha}->{publickey};
+    my $cappriv=$c->config->{captcha}->{privatekey};
+
+    # If the keys are configured, then check -- otherwise no
+    my $capsuccess = 0;
+
+    if ($cappub && $cappriv) {
+	my $captcha = Captcha::reCAPTCHA->new;
+	my $caperror = undef;
+
+	my $rcf = $c->request->params->{recaptcha_challenge_field};
+	my $rrf = $c->request->params->{recaptcha_response_field};
+
+	if ($rrf)  {
+	    my $result = $captcha->check_answer(
+		$cappriv, $ENV{'REMOTE_ADDR'},
+		$rcf, $rrf);
+	    if ( $result->{is_valid} ) {
+		$capsuccess = 1;
+	    } else {
+		$caperror = $result->{error};
+	    }
+	}
+	$c->stash->{captcha} = $captcha->get_html($cappub, $caperror );
+    } else {
+        # If we aren't checking captcha, give blank html and set success.
+	$c->stash->{captcha}="";
+	$capsuccess = 1;
+    }
+
     my $error = 0;
     $c->stash->{userinfo}   = {};
     $c->stash->{completed}  = 0;
+
+
 
     # If this is not a form submission, just show the empty form.
     return 1 unless ($submitted);
@@ -67,6 +102,11 @@ sub create :Path('create') :Args(0) {
     };
 
     # Validate the submitted form data
+
+    if (!$capsuccess) {
+        $c->message({ type => "error", message => "captcha" });
+        $error = 1;
+    }
 
     # The username must be a valid email address and not be in use.
     my $user_for_username = $c->find_user({ username => $username });
