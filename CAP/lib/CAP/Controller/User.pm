@@ -384,93 +384,123 @@ sub edit :Path('edit') :Args(0) {
     return 1;
 }
 
+# for subscribe GETs.
 sub subscribe :Path('subscribe') :Args(0) {
-
     my($self, $c) = @_;
 
-    $c->stash->{promocode_message} = ' ';                                                                                             # default promocode message
-    my $amount = $c->config->{subscription_amount};                                                                                   # get the subscription price from the config file for now
-    
-    # Get the form parameters
-    my $mode        = defined($c->request->params->{mode})      ? $c->request->params->{mode}      : "default";                       # check if they clicked the promo button 
-    my $trname      = defined($c->request->params->{trname})    ? $c->request->params->{trname}    : "";                              # name on tax receipt   
-    my $sub_amount  = defined($c->request->params->{amount})    ? $c->request->params->{amount}    : 0;                               # submitted subscription amount   
-    my $promocode   = defined($c->request->params->{promocode}) ? $c->request->params->{promocode} : "";                              # promo code
-
-    my $promoamount = $c->model('DB::Promocode')->promo_amount($promocode);
-    # $c->stash->{prevmode} = $mode;
- 
-    # Apply the promo code                
-    if ($mode eq "addpromo") {       
-
-        $c->stash->{template} = 'user/subscribe.tt'; # we'll be returning here no matter what
-
-        # first check to see if promocode even exists
-        my $promocode_exists = $c->model('DB::Promocode')->code_exists($promocode);
-        unless ($promocode_exists) {
-            $c->stash->{promocode_message} = 'promocode invalid';
-            return 1;
-        }
-        
-        # now check to see of it's expired
-        my $code_expired = $c->model('DB::Promocode')->expired_promocode($promocode);
-        if ($code_expired) {
-            # tell user to submit valid promo code
-            $c->stash->{promocode_message} = 'promocode expired';
-            return 1;
-        }
-        else {
-            # this means the promocode is still good, we can go ahead and apply it
-            $c->stash->{subscription_price} = $amount - $promoamount;
-            $c->stash->{promocode_expired} = 0;
-            $c->stash->{promocode_message} = 'promocode applied';
-            $c->session->{promo_applied} = $promocode; # stuff it in the session so that we know it's been applied
-            return 1;
-        }
-    }
-    
-    
-    # Process the subscription request and detach to PayPal
-    elsif ($mode eq "subscribenow") {
-        my $userid = $c->user->id;
-        $c->stash->{subscribing_now} = 1;
-
-        # deduct promocode amount if applied
-        my $promo_applied  = defined($c->session->{promo_applied}) ? $c->session->{promo_applied} : 0;
-        if ($promo_applied) {
-           $c->detach('/error', [500, "Submitted amount invalid: promo code has expired"]) if $c->model('DB::Promocode')->expired_promocode($promo_applied);
-           $amount = $amount - $c->model('DB::Promocode')->promo_amount($promo_applied);
-        }
-        
-        # throw an exception if the submitted amount is not what it's supposed to be
-        $c->detach('/error', [500, "Submitted subscription amount invalid"]) unless $amount == $sub_amount;
-
-        # Update existing row, or insert row into subscription table
-        my $subscribed = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
-        if($subscribed) {
-	    # Move this to model? Duplicate of what is done for new...
-	    $subscribed->{promo} = $promo_applied;
-	    $subscribed->{amount} = $amount;
-	    $subscribed->{rcpt_name} = $trname;
-	    $subscribed->{rcpt_amt} = $c->stash->{tax_receipt};
-	    $subscribed->{processor} = "paypal";
-	} else {
-	    $subscribed = $c->model('DB::Subscription')->new_subscription($c,$promo_applied,$amount,$trname,$c->stash->{tax_receipt},"paypal");
-        }
-
-        # Now we're ready to forward the subscription request to PayPay
-        $c->detach('/payment/paypal/pay', [$amount, "ECO subscription for \$$amount (Needs localization)", '/user/subscribe_finalize']);
+    # Get the latest incomplete row
+    my $incomplete_row = $c->user->subscriptions->search(
+        { completed => undef },
+        { order_by => { -desc => 'id' } }
+    )->first();
+    my ($row_name, $row_code) = ('', '');
+    if ($incomplete_row) {
+        $row_name = $incomplete_row->rcpt_name;
+        $row_code = $incomplete_row->promo;
     }
 
-    
-    # If we're not applying the promo or processing the subscription just go/return to "subscribe" page
-    
-    $c->stash->{subscription_price} = $amount;
-    $c->stash->{promoamount} = $promoamount;
-    $c->stash->{template} = 'user/subscribe.tt';
+    # Good. Now delete all incomplete rows. Note: delete_all is "safer" than delete, but might not be necessary.
+    $c->user->subscriptions->search({ completed => undef })->delete_all();
+
+    my $amount = $c->stash->{subscription_price}; # getting this from the portal config
+    my $tax_receipt = $c->stash->{tax_receipt};
+    my $donor_name = $c->request->params->{donor_name} || ($row_name || $c->user->name);
+    my $promocode = $c->request->params->{promocode} || ($row_code || '');
+    my $promo_value = 0;
+    my $promo_message = '';
+
+    if ($promocode) {
+        my $promo_row = $c->model('DB::Promocode')->find($promocode);
+        if ($promo_row) {
+            if ($promo_row->expired) {
+                $promo_message = 'expired';
+            } else {
+                $promo_value = int($promo_row->amount);
+                $promo_message = 'OK';
+            }
+        } else {
+            $promo_message = 'invalid';
+        }
+    }
+
+    $c->stash({
+        donor_name => $donor_name,
+        promocode => $promocode,
+        promo_value => $promo_value,
+        promo_message => $promo_message,
+    });
 
     return 1;
+}
 
+# for subscribe POSTs.
+sub subscribe_process :Path('subscribe_process') :Args(0) {
+    my ($self, $c) = @_;
+    my $mode = $c->req->params->{submit};
+    my $promocode = $c->req->params->{promocode};
+    my $donor_name = $c->req->params->{donor_name};
+    my $terms = $c->req->params->{terms};
+    my $promo_value = 0;
+    my $amount = $c->stash->{subscription_price}; # getting this from the portal config
+    my $tax_receipt = $c->stash->{tax_receipt};
+
+    if ($mode eq "verify_code") {
+        $c->response->redirect($c->uri_for_action("/user/subscribe", { promocode => $promocode, donor_name => $donor_name }), 303);
+        return 0;
+    } elsif ($mode eq "subscribe") {
+        # Validate promocode
+        if ($promocode) {
+            my $promo_row = $c->model('DB::Promocode')->find($promocode);
+            if ($promo_row) {
+                if ($promo_row->expired) {
+                    $c->message({ type => "error", message => "promocode_expired" });
+                    $c->response->redirect($c->uri_for_action("/user/subscribe", { donor_name => $donor_name }), 303);
+                    return 1;
+                } else {
+                    $promo_value = $promo_row->amount;
+                }
+            } else {
+                $c->message({ type => "error", message => "promocode_invalid" });
+                $c->response->redirect($c->uri_for_action("/user/subscribe", { donor_name => $donor_name }), 303);
+                return 1;
+            }
+        }
+
+        # Validate name
+        unless ($donor_name) {
+            $c->message({ type => "error", message => "donor_name_required" });
+            $c->response->redirect($c->uri_for_action("/user/subscribe", { promocode => $promocode }), 303);
+            return 1;
+        }
+
+        # Ensure terms checkbox is checked
+        unless (defined($terms)) {
+            $c->message({ type => "error", message => "terms_required" });
+            $c->response->redirect($c->uri_for_action("/user/subscribe", { promocode => $promocode, donor_name => $donor_name }), 303);
+            return 1;
+        }
+
+        my $payment = $amount - $promo_value;
+
+        # TODO Ensure this does the right thing
+        # Create the subscription row
+        $c->user->add_to_subscriptions(
+            {
+                completed => undef,
+                promo     => $promocode,
+                amount    => $payment,
+                rcpt_name => $donor_name,
+                rcpt_amt  => $tax_receipt,
+                processor => "paypal",
+            }
+        );
+        # TODO Refactor the format_money macro within templates to work here too, or some other solution
+        $c->detach('/payment/paypal/pay', [$payment, $c->loc("ECO subscription for \$[_1]", $payment), '/user/subscribe_finalize']);
+    } else {
+        $c->detach("/error", [404, "This is not the page you're looking for."]);
+    }
+
+    return 1;
 }
 
 sub subscribe_finalize : Private

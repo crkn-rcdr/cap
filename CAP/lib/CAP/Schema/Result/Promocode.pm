@@ -88,6 +88,8 @@ __PACKAGE__->set_primary_key("id");
 # Created by DBIx::Class::Schema::Loader v0.07011 @ 2011-11-10 11:12:41
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TvWIWFBrx9nCAGyNUODD0w
 
-
-# You can replace this text with custom content, and it will be preserved on regeneration
+sub expired {
+    my $self = shift;
+    return ($self->expires->epoch <= time) ? 1 : 0;
+}
 1;
