@@ -57,34 +57,35 @@ sub create :Path('create') :Args(0) {
 
     # Get keys from config
     # Generated at https://www.google.com/recaptcha/admin/create
-    my $cappub=$c->config->{captcha}->{publickey};
-    my $cappriv=$c->config->{captcha}->{privatekey};
+    my $capenabled = $c->config->{captcha}->{enabled};
+    my $cappub = $c->config->{captcha}->{publickey};
+    my $cappriv = $c->config->{captcha}->{privatekey};
 
     # If the keys are configured, then check -- otherwise no
     my $capsuccess = 0;
 
-    if ($cappub && $cappriv) {
-	my $captcha = Captcha::reCAPTCHA->new;
-	my $caperror = undef;
+    if ($capenabled && $cappub && $cappriv) {
+        my $captcha = Captcha::reCAPTCHA->new;
+        my $caperror = undef;
 
-	my $rcf = $c->request->params->{recaptcha_challenge_field};
-	my $rrf = $c->request->params->{recaptcha_response_field};
+        my $rcf = $c->request->params->{recaptcha_challenge_field};
+        my $rrf = $c->request->params->{recaptcha_response_field};
 
-	if ($rrf)  {
-	    my $result = $captcha->check_answer(
-		$cappriv, $ENV{'REMOTE_ADDR'},
-		$rcf, $rrf);
-	    if ( $result->{is_valid} ) {
-		$capsuccess = 1;
-	    } else {
-		$caperror = $result->{error};
-	    }
-	}
-	$c->stash->{captcha} = $captcha->get_html($cappub, $caperror );
+        if ($rrf)  {
+            my $result = $captcha->check_answer(
+                $cappriv, $ENV{'REMOTE_ADDR'},
+                $rcf, $rrf);
+            if ( $result->{is_valid} ) {
+                $capsuccess = 1;
+            } else {
+                $caperror = $result->{error};
+            }
+        }
+        $c->stash->{captcha} = $captcha->get_html($cappub, $caperror, 1, { theme => 'white' });
     } else {
         # If we aren't checking captcha, give blank html and set success.
-	$c->stash->{captcha}="";
-	$capsuccess = 1;
+        $c->stash->{captcha}="";
+        $capsuccess = 1;
     }
 
     my $error = 0;
