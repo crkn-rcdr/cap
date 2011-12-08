@@ -546,19 +546,32 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
 
 sub subscribe_finalize : Private
 {
-    my($self, $c, $success, $message) = @_;
+    my($self, $c, $success, $message, $amount, $processor) = @_;
 
     my $period = $c->config->{subscription_period}; # replace with expiry dates
     $period = 365 unless ($period);
 
     $c->log->debug("User/subscribe_finalize: Success:$success , Message:$message") if ($c->debug);
 
-    my $subscriberow = $c->model('DB::Subscription')->get_incomplete_row($c->user->id);
+    # Get the latest incomplete row
+    my $subscriberow = $c->user->subscriptions->search(
+        { completed => undef },
+        { order_by => { -desc => 'id' } }
+    )->first();
     if (!$subscriberow) {
-	# Ouch -- got here, but no pending subscription?
-	$c->log->debug("User/subscribe_finalize: No pending subscription!") if ($c->debug);
-	## TODO: localize
-	$c->detach('/error', [500, "No pending subscription"]);
+        $c->user->add_to_subscriptions(
+            {
+                amount    => $amount,
+            }
+        );
+	my $subscriberow = $c->user->subscriptions->search(
+	    { completed => undef },
+	    { order_by => { -desc => 'id' } }
+	)->first();
+    }
+    if (!$subscriberow) {
+	# No pending subscription and unable to create new row?
+	$c->detach('/error', [500, "Error finalizing subscription"]);
 	return 0;
     }
 
@@ -627,7 +640,8 @@ sub subscribe_finalize : Private
 	   success => $success,
 	   message => $message,
 	   oldexpire =>   $subexpires,
-	   newexpire =>   $newexpires
+	   newexpire =>   $newexpires,
+           processor =>   $processor
       				     }) };  
     if ($@) {
 	$c->log->debug("User/subscribe_finalize subscriber update:  " .$@) if ($c->debug);

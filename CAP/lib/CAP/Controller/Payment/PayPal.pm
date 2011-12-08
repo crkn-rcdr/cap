@@ -99,7 +99,7 @@ sub pay : Private {
 	my $message = encode_json [["PPresp","",%PPresp]];
 
 	## Detach to location set when we were called to indicate failure
-	$c->detach($returnto, [0, $message]);
+	$c->detach($returnto, [0, $message, undef, "paypal"]);
     }
     return 0;
 }
@@ -169,7 +169,7 @@ $c->log->debug("Payment/Paypal/finalize: Success? : $success") if ($c->debug);
     my $message = encode_json [["Details","",%details],["PayInfo","",%payinfo]];
 
     # Detach to variable set when Paypal::Pay first called
-    $c->detach($returnto, [$success, $message]);
+    $c->detach($returnto, [$success, $message,$amount,"paypal"]);
     return 0;
 }
 
