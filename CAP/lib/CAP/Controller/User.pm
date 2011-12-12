@@ -81,7 +81,7 @@ sub create :Path('create') :Args(0) {
                 $caperror = $result->{error};
             }
         }
-        $c->stash->{captcha} = $captcha->get_html($cappub, $caperror, 1, { theme => 'white', lang => $c->stash->{lang} });
+        $c->stash->{captcha} = $captcha->get_html($cappub, $caperror, 1, { theme => 'clean', lang => $c->stash->{lang} });
     } else {
         # If we aren't checking captcha, give blank html and set success.
         $c->stash->{captcha}="";
