@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::User;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::User
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<user>
+=head1 NAME
+
+CAP::Schema::Result::User
 
 =cut
 
@@ -101,7 +82,6 @@ __PACKAGE__->table("user");
 =head2 subexpires
 
   data_type: 'datetime'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =cut
@@ -128,40 +108,27 @@ __PACKAGE__->add_columns(
   "credits",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "subexpires",
-  {
-    data_type => "datetime",
-    datetime_undef_if_invalid => 1,
-    is_nullable => 1,
-  },
+  { data_type => "datetime", is_nullable => 1 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("id");
-
-=head1 UNIQUE CONSTRAINTS
-
-=head2 C<username>
-
-=over 4
-
-=item * L</username>
-
-=back
-
-=cut
-
 __PACKAGE__->add_unique_constraint("username", ["username"]);
 
 =head1 RELATIONS
+
+=head2 payments
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Payment>
+
+=cut
+
+__PACKAGE__->has_many(
+  "payments",
+  "CAP::Schema::Result::Payment",
+  { "foreign.user_id" => "self.id" },
+  {},
+);
 
 =head2 subscriptions
 
@@ -209,8 +176,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2011-11-10 11:12:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JYFvy7f8rbn3w/H6wO99HA
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-12 13:15:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hvhdx5I7u8ixwAl0ldmCHA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

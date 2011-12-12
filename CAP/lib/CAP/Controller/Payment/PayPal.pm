@@ -19,7 +19,6 @@ sub auto :Private {
     return 1;
 }
 
-
 # Common function that will output debug information related to the
 # PayPal API calls
 sub debugPPAPI {
@@ -39,13 +38,11 @@ sub debugPPAPI {
   }
 }
 
-
-
 # Detach to this method to initiate a PayPal payment transaction
 sub pay : Private {
 # temporary for initial test, just use /payment/paypal/pay
 #sub pay :Path('pay') {
-    my($self, $c, $amount, $description, $returnto) = @_;
+    my($self, $c, $amount, $description, $returnto, $foreignid) = @_;
 
 
     # This function only needs the following
@@ -83,23 +80,33 @@ sub pay : Private {
 
     debugPPAPI($c, "Pay", %PPresp ) if $c->debug;
 
-    if ($PPresp{Ack} eq "Success") {
+    use JSON;
+    ## Encode all results from PayPal into single JSON message
+    my $message = encode_json [["PPresp","",%PPresp]];
 
+    my $paymentrow = $c->user->add_to_payments({
+	    amount    => $amount,
+	    description => $orderDescription,
+	    returnto  => $returnto,
+	    foreignid => $foreignid,
+	    message   => $message,
+	    token     => $PPresp{Token},
+	    processor => "paypal"
+					   });
+
+    if ($PPresp{Ack} eq "Success") {
 	my $sandboxURL = $sandbox ? ".sandbox" : "";
 	my $paypalURL="https://www" . $sandboxURL . ".paypal.com/webscr?cmd=_express-checkout&token=" .$PPresp{Token};
-
 	$c->log->debug("Payment/Paypal/Pay: ReturnURL => $ReturnURL , CancelURL => $CancelURL , paypalURL => $paypalURL") if ($c->debug);
-
-	# Set session variables needed by finalize
-	$c->flash->{"PayPal"} = [$returnto,$amount];
 	$c->response->redirect($paypalURL);
     } else {
-	use JSON;
-	## Encode all results from PayPal into single JSON message
-	my $message = encode_json [["PPresp","",%PPresp]];
-
+        $paymentrow->update({
+	     completed => \'now()', #' Makes Emacs Happy
+	     success => 0,
+			    });
 	## Detach to location set when we were called to indicate failure
-	$c->detach($returnto, [0, $message, undef, "paypal"]);
+	$c->detach($returnto, [0, $message, undef,
+			       $paymentrow->id, $paymentrow->foreignid]);
     }
     return 0;
 }
@@ -116,19 +123,6 @@ sub finalize :Path('finalize') {
 
     $c->log->debug("Payment/Paypal/finalize: username:$username , password:$password , signature:$signature , sandbox:$sandbox") if ($c->debug);
 
-    my $flashvars = $c->flash->{"PayPal"};
-    my ($returnto, $amount);
-
-    if ($flashvars) {
-	$returnto = @$flashvars[0];
-	$amount = @$flashvars[1];
-	$c->log->debug("Payment/Paypal/finalize: returnto:$returnto , amount:$amount") if ($c->debug);
-    } else {
-	# If the session is missing key variables, generate an error
-	# TODO: localize
-	$c->detach('/error', [500, "Session variables missing"]);
-	return 0;
-    }
 
     my $token = $c->request->param( 'token' );
     $c->log->debug("Payment/Paypal/finalize: token = $token") if ($c->debug);
@@ -137,6 +131,19 @@ sub finalize :Path('finalize') {
       $c->detach('/error', [400, "Invalid query parameters"]);
       return 0;
     }
+
+    my ($returnto, $amount);
+    my $paymentrow = $c->user->payments->search({
+	token => $token })->first();
+    if (!$paymentrow) {
+	# TODO: find a better way to deal with error?
+	$c->detach('/error', [400, "Token not found in database"]);
+	return 0;
+    }
+
+    $returnto = $paymentrow->returnto;
+    $amount = $paymentrow->amount;
+    $c->log->debug("Payment/Paypal/finalize: returnto:$returnto , amount:$amount") if ($c->debug);
 
     my $pp = new Business::PayPal::API::ExpressCheckout(
       Username   => $username,
@@ -168,8 +175,16 @@ $c->log->debug("Payment/Paypal/finalize: Success? : $success") if ($c->debug);
     ## Encode all results from PayPal into single JSON message
     my $message = encode_json [["Details","",%details],["PayInfo","",%payinfo]];
 
+
+    $paymentrow->update({
+	completed => \'now()', #' Makes Emacs Happy
+	success => $success,
+	message => $message
+			});
+
     # Detach to variable set when Paypal::Pay first called
-    $c->detach($returnto, [$success, $message,$amount,"paypal"]);
+    $c->detach($returnto, [$success, $message,$amount,
+			   $paymentrow->id,$paymentrow->foreignid]);
     return 0;
 }
 

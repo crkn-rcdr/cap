@@ -1,4 +1,4 @@
-package CAP::Schema::Result::Subscription;
+package CAP::Schema::Result::Payment;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
@@ -12,11 +12,11 @@ __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedCol
 
 =head1 NAME
 
-CAP::Schema::Result::Subscription
+CAP::Schema::Result::Payment
 
 =cut
 
-__PACKAGE__->table("subscription");
+__PACKAGE__->table("payment");
 
 =head1 ACCESSORS
 
@@ -24,6 +24,12 @@ __PACKAGE__->table("subscription");
 
   data_type: 'integer'
   is_auto_increment: 1
+  is_nullable: 0
+
+=head2 updated
+
+  data_type: 'timestamp'
+  default_value: current_timestamp
   is_nullable: 0
 
 =head2 user_id
@@ -49,48 +55,35 @@ __PACKAGE__->table("subscription");
   is_nullable: 1
   size: [10,2]
 
-=head2 promo
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 32
-
-=head2 oldexpire
-
-  data_type: 'datetime'
-  is_nullable: 1
-
-=head2 newexpire
-
-  data_type: 'datetime'
-  is_nullable: 1
-
-=head2 payment_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 1
-
-=head2 rcpt_amt
-
-  data_type: 'decimal'
-  default_value: 0.00
-  is_nullable: 1
-  size: [10,2]
-
-=head2 rcpt_name
+=head2 description
 
   data_type: 'text'
   is_nullable: 1
 
-=head2 rcpt_no
+=head2 returnto
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 foreignid
 
   data_type: 'integer'
   is_nullable: 1
 
-=head2 note
+=head2 token
 
   data_type: 'text'
+  is_nullable: 1
+
+=head2 message
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 processor
+
+  data_type: 'enum'
+  extra: {list => ["paypal"]}
   is_nullable: 1
 
 =cut
@@ -98,6 +91,12 @@ __PACKAGE__->table("subscription");
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  "updated",
+  {
+    data_type     => "timestamp",
+    default_value => \"current_timestamp",
+    is_nullable   => 0,
+  },
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "completed",
@@ -111,30 +110,20 @@ __PACKAGE__->add_columns(
     is_nullable => 1,
     size => [10, 2],
   },
-  "promo",
-  { data_type => "varchar", is_nullable => 1, size => 32 },
-  "oldexpire",
-  { data_type => "datetime", is_nullable => 1 },
-  "newexpire",
-  { data_type => "datetime", is_nullable => 1 },
-  "payment_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-  "rcpt_amt",
-  {
-    data_type => "decimal",
-    default_value => "0.00",
-    is_nullable => 1,
-    size => [10, 2],
-  },
-  "rcpt_name",
+  "description",
   { data_type => "text", is_nullable => 1 },
-  "rcpt_no",
+  "returnto",
+  { data_type => "text", is_nullable => 1 },
+  "foreignid",
   { data_type => "integer", is_nullable => 1 },
-  "note",
+  "token",
   { data_type => "text", is_nullable => 1 },
+  "message",
+  { data_type => "text", is_nullable => 1 },
+  "processor",
+  { data_type => "enum", extra => { list => ["paypal"] }, is_nullable => 1 },
 );
 __PACKAGE__->set_primary_key("id");
-__PACKAGE__->add_unique_constraint("rcpt_no", ["rcpt_no"]);
 
 =head1 RELATIONS
 
@@ -148,23 +137,24 @@ Related object: L<CAP::Schema::Result::User>
 
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
-=head2 payment_id
+=head2 subscriptions
 
-Type: belongs_to
+Type: has_many
 
-Related object: L<CAP::Schema::Result::Payment>
+Related object: L<CAP::Schema::Result::Subscription>
 
 =cut
 
-__PACKAGE__->belongs_to(
-  "payment_id",
-  "CAP::Schema::Result::Payment",
-  { id => "payment_id" },
+__PACKAGE__->has_many(
+  "subscriptions",
+  "CAP::Schema::Result::Subscription",
+  { "foreign.payment_id" => "self.id" },
+  {},
 );
 
 
 # Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-12 15:36:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:teqaOdkgxphu3+OVIxDX5g
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2PNMcwURAp6p66Dwgc9ffg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

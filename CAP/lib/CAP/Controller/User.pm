@@ -525,18 +525,17 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
 
         # TODO Ensure this does the right thing
         # Create the subscription row
-        $c->user->add_to_subscriptions(
+        my $subscriptionrow = $c->user->add_to_subscriptions(
             {
                 completed => undef,
                 promo     => $promocode,
                 amount    => $payment,
                 rcpt_name => $donor_name,
                 rcpt_amt  => $tax_receipt,
-                processor => "paypal",
             }
         );
         # TODO Refactor the format_money macro within templates to work here too, or some other solution
-        $c->detach('/payment/paypal/pay', [$payment, $c->loc("ECO subscription for \$[_1]", $payment), '/user/subscribe_finalize']);
+        $c->detach('/payment/paypal/pay', [$payment, $c->loc("ECO subscription for \$[_1]", $payment), '/user/subscribe_finalize', $subscriptionrow->id]);
     } else {
         $c->detach("/error", [404, "This is not the page you're looking for."]);
     }
@@ -546,12 +545,12 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
 
 sub subscribe_finalize : Private
 {
-    my($self, $c, $success, $message, $amount, $processor) = @_;
+    my($self, $c, $success, $message, $amount, $paymentid, $foreignid) = @_;
 
     my $period = $c->config->{subscription_period}; # replace with expiry dates
     $period = 365 unless ($period);
 
-    $c->log->debug("User/subscribe_finalize: Success:$success , Message:$message") if ($c->debug);
+    $c->log->debug("User/subscribe_finalize: Success:$success , Message:$message PaymentID: $paymentid ForeignID:$foreignid ") if ($c->debug);
 
     # Get the latest incomplete row
     my $subscriberow = $c->user->subscriptions->search(
@@ -627,22 +626,24 @@ sub subscribe_finalize : Private
 	undef $newexpires;
     }
 
+    # Whether successful or not, record completion and the messages
+    # from PayPal
+    eval { $subscriberow->update({
+	   completed => \'now()', #' Makes Emacs Happy
+	   success => $success,
+	   payment_id => $paymentid,
+	   oldexpire =>   $subexpires,
+	   newexpire =>   $newexpires,
+           payment_id =>   $paymentid
+      				     }) };  
+
+
     # Send an email notification to administrators
     if (exists($c->config->{subscription_admins})) {
         $c->forward("/mail/subscription_notice", [$c->config->{subscription_admins}, $success, $subexpires, $newexpires, $message]);
     }
 
 
-    # Whether successful or not, record completion and the messages
-    # from PayPal
-    eval { $subscriberow->update({
-	   completed => \'now()', #' Makes Emacs Happy
-	   success => $success,
-	   message => $message,
-	   oldexpire =>   $subexpires,
-	   newexpire =>   $newexpires,
-           processor =>   $processor
-      				     }) };  
     if ($@) {
 	$c->log->debug("User/subscribe_finalize subscriber update:  " .$@) if ($c->debug);
 	$c->detach('/error', [500,"subscriber update"]);
