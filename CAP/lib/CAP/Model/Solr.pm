@@ -75,9 +75,11 @@ method BUILD {
     $self->{default_field} = 'q';
 }
 
-method document (Str $key) {
+method document (Str $key, :$text = 0) {
     my $doc;
-    eval { $doc = new CAP::Solr::Document({ key => $key, server => $self->server, options => $self->options }) };
+    my %fl = ();
+    $fl{fl} = join(",", $self->options->{fl}, "tx") if ($text); # Include the page text
+    eval { $doc = new CAP::Solr::Document({ key => $key, server => $self->server, options => { %{$self->options}, %fl } }) };
     if ($@) { warn $@; return undef; }
     return $doc;
 }
@@ -85,7 +87,7 @@ method document (Str $key) {
 method search (Str $subset = "") {
     my $search;
     eval { $search = new CAP::Solr::Search({ server => $self->server, options => $self->options, subset => $subset }) };
-    if ($@) { warn $@; return undef; }
+    if ($@) { return undef; }
     return $search;
 }
 

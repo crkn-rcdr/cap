@@ -60,31 +60,6 @@ sub result_page :Path('') :Args(1) {
         }
     }
 
-
-    # Create the API response object for JSON and RDF requests
-    my $response = {
-        %{$c->stash->{response}},
-        result  => $resultset->api('result'),
-        pubdate => { min => $pubmin, max => $pubmax, min_year => int(substr($pubmin, 0, 4)), max_year => int(substr($pubmax, 0, 4)) },
-        facet   => $resultset->api('facets'),
-        docs    => $resultset->api('docs'),
-        pages    => $response_pages,
-    };
-
-    # Convert next and previous page values into URLs.
-    if ($response->{result}->{next_page}) {
-        $response->{result}->{next_page} = $c->uri_for_action('search/result_page', [$response->{result}->{next_page}], $c->req->params) . "";
-    }
-    else {
-        $response->{result}->{next_page} = "";
-    }
-    if ($response->{result}->{prev_page}) {
-        $response->{result}->{prev_page} = $c->uri_for_action('search/result_page', [$response->{result}->{prev_page}], $c->req->params) . "";
-    }
-    else {
-        $response->{result}->{prev_page} = "";
-    }
-
     # Record the last search parameters
     $c->session->{search} = {
         start    => $page,
@@ -98,7 +73,6 @@ sub result_page :Path('') :Args(1) {
         pages     => $pages,
         resultset => $resultset,
         template  => 'search.tt',
-        response  => $response,
     );
 
     return 1;

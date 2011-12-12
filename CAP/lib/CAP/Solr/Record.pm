@@ -78,12 +78,16 @@ method api {
     $fl->{key}      = $self->key   if ($self->key);
     $fl->{pkey}     = $self->pkey  if ($self->pkey);
     $fl->{label}    = $self->label if ($self->label);
+    $fl->{contributor}    = $self->contributor if ($self->contributor);
     $fl->{type}     = $self->type  if ($self->type);
     $fl->{location} = $self->canonicalUri if ($self->canonicalUri);
     $fl->{title}    = $self->ti    if ($self->ti);
     $fl->{creator}  = $self->au    if ($self->au);
     $fl->{subject}  = $self->su    if ($self->su);
     $fl->{note}     = $self->no    if ($self->no);
+    $fl->{text}     = $self->tx    if ($self->tx);
+    $fl->{lang}     = $self->lang  if ($self->lang);
+    $fl->{media}     = $self->media  if ($self->media);
     return $fl;
 }
 

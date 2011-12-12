@@ -27,7 +27,10 @@ sub key_seq :Path("") :Args(2) {
 sub view :Private {
     my($self, $c, $key, $seq) = @_;
 
-    my $doc = $c->model("Solr")->document($key);
+    # Should we include the document text with the result?
+    my $text = int($c->req->params->{api_text} || 0);
+
+    my $doc = $c->model("Solr")->document($key, text => $text);
     $c->detach("/error", [404, "Record not found: $key"]) unless $doc;
 
     # Put the document structure into the response object for use by the API.
