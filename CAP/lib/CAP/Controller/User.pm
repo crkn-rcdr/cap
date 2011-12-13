@@ -429,24 +429,10 @@ sub edit :Path('edit') :Args(0) {
 sub subscribe :Path('subscribe') :Args(0) {
     my($self, $c) = @_;
 
-    # Get the latest incomplete row
-    my $incomplete_row = $c->user->subscriptions->search(
-        { completed => undef },
-        { order_by => { -desc => 'id' } }
-    )->first();
-    my ($row_name, $row_code) = ('', '');
-    if ($incomplete_row) {
-        $row_name = $incomplete_row->rcpt_name;
-        $row_code = $incomplete_row->promo;
-    }
-
-    # Good. Now delete all incomplete rows. Note: delete_all is "safer" than delete, but might not be necessary.
-    $c->user->subscriptions->search({ completed => undef })->delete_all();
-
     my $amount = $c->stash->{subscription_price}; # getting this from the portal config
     my $tax_receipt = $c->stash->{tax_receipt};
-    my $donor_name = $c->request->params->{donor_name} || ($row_name || $c->user->name);
-    my $promocode = $c->request->params->{promocode} || ($row_code || '');
+    my $donor_name = $c->request->params->{donor_name} || $c->user->name;
+    my $promocode = $c->request->params->{promocode} || '';
     my $promo_value = 0;
     my $promo_message = '';
 
@@ -529,7 +515,6 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
             {
                 completed => undef,
                 promo     => $promocode,
-                amount    => $payment,
                 rcpt_name => $donor_name,
                 rcpt_amt  => $tax_receipt,
             }
@@ -545,37 +530,24 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
 
 sub subscribe_finalize : Private
 {
-    my($self, $c, $success, $message, $amount, $paymentid, $foreignid) = @_;
+    my($self, $c, $success, $paymentid, $foreignid) = @_;
 
     my $period = $c->config->{subscription_period}; # replace with expiry dates
     $period = 365 unless ($period);
 
-    $c->log->debug("User/subscribe_finalize: Success:$success , Message:$message PaymentID: $paymentid ForeignID:$foreignid ") if ($c->debug);
+    $c->log->debug("User/subscribe_finalize: Success:$success , PaymentID: $paymentid ForeignID:$foreignid ") if ($c->debug);
 
-    # Get the latest incomplete row
-    my $subscriberow = $c->user->subscriptions->search(
-        { completed => undef },
-        { order_by => { -desc => 'id' } }
-    )->first();
-    if (!$subscriberow) {
-        $c->user->add_to_subscriptions(
-            {
-                amount    => $amount,
-            }
-        );
-	my $subscriberow = $c->user->subscriptions->search(
-	    { completed => undef },
-	    { order_by => { -desc => 'id' } }
-	)->first();
-    }
-    if (!$subscriberow) {
-	# No pending subscription and unable to create new row?
+    # Get the matching subscription row
+    my $subscriberow = $c->user->subscriptions->find($foreignid);
+    my $paymentrow = $c->user->payments->find($paymentid);
+    if (!$subscriberow || !$paymentrow) {
+	# No matching subscription and unable to create new row?
 	$c->detach('/error', [500, "Error finalizing subscription"]);
 	return 0;
     }
-
+    my $message = $paymentrow->message;
+    my $amount  = $paymentrow->amount;
     my $userid =  $c->user->id;
-    my $orderTotal = $subscriberow->amount;
 
     ## Date manipulation to set the old and new expiry dates
     use Date::Manip::Date;
@@ -653,7 +625,7 @@ sub subscribe_finalize : Private
 	$c->message(Message::Stack::Message->new(
 			level => "success",
 			msgid => "payment_complete",
-			params => [$orderTotal]));
+			params => [$amount]));
     } else {
 	$c->message({ type => "error", message => "payment_failed" });
     }

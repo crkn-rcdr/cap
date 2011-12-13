@@ -105,8 +105,7 @@ sub pay : Private {
 	     success => 0,
 			    });
 	## Detach to location set when we were called to indicate failure
-	$c->detach($returnto, [0, $message, undef,
-			       $paymentrow->id, $paymentrow->foreignid]);
+	$c->detach($returnto, [0, $paymentrow->id, $paymentrow->foreignid]);
     }
     return 0;
 }
@@ -133,8 +132,7 @@ sub finalize :Path('finalize') {
     }
 
     my ($returnto, $amount);
-    my $paymentrow = $c->user->payments->search({
-	token => $token })->first();
+    my $paymentrow = $c->user->payments->find({token => $token });
     if (!$paymentrow) {
 	# TODO: find a better way to deal with error?
 	$c->detach('/error', [400, "Token not found in database"]);
@@ -175,7 +173,6 @@ $c->log->debug("Payment/Paypal/finalize: Success? : $success") if ($c->debug);
     ## Encode all results from PayPal into single JSON message
     my $message = encode_json [["Details","",%details],["PayInfo","",%payinfo]];
 
-
     $paymentrow->update({
 	completed => \'now()', #' Makes Emacs Happy
 	success => $success,
@@ -183,8 +180,7 @@ $c->log->debug("Payment/Paypal/finalize: Success? : $success") if ($c->debug);
 			});
 
     # Detach to variable set when Paypal::Pay first called
-    $c->detach($returnto, [$success, $message,$amount,
-			   $paymentrow->id,$paymentrow->foreignid]);
+    $c->detach($returnto, [$success, $paymentrow->id, $paymentrow->foreignid]);
     return 0;
 }
 

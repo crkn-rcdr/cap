@@ -26,6 +26,12 @@ __PACKAGE__->table("subscription");
   is_auto_increment: 1
   is_nullable: 0
 
+=head2 updated
+
+  data_type: 'timestamp'
+  default_value: current_timestamp
+  is_nullable: 0
+
 =head2 user_id
 
   data_type: 'integer'
@@ -41,13 +47,6 @@ __PACKAGE__->table("subscription");
 
   data_type: 'tinyint'
   is_nullable: 1
-
-=head2 amount
-
-  data_type: 'decimal'
-  default_value: 0.00
-  is_nullable: 1
-  size: [10,2]
 
 =head2 promo
 
@@ -98,19 +97,18 @@ __PACKAGE__->table("subscription");
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  "updated",
+  {
+    data_type     => "timestamp",
+    default_value => \"current_timestamp",
+    is_nullable   => 0,
+  },
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "completed",
   { data_type => "datetime", is_nullable => 1 },
   "success",
   { data_type => "tinyint", is_nullable => 1 },
-  "amount",
-  {
-    data_type => "decimal",
-    default_value => "0.00",
-    is_nullable => 1,
-    size => [10, 2],
-  },
   "promo",
   { data_type => "varchar", is_nullable => 1, size => 32 },
   "oldexpire",
@@ -163,8 +161,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-12 15:36:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:teqaOdkgxphu3+OVIxDX5g
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-13 11:27:07
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:r5tOAmMsPgS4Nnr7+qUXKg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
