@@ -384,23 +384,12 @@ sub index :Path('') Args(0)
 
 sub support :Path('support') Args() {
     my ($self, $c, $resource) = @_;
-    if ($c->stash->{support}) { # new method
-        unless ($c->stash->{support}->{$resource}) {
-            $c->detach("error", [404]);
-        }
-        $c->stash->{support_resource} = $resource;
-        $c->stash->{template} = 'support.tt';
-        return 1;
-    } else { # TODO: remove old method when we move over to new portals
-        my $support = join('/', $c->config->{root}, 'support', $c->stash->{portal}, $resource) . ".tt";
-        if(! open(INFO, "<$support")) {
-            $c->detach('/error', [404]);
-        }
-        $c->stash->{support}     = decode_utf8(join("", <INFO>));
-        close(INFO);
-        $c->stash->{template} = 'support.tt';
-        return 1;
+    unless ($c->stash->{support}->{$resource}) {
+        $c->detach("error", [404]);
     }
+    $c->stash->{support_resource} = $resource;
+    $c->stash->{template} = 'support.tt';
+    return 1;
 }
 
 sub test_error :Path('error') Args(1)
