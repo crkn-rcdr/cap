@@ -382,17 +382,6 @@ sub index :Path('') Args(0)
     $c->stash->{template} = "index.tt";
 }
 
-sub file :Path('file') Args(2)
-{
-    my($self, $c, $key, $filename) = @_;
-    return $c->forward('file/main', [$key, $filename]);
-}
-
-sub file_for_page :Path('file') Args(3) {
-    my($self, $c, $key, $seq, $filename) = @_;
-    return $c->forward('file/for_page', [$key, $seq, $filename]);
-}
-
 sub support :Path('support') Args() {
     my ($self, $c, $resource) = @_;
     if ($c->stash->{support}) { # new method
