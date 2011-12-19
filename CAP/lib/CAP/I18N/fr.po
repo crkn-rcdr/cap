@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2011-12-19 08:37-0500\n"
+"PO-Revision-Date: 2011-12-19 13:46-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,6 @@ msgstr "Le profil de %1"
 msgid "1 result"
 msgstr "1 résultat"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:1
 msgid ":"
 msgstr " :"
 
@@ -331,6 +330,7 @@ msgstr "Vous ne disposez pas d’un compte?"
 msgid "Donor name"
 msgstr "Nom du donateur"
 
+#: ../../../../../cap-root/templates/Default/Common/view_doc.tt:11
 msgid "Download PDF"
 msgstr "Télécharger PDF"
 
@@ -521,10 +521,6 @@ msgstr "Nom d’utilisateur ou mot de passe non valide. Veuillez essayer à nouv
 msgid "Issue %1 of %2 available issues"
 msgstr "Numéro %1 de %2"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:1
-msgid "Keyword search within"
-msgstr ""
-
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:10
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:65
 msgid "Language"
@@ -588,6 +584,10 @@ msgstr ""
 msgid "List of Issues"
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/partial/page_viewer.tt:9
+msgid "Loading..."
+msgstr "Téléchargement..."
+
 msgid "Log In"
 msgstr "Ouverture de session"
 
@@ -602,7 +602,7 @@ msgstr "Ouverture de session"
 #: ../../../../../cap-root/templates/Default/Common/layout/header.tt:21
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:12
 msgid "Logout"
-msgstr ""
+msgstr "Quitter"
 
 msgid "Look for..."
 msgstr "Rechercher..."
@@ -923,6 +923,10 @@ msgstr "Liste des résultats"
 msgid "Search the collection"
 msgstr "Recherche dans la collection"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:1
+msgid "Search this document"
+msgstr "Recherche dans ce document"
+
 msgid "Search this item's %1 %2"
 msgstr "Effectuer une recherche dans les %1 %2 de ce document"
 
@@ -1153,6 +1157,8 @@ msgstr "Un problème est survenu lors de votre requête. Essayez de nouveau dans
 msgid "There was an error retrieving this page."
 msgstr ""
 
+#. (doc.child_count)
+#: ../../../../../cap-root/templates/Default/Common/view_doc.tt:8
 msgid "This document contains %1 pages"
 msgstr " Ce document contient %1 pages"
 
