@@ -13,7 +13,8 @@ use Digest::SHA1 qw(sha1_hex);
 use URI::Escape;
 
 # Properties from parameters passed to the constructor
-has 'key'           => (is => 'ro', isa => 'Str', default => "");
+has 'key'           => (is => 'ro', isa => 'Str', default => ""); # Document key to retrieve
+has 'subset'        => (is => 'ro', isa => 'Str', default => ""); # Document must belong to this subset
 has 'server'        => (is => 'ro', isa => 'Str', required => 1);
 has 'options'       => (is => 'ro', isa => 'HashRef', default => sub{{}});
 has 'doc'           => (is => 'ro', isa => 'WebService::Solr::Document');
@@ -44,7 +45,11 @@ method BUILD {
     }
     elsif ($self->key) {
         # Fetch the requested document
-        my $response = $self->solr->search("key:" . $self->key, $self->options);
+        my $query = "key: " . $self->key;
+        if ($self->subset) {
+            $query .= ' AND ' . $self->subset;
+        }
+        my $response = $self->solr->search($query, $self->options);
         croak("Solr query failure") unless ($response->ok);
         croak("No such document") unless ($#{$response->docs} == 0);
 
