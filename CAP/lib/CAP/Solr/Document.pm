@@ -167,6 +167,7 @@ method download_request (HashRef $content_config) {
         $self->_to_query('expires', $expires),
         $self->_to_query('signature', $signature),
         $self->_to_query('key', $content_config->{key}),
+        $self->_to_query('file', $filename),
     ];
     
     return [200, $self->_request_uri($content_config->{url}, $filename, $params)];
