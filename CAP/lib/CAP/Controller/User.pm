@@ -568,10 +568,11 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
         # Create the subscription row
         my $subscriptionrow = $c->user->add_to_subscriptions(
             {
-                completed => undef,
-                promo     => $promocode,
-                rcpt_name => $donor_name,
-                rcpt_amt  => $tax_receipt_amount,
+                completed    => undef,
+                promo        => $promocode,
+                rcpt_name    => $donor_name,
+                rcpt_amt     => $tax_receipt_amount,
+                rcpt_address => $blob,
             }
         );
         # TODO Refactor the format_money macro within templates to work here too, or some other solution
