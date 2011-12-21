@@ -13,6 +13,9 @@ sub index :Path('') :Args(0) {
 sub result_page :Path('') :Args(1) {
     my($self, $c, $page) = @_;
 
+    # Create an empty q parameter if none was specified.
+    $c->req->params->{q} = "" unless ($c->req->params->{q});
+
     # Retrieve the first page of results unless otherwise requested.
     $page = 1 unless ($page > 1);
 
