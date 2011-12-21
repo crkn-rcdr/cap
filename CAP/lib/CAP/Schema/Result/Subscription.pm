@@ -82,10 +82,21 @@ __PACKAGE__->table("subscription");
   data_type: 'text'
   is_nullable: 1
 
+=head2 rcpt_address
+
+  data_type: 'text'
+  is_nullable: 1
+
 =head2 rcpt_no
 
   data_type: 'integer'
   is_nullable: 1
+
+=head2 rcpt_id
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 20
 
 =head2 note
 
@@ -126,12 +137,17 @@ __PACKAGE__->add_columns(
   },
   "rcpt_name",
   { data_type => "text", is_nullable => 1 },
+  "rcpt_address",
+  { data_type => "text", is_nullable => 1 },
   "rcpt_no",
   { data_type => "integer", is_nullable => 1 },
+  "rcpt_id",
+  { data_type => "varchar", is_nullable => 1, size => 20 },
   "note",
   { data_type => "text", is_nullable => 1 },
 );
 __PACKAGE__->set_primary_key("id");
+__PACKAGE__->add_unique_constraint("rcpt_id", ["rcpt_id"]);
 __PACKAGE__->add_unique_constraint("rcpt_no", ["rcpt_no"]);
 
 =head1 RELATIONS
@@ -161,8 +177,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-13 11:27:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:r5tOAmMsPgS4Nnr7+qUXKg
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-21 14:25:14
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1AUSfLa9o5c8rM42c++www
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
