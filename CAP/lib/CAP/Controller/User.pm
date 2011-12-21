@@ -432,6 +432,12 @@ sub subscribe :Path('subscribe') :Args(0) {
     my $amount = $c->stash->{subscription_price}; # getting this from the portal config
     my $tax_receipt = $c->stash->{tax_receipt};
     my $donor_name = $c->request->params->{donor_name} || $c->user->name;
+    my $address = $c->request->params->{address} || '';
+    my $address2 = $c->request->params->{address2} || '';
+    my $city = $c->request->params->{city} || '';
+    my $province = $c->request->params->{province} || '';
+    my $pc1 = $c->request->params->{pc1} || '';
+    my $pc2 = $c->request->params->{pc2} || '';
     my $promocode = $c->request->params->{promocode} || '';
     my $promo_value = 0;
     my $promo_message = '';
@@ -452,6 +458,12 @@ sub subscribe :Path('subscribe') :Args(0) {
 
     $c->stash({
         donor_name => $donor_name,
+        address => $address,
+        address2 => $address2,
+        city => $city,
+        province => $province,
+        pc1 => $pc1,
+        pc2 => $pc2,
         promocode => $promocode,
         promo_value => $promo_value,
         promo_message => $promo_message,
@@ -465,58 +477,101 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
     my ($self, $c) = @_;
     my $mode = $c->req->params->{submit};
     my $promocode = $c->req->params->{promocode};
+    my $tax_receipt = $c->req->params->{wants_tax_receipt};
     my $donor_name = $c->req->params->{donor_name};
+    my $address = $c->req->params->{address};
+    my $address2 = $c->req->params->{address2};
+    my $city = $c->req->params->{city};
+    my $province = $c->req->params->{province};
+    my $pc1 = $c->req->params->{pc1};
+    my $pc2 = $c->req->params->{pc2};
     my $terms = $c->req->params->{terms};
     my $promo_value = 0;
     my $amount = $c->stash->{subscription_price}; # getting this from the portal config
-    my $tax_receipt = $c->stash->{tax_receipt};
+    my $tax_receipt_amount = $c->stash->{tax_receipt};
+
+    my $get_vars = {
+        promocode => $promocode,
+        donor_name => $donor_name,
+        address => $address,
+        address2 => $address2,
+        city => $city,
+        province => $province,
+        pc1 => $pc1,
+        pc2 => $pc2,
+    };
 
     if ($mode eq "verify_code") {
-        $c->response->redirect($c->uri_for_action("/user/subscribe", { promocode => $promocode, donor_name => $donor_name }), 303);
+        $c->response->redirect($c->uri_for_action("/user/subscribe", $get_vars), 303);
         return 0;
     } elsif ($mode eq "subscribe") {
+        my $error = 0;
+
         # Validate promocode
         if ($promocode) {
             my $promo_row = $c->model('DB::Promocode')->find($promocode);
             if ($promo_row) {
                 if ($promo_row->expired) {
                     $c->message({ type => "error", message => "promocode_expired" });
-                    $c->response->redirect($c->uri_for_action("/user/subscribe", { donor_name => $donor_name }), 303);
-                    return 1;
+                    $error = 1;
                 } else {
                     $promo_value = $promo_row->amount;
                 }
             } else {
                 $c->message({ type => "error", message => "promocode_invalid" });
-                $c->response->redirect($c->uri_for_action("/user/subscribe", { donor_name => $donor_name }), 303);
-                return 1;
+                $error = 1;
             }
         }
 
-        # Validate name
-        unless ($donor_name) {
-            $c->message({ type => "error", message => "donor_name_required" });
-            $c->response->redirect($c->uri_for_action("/user/subscribe", { promocode => $promocode }), 303);
-            return 1;
+        # Validate tax receipt
+        if (defined($tax_receipt)) {
+            my $tx_error = 0;
+            unless ($donor_name) {
+                $c->message({ type => "error", message => "donor_name_required" });
+                $error = 1;
+            }
+            unless ($address) {
+                $c->message({ type => "error", message => "address_required" });
+                $error = 1;
+            }
+            unless ($city) {
+                $c->message({ type => "error", message => "city_required" });
+                $error = 1;
+            }
+            unless ($province) {
+                $c->message({ type => "error", message => "province_required" });
+                $error = 1;
+            }
+            unless ($pc1 =~ /^[A-Za-z]\d[A-Za-z]$/ && $pc2 =~ /^\d[A-Za-z]\d$/) {
+                $c->message({ type => "error", message => "verify_postal_code" });
+                $error = 1;
+            }
         }
 
         # Ensure terms checkbox is checked
         unless (defined($terms)) {
             $c->message({ type => "error", message => "terms_required" });
-            $c->response->redirect($c->uri_for_action("/user/subscribe", { promocode => $promocode, donor_name => $donor_name }), 303);
-            return 1;
+            $error = 1;
         }
+        
+        if ($error) {
+            $c->response->redirect($c->uri_for_action("/user/subscribe", $get_vars), 303);
+            return 1;
+        };
 
         my $payment = $amount - $promo_value;
 
-        # TODO Ensure this does the right thing
+        # Concatenate address blob
+        if ($address2) { $address = join("\n", $address, $address2); }
+        my $blob = join("\n", $address, join(" ", $city, $province, "", $pc1, $pc2));
+
         # Create the subscription row
         my $subscriptionrow = $c->user->add_to_subscriptions(
             {
                 completed => undef,
                 promo     => $promocode,
                 rcpt_name => $donor_name,
-                rcpt_amt  => $tax_receipt,
+                rcpt_amt  => $tax_receipt_amount,
             }
         );
         # TODO Refactor the format_money macro within templates to work here too, or some other solution
