@@ -40,8 +40,8 @@ sub result_page :Path('') :Args(1) {
     my $resultset = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page);
 
     # Get the min and max publication dates for the set
-    my $pubmin = $c->model('Solr')->search($subset)->pubmin($query->to_string);
-    my $pubmax = $c->model('Solr')->search($subset)->pubmax($query->to_string);
+    my $pubmin = $c->model('Solr')->search($subset)->pubmin($query->to_string) || 0;
+    my $pubmax = $c->model('Solr')->search($subset)->pubmax($query->to_string) || 0;
 
     # Search within the text of the child records
     my $pages = {};
