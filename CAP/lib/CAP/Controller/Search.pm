@@ -28,9 +28,8 @@ sub result_page :Path('') :Args(1) {
     $query->limit_type($c->req->params->{t});
     $query->limit_date($c->req->params->{df}, $c->req->params->{dt});
 
-    $query->rewrite_query($c->req->params);
+    my $query_string = $query->rewrite_query($c->req->params);
     my $base_field = $c->req->params->{field} || 'q';
-    my $query_string = $c->req->params->{q} || '';
     $query->append($query_string, parse => 1, base_field => $base_field);
 
     # Set query options
@@ -38,6 +37,8 @@ sub result_page :Path('') :Args(1) {
 
     # Run the main search
     my $resultset = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page);
+
+    $c->stash(log_search => 1) if ($resultset);
 
     # Get the min and max publication dates for the set
     my $pubmin = $c->model('Solr')->search($subset)->pubmin($query->to_string) || 0;

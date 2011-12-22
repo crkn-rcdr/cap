@@ -13,7 +13,7 @@ sub log
     $self->create({
         'request_id' => $request_log->id,
         'query'      => $c->request->uri,
-        'results'    => $c->stash->{response}->{result}->{hits}
+        'results'    => $c->stash->{resultset}->hits
     });
 }
 

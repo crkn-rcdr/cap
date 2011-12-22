@@ -114,17 +114,19 @@ method append (Maybe [Str] $fragment = "", Int :$parse = 0, Str :$base_field = '
 # be altered.
 method rewrite_query (HashRef $params) {
     my @field_params = ();
-    my $query  = "";
+    my $query_field  = "";
     foreach my $field (keys (%{$params})) {
         if ($self->fields->{$field}) {
             if ($self->fields->{$field}->{canonical}) {
-                $query = $field;
+                $query_field = $field;
             }
             else {
                 push(@field_params, $field) if ($params->{$field});
             }
         }
     }
+
+    my $query_string = $params->{$query_field};
 
     foreach my $field (@field_params) {
         if ($params->{$field}) {
@@ -143,10 +145,11 @@ method rewrite_query (HashRef $params) {
                 push(@value, "$bool$field:$query");
             }
 
-            $params->{$query} = join(" ", $params->{$query}, @value);
-            delete($params->{$field});
+            $query_string = join(" ", $query_string, @value);
         }
     }
+
+    return $query_string;
 }
 
 method limit_type (Maybe [Str] $type) {
