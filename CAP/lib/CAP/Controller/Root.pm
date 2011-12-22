@@ -4,51 +4,11 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 use Config::General;
-use Encode;
-use Net::IP;
-use JSON;
-use XML::LibXML;
-
 use utf8;
 
 # Sets the actions in this controller to be registered with no prefix
 # so they function identically to actions created in MyApp.pm
 __PACKAGE__->config->{namespace} = '';
-
-
-# Unpack a Perl data structure into a LibXML document object. $name is the
-# name of the root element and $content is a pointer to a hash, array, or
-# scalar containing the document data. $xml and $node should be left undefined.
-sub xmlify
-{
-    my($name, $content, $xml, $node) = @_;
-    
-    $xml = XML::LibXML::Document->new('1.0', 'UTF-8') unless ($xml);
-
-    my $element = $xml->createElement($name);
-    if ($node) {
-        $node->appendChild($element);
-    }
-    else {
-        $xml->setDocumentElement($element);
-    }
-
-    if (ref($content) eq 'ARRAY') {
-        foreach my $itm (@{$content}) {
-            xmlify('ITM', $itm, $xml, $element);
-        }
-    }
-    elsif (ref($content) eq 'HASH') {
-        while (my($key, $value) = each(%{$content})) {
-            xmlify($key, $value, $xml, $element);
-        }
-    }
-    elsif ($content) {
-        $element->appendChild($xml->createTextNode($content));
-    }
-
-    return $xml;
-}
 
 
 sub auto :Private
@@ -243,12 +203,6 @@ sub auto :Private
         $c->detach("config_error", ["default_view is not set"]);
     }
     if ($c->req->params->{fmt}) {
-        #if ($c->req->params->{fmt} eq 'json') {
-        #    $c->stash->{current_view} = 'json'; # Builtin view
-        #}
-        #elsif ($c->req->params->{fmt} eq 'xml') {
-        #    $c->stash->{current_view} = 'xml'; # Builtin view
-        #}
         if ($c->config->{fmt}->{$c->req->params->{fmt}}) {
             $c->stash->{current_view} = $c->config->{fmt}->{$c->req->params->{fmt}}->{view};
             $c->res->content_type($c->config->{fmt}->{$c->req->params->{fmt}}->{content_type});
@@ -313,24 +267,7 @@ sub end : ActionClass('RenderView')
         # TODO: item access
     }
 
-    # If the current view is set to one of the special cases 'xml' or
-    # 'json', handle the output internally, bypassing the normal view
-    # rendering.
-    #if ($c->stash->{current_view} eq 'json') {
-    #    $c->res->content_type('application/json; charset=UTF-8');
-    #    $c->res->body(encode_json($c->stash->{response}));
-    #    return 1;
-    #}
-    #elsif ($c->stash->{current_view} eq 'xml') {
-    #    my $xml = xmlify('response', $c->stash->{response});
-    #    $c->res->content_type('application/xml');
-    #    $c->res->body(decode_utf8($xml->toString(1)));
-    #    return 1;
-    #}
-
-    # Don't cache anything (TODO: this is a bit harsh, but it does control
-    # the login/logout refresh problem.) TODO: revisit this; a lot has
-    # changed in the meantime
+    # Don't cache anything except for static resources
     if ($c->action eq 'static') {
         $c->res->header('Cache-Control' => 'max-age=3600');
     }
@@ -347,16 +284,6 @@ sub end : ActionClass('RenderView')
 }
 
 
-=over 4
-
-=item error ( I<$error> [, I<$error_message>] )
-
-Detach to this method when an error occurs that should stop normal
-processing. Put the HTTP status code to be returned in I<$error> and,
-optionally, a descriptive message in I<$error_message>.
-
-=back
-=cut
 sub error : Private
 {
     my($self, $c, $error, $error_message) = @_;
@@ -370,11 +297,7 @@ sub error : Private
 }
 
 
-#
-# These are the basic actions we have to handle. Most of them will simply
-# dispatch to a method in another controller, but putting them here means
-# that we can simplify uri_for_action strings.
-#
+# These are the basic actions we have to handle. 
 
 sub index :Path('') Args(0)
 {
