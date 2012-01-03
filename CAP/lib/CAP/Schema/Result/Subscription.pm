@@ -98,6 +98,11 @@ __PACKAGE__->table("subscription");
   is_nullable: 1
   size: 20
 
+=head2 rcpt_date
+
+  data_type: 'datetime'
+  is_nullable: 1
+
 =head2 note
 
   data_type: 'text'
@@ -143,6 +148,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 1 },
   "rcpt_id",
   { data_type => "varchar", is_nullable => 1, size => 20 },
+  "rcpt_date",
+  { data_type => "datetime", is_nullable => 1 },
   "note",
   { data_type => "text", is_nullable => 1 },
 );
@@ -177,8 +184,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-21 14:25:14
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1AUSfLa9o5c8rM42c++www
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2012-01-03 14:40:22
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:p4bk8zFGQ1TfJxyLhtQ/oQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
