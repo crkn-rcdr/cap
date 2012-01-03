@@ -54,6 +54,7 @@ sub create :Path('create') :Args(0) {
     my $name      = $c->request->params->{name}      || ""; # Real/display name
     my $password  = $c->request->params->{password}  || ""; # Password
     my $password2 = $c->request->params->{password2} || ""; # Password, re-entered
+    my $terms     = $c->req->params->{terms};               # Terms of Service checkbox
 
     # Get keys from config
     # Generated at https://www.google.com/recaptcha/admin/create
@@ -136,6 +137,12 @@ sub create :Path('create') :Args(0) {
     }
     elsif ($password !~ /$re_password/) {
         $c->message({ type => "error", message => "password_invalid" });
+        $error = 1;
+    }
+
+    # Ensure terms checkbox is checked
+    unless (defined($terms)) {
+        $c->message({ type => "error", message => "terms_required" });
         $error = 1;
     }
 
