@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::Payment;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::Payment
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::Payment
+=head1 TABLE: C<payment>
 
 =cut
 
@@ -29,6 +48,7 @@ __PACKAGE__->table("payment");
 =head2 updated
 
   data_type: 'timestamp'
+  datetime_undef_if_invalid: 1
   default_value: current_timestamp
   is_nullable: 0
 
@@ -41,6 +61,7 @@ __PACKAGE__->table("payment");
 =head2 completed
 
   data_type: 'datetime'
+  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 success
@@ -93,14 +114,19 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "updated",
   {
-    data_type     => "timestamp",
+    data_type => "timestamp",
+    datetime_undef_if_invalid => 1,
     default_value => \"current_timestamp",
-    is_nullable   => 0,
+    is_nullable => 0,
   },
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "completed",
-  { data_type => "datetime", is_nullable => 1 },
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
   "success",
   { data_type => "tinyint", is_nullable => 1 },
   "amount",
@@ -123,19 +149,20 @@ __PACKAGE__->add_columns(
   "processor",
   { data_type => "enum", extra => { list => ["paypal"] }, is_nullable => 1 },
 );
-__PACKAGE__->set_primary_key("id");
 
-=head1 RELATIONS
+=head1 PRIMARY KEY
 
-=head2 user_id
+=over 4
 
-Type: belongs_to
+=item * L</id>
 
-Related object: L<CAP::Schema::Result::User>
+=back
 
 =cut
 
-__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+__PACKAGE__->set_primary_key("id");
+
+=head1 RELATIONS
 
 =head2 subscriptions
 
@@ -152,9 +179,19 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 user_id
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-12 15:36:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2PNMcwURAp6p66Dwgc9ffg
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1mbOAwm0FTl7hPB98NMi4w
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

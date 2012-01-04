@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::Sessions;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::Sessions
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::Sessions
+=head1 TABLE: C<sessions>
 
 =cut
 
@@ -46,11 +65,22 @@ __PACKAGE__->add_columns(
   "expires",
   { data_type => "integer", is_nullable => 1 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</id>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-12-12 11:57:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:60Q6ASLDioqb7GvR0Q93Ww
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fH/D/2fRT60LqLHgL6Hehg
 
 #__PACKAGE__->load_components('ForceUTF8');
 

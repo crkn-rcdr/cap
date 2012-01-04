@@ -1,3 +1,4 @@
+use utf8;
 package CAP::Schema;
 
 # Created by DBIx::Class::Schema::Loader
@@ -11,8 +12,8 @@ use base 'DBIx::Class::Schema';
 __PACKAGE__->load_namespaces;
 
 
-# Created by DBIx::Class::Schema::Loader v0.04006 @ 2011-12-12 11:57:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sZO2FP4Qca9bcB2G/eNxiw
+# Created by DBIx::Class::Schema::Loader v0.04006 @ 2012-01-04 09:25:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:WU15sf+HAnr6sbCREgZkow
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

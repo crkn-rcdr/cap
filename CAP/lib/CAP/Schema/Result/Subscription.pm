@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::Subscription;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::Subscription
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::Subscription
+=head1 TABLE: C<subscription>
 
 =cut
 
@@ -29,6 +48,7 @@ __PACKAGE__->table("subscription");
 =head2 updated
 
   data_type: 'timestamp'
+  datetime_undef_if_invalid: 1
   default_value: current_timestamp
   is_nullable: 0
 
@@ -41,6 +61,7 @@ __PACKAGE__->table("subscription");
 =head2 completed
 
   data_type: 'datetime'
+  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 success
@@ -57,11 +78,13 @@ __PACKAGE__->table("subscription");
 =head2 oldexpire
 
   data_type: 'datetime'
+  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 newexpire
 
   data_type: 'datetime'
+  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 payment_id
@@ -101,6 +124,7 @@ __PACKAGE__->table("subscription");
 =head2 rcpt_date
 
   data_type: 'datetime'
+  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 note
@@ -115,22 +139,35 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "updated",
   {
-    data_type     => "timestamp",
+    data_type => "timestamp",
+    datetime_undef_if_invalid => 1,
     default_value => \"current_timestamp",
-    is_nullable   => 0,
+    is_nullable => 0,
   },
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "completed",
-  { data_type => "datetime", is_nullable => 1 },
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
   "success",
   { data_type => "tinyint", is_nullable => 1 },
   "promo",
   { data_type => "varchar", is_nullable => 1, size => 32 },
   "oldexpire",
-  { data_type => "datetime", is_nullable => 1 },
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
   "newexpire",
-  { data_type => "datetime", is_nullable => 1 },
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
   "payment_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "rcpt_amt",
@@ -149,25 +186,54 @@ __PACKAGE__->add_columns(
   "rcpt_id",
   { data_type => "varchar", is_nullable => 1, size => 20 },
   "rcpt_date",
-  { data_type => "datetime", is_nullable => 1 },
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
   "note",
   { data_type => "text", is_nullable => 1 },
 );
-__PACKAGE__->set_primary_key("id");
-__PACKAGE__->add_unique_constraint("rcpt_id", ["rcpt_id"]);
-__PACKAGE__->add_unique_constraint("rcpt_no", ["rcpt_no"]);
 
-=head1 RELATIONS
+=head1 PRIMARY KEY
 
-=head2 user_id
+=over 4
 
-Type: belongs_to
+=item * L</id>
 
-Related object: L<CAP::Schema::Result::User>
+=back
 
 =cut
 
-__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+__PACKAGE__->set_primary_key("id");
+
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<rcpt_id>
+
+=over 4
+
+=item * L</rcpt_id>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("rcpt_id", ["rcpt_id"]);
+
+=head2 C<rcpt_no>
+
+=over 4
+
+=item * L</rcpt_no>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("rcpt_no", ["rcpt_no"]);
+
+=head1 RELATIONS
 
 =head2 payment_id
 
@@ -183,9 +249,19 @@ __PACKAGE__->belongs_to(
   { id => "payment_id" },
 );
 
+=head2 user_id
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2012-01-03 14:40:22
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:p4bk8zFGQ1TfJxyLhtQ/oQ
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NZr1iO+iaVk+FUy41U6WTw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
