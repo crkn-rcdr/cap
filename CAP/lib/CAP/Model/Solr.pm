@@ -23,7 +23,7 @@ method BUILD {
     # Default options to pass to Solr
     $self->{options} = {
         'facet'          => 'true',
-        'facet.field'    => [ qw( lang media contributor ) ],
+        'facet.field'    => [ qw( lang media contributor collection ) ],
         'facet.limit'    => -1,
         'facet.mincount' => 1,
         'facet.sort'     => 'true',
@@ -46,6 +46,7 @@ method BUILD {
         key =>         { type => 'string', template => 'key: %' },
         lang =>        { type => 'string', template => 'lang: %' },
         media =>       { type => 'string', template => 'media: %' },
+        collection =>  { type => 'string', template => 'collection: %' },
         pkey =>        { type => 'string', template => 'pkey: %' },
         set =>         { type => 'string', template => 'set: %' },
         au =>          { type => 'text',   template => 'au:%' },

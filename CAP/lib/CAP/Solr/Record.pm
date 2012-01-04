@@ -79,6 +79,7 @@ method api {
     $fl->{pkey}     = $self->pkey  if ($self->pkey);
     $fl->{label}    = $self->label if ($self->label);
     $fl->{contributor}    = $self->contributor if ($self->contributor);
+    $fl->{collection} = $self->collection if ($self->collection);
     $fl->{type}     = $self->type  if ($self->type);
     $fl->{location} = $self->canonicalUri if ($self->canonicalUri);
     $fl->{title}    = $self->ti    if ($self->ti);
