@@ -82,6 +82,10 @@ __PACKAGE__->config(
 
         'now' => sub {
             return time;
+        },
+
+        current_year => sub {
+            return time2str("%Y", time);
         }
     }
 );
