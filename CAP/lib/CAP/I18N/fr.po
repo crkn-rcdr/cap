@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2011-12-19 13:46-0500\n"
+"PO-Revision-Date: 2012-01-06 09:56-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -101,6 +101,14 @@ msgstr ""
 msgid "Additional Debugging Information"
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:26
+msgid "Address"
+msgstr "Adresse"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:30
+msgid "Address (Line 2)"
+msgstr "Adresse (ligne 2)"
+
 #: ../../../../../cap-root/templates/Default/Common/admin/user.tt:29
 #: ../../../../../cap-root/templates/Default/Common/admin/user_new.tt:25
 #: ../../../../../cap-root/templates/Default/Common/admin/users.tt:12
@@ -109,17 +117,20 @@ msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:4
-#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:15
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:11
 msgid "Admin Menu"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:29
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:30
 msgid "Advanced Search"
 msgstr "Recherche avancée"
 
 msgid "Advanced search"
 msgstr "Recherche avancée"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:42
+msgid "Alberta (AB)"
+msgstr "Alberta (AB)"
 
 msgid "All content copyright © Foreign Affairs and International Trade"
 msgstr "Tous droits réservés © Affaires étrangères et Commerce international"
@@ -132,7 +143,7 @@ msgstr "Tous ces mots :"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:10
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:35
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:20
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:66
 msgid "Amount"
 msgstr "Montant"
 
@@ -170,6 +181,10 @@ msgstr "Agrandir"
 msgid "Blog"
 msgstr "Blogue"
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:43
+msgid "British Columbia (BC)"
+msgstr "Colombie-Britannique (BC)"
+
 msgid "Brought to you by Agriculture and Agri-Food Canada"
 msgstr "Présenté par Agriculture et Agroalimentaire Canada"
 
@@ -203,14 +218,22 @@ msgstr "Canadiana.org est un organisme sans but lucratif. Les abonnements financ
 msgid "Choose a new password for your account"
 msgstr "Choisir un nouveau mot de passe pour votre compte"
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:34
+msgid "City"
+msgstr ""
+
 msgid "Click here if your browser does not automatically redirect you"
 msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:12
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:31
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:8
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:28
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:76
 msgid "Code"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:68
+msgid "Collection"
 msgstr ""
 
 msgid "Collection Contributors"
@@ -234,7 +257,7 @@ msgstr ""
 msgid "Contact us"
 msgstr "Contactez-nous"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:12
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:13
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:67
 msgid "Contributor"
 msgstr "Collaborateur"
@@ -246,8 +269,12 @@ msgstr "Collaborateurs"
 msgid "Copyright © Canadiana.org %1"
 msgstr "© Canadiana.org %1"
 
+#. (current_year)
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:17
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:26
+msgid "Copyright © Canadiana.org 2010-%1"
+msgstr ""
+
 msgid "Copyright © Canadiana.org 2010-11"
 msgstr "© Canadiana.org 2010-11"
 
@@ -259,7 +286,7 @@ msgstr "Enterprises"
 msgid "Create"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:40
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:49
 msgid "Create Account"
 msgstr "Créer un compte"
 
@@ -272,16 +299,14 @@ msgstr ""
 msgid "Create new code"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:1
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:4
 msgid "Create new user account"
 msgstr "Créer un nouveau compte utilisateur"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:4
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:5
 msgid "Creator"
 msgstr "Créateur"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:14
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:15
 msgid "Creator Names"
 msgstr "Créateurs"
 
@@ -293,7 +318,7 @@ msgstr ""
 msgid "Date Range"
 msgstr "Année(s)"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:21
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:22
 msgid "Date range:"
 msgstr "Plage de dates :"
 
@@ -306,7 +331,7 @@ msgstr ""
 msgid "Delete Selected"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:13
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:14
 msgid "Description"
 msgstr "Description"
 
@@ -315,7 +340,7 @@ msgid "Did you forget your password?"
 msgstr "Vous avez oublié votre mot de passe?"
 
 #. (promocode)
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:46
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:94
 msgid "Discount from promotion code \"%1\""
 msgstr "Remise pour le code promotionnel \"%1\""
 
@@ -326,7 +351,7 @@ msgstr "Notice bibliographique du document"
 msgid "Don't have an account?"
 msgstr "Vous ne disposez pas d’un compte?"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:16
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:22
 msgid "Donor name"
 msgstr "Nom du donateur"
 
@@ -353,7 +378,7 @@ msgid "ECO Subscription Finalized"
 msgstr "Abonnment à NML confirmé"
 
 #. ($payment)
-#: ../Controller/User.pm:523
+#: ../Controller/User.pm:586
 msgid "ECO subscription for $%1"
 msgstr ""
 
@@ -381,7 +406,7 @@ msgstr "Adresse courriel"
 #: ../../../../../cap-root/templates/Default/Common/admin/user.tt:13
 #: ../../../../../cap-root/templates/Default/Common/admin/user_new.tt:9
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:7
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:17
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:22
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:14
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:34
 msgid "Email address"
@@ -408,7 +433,7 @@ msgstr "Erreur"
 msgid "Error:"
 msgstr "Erreur :"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:12
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:13
 msgid "Everything"
 msgstr "Tout"
 
@@ -424,6 +449,10 @@ msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:37
 msgid "Extend subscription"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/feedback.tt:2
+msgid "Feedback"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer_toolbar.tt:2
@@ -471,9 +500,14 @@ msgid "Hello %1,"
 msgstr "Bonjour %1,"
 
 #. ("<a href=\"" _ c.uri_for_action("support", "terms")
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:57
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:47
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:105
 msgid "I agree to the Early Canadiana Online %1"
 msgstr "J'accepte les %1 de Notre mémoire en ligne"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:17
+msgid "I would like a Canadian official receipt for income tax purposes."
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:13
 msgid "ID"
@@ -487,7 +521,7 @@ msgstr "Si vous n’avez pas sollicité un compte Canadiana, veuillez ignorer ce
 msgid "If you did not request a password reset, do not worry: this message was sent to you and nobody else. If you do not want to change your password, simply delete this email."
 msgstr "Si vous n’avez pas demandé la réinitialisation de votre mot de passe, ne vous inquiétez pas : ce message a été envoyé à vous et à personne d’autre. Si vous ne voulez pas changer votre mot de passe, vous n’avez qu’à supprimer ce courriel."
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:25
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:73
 msgid "If you have a promotional code, enter it here."
 msgstr "Si vous avez un code promotionnel, le saisir ici."
 
@@ -521,7 +555,7 @@ msgstr "Nom d’utilisateur ou mot de passe non valide. Veuillez essayer à nouv
 msgid "Issue %1 of %2 available issues"
 msgstr "Numéro %1 de %2"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:10
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:11
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:65
 msgid "Language"
 msgstr "Langue"
@@ -591,15 +625,14 @@ msgstr "Téléchargement..."
 msgid "Log In"
 msgstr "Ouverture de session"
 
-#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:25
+#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:17
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:20
 #: ../../../../../cap-root/templates/Default/Common/user/login.tt:1
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:15
 msgid "Login"
 msgstr "Ouverture de session"
 
-#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:16
-#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:21
+#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:14
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:12
 msgid "Logout"
 msgstr "Quitter"
@@ -611,11 +644,15 @@ msgstr "Rechercher..."
 msgid "Manage Collections"
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:44
+msgid "Manitoba (MB)"
+msgstr "Manitoba (MB)"
+
 #: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:47
 msgid "Matching pages:"
 msgstr "Pages correspondantes :"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:11
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:12
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:66
 msgid "Media"
 msgstr "Média"
@@ -637,7 +674,7 @@ msgstr "Autres informations sur ce document..."
 msgid "More detail"
 msgstr "Description longue"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:5
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:6
 msgid "More options"
 msgstr "Autres options"
 
@@ -648,6 +685,10 @@ msgstr "Autres options"
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:10
 msgid "Name"
 msgstr "Nom"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:45
+msgid "New Brunswick (NB)"
+msgstr "Nouveau-Brunswick (NB)"
 
 msgid "New Search"
 msgstr "Nouvelle recherche"
@@ -666,6 +707,10 @@ msgstr "Nouveau mot de passe (laisser en blanc pour le conserver)"
 
 msgid "New search"
 msgstr "Nouvelle recherche"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:46
+msgid "Newfoundland and Labrador (NL)"
+msgstr "Terre-Neuve-et-Labrador (NL)"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:78
 msgid "Next"
@@ -692,19 +737,38 @@ msgstr "Aucun résultat"
 msgid "No results for"
 msgstr "Aucun résultat pour"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:39
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:53
+msgid "Northwest Territories (NT)"
+msgstr "Territoires du Nord-Ouest (NT)"
+
 msgid "Not a subscriber"
 msgstr "Non abonné"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:9
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:39
+msgid "Not a subscriber."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:10
 msgid "Notes"
 msgstr "Notes"
 
 msgid "Nothing Found"
 msgstr "Aucun résultat"
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:47
+msgid "Nova Scotia (NS)"
+msgstr "Nouvelle-Écosse (NS)"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:54
+msgid "Nunavut (NU)"
+msgstr "Nunavut (NU)"
+
 msgid "One or more of these words:"
 msgstr "Au moins un de ces mots : "
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:48
+msgid "Ontario (ON)"
+msgstr "Ontario (ON)"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:11
 msgid "Options"
@@ -723,7 +787,7 @@ msgstr "Page %1 de %2: %3"
 msgid "Page Not Found"
 msgstr "Page non trouvée"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:6
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:7
 msgid "Pages"
 msgstr "Pages"
 
@@ -731,7 +795,7 @@ msgid "Part of"
 msgstr "Fait partie de :"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:11
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:25
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:30
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -744,11 +808,11 @@ msgstr "Réinitialisation du mot de passe"
 msgid "Password reset"
 msgstr "Réinitialisation du mot de passe"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:38
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:86
 msgid "Payment Information"
 msgstr "Information sur le paiement"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:15
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:16
 msgid "Permanent Link"
 msgstr "Lien permanent"
 
@@ -760,17 +824,25 @@ msgstr ""
 msgid "Personal subscriptions"
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:31
+msgid "Please ensure that your postal code is valid."
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:21
 msgid "Please enter a name."
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:29
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:33
 msgid "Please enter the words displayed in the anti-spam window."
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:10
 msgid "Please verify the following information and click Subscribe to proceed to our payment processor. When you have completed your payment, you will automatically be returned here."
 msgstr "Veuillez vérifier les informations suivantes et cliquez sur Abonnement pour continuer avec notre fournisseur de services de paiements. Lorsque vous aurez complété votre paiement, vous serez automatiquement redirigé ici."
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:59
+msgid "Postal Code"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:70
 msgid "Previous"
@@ -779,6 +851,10 @@ msgstr "précédente"
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer_toolbar.tt:3
 msgid "Previous Page"
 msgstr "Page précédente"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:49
+msgid "Prince Edward Island (PE)"
+msgstr "Île-du-Prince-Édouard (PE)"
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:6
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:5
@@ -791,19 +867,19 @@ msgstr "Politique sur la vie privée et avis juridiques"
 msgid "Produced by Canadiana.org"
 msgstr "Réalisée par Canadiana.org"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:24
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:72
 msgid "Promotion Code"
 msgstr "Code promotionnel"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:35
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:83
 msgid "Promotion code expired."
 msgstr "Code promotionnel expiré."
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:34
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:82
 msgid "Promotion code invalid."
 msgstr "Code promotionnel non valide."
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:36
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:84
 msgid "Promotion code valid!"
 msgstr "Code promotionnel valide."
 
@@ -813,21 +889,29 @@ msgstr "Code promotionnel valide."
 msgid "Promotional Codes"
 msgstr "Codes promotionnels"
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:38
+msgid "Province/Territory"
+msgstr ""
+
 msgid "Publication years"
 msgstr "Années de publication"
 
 msgid "Publication years:"
 msgstr "Année(s) de publication :"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:7
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:8
 msgid "Published"
 msgstr "Adresse bibliographique"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:50
+msgid "Quebec (QC)"
+msgstr "Québec (QC)"
 
 #: ../../../../../cap-root/templates/Default/Common/user/edit.tt:26
 msgid "Re-enter new password"
 msgstr "Saisissez de nouveau votre nouveau mot de passe"
 
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:32
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:37
 msgid "Re-enter password"
 msgstr "Saisissez de nouveau votre mot de passe"
 
@@ -895,13 +979,17 @@ msgstr "Pivoter vers la gauche"
 msgid "Rotate Right"
 msgstr "Pivoter vers la droite"
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:51
+msgid "Saskatchewan (SK)"
+msgstr "Saskatchewan (SK)"
+
 #: ../../../../../cap-root/templates/Default/Common/user/edit.tt:31
 msgid "Save Changes"
 msgstr "Sauvegarder les modifications"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:6
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:7
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:61
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:4
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:5
 msgid "Search"
 msgstr "Rechercher"
 
@@ -942,9 +1030,13 @@ msgstr "Recherche dans ce document (%1 pages)"
 msgid "Search within this publication (%1 pages)"
 msgstr "Recherche dans cette publication (%1 pages)"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:9
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:10
 msgid "Search:"
 msgstr "Recherche dans :"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:41
+msgid "Select a Province/Territory"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:38
 msgid "Send instructions"
@@ -986,14 +1078,24 @@ msgstr "Afficher la notice du périodique"
 msgid "Showing all results"
 msgstr "Afficher tous les résultats"
 
-#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:24
+#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:16
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:1
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:14
 msgid "Sign up"
 msgstr "Abonnement"
 
+#. (c.config.subscription_trial)
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:12
+msgid "Sign up for a Canadiana account today and get a free %1-day Early Canadiana Online subscription!"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:2
 msgid "Sign up for your free account today!"
 msgstr "Ouvrez votre compte gratuit dès aujourd’hui!"
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:4
+msgid "Sign up to Early Canadiana Online"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Mail/Common/partial/boilerplate_footer.tt:3
 msgid "Sincerely,"
@@ -1035,19 +1137,24 @@ msgstr ""
 msgid "Status:"
 msgstr "Statut :"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:8
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:9
 msgid "Subject"
 msgstr "Sujet"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:15
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:16
 msgid "Subjects"
 msgstr "Sujets"
 
 msgid "Submit"
 msgstr "Soumettre"
 
+#: ../../../../../cap-root/templates/Default/Common/feedback.tt:9
+msgid "Submit Feedback"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:9
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:1
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:59
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:107
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:10
 msgid "Subscribe"
 msgstr "Pour s'abonner"
@@ -1056,7 +1163,9 @@ msgstr "Pour s'abonner"
 msgid "Subscribe to Early Canadiana Online"
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:11
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer.tt:10
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:39
 #: ../../../../../cap-root/templates/Default/Common/view_doc.tt:13
 msgid "Subscribe today!"
 msgstr "Abonnez-vous dès aujourd’hui!"
@@ -1093,7 +1202,7 @@ msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:16
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:35
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:41
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:89
 msgid "Subscription price"
 msgstr "Coût de l'abonnement"
 
@@ -1105,22 +1214,26 @@ msgstr ""
 msgid "Surprise me!"
 msgstr "Surprenez-moi!"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:13
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:14
 msgid "Tax Receipt"
 msgstr "Reçu d'impôt"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:57
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:47
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:105
 msgid "Terms of Service"
 msgstr "Conditions de service"
 
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:44
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:62
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:110
 msgid "Terms of service"
 msgstr "Conditions de service"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:16
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:17
 msgid "Text"
 msgstr "Texte intégral"
+
+#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:9
+msgid "Thank you for subscribing"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Mail/Common/partial/boilerplate_footer.tt:4
 msgid "The Canadiana Team"
@@ -1142,10 +1255,6 @@ msgstr "Les mots de passe que vous avez saisis ne correspondent pas."
 msgid "The promotion code you entered has expired."
 msgstr "Le code promotionnel que vous avez saisi est expiré."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:27
-msgid "The tax receipt requires a valid full name."
-msgstr ""
-
 msgid "The username and password do not match"
 msgstr "Le nom d’utilisateur et le mot de passe ne correspondent pas"
 
@@ -1166,24 +1275,31 @@ msgstr " Ce document contient %1 pages"
 msgid "This page is not included in this document's free preview, but subscribers receive full access."
 msgstr "La prévisualisation gratuite de cette page n’est pas disponible pour ce document, mais les abonnés jouissent d’un plein accès."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:5
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:6
 msgid "Title"
 msgstr "Titre"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:13
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:14
 msgid "Titles"
 msgstr "Titres"
 
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:11
 msgid "To create a Canadiana user account, enter the following information. You will receive instructions on activating your account by email."
 msgstr "Pour créer un compte utilisateur Canadiana, saisissez les informations suivantes. Vous recevrez des instructions par courriel pour l’activation de votre compte."
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:13
+msgid "To create your account and start your trial subscription, complete the following information. You will then receive an email message with instructions for activating your account."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:15
+msgid "To create your account, complete the following information. You will then receive an email message with instructions for activating your account."
+msgstr ""
 
 #. (portal_name)
 #: ../../../../../cap-root/templates/Mail/Common/reset.tt:3
 msgid "To reset your %1 password, click the following link:"
 msgstr "Pour réinitialiser votre mot de passe %1, cliquez sur le lien suivant :"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:51
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:99
 msgid "Total payment"
 msgstr "Montant total du paiement"
 
@@ -1216,7 +1332,7 @@ msgstr "Nom de utilisateur"
 msgid "Users"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:33
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:81
 msgid "Verify Promotion Code"
 msgstr "Vérifiez le code promotionnel"
 
@@ -1243,9 +1359,13 @@ msgstr "Visualiser ce document à %1 :"
 msgid "View this series of documents at %1:"
 msgstr "Visualiser cette série de documents à %1 :"
 
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:37
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:42
 msgid "We need to verify that you are a human being. Please enter the words in the image below."
 msgstr "Nous devons nous assurer que vous êtes un être humain. Veuillez saisir les mots dans l’image ci-dessous."
+
+#: ../../../../../cap-root/templates/Default/Common/feedback.tt:6
+msgid "We welcome your comments on how we may improve this site. Please provide them below."
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:25
 msgid "We're sorry; we were unable to process your request."
@@ -1287,7 +1407,7 @@ msgstr "Vous n’avez pas encore confirmé votre compte utilisateur. Veuillez v�
 msgid "You have successfully logged out."
 msgstr "Fermeture de session réussie."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:28
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:32
 msgid "You must agree to the Early Canadiana Online Terms of Service to proceed."
 msgstr "Pour continuer, vous devez accepter les conditions de service de Notre mémoire en ligne."
 
@@ -1295,12 +1415,27 @@ msgstr "Pour continuer, vous devez accepter les conditions de service de Notre m
 msgid "You must be logged in to view this page."
 msgstr " Vous devez ouvrir une session pour visionner cette page."
 
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:29
+msgid "You must enter a city to generate a tax receipt."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:27
+msgid "You must enter a donor name to generate a tax receipt."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:28
+msgid "You must enter an address to generate a tax receipt."
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:30
+msgid "You must select a province or territory to generate a tax receipt."
+msgstr ""
+
 #. (portal_name)
 #: ../../../../../cap-root/templates/Mail/Common/reset.tt:1
 msgid "You received this email because a request was made to %1 to reset your password."
 msgstr "Vous avez reçu ce courriel parce qu’une demande a été envoyée à %1 pour la réinitialisation de votre mot de passe."
 
-#: ../../../../../cap-root/templates/Default/Common/layout/header.tt:14
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:9
 msgid "Your Profile"
 msgstr "Votre profil"
@@ -1309,7 +1444,7 @@ msgstr "Votre profil"
 msgid "Your email address is invalid."
 msgstr "Votre adresse de courriel n’est pas valide."
 
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:21
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:26
 msgid "Your name"
 msgstr "Votre nom"
 
@@ -1346,6 +1481,10 @@ msgstr "Votre profile a été mis à jour avec succès."
 
 msgid "Your single best source for discovering Canadian documentary heritage"
 msgstr "La source par excellence pour découvrir le patrimoine documentaire canadien"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:55
+msgid "Yukon (YT)"
+msgstr ""
 
 msgid "and"
 msgstr "et"
@@ -1409,7 +1548,7 @@ msgstr "http://www.canadiana.ca/accueil"
 msgid "http://www.canadiana.ca/en/legal"
 msgstr "http://www.canadiana.ca/politique"
 
-#: ../../../../../cap-root/templates/Default/Common/user/create.tt:28
+#: ../../../../../cap-root/templates/Default/Common/user/create.tt:33
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:19
 msgid "minimum 6 characters, no spaces allowed"
 msgstr "minimum de 6 caractères sans aucun espace"
@@ -1446,7 +1585,7 @@ msgid "sequence"
 msgstr "séquence"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:59
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:24
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:25
 msgid "to"
 msgstr "à"
 
