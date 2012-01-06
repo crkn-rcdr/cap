@@ -250,6 +250,11 @@ sub has_active_subscription {
     return ($self->subexpires && ($self->subexpires->epoch() >= time)) ? 1 : 0;
 }
 
+sub has_expired_subscription {
+    my $self = shift;
+    return ($self->subexpires && ($self->subexpires->epoch() < time)) ? 1 : 0;
+}
+
 use Digest::SHA1 qw(sha1_hex);
 
 # Account confirmation/password reset token: consists of the user's ID and
