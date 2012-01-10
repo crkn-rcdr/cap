@@ -112,6 +112,7 @@ sub auto :Private
         # any
         $c->stash->{subscription_price} = $portal{subscription_price} || 0;
         $c->stash->{tax_receipt} = $portal{tax_receipt} || 0;
+        $c->stash->{tax_rcpt_pct} = $portal{tax_rcpt_pct} || 0;
 
         # Stash the portal name
         $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};

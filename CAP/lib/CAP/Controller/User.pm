@@ -437,7 +437,7 @@ sub subscribe :Path('subscribe') :Args(0) {
     my($self, $c) = @_;
 
     my $amount = $c->stash->{subscription_price}; # getting this from the portal config
-    my $tax_receipt = $c->stash->{tax_receipt};
+    my $tax_receipt = ($amount * $c->stash->{tax_rcpt_pct}) / 100;
     my $donor_name = $c->request->params->{donor_name} || $c->user->name;
     my $address = $c->request->params->{address} || '';
     my $address2 = $c->request->params->{address2} || '';
@@ -456,6 +456,8 @@ sub subscribe :Path('subscribe') :Args(0) {
                 $promo_message = 'expired';
             } else {
                 $promo_value = int($promo_row->amount);
+                # $c->stash->{subscription_price} = $amount - $promo_value;
+                $tax_receipt = (($amount - $promo_value) *  $c->stash->{tax_rcpt_pct}) / 100;
                 $promo_message = 'OK';
             }
         } else {
@@ -474,6 +476,7 @@ sub subscribe :Path('subscribe') :Args(0) {
         promocode => $promocode,
         promo_value => $promo_value,
         promo_message => $promo_message,
+        tax_receipt => $tax_receipt
     });
 
     return 1;
@@ -495,7 +498,7 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
     my $terms = $c->req->params->{terms};
     my $promo_value = 0;
     my $amount = $c->stash->{subscription_price}; # getting this from the portal config
-    my $tax_receipt_amount = $c->stash->{tax_receipt};
+    # my $tax_receipt_amount = $c->stash->{tax_receipt};
 
     my $get_vars = {
         promocode => $promocode,
@@ -567,6 +570,7 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
         };
 
         my $payment = $amount - $promo_value;
+        my $tax_receipt_amount = ($payment *  $c->stash->{tax_rcpt_pct}) / 100;
 
         # Concatenate address blob
         if ($address2) { $address = join("\n", $address, $address2); }

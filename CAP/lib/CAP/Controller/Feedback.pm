@@ -26,6 +26,7 @@ sub index :Path :Args(0) {
 
     # $c->response->body('Matched CAP::Controller::Feedback in Feedback.');
     $c->stash->{template} = "feedback.tt";
+    my $user_comments = defined($c->request->params->{feedback}) ? $c->request->params->{feedback} : "";
 }
 
 
