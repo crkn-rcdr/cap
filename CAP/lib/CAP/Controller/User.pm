@@ -347,14 +347,15 @@ sub reset :Path('reset') :Args() {
         }
     }
     elsif ($username) {
-        # TODO: make sure email is valid
         my $user_for_username = $c->find_user({ username => $username });
-        die unless ($user_for_username);
 
-        my $confirm_link = $c->uri_for_action('user/reset', $user_for_username->confirmation_token);
-        $c->forward('/mail/user_reset', [$username, $confirm_link]);
-
-        $c->stash->{mail_sent} = $username;
+        if ($user_for_username) {
+            my $confirm_link = $c->uri_for_action('user/reset', $user_for_username->confirmation_token);
+            $c->forward('/mail/user_reset', [$username, $confirm_link]);
+            $c->stash->{mail_sent} = $username;
+        } else {
+            $c->message({ type => "error", message => "username_not_found" });
+        }
     }
 
     return 1;
