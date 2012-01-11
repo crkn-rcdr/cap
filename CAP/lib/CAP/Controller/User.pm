@@ -2,6 +2,8 @@ package CAP::Controller::User;
 use Moose;
 use namespace::autoclean;
 use Captcha::reCAPTCHA;
+use Date::Manip::Date;
+use Date::Manip::Delta;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -162,12 +164,31 @@ sub create :Path('create') :Args(0) {
     };
     $c->detach('/error', [500]) if ($@);
 
-    # If trial subscriptions are turned on, set the user's initial
-    # subscription data
-    # TODO
-
     # Retrieve the record for the newly-created user.
     my $new_user = $c->find_user({ username => $username });
+
+    # If trial subscriptions are turned on, set the user's initial
+    # subscription data
+    if (int($c->config->{subscription_trial}) > 0) {
+        my $datetoday = new Date::Manip::Date;
+        $datetoday->parse("today");
+        my $deltaexpire = new Date::Manip::Delta;
+        my $err = $deltaexpire->parse(sprintf("%d days", $c->config->{subscription_trial}));
+        if ($err) {
+        # If I was passed in a bad period, then what?
+        ## TODO: localize
+        $c->detach('/error', [500, "Subscription period invalid"]);
+            return 0;
+        }
+        my $datenew = $datetoday->calc($deltaexpire);
+        my $newexpires = $datenew->printf("%Y-%m-%d");
+
+        $new_user->update({
+            subexpires => $newexpires,
+        });
+
+    }
+
 
     # Send an activation email
     my $confirm_link = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
@@ -617,8 +638,6 @@ sub subscribe_finalize : Private
     my $userid =  $c->user->id;
 
     ## Date manipulation to set the old and new expiry dates
-    use Date::Manip::Date;
-    use Date::Manip::Delta;
 
     my $subexpires = $c->user->subexpires;
 
