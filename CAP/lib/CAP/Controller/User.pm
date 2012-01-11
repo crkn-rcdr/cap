@@ -459,6 +459,7 @@ sub subscribe :Path('subscribe') :Args(0) {
     my($self, $c) = @_;
 
     my $amount = $c->stash->{subscription_price}; # getting this from the portal config
+    my $wants_tax_receipt = $c->request->params->{wants_tax_receipt} || '';
     my $tax_receipt = ($amount * $c->stash->{tax_rcpt_pct}) / 100;
     my $donor_name = $c->request->params->{donor_name} || $c->user->name;
     my $address = $c->request->params->{address} || '';
@@ -488,6 +489,7 @@ sub subscribe :Path('subscribe') :Args(0) {
     }
 
     $c->stash({
+        wants_tax_receipt => $wants_tax_receipt,
         donor_name => $donor_name,
         address => $address,
         address2 => $address2,
@@ -524,6 +526,7 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
 
     my $get_vars = {
         promocode => $promocode,
+        wants_tax_receipt => $tax_receipt,
         donor_name => $donor_name,
         address => $address,
         address2 => $address2,
