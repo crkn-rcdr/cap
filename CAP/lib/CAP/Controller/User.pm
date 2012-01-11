@@ -296,13 +296,14 @@ sub confirm :Path('confirm') :Args(1) {
     my($self, $c, $auth) = @_;
 
     # Either confirm and log in the new user or silently fail. Either way,
-    # forward to the main index page.
+    # forward to the main index page, with a message explaining what happened.
     my $id = $c->model('DB::User')->confirm_new_user($auth);
     if ($id) {
         $c->set_authenticated($c->find_user({id => $id}));
         $c->persist_user();
+        $c->message({ type => "success", message => "user_confirm_success" });
     }
-    $c->response->redirect('/index');
+    $c->response->redirect($c->uri_for_action('/index'));
     return 0;
 }
 
