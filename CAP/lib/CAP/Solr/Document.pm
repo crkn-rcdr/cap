@@ -93,6 +93,12 @@ method parent {
     return $self->{_parent_cache} = $doc;
 }
 
+# Return whether or not the document has a parent. Useful
+# primarily for Template Toolkit.
+method has_parent {
+    return $self->parent() ? 1 : 0;
+}
+
 # Return the document for the $seq'th child object. Returns undef if
 # there is no such child or there is a retrieval failure.
 method child (Int $seq) {
