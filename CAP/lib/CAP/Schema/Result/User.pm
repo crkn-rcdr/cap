@@ -250,6 +250,11 @@ sub has_active_subscription {
     return ($self->subexpires && ($self->subexpires->epoch() >= time)) ? 1 : 0;
 }
 
+sub subscription_within_warning {
+    my ($self, $days) = @_;
+    return ($self->subexpires && ($self->subexpires->epoch() < (time + $days * 86400))) ? 1 : 0;
+}
+
 sub has_expired_subscription {
     my $self = shift;
     return ($self->subexpires && ($self->subexpires->epoch() < time)) ? 1 : 0;
