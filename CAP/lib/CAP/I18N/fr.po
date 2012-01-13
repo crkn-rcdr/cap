@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-01-12 09:04-0500\n"
+"PO-Revision-Date: 2012-01-13 09:32-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgstr "Ajouter une plage"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:62
 msgid "Add Sponsored Collection"
-msgstr ""
+msgstr "Ajouter une collection commanditée"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institutions.tt:15
 msgid "Add new Institution"
@@ -173,7 +173,7 @@ msgstr "Requête inadéquate"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:6
 msgid "Basic Information"
-msgstr ""
+msgstr "Informations de base"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer_toolbar.tt:18
 msgid "Bigger"
@@ -387,7 +387,7 @@ msgstr "Abonnment à NML confirmé"
 #. ($payment)
 #: ../Controller/User.pm:616
 msgid "ECO subscription for $%1"
-msgstr ""
+msgstr "Abonnment à NML : %1 $"
 
 #: ../../../../../cap-root/templates/Default/Common/main.tt:7
 msgid "Early Canadiana Online (ECO) is the first large-scale online collection of early Canadian print heritage. ECO contains a digitized selection of the content from the microfiche held by the Canadian Institute for Historical Microreproductions. ECO currently offers twelve online collections totaling over three million pages and is continually expanding its content. The collections include material published from the time of the first European settlers to the first two decades of the 20th Century."
@@ -421,7 +421,7 @@ msgstr "Adresse courriel"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:52
 msgid "Ends"
-msgstr ""
+msgstr "Expiration"
 
 msgid "English"
 msgstr "Anglais"
@@ -446,7 +446,7 @@ msgstr "Tout"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:38
 msgid "Expired"
-msgstr ""
+msgstr "Expiré"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:31
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:9
@@ -458,7 +458,7 @@ msgstr "Expire le %1"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:36
 msgid "Extend it today!"
-msgstr ""
+msgstr "Prolongez-le dès aujourd’hui!"
 
 msgid "Extend subscription"
 msgstr "Prolonger l'abonnement"
@@ -497,7 +497,7 @@ msgstr "Provient de la collection de %1"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:66
 msgid "Group Subscriptions"
-msgstr ""
+msgstr "Abonnements de groupe "
 
 msgid "Group by document"
 msgstr "Regrouper les pages de chaque document"
@@ -550,11 +550,11 @@ msgstr "Afficher les résultats page par page"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institutions.tt:13
 msgid "Institutional subscriber"
-msgstr ""
+msgstr "Abonné institutionnel"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institutions.tt:1
 msgid "Institutions"
-msgstr ""
+msgstr "Institutions"
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:12
 msgid "Insufficient Privileges"
@@ -617,20 +617,20 @@ msgstr "Ce lien ouvre un nouvelle fenêtre"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:13
 msgid "List Institutions"
-msgstr ""
+msgstr "Lister les institutions"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:15
 msgid "List Users"
-msgstr ""
+msgstr "Lister les utilisateurs"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user.tt:45
 #: ../../../../../cap-root/templates/Default/Common/admin/user_new.tt:44
 msgid "List all users"
-msgstr ""
+msgstr "Lister tous les utilisateurs"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/issues_list.tt:1
 msgid "List of Issues"
-msgstr ""
+msgstr "Liste des numéros"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer.tt:9
 msgid "Loading..."
@@ -656,7 +656,7 @@ msgstr "Rechercher..."
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:14
 msgid "Manage Collections"
-msgstr ""
+msgstr "Gérer les collections"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:44
 msgid "Manitoba"
@@ -676,7 +676,7 @@ msgstr "Média"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:23
 msgid "Member of"
-msgstr ""
+msgstr "Membre de"
 
 msgid "Missing username or password"
 msgstr "Nom d’utilisateur ou mot de passe manquant"
@@ -715,7 +715,7 @@ msgstr "Nouvelle recherche"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:27
 msgid "New code"
-msgstr ""
+msgstr "Nouveau code"
 
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:17
 msgid "New password"
@@ -857,7 +857,7 @@ msgstr "Profil personnel"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:46
 msgid "Personal subscriptions"
-msgstr ""
+msgstr "Abonnements individuels"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:25
 msgid "Please ensure that your postal code is valid."
@@ -869,7 +869,7 @@ msgstr "Veuillez saisir un nom."
 
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:27
 msgid "Please enter the words displayed in the anti-spam window."
-msgstr ""
+msgstr "Veuillez saisir les mots affichés dans la fenêtre antipourriel."
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:10
 msgid "Please verify the following information and click Subscribe to proceed to our payment processor. When you have completed your payment, you will automatically be returned here."
@@ -963,7 +963,7 @@ msgstr "Raffinez votre recherche :"
 #. (users)
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:8
 msgid "Registered users: %1"
-msgstr ""
+msgstr "Utilisateurs inscrits : %1"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:17
 msgid "Remember me on this computer"
@@ -971,7 +971,7 @@ msgstr "Rappelez-vous de moi sur cet ordinateur"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:39
 msgid "Renew today!"
-msgstr ""
+msgstr "Renouvelez dès aujourd’hui!"
 
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:22
 msgid "Repeat password"
@@ -1171,14 +1171,14 @@ msgstr "Trier :"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:29
 msgid "Sponsored Collections"
-msgstr ""
+msgstr "Collections commanditées"
 
 msgid "Standard Search"
 msgstr "Recherche de bas"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:51
 msgid "Started"
-msgstr ""
+msgstr "Début"
 
 #. (status)
 #: ../../../../../cap-root/templates/Default/Common/error.tt:35
@@ -1246,7 +1246,7 @@ msgstr "L’abonnement expire le"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution.tt:66
 msgid "Subscription IP Blocks"
-msgstr ""
+msgstr "Plages IP pour les abonnements"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:16
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:35
@@ -1256,7 +1256,7 @@ msgstr "Coût de l'abonnement"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:33
 msgid "Subscription status"
-msgstr ""
+msgstr "Statut de l’abonnement"
 
 #: ../../../../../cap-root/templates/Default/Common/support.tt:1
 msgid "Support"
@@ -1366,7 +1366,7 @@ msgstr "Mise à jour"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user.tt:1
 msgid "Update user"
-msgstr ""
+msgstr "Mettre à jour le profil de l’utilisateur"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/users.tt:8
 msgid "User"
@@ -1421,7 +1421,7 @@ msgstr "Vos commentaires sur la façon d’améliorer ce site sont les bienvenus
 
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:29
 msgid "We were unable to find an account matching that email address. Please verify that this is the email address for your account and try again."
-msgstr ""
+msgstr "Il nous a été impossible de trouver un compte correspondant à cette adresse de courriel. Veuillez vérifier si cette adresse de courriel est celle qui se rapporte à votre compte et essayez de nouveau."
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:25
 msgid "We're sorry; we were unable to process your request."
@@ -1445,11 +1445,11 @@ msgstr "Oui"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:42
 msgid "You are not currently subscribed to ECO. Subscription allows full access to the ECO collection, and funds the digitization of new content."
-msgstr ""
+msgstr "Présentement, vous n’avez pas d’abonnement à NML. L’abonnement vous donne accès à toute la collection NML et finance la numérisation de nouveaux contenus."
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:47
 msgid "You are subscribed to the following collections"
-msgstr ""
+msgstr "Vous êtes abonné(e) aux collections suivantes"
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:13
 msgid "You do not have sufficient privileges to view this page."
@@ -1465,7 +1465,7 @@ msgstr "Vous n’avez pas encore confirmé votre compte utilisateur. Veuillez v�
 
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:28
 msgid "You have successfully confirmed and activated your account. Welcome!"
-msgstr ""
+msgstr "Vous avez confirmé et activé votre compte avec succès. Bienvenu!"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:11
 msgid "You have successfully logged out."
@@ -1503,7 +1503,7 @@ msgstr "Vous avez reçu ce courriel parce qu’une demande a été envoyée à %
 #. (format_date(c.user.subexpires)
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:39
 msgid "Your ECO subscription expired on %1. Renew it to regain access to the complete ECO collection."
-msgstr ""
+msgstr "Votre abonnement à NML expire le %1. Renouvelez-le pour conserver un accès à toute la collection NML."
 
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:9
 msgid "Your Profile"
@@ -1554,7 +1554,7 @@ msgstr "La source par excellence pour découvrir le patrimoine documentaire cana
 #. (format_date(c.user.subexpires)
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:36
 msgid "Your subscription expires on %1."
-msgstr ""
+msgstr "Votre abonnement expire le %1"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:54
 msgid "Yukon"
