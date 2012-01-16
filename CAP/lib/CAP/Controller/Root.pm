@@ -108,6 +108,9 @@ sub auto :Private
         # Stash the list of valid support terms
         $c->stash->{support} = $portal{support} if ($portal{support});
 
+        # Stash portal-supported features
+        $c->stash->{features} = $portal{features} || {};
+
         # Set the subscription price and eligible tax receipt amount, if
         # any
         $c->stash->{subscription_price} = $portal{subscription_price} || 0;
