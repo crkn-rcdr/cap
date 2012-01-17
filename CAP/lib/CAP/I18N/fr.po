@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-01-13 09:32-0500\n"
+"PO-Revision-Date: 2012-01-17 13:16-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "Admin"
 msgid "Admin Menu"
 msgstr "Menu Admin"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:30
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:43
 msgid "Advanced Search"
 msgstr "Recherche avancée"
 
@@ -134,6 +134,10 @@ msgstr "Alberta"
 
 msgid "Alberta (AB)"
 msgstr "Alberta (AB)"
+
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:26
+msgid "All"
+msgstr "Tous"
 
 msgid "All content copyright © Foreign Affairs and International Trade"
 msgstr "Tous droits réservés © Affaires étrangères et Commerce international"
@@ -249,6 +253,10 @@ msgstr "Organisations collaboratrices"
 msgid "Collection contributors"
 msgstr "Organisations collaboratrices"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:23
+msgid "Collection:"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:1
 msgid "Collections"
 msgstr "Collections"
@@ -325,7 +333,7 @@ msgstr "Mot de passe actuel"
 msgid "Date Range"
 msgstr "Année(s)"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:22
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:35
 msgid "Date range:"
 msgstr "Plage de dates :"
 
@@ -1275,7 +1283,6 @@ msgstr "Reçu d'impôt"
 msgid "Terms of Service"
 msgstr "Conditions de service"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:110
 msgid "Terms of service"
 msgstr "Conditions de service"
 
@@ -1662,7 +1669,7 @@ msgid "sequence"
 msgstr "séquence"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:59
-#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:25
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:38
 msgid "to"
 msgstr "à"
 
