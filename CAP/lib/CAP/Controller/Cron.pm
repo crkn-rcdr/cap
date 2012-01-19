@@ -7,27 +7,18 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub index :Path :Args(0) {
     my ($self, $c) = @_;
 
+    # Cron must be called from localhost.
+    if ($c->req->address ne '127.0.0.1') {
+        $c->detach('/error', [403, "Request from unauthorized address"]);
+    }
+
     # Call various cron events
-    $c->forward('session_cleanup');
+    $c->forward('/cron/session/index');
+    #$c->forward('session_cleanup');
 
     # Return an empty document
     $c->res->status(200);
     $c->res->body("");
-    return 1;
-}
-
-
-# Remove stale or expired sessions.
-sub session_cleanup :Private {
-    my($self, $c) = @_;
-    my $expired = $c->model('DB::Sessions')->remove_expired();
-    if ($expired) {
-        $c->model('DB::CronLog')->log(
-            action  => 'session_cleanup',
-            ok      => 1,
-            message => "$expired expired sessions removed",
-        );
-    }
     return 1;
 }
 

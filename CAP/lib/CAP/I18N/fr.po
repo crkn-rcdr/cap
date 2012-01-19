@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-01-17 13:16-0500\n"
+"PO-Revision-Date: 2012-01-18 10:22-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "Admin"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:4
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:11
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:15
 msgid "Admin Menu"
 msgstr "Menu Admin"
 
@@ -165,6 +165,10 @@ msgstr "Un message courriel a été envoyé à %1 vous informant comment réinit
 
 msgid "Appearing:"
 msgstr "Apparaissant :"
+
+#: ../../../../../cap-root/templates/Default/eco/partial/collection_list.tt:16
+msgid "Back to collections"
+msgstr "Retour aux collections"
 
 #: ../../../../../cap-root/templates/Default/Common/view_doc.tt:23
 #: ../../../../../cap-root/templates/Default/Common/view_series.tt:12
@@ -216,7 +220,7 @@ msgid "Canadiana"
 msgstr "Canadiana"
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:15
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:24
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:28
 msgid "Canadiana Blog RSS"
 msgstr "Fil RSS pour le blogue de Canadiana"
 
@@ -255,7 +259,7 @@ msgstr "Organisations collaboratrices"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:23
 msgid "Collection:"
-msgstr ""
+msgstr "Collection :"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:1
 msgid "Collections"
@@ -268,7 +272,7 @@ msgid "Confirmed"
 msgstr "Confirmé"
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:11
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:20
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:24
 msgid "Contact us"
 msgstr "Contactez-nous"
 
@@ -286,7 +290,7 @@ msgstr "© Canadiana.org %1"
 
 #. (current_year)
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:17
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:26
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:30
 msgid "Copyright © Canadiana.org 2010-%1"
 msgstr "© Canadiana.org 2010-%1"
 
@@ -297,7 +301,7 @@ msgid "Corporate"
 msgstr "Enterprises"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:39
-#: ../../../../../cap-root/templates/Default/Common/admin/user_new.tt:40
+#: ../../../../../cap-root/templates/Default/Common/admin/user_new.tt:37
 msgid "Create"
 msgstr "Créer"
 
@@ -397,6 +401,10 @@ msgstr "Abonnment à NML confirmé"
 msgid "ECO subscription for $%1"
 msgstr "Abonnment à NML : %1 $"
 
+#: ../../../../../cap-root/templates/Default/eco/partial/collection_list.tt:1
+msgid "Early Canadiana Collections"
+msgstr "Les collections de Canadiana anciens"
+
 #: ../../../../../cap-root/templates/Default/Common/main.tt:7
 msgid "Early Canadiana Online (ECO) is the first large-scale online collection of early Canadian print heritage. ECO contains a digitized selection of the content from the microfiche held by the Canadian Institute for Historical Microreproductions. ECO currently offers twelve online collections totaling over three million pages and is continually expanding its content. The collections include material published from the time of the first European settlers to the first two decades of the 20th Century."
 msgstr "Notre mémoire en ligne (NML) est la première collection de grande envergure donnant accès aux anciens imprimés du patrimoine canadien. NML contient une sélection numérique effectuée à partir du contenu des microfiches détenues par l’Institut canadien de microreproductions historiques. NML offre présentement douze collections en ligne, soit plus de trois millions de pages, et ce contenu s’accroît sans cesse. Ces collections comprennent des documents datant de l’époque des premiers colons jusqu’aux deux premières décennies du XXe siècle."
@@ -468,6 +476,7 @@ msgstr "Expire le %1"
 msgid "Extend it today!"
 msgstr "Prolongez-le dès aujourd’hui!"
 
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:11
 msgid "Extend subscription"
 msgstr "Prolonger l'abonnement"
 
@@ -480,12 +489,12 @@ msgid "First Page"
 msgstr "Première page"
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:14
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:23
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:27
 msgid "Follow us on Twitter"
 msgstr "Suivez nous sur Twitter"
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:14
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:23
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:27
 msgid "Follow us on Twitter!"
 msgstr "Suivez nous sur Twitter!"
 
@@ -595,12 +604,12 @@ msgid "Less detail"
 msgstr "Description brève "
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:13
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:22
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:26
 msgid "Like us on Facebook"
 msgstr "Aimez-nous sur Facebook"
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:13
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:22
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:26
 msgid "Like us on Facebook!"
 msgstr "Aimez-nous sur Facebook!"
 
@@ -632,7 +641,7 @@ msgid "List Users"
 msgstr "Lister les utilisateurs"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user.tt:45
-#: ../../../../../cap-root/templates/Default/Common/admin/user_new.tt:44
+#: ../../../../../cap-root/templates/Default/Common/admin/user_new.tt:41
 msgid "List all users"
 msgstr "Lister tous les utilisateurs"
 
@@ -650,12 +659,12 @@ msgstr "Ouverture de session"
 #: ../../../../../cap-root/templates/Default/Common/layout/header.tt:17
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:20
 #: ../../../../../cap-root/templates/Default/Common/user/login.tt:1
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:15
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:19
 msgid "Login"
 msgstr "Ouverture de session"
 
 #: ../../../../../cap-root/templates/Default/Common/layout/header.tt:14
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:12
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:16
 msgid "Logout"
 msgstr "Quitter"
 
@@ -986,7 +995,7 @@ msgid "Repeat password"
 msgstr "Répétez le mot de passe"
 
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:27
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:16
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:20
 msgid "Reset Password"
 msgstr "Réinitialiser le mot de passe"
 
@@ -1046,6 +1055,7 @@ msgstr "Sauvegarder les modifications"
 #: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:7
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:61
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:5
+#: ../../../../../cap-root/templates/Default/eco/partial/collection_list.tt:28
 msgid "Search"
 msgstr "Rechercher"
 
@@ -1066,6 +1076,10 @@ msgstr "Liste des résultats"
 
 msgid "Search the collection"
 msgstr "Recherche dans la collection"
+
+#: ../../../../../cap-root/templates/Default/eco/partial/collection_list.tt:25
+msgid "Search this collection:"
+msgstr "Recherche dans ce collection :"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:1
 msgid "Search this document"
@@ -1136,7 +1150,7 @@ msgstr "Afficher tous les résultats"
 
 #: ../../../../../cap-root/templates/Default/Common/layout/header.tt:16
 #: ../../../../../cap-root/templates/Default/Common/user/create.tt:1
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:14
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:18
 msgid "Sign up"
 msgstr "Abonnement"
 
@@ -1211,7 +1225,7 @@ msgstr "Envoyez-nous vos commentaires"
 #: ../../../../../cap-root/templates/Default/Common/layout/header.tt:9
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:1
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:107
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:10
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:13
 msgid "Subscribe"
 msgstr "Pour s'abonner"
 
@@ -1270,7 +1284,7 @@ msgstr "Statut de l’abonnement"
 msgid "Support"
 msgstr "Support"
 
-#: ../../../../../cap-root/templates/Default/Common/index.tt:10
+#: ../../../../../cap-root/templates/Default/Common/index.tt:5
 msgid "Surprise me!"
 msgstr "Surprenez-moi!"
 
@@ -1601,7 +1615,7 @@ msgid "http://www.canadiana.ca/en/blog"
 msgstr "http://www.canadiana.ca/blog"
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:15
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:24
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:28
 msgid "http://www.canadiana.ca/en/blog/feed"
 msgstr "http://www.canadiana.ca/blog/feed"
 
@@ -1610,7 +1624,7 @@ msgid "http://www.canadiana.ca/en/cdp"
 msgstr "http://www.canadiana.ca/portail_fr"
 
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:11
-#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:20
+#: ../../../../../cap-root/templates/Default/eco/content/footer.tt:24
 msgid "http://www.canadiana.ca/en/contact"
 msgstr "http://www.canadiana.ca/contact_fr"
 
