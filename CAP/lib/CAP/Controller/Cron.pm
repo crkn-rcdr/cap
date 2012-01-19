@@ -8,17 +8,16 @@ sub index :Path :Args(0) {
     my ($self, $c) = @_;
 
     # Cron must be called from localhost.
-    if ($c->req->address ne '127.0.0.1') {
-        $c->detach('/error', [403, "Request from unauthorized address"]);
-    }
+    #if ($c->req->address ne '127.0.0.1') {
+    #    $c->detach('/error', [403, "Request from unauthorized address"]);
+    #}
 
     # Call various cron events
     $c->forward('/cron/session/index');
-    #$c->forward('session_cleanup');
 
     # Return an empty document
     $c->res->status(200);
-    $c->res->body("");
+    $c->res->body("CRON RUN");
     return 1;
 }
 
