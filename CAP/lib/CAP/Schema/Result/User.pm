@@ -163,6 +163,36 @@ __PACKAGE__->add_unique_constraint("username", ["username"]);
 
 =head1 RELATIONS
 
+=head2 feedback_user_ids
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Feedback>
+
+=cut
+
+__PACKAGE__->has_many(
+  "feedback_user_ids",
+  "CAP::Schema::Result::Feedback",
+  { "foreign.user_id" => "self.id" },
+  {},
+);
+
+=head2 feedback_user_ids_2s
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Feedback>
+
+=cut
+
+__PACKAGE__->has_many(
+  "feedback_user_ids_2s",
+  "CAP::Schema::Result::Feedback",
+  { "foreign.user_id" => "self.id" },
+  {},
+);
+
 =head2 payments
 
 Type: has_many
@@ -224,8 +254,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vDaAmCIQfmxZaDtHRffVRg
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-20 14:46:43
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FxYV+Je/fUaE81ZtKNK4Dg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

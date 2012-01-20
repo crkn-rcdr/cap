@@ -48,7 +48,8 @@ __PACKAGE__->table("feedback");
 =head2 user_id
 
   data_type: 'integer'
-  is_nullable: 0
+  is_foreign_key: 1
+  is_nullable: 1
 
 =head2 submitted
 
@@ -78,7 +79,7 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "user_id",
-  { data_type => "integer", is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "submitted",
   {
     data_type => "datetime",
@@ -109,9 +110,31 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:d+96ZokaqmLa7npA7UpwHA
+=head2 user_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+=head2 user_id_2
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id_2", "CAP::Schema::Result::User", { id => "user_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-20 14:46:43
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B+dXKy711LyGEw1n4qig7w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
