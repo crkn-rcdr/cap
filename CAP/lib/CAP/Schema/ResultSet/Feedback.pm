@@ -10,8 +10,9 @@ use POSIX qw(strftime);
 sub insert_feedback
 {
     ## inserts new row into feedback table
-    my ($self, $userid, $submitted, $feedback) = @_;
+    my ($self, $userid, $feedback) = @_;
 
+    my $submitted = strftime("%Y-%m-%d %H:%M:%S",localtime());
     my $create = $self->create(
         {
 
@@ -48,8 +49,9 @@ sub get_row
 sub update_feedback
 {
     # updates feedback row for admin user 
-    my ($self, $userid, $resolved, $comments) = @_;
+    my ($self, $userid, $comments) = @_;
 
+    my $resolved = strftime("%Y-%m-%d %H:%M:%S",localtime());
     my $update = $self->update({
 
             resolved   =>   $resolved,
