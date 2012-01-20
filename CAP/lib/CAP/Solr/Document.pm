@@ -105,7 +105,7 @@ method child (Int $seq) {
     my $doc;
     return undef if ($seq > $self->child_count);
     return $self->{_child_cache}->{$seq} if ($self->{_child_cache}->{$seq});
-    my $response = $self->solr->search("pkey:" . $self->key, { so => 'seq asc', rows => 1, start => $seq - 1, fl => 'key' });
+    my $response = $self->solr->search("pkey:" . $self->key, { sort => 'seq asc', rows => 1, start => $seq - 1, fl => 'key' });
     eval { $doc = new CAP::Solr::Document({ key => $response->docs->[0]->value_for('key'), server => $self->server }) };
 
     # Check whether we got a value. Ignore children that are of the wrong
