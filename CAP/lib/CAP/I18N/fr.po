@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-01-18 10:22-0500\n"
+"PO-Revision-Date: 2012-01-23 10:47-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -1218,7 +1218,7 @@ msgstr "Sujets"
 msgid "Submit"
 msgstr "Soumettre"
 
-#: ../../../../../cap-root/templates/Default/Common/feedback.tt:9
+#: ../../../../../cap-root/templates/Default/Common/feedback.tt:16
 msgid "Submit Feedback"
 msgstr "Envoyez-nous vos commentaires"
 
@@ -1307,6 +1307,10 @@ msgstr "Texte intégral"
 #: ../../../../../cap-root/templates/Default/Common/layout/header.tt:9
 msgid "Thank you for subscribing"
 msgstr "Merci pour votre abonnement"
+
+#: ../../../../../cap-root/templates/Default/Common/feedback.tt:9
+msgid "Thank you for your comments."
+msgstr "Merci de vos commentaires."
 
 #: ../../../../../cap-root/templates/Mail/Common/partial/boilerplate_footer.tt:4
 msgid "The Canadiana Team"
@@ -1436,7 +1440,10 @@ msgstr "Visualiser cette série de documents à %1 :"
 msgid "We need to verify that you are a human being. Please enter the words in the image below."
 msgstr "Nous devons nous assurer que vous êtes un être humain. Veuillez saisir les mots dans l’image ci-dessous."
 
-#: ../../../../../cap-root/templates/Default/Common/feedback.tt:6
+#: ../../../../../cap-root/templates/Default/Common/feedback.tt:13
+msgid "We welcome your comments and suggestions about how we can improve Early Canadiana Online."
+msgstr "Vos commentaires et suggestions sur la façon d’améliorer Notre mémoire en ligne sont les bienvenus."
+
 msgid "We welcome your comments on how we may improve this site. Please provide them below."
 msgstr "Vos commentaires sur la façon d’améliorer ce site sont les bienvenus. Veuillez nous les communiquer ci-dessous."
 

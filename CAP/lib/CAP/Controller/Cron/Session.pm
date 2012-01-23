@@ -4,6 +4,7 @@ use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
+# Remove expired sessions from the database.
 sub index :Private {
     my($self, $c) = @_;
     my $expired = $c->model('DB::Sessions')->remove_expired();
