@@ -16,6 +16,9 @@ sub index :Path :Args(0) {
     # Call various cron events
     $c->forward('/cron/session/index');
 
+    # Generate tax receipt PDF's and email them
+    $c->forward('/cron/taxreceipt/index');
+	
     # Return an empty document
     $c->res->status(200);
     $c->res->body(".");
