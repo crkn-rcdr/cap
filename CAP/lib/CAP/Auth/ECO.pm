@@ -15,8 +15,10 @@ method all_pages {
     return $self->_is_subscriber;
 }
 
+# To download a PDF, the user must have an active subscription and be a
+# full subcriber (not a trial user)
 method download {
-    return $self->_is_subscriber;
+    return $self->_is_subscriber && ($self->user->class eq 'paid' || $self->user->class eq 'permanent' || $self->user->class eq 'admin');
 }
 
 method resize {

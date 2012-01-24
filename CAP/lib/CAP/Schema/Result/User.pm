@@ -98,6 +98,12 @@ __PACKAGE__->table("user");
   default_value: 0
   is_nullable: 0
 
+=head2 class
+
+  data_type: 'enum'
+  extra: {list => ["trial","paid","permanent","admin"]}
+  is_nullable: 1
+
 =head2 subexpires
 
   data_type: 'datetime'
@@ -127,6 +133,12 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 0 },
   "credits",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "class",
+  {
+    data_type => "enum",
+    extra => { list => ["trial", "paid", "permanent", "admin"] },
+    is_nullable => 1,
+  },
   "subexpires",
   {
     data_type => "datetime",
@@ -254,8 +266,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-20 14:46:43
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FxYV+Je/fUaE81ZtKNK4Dg
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-24 08:15:44
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KivVMdmi8Gg/viNLnylhKg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

@@ -185,6 +185,7 @@ sub create :Path('create') :Args(0) {
 
         $new_user->update({
             subexpires => $newexpires,
+            class => 'trial',
         });
 
     }
@@ -767,6 +768,10 @@ sub init :Private
         # Check the user's subscription status
         $c->session->{is_subscriber} = $c->model('DB::User')->has_active_subscription($c->user->id);
 
+
+
+        # The following may be deprecated (or not, but they aren't currently in use)
+        #
         # Get a list of individual collection subscriptions
         $c->session->{subscribed_collections} = $c->model('DB::UserCollection')->subscribed_collections($c->user->id);
 
