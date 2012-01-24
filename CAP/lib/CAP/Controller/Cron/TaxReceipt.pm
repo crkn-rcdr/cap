@@ -41,8 +41,9 @@ sub index : Private {
 	my $amount_eligible = $subrow->rcpt_amt;
 	my $amount_value = $amount_received - $amount_eligible;
 
-# TODO: Clip time from date
 	my $donation_date = $subrow->completed;
+	$donation_date =~ s/T.*$//;
+
 	my $address = $subrow->rcpt_address;
 
         my $findrcpt_no = $c->model('DB::Subscription')->search(
@@ -73,8 +74,8 @@ sub index : Private {
 	    next;
 	}
 
-# TODO: Clip time from date
 	my $rcpt_date = $subrow->rcpt_date;
+	$rcpt_date =~ s/T.*$//;
 
         # $donor and $address are strings and may have backticks, but
         # everything else should not!  These two strings are also the only
@@ -83,17 +84,33 @@ sub index : Private {
 	       $amount_value, $amount_eligible, $rcpt_date, $donation_date,  
 	       $rcpt_id, esc_chars($address),$outfile);
 
-# TODO: What should we do if we see an error?
-	if ( $? == -1 ) {
-	    $c->log->error("Tax receipt generate command failed: $!\n");
+	if ( $? == -1 || ($? >> 8) || ! -e $outfile) {
+	    my $error = "Tax receipt generate command failed: $!";
+
+	    if ($? >> 8) {
+		$error .= " : Return: " . ($? >> 8);
+	    }
+	    $c->log->error("$error\n");
+
+	    $c->model('DB::CronLog')->create({
+		action  => 'taxreceipt',
+		ok      => 0,
+		message => $error,
+		});
+
 	} else {
+	    $c->model('DB::CronLog')->create({
+		action  => 'taxreceipt',
+		ok      => 1,
+		message => "PDF file created: $outfile",
+		});
+
             # Send subscriber an email with PDF attachment
 	    my $email = $subrow->user_id->username;
 	    my $name  = $subrow->user_id->name;
 	    $c->forward("/mail/subscription_taxreceipt", [$email, $name, $outfile]);
 	}
     }
-
     return 1;
 }
 

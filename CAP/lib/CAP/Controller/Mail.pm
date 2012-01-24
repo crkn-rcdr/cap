@@ -45,8 +45,8 @@ sub sendmail {
 	    $attachbody = <FILE>;
 	    close FILE;
 	} else {
-# TODO: Decide what to do if we can't open file.
-	    $c->log->error("Can't open attachment $attach : $!\n");	    
+	    $c->log->error("Can't open attachment $attach : $!\n");
+	    return 1;
 	}
 
 	my $textbody = $c->view("Mail")->render($c, $template);
