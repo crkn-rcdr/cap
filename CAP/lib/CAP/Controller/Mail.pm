@@ -63,7 +63,7 @@ sub sendmail {
 	    Email::MIME->create(
 		attributes => {
 		    content_type => $attachtype,
-		    encoding     => 'quoted-printable',
+		    encoding     => 'base64',
 		    name         => basename($attach),
 		},
 		body => $attachbody,
