@@ -69,8 +69,23 @@ sub view_doc :Private {
 
 sub view_series :Private {
     my ($self, $c, $doc) = @_;
+
+    my $page = 1;
+    $page = int($c->req->params->{page}) if ($c->req->params->{page} && int($c->req->params->{page} > 0));
+    my $subset = $c->stash->{search_subset};
+    my $query = $c->model('Solr')->query;
+    $query->limit_type('issue');
+    $query->append("pkey:" . $doc->key);
+    my $options = {
+        'sort' => 'seq asc',
+        'fl'   => 'key,pkey,label,pubmin,pubmax,type,contributor,canonicalUri',
+        'rows' => 20,
+    };
+    my $issues = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page);
+
     $c->stash(
         doc => $doc,
+        issues => $issues,
         template => "view_series.tt"
     );
     return 1;
