@@ -14,8 +14,6 @@ sub esc_chars {
 
 # Detach to this method to generate Tax receipts
 sub index : Private {
-# temporary for initial test, just use /cron/taxreceipt
-#sub index :Path('') {
     my($self, $c) = @_;
 
 
@@ -85,7 +83,7 @@ sub index : Private {
 	       $rcpt_id, esc_chars($address),$outfile);
 
 	if ( $? == -1 || ($? >> 8) || ! -e $outfile) {
-	    my $error = "Tax receipt generate command failed: $!";
+	    my $error = "Subscription $id: Tax receipt generate failed: $!";
 
 	    if ($? >> 8) {
 		$error .= " : Return: " . ($? >> 8);
@@ -102,7 +100,7 @@ sub index : Private {
 	    $c->model('DB::CronLog')->create({
 		action  => 'taxreceipt',
 		ok      => 1,
-		message => "PDF file created: $outfile",
+		message => "Subscription $id: PDF file created: $outfile",
 		});
 
             # Send subscriber an email with PDF attachment
