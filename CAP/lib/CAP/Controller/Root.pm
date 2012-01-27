@@ -236,9 +236,6 @@ sub auto :Private
         version => '0.3', # TODO: this should be in cap.conf
     });
 
-    # Clean up any expired sessions
-    my $expired = $c->model('DB::Sessions')->remove_expired();
-    warn("[info] Cleaned up $expired expired sessions") if ($expired);
     return 1;
 }
 
