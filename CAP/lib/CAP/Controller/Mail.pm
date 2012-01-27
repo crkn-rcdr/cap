@@ -89,7 +89,10 @@ sub user_reset :Private {
     my ($self, $c, $recipient, $confirm_link) = @_;
     $c->stash(confirm_link => $confirm_link);
 
-    my $from = $c->config->{email_from} || 'info@canadiana.ca'; 
+    my $from = $c->config->{email_from};
+    if (! $from) {
+	return 1;
+    }
 
     my $header = [
         From => $from,
@@ -108,7 +111,10 @@ sub user_activate :Private {
         confirm_link => $confirm_link
     );
 
-    my $from = $c->config->{email_from} || 'info@canadiana.ca'; 
+    my $from = $c->config->{email_from};
+    if (! $from) {
+	return 1;
+    }
     my $header = [
         From => $from,
         To => $recipient,
@@ -127,7 +133,10 @@ sub subscription_notice :Private {
         subscribe_message => $message
     );
 
-    my $from = $c->config->{email_from} || 'info@canadiana.ca'; 
+    my $from = $c->config->{email_from};
+    if (! $from) {
+	return 1;
+    }
     my $header = [
         From => $from,
         To => $admins,
@@ -141,12 +150,21 @@ sub subscription_notice :Private {
 sub subscription_taxreceipt :Private {
     my ($self, $c, $email, $name, $receiptfile) = @_;
 
-    my $from = $c->config->{email_from} || 'info@canadiana.ca'; 
+    my $from = $c->config->{email_from};
+    if (! $from) {
+	return 1;
+    }
+
     my $header = [
         From => $from,
         To => $email,
         Subject => $c->loc('ECO Tax Receipt')
     ];
+
+    # If Bcc: requested, add it in
+    if ($c->config->{taxreceipt}->{bcc}) {
+	push @$header, (Bcc => $c->config->{taxreceipt}->{bcc});
+    };
 
     $self->sendmail($c, "subscribe_taxreceipt.tt", $header, $receiptfile);
     return 1;
