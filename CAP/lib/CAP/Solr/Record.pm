@@ -99,21 +99,21 @@ method first_page {
         return 1;
     }
 
-    my @chunk = @{ $self->pg_label }[0..10];
+    my @pg_label = @{ $self->pg_label };
+    # it would be nice if perl array slicing didn't leave a bunch of nulls lying around
+    my $limit = scalar(@pg_label) - 1;
+    my @chunk = $limit > 9 ? @pg_label[0..9] : @pg_label;
 
-    # this makes the warnings shut up, since there is no $_ to begin with
-    $_ = '';
-
-    my $cover_seq = (firstidx { $_ =~ m/cover/i } @chunk) + 1;
+    my $cover_seq = (firstidx { $_ =~ /cover/i } @chunk) + 1;
     return $cover_seq if $cover_seq > 0;
 
-    my $title_seq = (firstidx { $_ =~ m/title page/i } @chunk) + 1;
+    my $title_seq = (firstidx { $_ =~ /title page/i } @chunk) + 1;
     return $title_seq if $title_seq > 0;
 
-    my $toc_seq = (firstidx { $_ =~ m/table of contents/i } @chunk) + 1;
+    my $toc_seq = (firstidx { $_ =~ /table of contents/i } @chunk) + 1;
     return $toc_seq if $toc_seq > 0;
 
-    my $page_seq = (firstidx { $_ =~ m/p\./i } @chunk) + 1;
+    my $page_seq = (firstidx { $_ =~ /p\./i } @chunk) + 1;
     return $page_seq if $page_seq > 0;
 
     # I have no idea what the first page is!
