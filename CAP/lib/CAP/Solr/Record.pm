@@ -4,6 +4,7 @@ use warnings;
 use Moose;
 use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
+use List::MoreUtils qw(firstidx);
 use namespace::autoclean;
 
 enum 'RecordType' => qw( page document series );
@@ -90,6 +91,33 @@ method api {
     $fl->{lang}     = $self->lang  if ($self->lang);
     $fl->{media}     = $self->media  if ($self->media);
     return $fl;
+}
+
+method first_page {
+    if ($self->type ne 'document') {
+        warn "Calling CAP::Solr::Record::first_page() on something that isn't a document";
+        return 1;
+    }
+
+    my @chunk = @{ $self->pg_label }[0..10];
+
+    # this makes the warnings shut up, since there is no $_ to begin with
+    $_ = '';
+
+    my $cover_seq = (firstidx { $_ =~ /cover/ } @chunk) + 1;
+    return $cover_seq if $cover_seq > 0;
+
+    my $title_seq = (firstidx { $_ =~ /title page/ } @chunk) + 1;
+    return $title_seq if $title_seq > 0;
+
+    my $toc_seq = (firstidx { $_ =~ /table of contents/ } @chunk) + 1;
+    return $toc_seq if $toc_seq > 0;
+
+    my $page_seq = (firstidx { $_ =~ /p\./ } @chunk) + 1;
+    return $page_seq if $page_seq > 0;
+
+    # I have no idea what the first page is!
+    return 1;
 }
 
 

@@ -45,7 +45,7 @@ sub view :Private {
             $c->forward("view_series", [$doc]);
         } when ('document') {
             $doc->set_auth($c->stash->{access_model}, $c->user);
-            $c->forward("view_doc", [$doc, $seq || 1]);
+            $c->forward("view_doc", [$doc, $seq || $doc->record->first_page() ]);
         } when ('page') {
             $c->response->redirect($c->uri_for_action("view/key_seq", $doc->pkey, $doc->seq));
         } default {
