@@ -677,7 +677,8 @@ sub subscribe_finalize : Private
 	my $user_account = $c->find_user({ id => $userid });
 
 	eval { $user_account->update({
-	    subexpires => $newexpires
+	    subexpires => $newexpires,
+	    class      => 'paid'
 				     }) };
 	if ($@) {
 	    $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);

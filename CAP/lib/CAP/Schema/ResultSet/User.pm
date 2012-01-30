@@ -94,4 +94,22 @@ sub subscribers
     return $self->search({ subexpires => { '>=', $now } })->count;
 }
 
+
+sub get_user_class {
+
+    my($self, $id) = @_;
+    my $get_class =  $self->search(
+                                {
+                         
+                                    id => $id
+                                  
+                                }           
+                             );
+    my $result = $get_class->next;
+
+    return $result->class;
+
+}
+
+
 1;
