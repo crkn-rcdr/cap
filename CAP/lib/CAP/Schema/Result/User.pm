@@ -302,6 +302,11 @@ sub has_expired_subscription {
     return ($self->subexpires && ($self->subexpires->epoch() < time)) ? 1 : 0;
 }
 
+sub has_class {
+    my $self = shift; my $name = shift;
+    return defined $name ? $self->class eq $name : defined $self->class;
+}
+
 use Digest::SHA1 qw(sha1_hex);
 
 # Account confirmation/password reset token: consists of the user's ID and
