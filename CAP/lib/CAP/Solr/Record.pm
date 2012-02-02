@@ -98,8 +98,10 @@ method first_page {
         warn "Calling CAP::Solr::Record::first_page() on something that isn't a document";
         return 1;
     }
+    
+    my @pg_label = [];
+    my @pg_label = @{ $self->pg_label } if ($self->pg_label);
 
-    my @pg_label = @{ $self->pg_label } || [];
     # it would be nice if perl array slicing didn't leave a bunch of nulls lying around
     my $limit = scalar(@pg_label) - 1;
     my @chunk = $limit > 9 ? @pg_label[0..9] : @pg_label;
