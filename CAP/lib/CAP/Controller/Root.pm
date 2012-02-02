@@ -305,18 +305,20 @@ sub index :Path('') Args(0)
     my($self, $c) = @_;
     
     # Messsages bugging you to subscribe already
-    if ($c->user_exists) {
-        if ($c->user->has_class("trial")) {
-            if ($c->user->has_active_subscription) {
-                $c->message({ type => "success", message => "active_trial_prod" });
-            } else {
-                $c->message({ type => "success", message => "expired_trial_prod" });
+    if ($c->stash->{portal} eq 'eco') {
+        if ($c->user_exists) {
+            if ($c->user->has_class("trial")) {
+                if ($c->user->has_active_subscription) {
+                    $c->message({ type => "success", message => "active_trial_prod" });
+                } else {
+                    $c->message({ type => "success", message => "expired_trial_prod" });
+                }
+            } elsif (! $c->user->has_class) {
+                $c->message({ type => "success", message => "no_trial_prod" });
             }
-        } elsif (! $c->user->has_class) {
-            $c->message({ type => "success", message => "no_trial_prod" });
+        } else {
+            $c->message({ type => "success", message => "anonymous_prod" });
         }
-    } else {
-        $c->message({ type => "success", message => "anonymous_prod" });
     }
     $c->stash->{template} = "index.tt";
 }
