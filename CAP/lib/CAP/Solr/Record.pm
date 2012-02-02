@@ -100,7 +100,7 @@ method first_page {
     }
     
     my @pg_label = [];
-    my @pg_label = @{ $self->pg_label } if ($self->pg_label);
+    @pg_label = @{ $self->pg_label } if ($self->pg_label);
 
     # it would be nice if perl array slicing didn't leave a bunch of nulls lying around
     my $limit = scalar(@pg_label) - 1;
