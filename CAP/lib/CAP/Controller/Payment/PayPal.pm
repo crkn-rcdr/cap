@@ -68,6 +68,10 @@ sub pay : Private {
 
     my $ReturnURL = $c->uri_for('/payment/paypal/finalize');
     my $CancelURL = $c->uri_for('/');
+    
+    # DEBUG: output the URLs we are sending to make sure they're what we
+    # expect and not an IP address
+    warn("Debug: return url: $ReturnURL. cancel url: $CancelURL");
 
 
     my %PPresp = $pp->SetExpressCheckout(
