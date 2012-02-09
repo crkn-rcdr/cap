@@ -150,6 +150,8 @@ sub subscription_notice :Private {
 sub subscription_taxreceipt :Private {
     my ($self, $c, $email, $name, $receiptfile) = @_;
 
+    $c->stash->{recipient_name} = $name;
+
     my $from = $c->config->{email_from};
     if (! $from) {
 	return 1;

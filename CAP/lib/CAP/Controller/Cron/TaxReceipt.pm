@@ -28,7 +28,7 @@ sub index : Private {
 
 # TODO: Move more database work to model?
     my $needreceipt = $c->model('DB::Subscription')->search(
-	{ completed =>  { '!=', undef },
+	{ success =>  1,
 	  payment_id  =>  { '!=', undef },
 	  rcpt_no => undef });
 

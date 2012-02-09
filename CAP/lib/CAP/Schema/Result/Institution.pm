@@ -48,6 +48,7 @@ __PACKAGE__->table("institution");
 =head2 name
 
   data_type: 'varchar'
+  default_value: 'New Institution'
   is_nullable: 0
   size: 128
 
@@ -63,7 +64,12 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "name",
-  { data_type => "varchar", is_nullable => 0, size => 128 },
+  {
+    data_type => "varchar",
+    default_value => "New Institution",
+    is_nullable => 0,
+    size => 128,
+  },
   "subscriber",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
 );
@@ -79,20 +85,6 @@ __PACKAGE__->add_columns(
 =cut
 
 __PACKAGE__->set_primary_key("id");
-
-=head1 UNIQUE CONSTRAINTS
-
-=head2 C<name>
-
-=over 4
-
-=item * L</name>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("name", ["name"]);
 
 =head1 RELATIONS
 
@@ -127,8 +119,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lABF925fK9plY3HMlMDG5w
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-02-08 09:59:06
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:I3CH4gI329GNY6WVhKHI5w
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

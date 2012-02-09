@@ -106,18 +106,18 @@ sub users :Path('users') :Args(0) {
     return 1;
 }
 
+# Create a new institution, then forward to the institution admin page.
+sub create_institution :Path('create/institution') {
+    my($self, $c, $id) = @_;
+    my $institution = $c->model('DB::Institution')->create({});
+    $c->res->redirect($c->uri_for_action('admin/institution', [$institution->id]));
+}
 
 sub institution :Path('institution') :Args(1) {
     my ($self, $c, $id) = @_;
     my $institution;
 
-    if ($id eq 'new') {
-        $institution = $c->model('DB::Institution')->create({ name =>  'New Institution' });
-        $c->response->redirect($c->uri_for('/admin', 'institution', $institution->id));
-    }
-    else {
-        $institution = $c->model('DB::Institution')->find({ id => $id });
-    }
+    $institution = $c->model('DB::Institution')->find({ id => $id });
 
     if (! $institution) {
         $c->detach('/error', [404, "No institution matches identifier"]);

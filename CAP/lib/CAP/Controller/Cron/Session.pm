@@ -9,7 +9,7 @@ sub index :Private {
     my($self, $c) = @_;
     my $expired = $c->model('DB::Sessions')->remove_expired();
     if ($expired) {
-        $c->model('DB::CronLog')->log({
+        $c->model('DB::CronLog')->create({
             action  => 'session_cleanup',
             ok      => 1,
             message => "$expired expired sessions removed",

@@ -604,6 +604,8 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
         my $blob = join("\n", $address, join(" ", $city, $province, "", $pc1, $pc2));
 
         # Create the subscription row
+        my $incomplete_transactions = $c->model('DB::Subscription')->search({ user_id => $c->user->id, completed => undef});
+        $incomplete_transactions->delete if ($incomplete_transactions);
         my $subscriptionrow = $c->user->add_to_subscriptions(
             {
                 completed    => undef,
