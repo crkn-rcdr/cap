@@ -603,7 +603,9 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
         if ($address2) { $address = join("\n", $address, $address2); }
         my $blob = join("\n", $address, join(" ", $city, $province, "", $pc1, $pc2));
 
-        # Create the subscription row
+        # Create the subscription row. Delete any current pending
+        # subscription transactions for this user first so that we never
+        # have more than one active pending subscription per user.
         my $incomplete_transactions = $c->model('DB::Subscription')->search({ user_id => $c->user->id, completed => undef});
         $incomplete_transactions->delete if ($incomplete_transactions);
         my $subscriptionrow = $c->user->add_to_subscriptions(
