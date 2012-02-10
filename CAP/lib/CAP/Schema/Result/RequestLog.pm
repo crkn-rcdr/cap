@@ -45,6 +45,18 @@ __PACKAGE__->table("request_log");
   is_auto_increment: 1
   is_nullable: 0
 
+=head2 user_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
+=head2 institution_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
 =head2 time
 
   data_type: 'datetime'
@@ -90,6 +102,10 @@ __PACKAGE__->table("request_log");
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  "user_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "institution_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "time",
   {
     data_type => "datetime",
@@ -124,6 +140,20 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 institution_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Institution>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "institution_id",
+  "CAP::Schema::Result::Institution",
+  { id => "institution_id" },
+);
+
 =head2 search_logs
 
 Type: has_many
@@ -139,9 +169,19 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 user_id
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:v7Fmf21cNHgJd+TOoaAJkQ
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-02-10 09:47:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:201o7F6d7VB8+hjhusAVdA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

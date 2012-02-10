@@ -205,6 +205,21 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 institution_roles
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::InstitutionRole>
+
+=cut
+
+__PACKAGE__->has_many(
+  "institution_roles",
+  "CAP::Schema::Result::InstitutionRole",
+  { "foreign.user_id" => "self.id" },
+  {},
+);
+
 =head2 payments
 
 Type: has_many
@@ -216,6 +231,21 @@ Related object: L<CAP::Schema::Result::Payment>
 __PACKAGE__->has_many(
   "payments",
   "CAP::Schema::Result::Payment",
+  { "foreign.user_id" => "self.id" },
+  {},
+);
+
+=head2 request_logs
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::RequestLog>
+
+=cut
+
+__PACKAGE__->has_many(
+  "request_logs",
+  "CAP::Schema::Result::RequestLog",
   { "foreign.user_id" => "self.id" },
   {},
 );
@@ -266,8 +296,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-24 08:15:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KivVMdmi8Gg/viNLnylhKg
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-02-10 09:47:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SHF4X86E+Wzjo5vw/fbNkw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

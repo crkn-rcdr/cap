@@ -88,6 +88,36 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 counter_logs
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::CounterLog>
+
+=cut
+
+__PACKAGE__->has_many(
+  "counter_logs",
+  "CAP::Schema::Result::CounterLog",
+  { "foreign.institution_id" => "self.id" },
+  {},
+);
+
+=head2 institution_alias
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::InstitutionAlias>
+
+=cut
+
+__PACKAGE__->has_many(
+  "institution_alias",
+  "CAP::Schema::Result::InstitutionAlias",
+  { "foreign.institution_id" => "self.id" },
+  {},
+);
+
 =head2 institution_collections
 
 Type: has_many
@@ -118,9 +148,39 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 institution_roles
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-02-08 09:59:06
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:I3CH4gI329GNY6WVhKHI5w
+Type: has_many
+
+Related object: L<CAP::Schema::Result::InstitutionRole>
+
+=cut
+
+__PACKAGE__->has_many(
+  "institution_roles",
+  "CAP::Schema::Result::InstitutionRole",
+  { "foreign.institution_id" => "self.id" },
+  {},
+);
+
+=head2 request_logs
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::RequestLog>
+
+=cut
+
+__PACKAGE__->has_many(
+  "request_logs",
+  "CAP::Schema::Result::RequestLog",
+  { "foreign.institution_id" => "self.id" },
+  {},
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-02-10 09:47:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ol6oesVm/yypQtd01eXZ9w
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

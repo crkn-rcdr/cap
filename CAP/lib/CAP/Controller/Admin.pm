@@ -30,90 +30,26 @@ sub index :Path :Args(0) {
     return 1;
 }
 
-sub collections :Path('collections') :Args(0) {
-    my($self, $c, $id) = @_;
+#
+# Institution functions
+#
 
-    if ($c->request->params->{update}) {
-        if ($c->request->params->{update} eq 'collection') {
-            my $collection = $c->model('DB::Collection')->find({ id => $c->request->params->{id} });
-            if ($collection) {
-                $collection->update({
-                    price => $c->request->params->{price},
-                });
-            }
-        }
-        elsif ($c->request->params->{update} eq 'add_collection') {
-            $c->model('DB::Collection')->create({
-                id    => $c->req->params->{id},
-                price => $c->req->params->{price},
-            });
-        }
-    }
-
-    # Get a list of all collections
-    $c->stash->{collections} = [$c->model('DB::Collection')->all];
-
+# List current institutions
+sub institutions :Path('list/institutions') :Args(0) {
+    my($self, $c) = @_;
+    $c->stash->{institutions} = [$c->model('DB::Institution')->all];
     return 1;
 }
 
-sub user :Path('user') :Args(1) {
-    my ($self, $c, $id) = @_;
-    given($c->request->method) {
-        when ("GET") {
-            if ($id eq 'new') {
-                $c->stash->{template} = "admin/user_new.tt";
-            } else {
-                my $user = $c->model('DB::User')->find({ id => $id });
-                $c->detach($c->uri_for_action("error"), [404, "No user with id #" . $id]) if (!$user);
-                $c->stash->{user} = $user;
-            }
-        } when ("POST") {
-            if ($id eq 'new') {
-                #$c->model('DB::User')->create($c->forward("user_attributes_from_params"));
-                $c->message({ type => "error", message => "Would have created a new user, but I'm not sure how to go about doing this just yet." });
-                $c->response->redirect($c->uri_for_action("admin/users"));
-            } else { # would love to use PUT here but we need Catalyst::Action::REST for that
-                my $user = $c->model('DB::User')->find({ id => $id });
-                $c->detach($c->uri_for_action("error"), [404, "No user with id #" . $id]) if (!$user);
-                $user->update($c->forward("user_attributes_from_params"));
-                $c->response->redirect($c->uri_for_action("admin/users"));
-            }
-        } default {
-            $c->detach($c->uri_for_action("error"), [404, "Invalid admin/user request"]);
-        }
-    }
-
-    return 1;
-}
-
-sub user_attributes_from_params :Private {
-    my ($self, $c) = @_;
-    my $attributes = {
-        username    => $c->request->params->{username},
-        name        => $c->request->params->{name},
-        confirmed   => ($c->request->params->{confirmed} ? 1 : 0),
-        active      => ($c->request->params->{active} ? 1 : 0),
-        admin       => ($c->request->params->{admin} ? 1 : 0),
-    };
-    $attributes->{subexpires} = join(" ", $c->request->params->{subexpires}, "00:00:00") if ($c->request->params->{subscriber});
-    return $attributes;
-}
-
-sub users :Path('users') :Args(0) {
-    my ($self, $c, $id) = @_;
-    my $rs = $c->model('DB::User');
-    $c->stash->{users} = [$rs->all];
-    return 1;
-}
-
-# Create a new institution, then forward to the institution admin page.
+# Create a new institution, then forward to the edit institution page.
 sub create_institution :Path('create/institution') {
     my($self, $c, $id) = @_;
     my $institution = $c->model('DB::Institution')->create({});
-    $c->res->redirect($c->uri_for_action('admin/institution', [$institution->id]));
+    $c->res->redirect($c->uri_for_action('admin/edit_institution', [$institution->id]));
 }
 
-sub institution :Path('institution') :Args(1) {
+# Edit an institution
+sub edit_institution :Path('edit/institution') :Args(1) {
     my ($self, $c, $id) = @_;
     my $institution;
 
@@ -191,9 +127,83 @@ sub institution :Path('institution') :Args(1) {
     return 1;
 }
 
-sub institutions :Path('institutions') :Args(0) {
-    my($self, $c) = @_;
-    $c->stash->{institutions} = [$c->model('DB::Institution')->all];
+
+
+
+
+sub collections :Path('collections') :Args(0) {
+    my($self, $c, $id) = @_;
+
+    if ($c->request->params->{update}) {
+        if ($c->request->params->{update} eq 'collection') {
+            my $collection = $c->model('DB::Collection')->find({ id => $c->request->params->{id} });
+            if ($collection) {
+                $collection->update({
+                    price => $c->request->params->{price},
+                });
+            }
+        }
+        elsif ($c->request->params->{update} eq 'add_collection') {
+            $c->model('DB::Collection')->create({
+                id    => $c->req->params->{id},
+                price => $c->req->params->{price},
+            });
+        }
+    }
+
+    # Get a list of all collections
+    $c->stash->{collections} = [$c->model('DB::Collection')->all];
+
+    return 1;
+}
+
+sub user :Path('user') :Args(1) {
+    my ($self, $c, $id) = @_;
+    given($c->request->method) {
+        when ("GET") {
+            if ($id eq 'new') {
+                $c->stash->{template} = "admin/user_new.tt";
+            } else {
+                my $user = $c->model('DB::User')->find({ id => $id });
+                $c->detach($c->uri_for_action("error"), [404, "No user with id #" . $id]) if (!$user);
+                $c->stash->{user} = $user;
+            }
+        } when ("POST") {
+            if ($id eq 'new') {
+                #$c->model('DB::User')->create($c->forward("user_attributes_from_params"));
+                $c->message({ type => "error", message => "Would have created a new user, but I'm not sure how to go about doing this just yet." });
+                $c->response->redirect($c->uri_for_action("admin/users"));
+            } else { # would love to use PUT here but we need Catalyst::Action::REST for that
+                my $user = $c->model('DB::User')->find({ id => $id });
+                $c->detach($c->uri_for_action("error"), [404, "No user with id #" . $id]) if (!$user);
+                $user->update($c->forward("user_attributes_from_params"));
+                $c->response->redirect($c->uri_for_action("admin/users"));
+            }
+        } default {
+            $c->detach($c->uri_for_action("error"), [404, "Invalid admin/user request"]);
+        }
+    }
+
+    return 1;
+}
+
+sub user_attributes_from_params :Private {
+    my ($self, $c) = @_;
+    my $attributes = {
+        username    => $c->request->params->{username},
+        name        => $c->request->params->{name},
+        confirmed   => ($c->request->params->{confirmed} ? 1 : 0),
+        active      => ($c->request->params->{active} ? 1 : 0),
+        admin       => ($c->request->params->{admin} ? 1 : 0),
+    };
+    $attributes->{subexpires} = join(" ", $c->request->params->{subexpires}, "00:00:00") if ($c->request->params->{subscriber});
+    return $attributes;
+}
+
+sub users :Path('users') :Args(0) {
+    my ($self, $c, $id) = @_;
+    my $rs = $c->model('DB::User');
+    $c->stash->{users} = [$rs->all];
     return 1;
 }
 
