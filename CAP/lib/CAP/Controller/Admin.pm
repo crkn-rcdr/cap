@@ -6,6 +6,7 @@ use feature "switch";
 
 BEGIN {extends 'Catalyst::Controller'; }
 
+
 sub auto :Private {
     my($self, $c) = @_;
 
