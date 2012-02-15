@@ -8,6 +8,9 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub auto :Private {
     my($self, $c) = @_;
 
+    # Require SSL for all operations
+    $c->require_ssl;
+
     # If payment processing is not enabled for this portal, do not perform
     # any actions in this controller.
     if (! $c->stash->{payment_processing}) {
