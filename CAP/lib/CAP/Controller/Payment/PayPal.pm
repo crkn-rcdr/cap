@@ -133,17 +133,20 @@ sub finalize :Path('finalize') {
     my $token = $c->request->param( 'token' );
     $c->log->debug("Payment/Paypal/finalize: token = $token") if ($c->debug);
     if (! $token) {
-      # If this isn't a legitimate query, generate an error
-      $c->detach('/error', [400, "Invalid query parameters"]);
-      return 0;
+	# If this isn't a legitimate query, generate an error
+	$c->message({ type => "error", message => "paypal_token_none" });
+	$c->detach('/index');
     }
 
     my ($returnto, $amount);
     my $paymentrow = $c->user->payments->find({token => $token });
     if (!$paymentrow) {
-	# TODO: find a better way to deal with error?
-	$c->detach('/error', [400, "Token not found in database"]);
-	return 0;
+	$c->message({ type => "error", message => "paypal_token_notfound" });
+	$c->detach('/index');
+    }
+    if ($paymentrow->completed) {
+	$c->message({ type => "error", message => "paypal_token_completed" });
+	$c->detach('/index');
     }
 
     $returnto = $paymentrow->returnto;
@@ -193,12 +196,12 @@ $c->log->debug("Payment/Paypal/finalize: Success? : $success") if ($c->debug);
 
 # This is something we can do in the future if we feel the need to log
 # IPN's.  Duplicates information we receive as part of express-checkout
-sub ipn :Path('ipn') {
-    my($self, $c) = @_;
-
-    # If this isn't a legitimate query, generate an error
-    $c->detach('/error', [400, "Invalid query parameters"]);
-    return 0;
-}
+#sub ipn :Path('ipn') {
+#    my($self, $c) = @_;
+#
+#    # If this isn't a legitimate query, generate an error
+#    $c->detach('/error', [400, "Invalid query parameters"]);
+#    return 0;
+#}
 
 __PACKAGE__->meta->make_immutable;
