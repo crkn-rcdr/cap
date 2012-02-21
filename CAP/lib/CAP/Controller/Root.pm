@@ -218,6 +218,10 @@ sub auto :Private
     else {
         $c->stash->{current_view} = $c->config->{default_view};
     }
+    $c->stash->{additional_template_paths} = [
+        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->stash->{portal}),
+        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
+    ];
 
     # Set a cookie to remember the interface language.
     $c->res->cookies->{usrlang} = { value => $c->stash->{lang}, expires => time() + 7776000 }; # Cookie expires in 90 days TODO: put in cap.conf?
@@ -235,6 +239,9 @@ sub auto :Private
         status => 200,
         version => '0.3', # TODO: this should be in cap.conf
     });
+
+    # Log the request.
+    $c->model('DB::RequestLog')->log($c);
 
     return 1;
 }
@@ -259,7 +266,6 @@ sub end : ActionClass('RenderView')
 {
     my($self, $c) = @_;
 
-
     # Log the request, unless logging has been disabled by a configuration error.
     if (! $c->stash->{config_error}) {
         my $request_log = $c->model('DB::RequestLog')->log($c); # Basic request information
@@ -276,10 +282,10 @@ sub end : ActionClass('RenderView')
         $c->res->header('Cache-Control' => 'no-cache');
     }
 
-    $c->stash->{additional_template_paths} = [
-        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->stash->{portal}),
-        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
-    ];
+    #$c->stash->{additional_template_paths} = [
+    #    join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->stash->{portal}),
+    #    join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
+    #];
 
     return 1;
 }

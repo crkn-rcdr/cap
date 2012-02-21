@@ -85,7 +85,6 @@ __PACKAGE__->config(
     'static' => {
         include_path => [ __PACKAGE__->config->{root} . "/Default/static/" ],
     },
-    
 );
 
 #__PACKAGE__->config->{email} = [qw/SMTP asiago.cihm/];

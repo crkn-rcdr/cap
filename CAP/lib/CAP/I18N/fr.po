@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-02-10 11:35-0500\n"
+"PO-Revision-Date: 2012-02-15 11:17-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "À propos de Canadiana.org"
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:2
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:2
 msgid "About this site"
-msgstr "Apropos"
+msgstr "À propos"
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:15
 msgid "Access Restricted"

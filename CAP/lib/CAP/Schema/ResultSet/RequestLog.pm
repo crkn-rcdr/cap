@@ -10,8 +10,13 @@ sub log
 {
     my($self, $c) = @_;
 
+    my $user_id;
+    $user_id = $c->user->id if ($c->user_exists);
+
     $self->create({
         'time' => strftime('%Y-%m-%d %H:%M:%S', localtime(time)),
+        'user_id' => $user_id,
+        #'institution_id' => ....,
         'session' => $c->sessionid,
         'session_count' => $c->session->{count},
         'portal' => $c->stash->{portal},
