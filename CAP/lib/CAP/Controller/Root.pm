@@ -266,14 +266,6 @@ sub end : ActionClass('RenderView')
 {
     my($self, $c) = @_;
 
-    # Log the request, unless logging has been disabled by a configuration error.
-    if (! $c->stash->{config_error}) {
-        my $request_log = $c->model('DB::RequestLog')->log($c); # Basic request information
-        $c->model('DB::SearchLog')->log($c, $request_log) if ($c->stash->{log_search}); # Search query
-        # TODO: user login/out
-        # TODO: item access
-    }
-
     # Don't cache anything except for static resources
     if ($c->action eq 'static') {
         $c->res->header('Cache-Control' => 'max-age=3600');
@@ -281,11 +273,6 @@ sub end : ActionClass('RenderView')
     else {
         $c->res->header('Cache-Control' => 'no-cache');
     }
-
-    #$c->stash->{additional_template_paths} = [
-    #    join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->stash->{portal}),
-    #    join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
-    #];
 
     return 1;
 }
