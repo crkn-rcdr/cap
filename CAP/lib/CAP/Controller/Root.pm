@@ -184,23 +184,6 @@ sub auto :Private
     if ($c->session->{count} % $c->config->{init_interval} == 0) {
         $c->forward('user/init');
     }
-    
-
-    # Set image size and rotation
-    if (defined($c->request->params->{s}) && defined($c->config->{derivative}->{size}->{$c->request->params->{s}})) {
-        $c->session->{size} = $c->request->params->{s};
-    }
-    if (defined($c->request->params->{r}) && defined($c->config->{derivative}->{rotate}->{$c->request->params->{r}})) {
-        $c->session->{rotate} = $c->request->params->{r};
-    }
-
-    #
-    # Set stash variables from the session
-    #
-
-    $c->stash->{size} = $c->session->{size} || 1;
-    $c->stash->{rotate} = $c->session->{rotate} || 0;
-
 
     # Set the current view
     if (! $c->config->{default_view}) {

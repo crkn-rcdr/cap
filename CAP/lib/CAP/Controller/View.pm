@@ -60,8 +60,18 @@ sub view_doc :Private {
     my ($self, $c, $doc, $seq) = @_;
     my $page = $doc->set_active_child($seq);
 
+    # Set image size and rotation
+    if (defined($c->request->query_params->{s}) && defined($c->config->{derivative}->{size}->{$c->request->query_params->{s}})) {
+        $c->session->{size} = $c->request->query_params->{s};
+    }
+    if (defined($c->request->query_params->{r}) && defined($c->config->{derivative}->{rotate}->{$c->request->query_params->{r}})) {
+        $c->session->{rotate} = $c->request->query_params->{r};
+    }
+
     $c->stash(
         doc => $doc,
+        rotate => $c->session->{rotate} || 0,
+        size => $c->session->{size} || 1,
         template => "view_doc.tt",
     );
     return 1;
