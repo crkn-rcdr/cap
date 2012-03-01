@@ -11,7 +11,7 @@ use CAP::Auth::Default;
 use CAP::Auth::ECO;
 
 # has 'user'  => (is => 'ro', isa => 'Maybe[Catalyst::Authentication::Store::DBIx::Class::User]', required => 1);
-has 'auth'  => (is => 'ro', isa => 'hashref', required => 1);
+has 'auth'  => (is => 'ro', isa => 'HashRef', required => 1);
 has 'rules' => (is => 'ro', isa => 'Str', required => 1);
 has 'doc'   => (is => 'ro', isa => 'CAP::Solr::Document', required => 1);
 
