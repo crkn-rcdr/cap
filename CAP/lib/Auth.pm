@@ -7,7 +7,7 @@ use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
 use namespace::autoclean;
 
-has 'user' => (is => 'ro');
+has 'auth' => (is => 'ro');
 
 sub BUILD {
     warn "Building default rule set";

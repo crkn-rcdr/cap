@@ -22,10 +22,10 @@ has 'resize'     => (is => 'ro', isa => 'Int');
 method BUILD {
     my $auth_model;
     if ($self->rules eq 'eco') {
-        $auth_model = new CAP::Auth::ECO(user => $self->auth->{user}, doc => $self->doc);
+        $auth_model = new CAP::Auth::ECO(auth => $self->auth, doc => $self->doc);
     }
     else {
-        $auth_model = new CAP::Auth::Default(user => $self->user, doc => $self->doc);
+        $auth_model = new CAP::Auth::Default(auth => $self->auth, doc => $self->doc);
     }
 
     $self->{download}   = $auth_model->download;   # Can the resource be downloaded (e.g. PDF)
