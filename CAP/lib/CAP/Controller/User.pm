@@ -364,6 +364,8 @@ sub reset :Path('reset') :Args() {
 
 sub profile :Path('profile') :Args(0) {
     my($self, $c) = @_;
+    # $c->stash->{template} = 'user/profile.tt';
+    # return 1;
 }
 
 
@@ -740,6 +742,13 @@ sub init :Private
 {
     my($self, $c) = @_;
 
+    # Build and populete the $session->{auth} object
+    $c->session->{auth} = {
+                 'user'                             => '',
+                 'institutional_sub'                => 0    
+               };    
+   
+
     # Store the user's IP address.
     $c->session->{address} = $c->request->address;
 
@@ -747,7 +756,8 @@ sub init :Private
     my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->session->{address});
     if ($institution && $institution->subscriber) {
         $c->session->{subscribing_institution} = $institution->name;
-        $c->session->{has_institutional_subscription} = 1;
+        # $c->session->{has_institutional_subscription} = 1;
+        $c->session->{auth}->{institution_sub} = 1;
     }
     else {
         $c->session->{subscribing_institution} = "";
@@ -760,6 +770,7 @@ sub init :Private
         $c->session->{sponsored_collections}->{$collection->collection_id->id} = $collection->institution_id->name;
     }
 
+
     $c->session->{is_subscriber} = 0;
     if ($c->user_exists) {
 
@@ -769,6 +780,8 @@ sub init :Private
         # sanity check anyway; need to consider further.
         $c->set_authenticated($c->find_user({ id => $c->user->id }));
         $c->persist_user();
+
+        $c->session->{auth}->{user} = $c->user;
 
         # Check the user's subscription status
         $c->session->{is_subscriber} = $c->model('DB::User')->has_active_subscription($c->user->id);

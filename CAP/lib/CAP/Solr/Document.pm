@@ -122,8 +122,8 @@ method set_active_child (Int $seq) {
     return $self->{active_child} = $self->child($seq);
 }
 
-method set_auth (Str $rules, $user) {
-    $self->{auth} = new CAP::Auth(user => $user, rules => $rules, doc => $self);
+method set_auth (Str $rules, $auth) {
+    $self->{auth} = new CAP::Auth(auth => $auth, rules => $rules, doc => $self);
     return $self->auth;
 }
 

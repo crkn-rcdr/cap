@@ -18,7 +18,7 @@ sub get_page_uri :Local :Args(2) {
 
     my $doc = $c->model("Solr")->document($key);
     $c->detach('/error', [404, "No document with key $key"]) unless $doc;
-    $doc->set_auth($c->stash->{access_model}, $c->user);
+    $doc->set_auth($c->stash->{access_model}, $c->session->{auth});
     $c->detach('/error', [404, "No page $seq for $key"]) unless $doc->child($seq);
 
     my $size = $c->req->params->{s} || "1";

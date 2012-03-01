@@ -8,7 +8,8 @@ use MooseX::Method::Signatures;
 use namespace::autoclean;
 use CAP::Model::DB;
 
-has 'user'  => (is => 'ro', isa => 'Maybe[Catalyst::Authentication::Store::DBIx::Class::User]', required => 1);
+# has 'user'  => (is => 'ro', isa => 'Maybe[Catalyst::Authentication::Store::DBIx::Class::User]', required => 1);
+has 'auth'  => (is => 'ro', isa => 'hashref', required => 1);
 has 'doc'   => (is => 'ro', isa => 'CAP::Solr::Document', required => 1);
 
 method all_pages {
@@ -18,7 +19,10 @@ method all_pages {
 # To download a PDF, the user must have an active subscription and be a
 # full subcriber (not a trial user)
 method download {
-    return $self->_is_subscriber && ($self->user->class eq 'paid' || $self->user->class eq 'permanent' || $self->user->class eq 'admin');
+    return 1 if $self->auth->{institution_sub};
+    return $self->_is_subscriber
+       &&
+   ($self->auth->{user}->class eq 'paid' || $self->auth->{user}->class eq 'permanent' || $self->auth->{user}->class eq 'admin');
 }
 
 method resize {
@@ -57,7 +61,8 @@ method pages {
 }
 
 method _is_subscriber {
-    return 1 if ($self->user && $self->user->has_active_subscription);
+    return 1 if ($self->auth->{user} && $self->auth->{user}->has_active_subscription);
+    return 1 if $self->auth->{institution_sub};
     return 0;
 }
 

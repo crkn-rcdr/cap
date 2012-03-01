@@ -10,7 +10,8 @@ use namespace::autoclean;
 use CAP::Auth::Default;
 use CAP::Auth::ECO;
 
-has 'user'  => (is => 'ro', isa => 'Maybe[Catalyst::Authentication::Store::DBIx::Class::User]', required => 1);
+# has 'user'  => (is => 'ro', isa => 'Maybe[Catalyst::Authentication::Store::DBIx::Class::User]', required => 1);
+has 'auth'  => (is => 'ro', isa => 'hashref', required => 1);
 has 'rules' => (is => 'ro', isa => 'Str', required => 1);
 has 'doc'   => (is => 'ro', isa => 'CAP::Solr::Document', required => 1);
 
@@ -21,7 +22,7 @@ has 'resize'     => (is => 'ro', isa => 'Int');
 method BUILD {
     my $auth_model;
     if ($self->rules eq 'eco') {
-        $auth_model = new CAP::Auth::ECO(user => $self->user, doc => $self->doc);
+        $auth_model = new CAP::Auth::ECO(user => $self->auth->{user}, doc => $self->doc);
     }
     else {
         $auth_model = new CAP::Auth::Default(user => $self->user, doc => $self->doc);
