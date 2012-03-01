@@ -756,12 +756,12 @@ sub init :Private
     my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->session->{address});
     if ($institution && $institution->subscriber) {
         $c->session->{subscribing_institution} = $institution->name;
-        # $c->session->{has_institutional_subscription} = 1;
+        #$c->session->{has_institutional_subscription} = 1;
         $c->session->{auth}->{institution_sub} = 1;
     }
     else {
         $c->session->{subscribing_institution} = "";
-        $c->session->{has_institutional_subscription} = 0;
+        #$c->session->{has_institutional_subscription} = 0;
     }
 
     # Build a table of sponsored collections, mapped to the sponsor name
