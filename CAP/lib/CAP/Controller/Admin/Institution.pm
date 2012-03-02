@@ -58,15 +58,9 @@ sub edit_GET {
     my $institution = $c->model('DB::Institution')->find({ id => $id });
     if (! $institution) {
         $c->message({ type => "error", message => "institution_not_found" });
-        #$c->stash->{template} = 'error.tt';
-        #$c->stash->{status} = 404;
-        $self->status_not_found(
-            $c,
-            message => "No such institution",
-        );
+        $self->status_not_found( $c, message => "No such institution");
         return 1;
     }
-    $c->stash->{institution} = $institution;
 
     my $ip_addresses = $c->model('DB::InstitutionIpaddr')->ip_for_institution($institution->id);
 
@@ -85,7 +79,9 @@ sub edit_POST {
     my($self, $c, $id) = @_;
     my $institution = $c->model('DB::Institution')->find({ id => $id });
     if (! $institution) {
-        $c->detach('/error', [404, "No institution matches identifier"]);
+        $c->message({ type => "error", message => "institution_not_found" });
+        $self->status_not_found( $c, message => "No such institution");
+        return 1;
     }
 
     my %data = (%{$c->req->params}); # FIXME: The docs seem to say $c->req->data should work, but it doesn't get defined anywhere
@@ -127,7 +123,6 @@ sub edit_POST {
         ip_addresses => $c->model('DB::InstitutionIpaddr')->ip_for_institution($institution->id),
     });
 
-    $c->stash(institution => $institution);
     $self->status_ok($c, entity => $c->stash->{entity});
     return 1;
 }

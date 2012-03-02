@@ -314,8 +314,6 @@ __PACKAGE__->add_columns(
     } 
 );
 
-__PACKAGE__->has_many(map_user_roles => 'CAP::Schema::Result::UserRole', 'user_id');
-__PACKAGE__->many_to_many(roles => 'map_user_roles', 'role');
 
 sub has_active_subscription {
     my $self = shift;
