@@ -22,7 +22,6 @@ sub log
         'portal' => $c->stash->{portal},
         'view' => $c->stash->{current_view},
         'action' => $c->request->action,
-        'status' => $c->response->status,
     });
 }
 

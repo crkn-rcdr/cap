@@ -21,7 +21,7 @@ sub auto :Private
 
     # Check the MySQL database version; make sure we are up to date
     if (! $c->model('DB::Info')->check_version($c->config->{db_version})) {
-        $c->detach("config_error", ["Incorrect cap.info database version (should be " . $c->config->{db_version} . "). Upgrade database."]);
+        $c->detach("config_error", ["Incorrect cap.info database version (cap.conf is expecting version " . $c->config->{db_version} . "). Upgrade database or modify cap.conf."]);
     }
     
     # Verify that a default portal is set
