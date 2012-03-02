@@ -742,27 +742,35 @@ sub init :Private
 {
     my($self, $c) = @_;
 
-    # Build and populete the $session->{auth} object
+    # Build and populate the $session->{auth} object
     $c->session->{auth} = {
-                 'user'                             => '',
-                 'institutional_sub'                => 0    
-               };    
+                           'user'                     => '',
+                           'institutional_sub'        => 0    
+                          };    
    
 
     # Store the user's IP address.
     $c->session->{address} = $c->request->address;
 
     # Find the user's subscribing institution, if any
+    $c->session->{subscribing_institution} = "";
     my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->session->{address});
     if ($institution && $institution->subscriber) {
         $c->session->{subscribing_institution} = $institution->name;
+<<<<<<< .mine
+=======
         #$c->session->{has_institutional_subscription} = 1;
+>>>>>>> .r834
         $c->session->{auth}->{institution_sub} = 1;
     }
+<<<<<<< .mine
+=======
     else {
         $c->session->{subscribing_institution} = "";
         #$c->session->{has_institutional_subscription} = 0;
     }
+>>>>>>> .r834
+
 
     # Build a table of sponsored collections, mapped to the sponsor name
     $c->session->{sponsored_collections} = {};

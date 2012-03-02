@@ -80,8 +80,8 @@ sub view_doc :Private {
 sub view_series :Private {
     my ($self, $c, $doc) = @_;
 
-    my $page = 1;
-    $page = int($c->req->params->{page}) if ($c->req->params->{page} && int($c->req->params->{page} > 0));
+    my $page = ($c->req->params->{page} && int($c->req->params->{page} > 0)) ? int($c->req->params->{page}) : 1;
+
     my $subset = $c->stash->{search_subset};
     my $query = $c->model('Solr')->query;
     $query->limit_type('issue');
