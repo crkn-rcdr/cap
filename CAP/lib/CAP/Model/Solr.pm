@@ -59,11 +59,12 @@ method BUILD {
 
     # Query fragments for limiting by record type
     $self->{types} = {
-        default  => 'type:(series OR document)',
-        any      => '',
-        page     => 'type:page',
-        document => 'type:document',
-        series   => 'type:series',
+        default   => 'type:(series OR document)',
+        any       => '',
+        page      => 'type:page',
+        document  => 'type:document',
+        series    => 'type:series',
+        browsable => 'objectClass:browsable',
     };
 
     $self->{sorting} = {
