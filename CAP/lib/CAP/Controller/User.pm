@@ -759,10 +759,6 @@ sub init :Private
         $c->session->{subscribing_institution} = $institution->name;
         $c->session->{auth}->{institution_sub} = 1;
     }
-    else {
-        $c->session->{subscribing_institution} = "";
-        #$c->session->{has_institutional_subscription} = 0;
-    }
 
 
     # Build a table of sponsored collections, mapped to the sponsor name
@@ -802,32 +798,6 @@ sub init :Private
 }
 
 
-# These are wrappers for calling the like-named methods in the appropriate
-# Access module.
-
-#sub has_access :Private
-#{
-#    my($self, $c, $doc, $key, $resource_type, $size) = @_;
-
-    # Forward to the access control logic for the configured access model
-#    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'has_access'), [$doc, $key, $resource_type, $size]);
-#}
-
-#sub access_level :Private
-#{
-#    my($self, $c, $doc) = @_;
-
-    # Forward to the access control logic for the configured access model
-#    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'access_level'), [$doc]);
-#}
-
-#sub credit_cost :Private
-#{
-#    my($self, $c, $doc) = @_;
-
-    # Forward to the credit cost control logic for the configured access model
-#    return $c->forward(join('/', '', 'access', $c->stash->{access_model}, 'credit_cost'), [$doc]);
-#}
 
 __PACKAGE__->meta->make_immutable;
 
