@@ -1,6 +1,7 @@
 package CAP::Controller::Admin::Institution;
 use Moose;
 use namespace::autoclean;
+use Encode;
 
 __PACKAGE__->config(
     map => {
@@ -30,6 +31,7 @@ sub index_GET {
             name => $institution->name,
             url => "" . $c->uri_for_action('admin/institution/edit', [$institution->id]), # "" forces object into a string
         };
+        warn decode_utf8($list->{$institution->id}->{name});
     }
     $self->status_ok($c, entity => $list);
     return 1;

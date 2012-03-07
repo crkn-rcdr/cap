@@ -101,8 +101,9 @@ __PACKAGE__->table("user");
 =head2 class
 
   data_type: 'enum'
-  extra: {list => ["trial","paid","permanent","admin"]}
-  is_nullable: 1
+  default_value: 'basic'
+  extra: {list => ["basic","trial","paid","permanent","admin"]}
+  is_nullable: 0
 
 =head2 subexpires
 
@@ -136,8 +137,9 @@ __PACKAGE__->add_columns(
   "class",
   {
     data_type => "enum",
-    extra => { list => ["trial", "paid", "permanent", "admin"] },
-    is_nullable => 1,
+    default_value => "basic",
+    extra => { list => ["basic", "trial", "paid", "permanent", "admin"] },
+    is_nullable => 0,
   },
   "subexpires",
   {
@@ -296,8 +298,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-02-10 09:47:36
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SHF4X86E+Wzjo5vw/fbNkw
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-03-07 08:14:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FFy6sAe6B51OaWJg+SVZFQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
