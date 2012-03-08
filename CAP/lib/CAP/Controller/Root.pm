@@ -281,7 +281,7 @@ sub index :Path('') Args(0)
     my($self, $c) = @_;
     
     # Messsages bugging you to subscribe already
-    if ($c->stash->{portal} eq 'eco') {
+    if ($c->stash->{portal} eq 'eco' && !$c->session->{subscribing_institution}) {
         if ($c->user_exists) {
             if ($c->user->has_class("trial")) {
                 if ($c->user->has_active_subscription) {
