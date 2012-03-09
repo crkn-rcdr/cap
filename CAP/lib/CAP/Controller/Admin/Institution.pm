@@ -24,7 +24,7 @@ sub index :Path :Args(0) ActionClass('REST') {
 sub index_GET {
     my($self, $c) = @_;
     my $list = {};
-    my $institutions = [$c->model('DB::Institution')->all];
+    my $institutions = [$c->model('DB::Institution')->search({}, { order_by => 'name' })];
     $c->stash->{institutions} = $institutions;
     foreach my $institution (@{$institutions}) {
         $list->{$institution->id} = {
@@ -100,13 +100,17 @@ sub edit_POST {
 
     # Add a new IP address range
     if ($data{new_ip_range}) {
-        my $conflict;
-        if (! $c->model('DB::InstitutionIpaddr')->add($institution->id, $data{new_ip_range}, \$conflict)) {
-            if ($conflict) {
-                $c->message(Message::Stack::Message->new(level => "error", msgid => "ip_range_conflict", params => [$data{new_ip_range}, $conflict]));
-            }
-            else {
-                $c->message({ type => "error", message => "ip_range_error" });
+        $data{new_ip_range} =~ s/^\s+//;
+        $data{new_ip_range} =~ s/\s+$//;
+        foreach my $range (split(/\s+/, $data{new_ip_range})) {
+            my $conflict;
+            if (! $c->model('DB::InstitutionIpaddr')->add($institution->id, $range, \$conflict)) {
+                if ($conflict) {
+                    $c->message(Message::Stack::Message->new(level => "error", msgid => "ip_range_conflict", params => [$range, $conflict]));
+                }
+                else {
+                    $c->message({ type => "error", message => "ip_range_error" });
+                }
             }
         }
     }

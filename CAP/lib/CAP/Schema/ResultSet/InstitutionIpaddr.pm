@@ -10,20 +10,42 @@ use Net::IP;
 sub add {
     my($self, $id, $range, $conflict) = @_;
     my $ip_addr = Net::IP->new($range);
+    if (! $ip_addr) {
+        $$conflict = "Cannot parse this IP address";
+        return 0;
+    }
     my $cidr = $ip_addr->print();
     my $start = $ip_addr->intip();
     my $end = $ip_addr->last_int();
 
+    my $ip_start = $ip_addr->intip;
+    my $ip_end = $ip_addr->last_int;
+    my $overlap;
+
+    # Make sure the start of the range does not fall within an existing range
+    $overlap = $self->find({start => { '<=', $ip_start }, end => { '>=', $ip_start }});
+    if ($overlap) { $$conflict = sprintf("%s (%s)", $overlap->cidr, $overlap->institution_id->name); return 0; }
+
+    # Do the same for the end of the range
+    $overlap = $self->find({start => { '<=', $ip_end }, end => { '>=', $ip_end }});
+    if ($overlap) { $$conflict = sprintf("%s (%s)", $overlap->cidr, $overlap->institution_id->name); return 0; }
+    
+    # Make sure no existing range is a subset of the range
+    $overlap = $self->find({ start => { '>=', $ip_start, '<=', $ip_end }, end => { '>=', $ip_start, '<=', $ip_end }});
+    if ($overlap) { $$conflict = sprintf("%s (%s)", $overlap->cidr, $overlap->institution_id->name); return 0; }
+    
+
+    # The above code accomplishes the same thing but much faster.
     # Make sure we don't overlap with an existing range.
-    foreach my $row ($self->all) {
-        my $db_addr = Net::IP->new($row->cidr);
-        if ($ip_addr->version eq $db_addr->version) {
-            if ($ip_addr->overlaps($db_addr) != $IP_NO_OVERLAP) {
-                $$conflict = $row->cidr;
-                return 0;
-            }
-        }
-    }
+    #foreach my $row ($self->all) {
+    #    my $db_addr = Net::IP->new($row->cidr);
+    #    if ($ip_addr->version eq $db_addr->version) {
+    #        if ($ip_addr->overlaps($db_addr) != $IP_NO_OVERLAP) {
+    #            $$conflict = $row->cidr;
+    #            return 0;
+    #        }
+    #    }
+    #}
 
     eval {
         $self->create({
