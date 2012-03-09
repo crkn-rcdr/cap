@@ -48,7 +48,7 @@ sub result_page :Path('') :Args(1) {
     my $pages = {};
     my $response_pages = {};
     foreach my $doc (@{$resultset->docs}) {
-        if ($doc->type_is('document') && $doc->child_count) {
+        if ($doc->type_is('document') && $doc->child_count && ($c->req->params->{q} =~ /\S/ || $c->req->params->{tx} =~ /\S/)) {
             my $pg_query = $c->model('Solr')->query;
             $pg_query->append($c->req->params->{q}, parse => 1, base_field => 'q');
             $pg_query->append($c->req->params->{tx}, parse => 1, base_field => 'tx');
