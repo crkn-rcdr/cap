@@ -87,6 +87,13 @@ __PACKAGE__->table("user");
   default_value: 0
   is_nullable: 0
 
+=head2 created
+
+  data_type: 'timestamp'
+  datetime_undef_if_invalid: 1
+  default_value: current_timestamp
+  is_nullable: 0
+
 =head2 lastseen
 
   data_type: 'integer'
@@ -130,6 +137,13 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 1, is_nullable => 0 },
   "admin",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "created",
+  {
+    data_type => "timestamp",
+    datetime_undef_if_invalid => 1,
+    default_value => \"current_timestamp",
+    is_nullable => 0,
+  },
   "lastseen",
   { data_type => "integer", is_nullable => 0 },
   "credits",
@@ -298,8 +312,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-03-07 08:14:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FFy6sAe6B51OaWJg+SVZFQ
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-03-09 13:35:59
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:IAdM1kQW93UvXDKqATC/iQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

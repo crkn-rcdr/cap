@@ -92,6 +92,12 @@ __PACKAGE__->table("request_log");
   is_nullable: 0
   size: 64
 
+=head2 args
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 256
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -117,6 +123,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 64 },
   "action",
   { data_type => "varchar", is_nullable => 0, size => 64 },
+  "args",
+  { data_type => "varchar", is_nullable => 1, size => 256 },
 );
 
 =head1 PRIMARY KEY
@@ -173,8 +181,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-03-07 08:14:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:l1iTc9bVVfClGUr4SWpswg
+# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-03-09 13:35:59
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N7aeuWIZJ58WYLTtUBVFkA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
