@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-03-09 13:04-0500\n"
+"PO-Revision-Date: 2012-03-13 07:58-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -1602,7 +1602,7 @@ msgstr "Oui"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:36
 msgid "You are accessing ECO from an institution that has subscribed to our collection. You will have full access whenever accessing ECO from your institution's network."
-msgstr ""
+msgstr "Vous accédez à NML par l’entremise d’une institution abonnée à notre collection. Vous bénéficierez d’un accès complet à NML chaque fois que vous consulterez ce site sur le réseau de votre institution."
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:60
 msgid "You are not currently subscribed to ECO. Subscription allows full access to the ECO collection, and funds the digitization of new content."
@@ -1711,7 +1711,7 @@ msgstr "Avec votre paiement de %1, votre période d’essai gratuit sera prolong
 #. (format_money(subscription_price)
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:13
 msgid "Your payment of %1 converts your free trial into a full Early Canadiana Online subscription and Canadiana.org membership, and extends it for one year."
-msgstr ""
+msgstr "Votre paiement de %1 vous donnera droit, au terme de votre période d’essai gratuit, à un abonnement à Notre mémoire en ligne et à une adhésion comme membre de Canadiana.org pour un an."
 
 #. (format_money(subscription_price)
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:11
