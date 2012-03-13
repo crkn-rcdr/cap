@@ -27,6 +27,7 @@ Catalyst Controller.
 sub sendmail {
     my ($self, $c, $template, $header, $attach) = @_;
 
+    my $old_template_paths = $c->stash->{additional_template_paths};
     $c->stash(additional_template_paths => [
         join('/', $c->config->{root}, 'templates', 'Mail', $c->stash->{portal}),
         join('/', $c->config->{root}, 'templates', 'Mail', 'Common')
@@ -46,6 +47,7 @@ sub sendmail {
 	    close FILE;
 	} else {
 	    $c->log->error("Can't open attachment $attach : $!\n");
+        $c->stash(additional_template_paths => $old_template_paths);
 	    return 1;
 	}
 
@@ -82,6 +84,7 @@ sub sendmail {
 		body => $c->view("Mail")->render($c, $template)
 	    });
     }
+    $c->stash(additional_template_paths => $old_template_paths);
     return 1;
 }
 
