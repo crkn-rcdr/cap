@@ -29,7 +29,8 @@ method BUILD {
         'facet.sort'     => 'true',
         'fl'             => 'key,type,contributor,label,pkey,plabel,seq,pubmin,pubmax,lang,media,set,collection,pg_label,ti,au,su,pu,no,de,ab,' .
                             'canonicalUri,canonicalMaster,canonicalMasterSize,canonicalMasterMime,canonicalMasterMD5,canonicalDownload,' .
-                            'canonicalDownloadSize,canonicalDownloadMime,canonicalDownloadMD5',
+                            'canonicalDownloadSize,canonicalDownloadMime,canonicalDownloadMD5,identifier,no_continued,no_continues,' .
+                            'no_extent,no_frequency,no_missing,no_rights,no_source',
         'rows'           => 10,
         'sort'           => 'score desc',
         'start'          => 0,
@@ -41,7 +42,7 @@ method BUILD {
     # canonical parameter is the one that others should be maped to. E.g.
     # su=foo should be remapped to q=su:foo
     $self->{fields} = {
-        q =>           { type => 'text',   template => 'au:% OR ti:% OR su:% OR no:% OR pu:% OR ab:% OR tx:%', canonical => 1 },
+        q =>           { type => 'text',   template => 'gq:% OR tx:%', canonical => 1 },
         contributor => { type => 'string', template => 'contributor: %' },
         key =>         { type => 'string', template => 'key: %' },
         lang =>        { type => 'string', template => 'lang: %' },
@@ -49,11 +50,14 @@ method BUILD {
         collection =>  { type => 'string', template => 'collection: %' },
         pkey =>        { type => 'string', template => 'pkey: %' },
         set =>         { type => 'string', template => 'set: %' },
+        identifier =>  { type => 'string', template => 'identifier: %' },
         au =>          { type => 'text',   template => 'au:%' },
         ti =>          { type => 'text',   template => 'ti:%' },
         su =>          { type => 'text',   template => 'su:%' },
         tx =>          { type => 'text',   template => 'tx:%' },
-        no =>          { type => 'text',   template => 'ab:% OR no:%' },
+        no =>          { type => 'text',   template => 'ab:% OR no:% OR no_continued:% OR no_continues:% OR no_extent:% OR ' .
+                            'no_frequency:% OR no_missing:% OR no_rights:% OR no_source:%'
+                       },
 
     };
 

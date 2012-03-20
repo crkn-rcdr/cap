@@ -24,6 +24,7 @@ has 'lang'        => (is => 'ro', isa => 'ArrayRef');
 has 'media'       => (is => 'ro', isa => 'ArrayRef');
 has 'set'         => (is => 'ro', isa => 'ArrayRef');
 has 'collection'  => (is => 'ro', isa => 'ArrayRef');
+has 'identifier'  => (is => 'ro', isa => 'ArrayRef');
 has 'pg_label'    => (is => 'ro', isa => 'ArrayRef');
 
 has 'ti' => (is => 'ro', isa => 'ArrayRef');
@@ -34,6 +35,14 @@ has 'no' => (is => 'ro', isa => 'ArrayRef');
 has 'de' => (is => 'ro', isa => 'ArrayRef');
 has 'ab' => (is => 'ro', isa => 'ArrayRef');
 has 'tx' => (is => 'ro', isa => 'ArrayRef');
+has 'no_' => (is => 'ro', isa => 'ArrayRef');
+has 'no_continued' => (is => 'ro', isa => 'ArrayRef');
+has 'no_continues' => (is => 'ro', isa => 'ArrayRef');
+has 'no_extent' => (is => 'ro', isa => 'ArrayRef');
+has 'no_frequency' => (is => 'ro', isa => 'ArrayRef');
+has 'no_missing' => (is => 'ro', isa => 'ArrayRef');
+has 'no_rights' => (is => 'ro', isa => 'ArrayRef');
+has 'no_source' => (is => 'ro', isa => 'ArrayRef');
 
 has 'canonicalUri'          => (is => 'ro', isa => 'Str', required => 1);
 has 'canonicalMaster'       => (is => 'ro', isa => 'Str');
@@ -54,7 +63,10 @@ around BUILDARGS => sub {
     my $doc   = shift;
 
     # These are multi-valued fields and must be returned in list form.
-    my %multival = map { $_ => 1 } (qw( lang media set collection pg_label ti au pu su no de ab tx ));
+    my %multival = map { $_ => 1 } (qw(
+        lang media set collection identifier pg_label ti au pu su no de ab tx no_continued no_continues
+        no_extent no_frequency no_missing no_rights no_source
+    ));
 
     # Collect the names of all the fields in the record.
     my $_fl      = [];
@@ -90,6 +102,14 @@ method api {
     $fl->{text}     = $self->tx    if ($self->tx);
     $fl->{lang}     = $self->lang  if ($self->lang);
     $fl->{media}     = $self->media  if ($self->media);
+    $fl->{identifier} = $self->identifier if ($self->identifier);
+    $fl->{continuedby} = $self->no_continued if ($self->no_continued);
+    $fl->{continues} = $self->no_continues if ($self->no_continues);
+    $fl->{extent} = $self->no_extent if ($self->no_extent);
+    $fl->{frequency} = $self->no_frequency if ($self->no_frequency);
+    $fl->{missing} = $self->no_missing if ($self->no_missing);
+    $fl->{rights} = $self->no_rights if ($self->no_rights);
+    $fl->{source} = $self->no_source if ($self->no_source);
     return $fl;
 }
 
