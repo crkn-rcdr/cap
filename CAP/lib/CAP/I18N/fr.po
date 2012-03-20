@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-03-13 07:58-0500\n"
+"PO-Revision-Date: 2012-03-20 12:47-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -255,7 +255,7 @@ msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 msgid "Code"
 msgstr "Code"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:11
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:18
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:68
 msgid "Collection"
 msgstr "Collection"
@@ -284,7 +284,15 @@ msgstr "Confirmé"
 msgid "Contact us"
 msgstr "Contactez-nous"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:14
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:11
+msgid "Continued by"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:10
+msgid "Continues"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:21
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:67
 msgid "Contributor"
 msgstr "Collaborateur"
@@ -361,7 +369,7 @@ msgstr "Supprimer les sélections"
 msgid "Delete user"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:15
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:22
 msgid "Description"
 msgstr "Description"
 
@@ -376,6 +384,10 @@ msgstr "Remise pour le code promotionnel \"%1\""
 
 msgid "Document Record"
 msgstr "Notice bibliographique du document"
+
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:16
+msgid "Document source"
+msgstr "Document original"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:2
 msgid "Don't have an account?"
@@ -395,7 +407,7 @@ msgstr "Télécharger (%1)"
 msgid "Download image:"
 msgstr "Télécharger image"
 
-#: ../Controller/Mail.pm:121
+#: ../Controller/Mail.pm:124
 msgid "ECO Account Activation"
 msgstr "Activation de votre compte NM"
 
@@ -407,11 +419,11 @@ msgstr "Période d’essai gratuit de NML"
 msgid "ECO Subscriber"
 msgstr "Abonné(e) de NML"
 
-#: ../Controller/Mail.pm:143
+#: ../Controller/Mail.pm:146
 msgid "ECO Subscription Finalized"
 msgstr "Abonnment à NML confirmé"
 
-#: ../Controller/Mail.pm:163
+#: ../Controller/Mail.pm:166
 msgid "ECO Tax Receipt"
 msgstr "Reçu d’impôt pour NML"
 
@@ -506,6 +518,10 @@ msgstr "Prolongez-le dès aujourd’hui!"
 msgid "Extend subscription"
 msgstr "Prolonger l'abonnement"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:12
+msgid "Extent"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/feedback.tt:2
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:22
 msgid "Feedback"
@@ -549,6 +565,10 @@ msgstr "Période d’essai gratuit"
 
 msgid "French"
 msgstr "Français"
+
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:13
+msgid "Frequency"
+msgstr "Fréquence"
 
 msgid "From a collection held by %1"
 msgstr "Provient de la collection de %1"
@@ -647,7 +667,7 @@ msgstr "Nom d’utilisateur ou mot de passe non valide. Veuillez essayer à nouv
 msgid "Issue %1 of %2 available issues"
 msgstr "Numéro %1 de %2"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:12
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:19
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:65
 msgid "Language"
 msgstr "Langue"
@@ -753,7 +773,7 @@ msgstr "Manitoba (MB)"
 msgid "Matching pages:"
 msgstr "Pages correspondantes :"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:13
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:20
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:66
 msgid "Media"
 msgstr "Média"
@@ -761,6 +781,10 @@ msgstr "Média"
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:23
 msgid "Member of"
 msgstr "Membre de"
+
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:14
+msgid "Missing issues"
+msgstr "Numéros manquants"
 
 msgid "Missing username or password"
 msgstr "Nom d’utilisateur ou mot de passe manquant"
@@ -862,7 +886,7 @@ msgstr "Non abonné"
 msgid "Not a subscriber."
 msgstr "Non abonné."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:10
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:17
 msgid "Notes"
 msgstr "Notes"
 
@@ -922,7 +946,7 @@ msgstr "Fait partie de :"
 msgid "Password"
 msgstr "Mot de passe"
 
-#: ../Controller/Mail.pm:100
+#: ../Controller/Mail.pm:103
 msgid "Password Reset"
 msgstr "Réinitialisation du mot de passe"
 
@@ -935,7 +959,7 @@ msgstr "Réinitialisation du mot de passe"
 msgid "Payment Information"
 msgstr "Information sur le paiement"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:17
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:24
 msgid "Permanent Link"
 msgstr "Lien permanent"
 
@@ -1112,6 +1136,10 @@ msgstr "Page des résultats"
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:10
 msgid "Return to the main page"
 msgstr "Retour à la page d’accueil"
+
+#: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:15
+msgid "Rights"
+msgstr "Droits"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer_toolbar.tt:15
 msgid "Rotate Left"
