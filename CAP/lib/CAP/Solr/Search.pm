@@ -15,7 +15,7 @@ has 'subset'     => (is => 'ro', isa => 'Str', default => '');
 
 has 'resultset'  => (is => 'ro', isa => 'CAP::Solr::ResultSet');
 
-method query (Str $query, HashRef :$options = {}, Str :$page = 0) {
+method query (Str $query, HashRef :$options = {}, Str :$page = 0, Str :$raw = 0) {
 
     # Merge any supplied options with the default options.
     $options = { %{$self->options}, %{$options} };
@@ -27,10 +27,17 @@ method query (Str $query, HashRef :$options = {}, Str :$page = 0) {
     my $solr = new WebService::Solr($self->server);
     $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
     my $response = $solr->search($query, $options);
-    return undef unless ($response->ok);
-    my $resultset = new CAP::Solr::ResultSet({ server => $self->server, response => $response});
 
-    return $resultset;
+    # Return either the parsed ResultSet (default) or the HTTP::Response
+    # object, depending on what was requested.
+    if ($raw) {
+        return $response->raw_response if ($raw);
+    }
+    else {
+        return undef unless ($response->ok);
+        my $resultset = new CAP::Solr::ResultSet({ server => $self->server, response => $response});
+        return $resultset;
+    }
 }
 
 # Get the earliest publication date in the result set for $query

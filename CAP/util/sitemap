@@ -1,0 +1,71 @@
+#!/opt/local/bin/perl
+use strict;
+use warnings;
+use FindBin;
+use Config::General;
+use XML::LibXML;
+use XML::LibXSLT;
+
+use lib "$FindBin::Bin/../lib";
+use CAP::Model::Solr;
+
+# How many documents should we include per sitemap file?
+my $docsPerFile = 1000;
+
+my($rcfile, $stylesheet, $outputdir) = @ARGV;
+
+# Parse the stylesheet
+my $libxslt = XML::LibXSLT->new;
+my $xsl = $libxslt->parse_stylesheet(XML::LibXML->load_xml(location => $stylesheet));
+
+
+# Read the config file and get the search subset.
+my $conf = new Config::General($rcfile);
+my %config = $conf->getall;
+my $subset = $config{search_subset} || "";
+print("Search subset is: $subset\n");
+
+# Construct the query to find all browsable documents.
+my $solr = new CAP::Model::Solr(server => 'http://iberico.cihm:8983/solr');
+my $query = $solr->query;
+$query->limit_type('browsable');
+
+# Get a count of the number of documents to fetch and calculate the number
+# of pages we need to fetch.
+my $count = $solr->search($subset)->count($query->to_string);
+my $sitemaps = int ($count / $docsPerFile);
+++$sitemaps unless ($count % $docsPerFile == 0);
+print("Found $count documents. Will create $sitemaps files of $docsPerFile URLs.\n");
+
+# Create the files
+for (my $i = 1; $i <= $sitemaps; ++$i) {
+    print("Generating sitemap $i\n");
+    my $result = $solr->search('contributor:oocihm')->query(
+        $query->to_string,
+        options => { facet => 'false', rows => $docsPerFile, wt => 'xml', fl => 'canonicalUri' },
+        page => $i,
+        raw => 1
+    );
+    my $sitemapxml = $xsl->transform(XML::LibXML->load_xml(string => $result->content));
+    my $filename = "$outputdir/sitemap_$i.xml";
+    $sitemapxml->toFile($filename, 1);
+    print("Created $filename");
+}
+
+
+# Create the sitemap index file
+my $index = XML::LibXML::Document->new();
+my $root = $index->createElementNS('http://www.sitemaps.org/schemas/sitemap/0.9', 'sitemapindex');
+$index->setDocumentElement($root);
+foreach (my $i = 0; $i <= $sitemaps; ++$i) {
+    my $sitemap = $index->createElement('sitemap');
+    my $loc = $index->createElement('loc');
+    my $no = $i;
+    $no = 'static' if ($i == 0);
+    $loc->appendChild($index->createTextNode("sitemap_$no.xml"));
+    $sitemap->appendChild($loc);
+    $root->appendChild($sitemap);
+}
+my $filename = "$outputdir/sitemap.xml";
+$index->toFile($filename, 1);
+print("Created $filename");
