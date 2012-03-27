@@ -62,10 +62,12 @@ foreach (my $i = 0; $i <= $sitemaps; ++$i) {
     my $loc = $index->createElement('loc');
     my $no = $i;
     $no = 'static' if ($i == 0);
-    $loc->appendChild($index->createTextNode("sitemap_$no.xml"));
+    $loc->appendChild($index->createTextNode("/sitemap/sitemap_$no.xml.gz"));
     $sitemap->appendChild($loc);
     $root->appendChild($sitemap);
 }
 my $filename = "$outputdir/sitemap.xml";
 $index->toFile($filename, 1);
 print("Created $filename");
+
+print("Make sure you gzip your sitemap files...\n");
