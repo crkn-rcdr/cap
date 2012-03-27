@@ -1,4 +1,4 @@
-#!/opt/local/bin/perl
+#!/usr/bin/perl
 use strict;
 use warnings;
 use FindBin;
@@ -12,7 +12,7 @@ use CAP::Model::Solr;
 # How many documents should we include per sitemap file?
 my $docsPerFile = 1000;
 
-my($rcfile, $stylesheet, $outputdir) = @ARGV;
+my($solrhost, $rcfile, $stylesheet, $outputdir) = @ARGV;
 
 # Parse the stylesheet
 my $libxslt = XML::LibXSLT->new;
@@ -26,7 +26,7 @@ my $subset = $config{search_subset} || "";
 print("Search subset is: $subset\n");
 
 # Construct the query to find all browsable documents.
-my $solr = new CAP::Model::Solr(server => 'http://iberico.cihm:8983/solr');
+my $solr = new CAP::Model::Solr(server => $solrhost);
 my $query = $solr->query;
 $query->limit_type('browsable');
 
@@ -49,7 +49,7 @@ for (my $i = 1; $i <= $sitemaps; ++$i) {
     my $sitemapxml = $xsl->transform(XML::LibXML->load_xml(string => $result->content));
     my $filename = "$outputdir/sitemap_$i.xml";
     $sitemapxml->toFile($filename, 1);
-    print("Created $filename");
+    print("Created $filename\n");
 }
 
 
