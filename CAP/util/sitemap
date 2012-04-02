@@ -10,7 +10,7 @@ use XML::LibXSLT;
 use CAP::Model::Solr;
 
 # How many documents should we include per sitemap file?
-my $docsPerFile = 1000;
+my $docsPerFile = 2000;
 
 my($solrhost, $rcfile, $stylesheet, $outputdir) = @ARGV;
 
