@@ -757,6 +757,7 @@ sub init :Private
     my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->session->{address});
     if ($institution && $institution->subscriber) {
         $c->session->{subscribing_institution} = $institution->name;
+        $c->session->{subscribing_institution_id} = $institution->id;
         $c->session->{auth}->{institution_sub} = 1;
     }
 
