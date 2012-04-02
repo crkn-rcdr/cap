@@ -13,7 +13,7 @@ sub log
     my $get_id;
     
     eval { $get_id = $c->session->{auth}->{user}->id } ; # have to do an eval because accessor throws exception if there's no user id
-    my $user_id = $@ ? $get_id : undef;
+    my $user_id = $@ ? undef : $get_id ;
 
     my $institution_id = $c->session->{subscribing_institution_id} || undef;
 
