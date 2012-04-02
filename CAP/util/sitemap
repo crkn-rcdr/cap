@@ -2,11 +2,11 @@
 use strict;
 use warnings;
 use FindBin;
+use lib "$FindBin::Bin/../lib";
+use lib "/opt/cap-libs/current/perl/lib/perl5";
 use Config::General;
 use XML::LibXML;
 use XML::LibXSLT;
-
-use lib "$FindBin::Bin/../lib";
 use CAP::Model::Solr;
 
 # How many documents should we include per sitemap file?
