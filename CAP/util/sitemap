@@ -5,14 +5,18 @@ use FindBin;
 use lib "$FindBin::Bin/../lib";
 use lib "/opt/cap-libs/current/perl/lib/perl5";
 use Config::General;
+use POSIX qw(strftime);
 use XML::LibXML;
 use XML::LibXSLT;
 use CAP::Model::Solr;
 
+# Sample usage:
+# ./sitemap http://localhost:8983/solr eco.canadiana.ca /opt/cap-root/current/config/eco.conf  ./sitemap.xsl /opt/cap-var/sitemap/eco/
+
 # How many documents should we include per sitemap file?
 my $docsPerFile = 2000;
 
-my($solrhost, $rcfile, $stylesheet, $outputdir) = @ARGV;
+my($solrhost, $hostname, $rcfile, $stylesheet, $outputdir) = @ARGV;
 
 # Parse the stylesheet
 my $libxslt = XML::LibXSLT->new;
@@ -62,8 +66,11 @@ foreach (my $i = 0; $i <= $sitemaps; ++$i) {
     my $loc = $index->createElement('loc');
     my $no = $i;
     $no = 'static' if ($i == 0);
-    $loc->appendChild($index->createTextNode("/sitemap/sitemap_$no.xml.gz"));
+    $loc->appendChild($index->createTextNode("http://$hostname/sitemap/sitemap_$no.xml.gz"));
     $sitemap->appendChild($loc);
+    my $lastmod = $index->createElement('lastmod');
+    $lastmod->appendChild($index->createTextNode(strftime("%FT%H:%M:%S+00:00", gmtime())));
+    $sitemap->appendChild($lastmod);
     $root->appendChild($sitemap);
 }
 my $filename = "$outputdir/sitemap.xml";
