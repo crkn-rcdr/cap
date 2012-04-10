@@ -44,7 +44,7 @@ print("Found $count documents. Will create $sitemaps files of $docsPerFile URLs.
 # Create the files
 for (my $i = 1; $i <= $sitemaps; ++$i) {
     print("Generating sitemap $i\n");
-    my $result = $solr->search('contributor:oocihm')->query(
+    my $result = $solr->search($subset)->query(
         $query->to_string,
         options => { facet => 'false', rows => $docsPerFile, wt => 'xml', fl => 'canonicalUri' },
         page => $i,
