@@ -20,9 +20,7 @@ method all_pages {
 # full subcriber (not a trial user)
 method download {
     return 1 if $self->auth->{institution_sub};
-    return $self->_is_subscriber
-       &&
-   ($self->auth->{user}->class eq 'paid' || $self->auth->{user}->class eq 'permanent' || $self->auth->{user}->class eq 'admin');
+    return $self->_is_subscriber && !($self->auth->{user}->has_class('trial'));
 }
 
 method resize {
@@ -61,7 +59,7 @@ method pages {
 }
 
 method _is_subscriber {
-    return 1 if ($self->auth->{user} && $self->auth->{user}->has_active_subscription);
+    return 1 if $self->auth->{user} && ($self->auth->{user}->has_permanent_subscription || $self->auth->{user}->has_active_subscription);
     return 1 if $self->auth->{institution_sub};
     return 0;
 }
