@@ -37,21 +37,64 @@ sub index_GET {
 # Create: add a new user
 #
 
-sub create :Path('create')  {
+sub create :Local :Path('create') ActionClass('REST') {
     my($self, $c) = @_;
+}
 
-    # TODO: we should modify the db table to add a default user name and
-    # password rather than supplying one here. Also need to think about
-    # how we generate an initial password or if a no-password option
-    # should be allowed.
-    my $user = $c->model('DB::User')->create({
-        username => time . '@canadiana.ca', # FIXME: this should be unique, but a better system is needed
-        name => 'New User',
-        password => '_DefaultPassword_', # FIXME: at the very least, this should be a random string
-        lastseen => time,
-    });
-    $c->res->redirect($c->uri_for_action('admin/user/edit', [$user->id]));
-    
+sub create_GET {
+}
+
+sub create_POST {
+    my($self, $c) = @_;
+    my %data;
+    foreach my $key (keys %{$c->req->body_parameters}) {
+        $data{$key} = $c->req->body_parameters->{$key} if $c->req->body_parameters->{$key};
+    }
+
+    my $re_username = $c->config->{user}->{fields}->{username};
+    my $re_name     = $c->config->{user}->{fields}->{name};
+    my $re_password = $c->config->{user}->{fields}->{password};
+
+    my $error = 0;
+
+    # Validate username
+    if ($c->find_user({ username => $data{username} })) {
+        $c->message({ type => "error", message => "account_exists" });
+        $error = 1;
+    } elsif ($data{username} !~ /$re_username/) {
+        $c->message({ type => "error", message => "email_invalid" });
+        $error = 1;
+    }
+
+    # Validate name
+    if ($data{name} !~ /$re_name/) {
+        $c->message({ type => "error", message => "name_invalid" });
+        $error = 1;
+    }
+
+    # Validate password
+    if ($data{password} ne $data{password2}) {
+        $c->message({ type => "error", message => "password_match_failed" });
+        $error = 1;
+    } elsif ($data{password} !~ /$re_password/) {
+        $c->message({ type => "error", message => "password_invalid" });
+        $error = 1;
+    }
+    # won't be needing you anymore
+    delete $data{password2};
+
+    if ($error) {
+        delete $data{password};
+        $c->response->redirect($c->uri_for_action("/admin/user/create", \%data), 303);
+        return 1;
+    }
+
+    $data{confirmed} = 1;
+    $data{active} = 1;
+    my $user = $c->model('DB::User')->create(\%data);
+    $c->message({ type => "success", message => "user_created" });
+    $c->response->redirect($c->uri_for_action("/admin/user/edit", $user->get_column('id')));
+    return 1;
 }
 
 #
