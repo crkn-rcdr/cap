@@ -54,8 +54,8 @@ sub create :Path('create') :Args(0) {
     my $submitted = $c->request->params->{submitted} || 0;
     my $username  = trim($c->request->params->{username})  || ""; # Username = email address
     my $name      = $c->request->params->{name}      || ""; # Real/display name
-    my $password  = $c->request->params->{password}  || ""; # Password
-    my $password2 = $c->request->params->{password2} || ""; # Password, re-entered
+    my $password  = trim($c->request->params->{password})  || ""; # Password
+    my $password2 = trim($c->request->params->{password2}) || ""; # Password, re-entered
     my $terms     = $c->req->params->{terms};               # Terms of Service checkbox
 
     # Get keys from config
@@ -231,7 +231,7 @@ sub reconfirm :Path('reconfirm') :Args(1) {
 sub login :Path('login') :Args(0) {
     my ( $self, $c ) = @_;
     my $username    = trim($c->request->params->{username})   || "";
-    my $password    = $c->request->params->{password}   || "";
+    my $password    = trim($c->request->params->{password})   || "";
     my $persistent  = $c->request->params->{persistent} || 0;
 
     $c->stash->{formdata} = {
@@ -311,8 +311,8 @@ sub confirm :Path('confirm') :Args(1) {
 sub reset :Path('reset') :Args() {
     my($self, $c, $key) = @_;
     my $username = trim($c->request->params->{username})   || ""; # Username/email address
-    my $password  = $c->request->params->{password}  || ""; # Password
-    my $password2 = $c->request->params->{password2} || ""; # Password, re-entered
+    my $password  = trim($c->request->params->{password})  || ""; # Password
+    my $password2 = trim($c->request->params->{password2}) || ""; # Password, re-entered
 
     if ($c->request->params->{key}) {
         $key = $c->req->params->{key};
@@ -374,9 +374,9 @@ sub edit :Path('edit') :Args(0) {
     my $submitted = $c->request->params->{submitted} || 0;
     my $username  = trim($c->request->params->{username})  || ""; # Username = email address
     my $name      = $c->request->params->{name}      || ""; # Real/display name
-    my $password  = $c->request->params->{password}  || ""; # Current password
-    my $password1 = $c->request->params->{password1} || ""; # New password
-    my $password2 = $c->request->params->{password2} || ""; # New password, re-entered
+    my $password  = trim($c->request->params->{password})  || ""; # Current password
+    my $password1 = trim($c->request->params->{password1}) || ""; # New password
+    my $password2 = trim($c->request->params->{password2}) || ""; # New password, re-entered
 
     # Load the patterns that we will use to validate each field
     my $re_username = $c->config->{user}->{fields}->{username};
