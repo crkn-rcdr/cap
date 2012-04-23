@@ -52,7 +52,7 @@ sub auto :Private {
 sub create :Path('create') :Args(0) {
     my($self, $c) = @_;
     my $submitted = $c->request->params->{submitted} || 0;
-    my $username  = $c->request->params->{username}  || ""; # Username = email address
+    my $username  = trim($c->request->params->{username})  || ""; # Username = email address
     my $name      = $c->request->params->{name}      || ""; # Real/display name
     my $password  = $c->request->params->{password}  || ""; # Password
     my $password2 = $c->request->params->{password2} || ""; # Password, re-entered
@@ -230,7 +230,7 @@ sub reconfirm :Path('reconfirm') :Args(1) {
 
 sub login :Path('login') :Args(0) {
     my ( $self, $c ) = @_;
-    my $username    = $c->request->params->{username}   || "";
+    my $username    = trim($c->request->params->{username})   || "";
     my $password    = $c->request->params->{password}   || "";
     my $persistent  = $c->request->params->{persistent} || 0;
 
@@ -310,7 +310,7 @@ sub confirm :Path('confirm') :Args(1) {
 
 sub reset :Path('reset') :Args() {
     my($self, $c, $key) = @_;
-    my $username = $c->request->params->{username}   || ""; # Username/email address
+    my $username = trim($c->request->params->{username})   || ""; # Username/email address
     my $password  = $c->request->params->{password}  || ""; # Password
     my $password2 = $c->request->params->{password2} || ""; # Password, re-entered
 
@@ -372,7 +372,7 @@ sub profile :Path('profile') :Args(0) {
 sub edit :Path('edit') :Args(0) {
     my($self, $c) = @_;
     my $submitted = $c->request->params->{submitted} || 0;
-    my $username  = $c->request->params->{username}  || ""; # Username = email address
+    my $username  = trim($c->request->params->{username})  || ""; # Username = email address
     my $name      = $c->request->params->{name}      || ""; # Real/display name
     my $password  = $c->request->params->{password}  || ""; # Current password
     my $password1 = $c->request->params->{password1} || ""; # New password
@@ -796,6 +796,14 @@ sub init :Private
     }
 
     return 1;
+}
+
+sub trim {
+    my $str = shift;
+    return 0 unless $str;
+    $str =~ s/^\s+//;
+    $str =~ s/\s+$//;
+    return $str;
 }
 
 
