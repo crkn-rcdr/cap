@@ -111,5 +111,58 @@ sub get_user_class {
 
 }
 
+# Number of active trial subscriptions
+sub active_trials {
+    my($self) = @_;
+    return $self->search({
+        active    => 1,
+        confirmed => 1,
+        class     => 'trial',
+        subexpires   => { '>=', strftime("%Y-%m-%d %H:%M:%S", localtime)}
+    })->count;
+}
+
+# Number of expired trial subscriptions
+sub expired_trials {
+    my($self) = @_;
+    return $self->search({
+        active    => 1,
+        confirmed => 1,
+        class     => 'trial',
+        subexpires   => { '<', strftime("%Y-%m-%d %H:%M:%S", localtime)}
+    })->count;
+}
+
+# Number of active paid subscriptions
+sub active_subscriptions {
+    my($self) = @_;
+    return $self->search({
+        active    => 1,
+        confirmed => 1,
+        class     => 'paid',
+        subexpires   => { '>=', strftime("%Y-%m-%d %H:%M:%S", localtime)}
+    })->count;
+}
+
+# Number of expired paid subscriptions
+sub expired_subscriptions {
+    my($self) = @_;
+    return $self->search({
+        active    => 1,
+        confirmed => 1,
+        class     => 'paid',
+        subexpires   => { '<', strftime("%Y-%m-%d %H:%M:%S", localtime)}
+    })->count;
+}
+
+# Number of unconfirmed user accounts
+sub unconfirmed_accounts {
+    my($self) = @_;
+    return $self->search({
+        active    => 1,
+        confirmed => 0,
+    })->count;
+}
+
 
 1;
