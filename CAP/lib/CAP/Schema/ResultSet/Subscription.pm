@@ -161,3 +161,18 @@ sub user_id_resultset
     return $check_user_id;
     
 }
+
+# Get a payment history for user $id.
+sub payment_history {
+    my($self, $id) = @_;
+    my $history = []; 
+    return [] unless $self->find({ id => $id });
+    foreach my $record ($self->search({ user_id => $id, success => 1}, {order_by => { -desc => 'completed' }})->all) {
+        push(@{$history}, {
+            completed => $record->completed,
+            amount    => $record->payment_id->amount,
+            newexpire => $record->newexpire,
+        });
+    }
+    return $history;
+}

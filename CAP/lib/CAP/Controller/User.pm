@@ -364,8 +364,10 @@ sub reset :Path('reset') :Args() {
 
 sub profile :Path('profile') :Args(0) {
     my($self, $c) = @_;
-    # $c->stash->{template} = 'user/profile.tt';
-    # return 1;
+    $c->stash(
+        payment_history => $c->model('DB::Subscription')->payment_history($c->user->id),
+    );
+    return 1;
 }
 
 
