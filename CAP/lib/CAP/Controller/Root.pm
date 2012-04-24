@@ -136,6 +136,16 @@ sub auto :Private
             # TODO: allow for lists of values...
             $c->stash->{hosted}->{$set} = $portal{hosted}->{$set};
         }
+        
+        # Stash the instituion alias
+        if ($c->session->{subscribing_institution_id}) {
+        
+          $c->stash->{institution_alias} = $c->model('DB::InstitutionAlias')->get_alias($c->session->{subscribing_institution_id},
+                                                                                        $c->stash->{lang})
+                                                                             ||
+                                           $c->session->{subscribing_institution};
+        
+        }
 
     }
 

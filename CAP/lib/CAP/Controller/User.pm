@@ -761,7 +761,7 @@ sub init :Private
         $c->session->{subscribing_institution} = $institution->name;
         $c->session->{subscribing_institution_id} = $institution->id;
         $c->session->{auth}->{institution_sub} = 1;
-    }
+     }
 
 
     # Build a table of sponsored collections, mapped to the sponsor name
