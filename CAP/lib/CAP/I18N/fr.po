@@ -2100,7 +2100,7 @@ msgstr "http://www.international.gc.ca/international/index.aspx?lang=fra"
 
 #: ../../../../../cap-root/templates/Default/dfait/layout/header.tt:10
 msgid "http://www.international.gc.ca/library-bibliotheque/index.aspx?lang=eng"
-msgstr "http://www.international.gc.ca/international/index.aspx?lang=fra"
+msgstr "http://www.international.gc.ca/library-bibliotheque/index.aspx?lang=fra"
 
 #: ../../../../../cap-root/templates/Default/Common/user/create.tt:35
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:17
