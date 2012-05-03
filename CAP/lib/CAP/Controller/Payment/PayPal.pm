@@ -74,7 +74,7 @@ sub pay : Private {
     
     # DEBUG: output the URLs we are sending to make sure they're what we
     # expect and not an IP address
-    warn("Debug: return url: $ReturnURL. cancel url: $CancelURL");
+    # warn("Debug: return url: $ReturnURL. cancel url: $CancelURL");
 
 
     my %PPresp = $pp->SetExpressCheckout(
