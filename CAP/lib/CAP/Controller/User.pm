@@ -515,7 +515,7 @@ sub subscribe :Path('subscribe') :Args(0) {
 # for subscribe POSTs.
 sub subscribe_process :Path('subscribe_process') :Args(0) {
     my ($self, $c) = @_;
-    my $mode = $c->req->params->{submit};
+    my $mode = $c->req->params->{submit} || "";
     my $promocode = $c->req->params->{promocode};
     my $tax_receipt = $c->req->params->{wants_tax_receipt};
     my $donor_name = $c->req->params->{donor_name};
