@@ -75,18 +75,6 @@ sub institution_for_ip
     return undef;
 }
 
-# Returns a result set of IP addresses for the institution, in address
-# order (as an arrayref)
-sub ip_for_institution
-{
-    my($self, $institution_id) = @_;
-    my $addresses = [];
-    foreach my $range ($self->search({ institution_id => $institution_id }, { order_by => { -asc => 'start' }})->all) {
-        push(@{$addresses}, $range->cidr);
-    }
-    return $addresses;
-}
-
 # Deletes the CIDR ranges specified. $range can be a single address or an
 # array reference.
 sub delete_address

@@ -2,6 +2,7 @@ package CAP::Controller::Admin::Institution;
 use Moose;
 use namespace::autoclean;
 use Encode;
+use feature "switch";
 
 __PACKAGE__->config(
     map => {
@@ -43,7 +44,17 @@ sub index_GET {
 
 sub create :Path('create') {
     my($self, $c) = @_;
-    my $institution = $c->model('DB::Institution')->create({});
+    my $name = $c->req->body_parameters->{name};
+    my $subscriber = $c->req->body_parameters->{subscriber} ? 1 : 0;
+    unless ($name) {
+        $c->message({ type => "error", message => "institution_name_required" });
+        $c->res->redirect($c->uri_for_aciton("/admin/institution/index"));
+    }
+
+    my $institution = $c->model('DB::Institution')->create({
+        name => $name,
+        subscriber => $subscriber,
+    });
     $c->res->redirect($c->uri_for_action('admin/institution/edit', [$institution->id]));
 }
 
@@ -64,13 +75,12 @@ sub edit_GET {
         return 1;
     }
 
-    my $ip_addresses = $c->model('DB::InstitutionIpaddr')->ip_for_institution($institution->id);
-
     $c->stash(entity => {
         id => $institution->id,
         name => $institution->name,
         subscriber => $institution->subscriber,
-        ip_addresses => $ip_addresses,
+        ip_addresses => $institution->ip_addresses,
+        aliases => $institution->aliases,
     });
 
     $self->status_ok($c, entity => $c->stash->{entity});
@@ -86,50 +96,38 @@ sub edit_POST {
         return 1;
     }
 
-    my %data = (%{$c->req->params}); # FIXME: The docs seem to say $c->req->data should work, but it doesn't get defined anywhere
+    my %data = %{$c->req->body_params};
 
-    # Normalize parameters and set defaults.
-    $data{name} = $institution->name unless (defined($data{name}));
-    $data{subscriber} = $institution->subscriber unless (defined($data{subscriber}) && ($data{subscriber} == 0 || $data{subscriber} == 1));
-
-    # Update the institution record.
-    $institution->update({
-        name => $data{name},
-        subscriber => $data{subscriber},
-    });
-
-    # Add a new IP address range
-    if ($data{new_ip_range}) {
-        $data{new_ip_range} =~ s/^\s+//;
-        $data{new_ip_range} =~ s/\s+$//;
-        foreach my $range (split(/\s+/, $data{new_ip_range})) {
-            my $conflict;
-            if (! $c->model('DB::InstitutionIpaddr')->add($institution->id, $range, \$conflict)) {
-                if ($conflict) {
-                    $c->message(Message::Stack::Message->new(level => "error", msgid => "ip_range_conflict", params => [$range, $conflict]));
-                }
-                else {
-                    $c->message({ type => "error", message => "ip_range_error" });
+    given ($data{update}) {
+        when ('update_institution') {
+            foreach my $key (grep(/^alias_/, keys(%data))) {
+                if ($key =~ /^alias_(\w{2,3})/ && $data{$key}) {
+                    $institution->update_or_create_related('institution_alias', { lang => $1, name => $data{$key} });
                 }
             }
+
+            $institution->update({ name => $data{name}, subscriber => $data{subscriber} ? 1 : 0 });
+        } when ('delete_ip') {
+            $c->model('DB::InstitutionIpaddr')->delete_address($data{delete_ip_range});
+        } when ('new_ip') {
+            $data{new_ip_range} =~ s/^\s+//;
+            $data{new_ip_range} =~ s/\s+$//;
+            foreach my $range (split(/\s+/, $data{new_ip_range})) {
+                my $conflict;
+                if (! $c->model('DB::InstitutionIpaddr')->add($institution->id, $range, \$conflict)) {
+                    if ($conflict) {
+                        $c->message(Message::Stack::Message->new(level => "error", msgid => "ip_range_conflict", params => [$range, $conflict]));
+                    } else {
+                        $c->message({ type => "error", message => "ip_range_error" });
+                    }
+                }
+            }
+        } default {
+            warn "yo";
         }
     }
 
-    # Delete IP address ranges
-    if ($data{delete_ip_range}) {
-        $c->model('DB::InstitutionIpaddr')->delete_address($data{delete_ip_range});
-    }
-    
-
-    # Create a response entity
-    $c->stash( entity => {
-        id => $institution->id,
-        name => $institution->name,
-        subscriber => $institution->subscriber,
-        ip_addresses => $c->model('DB::InstitutionIpaddr')->ip_for_institution($institution->id),
-    });
-
-    $self->status_ok($c, entity => $c->stash->{entity});
+    $c->res->redirect($c->uri_for_action("/admin/institution/edit", $id));
     return 1;
 }
 

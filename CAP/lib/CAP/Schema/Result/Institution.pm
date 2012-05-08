@@ -182,6 +182,25 @@ __PACKAGE__->has_many(
 # Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-02-10 09:47:36
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ol6oesVm/yypQtd01eXZ9w
 
+sub aliases {
+    my $self = shift;
+    my $aliases = {};
+    foreach ($self->search_related('institution_alias')) {
+        my $row = $_;
+        $aliases->{ $row->lang } = $row->name;
+    }
+    return $aliases;
+}
+
+sub ip_addresses {
+    my $self = shift;
+    my $addresses = [];
+    foreach ($self->search_related('institution_ipaddrs', undef, { order_by => { -asc => 'start' } })) {
+        push(@{$addresses}, $_->cidr);
+    }
+    return $addresses;
+}
+
 
 # You can replace this text with custom content, and it will be preserved on regeneration
 1;
