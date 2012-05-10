@@ -70,7 +70,7 @@ sub promocodes :Path('promocodes') :Args(0) {
     my($self, $c) = @_;
 
     # TODO: this does not do ANY validity checking...
-    if ($c->req->params->{action} eq 'add') {
+    if ($c->req->params->{update} eq 'add_promocode') {
         $c->model('DB::Promocode')->create({
             id => $c->req->params->{id},
             expires => $c->req->params->{expires},
