@@ -68,6 +68,12 @@ __PACKAGE__->table("slide");
   is_nullable: 0
   size: 512
 
+=head2 thumb_url
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 512
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -80,6 +86,8 @@ __PACKAGE__->add_columns(
   "sort",
   { data_type => "integer", is_nullable => 0 },
   "url",
+  { data_type => "varchar", is_nullable => 0, size => 512 },
+  "thumb_url",
   { data_type => "varchar", is_nullable => 0, size => 512 },
 );
 
@@ -113,8 +121,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07022 @ 2012-04-25 11:20:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6i5oPs9rjrhMNUIrtnRsWg
+# Created by DBIx::Class::Schema::Loader v0.07022 @ 2012-05-14 16:48:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RT9W/ttGOT96mekBKLVTlA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
