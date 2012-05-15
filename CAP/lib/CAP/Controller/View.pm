@@ -62,25 +62,32 @@ sub view_doc :Private {
     # Make sure we are asking for a valid page sequence.
     $c->detach("/error", [404, "Invalid sequence: $seq"]) unless ($seq && $seq =~ /^\d+$/);
 
-    my $page = $doc->set_active_child($seq) || "";
+    if ($doc->child_count > 0) {
+        my $page = $doc->set_active_child($seq);
 
-    # Make sure the requested page exists.
-    $c->detach("/error", [404, "Page not found: $page"]) unless $page;
+        # Make sure the requested page exists.
+        $c->detach("/error", [404, "Page not found: $page"]) unless $page;
 
-    # Set image size and rotation
-    if (defined($c->request->query_params->{s}) && defined($c->config->{derivative}->{size}->{$c->request->query_params->{s}})) {
-        $c->session->{size} = $c->request->query_params->{s};
+        # Set image size and rotation
+        if (defined($c->request->query_params->{s}) && defined($c->config->{derivative}->{size}->{$c->request->query_params->{s}})) {
+            $c->session->{size} = $c->request->query_params->{s};
+        }
+        if (defined($c->request->query_params->{r}) && defined($c->config->{derivative}->{rotate}->{$c->request->query_params->{r}})) {
+            $c->session->{rotate} = $c->request->query_params->{r};
+        }
+
+        $c->stash(
+            doc => $doc,
+            rotate => $c->session->{rotate} || 0,
+            size => $c->session->{size} || 1,
+            template => "view_doc.tt",
+        );
+    } else { # we don't have a document with pages
+        $c->stash(
+            doc => $doc,
+            template => "view_doc.tt"
+        );
     }
-    if (defined($c->request->query_params->{r}) && defined($c->config->{derivative}->{rotate}->{$c->request->query_params->{r}})) {
-        $c->session->{rotate} = $c->request->query_params->{r};
-    }
-
-    $c->stash(
-        doc => $doc,
-        rotate => $c->session->{rotate} || 0,
-        size => $c->session->{size} || 1,
-        template => "view_doc.tt",
-    );
     return 1;
 }
 
