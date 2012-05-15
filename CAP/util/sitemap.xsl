@@ -16,6 +16,9 @@
     <url xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <xsl:choose>
         <xsl:when test="$sitemaptype = 'local'">
+          <loc xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <xsl:value-of select="concat('http://search.canadiana.ca/view/', str[@name='key'])"/>
+          </loc>
         </xsl:when>
         <xsl:otherwise>
           <loc xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><xsl:apply-templates select="str[@name='canonicalUri']"/></loc>

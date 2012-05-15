@@ -46,7 +46,7 @@ for (my $i = 1; $i <= $sitemaps; ++$i) {
     print("Generating sitemap $i\n");
     my $result = $solr->search($subset)->query(
         $query->to_string,
-        options => { facet => 'false', rows => $docsPerFile, wt => 'xml', fl => 'canonicalUri' },
+        options => { facet => 'false', rows => $docsPerFile, wt => 'xml', fl => 'key,canonicalUri' },
         page => $i,
         raw => 1
     );
