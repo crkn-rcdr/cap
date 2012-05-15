@@ -62,7 +62,7 @@ sub view_doc :Private {
     # Make sure we are asking for a valid page sequence.
     $c->detach("/error", [404, "Invalid sequence: $seq"]) unless ($seq && $seq =~ /^\d+$/);
 
-    my $page = $doc->set_active_child($seq);
+    my $page = $doc->set_active_child($seq) || "";
 
     # Make sure the requested page exists.
     $c->detach("/error", [404, "Page not found: $page"]) unless $page;
