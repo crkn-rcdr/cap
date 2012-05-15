@@ -50,7 +50,13 @@ for (my $i = 1; $i <= $sitemaps; ++$i) {
         page => $i,
         raw => 1
     );
-    my $sitemapxml = $xsl->transform(XML::LibXML->load_xml(string => $result->content));
+
+    # The Discovery Portal is a special case: we want to construct URLs to
+    # the portal itself, not the pointed to resource.
+    my $sitemaptype = "canonical";
+    $sitemaptype = "local" if ($hostname eq 'search.canadiana.ca');
+
+    my $sitemapxml = $xsl->transform(XML::LibXML->load_xml(string => $result->content), sitemaptype => "'$sitemaptype'");
     my $filename = "$outputdir/sitemap_$i.xml";
     $sitemapxml->toFile($filename, 1);
     print("Created $filename\n");

@@ -4,6 +4,8 @@
 
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
+  <xsl:param name="sitemaptype">canonical</xsl:param>
+
   <xsl:template match="response">
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <xsl:apply-templates select="*/doc"/>
@@ -12,7 +14,13 @@
 
   <xsl:template match="doc">
     <url xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      <loc xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><xsl:apply-templates select="str[@name='canonicalUri']"/></loc>
+      <xsl:choose>
+        <xsl:when test="$sitemaptype = 'local'">
+        </xsl:when>
+        <xsl:otherwise>
+          <loc xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><xsl:apply-templates select="str[@name='canonicalUri']"/></loc>
+        </xsl:otherwise>
+      </xsl:choose>
       <changefreq xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">monthly</changefreq>
     </url>
   </xsl:template>
