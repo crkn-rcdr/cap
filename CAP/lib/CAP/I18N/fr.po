@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-04-30 14:57-0500\n"
+"PO-Revision-Date: 2012-05-17 10:12-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgid "A message has been sent to you at %1 with instructions for activating you
 msgstr "Un message courriel a été envoyé à %1 vous informant comment réinitialiser votre mot de passe."
 
 #: ../../../../../cap-root/templates/Default/Common/view_doc.tt:24
-#: ../../../../../cap-root/templates/Default/Common/view_series.tt:19
+#: ../../../../../cap-root/templates/Default/Common/view_series.tt:20
 msgid "About"
 msgstr "À propos"
 
@@ -97,15 +97,14 @@ msgstr "Abonnés en règle"
 msgid "Active trial users"
 msgstr "Utilisateurs en période d’essai"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:97
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:75
 msgid "Add Range"
 msgstr "Ajouter une plage"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:63
 msgid "Add Sponsored Collection"
 msgstr "Ajouter une collection commanditée"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:14
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:22
 msgid "Add new Institution"
 msgstr "Ajouter une nouvelle institution"
 
@@ -116,7 +115,7 @@ msgstr "Ajouter une nouvelle collection"
 msgid "Add new institution"
 msgstr "Ajouter une nouvelle institution"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:21
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:28
 msgid "Add new promotional code"
 msgstr "Ajouter un nouveau code promotionnel"
 
@@ -183,8 +182,8 @@ msgstr "Tous les résultats correspondant à %1 de %2"
 msgid "All of these words:"
 msgstr "Tous ces mots :"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:34
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:9
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:12
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:42
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:80
 msgid "Amount"
 msgstr "Montant"
@@ -201,6 +200,11 @@ msgstr "Un message courriel a été envoyé à %1 vous informant comment réinit
 msgid "Appearing:"
 msgstr "Apparaissant :"
 
+#. (doc.child_count)
+#: ../../../../../cap-root/templates/Default/Common/view_series.tt:13
+msgid "Available issues: %1"
+msgstr "Numéros disponibles : %1"
+
 #: ../../../../../cap-root/templates/Default/eco/partial/collection_list.tt:16
 msgid "Back to collections"
 msgstr "Retour aux collections"
@@ -213,11 +217,11 @@ msgstr "Retour à la page des résultats"
 msgid "Bad Request"
 msgstr "Requête inadéquate"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:6
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:9
 msgid "Basic Information"
 msgstr "Informations de base"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:66
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:68
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:36
 msgid "Between"
 msgstr "Entre"
@@ -307,13 +311,13 @@ msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:11
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:30
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:7
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:10
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:91
 msgid "Code"
 msgstr "Code"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:23
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:77
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:79
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:22
 #: ../../../../../cap-root/templates/Default/dfait/partial/search_form.tt:17
 #: ../../../../../cap-root/templates/Default/whf/partial/search_form.tt:17
@@ -353,7 +357,7 @@ msgid "Continues"
 msgstr "Continue"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:26
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:75
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:77
 msgid "Contributor"
 msgstr "Collaborateur"
 
@@ -378,6 +382,7 @@ msgid "Corporate"
 msgstr "Enterprises"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:38
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:29
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:69
 msgid "Create"
 msgstr "Créer"
@@ -391,7 +396,7 @@ msgstr "Créer un compte"
 msgid "Create new"
 msgstr "Créer un nouveau"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:38
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:48
 msgid "Create new code"
 msgstr "Créer un nouveau code"
 
@@ -413,7 +418,7 @@ msgstr "Créateur"
 msgid "Creator Names"
 msgstr "Créateurs"
 
-#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:17
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:20
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
@@ -435,12 +440,11 @@ msgstr "Année(s)"
 msgid "Date range:"
 msgstr "Plage de dates :"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:103
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:79
 msgid "Delete Institution"
 msgstr "Supprimer l’institution"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:52
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:87
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:64
 msgid "Delete Selected"
 msgstr "Supprimer les sélections"
 
@@ -542,7 +546,7 @@ msgstr "Modifié : %1"
 msgid "Email"
 msgstr "Courriel"
 
-#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:9
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:8
 msgid "Email Address"
 msgstr "Adresse courriel"
 
@@ -600,8 +604,8 @@ msgstr "Utilisateurs dont l’abonnement est échu"
 msgid "Expired trial users"
 msgstr "Utilisateurs dont la période d’essai est échue"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:30
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:8
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:11
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:36
 msgid "Expires"
 msgstr "Expiration"
 
@@ -713,7 +717,7 @@ msgstr "J'accepte les %1 de Notre mémoire en ligne"
 msgid "I would like a Canadian official receipt for income tax purposes."
 msgstr "J’aimerais obtenir un reçu officiel canadien pour fins d’impôt."
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:12
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:11
 msgid "ID"
 msgstr "ID"
 
@@ -749,6 +753,10 @@ msgstr "Mot de passe inexact."
 msgid "Individual page results"
 msgstr "Afficher les résultats page par page"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:30
+msgid "Institution Aliases"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:18
 msgid "Institution deleted"
 msgstr "Institution supprimé"
@@ -762,11 +770,11 @@ msgstr "Institution non trouvé"
 msgid "Institutional Subscription: %1"
 msgstr "Abonnement institutionnel : %1"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:12
 msgid "Institutional subscriber"
 msgstr "Abonné institutionnel"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:1
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:3
 msgid "Institutions"
 msgstr "Institutions"
 
@@ -786,7 +794,7 @@ msgid "Issue Title"
 msgstr "Titre du numéro"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:24
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:73
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:75
 msgid "Language"
 msgstr "Langue"
 
@@ -801,6 +809,10 @@ msgstr "Dernière page"
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:46
 msgid "Last Seen"
 msgstr "Dernière visite"
+
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:29
+msgid "Leave blank to keep unchanged"
+msgstr ""
 
 msgid "Less detail"
 msgstr "Description brève "
@@ -847,11 +859,11 @@ msgstr "Lister les utilisateurs"
 msgid "List all users"
 msgstr "Lister tous les utilisateurs"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:108
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:80
 msgid "List institutions"
 msgstr "Lister les institutions"
 
-#: ../../../../../cap-root/templates/Default/Common/view_series.tt:18
+#: ../../../../../cap-root/templates/Default/Common/view_series.tt:19
 msgid "List of Issues"
 msgstr "Liste des numéros"
 
@@ -904,7 +916,7 @@ msgid "Matching pages:"
 msgstr "Pages correspondantes :"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:25
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:74
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:76
 msgid "Media"
 msgstr "Média"
 
@@ -931,10 +943,12 @@ msgstr "Description longue"
 msgid "More options"
 msgstr "Autres options"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:16
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:17
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:24
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:7
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:20
 #: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:24
-#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:13
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:14
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:7
 msgid "Name"
 msgstr "Nom"
@@ -955,15 +969,15 @@ msgstr "Nouveau-Brunswick (NB)"
 msgid "New Search"
 msgstr "Nouvelle recherche"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:26
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:30
 msgid "New code"
 msgstr "Nouveau code"
 
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:26
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:15
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:21
 msgid "New password (leave blank to keep unchanged)"
 msgstr "Nouveau mot de passe (laisser en blanc pour le conserver)"
 
@@ -1187,8 +1201,8 @@ msgid "Promotion code valid!"
 msgstr "Code promotionnel valide."
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:14
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:1
-#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:3
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:2
+#: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:4
 msgid "Promotional Codes"
 msgstr "Codes promotionnels"
 
@@ -1220,7 +1234,7 @@ msgstr "Québec (QC)"
 msgid "Random Document"
 msgstr "Document choisi au hasard"
 
-#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:25
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:33
 msgid "Re-enter new password"
 msgstr "Saisissez de nouveau votre nouveau mot de passe"
 
@@ -1278,12 +1292,12 @@ msgid "Results %1 - %2 of %3 for"
 msgstr "%1 - %2 de %3 résultats pour"
 
 #. (date_from, date_to)
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:61
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:63
 msgid "Results from %1 to %2."
 msgstr "Résultats pour %1 à %2."
 
 #. (date_from _ date_to)
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:63
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:65
 msgid "Results from %1."
 msgstr "Résultats pour %1."
 
@@ -1316,7 +1330,7 @@ msgstr "Saskatchewan"
 msgid "Saskatchewan (SK)"
 msgstr "Saskatchewan (SK)"
 
-#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:30
+#: ../../../../../cap-root/templates/Default/Common/user/edit.tt:39
 msgid "Save Changes"
 msgstr "Sauvegarder les modifications"
 
@@ -1495,7 +1509,6 @@ msgstr "Trier par"
 msgid "Sort:"
 msgstr "Trier :"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:30
 msgid "Sponsored Collections"
 msgstr "Collections commanditées"
 
@@ -1558,7 +1571,9 @@ msgstr "Abonnez-vous dès aujourd’hui"
 msgid "Subscribe today!"
 msgstr "Abonnez-vous dès aujourd’hui!"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:20
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:23
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:26
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:8
 msgid "Subscriber"
 msgstr "Abonné(e)"
 
@@ -1592,7 +1607,7 @@ msgstr "Abonnement expiré"
 msgid "Subscription Expires"
 msgstr "L’abonnement expire le"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:68
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:46
 msgid "Subscription IP Blocks"
 msgstr "Plages IP pour les abonnements"
 
@@ -1747,9 +1762,9 @@ msgid "Type"
 msgstr "Type"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:19
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:24
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:41
 #: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:91
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:79
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:81
 msgid "Update"
 msgstr "Mise à jour"
 
@@ -1803,7 +1818,7 @@ msgid "View this document at %1:"
 msgstr "Visualiser ce document à %1 :"
 
 #. (c.stash.label.contributor.${doc.contributor})
-#: ../../../../../cap-root/templates/Default/Common/view_series.tt:14
+#: ../../../../../cap-root/templates/Default/Common/view_series.tt:15
 msgid "View this series of documents at %1:"
 msgstr "Visualiser cette série de documents à %1 :"
 
@@ -2016,7 +2031,7 @@ msgstr "Yukon (YT)"
 msgid "admin"
 msgstr "admin"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:68
+#: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:70
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:38
 msgid "and"
 msgstr "et"
