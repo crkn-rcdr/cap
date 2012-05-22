@@ -29,16 +29,11 @@ use Catalyst qw/
                 RequireSSL
 
                 Session
-                Session::DynamicExpiry
                 Session::State::Cookie
                 Session::Store::DBI
 
                 MessageStack
                /;
-                #-Debug
-                #I18N::DBIC
-#                Authorization::ACL
-#                Session::Store::FastMmap
 
 # Configure the application. 
 #
