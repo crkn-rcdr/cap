@@ -204,7 +204,6 @@ sub _build_entity {
         token => $user->token,
         confirmed => $user->confirmed,
         active => $user->active,
-        admin => $user->admin,
         lastseen => $user->lastseen,
         class => $user->class,
         subexpires => $user->subexpires . "", # Coerce into an integer
