@@ -9,7 +9,7 @@ use namespace::autoclean;
 use WebService::Solr;
 use CAP::Auth;
 use CAP::Solr::Record;
-use Digest::SHA1 qw(sha1_hex);
+use Digest::SHA qw(sha1_hex);
 use URI::Escape;
 
 # Properties from parameters passed to the constructor

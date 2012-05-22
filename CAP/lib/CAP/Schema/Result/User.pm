@@ -333,7 +333,7 @@ sub has_permanent_subscription {
     return $self->has_class('admin') || $self->has_class('permanent');
 }
 
-use Digest::SHA1 qw(sha1_hex);
+use Digest::SHA qw(sha1_hex);
 
 # Account confirmation/password reset token: consists of the user's ID and
 # password hash.

@@ -3,7 +3,7 @@ package CAP::Schema::ResultSet::User;
 use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';
-use Digest::SHA1 qw(sha1_hex);
+use Digest::SHA qw(sha1_hex);
 use POSIX qw(strftime);
 
 sub validate_confirmation
