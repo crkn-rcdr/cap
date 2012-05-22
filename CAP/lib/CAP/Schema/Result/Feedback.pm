@@ -122,19 +122,9 @@ Related object: L<CAP::Schema::Result::User>
 
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
-=head2 user_id_2
 
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::User>
-
-=cut
-
-__PACKAGE__->belongs_to("user_id_2", "CAP::Schema::Result::User", { id => "user_id" });
-
-
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-20 14:46:43
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B+dXKy711LyGEw1n4qig7w
+# Created by DBIx::Class::Schema::Loader v0.07022 @ 2012-05-22 12:17:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DJGRQEVH1jfUquckq7VB0A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

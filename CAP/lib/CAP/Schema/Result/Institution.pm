@@ -86,6 +86,20 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<name>
+
+=over 4
+
+=item * L</name>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("name", ["name"]);
+
 =head1 RELATIONS
 
 =head2 counter_logs
@@ -179,8 +193,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-02-10 09:47:36
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ol6oesVm/yypQtd01eXZ9w
+# Created by DBIx::Class::Schema::Loader v0.07022 @ 2012-05-22 12:17:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lOtww6SPvw8obxkpeGmTCA
 
 sub aliases {
     my $self = shift;

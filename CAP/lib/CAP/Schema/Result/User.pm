@@ -81,12 +81,6 @@ __PACKAGE__->table("user");
   default_value: 1
   is_nullable: 0
 
-=head2 admin
-
-  data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
 =head2 created
 
   data_type: 'timestamp'
@@ -135,8 +129,6 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "active",
   { data_type => "integer", default_value => 1, is_nullable => 0 },
-  "admin",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
   "created",
   {
     data_type => "timestamp",
@@ -191,7 +183,7 @@ __PACKAGE__->add_unique_constraint("username", ["username"]);
 
 =head1 RELATIONS
 
-=head2 feedback_user_ids
+=head2 feedbacks
 
 Type: has_many
 
@@ -200,22 +192,7 @@ Related object: L<CAP::Schema::Result::Feedback>
 =cut
 
 __PACKAGE__->has_many(
-  "feedback_user_ids",
-  "CAP::Schema::Result::Feedback",
-  { "foreign.user_id" => "self.id" },
-  {},
-);
-
-=head2 feedback_user_ids_2s
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Feedback>
-
-=cut
-
-__PACKAGE__->has_many(
-  "feedback_user_ids_2s",
+  "feedbacks",
   "CAP::Schema::Result::Feedback",
   { "foreign.user_id" => "self.id" },
   {},
@@ -312,8 +289,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-03-09 13:35:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:IAdM1kQW93UvXDKqATC/iQ
+# Created by DBIx::Class::Schema::Loader v0.07022 @ 2012-05-22 12:17:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xA0rYKE56pOlrfP3cqjRWQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
