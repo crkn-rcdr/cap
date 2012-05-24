@@ -306,6 +306,8 @@ sub index :Path('') Args(0)
             $c->message({ type => "success", message => "anonymous_prod" });
         }
     }
+
+    $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->stash->{portal}, "frontpage");
     $c->stash->{template} = "index.tt";
 }
 

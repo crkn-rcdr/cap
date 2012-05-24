@@ -63,20 +63,9 @@ sub show :Path('show') :Args(0) {
         return 1;
     }
 
-    my $slides = [$c->model('DB::Slide')->search({ portal => $portal, slideshow => $slideshow }, { order_by => { -asc => 'sort' } })]; 
-    my $descriptions = [];
-    foreach my $slide (@{ $slides }) {
-        my $list = {};
-        foreach my $description ($slide->search_related('slide_descriptions')) {
-            $list->{$description->lang} = $description->description;
-        }
-        push(@{ $descriptions }, $list);
-    }
-
     $c->stash(
         {
-            slides => $slides,
-            descriptions => $descriptions,
+            slides => $c->model('DB::Slide')->get_slides($portal, $slideshow),
             show_portal => $portal,
             show_location => $slideshow
         }
