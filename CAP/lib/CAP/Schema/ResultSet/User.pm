@@ -164,5 +164,20 @@ sub unconfirmed_accounts {
     })->count;
 }
 
+# Delete unconfirmed users
+sub delete_unconfirmed {
+    my ( $self, $created ) = @_;
 
+    my $unconfirmed = $self->search(
+        {
+
+            created   => { '<=' => $created },
+            active    => 1,
+            confirmed => 0
+
+        }
+    );
+
+    return $unconfirmed->delete();
+}
 1;

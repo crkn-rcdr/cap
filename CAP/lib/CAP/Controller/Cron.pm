@@ -18,6 +18,10 @@ sub index :Path :Args(0) {
 
     # Generate tax receipt PDF's and email them
     $c->forward('/cron/taxreceipt/index');
+    
+    # Delete unconfirmed accopunts
+    $c->forward('/cron/removeunconfirmed/index');
+    
 	
     # Return an empty document
     $c->res->status(200);
