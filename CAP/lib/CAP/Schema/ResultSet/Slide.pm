@@ -20,7 +20,7 @@ sub get_slides {
         foreach my $desc ($record->search_related('slide_descriptions')) {
             $slide->{descriptions}->{$desc->lang} = $desc->description;
         }
-        push($slides, $slide);
+        push(@{ $slides }, $slide);
     }
     return $slides;
 }
