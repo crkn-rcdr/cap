@@ -23,10 +23,14 @@ sub index :Path :Args(0) {
     $c->forward('/cron/removeunconfirmed/index');
     
 	
-    # Return an empty document
+    return 1;
+}
+
+# Return an empty document
+sub end : ActionClass('RenderView') {
+    my($self, $c) = @_;
     $c->res->status(200);
     $c->res->body(".");
-    return 1;
 }
 
 __PACKAGE__->meta->make_immutable;
