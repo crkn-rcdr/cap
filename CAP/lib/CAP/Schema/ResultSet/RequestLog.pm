@@ -41,22 +41,18 @@ sub get_monthly_stats {
     # get the number of searches
     my $search_logs = $self->search(
         {
-
             'month(time)'    => $month,
             'year(time)'     => $year,
             'institution_id' => $institution_id,
             'action'         => 'search'
-
         }
     );
-    
     my $search_count = $search_logs->count;
 
     # get the numebr of views    
     my $view_logs = $self->search(
-       
-
-        {   'month(time)'    => $month,
+        {
+            'month(time)'    => $month,
             'year(time)'     => $year,
             'institution_id' => $institution_id,
             -or =>  [
@@ -65,27 +61,24 @@ sub get_monthly_stats {
                     ]
         }
     ); 
-
     my $view_count = $view_logs->count;
 
     # get the number of sessions    
     my $session_logs = $self->search(
         {
-
             'month(time)'    => $month,
             'year(time)'     => $year,
             'institution_id' => $institution_id
 
-        },
-        
+        },        
         {
             columns  => [ 'session' ],
             distinct => 1
         }
     );      
-    
     my $session_count = $session_logs->count;
     
+    # Return everything as a hash reference
     my $stats = {
                   searches  => $search_count,
                   views     => $view_count,
@@ -93,6 +86,24 @@ sub get_monthly_stats {
                 };
     
     return $stats;
+}
+
+sub get_start {
+
+    # Returns a timedate object of first first entry in table
+    my ( $self ) = @_;
+
+    # search by date in ascending order    
+    my $search_min = $self->search(
+        {},        
+        {
+            order_by => { -asc => 'time' }
+        }
+    );
+    my $result = $search_min->next;
+    my $date = $result->time;
+    
+    return $date;
 }
 
 1;

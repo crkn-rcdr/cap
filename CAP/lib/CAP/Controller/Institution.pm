@@ -44,18 +44,25 @@ sub auto :Private {
 sub index :Path :Args(1) {
     my ( $self, $c ) = @_;
 
-    # $c->response->body('Matched CAP::Controller::Institution in Institution.');
-
+    # Get date of first log entry
+    # To do: grap range from query string
+    my $first_entry_date = $c->model('DB::RequestLog')->get_start();   
+    my $first_year = $first_entry_date->{local_c}->{year};
+    my $first_month = $first_entry_date->{local_c}->{month};
+    $c->stash->{first_month} = $first_month;
+    $c->stash->{first_year} = $first_year;
+    
+    #Get the instituion name
     my $inst_arg = $c->request->arguments->[0];
     my $inst_name = $c->model('DB::Institution')->get_name($inst_arg);
     $c->stash->{report_inst} = $inst_name;
-    $c->stash->{template} = 'institution.tt';
+
     
     # Get the current month and the year
     my $end_date = new Date::Manip::Date;
     my $err = $end_date->parse('today');
-    my $end_month = $end_date->printf("%m");
     my $end_year  = $end_date->printf("%Y");
+
 
     # Get the current (as in the one we're parsing at any give time) month and the year
     my $current_date = new Date::Manip::Date;
@@ -65,20 +72,33 @@ sub index :Path :Args(1) {
 
     
     my $month;
-    my $year  = $end_year;
+    my $year;
+    
+
+    
     
     $c->stash->{usage_results} = {};
     
-    my $yearly_stats = [];
+    for ($year = $first_year; $year <= $end_year; $year++) {
     
-    # Iterate through all the months
-    for ($month = $start_month; $month <= $end_month; $month++) {
-        $current_date->set('m',$month);
-        # my $month_name = $current_date->printf("%B");
-        push($yearly_stats, $c->model('DB::RequestLog')->get_monthly_stats($inst_arg, $month, $year));
-    };
-    $c->stash->{usage_results}->{$year} = $yearly_stats;
+        my $yearly_stats = [];
     
+        # If we're only reporting on this year we don't need to go all the way to December
+        my $end_month = ($year < $end_year) ? 12 : $end_date->printf("%m");
+        
+        # Similarly we don't need to go all the way back to January if we start later
+        my $start_month = ($year > $first_year) ? 1 : $first_month ;        
+
+        # Iterate through all the months
+        for ($month = $start_month; $month <= $end_month; $month++) {
+            $current_date->set('m',$month);
+            push($yearly_stats, $c->model('DB::RequestLog')->get_monthly_stats($inst_arg, $month, $year));
+        };
+        $c->stash->{usage_results}->{$year} = $yearly_stats;
+        
+    }
+    
+    $c->stash->{template} = 'institution.tt';
     return 1;
 }
 
