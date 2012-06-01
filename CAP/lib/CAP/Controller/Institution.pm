@@ -22,6 +22,25 @@ Catalyst Controller.
 
 =cut
 
+sub auto :Private {
+    my($self, $c) = @_;
+
+    # Require SSL for all operations
+    $c->require_ssl;
+
+    # Only allow administrators to access any of these functions. Everyone
+    # else gets a 404.
+    unless ($c->user_exists && $c->user->has_class('admin')) {
+        $c->session->{login_redirect} = $c->req->uri;
+        $c->response->redirect($c->uri_for('/user', 'login'));
+        return 0;
+    }
+
+    return 1;
+}
+
+
+
 sub index :Path :Args(1) {
     my ( $self, $c ) = @_;
 
