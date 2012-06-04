@@ -81,7 +81,7 @@ sub index :Path :Args(1) {
 
         # Iterate through all the months
         for ($month = $start_month; $month <= $end_month; $month++) {
-            push($yearly_stats, $c->model('DB::RequestLog')->get_monthly_stats($inst_arg, $month, $year));
+            push(@{$yearly_stats}, $c->model('DB::RequestLog')->get_monthly_stats($inst_arg, $month, $year));
         };
         $c->stash->{usage_results}->{$year} = $yearly_stats;
         
