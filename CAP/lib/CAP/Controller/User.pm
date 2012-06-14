@@ -746,9 +746,10 @@ sub init :Private
 
     # Build and populate the $session->{auth} object
     $c->session->{auth} = {
-                           'user'                     => '',
-                           'institutional_sub'        => 0    
-                          };    
+        'user_class'               => 'none',
+        'user_expiry_epoch'        => 0,
+        'institutional_sub'        => 0    
+    };    
    
 
     # Store the user's IP address.
@@ -781,7 +782,8 @@ sub init :Private
         $c->set_authenticated($c->find_user({ id => $c->user->id }));
         $c->persist_user();
 
-        $c->session->{auth}->{user} = $c->user;
+        $c->session->{auth}->{user_class} = $c->user->class;
+        $c->session->{auth}->{user_expiry_epoch} = $c->user->subexpires->epoch();
 
         # Check the user's subscription status
         $c->session->{is_subscriber} = $c->model('DB::User')->has_active_subscription($c->user->id);

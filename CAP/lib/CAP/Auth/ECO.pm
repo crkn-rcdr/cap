@@ -8,7 +8,6 @@ use MooseX::Method::Signatures;
 use namespace::autoclean;
 use CAP::Model::DB;
 
-# has 'user'  => (is => 'ro', isa => 'Maybe[Catalyst::Authentication::Store::DBIx::Class::User]', required => 1);
 has 'auth'  => (is => 'ro', isa => 'HashRef', required => 1);
 has 'doc'   => (is => 'ro', isa => 'CAP::Solr::Document', required => 1);
 
@@ -20,7 +19,7 @@ method all_pages {
 # full subcriber (not a trial user)
 method download {
     return 1 if $self->auth->{institution_sub};
-    return $self->_is_subscriber && !($self->auth->{user}->has_class('trial'));
+    return $self->_is_subscriber && !($self->auth->{user_class} eq 'trial');
 }
 
 method resize {
@@ -59,9 +58,17 @@ method pages {
 }
 
 method _is_subscriber {
-    return 1 if $self->auth->{user} && ($self->auth->{user}->has_permanent_subscription || $self->auth->{user}->has_active_subscription);
+    return 1 if $self->_has_active_subscription || $self->_has_permanent_subscription;
     return 1 if $self->auth->{institution_sub};
     return 0;
+}
+
+method _has_active_subscription {
+    return $self->auth->{user_expiry_epoch} >= time;
+}
+
+method _has_permanent_subscription {
+    return $self->auth->{user_class} eq 'permanent' || $self->auth->{user_class} eq 'admin';
 }
 
 __PACKAGE__->meta->make_immutable;

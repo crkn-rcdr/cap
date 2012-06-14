@@ -10,10 +10,7 @@ sub log {
 
     my ( $self, $c ) = @_;
 
-    my $get_id;
-    eval { $get_id = $c->session->{auth}->{user}->id }; # have to do an eval because accessor throws exception if there's no user id
-    my $user_id =
-      $@ ? undef : $get_id;    # theoretically we shouldn't need this line
+    my $user_id = $c->user_exists() ? $c->user->id : undef;
 
     my $institution_id = $c->session->{subscribing_institution_id} || undef;
 
