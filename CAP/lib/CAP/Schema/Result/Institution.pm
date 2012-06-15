@@ -45,6 +45,12 @@ __PACKAGE__->table("institution");
   is_auto_increment: 1
   is_nullable: 0
 
+=head2 code
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 16
+
 =head2 name
 
   data_type: 'varchar'
@@ -63,6 +69,8 @@ __PACKAGE__->table("institution");
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  "code",
+  { data_type => "varchar", is_nullable => 1, size => 16 },
   "name",
   {
     data_type => "varchar",
@@ -87,6 +95,18 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 UNIQUE CONSTRAINTS
+
+=head2 C<code>
+
+=over 4
+
+=item * L</code>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("code", ["code"]);
 
 =head2 C<name>
 
@@ -193,8 +213,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07022 @ 2012-05-22 12:17:19
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lOtww6SPvw8obxkpeGmTCA
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-06-15 11:46:37
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B61SH1nhtK+Jj44WhV1R8Q
 
 sub aliases {
     my $self = shift;
