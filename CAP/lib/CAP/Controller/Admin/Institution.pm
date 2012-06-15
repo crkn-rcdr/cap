@@ -26,14 +26,16 @@ sub index_GET {
     my($self, $c) = @_;
     my $list = {};
     my $institutions = [$c->model('DB::Institution')->search({}, { order_by => 'name' })];
-    $c->stash->{institutions} = $institutions;
     foreach my $institution (@{$institutions}) {
         $list->{$institution->id} = {
             name => $institution->name,
+            code => $institution->code ? $institution->code : '',
+            subscriber => $institution->subscriber,
             url => "" . $c->uri_for_action('admin/institution/edit', [$institution->id]), # "" forces object into a string
         };
         warn decode_utf8($list->{$institution->id}->{name});
     }
+    $c->stash->{entity} = $list;
     $self->status_ok($c, entity => $list);
     return 1;
 }
@@ -45,6 +47,7 @@ sub index_GET {
 sub create :Path('create') {
     my($self, $c) = @_;
     my $name = $c->req->body_parameters->{name};
+    my $code = $c->req->body_parameters->{code} ? $c->req->body_parameters->{code} : undef;
     my $subscriber = $c->req->body_parameters->{subscriber} ? 1 : 0;
     unless ($name) {
         $c->message({ type => "error", message => "institution_name_required" });
@@ -78,6 +81,7 @@ sub edit_GET {
     $c->stash(entity => {
         id => $institution->id,
         name => $institution->name,
+        code => $institution->code ? $institution->code : '',
         subscriber => $institution->subscriber,
         ip_addresses => $institution->ip_addresses,
         aliases => $institution->aliases,
@@ -106,7 +110,11 @@ sub edit_POST {
                 }
             }
 
-            $institution->update({ name => $data{name}, subscriber => $data{subscriber} ? 1 : 0 });
+            $institution->update({
+                name => $data{name},
+                code => $data{code} ? $data{code} : undef,
+                subscriber => $data{subscriber} ? 1 : 0
+            });
         } when ('delete_ip') {
             $c->model('DB::InstitutionIpaddr')->delete_address($data{delete_ip_range});
         } when ('new_ip') {
