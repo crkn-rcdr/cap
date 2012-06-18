@@ -27,13 +27,11 @@ sub index_GET {
     my $list = {};
     my $institutions = [$c->model('DB::Institution')->search({}, { order_by => 'name' })];
     foreach my $institution (@{$institutions}) {
-        $list->{$institution->id} = {
-            name => $institution->name,
+        $list->{$institution->name} = {
             code => $institution->code ? $institution->code : '',
             subscriber => $institution->subscriber,
-            url => "" . $c->uri_for_action('admin/institution/edit', [$institution->id]), # "" forces object into a string
+            url => $c->uri_for_action('admin/institution/edit', [$institution->id]),
         };
-        warn decode_utf8($list->{$institution->id}->{name});
     }
     $c->stash->{entity} = $list;
     $self->status_ok($c, entity => $list);
@@ -56,6 +54,7 @@ sub create :Path('create') {
 
     my $institution = $c->model('DB::Institution')->create({
         name => $name,
+        code => $code,
         subscriber => $subscriber,
     });
     $c->res->redirect($c->uri_for_action('admin/institution/edit', [$institution->id]));
