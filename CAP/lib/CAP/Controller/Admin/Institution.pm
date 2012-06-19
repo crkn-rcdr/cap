@@ -30,7 +30,7 @@ sub index_GET {
         $list->{$institution->name} = {
             code => $institution->code ? $institution->code : '',
             subscriber => $institution->subscriber,
-            url => $c->uri_for_action('admin/institution/edit', [$institution->id]),
+            url => $c->uri_for_action('admin/institution/edit', [$institution->id])->as_string(),
         };
     }
     $c->stash->{entity} = $list;
@@ -104,8 +104,12 @@ sub edit_POST {
     given ($data{update}) {
         when ('update_institution') {
             foreach my $key (grep(/^alias_/, keys(%data))) {
-                if ($key =~ /^alias_(\w{2,3})/ && $data{$key}) {
-                    $institution->update_or_create_related('institution_alias', { lang => $1, name => $data{$key} });
+                if ($key =~ /^alias_(\w{2,3})/) {
+                    if ($data{$key}) {
+                        $institution->update_or_create_related('institution_alias', { lang => $1, name => $data{$key} });
+                    } else {
+                        $institution->delete_related('institution_alias', { lang => $1 });
+                    }
                 }
             }
 

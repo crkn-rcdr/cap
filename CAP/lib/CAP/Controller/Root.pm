@@ -224,6 +224,7 @@ sub auto :Private
 
     # Fetch a set of language-appropriate labels and tags.
     $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
+    $c->stash->{contributors} = $c->model('DB::Institution')->get_contributors($c->stash->{lang});
 
     # Initialize the query response with default values. These may be
     # added to or overwritten when a search query is executed.
