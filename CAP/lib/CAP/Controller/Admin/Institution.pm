@@ -38,6 +38,18 @@ sub index_GET {
     return 1;
 }
 
+sub batch :Path :Args(0) ActionClass('REST') {
+    my($self, $c) = @_;
+}
+
+sub batch_GET {
+    my($self, $c) = @_;
+    $c->stash->{export} = $c->model('DB::Institution')->export();
+}
+
+sub batch_POST {
+}
+
 #
 # Create: add a new institution
 #
@@ -134,7 +146,7 @@ sub edit_POST {
                 }
             }
         } default {
-            warn "yo";
+            warn "No update parameter passed";
         }
     }
 
