@@ -303,13 +303,8 @@ sub confirm :Path('confirm') :Args(1) {
         $c->set_authenticated($c->find_user({id => $id}));
         $c->persist_user();
         $c->message({ type => "success", message => "user_confirm_success" });
-        $c->response->redirect($c->uri_for_action("/user/confirmed"));
-    } else {
-        $c->response->redirect($c->uri_for_action('/index'));
     }
-}
-
-sub confirmed :Path('confirmed') :Args(0) {
+    $c->response->redirect($c->uri_for_action('/index'));
     return 0;
 }
 
@@ -648,9 +643,9 @@ sub subscribe_finalize : Private
     my $subscriberow = $c->user->subscriptions->find($foreignid);
     my $paymentrow = $c->user->payments->find($paymentid);
     if (!$subscriberow || !$paymentrow) {
-        # No matching subscription and unable to create new row?
-        $c->detach('/error', [500, "Error finalizing subscription"]);
-        return 0;
+	# No matching subscription and unable to create new row?
+	$c->detach('/error', [500, "Error finalizing subscription"]);
+	return 0;
     }
     my $message = $paymentrow->message;
     my $amount  = $paymentrow->amount;
@@ -666,10 +661,10 @@ sub subscribe_finalize : Private
     my $datetoday = new Date::Manip::Date;
     $datetoday->parse("today");
 
-    # If we couldn't parse expiry date (likely null), or expired in past.
+   # If we couldn't parse expiry date (likely null), or expired in past.
     if ($err || (($dateexp->cmp($datetoday)) <= 0)) {
         # The new expiry date is built from today
-        $dateexp=$datetoday;
+	$dateexp=$datetoday;
     }
 
     # Create a delta based on the period we were passed in.
@@ -677,17 +672,17 @@ sub subscribe_finalize : Private
     $err = $deltaexpire->parse($period . " days");
 
     if ($err) {
-        # If I was passed in a bad period, then what?
-        ## TODO: localize
-        $c->detach('/error', [500, "Subscription period invalid"]);
-        return 0;
+	# If I was passed in a bad period, then what?
+	## TODO: localize
+	$c->detach('/error', [500, "Subscription period invalid"]);
+	return 0;
     }
     my $datenew = $dateexp->calc($deltaexpire);
     my $newexpires = $datenew->printf("%Y-%m-%d");
     ## END date manipulation
 
     if ($success) {
-        my $user_account = $c->find_user({ id => $userid });
+	my $user_account = $c->find_user({ id => $userid });
 
 	eval { $user_account->update({
 	    subexpires => $newexpires,
@@ -711,9 +706,9 @@ sub subscribe_finalize : Private
 	   success => $success,
 	   payment_id => $paymentid,
 	   oldexpire =>   $subexpires,
-       newexpire =>   $newexpires,
-       payment_id =>   $paymentid
-   }) };  
+	   newexpire =>   $newexpires,
+           payment_id =>   $paymentid
+      				     }) };  
 
 
     # Send an email notification to administrators
@@ -723,24 +718,20 @@ sub subscribe_finalize : Private
 
 
     if ($@) {
-        $c->log->debug("User/subscribe_finalize subscriber update:  " .$@) if ($c->debug);
-        $c->detach('/error', [500,"subscriber update"]);
+	$c->log->debug("User/subscribe_finalize subscriber update:  " .$@) if ($c->debug);
+	$c->detach('/error', [500,"subscriber update"]);
     }
 
     if ($success) {
-        $c->message(Message::Stack::Message->new(
-                level => "success",
-                msgid => "payment_complete",
-                params => [$amount]));
-        $c->response->redirect("/user/subscribe_confirmed");
+	$c->message(Message::Stack::Message->new(
+			level => "success",
+			msgid => "payment_complete",
+			params => [$amount]));
     } else {
-        $c->message({ type => "error", message => "payment_failed" });
-        $c->response->redirect('/user/profile');
+	$c->message({ type => "error", message => "payment_failed" });
     }
-    return 0;
-}
-
-sub subscribe_confirmed :Path('subscribe_confirmed') :Args(0) {
+    # TODO: $success boolean may suggest different place to redirect.
+    $c->response->redirect('/user/profile');
     return 0;
 }
 
@@ -759,7 +750,7 @@ sub init :Private
         'user_expiry_epoch'        => 0,
         'institutional_sub'        => 0    
     };    
-
+   
 
     # Store the user's IP address.
     $c->session->{address} = $c->request->address;

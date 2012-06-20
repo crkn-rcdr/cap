@@ -25,8 +25,8 @@ sub get_contributors {
     foreach my $contributor (@contributors) {
         my $alias = $contributor->get_column('alias');
         my $alias_lang = $contributor->get_column('alias_lang');
-        next if $hash->{$contributor->code} && $alias_lang ne $lang; # skip rows with aliases we don't need
-        $hash->{$contributor->code} = $alias && $alias_lang eq $lang ? $alias : $contributor->name;
+        next if $alias_lang && $alias_lang ne $lang; # skip rows with aliases we don't need
+        $hash->{$contributor->code} = $alias ? $alias : $contributor->name;
     }
     return $hash;
 }
