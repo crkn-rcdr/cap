@@ -303,8 +303,14 @@ sub confirm :Path('confirm') :Args(1) {
         $c->set_authenticated($c->find_user({id => $id}));
         $c->persist_user();
         $c->message({ type => "success", message => "user_confirm_success" });
+        $c->response->redirect($c->uri_for_action("/user/confirmed"));
+    } else {
+        $c->response->redirect($c->uri_for_action('/index'));
     }
-    $c->response->redirect($c->uri_for_action('/index'));
+    return 0;
+}
+
+sub confirmed :Path('confirmed') :Args(0) {
     return 0;
 }
 
@@ -723,15 +729,19 @@ sub subscribe_finalize : Private
     }
 
     if ($success) {
-	$c->message(Message::Stack::Message->new(
-			level => "success",
-			msgid => "payment_complete",
-			params => [$amount]));
+        $c->message(Message::Stack::Message->new(
+                level => "success",
+                msgid => "payment_complete",
+                params => [$amount]));
+        $c->response->redirect("/user/subscribe_confirmed");
     } else {
-	$c->message({ type => "error", message => "payment_failed" });
+        $c->message({ type => "error", message => "payment_failed" });
+        $c->response->redirect('/user/profile');
     }
-    # TODO: $success boolean may suggest different place to redirect.
-    $c->response->redirect('/user/profile');
+    return 0;
+}
+
+sub subscribe_confirmed :Path('subscribe_confirmed') :Args(0) {
     return 0;
 }
 
