@@ -235,6 +235,15 @@ sub ip_addresses {
     return $addresses;
 }
 
+sub set_alias {
+    my ($self, $lang, $name) = @_;
+    if ($name) {
+        $self->update_or_create_related('institution_alias', { lang => $lang, name => $name });
+    } else {
+        $self->delete_related('institution_alias', { lang => $lang });
+    }
+}
+
 
 # You can replace this text with custom content, and it will be preserved on regeneration
 1;

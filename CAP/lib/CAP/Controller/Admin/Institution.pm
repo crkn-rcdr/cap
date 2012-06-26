@@ -38,6 +38,27 @@ sub index_GET {
     return 1;
 }
 
+sub batch :Path('batch') :Args(0) ActionClass('REST') {
+    my($self, $c) = @_;
+}
+
+sub batch_GET {
+    my($self, $c) = @_;
+    $c->stash->{export} = $c->model('DB::Institution')->export(sort keys %{$c->config->{languages}});
+    return 0;
+}
+
+sub batch_POST {
+    my($self, $c) = @_;
+    my $data = $c->req->body_parameters->{data};
+    my $txn = $c->model('DB::Institution')->import($data, sort keys %{$c->config->{languages}});
+    eval { $c->model('DB')->txn_do($txn); };
+    $c->detach("/error", [500]) if ($@);
+
+    $c->response->redirect($c->uri_for_action("/admin/institution/batch"));
+    return 0;
+}
+
 #
 # Create: add a new institution
 #
@@ -105,11 +126,7 @@ sub edit_POST {
         when ('update_institution') {
             foreach my $key (grep(/^alias_/, keys(%data))) {
                 if ($key =~ /^alias_(\w{2,3})/) {
-                    if ($data{$key}) {
-                        $institution->update_or_create_related('institution_alias', { lang => $1, name => $data{$key} });
-                    } else {
-                        $institution->delete_related('institution_alias', { lang => $1 });
-                    }
+                    $institution->set_alias($1, $data{$key});
                 }
             }
 
@@ -134,7 +151,7 @@ sub edit_POST {
                 }
             }
         } default {
-            warn "yo";
+            warn "No update parameter passed";
         }
     }
 

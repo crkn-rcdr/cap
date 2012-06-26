@@ -4,6 +4,7 @@ use namespace::autoclean;
 use Captcha::reCAPTCHA;
 use Date::Manip::Date;
 use Date::Manip::Delta;
+use Text::Trim qw/trim/;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -811,16 +812,6 @@ sub init :Private
 
     return 1;
 }
-
-sub trim {
-    my $str = shift;
-    return 0 unless $str;
-    $str =~ s/^\s+//;
-    $str =~ s/\s+$//;
-    return $str;
-}
-
-
 
 __PACKAGE__->meta->make_immutable;
 
