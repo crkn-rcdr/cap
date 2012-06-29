@@ -37,8 +37,13 @@ sub index :Path :Args(0) {
 # controller
 #
 
-
-
+# Will be moved to Admin/Usage.pm when there are more than a couple of tables to load
+sub usage :Path('usage') :Args(0) {
+    my($self, $c) = @_;
+    $c->stash->{user_requests} = $c->model('DB::User')->requests;
+    $c->stash->{institution_requests} = $c->model('DB::Institution')->requests;
+    return 1;
+}
 
 sub collections :Path('collections') :Args(0) {
     my($self, $c, $id) = @_;

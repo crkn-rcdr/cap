@@ -180,4 +180,32 @@ sub delete_unconfirmed {
 
     return $unconfirmed->delete();
 }
+
+# Tally logged requests by user
+sub requests {
+    my $self = shift;
+    my @rows = $self->search(
+        undef,
+        {
+            join => 'request_logs',
+            select => ['id', 'name', 'class', { count => { distinct => 'request_logs.session' }, '-as' => 'sessions'}, { count => 'me.id', '-as' => 'requests' }],
+            as => ['id', 'name', 'class', 'sessions', 'requests'],
+            group_by => ['me.id'],
+            order_by => 'sessions'
+        }
+    );
+
+    my $result = [];
+    foreach my $row (@rows) {
+        if ($row->get_column('sessions') > 0) { # once I figure out a way to force a left join without editing something the schema loader makes, I can remove this
+            push(@{$result}, {
+                name => $row->name,
+                class => $row->class,
+                sessions => $row->get_column('sessions'),
+                requests => $row->get_column('requests')
+            });
+        }
+    }
+    return $result;
+}
 1;
