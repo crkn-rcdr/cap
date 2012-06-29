@@ -80,7 +80,7 @@ sub import {
 sub requests {
     my $self = shift;
     my @rows = $self->search(
-        undef,
+        { 'request_logs.id' => { '!=' => undef } },
         {
             join => 'request_logs',
             select => ['id', 'name', { count => { distinct => 'request_logs.session' }, '-as' => 'sessions'}, { count => 'me.id', '-as' => 'requests' }],
@@ -89,18 +89,7 @@ sub requests {
             order_by => 'sessions'
         }
     );
-
-    my $result = [];
-    foreach my $row (@rows) {
-        if ($row->get_column('sessions') > 0) { # once I figure out a way to force a left join without editing something the schema loader makes, I can remove this
-            push(@{$result}, {
-                name => $row->name,
-                sessions => $row->get_column('sessions'),
-                requests => $row->get_column('requests')
-            });
-        }
-    }
-    return $result;
+    return \@rows;
 }
 
 # Returns institution's public name given the institution id
