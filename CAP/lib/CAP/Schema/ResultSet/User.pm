@@ -191,7 +191,7 @@ sub requests {
             select => ['id', 'name', 'class', { count => { distinct => 'request_logs.session' }, '-as' => 'sessions'}, { count => 'me.id', '-as' => 'requests' }],
             as => ['id', 'name', 'class', 'sessions', 'requests'],
             group_by => ['me.id'],
-            order_by => 'sessions'
+            order_by => 'sessions desc'
         }
     );
     return \@rows;
