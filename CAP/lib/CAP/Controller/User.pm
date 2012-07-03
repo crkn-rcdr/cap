@@ -794,7 +794,7 @@ sub init :Private
         $c->persist_user();
 
         $c->session->{auth}->{user_class} = $c->user->class;
-        $c->session->{auth}->{user_expiry_epoch} = $c->user->subexpires->epoch();
+        $c->session->{auth}->{user_expiry_epoch} = $c->user->subexpires->epoch() if $c->user->subexpires;
 
         # Check the user's subscription status
         $c->session->{is_subscriber} = $c->model('DB::User')->has_active_subscription($c->user->id);
