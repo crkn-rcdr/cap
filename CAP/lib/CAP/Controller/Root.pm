@@ -56,6 +56,8 @@ sub auto :Private
             %portal = $config->getall;
         }
 
+        $c->config->{portal} = \%portal;
+
         # Determine whether the portal is enabled for access
         if (! $portal{enabled}) {
             $c->stash->{template} = 'disabled.tt';
@@ -88,9 +90,7 @@ sub auto :Private
                 }
             }
         }
-        else {
-            $c->stash->{lang} = $portal{default_lang};
-        }
+        $c->stash->{lang} = $portal{default_lang} unless $c->stash->{lang};
 
         # Stash whether or not user account and access control functions are enabled
         $c->stash->{user_accounts}  = $portal{user_accounts};
