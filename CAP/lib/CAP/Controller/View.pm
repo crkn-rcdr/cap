@@ -66,7 +66,7 @@ sub view_doc :Private {
         my $page = $doc->set_active_child($seq);
 
         # Make sure the requested page exists.
-        $c->detach("/error", [404, "Page not found: $page"]) unless $page;
+        $c->detach("/error", [404, "Page not found: $seq"]) unless $page;
 
         # Set image size and rotation
         if (defined($c->request->query_params->{s}) && defined($c->config->{derivative}->{size}->{$c->request->query_params->{s}})) {
