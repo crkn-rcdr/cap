@@ -276,8 +276,7 @@ sub error : Private
 {
     my($self, $c, $error, $error_message) = @_;
     $error_message = "" unless ($error_message);
-    $c->stash->{response}->{type} = "error";
-    $c->stash->{response}->{status} = $error;
+    $c->response->status($error);
     $c->stash->{error} = $error_message;
     $c->stash->{status} = $error;
     $c->stash->{template} = "error.tt";
