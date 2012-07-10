@@ -170,17 +170,17 @@ __PACKAGE__->has_many(
   {},
 );
 
-=head2 institution_roles
+=head2 institution_mgmts
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::InstitutionRole>
+Related object: L<CAP::Schema::Result::InstitutionMgmt>
 
 =cut
 
 __PACKAGE__->has_many(
-  "institution_roles",
-  "CAP::Schema::Result::InstitutionRole",
+  "institution_mgmts",
+  "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.institution_id" => "self.id" },
   {},
 );
@@ -200,9 +200,19 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 user_ids
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-05 13:24:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QZUZCFvn24S3wuIq1yao7A
+Type: many_to_many
+
+Composing rels: L</institution_mgmts> -> user_id
+
+=cut
+
+__PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 10:31:55
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TloYPV46uLSpkyG0w8BB+w
 
 sub aliases {
     my $self = shift;

@@ -198,17 +198,17 @@ __PACKAGE__->has_many(
   {},
 );
 
-=head2 institution_roles
+=head2 institution_mgmts
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::InstitutionRole>
+Related object: L<CAP::Schema::Result::InstitutionMgmt>
 
 =cut
 
 __PACKAGE__->has_many(
-  "institution_roles",
-  "CAP::Schema::Result::InstitutionRole",
+  "institution_mgmts",
+  "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.user_id" => "self.id" },
   {},
 );
@@ -288,9 +288,19 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 institution_ids
 
-# Created by DBIx::Class::Schema::Loader v0.07022 @ 2012-05-22 12:17:19
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xA0rYKE56pOlrfP3cqjRWQ
+Type: many_to_many
+
+Composing rels: L</institution_mgmts> -> institution_id
+
+=cut
+
+__PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 10:31:55
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SCKi65O8lfaQ4J5842Ix9A
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
