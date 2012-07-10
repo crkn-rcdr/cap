@@ -289,6 +289,9 @@ sub error : Private
 sub index :Path('') Args(0)
 {
     my($self, $c) = @_;
+
+        warn "HAS ROLE admin" if ($c->has_role('admin'));
+        warn "HAS ROLE editor" if ($c->has_role('editor'));
     
     # Messsages bugging you to subscribe already
     if ($c->stash->{portal} eq 'eco' && !$c->session->{subscribing_institution}) {

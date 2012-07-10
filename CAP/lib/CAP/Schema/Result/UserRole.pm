@@ -43,12 +43,14 @@ __PACKAGE__->table("user_role");
 
   data_type: 'integer'
   default_value: 0
+  is_foreign_key: 1
   is_nullable: 0
 
 =head2 role_id
 
   data_type: 'varchar'
   default_value: (empty string)
+  is_foreign_key: 1
   is_nullable: 0
   size: 32
 
@@ -56,9 +58,20 @@ __PACKAGE__->table("user_role");
 
 __PACKAGE__->add_columns(
   "user_id",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  {
+    data_type      => "integer",
+    default_value  => 0,
+    is_foreign_key => 1,
+    is_nullable    => 0,
+  },
   "role_id",
-  { data_type => "varchar", default_value => "", is_nullable => 0, size => 32 },
+  {
+    data_type => "varchar",
+    default_value => "",
+    is_foreign_key => 1,
+    is_nullable => 0,
+    size => 32,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -75,9 +88,31 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("user_id", "role_id");
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 10:31:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NASwOKd01taJXQ876K0f0A
+=head2 role_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Role>
+
+=cut
+
+__PACKAGE__->belongs_to("role_id", "CAP::Schema::Result::Role", { id => "role_id" });
+
+=head2 user_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 12:52:34
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SASDn9km8qOyrV06u1hBgA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

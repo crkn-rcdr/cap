@@ -64,9 +64,36 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 10:31:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:gZzjlJboYt7qrRRXEntIsw
+=head2 user_roles
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::UserRole>
+
+=cut
+
+__PACKAGE__->has_many(
+  "user_roles",
+  "CAP::Schema::Result::UserRole",
+  { "foreign.role_id" => "self.id" },
+  {},
+);
+
+=head2 user_ids
+
+Type: many_to_many
+
+Composing rels: L</user_roles> -> user_id
+
+=cut
+
+__PACKAGE__->many_to_many("user_ids", "user_roles", "user_id");
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 12:52:34
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:oYZdTtLd/7NCXVT2qfBXow
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

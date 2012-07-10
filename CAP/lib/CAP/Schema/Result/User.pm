@@ -288,6 +288,21 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 user_roles
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::UserRole>
+
+=cut
+
+__PACKAGE__->has_many(
+  "user_roles",
+  "CAP::Schema::Result::UserRole",
+  { "foreign.user_id" => "self.id" },
+  {},
+);
+
 =head2 institution_ids
 
 Type: many_to_many
@@ -298,9 +313,19 @@ Composing rels: L</institution_mgmts> -> institution_id
 
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
+=head2 role_ids
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 10:31:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SCKi65O8lfaQ4J5842Ix9A
+Type: many_to_many
+
+Composing rels: L</user_roles> -> role_id
+
+=cut
+
+__PACKAGE__->many_to_many("role_ids", "user_roles", "role_id");
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 12:52:34
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Fc1lVt3RgrJGBzvq2B4U6g
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

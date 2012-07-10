@@ -129,6 +129,12 @@ These methods override those from the superclass.
 #    return 1;
 #}
 
+sub has_role {
+    my($c, $role) = @_;
+    return 0 unless $c->user_exists;
+    return $c->model('DB::UserRole')->user_has_role($c->user->id, $role);
+}
+
 =head1 SEE ALSO
 
 L<CAP::Controller::Root>, L<Catalyst>

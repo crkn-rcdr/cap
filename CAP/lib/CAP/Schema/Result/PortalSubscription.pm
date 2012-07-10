@@ -56,7 +56,7 @@ __PACKAGE__->table("portal_subscription");
 
   data_type: 'enum'
   default_value: 'regular'
-  extra: {list => ["trial","regular"]}
+  extra: {list => ["trial","regular","permanent"]}
   is_nullable: 0
 
 =head2 expires
@@ -76,7 +76,7 @@ __PACKAGE__->add_columns(
   {
     data_type => "enum",
     default_value => "regular",
-    extra => { list => ["trial", "regular"] },
+    extra => { list => ["trial", "regular", "permanent"] },
     is_nullable => 0,
   },
   "expires",
@@ -102,8 +102,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("user_id", "portal_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 10:31:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VljJ2SRGATS4xOJcWGgtTA
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 12:52:34
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RN5v15Tqtvb4aqeNCANWzA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
