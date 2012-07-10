@@ -112,23 +112,6 @@ These methods override those from the superclass.
 
 =cut
 
-=head2 prepare_path( $c, @path )
-
-    Checks $c->config->{prefix} for a key equal to $c->request->{base}. If
-    one is found, the corresponding value is prepended to the request
-    path. The value should be either a portal name or a portal/iface
-    combination.
-=cut
-#sub prepare_path
-#{
-#    my($c, @path) = @_;
-#    $c->SUPER::prepare_path(@path);
-#    if ($c->config->{prefix}->{$c->request->{base}}) {
-#        $c->request->path(join('/', $c->config->{prefix}->{$c->request->{base}} , $c->request->path));
-#    }
-#    return 1;
-#}
-
 sub has_role {
     my($c, $role) = @_;
     return 0 unless $c->user_exists;
