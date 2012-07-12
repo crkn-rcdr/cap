@@ -77,7 +77,7 @@ __PACKAGE__->config(
         cookie_name => 'cap_session'
     },
 
-    'static' => {
+    'Plugin::Static::Simple' => {
         include_path => [ __PACKAGE__->config->{root} . "/Default/static/" ],
     },
 );
