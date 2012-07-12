@@ -29,14 +29,25 @@ sub auto :Private
         $c->detach("config_error", ["default_portal is not set"]);
     }
 
-    # Determine which portal configuration to use
-    my $portal;
-    if ($c->config->{portals} && $c->config->{portals}->{$c->req->base}) {
-        $c->stash->{portal} = $c->config->{portals}->{$c->req->base};
+    ############
+    #
+    
+    
+    # Get the portal configuration.
+    my $portal_config = $c->configure_portal;
+
+    # If no portal is found or the portal is disabled, redirect to the
+    # default URL.
+    unless ($portal_config && $portal_config->enabled) {
+        $c->res->redirect($c->config->{default_url});
+        $c->detach();
     }
-    else {
-        $c->stash->{portal} = $c->config->{default_portal};
-    }
+
+    $c->stash->{portal} = $portal_config->id;
+
+    #
+    ############
+
 
     # Configure the portal
     {
@@ -58,11 +69,6 @@ sub auto :Private
 
         $c->config->{portal} = \%portal;
 
-        # Determine whether the portal is enabled for access
-        if (! $portal{enabled}) {
-            $c->stash->{template} = 'disabled.tt';
-            $c->detach();
-        }
 
         # Set the interface language. In order of preference, look for: a
         # usrlang query parameter that explicitly sets the language; a

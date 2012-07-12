@@ -125,6 +125,21 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 document_collections
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::DocumentCollection>
+
+=cut
+
+__PACKAGE__->has_many(
+  "document_collections",
+  "CAP::Schema::Result::DocumentCollection",
+  { "foreign.contributor" => "self.code" },
+  {},
+);
+
 =head2 institution_alias
 
 Type: has_many
@@ -211,8 +226,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 10:31:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TloYPV46uLSpkyG0w8BB+w
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-11 10:18:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:WWokrO32IqfvbuDpzLYDVA
 
 sub aliases {
     my $self = shift;

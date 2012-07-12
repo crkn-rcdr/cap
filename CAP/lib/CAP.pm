@@ -82,55 +82,22 @@ __PACKAGE__->config(
     },
 );
 
-#__PACKAGE__->config->{email} = [qw/SMTP asiago.cihm/];
-
 # Start the application
 __PACKAGE__->setup();
 
 
-=head1 NAME
-
-CAP - Catalyst based application
-
-=head1 SYNOPSIS
-
-    script/cap_server.pl
-
-=head1 DESCRIPTION
-
-This is the Canadiana Access Portal (working title) an application for
-searching digital collections and providing content. It support multiple,
-independently configurable portals, each of which can reference a defined
-subset of the entire collection, and which can have distinct features and
-configurations. Multiple interfaces are supported, including an arbitrary
-number of human languages for the standard interface, as well as custom
-interfaces for, e.g. XML, Json, and so forth.
-
-=head1 METHODS
-
-These methods override those from the superclass.
-
-=cut
-
+# Return true if an authenticated user exists and has the named role.
 sub has_role {
     my($c, $role) = @_;
     return 0 unless $c->user_exists;
     return $c->model('DB::UserRole')->user_has_role($c->user->id, $role);
 }
 
-=head1 SEE ALSO
-
-L<CAP::Controller::Root>, L<Catalyst>
-
-=head1 AUTHOR
-
-William Wueppelmann E<lt>william.wueppelmann@canadiana.caE<gt>
-
-=head1 LICENSE
-
-This library is free software, you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut
+sub configure_portal {
+    my($c) = @_;
+    my $host = substr($c->req->uri->host, 0, index($c->req->uri->host, '.'));
+    my $portal =  $c->model('DB::PortalHost')->get_portal($host);
+    return $portal;
+}
 
 1;

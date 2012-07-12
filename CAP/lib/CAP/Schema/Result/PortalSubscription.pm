@@ -49,8 +49,9 @@ __PACKAGE__->table("portal_subscription");
 
   data_type: 'varchar'
   default_value: (empty string)
+  is_foreign_key: 1
   is_nullable: 0
-  size: 16
+  size: 64
 
 =head2 type
 
@@ -71,7 +72,13 @@ __PACKAGE__->add_columns(
   "user_id",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "portal_id",
-  { data_type => "varchar", default_value => "", is_nullable => 0, size => 16 },
+  {
+    data_type => "varchar",
+    default_value => "",
+    is_foreign_key => 1,
+    is_nullable => 0,
+    size => 64,
+  },
   "type",
   {
     data_type => "enum",
@@ -101,9 +108,25 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("user_id", "portal_id");
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 12:52:34
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RN5v15Tqtvb4aqeNCANWzA
+=head2 portal_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Portal>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "portal_id",
+  "CAP::Schema::Result::Portal",
+  { id => "portal_id" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-11 10:18:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZjX6FUrnDz/OiijSbohfQA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
