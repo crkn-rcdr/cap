@@ -37,7 +37,9 @@ sub result_page :Path('') :Args(1) {
     $options->{sort} = $query->sort_order($c->req->params->{so});
 
     # Run the main search
-    my $resultset = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page);
+    my $resultset;
+    eval { $resultset = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page) };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
     $c->stash(log_search => 1) if ($resultset);
 

@@ -105,7 +105,9 @@ sub view_series :Private {
         'fl'   => 'key,pkey,label,pubmin,pubmax,type,contributor,canonicalUri',
         'rows' => 20,
     };
-    my $issues = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page);
+    my $issues;
+    eval { $issues = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page) };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
     $c->stash(
         doc => $doc,
@@ -121,11 +123,15 @@ sub random : Path('/viewrandom') Args() {
 
 
     # Pick a document at random
-    my $ndocs = $c->model('Solr')->search($c->stash->{search_subset})->count('type:document');
+    my $ndocs;
+    eval { $ndocs = $c->model('Solr')->search($c->stash->{search_subset})->count('type:document') };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
     my $index = int(rand() * $ndocs) + 1;
 
     # Get the record
-    my $doc = $c->model('Solr')->search($c->stash->{search_subset})->nth_record('type:document', $index);
+    my $doc;
+    eval { $doc = $c->model('Solr')->search($c->stash->{search_subset})->nth_record('type:document', $index) };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
     $c->res->redirect($c->uri_for_action('view/key', $doc->key)) if ($doc);
     $c->detach('/error', [500, "Failed to retrieve document"]);
 }
