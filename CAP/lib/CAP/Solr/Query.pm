@@ -162,24 +162,20 @@ method limit_type (Maybe [Str] $type) {
 }
 
 method limit_date (Maybe [Str] $from, Maybe [Str] $to) {
-    # Make sure we have at least one date. If we have only one, use it for
-    # both dates. Make sure the earlier date comes first.
+    # New as of 13 July 2012: treat date values independently of each other
     return unless ($to || $from);
-    $to   = $from if ($from && ! $to);
-    $from = $to   if (! $from && $to);
-    $from =~ s/\s+//gs;
-    $to   =~ s/\s+//gs;
-    if ($from gt $to) {
-        my $tmp = $from;
-        $from   = $to;
-        $to     = $tmp;
+    if ($from) {
+        $from =~ s/\s+//gs;
+        if ($from =~ /^\d{4}$/) {
+            $self->append("pubmax:[$from-01-01T00:00:00.000Z TO * ]");
+        }
     }
-
-    # At the moment, we will only support dates that are 4-digit years.
-    if ($from =~ /^\d{4}$/ && $to  =~ /^\d{4}$/) {
-        $self->append("pubmin:[* TO $to-12-31T23:59:59.999Z] AND pubmax:[$from-01-01T00:00:00.000Z TO * ]");
+    if ($to) {
+        $to   =~ s/\s+//gs;
+        if ($to  =~ /^\d{4}$/) {
+            $self->append("pubmin:[* TO $to-12-31T23:59:59.999Z]");
+        }
     }
-
 }
 
 method sort_order (Maybe [Str] $sort) {
