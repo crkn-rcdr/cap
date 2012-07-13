@@ -47,6 +47,11 @@ sub result_page :Path('') :Args(1) {
     my $pubmin = $c->model('Solr')->search($subset)->pubmin($query->to_string) || 0;
     my $pubmax = $c->model('Solr')->search($subset)->pubmax($query->to_string) || 0;
 
+    eval { $pubmin = $c->model('Solr')->search($subset)->pubmin($query->to_string) || 0 };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
+    eval { $pubmax = $c->model('Solr')->search($subset)->pubmax($query->to_string) || 0 };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
+
     # Search within the text of the child records
     my $pages = {};
     my $response_pages = {};
@@ -56,7 +61,9 @@ sub result_page :Path('') :Args(1) {
             $pg_query->append($c->req->params->{q}, parse => 1, base_field => 'q');
             $pg_query->append($c->req->params->{tx}, parse => 1, base_field => 'tx');
             $pg_query->append("pkey:" . $doc->key);
-            my $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => { %{$options}, sort => $pg_query->sort_order('seq') } );
+            my $pg_resultset;
+            eval { $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => { %{$options}, sort => $pg_query->sort_order('seq') } ) };
+            $c->detach('/error', [503, "Solr error: $@"]) if ($@);
             if ($pg_resultset->hits) {
                 $pages->{$doc->key} = $pg_resultset;
                 $response_pages->{$doc->key} = {
