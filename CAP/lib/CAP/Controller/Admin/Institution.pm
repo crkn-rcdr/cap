@@ -70,7 +70,7 @@ sub create :Path('create') {
     my $subscriber = $c->req->body_parameters->{subscriber} ? 1 : 0;
     unless ($name) {
         $c->message({ type => "error", message => "institution_name_required" });
-        $c->res->redirect($c->uri_for_aciton("/admin/institution/index"));
+        $c->res->redirect($c->uri_for_action("/admin/institution/index"));
     }
 
     my $institution = $c->model('DB::Institution')->create({
