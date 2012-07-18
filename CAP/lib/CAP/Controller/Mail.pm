@@ -176,13 +176,13 @@ sub subscription_taxreceipt :Private {
 }
 
 sub feedback :Private {
-    my ($self, $c, $recipient) = @_;
+    my ($self, $c) = @_;
 
     my $to = $c->config->{support_email};   
     $c->stash->{sending_message} = 1;   
     
     $c->stash(recipient => $to,
-        real_name => 'user support'
+              real_name => 'user support'
     );
 
     my $from = $c->config->{email_from};

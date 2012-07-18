@@ -36,11 +36,11 @@ sub index :Path :Args(0) {
         $c->stash->{user_comments} = $user_comments;
         my $userid =  $c->user_exists ? $c->user->id : undef;
         my $insert = $c->model('DB::Feedback')->insert_feedback($userid, $user_comments);
-        my $username = $c->user->username;
-        $c->stash->{full_name} = $c->user->name;
-        $c->stash->{user_name} = $c->user->username;
+        # my $username = $c->user->username;
+        $c->stash->{full_name} = $c->user_exists ? $c->user->name : 'anonymous user' ;
+        $c->stash->{user_name} = $c->user_exists ? $c->user->username : 'not logged in';
         $c->stash->{sending_message} = 0;
-        $c->forward("/mail/feedback", [$username]);
+        $c->forward("/mail/feedback");
     }
     
     
