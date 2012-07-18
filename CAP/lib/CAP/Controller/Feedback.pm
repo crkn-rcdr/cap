@@ -33,8 +33,14 @@ sub index :Path :Args(0) {
     # if the message has one or more characters, process
     if (length($user_comments)) {
         $c->stash->{feedback_submitted} = 1;
+        $c->stash->{user_comments} = $user_comments;
         my $userid =  $c->user_exists ? $c->user->id : undef;
         my $insert = $c->model('DB::Feedback')->insert_feedback($userid, $user_comments);
+        my $username = $c->user->username;
+        $c->stash->{full_name} = $c->user->name;
+        $c->stash->{user_name} = $c->user->username;
+        $c->stash->{sending_message} = 0;
+        $c->forward("/mail/feedback", [$username]);
     }
     
     

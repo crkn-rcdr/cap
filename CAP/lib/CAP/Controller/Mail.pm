@@ -175,6 +175,51 @@ sub subscription_taxreceipt :Private {
     return 1;
 }
 
+sub feedback :Private {
+    my ($self, $c, $recipient) = @_;
+
+    my $to = $c->config->{support_email};   
+    $c->stash->{sending_message} = 1;   
+    
+    $c->stash(recipient => $to,
+        real_name => 'user support'
+    );
+
+    my $from = $c->config->{email_from};
+    if (! $from) {
+	return 1;
+    }
+    my $header = [
+        From => $from,
+        To => $to,
+        Subject => $c->loc('User feedback')
+    ];
+
+    $self->sendmail($c, "feedback.tt", $header);
+    return 1;
+}
+
+sub subscription_reminder :Private {
+    my ($self, $c, $recipient, $real_name) = @_;
+    $c->stash(recipient => $recipient,
+        real_name => $real_name
+    );
+
+    my $from = $c->config->{email_from};
+    if (! $from) {
+	return 1;
+    }
+    my $header = [
+        From => $from,
+        To => $recipient,
+        Subject => $c->loc('Your trial subscription is expiring')
+    ];
+
+    $self->sendmail($c, "subscription_reminder.tt", $header);
+    return 1;
+}
+
+
 =head1 AUTHOR
 
 Sascha Adler,,,
