@@ -52,6 +52,11 @@ __PACKAGE__->table("portal_collection");
   is_nullable: 1
   size: 32
 
+=head2 hosted
+
+  data_type: 'tinyint'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -59,6 +64,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_foreign_key => 1, is_nullable => 1, size => 64 },
   "collection_id",
   { data_type => "varchar", is_nullable => 1, size => 32 },
+  "hosted",
+  { data_type => "tinyint", is_nullable => 1 },
 );
 
 =head1 RELATIONS
@@ -78,8 +85,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-11 10:18:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TRhd+OeYOJkL7BnqYsqXVw
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-19 10:34:23
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:UwuxsedRflBqTBOkWD2zpw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -65,8 +65,9 @@ __PACKAGE__->config(
     },
 
     'require_ssl' => {
-        remain_in_ssl => 0, # Set to 1 to keep the user in SSL once directed there
-        no_cache      => 0, # Would need to be set if running multiple domains w/wildcard cert.
+        remain_in_ssl => 0,      # Set to 1 to keep the user in SSL once directed there
+        no_cache      => 0,      # Would need to be set if running multiple domains w/wildcard cert.
+        detach_on_redirect => 1, # Detach immediately if we redirect
     },
 
     'Plugin::Session' => {

@@ -43,7 +43,6 @@ __PACKAGE__->table("document_collection");
 
   data_type: 'varchar'
   default_value: (empty string)
-  is_foreign_key: 1
   is_nullable: 0
   size: 32
 
@@ -65,13 +64,7 @@ __PACKAGE__->table("document_collection");
 
 __PACKAGE__->add_columns(
   "contributor",
-  {
-    data_type => "varchar",
-    default_value => "",
-    is_foreign_key => 1,
-    is_nullable => 0,
-    size => 32,
-  },
+  { data_type => "varchar", default_value => "", is_nullable => 0, size => 32 },
   "id",
   { data_type => "varchar", default_value => "", is_nullable => 0, size => 128 },
   "collection",
@@ -94,25 +87,9 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("contributor", "id", "collection");
 
-=head1 RELATIONS
 
-=head2 contributor
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::Institution>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "contributor",
-  "CAP::Schema::Result::Institution",
-  { code => "contributor" },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-11 10:18:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:31rW4lAIVnNk5lkT3/V2FQ
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-19 10:34:23
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:nHJaVLiJte4kUQbIl49iDA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

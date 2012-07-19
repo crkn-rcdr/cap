@@ -112,6 +112,12 @@ __PACKAGE__->table("user");
   datetime_undef_if_invalid: 1
   is_nullable: 1
 
+=head2 remindersent
+
+  data_type: 'tinyint'
+  default_value: 0
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -153,6 +159,8 @@ __PACKAGE__->add_columns(
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
   },
+  "remindersent",
+  { data_type => "tinyint", default_value => 0, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -324,8 +332,8 @@ Composing rels: L</user_roles> -> role_id
 __PACKAGE__->many_to_many("role_ids", "user_roles", "role_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-10 12:52:34
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Fc1lVt3RgrJGBzvq2B4U6g
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-19 10:34:23
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:T7e94k+Ss4w+x9yG7VgQ4A
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
