@@ -11,6 +11,21 @@ sub get_portal {
     return undef;
 }
 
+sub validate {
+    my($self, $host) = @_;
+    my $result = {};
+    if ($host !~ /^[a-z\d]+(-[a-z\d]+)*$/i) {
+        $result->{valid} = 0;
+        $result->{error} = "invalid_subdomain";
+    } elsif ($self->find({ id => $host })) {
+        $result->{valid} = 0;
+        $result->{error} = "subdomain_taken";
+    } else {
+        $result->{valid} = 1;
+    }
+    return $result;
+}
+
 1;
 
 

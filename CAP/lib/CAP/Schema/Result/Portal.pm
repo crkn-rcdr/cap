@@ -42,21 +42,23 @@ __PACKAGE__->table("portal");
 =head2 id
 
   data_type: 'varchar'
+  default_value: (empty string)
   is_nullable: 0
   size: 64
 
 =head2 enabled
 
   data_type: 'tinyint'
-  is_nullable: 1
+  default_value: 0
+  is_nullable: 0
 
 =cut
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "varchar", is_nullable => 0, size => 64 },
+  { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
   "enabled",
-  { data_type => "tinyint", is_nullable => 1 },
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -119,9 +121,19 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-11 10:18:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xR1yLXnpqAb0ztSl7YkU/Q
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-19 15:49:00
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DIatLyWutOporbNUtbgSwg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
+
+sub hosts {
+    my $self = shift;
+    my $hosts = [];
+    foreach ($self->search_related('portal_hosts', undef, { order_by => 'id' })) {
+        push(@{$hosts}, $_->id);
+    }
+    return $hosts;
+}
+
 1;
