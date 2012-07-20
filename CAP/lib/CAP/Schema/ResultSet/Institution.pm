@@ -92,6 +92,11 @@ sub requests {
     return \@rows;
 }
 
+sub code_exists {
+    my ($self, $code) = @_;
+    return $self->find({ code => $code }) ? 1 : 0;
+}
+
 # Returns institution's public name given the institution id
 
 sub get_name

@@ -73,6 +73,12 @@ sub create :Path('create') {
         $c->res->redirect($c->uri_for_action("/admin/institution/index"));
     }
 
+    if ($c->model('DB::Institution')->code_exists($code)) {
+        $c->message({ type => "error", message => "institution_code_exists" });
+        $c->res->redirect($c->uri_for_action("/admin/institution/index"));
+        return 1;
+    }
+
     my $institution = $c->model('DB::Institution')->create({
         name => $name,
         code => $code,
@@ -124,6 +130,12 @@ sub edit_POST {
 
     given ($data{update}) {
         when ('update_institution') {
+            if ($c->model('DB::Institution')->code_exists($data{code})) {
+                $c->message({ type => "error", message => "institution_code_exists" });
+                $c->res->redirect($c->uri_for_action("/admin/institution/edit", $id));
+                return 1;
+            }
+
             foreach my $key (grep(/^alias_/, keys(%data))) {
                 if ($key =~ /^alias_(\w{2,3})/) {
                     $institution->set_alias($1, $data{$key});
