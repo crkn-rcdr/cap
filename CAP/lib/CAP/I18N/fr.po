@@ -1534,10 +1534,7 @@ msgstr "Recherche dans la collection"
 
 #: ../../../../../cap-root/templates/Default/eco/partial/collection_list.tt:20
 msgid "Search this collection"
-msgstr "Recherche dans ce collection"
-
-msgid "Search this collection:"
-msgstr "Recherche dans ce collection :"
+msgstr "Recherche dans cette collection"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:12
 msgid "Search this document"
