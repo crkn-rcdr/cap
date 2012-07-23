@@ -200,21 +200,32 @@ sub feedback :Private {
 }
 
 sub subscription_reminder :Private {
-    my ($self, $c, $recipient, $real_name) = @_;
-    $c->stash(recipient => $recipient,
-        real_name => $real_name
+    my ($self, $c, $exp_acct, $dest_address) = @_;
+    
+    
+    
+    my $recipient  =  $exp_acct->{username};
+    my $real_name  =  $exp_acct->{name};
+    my $subexpires =  $exp_acct->{subexpires}; 
+    
+    $c->stash(recipient  =>  $recipient,
+              real_name  =>  $real_name,
+              subexpires =>  $subexpires
     );
-
+    
+    $c->log->error("destination address is $recipient");
+    
     my $from = $c->config->{email_from};
     if (! $from) {
 	return 1;
     }
     my $header = [
         From => $from,
-        To => $recipient,
+        To =>   $recipient,
         Subject => $c->loc('Your trial subscription is expiring')
     ];
 
+    # $c->log->error("destination address is $recipient");
     $self->sendmail($c, "subscription_reminder.tt", $header);
     return 1;
 }

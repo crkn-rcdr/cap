@@ -48,20 +48,20 @@ sub index :Path :Args(1) {
 
     # Get date of first log entry
     # To do: grab date range from query string
-    my $first_entry_date = $c->model('DB::RequestLog')->get_start();   
-    my $first_year = $first_entry_date->{local_c}->{year};
-    my $first_month = $first_entry_date->{local_c}->{month};
+    my $first_entry_date     = $c->model('DB::RequestLog')->get_start();   
+    my $first_year           = $first_entry_date->{local_c}->{year};
+    my $first_month          = $first_entry_date->{local_c}->{month};
     $c->stash->{first_month} = $first_month;
-    $c->stash->{first_year} = $first_year;
+    $c->stash->{first_year}  = $first_year;
     
     #Get the institution name
-    my $inst_arg = $c->request->arguments->[0];
-    my $inst_name = $c->model('DB::Institution')->get_name($inst_arg);
+    my $inst_arg             = $c->request->arguments->[0];
+    my $inst_name            = $c->model('DB::Institution')->get_name($inst_arg);
     $c->stash->{report_inst} = $inst_name;
 
     # Get the current month and the year
-    my $end_date = new Date::Manip::Date;
-    my $err = $end_date->parse('today');
+    my $end_date  = new Date::Manip::Date;
+    my $err       = $end_date->parse('today');
     my $end_year  = $end_date->printf("%Y");
    
     my $month;

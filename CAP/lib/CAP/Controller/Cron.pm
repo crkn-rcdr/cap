@@ -22,7 +22,9 @@ sub index :Path :Args(0) {
     # Delete unconfirmed accopunts
     $c->forward('/cron/removeunconfirmed/index');
     
-	
+    # Delete unconfirmed accopunts
+    $c->forward('/cron/expiringtrialreminder/index');
+    	
     return 1;
 }
 

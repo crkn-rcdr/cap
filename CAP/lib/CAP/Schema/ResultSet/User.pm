@@ -177,6 +177,10 @@ sub delete_unconfirmed {
 
         }
     );
+    
+    my $result = $unconfirmed->next;
+    my $deleted = [];
+    
 
     return $unconfirmed->delete();
 }
@@ -196,4 +200,48 @@ sub requests {
     );
     return \@rows;
 }
+
+# Get all the users whose accounts are expiring.
+sub expiring_subscriptions {
+    my ( $self, $from_date ) = @_;
+
+    my $expiring = $self->search(
+        {
+
+            subexpires   => { '<=' => $from_date },
+            active       => 1,
+            remindersent => 0,
+            confirmed    => 1
+
+        }
+    );
+    
+    my $result;
+    my $userinfo;
+    my $expiring_accounts = [];
+    
+    while ($result = $expiring->next) {
+       $userinfo = { 'id'       => $result->id,
+                     'name'     => $result->name,
+                     'username' => $result->username,
+                     'expires'  => $result->subexpires };
+       push (@$expiring_accounts, $userinfo);   
+    }
+  
+    return $expiring_accounts;
+}
+
+# reset the user's remidersent record
+sub set_remindersent {
+
+       my ( $self, $user_id, $new_setting ) = @_;
+       
+       my $user = $self->find({ id => $user_id });
+       $user->update({ remindersent => $new_setting });
+
+       return 1;
+    
+}
+
+
 1;

@@ -87,10 +87,11 @@ sub get_monthly_stats {
 
 sub get_start {
 
-    # Returns a timedate object of first first entry in table
+    # Returns a timedate object of first entry in table
     my ( $self ) = @_;
 
-    # search by date in ascending order    
+    # search by date in ascending order
+    # we do it this way because we want a date object, not a string    
     my $search_min = $self->search(
         {},        
         {
