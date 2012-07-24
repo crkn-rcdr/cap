@@ -50,8 +50,8 @@ method BUILD {
             $query .= ' AND ' . $self->subset;
         }
         my $response = $self->solr->search($query, $self->options);
-        croak("Solr query failure") unless ($response->ok);
-        croak("No such document") unless ($#{$response->docs} == 0);
+        croak("Solr query error") unless ($response->ok);
+        croak("Requested document not found: " . $self->key) unless ($#{$response->docs} == 0);
 
         # This lets us access all fields as $self->record->fieldname.
         $self->{record} = new CAP::Solr::Record($response->docs->[0]);
