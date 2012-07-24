@@ -30,7 +30,7 @@ sub view :Private {
     # Should we include the document text with the result?
     my $text = int($c->req->params->{api_text} || 0);
 
-    my $doc = $c->model("Solr")->document($key, text => $text, subset => $c->stash->{search_subset});
+    my $doc = $c->model("Solr")->document($key, text => $text, subset => $c->search_subset);
     $c->detach("/error", [404, "Record not found: $key"]) unless $doc;
 
     # Put the document structure into the response object for use by the API.

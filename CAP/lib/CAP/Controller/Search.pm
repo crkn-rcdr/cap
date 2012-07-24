@@ -22,7 +22,7 @@ sub result_page :Path('') :Args(1) {
 
     my $options = {};
 
-    my $subset = $c->stash->{search_subset};
+    my $subset = $c->search_subset;
 
     # Construct the main query:
     my $query = $c->model('Solr')->query;

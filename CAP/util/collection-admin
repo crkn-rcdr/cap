@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use CAP::Model::DB;
+
+my $DB = new CAP::Model::DB;
+my $action = shift(@ARGV);
+
+if (! $action) {
+    die("No action specified\n");
+}
+elsif ($action eq 'export') {
+    export_collections(@ARGV);
+}
+elsif ($action eq 'import') {
+    import_collections(join("", <STDIN>));
+}
+elsif ($action eq 'add') {
+    add_documents(@ARGV, (<STDIN>));
+}
+elsif ($action eq 'list') {
+    list_collections();
+}
+else {
+    die("Unknown action\n");
+}
+
+# Lists all of the collections in the document_collection table.
+sub list_collections {
+    foreach my $collection ($DB->schema->resultset('DocumentCollection')->list_collections) {
+        print("$collection\n");
+    }
+}
+
+# Dump the listed doucment collections as serialized a JSON object. If @_
+# is empty, dump all collections.
+sub export_collections {
+    print $DB->schema->resultset('DocumentCollection')->export_collections(@_);
+}
+
+
+# Import collections data from a serialized JSON object in the format
+# produced by export_collections.
+sub import_collections {
+    my($json) = @_;
+    $DB->schema->resultset('DocumentCollection')->import_collections($json);
+}
+
+# Add the document identifiers in @identifiers for the specified
+# contributor to the specified collection.
+sub add_documents {
+    my($collection, $contributor, @identifiers) = @_;
+    my $count = $DB->schema->resultset('DocumentCollection')->add_documents($collection, $contributor, @identifiers);
+    print("Added or updated $count items\n");
+}

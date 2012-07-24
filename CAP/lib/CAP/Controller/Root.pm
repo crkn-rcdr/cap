@@ -43,6 +43,7 @@ sub auto :Private
         $c->detach();
     }
 
+    $c->stash->{portal_config} = $portal_config;
     $c->stash->{portal} = $portal_config->id;
 
     #
@@ -132,9 +133,8 @@ sub auto :Private
         # Stash a list of supported interface languages
         $c->stash->{supported_langs} = [keys(%{$portal{lang}})];
 
-        # Stash the solr subset to search (try that tongue twister twice)
+        # TODO: can be removed when all of the portals have portal_collection data in their tables
         $c->stash->{search_subset} = $portal{search_subset} || "";
-
 
         # Stash the content sets hosted by this portal
         $c->stash->{hosted} = {};

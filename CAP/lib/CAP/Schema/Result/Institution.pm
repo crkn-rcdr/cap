@@ -108,18 +108,6 @@ __PACKAGE__->set_primary_key("id");
 
 __PACKAGE__->add_unique_constraint("code", ["code"]);
 
-=head2 C<name>
-
-=over 4
-
-=item * L</name>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("name", ["name"]);
-
 =head1 RELATIONS
 
 =head2 counter_logs
@@ -223,8 +211,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-19 15:49:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ses0cPxtvrhF7a6DP4ov6A
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-24 08:01:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:v7qNALOEUwD1kJ9gn/uAUA
 
 sub aliases {
     my $self = shift;

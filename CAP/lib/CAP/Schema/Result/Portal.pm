@@ -42,7 +42,6 @@ __PACKAGE__->table("portal");
 =head2 id
 
   data_type: 'varchar'
-  default_value: (empty string)
   is_nullable: 0
   size: 64
 
@@ -56,7 +55,7 @@ __PACKAGE__->table("portal");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
+  { data_type => "varchar", is_nullable => 0, size => 64 },
   "enabled",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
 );
@@ -121,8 +120,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-19 15:49:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DIatLyWutOporbNUtbgSwg
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-24 08:01:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:x9jZ+5FtzGGWGOMbAxjiBQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
