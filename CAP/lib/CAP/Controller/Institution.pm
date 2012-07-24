@@ -32,7 +32,7 @@ sub auto :Private {
 
     # Only allow administrators to access any of these functions. Everyone
     # else gets a 404.
-    unless ($c->user_exists && $c->user->has_class('admin')) {
+    unless ($c->user_exists && $c->user->has_role('administrator')) {
         $c->session->{login_redirect} = $c->req->uri;
         $c->response->redirect($c->uri_for('/user', 'login'));
         return 0;

@@ -68,7 +68,7 @@ method _has_active_subscription {
 }
 
 method _has_permanent_subscription {
-    return $self->auth->{user_class} eq 'permanent' || $self->auth->{user_class} eq 'admin';
+    return $self->auth->{user_class} eq 'permanent';
 }
 
 __PACKAGE__->meta->make_immutable;
