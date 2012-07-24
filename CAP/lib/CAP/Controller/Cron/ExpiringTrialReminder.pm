@@ -25,16 +25,42 @@ sub index : Private {
     my $exp_acct;
     my $dest_address;
     my $exp_userid;
+
+    
     foreach $exp_acct (@$expiring) {
         $exp_userid   = $exp_acct->{id};
         $dest_address = $exp_acct->{username};
-        # $c->log->error("destination address is $dest_address");
-        $c->forward("/mail/subscription_reminder", [$exp_acct, $dest_address]);
+
+        
+        #get the expiry dates as strings       
+        my $expires = $exp_acct->{expires};
+        my $exp_date = build_date_strings($expires);
+
+        
+        $c->forward("/mail/subscription_reminder", [$exp_acct, $exp_date]);
         $c->model('DB::User')->set_remindersent($exp_userid,1);  
     }
 
     return 1;
 }
 
+sub build_date_strings {
+    
+        my $expires = shift();
+
+        my $exp_date = {};
+
+        my $date_eng = new Date::Manip::Date;
+        $date_eng->config("Language","English","DateFormat","US"); 
+        my $err = $date_eng->parse($expires);
+        $exp_date->{en} = $date_eng->printf("%A, %B %d, %Y");
+
+        my $date_fre = new Date::Manip::Date;
+        $date_fre->config("Language","French","DateFormat","non-US"); 
+        my $err = $date_fre->parse($expires);
+        $exp_date->{fr} = $date_fre->printf("%A, le %d %B, %Y");	
+
+        return $exp_date;
+}
 
 __PACKAGE__->meta->make_immutable;

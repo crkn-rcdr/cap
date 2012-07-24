@@ -200,17 +200,17 @@ sub feedback :Private {
 }
 
 sub subscription_reminder :Private {
-    my ($self, $c, $exp_acct, $dest_address) = @_;
+    my ($self, $c, $exp_acct, $exp_date) = @_;
     
     
     
     my $recipient  =  $exp_acct->{username};
-    my $real_name  =  $exp_acct->{name};
-    my $subexpires =  $exp_acct->{subexpires}; 
     
-    $c->stash(recipient  =>  $recipient,
-              real_name  =>  $real_name,
-              subexpires =>  $subexpires
+    $c->stash(recipient  =>  $exp_acct->{username},
+              real_name  =>  $exp_acct->{name},
+              subexpires =>  $exp_acct->{expires},
+              exp_en     =>  $exp_date->{en},
+              exp_fr     =>  $exp_date->{fr} 
     );
     
     $c->log->error("destination address is $recipient");
@@ -229,6 +229,8 @@ sub subscription_reminder :Private {
     $self->sendmail($c, "subscription_reminder.tt", $header);
     return 1;
 }
+
+
 
 
 =head1 AUTHOR
