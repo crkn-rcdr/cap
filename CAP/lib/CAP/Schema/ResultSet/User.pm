@@ -203,12 +203,13 @@ sub requests {
 
 # Get all the users whose accounts are expiring.
 sub expiring_subscriptions {
-    my ( $self, $from_date ) = @_;
+    my ( $self, $from_date, $now ) = @_;
 
     my $expiring = $self->search(
         {
 
             subexpires   => { '<=' => $from_date },
+            subexpires   => { '>=' => $now },
             active       => 1,
             remindersent => 0,
             confirmed    => 1

@@ -19,8 +19,14 @@ sub index : Private {
     my $datestr = "in " . $days . " business days";
     my $err = $date->parse($datestr);
     my $cutoff_date = $date->printf("%Y-%m-%d %T");
+
+    # Get today's date because we don't want to be sending messages if the account has already expired
+    $datestr = "now";
+    $err = $date->parse($datestr);
+    my $now = $date->printf("%Y-%m-%d %T");
     
-    my $expiring = $c->model('DB::User')->expiring_subscriptions($cutoff_date);
+    
+    my $expiring = $c->model('DB::User')->expiring_subscriptions($cutoff_date, $now);
 
     my $exp_acct;
     my $dest_address;
