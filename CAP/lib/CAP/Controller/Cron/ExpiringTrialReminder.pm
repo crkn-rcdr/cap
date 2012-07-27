@@ -63,7 +63,7 @@ sub build_date_strings {
 
         my $date_fre = new Date::Manip::Date;
         $date_fre->config("Language","French","DateFormat","non-US"); 
-        my $err = $date_fre->parse($expires);
+        $err = $date_fre->parse($expires);
         $exp_date->{fr} = $date_fre->printf("%A, le %d %B, %Y");	
 
         return $exp_date;
