@@ -4,7 +4,7 @@
 
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
-  <xsl:param name="sitemaptype">canonical</xsl:param>
+  <xsl:param name="sitemaptype"></xsl:param>
 
   <xsl:template match="response">
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

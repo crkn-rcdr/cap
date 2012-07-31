@@ -72,7 +72,7 @@ foreach (my $i = 0; $i <= $sitemaps; ++$i) {
     my $loc = $index->createElement('loc');
     my $no = $i;
     $no = 'static' if ($i == 0);
-    $loc->appendChild($index->createTextNode("http://$hostname/sitemap/sitemap_$no.xml.gz"));
+    $loc->appendChild($index->createTextNode("http://$hostname/sitemap/sitemap_$no.xml"));
     $sitemap->appendChild($loc);
     my $lastmod = $index->createElement('lastmod');
     $lastmod->appendChild($index->createTextNode(strftime("%FT%H:%M:%S+00:00", gmtime())));
