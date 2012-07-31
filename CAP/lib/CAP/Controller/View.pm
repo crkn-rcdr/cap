@@ -124,15 +124,19 @@ sub random : Path('/viewrandom') Args() {
 
     # Pick a document at random
     my $ndocs;
-    eval { $ndocs = $c->model('Solr')->search($c->stash->{search_subset})->count('type:document') };
+    eval { $ndocs = $c->model('Solr')->search($c->search_subset)->count('type:document') };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
     my $index = int(rand() * $ndocs) + 1;
+    warn "Index is $index";
 
     # Get the record
     my $doc;
-    eval { $doc = $c->model('Solr')->search($c->stash->{search_subset})->nth_record('type:document', $index) };
+    eval { $doc = $c->model('Solr')->search($c->search_subset)->nth_record('type:document', $index) };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
-    $c->res->redirect($c->uri_for_action('view/key', $doc->key)) if ($doc);
+    if ($doc) {
+        $c->res->redirect($c->uri_for_action('view/key', $doc->key));
+        $c->detach();
+    }
     $c->detach('/error', [500, "Failed to retrieve document"]);
 }
 
