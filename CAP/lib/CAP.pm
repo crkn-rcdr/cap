@@ -105,9 +105,6 @@ sub configure_portal {
 sub search_subset {
     my($c) = @_;
     my $subset = $c->model('DB::PortalCollection')->search_subset($c->stash->{portal_config}->id);
-
-    # Temporary: if there is no subset, use the one in the portal config.
-    if (! $subset) { return $c->stash->{search_subset} }
     return $subset;
 }
 
