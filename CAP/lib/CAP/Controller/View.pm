@@ -127,7 +127,6 @@ sub random : Path('/viewrandom') Args() {
     eval { $ndocs = $c->model('Solr')->search($c->search_subset)->count('type:document') };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
     my $index = int(rand() * $ndocs) + 1;
-    warn "Index is $index";
 
     # Get the record
     my $doc;
