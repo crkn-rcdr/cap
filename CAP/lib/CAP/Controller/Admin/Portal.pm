@@ -67,6 +67,7 @@ sub edit_GET {
         id => $portal->id,
         enabled => $portal->enabled,
         hosts => $portal->hosts(),
+        collections => $portal->collections(),
     });
 
     $self->status_ok($c, entity => $c->stash->{entity});
@@ -90,8 +91,7 @@ sub edit_POST {
                 enabled => $data{enabled} ? 1 : 0
             });
         } when ('delete_hosts') {
-            my $hosts = $data{delete_hosts};
-            my @list = (ref($hosts) eq 'ARRAY') ? @{$hosts} : ($hosts);
+            my @list = to_list($data{delete_hosts});
 
             foreach my $host (@list) {
                 my $record = $c->model("DB::PortalHost")->find({ id => $host });
@@ -104,6 +104,31 @@ sub edit_POST {
             } else {
                 $c->message({ type => "error", message => $validation->{error} });
             }
+        } when ('update_collections') {
+            my @collections = to_list($data{collections});
+            warn @collections;
+            my @hosted = to_list($data{hosted_collections});
+            warn @hosted;
+            my @delete = to_list($data{delete_collections});
+            foreach my $collection (@collections) {
+                my $ss = $portal->search_related("portal_collections", { collection_id => $collection });
+                if (grep /^$collection$/, @delete) {
+                    $ss->delete();
+                } else {
+                    $ss->update({ hosted => (scalar(grep(/^$collection$/, @hosted)) ? 1 : 0) });
+                }
+            }
+        } when ('new_collection') {
+            if (!$data{new_collection_id}) {
+                $c->message({ type => "error", message => "collection_label_required" });
+            } elsif ($portal->search_related("portal_collections", { collection_id => $data{new_collection_id} })->count()) {
+                $c->message({ type => "error", message => "collection_already_exists" });
+            } else {
+                $portal->create_related("portal_collections", {
+                    collection_id => $data{new_collection_id},
+                    hosted => defined($data{new_collection_hosted})
+                });
+            }
         } default {
             warn "No update parameter passed";
         }
@@ -111,6 +136,12 @@ sub edit_POST {
 
     $c->res->redirect($c->uri_for_action("/admin/portal/edit", $id));
     return 1;
+}
+
+sub to_list {
+    my $ref = shift;
+    return () unless defined($ref);
+    return (ref($ref) eq 'ARRAY') ? @{$ref} : ($ref);
 }
 
 #

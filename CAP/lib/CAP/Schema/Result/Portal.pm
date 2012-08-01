@@ -135,4 +135,12 @@ sub hosts {
     return $hosts;
 }
 
+sub collections {
+    my $self = shift;
+    my $collections = [];
+    foreach($self->search_related('portal_collections', undef, { order_by => 'collection_id' })) {
+        push(@{$collections}, { id => $_->collection_id, hosted => $_->hosted });
+    }
+    return $collections;
+}
 1;
