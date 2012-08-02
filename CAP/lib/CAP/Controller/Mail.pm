@@ -200,11 +200,13 @@ sub feedback :Private {
 }
 
 sub subscription_reminder :Private {
+    use feature 'switch';
     my ($self, $c, $exp_acct, $exp_date) = @_;
     
     
     
     my $recipient  =  $exp_acct->{username};
+    my $sub_class  =  $exp_acct->{class};
     
     $c->stash(recipient  =>  $exp_acct->{username},
               real_name  =>  $exp_acct->{name},
@@ -214,6 +216,7 @@ sub subscription_reminder :Private {
     );
     
     $c->log->error("destination address is $recipient");
+    $c->log->error("subscription class is $sub_class");
     
     my $from = $c->config->{email_from};
     if (! $from) {
@@ -222,8 +225,14 @@ sub subscription_reminder :Private {
     my $header = [
         From => $from,
         To =>   $recipient,
-        Subject => $c->loc('Your trial subscription is expiring')
+        Subject => $c->loc("Your $sub_class subscription is expiring")
     ];
+
+    given ($sub_class) {
+            when ("trial") {$self->sendmail($c, "trial_reminder.tt", $header)}
+            when ("basic") {$self->sendmail($c, "subscription_reminder.tt", $header)}
+            when ("paid")  {$self->sendmail($c, "subscription_reminder.tt", $header)}
+    }
 
     # $c->log->error("destination address is $recipient");
     $self->sendmail($c, "subscription_reminder.tt", $header);

@@ -210,6 +210,8 @@ sub expiring_subscriptions {
 
             subexpires   => { '<=' => $from_date },
             subexpires   => { '>=' => $now },
+            class        => { '!=' => 'permanent'},
+            class        => { '!=' => 'admin'},
             active       => 1,
             remindersent => 0,
             confirmed    => 1
@@ -225,6 +227,7 @@ sub expiring_subscriptions {
        $userinfo = { 'id'       => $result->id,
                      'name'     => $result->name,
                      'username' => $result->username,
+                     'class'    => $result->class,
                      'expires'  => $result->subexpires };
        push (@$expiring_accounts, $userinfo);   
     }
