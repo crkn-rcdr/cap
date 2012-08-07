@@ -234,8 +234,6 @@ sub subscription_reminder :Private {
             when ("paid")  {$self->sendmail($c, "subscription_reminder.tt", $header)}
     }
 
-    # $c->log->error("destination address is $recipient");
-    $self->sendmail($c, "subscription_reminder.tt", $header);
     return 1;
 }
 
