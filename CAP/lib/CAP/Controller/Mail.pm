@@ -225,7 +225,7 @@ sub subscription_reminder :Private {
     my $header = [
         From => $from,
         To =>   $recipient,
-        Subject => $c->loc("Your $sub_class subscription is expiring")
+        Subject => "Your Canadiana.org subscription / Votre abonnement Canadiana.org"
     ];
 
     given ($sub_class) {
