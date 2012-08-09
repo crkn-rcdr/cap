@@ -208,8 +208,8 @@ sub expiring_subscriptions {
     my $expiring = $self->search(
         {
 
-            subexpires   => { '<=' => $from_date },
-            subexpires   => { '>=' => $now },
+            subexpires   => { '<=' => $from_date, '>=' => $now },
+            #subexpires   => { '>=' => $now },
             class        => { '!=' => 'permanent'},
             class        => { '!=' => 'admin'},
             active       => 1,
@@ -224,6 +224,7 @@ sub expiring_subscriptions {
     my $expiring_accounts = [];
     
     while ($result = $expiring->next) {
+        warn $result->name;
        $userinfo = { 'id'       => $result->id,
                      'name'     => $result->name,
                      'username' => $result->username,
