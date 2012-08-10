@@ -201,6 +201,24 @@ sub requests {
     return \@rows;
 }
 
+
+# Return the user object for the next user whose account is subscribing
+# after $now but before $exp_date, and whose remindersent flag is unset,
+# or undef if no such user exists.
+sub next_unsent_reminder {
+    my($self, $from_date, $now) = @_;
+
+    my $expiring = $self->search ({
+        subexpires   => { '<=' => $from_date, '>=' => $now },
+        class        => { '!=' => 'permanent' },
+        active       => 1,
+        remindersent => 0,
+        confirmed    => 1,
+    });
+
+    return $expiring->first || undef;
+}
+
 # Get all the users whose accounts are expiring.
 sub expiring_subscriptions {
     my ( $self, $from_date, $now ) = @_;
@@ -224,7 +242,6 @@ sub expiring_subscriptions {
     my $expiring_accounts = [];
     
     while ($result = $expiring->next) {
-        warn $result->name;
        $userinfo = { 'id'       => $result->id,
                      'name'     => $result->name,
                      'username' => $result->username,

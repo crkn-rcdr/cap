@@ -205,12 +205,14 @@ sub subscription_reminder :Private {
     
     
     
-    my $recipient  =  $exp_acct->{username};
-    my $sub_class  =  $exp_acct->{class};
+    #my $recipient  =  $exp_acct->{username};
+    #my $sub_class  =  $exp_acct->{class};
+    my $recipient  =  $exp_acct->username;
+    my $sub_class  =  $exp_acct->class;
     
-    $c->stash(recipient  =>  $exp_acct->{username},
-              real_name  =>  $exp_acct->{name},
-              subexpires =>  $exp_acct->{expires},
+    $c->stash(recipient  =>  $exp_acct->username,
+              real_name  =>  $exp_acct->name,
+              subexpires =>  $exp_acct->subexpires,
               exp_en     =>  $exp_date->{en},
               exp_fr     =>  $exp_date->{fr} 
     );

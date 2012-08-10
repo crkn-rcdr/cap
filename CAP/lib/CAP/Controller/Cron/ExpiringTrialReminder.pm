@@ -28,23 +28,40 @@ sub index : Private {
     
     my $expiring = $c->model('DB::User')->expiring_subscriptions($cutoff_date, $now);
 
-    my $exp_acct;
-    my $dest_address;
-    my $exp_userid;
+    # To reduce the risk of sending multiple emails due to a race
+    # condition, only process one user at a time. Get the next user who
+    # needs a reminder until there are no more.
+    while (my $user = $c->model('DB::User')->next_unsent_reminder($cutoff_date, $now)) {
 
-    
-    foreach $exp_acct (@$expiring) {
-        $exp_userid   = $exp_acct->{id};
-        $dest_address = $exp_acct->{username};
+        # Flag the user as having been reminded. We do this here because,
+        # in the case of a race or failure, we'd rather send no email than
+        # send 2 or more.
+        $user->update({ remindersent => 1 })->discard_changes();
 
-        
-        #get the expiry dates as strings       
-        my $expires = $exp_acct->{expires};
-        my $exp_date = build_date_strings($expires);
+        # Verify that we actually set the flag. Log an error and abort if not.
+        # NOTE: the discard_changes method above is supposed to read back
+        # the current row from the database, but it is difficult to test
+        # if this is actually the case.
+        unless ($user->remindersent) {
+            $c->model('DB::CronLog')->create({
+                action  => 'reminder_notice',
+                ok      => 0,
+                message => sprintf("Failed to set reminderset=1 for user %d (%s)", $user->id, $user->username)
+            });
+            last;
+        }
 
-        
-        $c->forward("/mail/subscription_reminder", [$exp_acct, $exp_date]);
-        $c->model('DB::User')->set_remindersent($exp_userid,1);  
+        # Get the expiry dates as strings       
+        my $exp_date = build_date_strings($user->subexpires);
+
+        $c->forward("/mail/subscription_reminder", [$user, $exp_date]);
+
+        $c->model('DB::CronLog')->create({
+                action  => 'reminder_notice',
+                ok      => 1,
+                message => sprintf("Reminder sent: id=%d (%s); %s account expires %s",
+                    $user->id, $user->username, $user->class, $user->subexpires)
+        });
     }
 
     return 1;
