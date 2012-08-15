@@ -24,11 +24,6 @@ sub auto :Private
         $c->detach("config_error", ["Incorrect cap.info database version (cap.conf is expecting version " . $c->config->{db_version} . "). Upgrade database or modify cap.conf."]);
     }
     
-    # Verify that a default portal is set
-    if (! $c->config->{default_portal}) {
-        $c->detach("config_error", ["default_portal is not set"]);
-    }
-
     ############
     #
     

@@ -1,15 +1,15 @@
 # Use this file to make any local configuration changes. Config parameters
 # placed here will override those in cap.conf
 
-# Example: set a new default portal
-# default_portal myportal
+# Works if you run from ~/yourinstalldir/cap/CAP for a developer install which used `cap-install`,
+# otherwise use full pathname.
+root = ../../cap-root
 
 email = SMTP
 # Point this to a valid SMTP server for your machine, sometimes localhost is correct
 email = smtp.cihm
 # Change this to your own email address
 email_from = "Testing" <test@nowhere.com>
-
 
 
 # Example: use a password with the MySQL database user
