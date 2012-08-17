@@ -136,41 +136,44 @@ sub edit_POST {
         return 1;
     }
 
-    my %data = (%{$c->req->params}); # FIXME: The docs seem to say $c->req->data should work, but it doesn't get defined anywhere
+    my $data = $c->request->body_parameters;
 
-    # Normalize parameters and set defaults
-    $data{username} = $user->username unless (defined($data{username}));
-    $data{name} = $user->name unless (defined($data{name}));
-    $data{class} = $user->class unless (defined($data{class}));
-    # ... TODO: more checking
+    my @errors = ();
 
-    # Update the user record
-    $user->update({
-        username => $data{username},
-        name => $data{name},
-        class => $data{class},
-        # ... TODO: more values
-    });
+    push @errors, $c->model('DB::User')->validate($data,
+        $c->config->{user}->{fields},
+        validate_password => $data->{password},
+        current_user => $user->username);
 
-    # Set/change the user's password
-    if ($data{password}) {
-        $user->update({ password => $data{password} });
-        $c->message({ type => "success", message => "password_changed" });
+    if ($data->{subexpires} && $data->{subexpires} !~ /^\d{4}-\d{2}-\d{2}$/) {
+        push @errors, 'expiry_date_invalid';
     }
 
-    # Set/change the user's subscription expiry date
-    if ($data{subexpires}) {
-        $user->update({ subexpires => $data{subexpires} });
+    foreach my $error (@errors) {
+        $c->message({ type => 'error', message => $error });
     }
 
-    # Re-read the user to make sure we have the latest changes.
-    # (Otherwise, it seems that the subexpires change doesn't show.)
-    $user = $c->model('DB::User')->find({ id => $id });
-    
-    # Create a response entity
-    $c->stash(entity => $self->_build_entity($user));
-    $self->status_ok($c, entity => $c->stash->{entity});
-    return 1;
+    if (@errors) {
+        $c->response->redirect($c->uri_for_action('/admin/user/edit', $id));
+        return 1;
+    } else {
+        my $update = {
+            username => $data->{username},
+            name => $data->{name},
+            class => $data->{class},
+            active => $data->{active} ? 1 : 0,
+            confirmed => $data->{confirmed} ? 1 : 0,
+        };
+
+        $update->{password} = $data->{password} if $data->{password};
+        $update->{subexpires} = $data->{subexpires} if $data->{subexpires};
+
+        $user->update($update);
+
+        $c->message({ type => 'success', message => 'user_updated' });
+        $c->response->redirect($c->uri_for_action('/admin/user/index'));
+        return 0;
+    }
 }
 
 #

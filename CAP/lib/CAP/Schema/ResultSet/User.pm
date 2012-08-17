@@ -6,6 +6,54 @@ use base 'DBIx::Class::ResultSet';
 use Digest::SHA qw(sha1_hex);
 use POSIX qw(strftime);
 
+sub validate {
+    my($self, $fields, $re, %options) = @_;
+    my @errors = ();
+    $options{current_user} = '' unless defined($options{current_user});
+    if ($fields && $re) {
+        if (!$fields->{username}) {
+            push @errors, 'email_required';
+        } elsif ($self->find({ username => $fields->{username} })) {
+            if (!$options{current_user}) {
+                push @errors, 'account_exists';
+            } elsif ($options{current_user} ne $fields->{username}) {
+                push @errors, 'username_exists';
+            }
+        } elsif ($fields->{username} !~ /$re->{username}/) {
+            push @errors, 'email_invalid';
+        }
+
+        if (!$fields->{name}) {
+            push @errors, 'name_required';
+        } elsif ($fields->{name} !~ /$re->{name}/) {
+            push @errors, 'name_invalid';
+        }
+
+        if ($options{validate_password}) {
+            push @errors, $self->validate_password(
+                $fields->{password},
+                $fields->{password_check},
+                $re->{password});
+        }
+    } else {
+        push @errors, 'missing_information';
+    }
+    return @errors;
+}
+
+sub validate_password {
+    my($self, $password, $check, $re) = @_;
+    my @errors = ();
+    if (!$password) {
+        push @errors, 'password_required';
+    } elsif ($password !~ /$re/) {
+        push @errors, 'password_invalid';
+    } elsif ($password ne $check) {
+        push @errors, 'password_match_failed';
+    }
+    return @errors;
+}
+
 sub validate_confirmation
 {
     my($self, $auth) = @_;

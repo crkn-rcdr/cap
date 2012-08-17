@@ -6,6 +6,8 @@ use Date::Manip::Date;
 use Date::Manip::Delta;
 use Text::Trim qw/trim/;
 
+use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/login user/reconfirm user/reset };
+
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub auto :Private {
@@ -13,7 +15,7 @@ sub auto :Private {
 
     # Require that this portal has user accounts enabled
     if (! $c->stash->{user_accounts}) {
-        $c->response->redirect('/index');
+        $c->response->redirect($c->uri_for_action('/index'));
         return 0;
     }
 
@@ -22,27 +24,22 @@ sub auto :Private {
 
     # Actions relating to creating a new account, logging in, or
     # recovering a lost password are only available to anonymous users.
-    if (
-        $c->action eq 'user/create'    ||
-        $c->action eq 'user/confirm'   ||
-        $c->action eq 'user/login'     ||
-        $c->action eq 'user/reconfirm' ||
-        $c->action eq 'user/reset'
-    ) {
-        if ($c->user_exists()) {
-            $c->response->redirect($c->uri_for('/index'));
+    my $action = $c->action;
+    if (grep(/$action/, ANONYMOUS_ACTIONS)) {
+        if ($c->user_exists) {
+            $c->response->redirect($c->uri_for_action('/index'));
             return 0;
         }
-    }
-
-    # All other requests are limited to logged in users; redirect
-    # anonymous requests to the login page.
-    elsif (! $c->user_exists()) {
-        # Record the current URI in the session so we can redirect thate
-        # after login.
-        $c->session->{login_redirect} = $c->req->uri;
-        $c->response->redirect($c->uri_for('/user', 'login'));
-        return 0;
+    } else {
+        unless ($c->user_exists) {
+            # All other requests are limited to logged in users; redirect
+            # anonymous requests to the login page.
+            # Record the current URI in the session so we can redirect there
+            # after login.
+            $c->session->{login_redirect} = $c->req->uri;
+            $c->response->redirect($c->uri_for_action('/user/login'));
+            return 0;
+        }
     }
 
     return 1;
@@ -52,121 +49,88 @@ sub auto :Private {
 # Create a new account
 sub create :Path('create') :Args(0) {
     my($self, $c) = @_;
-    my $submitted = $c->request->params->{submitted} || 0;
-    my $username  = trim($c->request->params->{username})  || ""; # Username = email address
-    my $name      = $c->request->params->{name}      || ""; # Real/display name
-    my $password  = trim($c->request->params->{password})  || ""; # Password
-    my $password2 = trim($c->request->params->{password2}) || ""; # Password, re-entered
-    my $terms     = $c->req->params->{terms};               # Terms of Service checkbox
-
-    # Get keys from config
-    # Generated at https://www.google.com/recaptcha/admin/create
-    my $capenabled = $c->config->{captcha}->{enabled};
-    my $cappub = $c->config->{captcha}->{publickey};
-    my $cappriv = $c->config->{captcha}->{privatekey};
+    my $data = $c->request->body_parameters;
+    trim($data->{username});
+    trim($data->{password});
+    trim($data->{password_check});
+    my $captcha_info = $c->config->{captcha};
 
     # If the keys are configured, then check -- otherwise no
-    my $capsuccess = 0;
+    my $captcha_success = 0;
 
-    if ($capenabled && $cappub && $cappriv) {
+    if ($captcha_info->{enabled} && $captcha_info->{publickey} && $captcha_info->{privatekey}) {
         my $captcha = Captcha::reCAPTCHA->new;
-        my $caperror = undef;
+        my $captcha_error = undef;
 
         my $rcf = $c->request->params->{recaptcha_challenge_field};
         my $rrf = $c->request->params->{recaptcha_response_field};
 
-        if ($rrf)  {
-            my $result = $captcha->check_answer(
-                $cappriv, $ENV{'REMOTE_ADDR'},
-                $rcf, $rrf);
-            if ( $result->{is_valid} ) {
-                $capsuccess = 1;
+        if ($data->{recaptcha_response_field})  {
+            my $captcha_result = $captcha->check_answer(
+                $captcha_info->{privatekey},
+                $ENV{'REMOTE_ADDR'},
+                $data->{recaptcha_challenge_field},
+                $data->{recaptcha_response_field});
+            if ( $captcha_result->{is_valid} ) {
+                $captcha_success = 1;
             } else {
-                $caperror = $result->{error};
+                $captcha_error = $captcha_result->{error};
             }
         }
-        $c->stash->{captcha} = $captcha->get_html($cappub, $caperror, 1, { theme => 'clean', lang => $c->stash->{lang} });
+        $c->stash->{captcha} = $captcha->get_html($captcha_info->{publickey}, $captcha_error, 1, { theme => 'clean', lang => $c->stash->{lang} });
     } else {
         # If we aren't checking captcha, give blank html and set success.
         $c->stash->{captcha}="";
-        $capsuccess = 1;
+        $captcha_success = 1;
     }
 
-    my $error = 0;
-    $c->stash->{userinfo}   = {};
-    $c->stash->{completed}  = 0;
-
-
+    $c->stash->{completed} = 0;
 
     # If this is not a form submission, just show the empty form.
-    return 1 unless ($submitted);
+    return 1 unless ($data->{submitted});
+
+    # BEGIN POST
 
     $c->stash->{formdata} = {
-        username => $username,
-        name     => $name,
+        username => $data->{username},
+        name     => $data->{name},
     };
 
     # Validate the submitted form data
+    my @errors = ();
 
-    if (!$capsuccess) {
-        $c->message({ type => "error", message => "captcha" });
-        $error = 1;
-    }
-
-    # The username must be a valid email address and not be in use.
-    my $user_for_username = $c->find_user({ username => $username });
-    my $re_username = $c->config->{user}->{fields}->{username};
-    if ($user_for_username) {
-        $c->message({ type => "error", message => "account_exists" });
-        $error = 1;
-    }
-    elsif ($username !~ /$re_username/) {
-        $c->message({ type => "error", message => "email_invalid" });
-        $error = 1;
+    if (!$captcha_success) {
+        push @errors, 'captcha';
     }
 
-    # Check for minimum name requirements
-    my $re_name     = $c->config->{user}->{fields}->{name};
-    if ($name !~ /$re_name/) {
-        $c->message({ type => "error", message => "name_invalid" });
-        $error = 1;
-    }
-
-    # Both passwords must match and meet minimum criteria.
-    my $re_password = $c->config->{user}->{fields}->{password};
-    if ($password ne $password2) {
-        $c->message({ type => "error", message => "password_match_failed" });
-        $error = 1;
-    }
-    elsif ($password !~ /$re_password/) {
-        $c->message({ type => "error", message => "password_invalid" });
-        $error = 1;
-    }
+    push @errors, $c->model('DB::User')->validate(
+        $data, $c->config->{user}->{fields}, validate_password => 1);
 
     # Ensure terms checkbox is checked
-    unless (defined($terms)) {
-        $c->message({ type => "error", message => "terms_required" });
-        $error = 1;
+    unless ($data->{terms}) {
+        push @errors, 'terms_required';
+    }
+
+    foreach my $error (@errors) {
+        $c->message({ type => 'error', message => $error });
     }
 
     # Don't update anything if there were any errors.
-    return 1 if ($error);
+    return 1 if @errors;
 
     # Create the user
+    my $new_user;
     eval {
-        $c->model('DB::User')->create({
-            'username'  => $username,
-            'name'      => $name,
-            'password'  => $password,
+        $new_user = $c->model('DB::User')->create({
+            'username'  => $data->{username},
+            'name'      => $data->{name},
+            'password'  => $data->{password},
             'confirmed' => 0,
             'active'    => 1,
             'lastseen'  => time(),
         });
     };
     $c->detach('/error', [500]) if ($@);
-
-    # Retrieve the record for the newly-created user.
-    my $new_user = $c->find_user({ username => $username });
 
     # If trial subscriptions are turned on, set the user's initial
     # subscription data
@@ -194,7 +158,7 @@ sub create :Path('create') :Args(0) {
 
     # Send an activation email
     my $confirm_link = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
-    $c->forward("/mail/user_activate", [$username, $name, $confirm_link]);
+    $c->forward("/mail/user_activate", [$data->{username}, $data->{name}, $confirm_link]);
 
     $c->stash->{completed}  = 1;
 
@@ -317,9 +281,9 @@ sub confirmed :Path('confirmed') :Args(0) {
 
 sub reset :Path('reset') :Args() {
     my($self, $c, $key) = @_;
-    my $username = trim($c->request->params->{username})   || ""; # Username/email address
-    my $password  = trim($c->request->params->{password})  || ""; # Password
-    my $password2 = trim($c->request->params->{password2}) || ""; # Password, re-entered
+    my $username = trim($c->request->params->{username})             || ""; # Username/email address
+    my $password  = trim($c->request->params->{password})            || ""; # Password
+    my $password_check = trim($c->request->params->{password_check}) || ""; # Password, re-entered
 
     if ($c->request->params->{key}) {
         $key = $c->req->params->{key};
@@ -337,13 +301,13 @@ sub reset :Path('reset') :Args() {
         # Check for a new password.
         if ($password) {
             my $re_password = $c->config->{user}->{fields}->{password};
-            if ($password ne $password2) {
-                $c->message({ type => "error", message => "password_match_failed" });
+            my @errors = $c->model("DB::User")->validate_password($password, $password_check, $re_password);
+
+            foreach my $error (@errors) {
+                $c->message({ type => 'error', message => $error });
             }
-            elsif ($password !~ /$re_password/) {
-                $c->message({ type => "error", message => "password_invalid" });
-            }
-            else {
+
+            unless (@errors) {
                 # Reset the user's password and log them in.
                 my $user_account = $c->find_user({ id => $id });
                 eval { $user_account->update({ password => $password }) };
@@ -380,83 +344,51 @@ sub profile :Path('profile') :Args(0) {
 
 sub edit :Path('edit') :Args(0) {
     my($self, $c) = @_;
-    my $submitted = $c->request->params->{submitted} || 0;
-    my $username  = trim($c->request->params->{username})  || ""; # Username = email address
-    my $name      = $c->request->params->{name}      || ""; # Real/display name
-    my $password  = trim($c->request->params->{password})  || ""; # Current password
-    my $password1 = trim($c->request->params->{password1}) || ""; # New password
-    my $password2 = trim($c->request->params->{password2}) || ""; # New password, re-entered
-
-    # Load the patterns that we will use to validate each field
-    my $re_username = $c->config->{user}->{fields}->{username};
-    my $re_name     = $c->config->{user}->{fields}->{name};
-    my $re_password = $c->config->{user}->{fields}->{password};
-
-    my $error = 0;
+    my $data = $c->request->body_parameters;
+    trim($data->{username});
+    trim($data->{password});
+    trim($data->{password_check});
 
     #  Just show the form if this request isn't a form submission.
-    if (! $submitted) {
+    if (! $data->{submitted}) {
         $c->stash->{userinfo} = $c->user;
         return 1;
     }
     else {
         $c->stash->{userinfo} = {
-            username => $username,
-            name     => $name,
+            username => $data->{username},
+            name     => $data->{name},
         };
     }
 
-    # Verify the user's original password.
-    if (! $c->authenticate({ username => $c->user->username, password => $password })) {
-        $c->message({ type => "error", message => "password_check_failed" });
-        $error = 1;
+    my @errors = ();
+
+    if (!$c->authenticate({ username => $c->user->username, password => $data->{current_password} })) {
+        push @errors, 'password_check_failed';
+    } else {
+        push @errors, $c->model('DB::User')->validate(
+            $data, $c->config->{user}->{fields}, validate_password => $data->{password}, current_user => $c->user->username);
     }
 
-    # Verify that the new passwords match and are acceptable
-    if ($password1 ne $password2) {
-        $c->message({ type => "error", message => "password_match_failed" });
-        $error = 1;
-    }
-    elsif ($password1 && $password1 !~ /$re_password/) {
-        $c->message({ type => "error", message => "password_invalid" });
-        $error = 1;
-    }
-
-    # Username must meet minimum requirements and must not be in use by
-    # another account
-    my $user_for_username = $c->find_user({ username => $username });
-    if ($user_for_username && $user_for_username->id != $c->user->id) {
-        $c->message({ type => "error", message => "account_exists" });
-        $error = 1;
-    }
-    elsif ($username !~ /$re_username/) {
-        $c->message({ type => "error", message => "email_invalid" });
-        $error = 1;
-    }
-
-    # Check for minimum name requirements
-    if ($name !~ /$re_name/) {
-        $c->message({ type => "error", message => "name_invalid" });
-        $error = 1;
+    foreach my $error (@errors) {
+        $c->message({ type => 'error', message => $error });
     }
 
     # Don't update anything if there were any errors.
-    if ($error) {
-        return 1;
-    }
+    return 1 if @errors;
 
     # Update the user's profile.
     eval {
         $c->user->update({
-            'username' => $username,
-            'name'     => $name,
+            'username' => $data->{username},
+            'name'     => $data->{name},
         });
     };
     $c->detach('/error', [500]) if ($@);
 
     # Change the password, if requested.
-    if ($password1) {
-        eval { $c->user->update({ 'password' => $password1 }); };
+    if ($data->{password}) {
+        eval { $c->user->update({ 'password' => $data->{password} }); };
         $c->detach('/error', [500]) if ($@);
     }
 
