@@ -28,6 +28,7 @@ sub index_GET {
     my $institutions = [$c->model('DB::Institution')->search({}, { order_by => 'name' })];
     foreach my $institution (@{$institutions}) {
         $list->{$institution->name} = {
+            id => $institution->id,
             code => $institution->code ? $institution->code : '',
             subscriber => $institution->subscriber,
             url => $c->uri_for_action('admin/institution/edit', [$institution->id])->as_string(),
