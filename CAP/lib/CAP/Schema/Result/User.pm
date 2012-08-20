@@ -103,7 +103,7 @@ __PACKAGE__->table("user");
 
   data_type: 'enum'
   default_value: 'basic'
-  extra: {list => ["basic","trial","paid","permanent","admin"]}
+  extra: {list => ["basic","trial","paid","permanent"]}
   is_nullable: 0
 
 =head2 subexpires
@@ -150,7 +150,7 @@ __PACKAGE__->add_columns(
   {
     data_type => "enum",
     default_value => "basic",
-    extra => { list => ["basic", "trial", "paid", "permanent", "admin"] },
+    extra => { list => ["basic", "trial", "paid", "permanent"] },
     is_nullable => 0,
   },
   "subexpires",
@@ -332,8 +332,8 @@ Composing rels: L</user_roles> -> role_id
 __PACKAGE__->many_to_many("role_ids", "user_roles", "role_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-19 10:34:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:T7e94k+Ss4w+x9yG7VgQ4A
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-08-20 14:28:55
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/RKFevkmCecUHgrns4dPEw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
@@ -373,7 +373,7 @@ sub has_class {
 
 sub has_permanent_subscription {
     my $self = shift;
-    return $self->has_class('admin') || $self->has_class('permanent');
+    return $self->has_class('permanent');
 }
 
 sub set_roles {

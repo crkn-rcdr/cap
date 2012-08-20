@@ -277,7 +277,6 @@ sub expiring_subscriptions {
             subexpires   => { '<=' => $from_date, '>=' => $now },
             #subexpires   => { '>=' => $now },
             class        => { '!=' => 'permanent'},
-            class        => { '!=' => 'admin'},
             active       => 1,
             remindersent => 0,
             confirmed    => 1
