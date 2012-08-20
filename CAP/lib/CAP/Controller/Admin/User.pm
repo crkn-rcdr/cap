@@ -122,7 +122,10 @@ sub edit_GET {
         $self->status_not_found($c, message => "No such user");
         return 1;
     }
-    $c->stash(entity => $self->_build_entity($user));
+    $c->stash(
+        entity => $self->_build_entity($user),
+        roles => $c->model('DB::Role')->all()
+    );
     $self->status_ok($c, entity => $c->stash->{entity});
     return 1;
 }
@@ -169,6 +172,7 @@ sub edit_POST {
         $update->{subexpires} = $data->{subexpires} if $data->{subexpires};
 
         $user->update($update);
+        $user->set_roles($data->{role}, $c->model('DB::Role')->all());
 
         $c->message({ type => 'success', message => 'user_updated' });
         $c->response->redirect($c->uri_for_action('/admin/user/index'));
@@ -200,6 +204,11 @@ sub delete :Path('delete') Args(1) {
 
 sub _build_entity {
     my($self, $user) = @_;
+    my $roles = [];
+    foreach my $role ($user->search_related('user_roles')) {
+        push @{$roles}, $role->get_column('role_id');
+    }
+
     return {
         id => $user->id,
         username => $user->username,
@@ -211,6 +220,7 @@ sub _build_entity {
         class => $user->class,
         subexpires => $user->subexpires . "", # Coerce into an integer
         subscriber => $user->has_active_subscription,
+        roles => $roles,
     };
 }
 __PACKAGE__->meta->make_immutable;

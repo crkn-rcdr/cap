@@ -376,6 +376,26 @@ sub has_permanent_subscription {
     return $self->has_class('admin') || $self->has_class('permanent');
 }
 
+sub set_roles {
+    my ($self, $on_roles, @all_roles) = @_;
+    my @active_roles;
+    if(ref($on_roles) eq 'ARRAY') {
+        @active_roles = @{$on_roles};
+    }
+    else {
+        @active_roles = ($on_roles);
+    }
+
+    foreach my $role_row (@all_roles) {
+        my $role = $role_row->id;
+        if (grep /^$role$/, @active_roles) {
+            $self->find_or_create_related('user_roles', { role_id => $role });
+        } else {
+            $self->delete_related('user_roles', { role_id => $role });
+        }
+    }
+}
+
 use Digest::SHA qw(sha1_hex);
 
 # Account confirmation/password reset token: consists of the user's ID and
