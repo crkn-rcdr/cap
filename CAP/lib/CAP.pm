@@ -26,8 +26,6 @@ use Catalyst qw/
                 Authentication
                 Authorization::Roles
 
-                RequireSSL
-
                 Session
                 Session::State::Cookie
                 Session::Store::DBI

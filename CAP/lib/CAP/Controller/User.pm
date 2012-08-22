@@ -9,7 +9,12 @@ use parent qw/Catalyst::Controller::ActionRole/;
 
 use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/login user/reconfirm user/reset };
 
-BEGIN {extends 'Catalyst::Controller'; }
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+
+__PACKAGE__->config(
+    action_roles => [ 'RequireSSL' ]
+);
+
 
 sub auto :Private Local Does('RequireSSL') {
     my($self, $c) = @_;
