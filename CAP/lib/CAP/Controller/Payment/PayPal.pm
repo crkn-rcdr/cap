@@ -2,14 +2,19 @@ package CAP::Controller::Payment::PayPal;
 use Moose;
 use namespace::autoclean;
 use Business::PayPal::API::ExpressCheckout;
+use parent qw/Catalyst::Controller::ActionRole/;
 
-BEGIN {extends 'Catalyst::Controller'; }
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+
+__PACKAGE__->config(
+    action_roles => [ 'RequireSSL' ]
+);
 
 sub auto :Private {
     my($self, $c) = @_;
 
     # Require SSL for all operations
-    $c->require_ssl;
+#    $c->require_ssl;
 
     # If payment processing is not enabled for this portal, do not perform
     # any actions in this controller.

@@ -16,7 +16,7 @@ sub auto :Private {
     my($self, $c) = @_;
 
     # Require SSL for all operations
-    $c->require_ssl;
+#    $c->require_ssl;
 
     # Only allow administrators to access any of these functions. Everyone
     # else gets a 404.

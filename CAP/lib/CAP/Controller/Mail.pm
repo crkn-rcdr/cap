@@ -4,8 +4,14 @@ use namespace::autoclean;
 
 use File::MimeInfo;
 use File::Basename;
+use parent qw/Catalyst::Controller::ActionRole/;
 
-BEGIN {extends 'Catalyst::Controller'; }
+
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+
+__PACKAGE__->config(
+    action_roles => [ 'NoSSL' ]
+);
 
 =head1 NAME
 

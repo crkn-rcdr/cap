@@ -1,14 +1,18 @@
 package CAP::Controller::Root;
+use Moose;
+use namespace::autoclean;
 
 use strict;
 use warnings;
-use parent 'Catalyst::Controller';
+use parent qw/Catalyst::Controller::ActionRole/;
 use Config::General;
 use utf8;
 
 # Sets the actions in this controller to be registered with no prefix
 # so they function identically to actions created in MyApp.pm
 __PACKAGE__->config->{namespace} = '';
+
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 
 
 sub auto :Private
@@ -244,8 +248,7 @@ sub auto :Private
 }
 
 
-sub access_denied : Private
-{
+sub access_denied : Private :Local Does('NoSSL') {
     my($self, $c) = @_;
     warn("[debug] Access denied (insufficient privileges)") if ($c->debug);
     $c->stash->{page} = $c->{stash}->{uri};
@@ -253,7 +256,7 @@ sub access_denied : Private
 }
 
 # The default action is to redirect back to the main page.
-sub default :Path {
+sub default :Path :Local Does('NoSSL') {
     my($self, $c) = @_;
     $c->res->redirect($c->uri_for_action('index'));
     $c->detach();
@@ -275,7 +278,7 @@ sub end : ActionClass('RenderView')
 }
 
 
-sub error : Private
+sub error : Private :Local Does('NoSSL')
 {
     my($self, $c, $error, $error_message) = @_;
     $error_message = "" unless ($error_message);
@@ -289,7 +292,7 @@ sub error : Private
 
 # These are the basic actions we have to handle. 
 
-sub index :Path('') Args(0)
+sub index :Path('') :Local Does('NoSSL') Args(0)
 {
     my($self, $c) = @_;
 
@@ -314,7 +317,7 @@ sub index :Path('') Args(0)
     $c->stash->{template} = "index.tt";
 }
 
-sub support :Path('support') Args() {
+sub support :Path('support') :Local Does('NoSSL') Args() {
     my ($self, $c, $resource) = @_;
     unless ($c->stash->{support}->{$resource}) {
         $c->detach("error", [404]);
@@ -344,7 +347,7 @@ sub config_error :Private
 
 # Serve a file in the static directory under root. In production, requests
 # for /static should be intercepted and handled by the web server.
-sub static : Path('static') Args()
+sub static : Path('static') :Local Does('NoSSL') Args()
 {
     my($self, $c, @path) = @_;
     my $file = join('/', $c->config->{root}, 'static', @path);
@@ -357,6 +360,8 @@ sub static : Path('static') Args()
     }
     return 1;
 }
+
+__PACKAGE__->meta->make_immutable;
 
 1;
 

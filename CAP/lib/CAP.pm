@@ -34,6 +34,7 @@ use Catalyst qw/
                /;
 
 # Configure the application. 
+#                RequireSSL
 #
 # Note that settings in cap.conf (or other external
 # configuration file that you set up manually) take precedence

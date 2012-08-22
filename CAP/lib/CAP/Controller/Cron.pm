@@ -1,8 +1,14 @@
 package CAP::Controller::Cron;
 use Moose;
 use namespace::autoclean;
+use parent qw/Catalyst::Controller::ActionRole/;
 
-BEGIN {extends 'Catalyst::Controller'; }
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+
+__PACKAGE__->config(
+    action_roles => [ 'NoSSL' ]
+);
+
 
 sub index :Path :Args(0) {
     my ($self, $c) = @_;

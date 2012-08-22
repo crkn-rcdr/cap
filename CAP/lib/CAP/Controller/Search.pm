@@ -3,7 +3,15 @@ package CAP::Controller::Search;
 use strict;
 use feature qw(switch);
 use warnings;
-use parent 'Catalyst::Controller';
+use Moose;
+use namespace::autoclean;
+use parent qw/Catalyst::Controller::ActionRole/;
+
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+
+__PACKAGE__->config(
+    action_roles => [ 'NoSSL' ]
+);
 
 sub index :Path('') :Args(0) {
     my($self, $c) = @_;
@@ -94,5 +102,7 @@ sub result_page :Path('') :Args(1) {
 
     return 1;
 }
+
+__PACKAGE__->meta->make_immutable;
 
 1;

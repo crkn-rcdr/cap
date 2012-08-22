@@ -3,7 +3,11 @@ use Moose;
 use namespace::autoclean;
 use Date::Manip::Date;
 
-BEGIN {extends 'Catalyst::Controller'; }
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+
+__PACKAGE__->config(
+    action_roles => [ 'RequireSSL' ]
+);
 
 =head1 NAME
 
@@ -28,7 +32,7 @@ sub auto :Private {
     my($self, $c) = @_;
 
     # Require SSL for all operations
-    $c->require_ssl;
+#    $c->require_ssl;
 
     # Only allow administrators to access any of these functions. Everyone
     # else gets a 404.

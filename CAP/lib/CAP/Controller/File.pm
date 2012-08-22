@@ -1,9 +1,17 @@
 package CAP::Controller::File;
+use Moose;
+use namespace::autoclean;
 
 use strict;
 use warnings;
-use parent 'Catalyst::Controller';
 use CAP::Ingest;
+use parent qw/Catalyst::Controller::ActionRole/;
+
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+
+__PACKAGE__->config(
+    action_roles => [ 'NoSSL' ]
+);
 
 =head1 NAME
 
@@ -29,4 +37,5 @@ sub get_page_uri :Local :Args(2) {
     return 1;
 }
 
+__PACKAGE__->meta->make_immutable;
 1;
