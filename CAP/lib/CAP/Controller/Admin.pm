@@ -3,8 +3,13 @@ use Moose;
 use namespace::autoclean;
 use Net::IP;
 use feature "switch";
+use parent qw/Catalyst::Controller::ActionRole/;
 
-BEGIN {extends 'Catalyst::Controller'; }
+BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+
+__PACKAGE__->config(
+    action_roles => [ 'RequireSSL' ]
+);
 
 
 sub auto :Private {
