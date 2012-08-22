@@ -5,12 +5,13 @@ use Captcha::reCAPTCHA;
 use Date::Manip::Date;
 use Date::Manip::Delta;
 use Text::Trim qw/trim/;
+use parent qw/Catalyst::Controller::ActionRole/;
 
 use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/login user/reconfirm user/reset };
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-sub auto :Private {
+sub auto :Private Local Does('RequireSSL') {
     my($self, $c) = @_;
 
     # Require that this portal has user accounts enabled
@@ -20,7 +21,7 @@ sub auto :Private {
     }
 
     # Require SSL for all operations
-    $c->require_ssl;
+    # $c->require_ssl;
 
     # Actions relating to creating a new account, logging in, or
     # recovering a lost password are only available to anonymous users.
