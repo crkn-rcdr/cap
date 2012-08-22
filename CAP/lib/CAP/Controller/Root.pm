@@ -179,9 +179,9 @@ sub auto :Private
     $c->session();
 
     # Check whether the user's IP address has changed.
-    if (! $c->session->{address} || $c->session->{address} ne $c->request->address) {
-        $c->session->{address} = "";
-    }
+    #if (! $c->session->{address} || $c->session->{address} ne $c->request->address) {
+    #    $c->session->{address} = "";
+    #}
 
     # If not set, set the user's IP address and check group membership.
     $c->forward('user/init') unless ($c->session->{address});
