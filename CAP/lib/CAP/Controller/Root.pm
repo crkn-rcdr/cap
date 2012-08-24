@@ -278,7 +278,7 @@ sub end : ActionClass('RenderView')
 }
 
 
-sub error : Private :Local Does('NoSSL')
+sub error :Private
 {
     my($self, $c, $error, $error_message) = @_;
     $error_message = "" unless ($error_message);
@@ -292,7 +292,7 @@ sub error : Private :Local Does('NoSSL')
 
 # These are the basic actions we have to handle. 
 
-sub index :Path('') :Local Does('NoSSL') Args(0)
+sub index :Local Does('NoSSL') Path('') Args(0)
 {
     my($self, $c) = @_;
 

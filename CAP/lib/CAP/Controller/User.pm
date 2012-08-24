@@ -16,7 +16,7 @@ __PACKAGE__->config(
 );
 
 
-sub auto :Private Local Does('RequireSSL') {
+sub auto :Private {
     my($self, $c) = @_;
 
     # Require that this portal has user accounts enabled
