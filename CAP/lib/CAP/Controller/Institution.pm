@@ -34,12 +34,19 @@ sub auto :Private {
     # Require SSL for all operations
 #    $c->require_ssl;
 
-    # Only allow administrators to access any of these functions. Everyone
-    # else gets a 404.
-    unless ($c->has_role('administrator')) {
-        $c->session->{login_redirect} = $c->req->uri;
-        $c->response->redirect($c->uri_for('/user', 'login'));
-        return 0;
+    # Only allow administrators and institution managhers to access any of these functions.
+    # Everyone else goes to the login page.
+    
+    unless ($c->user_exists) {
+      redirect_user($c);
+      return 1;
+    }
+    
+    
+    my $inst = $c->request->arguments->[0];
+    my $user = $c->user->id;
+    unless ($c->has_role('administrator') || $c->model('DB::InstitutionMgmt')->is_inst_manager($user,$inst)) {
+        redirect_user($c);
     }
 
     return 1;
@@ -47,21 +54,40 @@ sub auto :Private {
 
 
 
-sub index :Path :Args(1) {
+sub index :Path :Args(2) {
     my ( $self, $c ) = @_;
 
+    # Get some action
+    my $action = $c->request->arguments->[1];
+    
+    if ($action eq 'stats') {
+        show_stats($c);
+    }
+    
+    else {
+        redirect_user($c);
+    }
+
+
+    return 1;
+}
+
+sub show_stats {
+    
+    my $c = shift();
+
+    # Get the institution name
+    my $inst_arg             = $c->request->arguments->[0];
+    my $inst_name            = $c->model('DB::Institution')->get_name($inst_arg);
+    $c->stash->{report_inst} = $inst_name;
+    
     # Get date of first log entry
-    # To do: grab date range from query string
     my $first_entry_date     = $c->model('DB::RequestLog')->get_start();   
     my $first_year           = $first_entry_date->{local_c}->{year};
     my $first_month          = $first_entry_date->{local_c}->{month};
     $c->stash->{first_month} = $first_month;
     $c->stash->{first_year}  = $first_year;
-    
-    #Get the institution name
-    my $inst_arg             = $c->request->arguments->[0];
-    my $inst_name            = $c->model('DB::Institution')->get_name($inst_arg);
-    $c->stash->{report_inst} = $inst_name;
+
 
     # Get the current month and the year
     my $end_date  = new Date::Manip::Date;
@@ -92,7 +118,16 @@ sub index :Path :Args(1) {
     }
     
     $c->stash->{template} = 'institution.tt';
+   
+}
+
+sub redirect_user {
+
+    my $c = shift();
+    $c->session->{login_redirect} = $c->req->uri;
+    $c->response->redirect($c->uri_for('/user', 'login'));
     return 1;
+
 }
 
 

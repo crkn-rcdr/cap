@@ -236,10 +236,12 @@ sub subscription_reminder :Private {
         Subject => "Your Canadiana.org subscription / Votre abonnement Canadiana.org"
     ];
 
+    my $template = "";
     given ($sub_class) {
-            when ("trial") {$self->sendmail($c, "trial_reminder.tt", $header)}
-            when ("basic") {$self->sendmail($c, "subscription_reminder.tt", $header)}
-            when ("paid")  {$self->sendmail($c, "subscription_reminder.tt", $header)}
+            when ("trial") {$template = "trial_reminder.tt"}
+            when ("basic") {$template = "subscription_reminder.tt"}
+            when ("paid")  {$template = "subscription_reminder.tt"}
+            when ("") {return 1}
     }
 
     return 1;

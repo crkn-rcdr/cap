@@ -14,8 +14,8 @@ sub is_inst_manager
                                 {
 
                                 
-                                    id    =>  $userid,
-                                    inst  =>  $inst
+                                    user_id         =>  $userid,
+                                    institution_id  =>  $inst
                                   
                                 }           
                              );
