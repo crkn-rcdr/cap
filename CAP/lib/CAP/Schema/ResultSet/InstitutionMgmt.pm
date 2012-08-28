@@ -26,6 +26,31 @@ sub is_inst_manager
 }
 
 
+sub list_inst_for_user
+{
+    # returns the first active promo code
+    my($self, $userid) = @_;
+           
+    my $mgr_check =  $self->search(
+                                {
+                                
+                                    user_id         =>  $userid,
+                                  
+                                }           
+                             );
+
+    my $institutions = [];
+    my $nextrow;
+    
+    while ($nextrow = $mgr_check->next) {
+    
+       push (@$institutions,$nextrow->institution_id->{_column_data})
+        
+    }
+
+    return $institutions;
+}
+
 
 
 

@@ -34,7 +34,7 @@ sub auto :Private {
     # Require SSL for all operations
 #    $c->require_ssl;
 
-    # Only allow administrators and institution managhers to access any of these functions.
+    # Only allow administrators and institution managers to access any of these functions.
     # Everyone else goes to the login page.
     
     unless ($c->user_exists) {

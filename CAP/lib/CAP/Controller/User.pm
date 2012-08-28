@@ -341,9 +341,22 @@ sub reset :Path('reset') :Args() {
 
 sub profile :Path('profile') :Args(0) {
     my($self, $c) = @_;
+
+    # Stash the payment history
     $c->stash(
         payment_history => $c->model('DB::Subscription')->payment_history($c->user->id),
     );
+
+    # Get a list of institutions where the user has management privileges
+    my $institutions = $c->model('DB::InstitutionMgmt')->list_inst_for_user($c->user->id);
+
+    # Need the institution alias 
+    foreach my $inst (@$institutions) {
+        $inst->{'name'} = $c->model('DB::InstitutionAlias')->get_alias($inst->{'id'},$c->stash->{lang}) || $inst->{'name'};
+    }
+
+    $c->stash->{user_institution_list} = $institutions;    
+
     return 1;
 }
 
