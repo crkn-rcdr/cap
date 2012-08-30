@@ -4,7 +4,6 @@ use namespace::autoclean;
 
 use strict;
 use warnings;
-use CAP::Ingest;
 use parent qw/Catalyst::Controller::ActionRole/;
 
 BEGIN {extends 'Catalyst::Controller::ActionRole'; }
