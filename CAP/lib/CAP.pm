@@ -119,9 +119,9 @@ sub update_session {
 
     # If there is no session, create one.
     if (! $c->sessionid) {
-        $c->log->debug(sprintf("Creating new", $c->sessionid));
         $c->session();
         $c->session->{count} = 0;
+        $c->log->debug(sprintf("Created new session", $c->sessionid)) if ($c->debug);
     }
 
     # Refresh the session data if this is a new session, if the refresh
@@ -138,7 +138,7 @@ sub update_session {
 
         # Find the user's subscribing institution, if any
         $c->session->{subscribing_institution} = "";
-        my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->session->{address});
+        my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->req->address);
         if ($institution && $institution->subscriber) {
             $c->session->{subscribing_institution} = $institution->name;
             $c->session->{subscribing_institution_id} = $institution->id;
