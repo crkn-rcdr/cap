@@ -177,28 +177,8 @@ sub auto :Private
     # Set session variables
     #
     
-    # Force the creation of a session and sessionid if they don't already
-    # exist. We need this so that logging doesn't barf on the first
-    # request of a new session.
-    $c->session();
-
-    # Check whether the user's IP address has changed.
-    #if (! $c->session->{address} || $c->session->{address} ne $c->request->address) {
-    #    $c->session->{address} = "";
-    #}
-
-    # If not set, set the user's IP address and check group membership.
-    $c->forward('user/init') unless ($c->session->{address});
-
-    # Increment the session counter
-    $c->session->{count} = 0 unless ($c->session->{count});
+    $c->update_session();
     ++$c->session->{count};
-
-    # Call init after a predetermined number of transactions to ensure
-    # we're up to date
-    if ($c->session->{count} % $c->config->{init_interval} == 0) {
-        $c->forward('user/init');
-    }
 
     # Set the current view
     if (! $c->config->{default_view}) {

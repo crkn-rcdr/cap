@@ -243,7 +243,8 @@ sub login :Path('login') :Args(0) {
     }
 
     # Initialize some session variables
-    $c->forward('init');
+    #$c->forward('init');
+    $c->update_session(1);
 
     # Display the login page
     return 1;
@@ -257,7 +258,8 @@ sub logout :Path('logout') :Args(0) {
     $c->model('DB::User')->clear_token($c->user->id);
     $c->response->cookies->{persistent} = { value => '', expires => 0 };
     $c->logout();
-    $c->forward('init'); # Reinitialize after logout to clear current subscription, etc. info
+    #$c->forward('init'); # Reinitialize after logout to clear current subscription, etc. info
+    $c->update_session(1);
 
     $c->message({ type => "success", message => "logout_success" });
     return $c->response->redirect($c->uri_for_action('index'));
@@ -413,7 +415,7 @@ sub edit :Path('edit') :Args(0) {
 
     $c->message({ type => "success", message => "profile_updated" });
     $c->persist_user();
-    $c->response->redirect($c->uri_for_action("user/profile"));
+    $c->go("profile");
 
     return 1;
 }
@@ -653,7 +655,8 @@ sub subscribe_finalize : Private
 	}
 
 	# Update current session. User may have become subscriber.
-	$c->forward('/user/init');
+	#$c->forward('/user/init');
+    $c->update_session(1);
     } else {
 	undef $newexpires;
     }
@@ -696,73 +699,6 @@ sub subscribe_finalize : Private
 
 sub subscribe_confirmed :Path('subscribe_confirmed') :Args(0) {
     return 0;
-}
-
-# This should be called at login and when a new session is established,
-# whether or not the requester is an authenticated user. It also needs to
-# be called when a user's subscriptions, group memberships, etc. change.
-# TODO: it may be a good idea to call this every X requests to ensure that
-# changes are reflected in long-running sessions.
-sub init :Private
-{
-    my($self, $c) = @_;
-
-    # Build and populate the $session->{auth} object
-    $c->session->{auth} = {
-        'user_class'               => 'none',
-        'user_expiry_epoch'        => 0,
-        'institutional_sub'        => 0    
-    };    
-   
-
-    # Store the user's IP address.
-    $c->session->{address} = $c->request->address;
-
-    # Find the user's subscribing institution, if any
-    $c->session->{subscribing_institution} = "";
-    my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->session->{address});
-    if ($institution && $institution->subscriber) {
-        $c->session->{subscribing_institution} = $institution->name;
-        $c->session->{subscribing_institution_id} = $institution->id;
-        $c->session->{auth}->{institution_sub} = 1;
-     }
-
-
-    # Build a table of sponsored collections, mapped to the sponsor name
-    $c->session->{sponsored_collections} = {};
-    foreach my $collection ($c->model('DB::InstitutionCollection')->all) {
-        $c->session->{sponsored_collections}->{$collection->collection_id->id} = $collection->institution_id->name;
-    }
-
-
-    $c->session->{is_subscriber} = 0;
-    if ($c->user_exists) {
-
-        # Update the user information to reflect any background changes
-        # (e.g. expired subscriptions) that might have taken place.
-        # TODO: this might not be necessary, but it's probably a good
-        # sanity check anyway; need to consider further.
-        $c->set_authenticated($c->find_user({ id => $c->user->id }));
-        $c->persist_user();
-
-        $c->session->{auth}->{user_class} = $c->user->class;
-        $c->session->{auth}->{user_expiry_epoch} = $c->user->subexpires->epoch() if $c->user->subexpires;
-
-        # Check the user's subscription status
-        $c->session->{is_subscriber} = $c->model('DB::User')->has_active_subscription($c->user->id);
-
-
-
-        # The following may be deprecated (or not, but they aren't currently in use)
-        #
-        # Get a list of individual collection subscriptions
-        $c->session->{subscribed_collections} = $c->model('DB::UserCollection')->subscribed_collections($c->user->id);
-
-        # Get a list of purchased documents
-        $c->session->{purchased_documents} = $c->model('DB::UserDocument')->purchased_documents($c->user->id);
-    }
-
-    return 1;
 }
 
 __PACKAGE__->meta->make_immutable;
