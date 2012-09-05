@@ -124,6 +124,11 @@ sub update_session {
         $c->log->debug(sprintf("Created new session", $c->sessionid)) if ($c->debug);
     }
 
+    # Initialize the session counter, if it is not already.
+    if (! $c->session->{count}) {
+        $c->session->{count} = 0;
+    }
+
     # Refresh the session data if this is a new session, if the refresh
     # inrerval has been reached, or on request.
     if ($c->session->{count} % $c->config->{session_refresh_interval} == 0 || $force_refresh) {
