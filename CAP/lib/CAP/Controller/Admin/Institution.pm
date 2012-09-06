@@ -131,7 +131,7 @@ sub edit_POST {
 
     given ($data{update}) {
         when ('update_institution') {
-            if ($c->model('DB::Institution')->code_exists($data{code})) {
+            if ($institution->code ne $data{code} && $c->model('DB::Institution')->code_exists($data{code})) {
                 $c->message({ type => "error", message => "institution_code_exists" });
                 $c->res->redirect($c->uri_for_action("/admin/institution/edit", $id));
                 return 1;
@@ -168,6 +168,7 @@ sub edit_POST {
         }
     }
 
+    $c->message({ type => "success", message => "institution_updated" });
     $c->res->redirect($c->uri_for_action("/admin/institution/edit", $id));
     return 1;
 }
