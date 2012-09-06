@@ -108,18 +108,6 @@ __PACKAGE__->set_primary_key("id");
 
 __PACKAGE__->add_unique_constraint("code", ["code"]);
 
-=head2 C<name>
-
-=over 4
-
-=item * L</name>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("name", ["name"]);
-
 =head1 RELATIONS
 
 =head2 counter_logs
@@ -134,7 +122,7 @@ __PACKAGE__->has_many(
   "counter_logs",
   "CAP::Schema::Result::CounterLog",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_alias
@@ -149,7 +137,7 @@ __PACKAGE__->has_many(
   "institution_alias",
   "CAP::Schema::Result::InstitutionAlias",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_collections
@@ -164,7 +152,7 @@ __PACKAGE__->has_many(
   "institution_collections",
   "CAP::Schema::Result::InstitutionCollection",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_ipaddrs
@@ -179,7 +167,7 @@ __PACKAGE__->has_many(
   "institution_ipaddrs",
   "CAP::Schema::Result::InstitutionIpaddr",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_mgmts
@@ -194,7 +182,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 request_logs
@@ -209,7 +197,7 @@ __PACKAGE__->has_many(
   "request_logs",
   "CAP::Schema::Result::RequestLog",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_ids
@@ -223,8 +211,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-08-07 11:41:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wKll8xUW7PIXHh4OiS8K+Q
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-06 09:47:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8YrlhMAVZk79/bbJTsePYg
 
 sub aliases {
     my $self = shift;

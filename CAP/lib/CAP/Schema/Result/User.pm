@@ -203,7 +203,7 @@ __PACKAGE__->has_many(
   "feedbacks",
   "CAP::Schema::Result::Feedback",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_mgmts
@@ -218,7 +218,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 payments
@@ -233,7 +233,7 @@ __PACKAGE__->has_many(
   "payments",
   "CAP::Schema::Result::Payment",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 request_logs
@@ -248,7 +248,7 @@ __PACKAGE__->has_many(
   "request_logs",
   "CAP::Schema::Result::RequestLog",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 subscriptions
@@ -263,7 +263,7 @@ __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_collections
@@ -278,7 +278,7 @@ __PACKAGE__->has_many(
   "user_collections",
   "CAP::Schema::Result::UserCollection",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_documents
@@ -293,7 +293,22 @@ __PACKAGE__->has_many(
   "user_documents",
   "CAP::Schema::Result::UserDocument",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
+);
+
+=head2 user_logs
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::UserLog>
+
+=cut
+
+__PACKAGE__->has_many(
+  "user_logs",
+  "CAP::Schema::Result::UserLog",
+  { "foreign.user_id" => "self.id" },
+  undef,
 );
 
 =head2 user_roles
@@ -308,7 +323,7 @@ __PACKAGE__->has_many(
   "user_roles",
   "CAP::Schema::Result::UserRole",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_ids
@@ -332,8 +347,8 @@ Composing rels: L</user_roles> -> role_id
 __PACKAGE__->many_to_many("role_ids", "user_roles", "role_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-08-20 14:28:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/RKFevkmCecUHgrns4dPEw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-06 09:47:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:K4/nqwLjKvabKKNJ3KzoHw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
@@ -404,6 +419,19 @@ sub confirmation_token
 {
     my $self = shift;;
     return join(":", $self->id, sha1_hex($self->password));
+}
+
+# Create a log entry for the user.
+sub log {
+    my($self, $event, $info) = @_;
+    $info = "" unless ($info);
+    eval {
+        $self->create_related('user_logs', { event => $event, info => $info })
+    };
+    if ($@) {
+        warn(sprintf("Error updating user_log for user %d: $@\n", $self->id));
+    }
+    return 1;
 }
 
 1;

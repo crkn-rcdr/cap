@@ -162,6 +162,7 @@ sub auto :Private
             if ($id) {
                 $c->set_authenticated($c->find_user({id => $id}));
                 $c->persist_user();
+                $c->user->log('RESTORE_SESSION', sprintf("from %s", $c->req->address));
             }
         }
     }

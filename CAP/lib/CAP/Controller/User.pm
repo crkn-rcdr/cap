@@ -137,6 +137,7 @@ sub create :Path('create') :Args(0) {
         });
     };
     $c->detach('/error', [500]) if ($@);
+    $new_user->log("CREATED", sprintf("Userid: %s; username: %s", $new_user->username, $new_user->name));
 
     # If trial subscriptions are turned on, set the user's initial
     # subscription data
@@ -158,6 +159,7 @@ sub create :Path('create') :Args(0) {
             subexpires => $newexpires,
             class => 'trial',
         });
+        $new_user->log('TRIAL_START', "expires: $newexpires");
 
     }
 
@@ -218,6 +220,7 @@ sub login :Path('login') :Args(0) {
     }
     elsif ($username) {
         if ($c->authenticate(({ username => $username, password => $password, confirmed => 1, active => 1 }))) {
+            $c->user->log('LOGIN', sprintf("from: %s", $c->req->address));
             if ($persistent) {
                 # Set the session to be persistent or a session cookie.
                 my $token = $c->model('DB::User')->set_token($c->user->id);
@@ -238,6 +241,14 @@ sub login :Path('login') :Args(0) {
             $c->response->redirect($redirect);
         }
         else {
+            my $user = $c->find_user({ username =>  $username});
+            if ($user) {
+                my $reason;
+                if (! $user->active) { $reason = 'not active'; }
+                elsif (! $user->confirmed) { $reason = 'not confirmed'; }
+                else { $reason = 'bad password'; }
+                $user->log("LOGIN_FAILED", $reason);
+            }
             $c->message({ type => "error", message => "auth_failed" });
         }
     }
@@ -257,6 +268,7 @@ sub logout :Path('logout') :Args(0) {
     # Log out and clear any persistent token and cookie.
     $c->model('DB::User')->clear_token($c->user->id);
     $c->response->cookies->{persistent} = { value => '', expires => 0 };
+    $c->user->log('LOGOUT');
     $c->logout();
     #$c->forward('init'); # Reinitialize after logout to clear current subscription, etc. info
     $c->update_session(1);
@@ -276,6 +288,7 @@ sub confirm :Path('confirm') :Args(1) {
         $c->set_authenticated($c->find_user({id => $id}));
         $c->persist_user();
         $c->message({ type => "success", message => "user_confirm_success" });
+        $c->user->log('CONFIRMED');
         $c->response->redirect($c->uri_for_action("/user/confirmed"));
     } else {
         $c->response->redirect($c->uri_for_action('/index'));
@@ -322,6 +335,7 @@ sub reset :Path('reset') :Args() {
                 $c->detach('/error', [500]) if ($@);
                 $c->set_authenticated($user_account);
                 $c->persist_user();
+                $c->user->log('PASSWORD_CHANGED', "from password reset");
                 $c->stash->{password_reset} = 1;
             }
         }
@@ -333,6 +347,7 @@ sub reset :Path('reset') :Args() {
             my $confirm_link = $c->uri_for_action('user/reset', $user_for_username->confirmation_token);
             $c->forward('/mail/user_reset', [$username, $confirm_link]);
             $c->stash->{mail_sent} = $username;
+            $user_for_username->log("RESET_REQUEST", sprintf("from %s", $c->req->address));
         } else {
             $c->message({ type => "error", message => "username_not_found" });
         }
@@ -399,6 +414,7 @@ sub edit :Path('edit') :Args(0) {
     return 1 if @errors;
 
     # Update the user's profile.
+    my %old_info = (username => $c->user->username, name => $c->user->name);
     eval {
         $c->user->update({
             'username' => $data->{username},
@@ -406,11 +422,19 @@ sub edit :Path('edit') :Args(0) {
         });
     };
     $c->detach('/error', [500]) if ($@);
+    if ($old_info{username} ne $c->user->username) {
+        $c->user->log('USERNAME_CHANGED', sprintf("from %s to %s", $old_info{username}, $c->user->username));
+    }
+    if ($old_info{name} ne $c->user->name) {
+        $c->user->log('NAME_CHANGED', sprintf("from %s to %s", $old_info{name}, $c->user->name));
+    }
+
 
     # Change the password, if requested.
     if ($data->{password}) {
         eval { $c->user->update({ 'password' => $data->{password} }); };
         $c->detach('/error', [500]) if ($@);
+        $c->user->log('PASSWORD_CHANGED', "from edit profile");
     }
 
     $c->message({ type => "success", message => "profile_updated" });
@@ -653,6 +677,7 @@ sub subscribe_finalize : Private
 	    $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);
 	    $c->detach('/error', [500,"user account"]);
 	}
+    $c->user->log('SUB_START', "expires: $newexpires");
 
 	# Update current session. User may have become subscriber.
 	#$c->forward('/user/init');

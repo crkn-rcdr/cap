@@ -42,7 +42,6 @@ __PACKAGE__->table("portal");
 =head2 id
 
   data_type: 'varchar'
-  default_value: (empty string)
   is_nullable: 0
   size: 64
 
@@ -56,7 +55,7 @@ __PACKAGE__->table("portal");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
+  { data_type => "varchar", is_nullable => 0, size => 64 },
   "enabled",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
 );
@@ -87,7 +86,7 @@ __PACKAGE__->has_many(
   "portal_collections",
   "CAP::Schema::Result::PortalCollection",
   { "foreign.portal_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 portal_hosts
@@ -102,7 +101,7 @@ __PACKAGE__->has_many(
   "portal_hosts",
   "CAP::Schema::Result::PortalHost",
   { "foreign.portal_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 portal_subscriptions
@@ -117,12 +116,12 @@ __PACKAGE__->has_many(
   "portal_subscriptions",
   "CAP::Schema::Result::PortalSubscription",
   { "foreign.portal_id" => "self.id" },
-  {},
+  undef,
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-08-07 11:41:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tzEYQtvFsiAHqatwP1KhaA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-06 09:47:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OqoGmQ+izIGce9qKoSGobQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -167,7 +167,7 @@ __PACKAGE__->has_many(
   "search_logs",
   "CAP::Schema::Result::SearchLog",
   { "foreign.request_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_id
@@ -181,8 +181,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-03-09 13:35:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N7aeuWIZJ58WYLTtUBVFkA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-06 09:47:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:p38pM/wjmTxyC3VGDM1iAQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

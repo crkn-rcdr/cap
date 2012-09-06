@@ -62,6 +62,8 @@ sub index : Private {
                 message => sprintf("Reminder sent: id=%d (%s); %s account expires %s",
                     $user->id, $user->username, $user->class, $user->subexpires)
         });
+        $user->log('REMINDER_SENT');
+
     }
 
     return 1;

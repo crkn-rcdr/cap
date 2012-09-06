@@ -85,7 +85,7 @@ __PACKAGE__->has_many(
   "institution_collections",
   "CAP::Schema::Result::InstitutionCollection",
   { "foreign.collection_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_collections
@@ -100,12 +100,12 @@ __PACKAGE__->has_many(
   "user_collections",
   "CAP::Schema::Result::UserCollection",
   { "foreign.collection_id" => "self.id" },
-  {},
+  undef,
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Ft6wK61fvfktg8GtPAIbUA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-06 09:47:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:J6w7XQMUNZgRQKtj2VRp2w
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
