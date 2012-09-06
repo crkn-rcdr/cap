@@ -36,7 +36,7 @@ sub view :Private {
     my $text = int($c->req->params->{api_text} || 0);
 
     my $doc = $c->model("Solr")->document($key, text => $text, subset => $c->search_subset);
-    $c->detach("/error", [404, "Record not found: $key"]) unless $doc;
+    $c->detach("/error", [404, "Record not found: $key"]) unless $doc && $doc->found;
 
     # Put the document structure into the response object for use by the API.
     $c->stash->{response}->{doc} = $doc->record->api;

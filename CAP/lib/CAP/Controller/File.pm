@@ -24,7 +24,7 @@ sub get_page_uri :Local :Args(2) {
     $c->detach('/error', [404, "Can only be called through fmt=ajax"]) unless $c->stash->{current_view} eq 'Ajax';
 
     my $doc = $c->model("Solr")->document($key);
-    $c->detach('/error', [404, "No document with key $key"]) unless $doc;
+    $c->detach('/error', [404, "No document with key $key"]) unless $doc && $doc->found;
     $doc->set_auth($c->stash->{access_model}, $c->session->{auth});
     $c->detach('/error', [404, "No page $seq for $key"]) unless $doc->child($seq);
 

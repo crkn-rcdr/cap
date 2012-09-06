@@ -18,6 +18,7 @@ has 'subset'        => (is => 'ro', isa => 'Str', default => ""); # Document mus
 has 'server'        => (is => 'ro', isa => 'Str', required => 1);
 has 'options'       => (is => 'ro', isa => 'HashRef', default => sub{{}});
 has 'doc'           => (is => 'ro', isa => 'WebService::Solr::Document');
+has 'exists'        => (is => 'ro', isa => 'Int', default => 1); # Was the document found in the Solr index?
 
 # Properties generated at build time
 has 'solr'          => (is => 'ro', isa => 'WebService::Solr', documentation => 'Solr webservice object'); 
@@ -51,7 +52,15 @@ method BUILD {
         }
         my $response = $self->solr->search($query, $self->options);
         croak("Solr query error") unless ($response->ok);
-        croak("Requested document not found: " . $self->key) unless ($#{$response->docs} == 0);
+        # Don't croak if the document is not found because it is not
+        # generally a system-level error. However, it is important to call
+        # ->found() on a newly-constructed document to check whether it
+        # actually exists before trying to access it.
+        #croak("Requested document not found: " . $self->key) unless ($#{$response->docs} == 0);
+        unless ($#{$response->docs} == 0) {
+            $self->{exists} = 0;
+            return;
+        }
 
         # This lets us access all fields as $self->record->fieldname.
         $self->{record} = new CAP::Solr::Record($response->docs->[0]);
@@ -211,6 +220,10 @@ method record_type       { return $self->record->type; }
 method type_is (Str $type) {
     return 1 if ($self->record_type eq $type);
     return 0;
+}
+
+method found {
+    return $self->{exists};
 }
 
 __PACKAGE__->meta->make_immutable;
