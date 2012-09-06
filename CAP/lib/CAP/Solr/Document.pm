@@ -144,9 +144,9 @@ method derivative_request (HashRef $content_config, HashRef $derivative_config, 
     return [403, "Not authenticated."] unless $self->auth;
 
     my $child = $self->child($seq);
-    return [400, "$self->key does not have page at seq $seq."] unless $child;
+    return [400, $self->key . " does not have page at seq $seq."] unless $child;
     return [403, "Not allowed to view this page."] unless $self->auth->page($seq);
-    return [400, "$child->key does not have a canonical master."] unless $child->canonicalMaster;
+    return [400, $child->key . " does not have a canonical master."] unless $child->canonicalMaster;
 
     my $size_str = $derivative_config->{size}->{$size} || $derivative_config->{default_size};
     return [403, "Not allowed to resize this page."] unless ($size_str eq $derivative_config->{default_size} || $self->auth->resize);
@@ -172,7 +172,7 @@ method derivative_request (HashRef $content_config, HashRef $derivative_config, 
 method download_request (HashRef $content_config) {
     return [403, "Not authenticated."] unless $self->auth;
     return [403, "Not allowed to download this resource."] unless $self->auth->download;
-    return [400, "Document $self->key does not have a canonical download."] unless $self->canonicalDownload;
+    return [400, "Document " . $self->key . " does not have a canonical download."] unless $self->canonicalDownload;
     
     my $expires = $self->_expires();
     my $filename = $self->canonicalDownload;
