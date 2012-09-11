@@ -13,8 +13,8 @@ __PACKAGE__->config(
 sub index :Path :Args(0) {
     my ($self, $c) = @_;
 
-    # Grab settings from cap_local.conf
-    my $production = $c->config->{production};
+    # Grab settings from cap_local.conf : Set boolean if config option exists and file it points to exists
+    my $production = $c->config->{productionflagfile} && -e $c->config->{productionflagfile};
 
 
     # Cron must be called from localhost.
