@@ -31,19 +31,20 @@ sub auto :Private
     ############
     #
     
-    
-    # Get the portal configuration.
-    my $portal_config = $c->configure_portal;
+    # Configure the portal.
+    $c->configure_portal;
+    $c->get_institution;
 
     # If no portal is found or the portal is disabled, redirect to the
     # default URL.
-    unless ($portal_config && $portal_config->enabled) {
+    unless ($c->portal && $c->portal->enabled) {
         $c->res->redirect($c->config->{default_url});
         $c->detach();
     }
 
-    $c->stash->{portal_config} = $portal_config;
-    $c->stash->{portal} = $portal_config->id;
+    # For backward compatibility with the old config file-based stuff.
+    # (TO BE DEPRECATED AND REMOVED).
+    $c->stash->{portal} = $c->portal->id;
 
     #
     ############

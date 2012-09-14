@@ -31,6 +31,10 @@ use Catalyst qw/
                 Session::Store::DBI
 
                 MessageStack
+
+
+                Portal
+                Institution
                /;
 
 # Configure the application. 
@@ -91,17 +95,10 @@ sub has_role {
     return $c->model('DB::UserRole')->user_has_role($c->user->id, $role);
 }
 
-sub configure_portal {
-    my($c) = @_;
-    my $host = substr($c->req->uri->host, 0, index($c->req->uri->host, '.'));
-    my $portal =  $c->model('DB::PortalHost')->get_portal($host);
-    return $portal;
-}
-
 # Retrieve the Solr search subset
 sub search_subset {
     my($c) = @_;
-    my $subset = $c->model('DB::PortalCollection')->search_subset($c->stash->{portal_config}->id);
+    my $subset = $c->model('DB::PortalCollection')->search_subset($c->portal->id);
     return $subset;
 }
 

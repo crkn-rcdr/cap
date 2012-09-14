@@ -26,7 +26,7 @@ sub get_page_uri :Local :Args(2) {
     unless ($doc && $doc->found) {
         $result = [404, "No document with key $key"];
     } else {
-        $doc->set_auth($c->stash->{access_model}, $c->session->{auth});
+        $doc->set_auth($c->portal, $c->user, $c->institution);
         my $size = $c->req->params->{s} || "1";
         my $rotate = $c->req->params->{r} || "0";
         $result = $doc->derivative_request($c->config->{content}, $c->config->{derivative}, $seq, "file.jpg", $size, $rotate, "jpg");
