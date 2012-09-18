@@ -41,6 +41,9 @@ sub index :Path :Args(0) {
     # Delete unconfirmed accopunts
     $c->forward('/cron/removeunconfirmed/index');
     
+    # Compile institutional stats
+    $c->forward('/cron/compilestats/index');
+    
     return 1;
 }
 

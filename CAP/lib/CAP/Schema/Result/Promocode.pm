@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::Promocode;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::Promocode
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
-=over 4
+=head1 NAME
 
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
-
-=head1 TABLE: C<promocode>
+CAP::Schema::Result::Promocode
 
 =cut
 
@@ -71,22 +52,11 @@ __PACKAGE__->add_columns(
   "amount",
   { data_type => "decimal", is_nullable => 0, size => [10, 2] },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3nJws9hTXHJBktXknPgTIw
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-09-11 16:26:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:O+6w6HqPLjKSXjSqftc+fg
 
 sub expired {
     my $self = shift;

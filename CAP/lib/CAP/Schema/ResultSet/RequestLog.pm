@@ -75,11 +75,24 @@ sub get_monthly_stats {
     );      
     my $session_count = $session_logs->count;
     
+    # get the number of requests    
+    my $request_logs = $self->search(
+        {
+            'month(time)'    => $month,
+            'year(time)'     => $year,
+            'institution_id' => $institution_id
+
+        }        
+    );      
+    my $request_count = $request_logs->count;   
+    
     # Return everything as a hash reference
-    my $stats = {
-                  searches  => $search_count,
-                  views     => $view_count,
-                  sessions  => $session_count                  
+
+    my $stats = { 
+                  searches       => $search_count,
+                  page_views     => $view_count,
+                  sessions       => $session_count,
+                  requests       => $request_count                  
                 };
     
     return $stats;
@@ -103,5 +116,32 @@ sub get_start {
     
     return $date;
 }
+
+sub get_institutions {
+
+  my ($self, $c) = @_;
+  
+  my $rs = $self->search(
+    {},
+    {
+      columns => 'institution_id',
+      distinct => 1
+    }
+  );
+  
+  my $institutions = [];
+  my $row;
+  my $inst;
+  my $value;
+  while ($row = $rs->next()) {
+     $inst = $row->institution_id->id;
+     $c->log->error("Institution is $inst"); 
+     push (@$institutions, $inst);
+     # $c->log->error("Institution is $row->institution_id");   
+  }
+  return $institutions;
+  
+}
+
 
 1;

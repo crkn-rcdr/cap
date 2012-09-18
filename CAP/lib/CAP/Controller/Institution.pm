@@ -82,20 +82,23 @@ sub show_stats {
     $c->stash->{report_inst} = $inst_name;
     
     # Get date of first log entry
-    my $first_entry_date     = $c->model('DB::RequestLog')->get_start();   
-    my $first_year           = $first_entry_date->{local_c}->{year};
-    my $first_month          = $first_entry_date->{local_c}->{month};
+    my $first_entry_date = new Date::Manip::Date;
+    my $err                  = $first_entry_date->parse($c->model('DB::StatsUsageInstitution')->first_month());
+    my $first_year           = $first_entry_date->printf("%Y");
+    my $first_month          = $first_entry_date->printf("%m");
     $c->stash->{first_month} = $first_month;
     $c->stash->{first_year}  = $first_year;
 
 
     # Get the current month and the year
     my $end_date  = new Date::Manip::Date;
-    my $err       = $end_date->parse('today');
+    $err       = $end_date->parse('today');
     my $end_year  = $end_date->printf("%Y");
-   
+
+    # Build the hashref we send to the template   
     my $month;
     my $year;
+    my $first_of_month;
     
     $c->stash->{usage_results} = {};
     
@@ -111,7 +114,10 @@ sub show_stats {
 
         # Iterate through all the months
         for ($month = $start_month; $month <= $end_month; $month++) {
-            push(@{$yearly_stats}, $c->model('DB::RequestLog')->get_monthly_stats($inst_arg, $month, $year));
+            my $current_date  = new Date::Manip::Date;
+            $err              = $current_date->parse_format('%Y\\-%f\\-%e',join ('-',($year,$month,'1')));
+            $first_of_month   = $current_date->printf("%Y-%m-01");
+            push(@{$yearly_stats}, $c->model('DB::StatsUsageInstitution')->get_stats($inst_arg, $first_of_month));
         };
         $c->stash->{usage_results}->{$year} = $yearly_stats;
         

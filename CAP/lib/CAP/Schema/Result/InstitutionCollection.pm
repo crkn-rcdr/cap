@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::InstitutionCollection;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::InstitutionCollection
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
-=over 4
+=head1 NAME
 
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
-
-=head1 TABLE: C<institution_collection>
+CAP::Schema::Result::InstitutionCollection
 
 =cut
 
@@ -60,34 +41,9 @@ __PACKAGE__->add_columns(
   "collection_id",
   { data_type => "varchar", is_foreign_key => 1, is_nullable => 0, size => 16 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</collection_id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("collection_id");
 
 =head1 RELATIONS
-
-=head2 collection_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::Collection>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "collection_id",
-  "CAP::Schema::Result::Collection",
-  { id => "collection_id" },
-);
 
 =head2 institution_id
 
@@ -103,9 +59,23 @@ __PACKAGE__->belongs_to(
   { id => "institution_id" },
 );
 
+=head2 collection_id
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-07-19 10:34:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:o8mhE3778A324jCYS6cnJA
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Collection>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "collection_id",
+  "CAP::Schema::Result::Collection",
+  { id => "collection_id" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-09-11 16:26:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Wth+ApzqwR1QJFDunr1HHw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

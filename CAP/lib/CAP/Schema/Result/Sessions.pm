@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::Sessions;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::Sessions
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
-=over 4
+=head1 NAME
 
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
-
-=head1 TABLE: C<sessions>
+CAP::Schema::Result::Sessions
 
 =cut
 
@@ -65,22 +46,11 @@ __PACKAGE__->add_columns(
   "expires",
   { data_type => "integer", is_nullable => 1 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07011 @ 2012-01-04 09:25:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fH/D/2fRT60LqLHgL6Hehg
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-09-11 16:26:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vnUE8skidv6Y2eRdUM2ONw
 
 #__PACKAGE__->load_components('ForceUTF8');
 
