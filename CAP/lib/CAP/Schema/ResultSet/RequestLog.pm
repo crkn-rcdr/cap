@@ -135,9 +135,7 @@ sub get_institutions {
   my $value;
   while ($row = $rs->next()) {
      $inst = $row->institution_id->id;
-     $c->log->error("Institution is $inst"); 
-     push (@$institutions, $inst);
-     # $c->log->error("Institution is $row->institution_id");   
+     push (@$institutions, $inst);   
   }
   return $institutions;
   

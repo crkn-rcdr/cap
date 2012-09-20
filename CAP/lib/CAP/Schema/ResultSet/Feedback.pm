@@ -52,20 +52,16 @@ sub update_feedback
     my ($self, $userid, $comments) = @_;
 
     my $resolved = strftime("%Y-%m-%d %H:%M:%S",localtime());
-    my $update = $self->update({
+    my $feedback_info = {
 
             resolved   =>   $resolved,
             comments  =>    $comments
 
-        },
-        {
+        };
+    my $row = $self->find({user_id    =>   $userid });
+    my $err = $row->update($feedback_info); 
 
-            user_id    =>   $userid
-
-        }
-    );
-
-    return $update;
+    return 1;
 }
 
 
