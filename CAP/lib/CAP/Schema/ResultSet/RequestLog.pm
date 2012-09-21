@@ -122,7 +122,7 @@ sub get_institutions {
   my ($self, $c) = @_;
   
   my $rs = $self->search(
-    {},
+    { institution_id => { 'IS NOT' => undef } },
     {
       columns => 'institution_id',
       distinct => 1
