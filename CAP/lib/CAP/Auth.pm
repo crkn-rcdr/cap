@@ -11,7 +11,8 @@ use namespace::autoclean;
 #has 'rules' => (is => 'ro', isa => 'Str', required => 1);
 has 'portal' => (is => 'ro', isa => 'CAP::Model::DB::Portal', required => 1);
 has 'user'   => (is => 'ro');
-has 'doc'    => (is => 'ro', isa => 'CAP::Solr::Document', required => 1);
+#has 'doc'    => (is => 'ro', isa => 'CAP::Solr::Document', required => 1);
+has 'doc'    => (is => 'rw', required => 1);
 has 'institution' => (is => 'ro');
 # TODO: user and institution should have an isa => maybe user/instition
 # type thing.
@@ -95,6 +96,11 @@ method BUILD {
             }
         }
     }
+
+    # Temporary (?) undef the document reference to prevent memory leaks.
+    # This might be something to do permamently, as we don't actually need
+    # it.
+    $self->doc(undef);
 
 }
 
