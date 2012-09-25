@@ -38,7 +38,7 @@ sub index : Private {
     my $current_date;
     my $monthly_stats;
     my $inst;
-    my $err
+    my $err;
     
     for ($year = $start_year; $year <= $end_year; $year++) {
     
