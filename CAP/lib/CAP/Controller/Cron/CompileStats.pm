@@ -38,6 +38,7 @@ sub index : Private {
     my $current_date;
     my $monthly_stats;
     my $inst;
+    my $err
     
     for ($year = $start_year; $year <= $end_year; $year++) {
     
@@ -59,9 +60,12 @@ sub index : Private {
                $monthly_stats = $c->model('DB::RequestLog')->get_monthly_stats($inst, $month, $year);
                
                # make sure the dates are in the correct format
-               my $current_date  = new Date::Manip::Date;
-               my $err           = $current_date->parse_format('%Y\\-%f\\-%e',join ('-',($year,$month,'1')));
+               $current_date  = new Date::Manip::Date;
+               $err           = $current_date->parse_format('%Y\\-%f\\-%e',join ('-',($year,$month,'1')));
                $first_of_month   = $current_date->printf("%Y-%m-01");
+               
+               #uggghh can't parse all of the time-date values in database so we have to do this
+               next unless ( defined ($first_of_month) );
     
                # update or insert as required
                $monthly_stats->{'institution_id'} = $inst;               
