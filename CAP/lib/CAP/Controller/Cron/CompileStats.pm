@@ -36,6 +36,13 @@ sub index : Private {
     my $first_of_month_st    = $start_date->printf("%Y-%m-01");
     
     $c->log->error("compiling data from $first_of_month_st to $first_of_month_end");
+    
+    $c->model('DB::CronLog')->create({
+            action  => 'compile institutional stats',
+            ok      => 1,
+            message => "compiling data from $first_of_month_st to $first_of_month_end",
+    });
+    
   
     # Get a list of distinct institutions in the request log
     my $institutions = $c->model('DB::RequestLog')->get_institutions($c);
@@ -70,7 +77,15 @@ sub index : Private {
                # make sure the dates are in the correct format
                $current_date  = new Date::Manip::Date;
                $err           = $current_date->parse_format('%Y\\-%f\\-%e',join ('-',($year,$month,'1')));
-               $c->log->error($err) if ( $err );
+               if ( $err ) {
+               
+                   $c->model('DB::CronLog')->create({
+                      action  => 'compile institutional stats',
+                      ok      => 1,
+                      message => $err
+                   });
+               }
+               
                $first_of_month   = $current_date->printf("%Y-%m-01");
                
                #uggghh can't parse all of the time-date values in database so we have to do this
@@ -80,6 +95,11 @@ sub index : Private {
                $monthly_stats->{'institution_id'} = $inst;               
                $monthly_stats->{'month_starting'} = $first_of_month;              
                $c->log->error("updating row for institution $inst and month starting $first_of_month");
+               $c->model('DB::CronLog')->create({
+                      action  => 'compile institutional stats',
+                      ok      => 1,
+                      message => "updating row for institution $inst and month starting $first_of_month"
+               });
                $c->model('DB::StatsUsageInstitution')->update_monthly_stats($monthly_stats);
 
            }
