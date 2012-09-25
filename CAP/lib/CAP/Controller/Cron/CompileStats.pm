@@ -49,6 +49,8 @@ sub index : Private {
 
         # Iterate through all the institutions
         foreach $inst (@$institutions) {
+           
+
 
            # Iterate through all the months
            for ($month = $start_month; $month <= $end_month; $month++) {
@@ -62,7 +64,10 @@ sub index : Private {
                $first_of_month   = $current_date->printf("%Y-%m-01");
     
                # update or insert as required
-               $c->model('DB::StatsUsageInstitution')->update_monthly_stats($inst,$first_of_month,$monthly_stats);
+               $monthly_stats->{'institution_id'} = $inst;               
+               $monthly_stats->{'month_starting'} = $first_of_month;              
+               $c->log->error("updating row for institution $inst and month starting $first_of_month");
+               $c->model('DB::StatsUsageInstitution')->update_monthly_stats($monthly_stats);
 
            }
 

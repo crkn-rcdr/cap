@@ -7,10 +7,8 @@ use base 'DBIx::Class::ResultSet';
 sub update_monthly_stats {
 
     
-    my ( $self, $inst, $month, $stats ) = @_;
+    my ( $self, $stats ) = @_;
 
-    $stats->{'institution_id'} = $inst;
-    $stats->{'month_starting'} = $month;
     
     # first check to see if there is an existing row with up-to-date data
     my $search = $self->search(
