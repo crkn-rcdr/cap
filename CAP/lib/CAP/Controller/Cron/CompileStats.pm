@@ -19,20 +19,25 @@ sub index : Private {
     
     # Find the date of the last update or find the first entry in the log table if there is none
     my $last_update = $c->model('DB::StatsUsageInstitution')->last_update() || $c->model('DB::RequestLog')->get_start();
-    $c->log->error("last update is $last_update");
+    my $date_type = ref $last_update;
+    
+    $c->log->error("last_update is type $date_type");
     
     $c->model('DB::CronLog')->create({
             action  => 'compile institutional stats',
             ok      => 1,
-            message => "last update is $last_update",
+            message => "last_update is type $date_type",
     });
 
+
+
+    
     # Parse the start date    
-    my $start_date           = new Date::Manip::Date;
-    $err                     = $start_date->parse($last_update);
+    my $start_date             = new Date::Manip::Date;
+    my $start_year = $last_update->{local_c}->{year};
+    my $start_month = $last_update->{local_c}->{month};
+    $err                       = $start_date->parse_format('%Y\\-%f\\-%e',join ('-',($start_year,$start_month,'1')));
     $c->log->error($err) if ( $err );
-    my $start_year           = $start_date->printf("%Y");
-    my $start_month          = $start_date->printf("%m");
     my $first_of_month_st    = $start_date->printf("%Y-%m-01");
     
     $c->log->error("compiling data from $first_of_month_st to $first_of_month_end");
