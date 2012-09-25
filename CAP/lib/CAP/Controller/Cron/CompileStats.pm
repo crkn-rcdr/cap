@@ -23,6 +23,7 @@ sub index : Private {
     # Parse the start date    
     my $start_date           = new Date::Manip::Date;
     $err                     = $start_date->parse($last_update);
+    $c->log->error($err) if ( $err );
     my $start_year           = $start_date->printf("%Y");
     my $start_month          = $start_date->printf("%m");
     my $first_of_month_st    = $start_date->printf("%Y-%m-01");
@@ -38,8 +39,8 @@ sub index : Private {
     my $current_date;
     my $monthly_stats;
     my $inst;
-    my $err;
-    
+
+
     for ($year = $start_year; $year <= $end_year; $year++) {
     
         # If we're only reporting on this year we don't need to go all the way to December
@@ -62,10 +63,11 @@ sub index : Private {
                # make sure the dates are in the correct format
                $current_date  = new Date::Manip::Date;
                $err           = $current_date->parse_format('%Y\\-%f\\-%e',join ('-',($year,$month,'1')));
+               $c->log->error($err) if ( $err );
                $first_of_month   = $current_date->printf("%Y-%m-01");
                
                #uggghh can't parse all of the time-date values in database so we have to do this
-               next unless ( defined ($first_of_month) );
+               # next unless ( defined ($first_of_month) );
     
                # update or insert as required
                $monthly_stats->{'institution_id'} = $inst;               
