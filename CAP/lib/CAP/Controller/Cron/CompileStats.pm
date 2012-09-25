@@ -19,6 +19,7 @@ sub index : Private {
     
     # Find the date of the last update or find the first entry in the log table if there is none
     my $last_update = $c->model('DB::StatsUsageInstitution')->last_update() || $c->model('DB::RequestLog')->get_start();
+    $c->log->error("last upate is $last_update");
 
     # Parse the start date    
     my $start_date           = new Date::Manip::Date;
