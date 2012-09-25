@@ -172,9 +172,39 @@ __PACKAGE__->has_many(
   {},
 );
 
+=head2 user_subscription_user_ids
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-09-17 15:31:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ng25tE2WVJ0eUO5i0QRSNg
+Type: has_many
+
+Related object: L<CAP::Schema::Result::UserSubscription>
+
+=cut
+
+__PACKAGE__->has_many(
+  "user_subscription_user_ids",
+  "CAP::Schema::Result::UserSubscription",
+  { "foreign.user_id" => "self.id" },
+  {},
+);
+
+=head2 user_subscription_portal_ids
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::UserSubscription>
+
+=cut
+
+__PACKAGE__->has_many(
+  "user_subscription_portal_ids",
+  "CAP::Schema::Result::UserSubscription",
+  { "foreign.portal_id" => "self.id" },
+  {},
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-09-21 15:05:21
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jpHMnJrrf/XH7gaz/Vw4Gw
 
 sub aliases {
     my $self = shift;

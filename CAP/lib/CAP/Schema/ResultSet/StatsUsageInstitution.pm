@@ -6,41 +6,47 @@ use base 'DBIx::Class::ResultSet';
 
 sub update_monthly_stats {
 
-    # inserts or updates monthly stats depending on whether the row exists
+    
     my ( $self, $inst, $month, $stats ) = @_;
 
-    my $row = $self->find(
-
-        {
-            institution_id => $inst,
-            month_starting => $month
-        }
-
+    $stats->{'institution_id'} = $inst;
+    $stats->{'month_starting'} = $month;
+    
+    # first check to see if there is an existing row with up-to-date data
+    my $search = $self->search(
+       {%$stats}
     );
 
-    if ( defined($row) ) {
-        $row->update($stats);
-    }
+    unless ( $search->count ) {
 
-    else {
-        $stats->{'institution_id'} = $inst;
-        $stats->{'month_starting'} = $month;
-        $self->create($stats);
+        # we want to reset the timestamp
+        $stats->{'last_updated'} = undef;
+        
+        # insert or update monthly stats depending on whether the row exists
+        my $err = $self->update_or_create(
+    
+           {%$stats},
+           {key => 'primary'}
+    
+       );
+
     }
 
     return 1;
 
 }
 
+
 sub last_update {
     my $self = shift();
     my $row = $self->find( {}, { order_by => { -desc => 'last_updated' } } );
 
     # return 0 if the database is empty;
-    my $last_update = defined($row) ? $row->last_updated : 0;
+    my $last_update = defined($row) ? $row->month_starting : 0;
     return $last_update;
 
 }
+
 
 sub first_month {
 
