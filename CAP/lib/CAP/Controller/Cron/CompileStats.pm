@@ -36,6 +36,21 @@ sub index : Private {
     my $start_date             = new Date::Manip::Date;
     my $start_year = $last_update->{local_c}->{year};
     my $start_month = $last_update->{local_c}->{month};
+    
+    my $year_type = ref $start_year;
+    $c->model('DB::CronLog')->create({
+            action  => 'compile institutional stats',
+            ok      => 1,
+            message => "start_year is  $start_year",
+    });   
+    
+        $c->model('DB::CronLog')->create({
+            action  => 'compile institutional stats',
+            ok      => 1,
+            message => "start_month is  $start_month",
+    });   
+    
+    
     $err                       = $start_date->parse_format('%Y\\-%f\\-%e',join ('-',($start_year,$start_month,'1')));
     $c->log->error($err) if ( $err );
     my $first_of_month_st    = $start_date->printf("%Y-%m-01");

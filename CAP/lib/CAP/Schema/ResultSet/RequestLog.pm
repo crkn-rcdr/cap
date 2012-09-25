@@ -106,7 +106,7 @@ sub get_start {
     # search by date in ascending order
     # we do it this way because we want a date object, not a string    
     my $search_min = $self->search(
-        {},        
+        { time => { 'IS NOT' => undef } },        
         {
             order_by => { -asc => 'time' }
         }
