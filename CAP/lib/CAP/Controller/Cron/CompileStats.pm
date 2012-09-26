@@ -74,6 +74,7 @@ sub index : Private {
     my $first_of_month;
     my $year;
     my $current_date;
+    my $current_date_string;
     my $monthly_stats;
     my $inst;
 
@@ -98,8 +99,17 @@ sub index : Private {
                $monthly_stats = $c->model('DB::RequestLog')->get_monthly_stats($inst, $month, $year);
                
                # make sure the dates are in the correct format
+               
+               $current_date_string = join ('-',($year,$month,'1'));
+               
+               $c->model('DB::CronLog')->create({
+                      action  => 'compile institutional stats',
+                      ok      => 1,
+                      message => "current date string is $current_date_string"
+               });
+               
                $current_date  = new Date::Manip::Date;
-               $err           = $current_date->parse_format('%Y\\-%f\\-%e',join ('-',($year,$month,'1')));
+               $err           = $current_date->parse_format('%Y\\-%f\\-%e', $current_date_string);
                if ( $err ) {
                
                    $c->model('DB::CronLog')->create({
