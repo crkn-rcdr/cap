@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::InstitutionCollection;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::InstitutionCollection
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+=head1 COMPONENTS LOADED
 
-=head1 NAME
+=over 4
 
-CAP::Schema::Result::InstitutionCollection
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+
+=head1 TABLE: C<institution_collection>
 
 =cut
 
@@ -41,23 +60,20 @@ __PACKAGE__->add_columns(
   "collection_id",
   { data_type => "varchar", is_foreign_key => 1, is_nullable => 0, size => 16 },
 );
-__PACKAGE__->set_primary_key("collection_id");
 
-=head1 RELATIONS
+=head1 PRIMARY KEY
 
-=head2 institution_id
+=over 4
 
-Type: belongs_to
+=item * L</collection_id>
 
-Related object: L<CAP::Schema::Result::Institution>
+=back
 
 =cut
 
-__PACKAGE__->belongs_to(
-  "institution_id",
-  "CAP::Schema::Result::Institution",
-  { id => "institution_id" },
-);
+__PACKAGE__->set_primary_key("collection_id");
+
+=head1 RELATIONS
 
 =head2 collection_id
 
@@ -73,9 +89,23 @@ __PACKAGE__->belongs_to(
   { id => "collection_id" },
 );
 
+=head2 institution_id
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-09-11 16:26:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Wth+ApzqwR1QJFDunr1HHw
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Institution>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "institution_id",
+  "CAP::Schema::Result::Institution",
+  { id => "institution_id" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-26 10:41:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RsFHxoqLr8BGsEy2pwEJGg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

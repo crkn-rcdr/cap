@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::InstitutionIpaddr;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::InstitutionIpaddr
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+=head1 COMPONENTS LOADED
 
-=head1 NAME
+=over 4
 
-CAP::Schema::Result::InstitutionIpaddr
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+
+=head1 TABLE: C<institution_ipaddr>
 
 =cut
 
@@ -56,6 +75,17 @@ __PACKAGE__->add_columns(
   "end",
   { data_type => "bigint", extra => { unsigned => 1 }, is_nullable => 0 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</cidr>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("cidr");
 
 =head1 RELATIONS
@@ -75,8 +105,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-09-11 16:26:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:b9x5GK05tgHOecqzJpHdAg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-26 10:41:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5hM89S4tGcJzib//RrdHNw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

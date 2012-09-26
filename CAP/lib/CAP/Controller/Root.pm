@@ -28,26 +28,19 @@ sub auto :Private
         $c->detach("config_error", ["Incorrect cap.info database version (cap.conf is expecting version " . $c->config->{db_version} . "). Upgrade database or modify cap.conf."]);
     }
     
-    ############
-    #
-    
-    # Configure the portal.
+    # Configure the portal.  If no portal is found or the portal is
+    # disabled, redirect to the default URL. Stash the portal id for the
+    # templates.
     $c->configure_portal;
-    $c->get_institution;
-
-    # If no portal is found or the portal is disabled, redirect to the
-    # default URL.
     unless ($c->portal && $c->portal->enabled) {
         $c->res->redirect($c->config->{default_url});
         $c->detach();
     }
+    $c->stash->{portal} = $c->portal->id; 
 
-    # For backward compatibility with the old config file-based stuff.
-    # (TO BE DEPRECATED AND REMOVED).
-    $c->stash->{portal} = $c->portal->id;
-
-    #
-    ############
+    # If the request IP is linked to an institution, populate the
+    # institution table.
+    $c->get_institution;
 
 
     # Configure the portal
@@ -55,7 +48,7 @@ sub auto :Private
         # Load and parse the config file
         my $config_file;
         my %portal;
-        $config_file = join("/", $c->config->{root}, "config", $c->stash->{portal} . ".conf");
+        $config_file = join("/", $c->config->{root}, "config", $c->portal->id . ".conf");
         if (! -f $config_file) {
             $c->detach("config_error", ["Missing configuration file: $config_file"]);
         }
@@ -199,7 +192,7 @@ sub auto :Private
         $c->stash->{current_view} = $c->config->{default_view};
     }
     $c->stash->{additional_template_paths} = [
-        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->stash->{portal}),
+        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->portal->id),
         join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
     ];
 
@@ -279,7 +272,7 @@ sub index :Local Does('NoSSL') Path('') Args(0)
     my($self, $c) = @_;
 
     # Messsages bugging you to subscribe already
-    if ($c->stash->{portal} eq 'eco' && !$c->session->{subscribing_institution}) {
+    if ($c->portal->id eq 'eco' && !$c->session->{subscribing_institution}) {
         if ($c->user_exists) {
             if ($c->user->has_class("trial")) {
                 if ($c->user->has_active_subscription) {
@@ -295,7 +288,7 @@ sub index :Local Does('NoSSL') Path('') Args(0)
         }
     }
 
-    $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->stash->{portal}, "frontpage");
+    $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->portal->id, "frontpage");
     $c->stash->{template} = "index.tt";
 }
 

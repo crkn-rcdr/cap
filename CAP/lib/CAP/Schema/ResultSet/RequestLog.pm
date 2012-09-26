@@ -23,7 +23,7 @@ sub log {
             'institution_id' => $institution_id,
             'session'        => $c->sessionid,
             'session_count'  => $c->session->{count},
-            'portal'         => $c->stash->{portal},
+            'portal'         => $c->portal->id,
             'view'           => $c->stash->{current_view},
             'action'         => $c->request->action,
             'args'           => $args
@@ -113,6 +113,8 @@ sub get_start {
     );
     my $result = $search_min->next;
     my $date = $result->time;
+    use Data::Dumper;
+    warn Dumper($result);
     
     return $date;
 }
