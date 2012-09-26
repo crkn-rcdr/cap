@@ -7,11 +7,30 @@ use Config::General;
 # Run this script any time you modify the MySQL CAP database in order to
 # re-generate the correct schema files.
 
-my $config_file = "$FindBin::Bin/../cap.conf";
-my $db = {Config::General->new((
+my $db = undef;
+
+eval {
+  my $config_file = "$FindBin::Bin/../cap_local.conf";
+  $db = {Config::General->new((
     '-ConfigFile' => $config_file,
     '-AutoTrue' => 1,
-))->getall}->{Component}->{'Model::DB'}->{connect_info};
+  ))->getall}->{Component}->{'Model::DB'}->{connect_info};
+};
+
+if ( !$db ) {
+    eval {
+	my $config_file = "$FindBin::Bin/../cap.conf";
+	$db = {Config::General->new((
+		      '-ConfigFile' => $config_file,
+		      '-AutoTrue' => 1,
+				       ))->getall}->{Component}->{'Model::DB'}->{connect_info};
+    };
+}
+
+if ($db) {
 
 `$FindBin::Bin/../script/cap_create.pl model DB DBIC::Schema CAP::Schema create=static components=TimeStamp,EncodedColumn $db->{dsn} $db->{user} $db->{password}`;
 
+} else {
+    print "Missing database settings...\n\n";
+}
