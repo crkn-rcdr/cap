@@ -109,7 +109,8 @@ sub index : Private {
                });
                
                $current_date  = new Date::Manip::Date;
-               $err           = $current_date->parse_format('%Y\\-%f\\-%e', $current_date_string);
+               $err           = $current_date->parse($current_date_string);
+               # $err           = $current_date->parse_format('%Y\\-%f\\-%e', $current_date_string);
                if ( $err ) {
                
                    $c->model('DB::CronLog')->create({
