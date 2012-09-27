@@ -215,6 +215,7 @@ sub unconfirmed_accounts {
 # Delete unconfirmed users
 sub delete_unconfirmed {
     my ( $self, $created ) = @_;
+    my $num_deleted = 0;
 
     my $unconfirmed = $self->search(
         {
@@ -225,12 +226,16 @@ sub delete_unconfirmed {
 
         }
     );
-    
-    my $result = $unconfirmed->next;
-    my $deleted = [];
-    
 
-    return $unconfirmed->delete();
+    while (my $user = $unconfirmed->next) {
+
+        # Delete the user_log entries associated with the user.
+        my $userlog = $user->search_related('user_logs', { user_id => $user->id});
+        $userlog->delete;
+        ++$num_deleted if ($user->delete);
+    }
+
+    return $num_deleted;
 }
 
 # Tally logged requests by user

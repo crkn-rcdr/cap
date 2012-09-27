@@ -20,7 +20,12 @@ sub index : Private {
     my $err = $date->parse($datestr);
     my $cutoff_date = $date->printf("%Y-%m-%d %T");
     
-    my $delete = $c->model('DB::User')->delete_unconfirmed($cutoff_date);
+    my $num_removed = $c->model('DB::User')->delete_unconfirmed($cutoff_date);
+    $c->model('DB::CronLog')->create({
+        action  => 'remove unconfirmed users',
+        ok      => 1,
+        message => "Removed $num_removed unconfirmed users",
+    });
 
     return 1;
 }

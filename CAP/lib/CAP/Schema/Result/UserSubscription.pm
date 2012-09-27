@@ -69,6 +69,12 @@ __PACKAGE__->table("user_subscription");
   default_value: 0
   is_nullable: 0
 
+=head2 expiry_logged
+
+  data_type: 'datetime'
+  datetime_undef_if_invalid: 1
+  is_nullable: 1
+
 =head2 last_updated
 
   data_type: 'timestamp'
@@ -93,6 +99,12 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "reminder_sent",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "expiry_logged",
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
   "last_updated",
   {
     data_type => "timestamp",
@@ -147,8 +159,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-26 10:41:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KiPrvi/3YttuEd5codxEhQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-27 12:59:39
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2f6JXgJA/xgdj8ODz+XEVg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
