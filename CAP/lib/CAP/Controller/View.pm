@@ -49,7 +49,7 @@ sub view :Private {
             }
             $c->forward("view_series", [$doc]);
         } when ('document') {
-            $doc->set_auth($c->portal, $c->user, $c->institution);
+            $doc->authorize($c->portal, $c->user, $c->institution);
             $c->forward("view_doc", [$doc, $seq || $doc->record->first_page() ]);
         } when ('page') {
             $c->response->redirect($c->uri_for_action("view/key_seq", $doc->pkey, $doc->seq));

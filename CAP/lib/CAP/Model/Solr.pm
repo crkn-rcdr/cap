@@ -8,7 +8,7 @@ use MooseX::Method::Signatures;
 use namespace::autoclean;
 extends 'Catalyst::Model';
 
-use CAP::Solr::Document;
+use CAP::Solr::AuthDocument;
 use CAP::Solr::Search;
 use CAP::Solr::Query;
 
@@ -86,7 +86,7 @@ method document (Str $key, :$text = 0, :$subset = "") {
     $key =~ s/[^A-Za-z0-9_\.\-]//g; # Strip out characters that are not legal in document IDs
     my %fl = ();
     $fl{fl} = join(",", $self->options->{fl}, "tx") if ($text); # Include the page text
-    eval { $doc = new CAP::Solr::Document({ key => $key, subset => $subset, server => $self->server, options => { %{$self->options}, %fl } }) };
+    eval { $doc = new CAP::Solr::AuthDocument({ key => $key, subset => $subset, server => $self->server, options => { %{$self->options}, %fl } }) };
     if ($@) { warn $@; return undef; }
     return $doc;
 }

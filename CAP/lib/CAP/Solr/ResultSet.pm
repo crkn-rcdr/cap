@@ -79,7 +79,7 @@ method BUILD {
 
     # Populate the docs list
     foreach my $doc ($self->response->docs) {
-        push(@{$self->{docs}}, new CAP::Solr::Document({ server => $self->server, doc => $doc }));
+        push(@{$self->{docs}}, new CAP::Solr::AuthDocument({ server => $self->server, doc => $doc }));
     }
 
 }
