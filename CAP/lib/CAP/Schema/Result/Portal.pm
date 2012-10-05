@@ -42,6 +42,7 @@ __PACKAGE__->table("portal");
 =head2 id
 
   data_type: 'varchar'
+  default_value: (empty string)
   is_nullable: 0
   size: 64
 
@@ -55,7 +56,7 @@ __PACKAGE__->table("portal");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "varchar", is_nullable => 0, size => 64 },
+  { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
   "enabled",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
 );
@@ -74,6 +75,21 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 contributors
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Contributor>
+
+=cut
+
+__PACKAGE__->has_many(
+  "contributors",
+  "CAP::Schema::Result::Contributor",
+  { "foreign.portal_id" => "self.id" },
+  {},
+);
+
 =head2 portal_collections
 
 Type: has_many
@@ -86,7 +102,7 @@ __PACKAGE__->has_many(
   "portal_collections",
   "CAP::Schema::Result::PortalCollection",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_hosts
@@ -101,7 +117,7 @@ __PACKAGE__->has_many(
   "portal_hosts",
   "CAP::Schema::Result::PortalHost",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_subscriptions
@@ -116,12 +132,12 @@ __PACKAGE__->has_many(
   "portal_subscriptions",
   "CAP::Schema::Result::PortalSubscription",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-26 10:41:58
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rVv+pWiwh60yAP3hFrIcMw
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-10-05 11:16:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:mVBjnZfgaEVWY0b6Eul0HQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

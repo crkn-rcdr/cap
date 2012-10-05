@@ -176,7 +176,7 @@ __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
   { "foreign.payment_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_id
@@ -190,8 +190,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-26 10:41:58
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hsfM2p2Ympd7txwOMrfGwg
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-10-05 11:16:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iV6VE2GhF/LsmNp08UEuhQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

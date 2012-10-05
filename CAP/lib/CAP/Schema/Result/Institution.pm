@@ -108,7 +108,34 @@ __PACKAGE__->set_primary_key("id");
 
 __PACKAGE__->add_unique_constraint("code", ["code"]);
 
+=head2 C<name>
+
+=over 4
+
+=item * L</name>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("name", ["name"]);
+
 =head1 RELATIONS
+
+=head2 contributors
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Contributor>
+
+=cut
+
+__PACKAGE__->has_many(
+  "contributors",
+  "CAP::Schema::Result::Contributor",
+  { "foreign.institution_id" => "self.id" },
+  {},
+);
 
 =head2 counter_logs
 
@@ -122,7 +149,7 @@ __PACKAGE__->has_many(
   "counter_logs",
   "CAP::Schema::Result::CounterLog",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_alias
@@ -137,7 +164,7 @@ __PACKAGE__->has_many(
   "institution_alias",
   "CAP::Schema::Result::InstitutionAlias",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_collections
@@ -152,7 +179,7 @@ __PACKAGE__->has_many(
   "institution_collections",
   "CAP::Schema::Result::InstitutionCollection",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_ipaddrs
@@ -167,7 +194,7 @@ __PACKAGE__->has_many(
   "institution_ipaddrs",
   "CAP::Schema::Result::InstitutionIpaddr",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_mgmts
@@ -182,7 +209,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 request_logs
@@ -197,7 +224,7 @@ __PACKAGE__->has_many(
   "request_logs",
   "CAP::Schema::Result::RequestLog",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 stats_usage_institutions
@@ -212,7 +239,7 @@ __PACKAGE__->has_many(
   "stats_usage_institutions",
   "CAP::Schema::Result::StatsUsageInstitution",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_subscription_portal_ids
@@ -227,7 +254,7 @@ __PACKAGE__->has_many(
   "user_subscription_portal_ids",
   "CAP::Schema::Result::UserSubscription",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_subscription_user_ids
@@ -242,7 +269,7 @@ __PACKAGE__->has_many(
   "user_subscription_user_ids",
   "CAP::Schema::Result::UserSubscription",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_ids
@@ -256,8 +283,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-26 10:41:58
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/0TWQIdnj5tXhFWKujXeng
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-10-05 11:16:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:r2sY6Y+wfSSJRGO2iONf9Q
 
 sub aliases {
     my $self = shift;
