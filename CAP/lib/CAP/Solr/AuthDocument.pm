@@ -84,7 +84,7 @@ method authorize ($portal, $user, $institution) {
                         $self->auth->addPage(1);
                     }
                     # If this is a series, the first 2 issues are open to all.
-                    elsif ($self->seq <= 2) {
+                    elsif ($self->seq && $self->seq <= 2) {
                         $self->auth->addPage(1);
                     }
                     # The first 20 pages or 50% (whichever is less) are accessible to all.
