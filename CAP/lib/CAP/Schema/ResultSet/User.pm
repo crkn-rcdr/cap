@@ -115,6 +115,7 @@ sub clear_token
 sub validate_token
 {
     my($self, $cookie) = @_;
+    return 0 unless ($cookie);
     my($id, $token) = split(':', $cookie, 2);
     my $user = $self->find({ id => $id });
     return 0 unless ($token);                 # Token is null/empty
