@@ -204,7 +204,7 @@ sub auto :Private
 
     # Fetch a set of language-appropriate labels and tags.
     $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
-    $c->stash->{contributors} = $c->model('DB::Institution')->get_contributors($c->stash->{lang});
+    $c->stash->{contributors} = $c->model('DB::Institution')->get_contributors($c->stash->{lang}, $c->portal);
     $c->stash->{languages} = $c->model('DB::Language')->get_labels($c->stash->{lang});
     $c->stash->{media} = $c->model('DB::MediaType')->get_labels($c->stash->{lang});
 

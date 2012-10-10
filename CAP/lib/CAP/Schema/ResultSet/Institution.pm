@@ -7,27 +7,22 @@ use Text::Trim qw/trim/;
 
 # builds a labels-like hash of contributor labels from institutions with contributor codes
 sub get_contributors {
-    my ($self, $lang) = @_;
+    my ($self, $lang, $portal) = @_;
 
     # get the contributors and aliases
-    my @contributors = $self->search(
-        {
-            code => { '!=' => undef }
-        },
-        {
-            join => 'institution_alias',
-            '+select' => ['institution_alias.name', 'institution_alias.lang'],
-            '+as' => ['alias', 'alias_lang']
-        }
+    my @institutions = $self->search(
+        { code => { '!=' => undef } }
     );
 
     # build the hash
-    my $hash = {};
-    foreach my $contributor (@contributors) {
-        my $alias = $contributor->get_column('alias');
-        my $alias_lang = $contributor->get_column('alias_lang');
-        next if $hash->{$contributor->code} && $alias_lang ne $lang; # skip rows with aliases we don't need
-        $hash->{$contributor->code} = $alias && $alias_lang eq $lang ? $alias : $contributor->name;
+    my $hash = { names => {}, info => {} }; # hackish, but it's to preserve the label logic in the view
+    foreach my $institution (@institutions) {
+        my $alias = $institution->find_related('institution_alias', { lang => $lang });
+        my $contributor = $institution->find_related('contributors', { portal_id => $portal->id, lang => $lang });
+        $hash->{names}->{$institution->code} = $alias ? $alias->name : $institution->name;
+        if ($contributor) {
+            $hash->{info}->{$institution->code} = { url => $contributor->url, description => $contributor->description };
+        }
     }
     return $hash;
 }
