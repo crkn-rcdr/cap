@@ -218,7 +218,7 @@ sub contributor_POST {
     my @urls = ref($data{url}) eq 'ARRAY' ? @{$data{url}} : ($data{url});
     my @descriptions = ref($data{description}) eq 'ARRAY' ? @{$data{description}} : ($data{description});
 
-    if (grep(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, @urls) != scalar(@urls)) {
+    if (grep(/^((https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?)?$/, @urls) != scalar(@urls)) {
         $c->message({ type => "error", message => "url_invalid" });
         $c->stash(entity => $institution->portal_contributor($data{portal}));
     } else {
