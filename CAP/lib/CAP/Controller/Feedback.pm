@@ -45,7 +45,7 @@ sub index :Path :Args(0) {
         $c->stash->{full_name} = $c->user_exists ? $c->user->name : 'anonymous user' ;
         $c->stash->{user_name} = $c->user_exists ? $c->user->username : 'not logged in';
         $c->stash->{sending_message} = 0;
-        $c->forward("/mail/feedback");
+        # $c->forward("/mail/feedback");
     }
     
     
