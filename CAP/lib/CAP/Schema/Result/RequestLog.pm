@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::RequestLog;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::RequestLog
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<request_log>
+=head1 NAME
+
+CAP::Schema::Result::RequestLog
 
 =cut
 
@@ -126,20 +107,19 @@ __PACKAGE__->add_columns(
   "args",
   { data_type => "varchar", is_nullable => 1, size => 256 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
+
+=head2 user_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 =head2 institution_id
 
@@ -170,19 +150,9 @@ __PACKAGE__->has_many(
   {},
 );
 
-=head2 user_id
 
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::User>
-
-=cut
-
-__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
-
-
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-10-05 11:16:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:W8tOBFMycWYSIct7Br7lvg
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-10-15 16:37:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N97zz6VadF/H+HC+w0t2mw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::UserSubscription;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::UserSubscription
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<user_subscription>
+=head1 NAME
+
+CAP::Schema::Result::UserSubscription
 
 =cut
 
@@ -82,6 +63,11 @@ __PACKAGE__->table("user_subscription");
   default_value: current_timestamp
   is_nullable: 0
 
+=head2 level
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -112,20 +98,9 @@ __PACKAGE__->add_columns(
     default_value => \"current_timestamp",
     is_nullable => 0,
   },
+  "level",
+  { data_type => "integer", is_nullable => 1 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</user_id>
-
-=item * L</portal_id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("user_id", "portal_id");
 
 =head1 RELATIONS
@@ -159,8 +134,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-27 12:59:39
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2f6JXgJA/xgdj8ODz+XEVg
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-10-15 16:37:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SCg3k384K9bLbo52tJ1Z+w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

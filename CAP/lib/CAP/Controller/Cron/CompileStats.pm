@@ -128,12 +128,6 @@ sub index : Private {
                # update or insert as required
                $monthly_stats->{'institution_id'} = $inst;               
                $monthly_stats->{'month_starting'} = $first_of_month;              
-               $c->log->error("updating row for institution $inst and month starting $first_of_month");
-               $c->model('DB::CronLog')->create({
-                      action  => 'compile institutional stats',
-                      ok      => 1,
-                      message => "updating row for institution $inst and month starting $first_of_month"
-               });
                $c->model('DB::StatsUsageInstitution')->update_monthly_stats($monthly_stats);
 
            }

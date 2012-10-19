@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::Institution;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::Institution
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<institution>
+=head1 NAME
+
+CAP::Schema::Result::Institution
 
 =cut
 
@@ -81,44 +62,8 @@ __PACKAGE__->add_columns(
   "subscriber",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("id");
-
-=head1 UNIQUE CONSTRAINTS
-
-=head2 C<code>
-
-=over 4
-
-=item * L</code>
-
-=back
-
-=cut
-
 __PACKAGE__->add_unique_constraint("code", ["code"]);
-
-=head2 C<name>
-
-=over 4
-
-=item * L</name>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("name", ["name"]);
 
 =head1 RELATIONS
 
@@ -272,19 +217,9 @@ __PACKAGE__->has_many(
   {},
 );
 
-=head2 user_ids
 
-Type: many_to_many
-
-Composing rels: L</institution_mgmts> -> user_id
-
-=cut
-
-__PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
-
-
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-10-05 11:16:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:r2sY6Y+wfSSJRGO2iONf9Q
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-10-15 16:37:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:MSTEoiZIs6/WylDhJVgCSg
 
 sub aliases {
     my $self = shift;

@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::UserRole;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::UserRole
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<user_role>
+=head1 NAME
+
+CAP::Schema::Result::UserRole
 
 =cut
 
@@ -73,32 +54,9 @@ __PACKAGE__->add_columns(
     size => 32,
   },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</user_id>
-
-=item * L</role_id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("user_id", "role_id");
 
 =head1 RELATIONS
-
-=head2 role_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::Role>
-
-=cut
-
-__PACKAGE__->belongs_to("role_id", "CAP::Schema::Result::Role", { id => "role_id" });
 
 =head2 user_id
 
@@ -110,9 +68,19 @@ Related object: L<CAP::Schema::Result::User>
 
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
+=head2 role_id
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-26 10:41:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:351P22Tp2PeuZCxeCIni7Q
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Role>
+
+=cut
+
+__PACKAGE__->belongs_to("role_id", "CAP::Schema::Result::Role", { id => "role_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-10-15 16:37:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bnPn/2r78ySZBq61HZXfUg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

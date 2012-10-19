@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::SlideDescription;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::SlideDescription
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<slide_description>
+=head1 NAME
+
+CAP::Schema::Result::SlideDescription
 
 =cut
 
@@ -66,19 +47,6 @@ __PACKAGE__->add_columns(
   "description",
   { data_type => "text", is_nullable => 1 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</slide_id>
-
-=item * L</lang>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("slide_id", "lang");
 
 =head1 RELATIONS
@@ -94,8 +62,8 @@ Related object: L<CAP::Schema::Result::Slide>
 __PACKAGE__->belongs_to("slide_id", "CAP::Schema::Result::Slide", { id => "slide_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-09-26 10:41:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PgeEaITsWY+GyE5Iv4vxig
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-10-15 16:37:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CdPWDn6E3dM+knFTR4ysUg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
