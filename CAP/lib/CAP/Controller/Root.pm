@@ -69,13 +69,14 @@ sub auto :Private
         # usrlang cookie that remembers the last selected preference; the
         # user agent's accept-language value; and finally the default
         # language.
-        if (! $portal{default_lang}) {
-            $c->detach("config_error", ["default_lang is not set in $config_file"]);
+        my $default_lang = $c->portal->default_lang;
+        if (! $default_lang) {
+            $c->detach("config_error", ["no supported languages defined for portal " . $c->portal->id]);
         }
-        if ($c->request->params->{usrlang} && $portal{lang}->{$c->request->params->{usrlang}}) {
+        if ($c->request->params->{usrlang} && $c->portal->supports_lang($c->request->params->{usrlang})) {
             $c->stash->{lang} = $c->request->params->{usrlang};
         }
-        elsif ($c->request->cookie('usrlang') && $portal{lang}->{$c->request->cookie('usrlang')->value}) {
+        elsif ($c->request->cookie('usrlang') && $c->portal->supports_lang($c->request->cookie('usrlang')->value)) {
             $c->stash->{lang} = $c->request->cookie('usrlang')->value;
         }
         elsif ($c->req->header('Accept-Language')) {
@@ -83,17 +84,16 @@ sub auto :Private
                 my ($value) = split(';q=', $accept_lang);
                 if ($value) {
                     $value = lc(substr($value, 0, 2));
-                    if ($portal{lang}->{$value}) {
+                    if ($c->portal->supports_lang($value)) {
                         $c->stash->{lang} = $value;
                         last;
                     }
                 }
             }
         }
-        $c->stash->{lang} = $portal{default_lang} unless $c->stash->{lang};
+        $c->stash->{lang} = $default_lang unless $c->stash->{lang};
 
         # Stash whether or not user account and access control functions are enabled
-        $c->stash->{user_accounts}  = $portal{user_accounts};
         $c->stash->{payment_processing} = $portal{payment_processing};
         if ($portal{access_model}) {
             $c->stash->{access_model} = $portal{access_model};
@@ -102,14 +102,8 @@ sub auto :Private
             $c->stash->{access_model} = 'default';
         }
 
-        # Stash whether or not to show media icons
-        $c->stash->{media_icons} = $portal{media_icons} || 0;
-
         # Stash the list of valid support terms
         $c->stash->{support} = $portal{support} if ($portal{support});
-
-        # Stash portal-supported features
-        $c->stash->{features} = $portal{features} || {};
 
         # Set the subscription price and eligible tax receipt amount, if
         # any
@@ -118,13 +112,15 @@ sub auto :Private
         $c->stash->{tax_rcpt_pct} = $portal{tax_rcpt_pct} || 0;
 
         # Stash the portal name
+        # TODO: this needs to be moved to a DB table.
         $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};
 
         # Stash the search bar placeholder text
+        # TODO: this needs to be moved to a DB table.
         $c->stash->{search_bar_placeholder} = $portal{lang}->{$c->stash->{lang}}->{search_bar_placeholder} || "";
 
         # Stash a list of supported interface languages
-        $c->stash->{supported_langs} = [keys(%{$portal{lang}})];
+        $c->stash->{supported_langs} = $c->portal->langs;
 
         # TODO: can be removed when all of the portals have portal_collection data in their tables
         $c->stash->{search_subset} = $portal{search_subset} || "";

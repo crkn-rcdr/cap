@@ -20,7 +20,7 @@ sub auto :Private {
     my($self, $c) = @_;
 
     # Require that this portal has user accounts enabled
-    if (! $c->stash->{user_accounts}) {
+    if (! $c->portal->has_feature('users')) {
         $c->response->redirect($c->uri_for_action('/index'));
         return 0;
     }

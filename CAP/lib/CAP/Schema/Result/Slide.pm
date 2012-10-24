@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::Slide;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::Slide
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::Slide
+=head1 TABLE: C<slide>
 
 =cut
 
@@ -71,6 +90,17 @@ __PACKAGE__->add_columns(
   "thumb_url",
   { data_type => "varchar", is_nullable => 0, size => 512 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</id>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
@@ -87,12 +117,12 @@ __PACKAGE__->has_many(
   "slide_descriptions",
   "CAP::Schema::Result::SlideDescription",
   { "foreign.slide_id" => "self.id" },
-  {},
+  undef,
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-10-15 16:37:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:YHcJnlPDC1AZKk+JpRX6WQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-24 09:02:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VM7RZYnalj3S5Bl3YoNu7A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
