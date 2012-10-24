@@ -198,6 +198,13 @@ sub default_lang {
     return undef;
 }
 
+sub has_feature {
+    my($self, $feature) = @_;
+    my $result = $self->search_related('portal_features', { feature => $feature });
+    return 1 if ($result->count);
+    return 0;
+}
+
 # Return true/false depending on whether $lang is supported by this
 # portal.
 sub supports_lang {
