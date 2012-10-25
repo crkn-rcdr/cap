@@ -101,7 +101,6 @@ sub view_series :Private {
 
     my $page = ($c->req->params->{page} && int($c->req->params->{page} > 0)) ? int($c->req->params->{page}) : 1;
 
-    my $subset = $c->stash->{search_subset};
     my $query = $c->model('Solr')->query;
     $query->limit_type('issue');
     $query->append("pkey:" . $doc->key);
@@ -111,7 +110,7 @@ sub view_series :Private {
         'rows' => 20,
     };
     my $issues;
-    eval { $issues = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page) };
+    eval { $issues = $c->model('Solr')->search($c->search_subset)->query($query->to_string, options => $options, page => $page) };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
     $c->stash(

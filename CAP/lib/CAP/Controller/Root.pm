@@ -122,16 +122,6 @@ sub auto :Private
         # Stash a list of supported interface languages
         $c->stash->{supported_langs} = $c->portal->langs;
 
-        # TODO: can be removed when all of the portals have portal_collection data in their tables
-        $c->stash->{search_subset} = $portal{search_subset} || "";
-
-        # Stash the content sets hosted by this portal
-        $c->stash->{hosted} = {};
-        foreach my $set (keys(%{$portal{hosted}})) {
-            # TODO: allow for lists of values...
-            $c->stash->{hosted}->{$set} = $portal{hosted}->{$set};
-        }
-        
         # Stash the instituion alias
         if ($c->session->{subscribing_institution_id}) {
         

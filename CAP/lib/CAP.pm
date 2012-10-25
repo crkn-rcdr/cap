@@ -96,6 +96,8 @@ sub has_role {
 }
 
 # Retrieve the Solr search subset
+# TODO: replace this with a $c->portal->search_subset call + update refs
+# in the controllers.
 sub search_subset {
     my($c) = @_;
     my $subset = $c->model('DB::PortalCollection')->search_subset($c->portal->id);

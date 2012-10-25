@@ -222,4 +222,18 @@ sub langs {
     return $langs;
 }
 
+# Return true if at least one of the collection fields in $doc's record
+# matches a hosted collection for this portal.
+sub hosts_doc {
+    my($self, $doc) = @_;
+    foreach my $hosted ($self->search_related('portal_collections', { hosted => 1 })) {
+        foreach my $collection (@{$doc->record->collection}) {
+            if ($collection eq $hosted->collection_id) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 1;
