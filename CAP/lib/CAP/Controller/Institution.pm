@@ -124,8 +124,6 @@ sub show_stats {
             #                                   join('-', ($year, $month, '1')));
             $err = $current_date->parse(join('-', ($year, $month, '1')));
             $first_of_month = $current_date->printf("%Y-%m-01");
-            $c->log->error("first_of_month is $first_of_month");
-            $c->log->error("institution number is $inst_arg");
             push(
                  @{$yearly_stats},
                  $c->model('DB::StatsUsageInstitution')->get_stats($inst_arg, $first_of_month)

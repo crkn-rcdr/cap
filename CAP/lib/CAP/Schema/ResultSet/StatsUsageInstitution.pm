@@ -50,7 +50,7 @@ sub first_month {
 
     # returns the month of the first entry
     my $self = shift();
-    my $row = $self->find( {}, { order_by => { -asc => 'month_starting' } } );
+    my $row = $self->search( {}, { order_by => { -asc => 'month_starting' } } )->first;
 
     # return 0 if the database is empty;
     my $first_month = defined($row) ? $row->month_starting : 0;
