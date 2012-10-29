@@ -112,12 +112,10 @@ sub auto :Private
         $c->stash->{tax_rcpt_pct} = $portal{tax_rcpt_pct} || 0;
 
         # Stash the portal name
-        # TODO: this needs to be moved to a DB table.
-        $c->stash->{portal_name} = $portal{lang}->{$c->stash->{lang}}->{name};
+        $c->stash->{portal_name} = $c->portal->get_string('name', $c->stash->{lang});
 
         # Stash the search bar placeholder text
-        # TODO: this needs to be moved to a DB table.
-        $c->stash->{search_bar_placeholder} = $portal{lang}->{$c->stash->{lang}}->{search_bar_placeholder} || "";
+        $c->stash->{search_bar_placeholder} = $c->portal->get_string('search_bar', $c->stash->{lang});
 
         # Stash a list of supported interface languages
         $c->stash->{supported_langs} = $c->portal->langs;

@@ -149,6 +149,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 portal_strings
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::PortalString>
+
+=cut
+
+__PACKAGE__->has_many(
+  "portal_strings",
+  "CAP::Schema::Result::PortalString",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
 =head2 portal_subscriptions
 
 Type: has_many
@@ -165,8 +180,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-24 09:02:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lfQTM4GjwD9iaF/UpTDKBQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-29 08:52:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8xqiiKMMvqXtwFAAFyAW/w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
@@ -220,6 +235,15 @@ sub langs {
         push(@{$langs}, $_->lang);
     }
     return $langs;
+}
+
+# Returns the string associated with $label and $lang.
+sub get_string {
+    my($self, $label, $lang) = @_;
+    my $result = $self->search_related('portal_strings', { label => $label, lang => $lang });
+    return $result->first->string if ($result->count);
+    return ("[UNDEFINED $label-$lang]");
+
 }
 
 # Return true if at least one of the collection fields in $doc's record
