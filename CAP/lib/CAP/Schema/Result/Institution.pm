@@ -200,6 +200,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 institution_subscriptions
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::InstitutionSubscription>
+
+=cut
+
+__PACKAGE__->has_many(
+  "institution_subscriptions",
+  "CAP::Schema::Result::InstitutionSubscription",
+  { "foreign.institution_id" => "self.id" },
+  undef,
+);
+
 =head2 request_logs
 
 Type: has_many
@@ -260,6 +275,16 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 portal_ids
+
+Type: many_to_many
+
+Composing rels: L</institution_subscriptions> -> portal_id
+
+=cut
+
+__PACKAGE__->many_to_many("portal_ids", "institution_subscriptions", "portal_id");
+
 =head2 user_ids
 
 Type: many_to_many
@@ -271,8 +296,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-24 09:02:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Zx1cQeXRNwgD1VWlsVaMrg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-29 15:12:14
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jAA3WJW8b2xE7DQ7lOKrkg
 
 sub aliases {
     my $self = shift;
@@ -300,6 +325,14 @@ sub set_alias {
     } else {
         $self->delete_related('institution_alias', { lang => $lang });
     }
+}
+
+# Return true if this institution subscribes to the current portal.
+sub is_subscriber {
+    my($self, $portal) = @_;
+    my $subscriber = $self->search_related('institution_subscriptions', { portal_id => $portal->id })->count;
+    return 1 if $subscriber;
+    return 0;
 }
 
 sub portal_contributor {

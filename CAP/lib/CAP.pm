@@ -88,11 +88,15 @@ __PACKAGE__->config(
 __PACKAGE__->setup();
 
 
-# Return true if an authenticated user exists and has the named role.
+# Return true if an authenticated user exists and has at least one of the
+# named roles
 sub has_role {
-    my($c, $role) = @_;
+    my($c, @roles) = @_;
     return 0 unless $c->user_exists;
-    return $c->model('DB::UserRole')->user_has_role($c->user->id, $role);
+    foreach my $role (@roles) {
+        return 1 if $c->model('DB::UserRole')->user_has_role($c->user->id, $role);
+    }
+    return 0;
 }
 
 # Retrieve the Solr search subset
@@ -143,11 +147,21 @@ sub update_session {
         # Find the user's subscribing institution, if any
         $c->session->{subscribing_institution} = "";
         my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->req->address);
+
+        # TODO: delete this once the portal admin interface for multiple
+        # portals is done.
         if ($institution && $institution->subscriber) {
             $c->session->{subscribing_institution} = $institution->name;
             $c->session->{subscribing_institution_id} = $institution->id;
             $c->session->{auth}->{institution_sub} = 1;
-         }
+        }
+
+        if ($institution && $institution->is_subscriber($c->portal)) {
+                $c->session->{subscribing_institution} = $institution->name;
+                $c->session->{subscribing_institution_id} = $institution->id;
+                $c->session->{auth}->{institution_sub} = 1;
+        }
+
 
         $c->session->{is_subscriber} = 0;
         if ($c->user_exists) {
