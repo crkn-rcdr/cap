@@ -37,7 +37,7 @@ sub update_monthly_stats {
 
 sub last_update {
     my $self = shift();
-    my $row = $self->find( {}, { order_by => { -desc => 'last_updated' } } );
+    my $row = $self->search( {}, { order_by => { -desc => 'last_updated' } } )->first;
 
     # return 0 if the database is empty;
     my $last_update = defined($row) ? $row->month_starting : 0;
