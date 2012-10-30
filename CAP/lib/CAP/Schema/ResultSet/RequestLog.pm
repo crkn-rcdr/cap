@@ -12,7 +12,7 @@ sub log {
 
     my $user_id = $c->user_exists() ? $c->user->id : undef;
 
-    my $institution_id = $c->session->{subscribing_institution_id} || undef;
+    my $institution_id = $c->session->{subscribing_institution_id} || 0;
 
     my $args = join( "/", @{ $c->request->arguments } );
 

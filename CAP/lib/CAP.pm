@@ -145,7 +145,7 @@ sub update_session {
         };    
 
         # Find the user's subscribing institution, if any
-        $c->session->{subscribing_institution} = "";
+        $c->session->{subscribing_institution} = 0;
         my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->req->address);
 
         # TODO: delete this once the portal admin interface for multiple
