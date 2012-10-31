@@ -87,6 +87,11 @@ method parent {
     return $self->{_parent_cache} if ($self->{_parent_cache});
     eval { $doc = new CAP::Solr::Document({ key => $self->record->pkey, server => $self->server }) };
 
+    # If we didn't get an actual document, output a warning to stderr to
+    # alert us to the fact that we have bad metadata and/or missing
+    # records.
+    warn(sprintf("Parent record not found: %s", $self->record->pkey)) unless ($doc->exists);
+
     # Check whether we got a value. Ignore parents that are not of the
     # right type for the document. (This will prevent circular references
     # and other invalid structures.)
@@ -189,14 +194,14 @@ method _request_uri (Str $content_url, Str $filename, ArrayRef $params) {
 
 # Convenient accessors for fields used internally by cap so we can
 # reference them as $self->fieldname rather than $self->record->fieldname
-method canonicalDownload { return $self->record->canonicalDownload; }
-method canonicalMaster   { return $self->record->canonicalMaster; }
-method canonicalUri      { return $self->record->canonicalUri; }
-method contributor       { return $self->record->contributor; }
-method label             { return $self->record->label; }
-method pkey              { return $self->record->pkey; }
-method seq               { return $self->record->seq; }
-method record_type       { return $self->record->type; }
+method canonicalDownload { return $self->record->canonicalDownload if $self->exists; }
+method canonicalMaster   { return $self->record->canonicalMaster if $self->exists; }
+method canonicalUri      { return $self->record->canonicalUri if $self->exists; }
+method contributor       { return $self->record->contributor if $self->exists; }
+method label             { return $self->record->label if $self->exists; }
+method pkey              { return $self->record->pkey if $self->exists; }
+method seq               { return $self->record->seq if $self->exists; }
+method record_type       { return $self->record->type if $self->exists; }
 
 method type_is (Str $type) {
     return 1 if ($self->record_type eq $type);
