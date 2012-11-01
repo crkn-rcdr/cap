@@ -104,6 +104,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 outbound_links
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::OutboundLink>
+
+=cut
+
+__PACKAGE__->has_many(
+  "outbound_links",
+  "CAP::Schema::Result::OutboundLink",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
 =head2 portal_collections
 
 Type: has_many
@@ -209,8 +224,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-29 15:12:14
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B99GPbt0wbubNAaVmtqSoA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-01 11:32:04
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Fpnx/iMSir4UBVMkD5w6LA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
