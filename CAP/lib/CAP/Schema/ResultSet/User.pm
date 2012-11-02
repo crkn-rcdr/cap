@@ -115,7 +115,6 @@ sub clear_token
 sub validate_token
 {
     my($self, $cookie) = @_;
-    return 0 unless ($cookie);
     my($id, $token) = split(':', $cookie, 2);
     my $user = $self->find({ id => $id });
     return 0 unless ($token);                 # Token is null/empty
@@ -316,6 +315,20 @@ sub set_remindersent {
 
        return 1;
     
+}
+
+sub get_user_info {
+
+    my($self, $id) = @_;
+    my $get_row =  $self->search( {} );
+    my $result = []; 
+    my $row; 
+    while ($row = $get_row->next) {
+       push (@$result,$row)
+    }
+
+    return $result;
+
 }
 
 
