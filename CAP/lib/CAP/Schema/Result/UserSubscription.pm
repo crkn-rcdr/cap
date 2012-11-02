@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::UserSubscription;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::UserSubscription
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<user_subscription>
+=head1 NAME
+
+CAP::Schema::Result::UserSubscription
 
 =cut
 
@@ -47,9 +28,11 @@ __PACKAGE__->table("user_subscription");
 
 =head2 portal_id
 
-  data_type: 'integer'
+  data_type: 'varchar'
+  default_value: (empty string)
   is_foreign_key: 1
   is_nullable: 0
+  size: 64
 
 =head2 expires
 
@@ -82,13 +65,24 @@ __PACKAGE__->table("user_subscription");
   default_value: current_timestamp
   is_nullable: 0
 
+=head2 level
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "portal_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  {
+    data_type => "varchar",
+    default_value => "",
+    is_foreign_key => 1,
+    is_nullable => 0,
+    size => 64,
+  },
   "expires",
   {
     data_type => "datetime",
@@ -112,55 +106,40 @@ __PACKAGE__->add_columns(
     default_value => \"current_timestamp",
     is_nullable => 0,
   },
+  "level",
+  { data_type => "integer", is_nullable => 1 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</user_id>
-
-=item * L</portal_id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("user_id", "portal_id");
 
 =head1 RELATIONS
-
-=head2 portal_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::Institution>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "portal_id",
-  "CAP::Schema::Result::Institution",
-  { id => "portal_id" },
-);
 
 =head2 user_id
 
 Type: belongs_to
 
-Related object: L<CAP::Schema::Result::Institution>
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+=head2 portal_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Portal>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "user_id",
-  "CAP::Schema::Result::Institution",
-  { id => "user_id" },
+  "portal_id",
+  "CAP::Schema::Result::Portal",
+  { id => "portal_id" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-24 09:02:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vwK82tz3FM6uKLLOUjvZeQ
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-11-02 08:56:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CsISUfa0RWjuDZYFV6ov2A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

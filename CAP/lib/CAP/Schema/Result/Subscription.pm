@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::Subscription;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::Subscription
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<subscription>
+=head1 NAME
+
+CAP::Schema::Result::Subscription
 
 =cut
 
@@ -194,46 +175,21 @@ __PACKAGE__->add_columns(
   "note",
   { data_type => "text", is_nullable => 1 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("id");
-
-=head1 UNIQUE CONSTRAINTS
-
-=head2 C<rcpt_id>
-
-=over 4
-
-=item * L</rcpt_id>
-
-=back
-
-=cut
-
 __PACKAGE__->add_unique_constraint("rcpt_id", ["rcpt_id"]);
-
-=head2 C<rcpt_no>
-
-=over 4
-
-=item * L</rcpt_no>
-
-=back
-
-=cut
-
 __PACKAGE__->add_unique_constraint("rcpt_no", ["rcpt_no"]);
 
 =head1 RELATIONS
+
+=head2 user_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 =head2 payment_id
 
@@ -249,19 +205,9 @@ __PACKAGE__->belongs_to(
   { id => "payment_id" },
 );
 
-=head2 user_id
 
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::User>
-
-=cut
-
-__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
-
-
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-24 09:02:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LvPXHMBW1/xvO97yINVeFA
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-11-02 08:56:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4MoBVW+W7R3i8hDuw1es9w
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

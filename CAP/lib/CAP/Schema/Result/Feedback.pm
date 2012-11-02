@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::Feedback;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::Feedback
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<feedback>
+=head1 NAME
+
+CAP::Schema::Result::Feedback
 
 =cut
 
@@ -97,17 +78,6 @@ __PACKAGE__->add_columns(
   "comments",
   { data_type => "text", is_nullable => 1 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
@@ -123,8 +93,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-24 09:02:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:mpHGeouZYz/Sd5dX1oESvA
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-11-02 08:56:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xrI7+R4N2yhh8hNig/42qg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

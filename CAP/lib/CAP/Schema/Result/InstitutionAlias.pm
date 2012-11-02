@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::InstitutionAlias;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::InstitutionAlias
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<institution_alias>
+=head1 NAME
+
+CAP::Schema::Result::InstitutionAlias
 
 =cut
 
@@ -53,7 +34,7 @@ __PACKAGE__->table("institution_alias");
 
 =head2 name
 
-  data_type: 'text'
+  data_type: 'mediumtext'
   is_nullable: 0
 
 =cut
@@ -64,21 +45,8 @@ __PACKAGE__->add_columns(
   "lang",
   { data_type => "varchar", is_nullable => 0, size => 2 },
   "name",
-  { data_type => "text", is_nullable => 0 },
+  { data_type => "mediumtext", is_nullable => 0 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</institution_id>
-
-=item * L</lang>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("institution_id", "lang");
 
 =head1 RELATIONS
@@ -98,8 +66,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-10-24 09:02:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Pm5DqQ4/qRZ8bDh5JuULGw
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-11-02 08:56:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Y+cdJWUXRJ6MOYzvIH5SJw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
