@@ -34,7 +34,6 @@ sub export {
         my $line = join(";",
             $inst->name,
             defined($inst->code) ? $inst->code : "",
-            $inst->subscriber
         );
 
         my $aliases = {};
@@ -60,7 +59,6 @@ sub import {
             my $record = { name => shift @items };
             my $code = shift @items;
             $record->{code} = $code if $code;
-            $record->{subscriber} = shift @items;
             my $institution = $self->update_or_create($record);
 
             # now for the aliases

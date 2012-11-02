@@ -39,12 +39,6 @@ __PACKAGE__->table("institution");
   is_nullable: 0
   size: 128
 
-=head2 subscriber
-
-  data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -59,11 +53,21 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
     size => 128,
   },
-  "subscriber",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
 );
 __PACKAGE__->set_primary_key("id");
 __PACKAGE__->add_unique_constraint("code", ["code"]);
+
+=head2 C<name>
+
+=over 4
+
+=item * L</name>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("name", ["name"]);
 
 =head1 RELATIONS
 

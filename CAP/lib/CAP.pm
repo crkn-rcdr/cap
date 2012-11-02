@@ -148,14 +148,6 @@ sub update_session {
         $c->session->{subscribing_institution} = 0;
         my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->req->address);
 
-        # TODO: delete this once the portal admin interface for multiple
-        # portals is done.
-        if ($institution && $institution->subscriber) {
-            $c->session->{subscribing_institution} = $institution->name;
-            $c->session->{subscribing_institution_id} = $institution->id;
-            $c->session->{auth}->{institution_sub} = 1;
-        }
-
         if ($institution && $institution->is_subscriber($c->portal)) {
                 $c->session->{subscribing_institution} = $institution->name;
                 $c->session->{subscribing_institution_id} = $institution->id;

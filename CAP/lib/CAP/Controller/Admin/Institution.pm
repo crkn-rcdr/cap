@@ -31,7 +31,6 @@ sub index_GET {
         $list->{$institution->name} = {
             id => $institution->id,
             code => $institution->code ? $institution->code : '',
-            subscriber => $institution->subscriber,
             url => $c->uri_for_action('admin/institution/edit', [$institution->id])->as_string(),
         };
     }
@@ -69,7 +68,6 @@ sub create :Path('create') {
     my($self, $c) = @_;
     my $name = $c->req->body_parameters->{name};
     my $code = $c->req->body_parameters->{code} ? $c->req->body_parameters->{code} : undef;
-    my $subscriber = $c->req->body_parameters->{subscriber} ? 1 : 0;
     unless ($name) {
         $c->message({ type => "error", message => "institution_name_required" });
         $c->res->redirect($c->uri_for_action("/admin/institution/index"));
@@ -84,7 +82,6 @@ sub create :Path('create') {
     my $institution = $c->model('DB::Institution')->create({
         name => $name,
         code => $code,
-        subscriber => $subscriber,
     });
     $c->res->redirect($c->uri_for_action('admin/institution/edit', [$institution->id]));
 }
@@ -105,10 +102,17 @@ sub edit_GET {
         $self->status_not_found( $c, message => "No such institution");
         return 1;
     }
-    my $portals = [uniq(values %{$c->config->{portals}})];
+    my %portals = ();
+    foreach($c->model("DB::PortalString")->search({ lang => $c->stash->{lang}, label => 'name'})) {
+        $portals{$_->get_column('portal_id')} = $_->get_column('string');
+    }
     my @contributed = ();
-    foreach ($institution->search_related('contributors')) {
+    foreach ($institution->search_related('contributors', { lang => $c->stash->{lang} })) {
         push @contributed, $_->get_column('portal_id');
+    }
+    my @subscriptions = ();
+    foreach ($institution->search_related('institution_subscriptions')) {
+        push @subscriptions, $_->get_column('portal_id');
     }
 
     $c->stash(
@@ -116,12 +120,12 @@ sub edit_GET {
             id => $institution->id,
             name => $institution->name,
             code => $institution->code ? $institution->code : '',
-            subscriber => $institution->subscriber,
             ip_addresses => $institution->ip_addresses,
             aliases => $institution->aliases,
             },
-        portals => $portals,
-        contributed => @contributed
+        portals => \%portals,
+        contributed => \@contributed,
+        subscriptions => \@subscriptions
     );
 
     $self->status_ok($c, entity => $c->stash->{entity});
@@ -156,7 +160,6 @@ sub edit_POST {
             $institution->update({
                 name => $data{name},
                 code => $data{code} ? $data{code} : undef,
-                subscriber => $data{subscriber} ? 1 : 0
             });
         } when ('delete_ip') {
             $c->model('DB::InstitutionIpaddr')->delete_address($data{delete_ip_range});
@@ -180,6 +183,25 @@ sub edit_POST {
 
     $c->message({ type => "success", message => "institution_updated" });
     $c->res->redirect($c->uri_for_action("/admin/institution/edit", $id));
+    return 1;
+}
+
+
+sub subscribe :Path('subscribe') Args(1) {
+    my($self, $c, $id) = @_;
+    my $institution = $c->model('DB::Institution')->find({ id => $id });
+    $institution->find_or_create_related('institution_subscriptions', { portal_id => $c->req->body_params->{portal} });
+    $c->message({ type => 'success', message => 'institution_subscribed' });
+    $c->response->redirect($c->uri_for_action("/admin/institution/edit", $id));
+    return 1;
+}
+
+sub delete_subscription :Path('delete_subscription') Args(1) {
+    my($self, $c, $id) = @_;
+    my $institution = $c->model('DB::Institution')->find({ id => $id });
+    $institution->delete_related('institution_subscriptions', { portal_id => $c->req->params->{portal} });
+    $c->message({ type => 'success', message => 'institution_unsubscribed' });
+    $c->response->redirect($c->uri_for_action("/admin/institution/edit", $id));
     return 1;
 }
 
