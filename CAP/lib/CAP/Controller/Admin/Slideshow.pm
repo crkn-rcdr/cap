@@ -33,11 +33,14 @@ sub index_GET {
                 '+select' => [ {'count' => '*'} ],
                 '+as' => [ 'count' ]
             })];
-    my $portals = [uniq(values %{$c->config->{portals}})];
+    my %portals = ();
+    foreach($c->model("DB::PortalString")->search({ lang => $c->stash->{lang}, label => 'name'})) {
+        $portals{$_->get_column('portal_id')} = $_->get_column('string');
+    }
     $c->stash(
         {
             slideshows => $slideshows,
-            portals => $portals
+            portals => \%portals
         }
     );
     $self->status_ok($c, entity => $list);
