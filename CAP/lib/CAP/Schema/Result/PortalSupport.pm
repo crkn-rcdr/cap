@@ -1,12 +1,12 @@
 use utf8;
-package CAP::Schema::Result::PortalHost;
+package CAP::Schema::Result::PortalSupport;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-CAP::Schema::Result::PortalHost
+CAP::Schema::Result::PortalSupport
 
 =cut
 
@@ -31,47 +31,57 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<portal_host>
+=head1 TABLE: C<portal_support>
 
 =cut
 
-__PACKAGE__->table("portal_host");
+__PACKAGE__->table("portal_support");
 
 =head1 ACCESSORS
-
-=head2 id
-
-  data_type: 'varchar'
-  is_nullable: 0
-  size: 32
 
 =head2 portal_id
 
   data_type: 'varchar'
+  default_value: (empty string)
   is_foreign_key: 1
-  is_nullable: 1
+  is_nullable: 0
+  size: 64
+
+=head2 page
+
+  data_type: 'varchar'
+  default_value: (empty string)
+  is_nullable: 0
   size: 64
 
 =cut
 
 __PACKAGE__->add_columns(
-  "id",
-  { data_type => "varchar", is_nullable => 0, size => 32 },
   "portal_id",
-  { data_type => "varchar", is_foreign_key => 1, is_nullable => 1, size => 64 },
+  {
+    data_type => "varchar",
+    default_value => "",
+    is_foreign_key => 1,
+    is_nullable => 0,
+    size => 64,
+  },
+  "page",
+  { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
 );
 
 =head1 PRIMARY KEY
 
 =over 4
 
-=item * L</id>
+=item * L</portal_id>
+
+=item * L</page>
 
 =back
 
 =cut
 
-__PACKAGE__->set_primary_key("id");
+__PACKAGE__->set_primary_key("portal_id", "page");
 
 =head1 RELATIONS
 
@@ -91,7 +101,7 @@ __PACKAGE__->belongs_to(
 
 
 # Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-05 08:38:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KcE3qQYNJ5AQxlZ9izrMMQ
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0Dt7UR2VermcHeFMjFZFxw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

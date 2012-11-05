@@ -101,9 +101,6 @@ sub auto :Private
             $c->stash->{access_model} = 'default';
         }
 
-        # Stash the list of valid support terms
-        $c->stash->{support} = $portal{support} if ($portal{support});
-
         # Set the subscription price and eligible tax receipt amount, if
         # any
         $c->stash->{subscription_price} = $portal{subscription_price} || 0;
@@ -276,11 +273,11 @@ sub index :Local Does('NoSSL') Path('') Args(0)
 }
 
 sub support :Path('support') :Local Does('NoSSL') Args() {
-    my ($self, $c, $resource) = @_;
-    unless ($c->stash->{support}->{$resource}) {
+    my ($self, $c, $page) = @_;
+    unless ($c->portal->has_page($page)) {
         $c->detach("error", [404]);
     }
-    $c->stash->{support_resource} = $resource;
+    $c->stash->{support_resource} = $page;
     $c->stash->{template} = 'support.tt';
     return 1;
 }

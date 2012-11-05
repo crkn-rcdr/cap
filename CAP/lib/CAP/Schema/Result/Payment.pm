@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::Payment;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::Payment
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::Payment
+=head1 TABLE: C<payment>
 
 =cut
 
@@ -130,19 +149,20 @@ __PACKAGE__->add_columns(
   "processor",
   { data_type => "enum", extra => { list => ["paypal"] }, is_nullable => 1 },
 );
-__PACKAGE__->set_primary_key("id");
 
-=head1 RELATIONS
+=head1 PRIMARY KEY
 
-=head2 user_id
+=over 4
 
-Type: belongs_to
+=item * L</id>
 
-Related object: L<CAP::Schema::Result::User>
+=back
 
 =cut
 
-__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+__PACKAGE__->set_primary_key("id");
+
+=head1 RELATIONS
 
 =head2 subscriptions
 
@@ -156,12 +176,22 @@ __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
   { "foreign.payment_id" => "self.id" },
-  {},
+  undef,
 );
 
+=head2 user_id
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2012-11-02 08:56:58
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:nxgPoPoRE4e31jLsnWL+Zg
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-05 08:38:55
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SgmUe7BgssTND6YH8yxD9g
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
