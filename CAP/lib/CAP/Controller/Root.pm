@@ -94,7 +94,6 @@ sub auto :Private
         $c->stash->{lang} = $default_lang unless $c->stash->{lang};
 
         # Stash whether or not user account and access control functions are enabled
-        $c->stash->{payment_processing} = $portal{payment_processing};
         if ($portal{access_model}) {
             $c->stash->{access_model} = $portal{access_model};
         }

@@ -13,12 +13,9 @@ __PACKAGE__->config(
 sub auto :Private {
     my($self, $c) = @_;
 
-    # Require SSL for all operations
-#    $c->require_ssl;
-
-    # If payment processing is not enabled for this portal, do not perform
-    # any actions in this controller.
-    if (! $c->stash->{payment_processing}) {
+    # Don't do anything if PayPal is not enabled for this portal. Anyone
+    # trying to call finalize will instead be redirected to /.
+    if (! $c->portal->has_feature('paypal')) {
         $c->response->redirect('/index');
         return 0;
     }
