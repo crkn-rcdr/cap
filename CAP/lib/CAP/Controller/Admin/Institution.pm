@@ -252,6 +252,8 @@ sub contributor_POST {
         foreach (0 .. (scalar(@langs) - 1)) {
             $institution->update_or_create_related('contributors', {
                 portal_id => $data{portal},
+                logo => $data{logo} ? 1 : 0,
+                logo_filename => $data{logo_filename},
                 lang => $langs[$_],
                 url => $urls[$_],
                 description => $descriptions[$_],

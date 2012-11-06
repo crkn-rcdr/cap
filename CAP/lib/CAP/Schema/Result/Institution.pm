@@ -314,7 +314,9 @@ sub portal_contributor {
     my ($self, $portal) = @_;
     my $entity = { id => $self->id, name => $self->name, portal => $portal };
     foreach($self->search_related('contributors', { portal_id => $portal })) {
-        $entity->{$_->lang} = {url => $_->url, description => $_->description};
+        $entity->{logo} = $_->logo;
+        $entity->{logo_filename} = $_->logo_filename;
+        $entity->{$_->lang} = { url => $_->url, description => $_->description };
     }
     return $entity;
 }
