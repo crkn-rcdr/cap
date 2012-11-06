@@ -102,9 +102,12 @@ sub edit_GET {
         $self->status_not_found( $c, message => "No such institution");
         return 1;
     }
-    my %portals = ();
-    foreach($c->model("DB::PortalString")->search({ lang => $c->stash->{lang}, label => 'name'})) {
-        $portals{$_->get_column('portal_id')} = $_->get_column('string');
+    
+    my @c_portals = $c->model("DB::Portal")->with_feature("contributors")->with_names($c->stash->{lang});
+    my @s_portals = $c->model("DB::Portal")->with_feature("institutions")->with_names($c->stash->{lang});
+    my %names = ();
+    foreach ($c->model("DB::PortalString")->search({ 'label' => 'name', 'lang' => $c->stash->{lang} })) {
+        $names{$_->get_column('portal_id')} = $_->string;
     }
     my @contributed = ();
     foreach ($institution->search_related('contributors', { lang => $c->stash->{lang} })) {
@@ -123,7 +126,9 @@ sub edit_GET {
             ip_addresses => $institution->ip_addresses,
             aliases => $institution->aliases,
             },
-        portals => \%portals,
+        portal_names => \%names,
+        c_portals => \@c_portals,
+        s_portals => \@s_portals,
         contributed => \@contributed,
         subscriptions => \@subscriptions
     );
