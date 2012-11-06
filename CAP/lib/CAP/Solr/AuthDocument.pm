@@ -43,7 +43,7 @@ method BUILD {
 }
 
 method authorize ($portal, $user, $institution) {
-    
+
     if ($portal->id eq 'eco') {
         my $subscriber = 0;
         my $paid       = 0;
@@ -54,7 +54,7 @@ method authorize ($portal, $user, $institution) {
             $paid = 1 if ($user->class eq 'permanent');
         }
         if ($institution) {
-            if ($institution->subscriber) {
+            if ($institution->is_subscriber($portal)) {
                 $subscriber = 1;
                 $paid = 1;
             }
