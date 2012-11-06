@@ -43,89 +43,60 @@ sub auto :Private
     $c->get_institution;
 
 
-    # Configure the portal
-    {
-        # Load and parse the config file
-        my $config_file;
-        my %portal;
-        $config_file = join("/", $c->config->{root}, "config", $c->portal->id . ".conf");
-        if (! -f $config_file) {
-            $c->detach("config_error", ["Missing configuration file: $config_file"]);
-        }
-        else {
-            my $config;
-            eval { $config = Config::General->new( -ConfigFile => $config_file, -AutoTrue => 1, -UTF8 => 1) };
-            if ($@) {
-                $c->detach("config_error", ["Error loading $config_file: $@"]);
-            }
-            %portal = $config->getall;
-        }
-
-        $c->config->{portal} = \%portal;
-
-
-        # Set the interface language. In order of preference, look for: a
-        # usrlang query parameter that explicitly sets the language; a
-        # usrlang cookie that remembers the last selected preference; the
-        # user agent's accept-language value; and finally the default
-        # language.
-        my $default_lang = $c->portal->default_lang;
-        if (! $default_lang) {
-            $c->detach("config_error", ["no supported languages defined for portal " . $c->portal->id]);
-        }
-        if ($c->request->params->{usrlang} && $c->portal->supports_lang($c->request->params->{usrlang})) {
-            $c->stash->{lang} = $c->request->params->{usrlang};
-        }
-        elsif ($c->request->cookie('usrlang') && $c->portal->supports_lang($c->request->cookie('usrlang')->value)) {
-            $c->stash->{lang} = $c->request->cookie('usrlang')->value;
-        }
-        elsif ($c->req->header('Accept-Language')) {
-            foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
-                my ($value) = split(';q=', $accept_lang);
-                if ($value) {
-                    $value = lc(substr($value, 0, 2));
-                    if ($c->portal->supports_lang($value)) {
-                        $c->stash->{lang} = $value;
-                        last;
-                    }
+    # Set the interface language. In order of preference, look for: a
+    # usrlang query parameter that explicitly sets the language; a
+    # usrlang cookie that remembers the last selected preference; the
+    # user agent's accept-language value; and finally the default
+    # language.
+    my $default_lang = $c->portal->default_lang;
+    if (! $default_lang) {
+        $c->detach("config_error", ["no supported languages defined for portal " . $c->portal->id]);
+    }
+    if ($c->request->params->{usrlang} && $c->portal->supports_lang($c->request->params->{usrlang})) {
+        $c->stash->{lang} = $c->request->params->{usrlang};
+    }
+    elsif ($c->request->cookie('usrlang') && $c->portal->supports_lang($c->request->cookie('usrlang')->value)) {
+        $c->stash->{lang} = $c->request->cookie('usrlang')->value;
+    }
+    elsif ($c->req->header('Accept-Language')) {
+        foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
+            my ($value) = split(';q=', $accept_lang);
+            if ($value) {
+                $value = lc(substr($value, 0, 2));
+                if ($c->portal->supports_lang($value)) {
+                    $c->stash->{lang} = $value;
+                    last;
                 }
             }
         }
-        $c->stash->{lang} = $default_lang unless $c->stash->{lang};
+    }
+    $c->stash->{lang} = $default_lang unless $c->stash->{lang};
 
-        # Stash whether or not user account and access control functions are enabled
-        if ($portal{access_model}) {
-            $c->stash->{access_model} = $portal{access_model};
-        }
-        else {
-            $c->stash->{access_model} = 'default';
-        }
 
-        # Set the subscription price and eligible tax receipt amount, if
-        # any
-        $c->stash->{subscription_price} = $portal{subscription_price} || 0;
-        $c->stash->{tax_receipt} = $portal{tax_receipt} || 0;
-        $c->stash->{tax_rcpt_pct} = $portal{tax_rcpt_pct} || 0;
+    # FIXME: hard code this here so we don't have to have config files
+    # anymore. Later, get rid of it and put in some db-based stuff.
+    if ($c->portal->id eq 'eco') {
+        $c->stash->{subscription_price} = 100;
+        $c->stash->{tax_rcpt_pct} = 50;
+    }
+    else {
+        $c->stash->{subscription_price} = 0;
+        $c->stash->{tax_rcpt_pct} = 0;
+    }
 
-        # Stash the portal name
-        $c->stash->{portal_name} = $c->portal->get_string('name', $c->stash->{lang});
+    # Stash the portal name
+    $c->stash->{portal_name} = $c->portal->get_string('name', $c->stash->{lang});
 
-        # Stash the search bar placeholder text
-        $c->stash->{search_bar_placeholder} = $c->portal->get_string('search_bar', $c->stash->{lang});
+    # Stash the search bar placeholder text
+    $c->stash->{search_bar_placeholder} = $c->portal->get_string('search_bar', $c->stash->{lang});
 
-        # Stash a list of supported interface languages
-        $c->stash->{supported_langs} = $c->portal->langs;
+    # Stash a list of supported interface languages
+    $c->stash->{supported_langs} = $c->portal->langs;
 
-        # Stash the instituion alias
-        if ($c->session->{subscribing_institution_id}) {
-        
-          $c->stash->{institution_alias} = $c->model('DB::InstitutionAlias')->get_alias($c->session->{subscribing_institution_id},
-                                                                                        $c->stash->{lang})
-                                                                             ||
-                                           $c->session->{subscribing_institution};
-        
-        }
-
+    # Stash the instituion alias
+    if ($c->session->{subscribing_institution_id}) {
+        $c->stash->{institution_alias} = $c->model('DB::InstitutionAlias')->get_alias($c->session->{subscribing_institution_id},
+            $c->stash->{lang}) || $c->session->{subscribing_institution}; 
     }
 
     # If this is an anonymous request, check for a persistence token and,
