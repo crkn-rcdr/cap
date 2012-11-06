@@ -21,7 +21,10 @@ sub get_contributors {
         my $contributor = $institution->find_related('contributors', { portal_id => $portal->id, lang => $lang });
         $hash->{names}->{$institution->code} = $alias ? $alias->name : $institution->name;
         if ($contributor) {
-            $hash->{info}->{$institution->code} = { url => $contributor->url, description => $contributor->description };
+            $hash->{info}->{$institution->code} = { url => $contributor->url,
+                description => $contributor->description,
+                logo => $contributor->logo,
+                logo_filename => $contributor->logo_filename };
         }
     }
     return $hash;

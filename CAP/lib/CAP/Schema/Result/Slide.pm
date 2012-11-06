@@ -117,12 +117,12 @@ __PACKAGE__->has_many(
   "slide_descriptions",
   "CAP::Schema::Result::SlideDescription",
   { "foreign.slide_id" => "self.id" },
-  undef,
+  {},
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-05 08:38:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:12pp+O4cQjvhc5ledOJqYA
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-11-06 15:11:20
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:i6HlzMNXCYTO9kyNzEFutw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -203,7 +203,7 @@ __PACKAGE__->has_many(
   "feedbacks",
   "CAP::Schema::Result::Feedback",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_mgmts
@@ -218,7 +218,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 payments
@@ -233,7 +233,7 @@ __PACKAGE__->has_many(
   "payments",
   "CAP::Schema::Result::Payment",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 request_logs
@@ -248,7 +248,7 @@ __PACKAGE__->has_many(
   "request_logs",
   "CAP::Schema::Result::RequestLog",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 subscriptions
@@ -263,7 +263,7 @@ __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_collections
@@ -278,7 +278,7 @@ __PACKAGE__->has_many(
   "user_collections",
   "CAP::Schema::Result::UserCollection",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_documents
@@ -293,7 +293,7 @@ __PACKAGE__->has_many(
   "user_documents",
   "CAP::Schema::Result::UserDocument",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_logs
@@ -308,7 +308,7 @@ __PACKAGE__->has_many(
   "user_logs",
   "CAP::Schema::Result::UserLog",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_roles
@@ -323,7 +323,7 @@ __PACKAGE__->has_many(
   "user_roles",
   "CAP::Schema::Result::UserRole",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_subscriptions
@@ -338,7 +338,7 @@ __PACKAGE__->has_many(
   "user_subscriptions",
   "CAP::Schema::Result::UserSubscription",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_ids
@@ -362,8 +362,8 @@ Composing rels: L</user_roles> -> role_id
 __PACKAGE__->many_to_many("role_ids", "user_roles", "role_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-05 08:38:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rQRkX0hsHGem5kafdtJy8w
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-11-06 15:11:21
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9DoBtuN16u8aeX4OMuWxRg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
