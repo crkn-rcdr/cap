@@ -122,9 +122,10 @@ sub edit_GET {
         $self->status_not_found($c, message => "No such user");
         return 1;
     }
+    my @roles = $c->model('DB::Role')->all();
     $c->stash(
         entity => $self->_build_entity($user),
-        roles => $c->model('DB::Role')->all()
+        roles => \@roles,
     );
     $self->status_ok($c, entity => $c->stash->{entity});
     return 1;
