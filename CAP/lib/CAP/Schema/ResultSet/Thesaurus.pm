@@ -26,7 +26,8 @@ sub narrower_terms {
 
     my $terms = $self->search({ parent => $parent->id }, { order_by => { -asc => 'term' } });
     while (my $row = $terms->next) {
-        push(@{$list}, { term => $row });
+        my $count = $self->search_related('document_thesauruses', { thesaurus_id => $row->id })->count;
+        push(@{$list}, { term => $row, count => $count });
     }
     return $list;
 }
