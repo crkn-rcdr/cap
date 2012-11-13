@@ -100,18 +100,6 @@ __PACKAGE__->set_primary_key("id");
 
 __PACKAGE__->add_unique_constraint("code", ["code"]);
 
-=head2 C<name>
-
-=over 4
-
-=item * L</name>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("name", ["name"]);
-
 =head1 RELATIONS
 
 =head2 contributors
@@ -126,7 +114,7 @@ __PACKAGE__->has_many(
   "contributors",
   "CAP::Schema::Result::Contributor",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 counter_logs
@@ -141,7 +129,7 @@ __PACKAGE__->has_many(
   "counter_logs",
   "CAP::Schema::Result::CounterLog",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_alias
@@ -156,7 +144,7 @@ __PACKAGE__->has_many(
   "institution_alias",
   "CAP::Schema::Result::InstitutionAlias",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_collections
@@ -171,7 +159,7 @@ __PACKAGE__->has_many(
   "institution_collections",
   "CAP::Schema::Result::InstitutionCollection",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_ipaddrs
@@ -186,7 +174,7 @@ __PACKAGE__->has_many(
   "institution_ipaddrs",
   "CAP::Schema::Result::InstitutionIpaddr",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_mgmts
@@ -201,7 +189,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_subscriptions
@@ -216,7 +204,7 @@ __PACKAGE__->has_many(
   "institution_subscriptions",
   "CAP::Schema::Result::InstitutionSubscription",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 request_logs
@@ -231,7 +219,7 @@ __PACKAGE__->has_many(
   "request_logs",
   "CAP::Schema::Result::RequestLog",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 stats_usage_institutions
@@ -246,7 +234,7 @@ __PACKAGE__->has_many(
   "stats_usage_institutions",
   "CAP::Schema::Result::StatsUsageInstitution",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 portal_ids
@@ -270,8 +258,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-11-06 15:11:20
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9iJsrqe6C4jZ4fzUJ6H/eQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-08 09:17:01
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:p3xH+xW3PdzhltZkRt2hfQ
 
 
 sub aliases {
