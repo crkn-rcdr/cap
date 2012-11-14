@@ -1,0 +1,77 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use utf8;
+
+use XML::LibXML;
+use XML::LibXML::XPathContext;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use CAP;
+
+my $c = CAP->new();
+
+#foreach my $file (@ARGV) {
+#    add_marc($file);
+#}
+
+while (my $file = <STDIN>) {
+    chomp($file);
+    warn("Adding $file\n");
+    add_marc($file);
+}
+
+# Add subject headings as needed from the MARCXML in the METS record and
+# add the document as part of those headings.
+sub add_marc {
+    my($file) = @_;
+    my $xml = XML::LibXML->load_xml(location => $file);
+    my $contributor = 'ooe';
+    my $collection = 'dfait';
+
+    my $mets = XML::LibXML::XPathContext->new($xml->documentElement());
+    $mets->registerNs('mets', 'http://www.loc.gov/METS/');
+    $mets->registerNs('marc', 'http://www.loc.gov/MARC21/slim');
+
+    my $doc_id = $mets->findvalue('/mets:mets/@OBJID');
+
+    $c->model('DB::DocumentCollection')->update_or_create(contributor => $contributor, id => $doc_id, collection => $collection);
+
+    foreach my $marc ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="MARC"]/mets:xmlData')) {
+
+        foreach my $field (qw(650 651)) {
+            foreach my $subject ($mets->findnodes("descendant::marc:datafield[\@tag='$field']", $marc)) {
+                my @path = ();;
+
+                # Establish the root term, if it does not yet exist.
+                if ($subject->getAttribute('ind2') eq '6') {
+                    push(@path, 'RVM');
+                    my $id = $c->model('DB::Thesaurus')->add_term('Répertoire de vedettes-matière', @path);
+                    $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $id});
+                }
+                else {
+                    push(@path, 'LCSH');
+                    my $id = $c->model('DB::Thesaurus')->add_term('Library of Congress Subject Headings', @path);
+                    $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $id});
+                }
+
+                # Add all sub-terms
+                foreach my $subfield ($mets->findnodes("marc:subfield", $subject)) {
+                    my $label = $subfield->findvalue('.');
+
+                    # Create and normalize the term
+                    my $term  = $label;
+                    $term =~ s/\s+/ /g;
+                    $term = uc($term);
+                    $term =~ s/[^A-Z ]//g;
+                    # TODO: more, including changing accented characters to
+                    # base characters.
+
+                    push(@path, $term);
+                    my $id = $c->model('DB::Thesaurus')->add_term($label, @path);
+                    $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $id});
+                }
+            }
+        }
+    }
+}
