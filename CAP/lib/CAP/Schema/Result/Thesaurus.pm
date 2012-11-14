@@ -103,9 +103,23 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 document_collections
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-08 13:08:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cBMpsUchVOSq484KU1OwDQ
+Type: many_to_many
+
+Composing rels: L</document_thesauruses> -> document_collection
+
+=cut
+
+__PACKAGE__->many_to_many(
+  "document_collections",
+  "document_thesauruses",
+  "document_collection",
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-14 08:53:57
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7C1nxg1a+agUcw/nWu5+cw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

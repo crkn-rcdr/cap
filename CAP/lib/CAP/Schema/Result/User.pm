@@ -266,21 +266,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 user_collections
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::UserCollection>
-
-=cut
-
-__PACKAGE__->has_many(
-  "user_collections",
-  "CAP::Schema::Result::UserCollection",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
 =head2 user_documents
 
 Type: has_many
@@ -362,8 +347,8 @@ Composing rels: L</user_roles> -> role_id
 __PACKAGE__->many_to_many("role_ids", "user_roles", "role_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-08 09:17:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Sy+ulzPqQz7iE+ZaAuhhKg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-14 09:23:04
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:nF65q2kQikEoxi+3iM+mKA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

@@ -147,21 +147,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 institution_collections
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::InstitutionCollection>
-
-=cut
-
-__PACKAGE__->has_many(
-  "institution_collections",
-  "CAP::Schema::Result::InstitutionCollection",
-  { "foreign.institution_id" => "self.id" },
-  undef,
-);
-
 =head2 institution_ipaddrs
 
 Type: has_many
@@ -258,8 +243,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-08 09:17:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:p3xH+xW3PdzhltZkRt2hfQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-14 09:23:04
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:oxIZUMTye2Kk82ZLXqGoXQ
 
 
 sub aliases {

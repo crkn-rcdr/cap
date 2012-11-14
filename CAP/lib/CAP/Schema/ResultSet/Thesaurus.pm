@@ -5,7 +5,7 @@ use warnings;
 use base 'DBIx::Class::ResultSet';
 
 sub top_level_terms {
-    my($self) = @_;
+    my($self, $portal) = @_;
     my $list = [];
 
     my $terms = $self->search({ parent => undef }, { order_by => { -asc => 'term' } });
@@ -17,18 +17,33 @@ sub top_level_terms {
 }
 
 sub narrower_terms {
-    my($self, $id) = @_;
+    my($self, $portal, $id) = @_;
     my $list = [];
+
 
     # Get the term we want narrower terms for.
     my $parent = $self->get_term($id);
     return undef unless ($parent);
 
-    my $terms = $self->search({ parent => $parent->id }, { order_by => { -asc => 'term' } });
+    my $terms = $self->search(
+        { parent => $parent->id, 'portal_collections.portal_id' => $portal->id },
+        {
+            select   => [ 'me.id', 'parent', 'term', 'label', { count => 'me.id' } ],
+            as       => [ 'id', 'parent', 'term', 'label', 'count' ],
+            join     => { 'document_thesauruses' => { 'document_collection' => { 'collection' => 'portal_collections'}}},
+            distinct => [ 'id' ],
+            order_by => { -asc => 'term' },
+        }
+    );
     while (my $row = $terms->next) {
-        my $count = $self->search_related('document_thesauruses', { thesaurus_id => $row->id })->count;
-        push(@{$list}, { term => $row, count => $count });
+        push(@{$list}, $row);
     }
+
+    #my $terms = $self->search({ parent => $parent->id }, { order_by => { -asc => 'term' } });
+    #while (my $row = $terms->next) {
+    #    my $count = $self->search_related('document_thesauruses', { thesaurus_id => $row->id })->count;
+    #    push(@{$list}, { term => $row, count => $count });
+    #}
     return $list;
 }
 

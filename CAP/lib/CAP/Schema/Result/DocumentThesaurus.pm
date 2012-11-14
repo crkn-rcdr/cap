@@ -43,6 +43,7 @@ __PACKAGE__->table("document_thesaurus");
 
   data_type: 'varchar'
   default_value: (empty string)
+  is_foreign_key: 1
   is_nullable: 0
   size: 32
 
@@ -50,6 +51,7 @@ __PACKAGE__->table("document_thesaurus");
 
   data_type: 'varchar'
   default_value: (empty string)
+  is_foreign_key: 1
   is_nullable: 0
   size: 128
 
@@ -64,9 +66,21 @@ __PACKAGE__->table("document_thesaurus");
 
 __PACKAGE__->add_columns(
   "contributor",
-  { data_type => "varchar", default_value => "", is_nullable => 0, size => 32 },
+  {
+    data_type => "varchar",
+    default_value => "",
+    is_foreign_key => 1,
+    is_nullable => 0,
+    size => 32,
+  },
   "id",
-  { data_type => "varchar", default_value => "", is_nullable => 0, size => 128 },
+  {
+    data_type => "varchar",
+    default_value => "",
+    is_foreign_key => 1,
+    is_nullable => 0,
+    size => 128,
+  },
   "thesaurus_id",
   {
     data_type      => "integer",
@@ -94,6 +108,20 @@ __PACKAGE__->set_primary_key("contributor", "id", "thesaurus_id");
 
 =head1 RELATIONS
 
+=head2 document_collection
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::DocumentCollection>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "document_collection",
+  "CAP::Schema::Result::DocumentCollection",
+  { contributor => "contributor", id => "id" },
+);
+
 =head2 thesaurus_id
 
 Type: belongs_to
@@ -109,8 +137,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-08 15:10:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:46kZcqHNB9j9jv4kjb75dw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-14 08:53:57
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iQbNAJCdn5uMDoMQw01EiQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

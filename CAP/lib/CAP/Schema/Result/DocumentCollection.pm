@@ -57,6 +57,7 @@ __PACKAGE__->table("document_collection");
 
   data_type: 'varchar'
   default_value: (empty string)
+  is_foreign_key: 1
   is_nullable: 0
   size: 32
 
@@ -68,7 +69,13 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "varchar", default_value => "", is_nullable => 0, size => 128 },
   "collection",
-  { data_type => "varchar", default_value => "", is_nullable => 0, size => 32 },
+  {
+    data_type => "varchar",
+    default_value => "",
+    is_foreign_key => 1,
+    is_nullable => 0,
+    size => 32,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -87,9 +94,53 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("contributor", "id", "collection");
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-05 08:29:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:yEsq3whv7h4HPgRR+fWXVA
+=head2 collection
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Collection>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "collection",
+  "CAP::Schema::Result::Collection",
+  { id => "collection" },
+);
+
+=head2 document_thesauruses
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::DocumentThesaurus>
+
+=cut
+
+__PACKAGE__->has_many(
+  "document_thesauruses",
+  "CAP::Schema::Result::DocumentThesaurus",
+  {
+    "foreign.contributor" => "self.contributor",
+    "foreign.id" => "self.id",
+  },
+  undef,
+);
+
+=head2 thesaurus_ids
+
+Type: many_to_many
+
+Composing rels: L</document_thesauruses> -> thesaurus_id
+
+=cut
+
+__PACKAGE__->many_to_many("thesaurus_ids", "document_thesauruses", "thesaurus_id");
+
+
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-14 09:23:04
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PO1GNnw6ANLmpxvASYZ6CA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

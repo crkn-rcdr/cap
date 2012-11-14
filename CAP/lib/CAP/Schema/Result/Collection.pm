@@ -43,20 +43,13 @@ __PACKAGE__->table("collection");
 
   data_type: 'varchar'
   is_nullable: 0
-  size: 16
-
-=head2 price
-
-  data_type: 'integer'
-  is_nullable: 1
+  size: 32
 
 =cut
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "varchar", is_nullable => 0, size => 16 },
-  "price",
-  { data_type => "integer", is_nullable => 1 },
+  { data_type => "varchar", is_nullable => 0, size => 32 },
 );
 
 =head1 PRIMARY KEY
@@ -73,39 +66,39 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 institution_collections
+=head2 document_collections
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::InstitutionCollection>
+Related object: L<CAP::Schema::Result::DocumentCollection>
 
 =cut
 
 __PACKAGE__->has_many(
-  "institution_collections",
-  "CAP::Schema::Result::InstitutionCollection",
-  { "foreign.collection_id" => "self.id" },
+  "document_collections",
+  "CAP::Schema::Result::DocumentCollection",
+  { "foreign.collection" => "self.id" },
   undef,
 );
 
-=head2 user_collections
+=head2 portal_collections
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::UserCollection>
+Related object: L<CAP::Schema::Result::PortalCollection>
 
 =cut
 
 __PACKAGE__->has_many(
-  "user_collections",
-  "CAP::Schema::Result::UserCollection",
+  "portal_collections",
+  "CAP::Schema::Result::PortalCollection",
   { "foreign.collection_id" => "self.id" },
   undef,
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-08 09:17:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OPw4OnE70Aa1+2WLAppDQw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-14 09:29:44
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:mKv5UhWaR3t9L5MFSV43aw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
