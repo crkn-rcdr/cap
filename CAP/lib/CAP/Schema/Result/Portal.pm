@@ -358,7 +358,6 @@ sub hosts_doc {
     my($self, $doc) = @_;
     foreach my $hosted ($self->search_related('portal_collections', { hosted => 1 })) {
         foreach my $collection (@{$doc->record->collection}) {
-            warn "  $collection";
             if ($collection eq $hosted->collection_id->id) {
                 return 1;
             }

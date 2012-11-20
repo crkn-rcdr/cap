@@ -30,7 +30,7 @@ method BUILD {
         'fl'             => 'key,type,contributor,label,pkey,plabel,seq,pubmin,pubmax,lang,media,set,collection,pg_label,ti,au,su,pu,no,de,ab,' .
                             'canonicalUri,canonicalMaster,canonicalMasterSize,canonicalMasterMime,canonicalMasterMD5,canonicalDownload,' .
                             'canonicalDownloadSize,canonicalDownloadMime,canonicalDownloadMD5,identifier,no_continued,no_continues,' .
-                            'no_extent,no_frequency,no_missing,no_rights,no_source',
+                            'no_extent,no_frequency,no_missing,no_rights,no_source,thesaurusID',
         'rows'           => 10,
         'sort'           => 'score desc',
         'start'          => 0,
@@ -51,6 +51,7 @@ method BUILD {
         pkey =>        { type => 'string', template => 'pkey: %' },
         set =>         { type => 'string', template => 'set: %' },
         identifier =>  { type => 'string', template => 'identifier: %' },
+        tid =>         { type => 'sint',   template => 'thesaurusID: %' },
         au =>          { type => 'text',   template => 'au:%' },
         ti =>          { type => 'text',   template => 'ti:%' },
         su =>          { type => 'text',   template => 'su:%' },

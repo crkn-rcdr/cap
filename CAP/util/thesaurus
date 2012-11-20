@@ -39,12 +39,15 @@ sub add_marc {
 
     foreach my $marc ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="MARC"]/mets:xmlData')) {
 
-        foreach my $field (qw(650 651)) {
+        foreach my $field (qw(600 610 611 630 648 650 651 653 654 655 656 657 658 662)) {
             foreach my $subject ($mets->findnodes("descendant::marc:datafield[\@tag='$field']", $marc)) {
                 my @path = ();;
 
-                # Establish the root term, if it does not yet exist.
-                if ($subject->getAttribute('ind2') eq '6') {
+                # Establish the root term, if it does not yet exist. A '9'
+                # in indicator 2 might be an old UTLAS indicator for RVM.
+                # Assume anything not 6 or 9 is a 0 or 5, which we will
+                # treat both as LCSH.
+                if ($subject->getAttribute('ind2') eq '6' || $subject->getAttribute('ind2' eq '9')) {
                     push(@path, 'RVM');
                     my $id = $c->model('DB::Thesaurus')->add_term('Répertoire de vedettes-matière', @path);
                     $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $id});
