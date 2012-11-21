@@ -77,11 +77,9 @@ sub auto :Private
     # anymore. Later, get rid of it and put in some db-based stuff.
     if ($c->portal->id eq 'eco') {
         $c->stash->{subscription_price} = 100;
-        $c->stash->{tax_rcpt_pct} = 0;
     }
     else {
         $c->stash->{subscription_price} = 0;
-        $c->stash->{tax_rcpt_pct} = 0;
     }
 
     # Stash the portal name

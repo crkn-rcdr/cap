@@ -25,9 +25,6 @@ sub index :Path :Args(0) {
 
     if ($production) {
 
-      # Generate tax receipt PDF's and email them
-      $c->forward('/cron/taxreceipt/index');
-
       # Send email to users whose accounts are expiring
       $c->forward('/cron/expiringtrialreminder/index');
     	

@@ -449,15 +449,6 @@ sub subscribe :Path('subscribe') :Args(0) {
     my($self, $c) = @_;
 
     my $amount = $c->stash->{subscription_price}; # getting this from the portal config
-    my $wants_tax_receipt = $c->request->params->{wants_tax_receipt} || '';
-    my $tax_receipt = ($amount * $c->stash->{tax_rcpt_pct}) / 100;
-    my $donor_name = $c->request->params->{donor_name} || $c->user->name;
-    my $address = $c->request->params->{address} || '';
-    my $address2 = $c->request->params->{address2} || '';
-    my $city = $c->request->params->{city} || '';
-    my $province = $c->request->params->{province} || '';
-    my $pc1 = $c->request->params->{pc1} || '';
-    my $pc2 = $c->request->params->{pc2} || '';
     my $promocode = $c->request->params->{promocode} || '';
     my $promo_value = 0;
     my $promo_message = '';
@@ -469,8 +460,6 @@ sub subscribe :Path('subscribe') :Args(0) {
                 $promo_message = 'expired';
             } else {
                 $promo_value = int($promo_row->amount);
-                # $c->stash->{subscription_price} = $amount - $promo_value;
-                $tax_receipt = (($amount - $promo_value) *  $c->stash->{tax_rcpt_pct}) / 100;
                 $promo_message = 'OK';
             }
         } else {
@@ -479,18 +468,9 @@ sub subscribe :Path('subscribe') :Args(0) {
     }
 
     $c->stash({
-        wants_tax_receipt => $wants_tax_receipt,
-        donor_name => $donor_name,
-        address => $address,
-        address2 => $address2,
-        city => $city,
-        province => $province,
-        pc1 => $pc1,
-        pc2 => $pc2,
         promocode => $promocode,
         promo_value => $promo_value,
         promo_message => $promo_message,
-        tax_receipt => $tax_receipt
     });
 
     return 1;
@@ -501,29 +481,12 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
     my ($self, $c) = @_;
     my $mode = $c->req->params->{submit} || "";
     my $promocode = $c->req->params->{promocode};
-    my $tax_receipt = $c->req->params->{wants_tax_receipt};
-    my $donor_name = $c->req->params->{donor_name};
-    my $address = $c->req->params->{address};
-    my $address2 = $c->req->params->{address2};
-    my $city = $c->req->params->{city};
-    my $province = $c->req->params->{province};
-    my $pc1 = $c->req->params->{pc1};
-    my $pc2 = $c->req->params->{pc2};
     my $terms = $c->req->params->{terms};
     my $promo_value = 0;
     my $amount = $c->stash->{subscription_price}; # getting this from the portal config
-    # my $tax_receipt_amount = $c->stash->{tax_receipt};
 
     my $get_vars = {
         promocode => $promocode,
-        wants_tax_receipt => $tax_receipt,
-        donor_name => $donor_name,
-        address => $address,
-        address2 => $address2,
-        city => $city,
-        province => $province,
-        pc1 => $pc1,
-        pc2 => $pc2,
     };
 
     if ($mode eq "verify_code") {
@@ -548,31 +511,6 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
             }
         }
 
-        # Validate tax receipt
-        if (defined($tax_receipt)) {
-            my $tx_error = 0;
-            unless ($donor_name) {
-                $c->message({ type => "error", message => "donor_name_required" });
-                $error = 1;
-            }
-            unless ($address) {
-                $c->message({ type => "error", message => "address_required" });
-                $error = 1;
-            }
-            unless ($city) {
-                $c->message({ type => "error", message => "city_required" });
-                $error = 1;
-            }
-            unless ($province) {
-                $c->message({ type => "error", message => "province_required" });
-                $error = 1;
-            }
-            unless ($pc1 =~ /^[A-Za-z]\d[A-Za-z]$/ && $pc2 =~ /^\d[A-Za-z]\d$/) {
-                $c->message({ type => "error", message => "verify_postal_code" });
-                $error = 1;
-            }
-        }
-
         # Ensure terms checkbox is checked
         unless (defined($terms)) {
             $c->message({ type => "error", message => "terms_required" });
@@ -585,11 +523,6 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
         };
 
         my $payment = $amount - $promo_value;
-        my $tax_receipt_amount = ($payment *  $c->stash->{tax_rcpt_pct}) / 100;
-
-        # Concatenate address blob
-        if ($address2) { $address = join("\n", $address, $address2); }
-        my $blob = join("\n", $address, join(" ", $city, $province, "", $pc1, $pc2));
 
         # Create the subscription row. Delete any current pending
         # subscription transactions for this user first so that we never
@@ -600,9 +533,6 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
             {
                 completed    => undef,
                 promo        => $promocode,
-                rcpt_name    => $donor_name,
-                rcpt_amt     => $tax_receipt_amount,
-                rcpt_address => $blob,
             }
         );
         # TODO Refactor the format_money macro within templates to work here too, or some other solution

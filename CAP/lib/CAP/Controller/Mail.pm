@@ -156,31 +156,6 @@ sub subscription_notice :Private {
     return 1;
 }
 
-sub subscription_taxreceipt :Private {
-    my ($self, $c, $email, $name, $receiptfile) = @_;
-
-    $c->stash->{recipient_name} = $name;
-
-    my $from = $c->config->{email_from};
-    if (! $from) {
-	return 1;
-    }
-
-    my $header = [
-        From => $from,
-        To => $email,
-        Subject => $c->loc('ECO Tax Receipt')
-    ];
-
-    # If Bcc: requested, add it in
-    if ($c->config->{taxreceipt}->{bcc}) {
-	push @$header, (Bcc => $c->config->{taxreceipt}->{bcc});
-    };
-
-    $self->sendmail($c, "subscribe_taxreceipt.tt", $header, $receiptfile);
-    return 1;
-}
-
 sub feedback :Private {
     my ($self, $c) = @_;
 
