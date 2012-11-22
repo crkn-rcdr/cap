@@ -62,12 +62,14 @@ sub edit_GET {
         $self->status_not_found( $c, message => "No such portal");
         return 1;
     }
+    my @all_collections = $c->model('DB::Collection')->all();
 
     $c->stash(entity => {
         id => $portal->id,
         enabled => $portal->enabled,
         hosts => $portal->hosts(),
         collections => $portal->collections(),
+        all_collections => \@all_collections,
     });
 
     $self->status_ok($c, entity => $c->stash->{entity});
@@ -106,9 +108,7 @@ sub edit_POST {
             }
         } when ('update_collections') {
             my @collections = to_list($data{collections});
-            warn @collections;
             my @hosted = to_list($data{hosted_collections});
-            warn @hosted;
             my @delete = to_list($data{delete_collections});
             foreach my $collection (@collections) {
                 my $ss = $portal->search_related("portal_collections", { collection_id => $collection });
@@ -119,16 +119,10 @@ sub edit_POST {
                 }
             }
         } when ('new_collection') {
-            if (!$data{new_collection_id}) {
-                $c->message({ type => "error", message => "collection_label_required" });
-            } elsif ($portal->search_related("portal_collections", { collection_id => $data{new_collection_id} })->count()) {
-                $c->message({ type => "error", message => "collection_already_exists" });
-            } else {
-                $portal->create_related("portal_collections", {
-                    collection_id => $data{new_collection_id},
-                    hosted => defined($data{new_collection_hosted})
-                });
-            }
+            $portal->find_or_create_related("portal_collections", {
+                collection_id => $data{new_collection_id},
+                hosted => defined($data{new_collection_hosted})
+            });
         } default {
             warn "No update parameter passed";
         }

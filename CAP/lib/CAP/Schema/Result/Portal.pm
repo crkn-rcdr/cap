@@ -305,7 +305,7 @@ sub collections {
     my $self = shift;
     my $collections = [];
     foreach($self->search_related('portal_collections', undef, { order_by => 'collection_id' })) {
-        push(@{$collections}, { id => $_->collection_id, hosted => $_->hosted });
+        push(@{$collections}, { id => $_->get_column('collection_id'), hosted => $_->hosted });
     }
     return $collections;
 }
