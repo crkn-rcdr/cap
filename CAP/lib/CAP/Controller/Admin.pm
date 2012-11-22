@@ -53,26 +53,17 @@ sub usage :Path('usage') :Args(0) {
 sub collections :Path('collections') :Args(0) {
     my($self, $c, $id) = @_;
 
-    if ($c->request->params->{update}) {
-        if ($c->request->params->{update} eq 'collection') {
-            my $collection = $c->model('DB::Collection')->find({ id => $c->request->params->{id} });
-            if ($collection) {
-                $collection->update({
-                    price => $c->request->params->{price},
-                });
-            }
-        }
-        elsif ($c->request->params->{update} eq 'add_collection') {
-            $c->model('DB::Collection')->create({
-                id    => $c->req->params->{id},
-                price => $c->req->params->{price},
-            });
-        }
-    }
-
     # Get a list of all collections
     $c->stash->{collections} = [$c->model('DB::Collection')->all];
 
+    return 1;
+}
+
+sub create_collection :Path('create_collection') :Args(0) {
+    my($self, $c) = @_;
+    my $id = $c->req->body_params->{id};
+    $c->model('DB::Collection')->find_or_create({ id => $id });
+    $c->response->redirect($c->uri_for_action("/admin/collections"));
     return 1;
 }
 
