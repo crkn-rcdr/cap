@@ -29,6 +29,8 @@ Catalyst Controller.
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
+    $c->detach('/error', [404, 'This feature has been disabled in the controller']);
+
     $c->stash->{template} = "feedback.tt";
     $c->stash->{feedback_submitted} = 0;
     
