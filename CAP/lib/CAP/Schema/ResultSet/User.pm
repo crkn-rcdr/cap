@@ -272,62 +272,14 @@ sub next_unsent_reminder {
     return $expiring->first || undef;
 }
 
-# Get all the users whose accounts are expiring.
-sub expiring_subscriptions {
-    my ( $self, $from_date, $now ) = @_;
-
-    my $expiring = $self->search(
-        {
-
-            subexpires   => { '<=' => $from_date, '>=' => $now },
-            #subexpires   => { '>=' => $now },
-            class        => { '!=' => 'permanent'},
-            active       => 1,
-            remindersent => 0,
-            confirmed    => 1
-
-        }
-    );
-    
-    my $result;
-    my $userinfo;
-    my $expiring_accounts = [];
-    
-    while ($result = $expiring->next) {
-       $userinfo = { 'id'       => $result->id,
-                     'name'     => $result->name,
-                     'username' => $result->username,
-                     'class'    => $result->class,
-                     'expires'  => $result->subexpires };
-       push (@$expiring_accounts, $userinfo);   
-    }
-  
-    return $expiring_accounts;
-}
-
-# reset the user's remidersent record
-sub set_remindersent {
-
-       my ( $self, $user_id, $new_setting ) = @_;
-       
-       my $user = $self->find({ id => $user_id });
-       $user->update({ remindersent => $new_setting });
-
-       return 1;
-    
-}
 
 sub get_user_info {
 
     my($self, $id) = @_;
-    my $get_row =  $self->search( {} );
-    my $result = []; 
-    my $row; 
-    while ($row = $get_row->next) {
-       push (@$result,$row)
-    }
+    my $get_row =  $self->search( {id => $id} );
+    my $row = $get_row->next;
 
-    return $result;
+    return $row;
 
 }
 
