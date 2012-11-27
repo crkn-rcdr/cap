@@ -193,15 +193,21 @@ sub subscription_reminder :Private {
     
     $c->stash(recipient  =>  $exp_acct->username,
               real_name  =>  $exp_acct->name,
-              subexpires =>  $exp_acct->subexpires,
+              subexpires =>  $exp_date,
               exp_en     =>  $exp_date->{en},
               exp_fr     =>  $exp_date->{fr} 
     );
     
-    $c->log->error("destination address is $recipient");
-    $c->log->error("subscription class is $sub_class");
+    
     
     my $from = $c->config->{email_from};
+    
+    $c->model('DB::CronLog')->create({
+               action  => 'reminder_notice',
+               ok      => 0,
+               message => "from address is $from"
+    });    
+    
     if (! $from) {
 	return 1;
     }
@@ -218,6 +224,8 @@ sub subscription_reminder :Private {
             when ("paid")  {$template = "subscription_reminder.tt"}
             when ("") {return 1}
     }
+
+    $self->sendmail($c, $template, $header);
 
     return 1;
 }
