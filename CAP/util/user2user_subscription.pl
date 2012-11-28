@@ -40,7 +40,9 @@ foreach $row (@$result){
   
   $userid = $row->id;
   $remindersent = $row->remindersent;
-  $expires = $row->subexpires;  
+
+  $expires = ( defined ($row->subexpires) ) ? $row->subexpires : '00-00-00 00:00:00'; 
+    
   $class = $row->class;
   $level = ( defined ($level{$class}) ) ? $level{$class} : 0;
   $permanent = ($class eq 'permanent') ? 1 : 0;
