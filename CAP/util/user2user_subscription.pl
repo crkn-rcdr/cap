@@ -44,6 +44,7 @@ foreach $row (@$result){
   $expires = ( defined ($row->subexpires) ) ? $row->subexpires : '00-00-00 00:00:00'; 
     
   $class = $row->class;
+  next if $class eq 'basic';
   $level = ( defined ($level{$class}) ) ? $level{$class} : 0;
   $permanent = ($class eq 'permanent') ? 1 : 0;
   
