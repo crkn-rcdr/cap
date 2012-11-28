@@ -283,5 +283,23 @@ sub get_user_info {
 
 }
 
+sub get_all_data {
+
+    my($self) = shift();
+    my $get_row =  $self->search( {} );
+    
+    my $result = [];
+    my $row;
+    
+    while ($row = $get_row->next) {
+
+        push (@$result, $row);
+
+    }
+
+    return $result;
+
+}
+
 
 1;

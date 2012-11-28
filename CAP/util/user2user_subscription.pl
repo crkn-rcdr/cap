@@ -13,7 +13,7 @@ use CAP;
 
 my $c = CAP->new();
 
-my $result = $c->model('DB::User')->get_user_info();
+my $result = $c->model('DB::User')->get_all_data();
 
 my $row;
 my $error;
@@ -37,7 +37,7 @@ my %level = (
 
 # Iterate through all the user ids and insert new row into user_subscription
 foreach $row (@$result){
-
+  
   $userid = $row->id;
   $remindersent = $row->remindersent;
   $expires = $row->subexpires;  
@@ -47,7 +47,5 @@ foreach $row (@$result){
   
   $error = $c->model('DB::UserSubscription')->subscribe($userid, $portalid, $level, $expires, $permanent);
 }
-
-
 
 say "\ndone";
