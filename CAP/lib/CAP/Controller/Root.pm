@@ -223,15 +223,26 @@ sub index :Local Does('NoSSL') Path('') Args(0)
     # Messsages bugging you to subscribe already
     if ($c->portal->id eq 'eco' && !$c->session->{subscribing_institution}) {
         if ($c->user_exists) {
-            if ($c->user->has_class("trial")) {
-                if ($c->user->has_active_subscription) {
+            my $sub_level = $c->user->subscriber_level($c->portal);
+            my $sub_active = $c->user->subscription_active($c->portal);
+
+            # Trial subscribers get a message regarding their current or
+            # expired trial.
+            if ($sub_level == 1) {
+                if ($sub_active) {
                     $c->message({ type => "success", message => "active_trial_prod" });
-                } else {
+                }
+                else {
                     $c->message({ type => "success", message => "expired_trial_prod" });
                 }
-            } elsif (! $c->user->has_class) {
-                $c->message({ type => "success", message => "no_trial_prod" });
             }
+
+            # Expired full subscribers get a message informing them their
+            # subscription is over
+            elsif ($sub_level == 2 && $sub_active == 0) {
+                $c->message({ type => "success", message => "expired_sub" });
+            }
+
         } else {
             $c->message({ type => "success", message => "anonymous_prod" });
         }

@@ -365,7 +365,46 @@ __PACKAGE__->add_columns(
     } 
 );
 
+# Returns the subscriber level for the user's subscription to $portal; 0 for no subscription
+sub subscriber_level {
+    my($self, $portal) = @_;
+    my $sub = $self->find_related('user_subscriptions', { portal_id => $portal->id });
+    return $sub->level if ($sub);
+    return 0;
+}
 
+# Returns the effective access level (0 for none) based on whether the
+# user has a subscription and, if so, is it active and what type.
+sub access_level {
+    my($self, $portal) = @_;
+    my $sub = $self->find_related('user_subscriptions', { portal_id => $portal->id });
+    return 0 unless ($sub); # No subscription, so level 0
+    return 0 unless ($sub->permanent || $sub->expires->epoch() > time); # Expired, so level 0
+    return $sub->level; # Active subscription; use indicated level
+}
+
+# Returns true if the user has a currently active subscription for $portal.
+sub subscription_active {
+    my($self, $portal) = @_;
+    my $sub = $self->find_related('user_subscriptions', { portal_id => $portal->id });
+    return 0 unless ($sub);
+    return 1 if ($sub->permanent || $sub->expires->epoch()) > time
+}
+
+# Returns the date the subscription expire(d|s). Returns 'permanent' if
+# the subscription does not expire and null if there is no subscription.
+sub subscription_expires {
+    my($self, $portal) = @_;
+    my $sub = $self->find_related('user_subscriptions', { portal_id => $portal->id });
+    return undef unless ($sub);
+    return 'permanent' if ($sub->permanent);
+    return $sub->expires;
+}
+
+
+# TODO: the next 5 subroutines reference the old, one portal subscription
+# model. They need to be removed and replaced in code + templates with
+# references to new methods.
 sub has_active_subscription {
     my $self = shift;
     return ($self->subexpires && ($self->subexpires->epoch() >= time)) ? 1 : 0;
