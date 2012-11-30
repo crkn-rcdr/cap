@@ -473,4 +473,17 @@ sub log {
     return 1;
 }
 
+sub subscription {
+    my($self, $portal) = @_;
+    my $entity = { id => $self->id, username => $self->username, name => $self->name, portal => $portal };
+    my $subscription = $self->find_related("user_subscriptions", { portal_id => $portal });
+    if ($subscription) {
+        $entity->{expires} = $subscription->expires;
+        $entity->{reminder_sent} = $subscription->reminder_sent;
+        $entity->{permanent} = $subscription->permanent;
+        $entity->{level} = $subscription->level;
+    }
+    return $entity;
+}
+
 1;

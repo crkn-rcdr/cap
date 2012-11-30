@@ -105,10 +105,7 @@ sub edit_GET {
     
     my @c_portals = $c->model("DB::Portal")->with_feature("contributors")->with_names($c->stash->{lang});
     my @s_portals = $c->model("DB::Portal")->with_feature("institutions")->with_names($c->stash->{lang});
-    my %names = ();
-    foreach ($c->model("DB::PortalString")->search({ 'label' => 'name', 'lang' => $c->stash->{lang} })) {
-        $names{$_->get_column('portal_id')} = $_->string;
-    }
+    my %names = $c->model("DB::PortalString")->names($c->stash->{lang});
     my @contributed = ();
     foreach ($institution->search_related('contributors', { lang => $c->stash->{lang} })) {
         push @contributed, $_->get_column('portal_id');

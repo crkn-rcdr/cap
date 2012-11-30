@@ -30,6 +30,16 @@ sub index_GET {
         };
     }
 
+    my @subscriptions = $c->model('DB::UserSubscription')->active_subscriptions;
+    my %sub_hash = ();
+    foreach my $s (@subscriptions) {
+        my $id = $s->get_column('user_id');
+        my $portal = $s->get_column('portal_id');
+        @sub_hash{$id} = [] unless $sub_hash{id};
+        push(@{$sub_hash{$id}}, $portal);
+    }
+    $c->stash->{subscriptions} = \%sub_hash;
+
     # Some aggregate statistics about users
     $c->stash->{stats} = {
         active_trials => $c->model('DB::User')->active_trials,
@@ -122,11 +132,22 @@ sub edit_GET {
         $self->status_not_found($c, message => "No such user");
         return 1;
     }
+
     my @roles = $c->model('DB::Role')->all();
+
+    # TODO: Determine if we need a different portal feature for subscriptions
+    my @s_portals = $c->model("DB::Portal")->with_feature("users")->with_names($c->stash->{lang});
+    my %names = $c->model("DB::PortalString")->names($c->stash->{lang});
+    my @subscriptions = $user->search_related('user_subscriptions');
+    
     $c->stash(
         entity => $self->_build_entity($user),
         roles => \@roles,
+        portal_names => \%names,
+        s_portals => \@s_portals,
+        subscriptions => \@subscriptions,
     );
+
     $self->status_ok($c, entity => $c->stash->{entity});
     return 1;
 }
@@ -149,10 +170,6 @@ sub edit_POST {
         validate_password => $data->{password},
         current_user => $user->username);
 
-    if ($data->{subexpires} && $data->{subexpires} !~ /^\d{4}-\d{2}-\d{2}$/) {
-        push @errors, 'expiry_date_invalid';
-    }
-
     foreach my $error (@errors) {
         $c->message({ type => 'error', message => $error });
     }
@@ -170,7 +187,6 @@ sub edit_POST {
         };
 
         $update->{password} = $data->{password} if $data->{password};
-        $update->{subexpires} = $data->{subexpires} if $data->{subexpires};
 
         $user->update($update);
         $user->set_roles($data->{role}, $c->model('DB::Role')->all());
@@ -179,6 +195,67 @@ sub edit_POST {
         $c->response->redirect($c->uri_for_action('/admin/user/index'));
         return 0;
     }
+}
+
+sub subscription :Local Path('subscription') Args(1) ActionClass('REST') {
+}
+
+sub subscription_GET {
+    my($self, $c, $id) = @_;
+    my $portal = $c->req->params->{portal};
+    my $user = $c->model("DB::User")->find($id);
+    if (! $user) {
+        $c->message({ type => "error", message => "user_not_found" });
+        $self->status_not_found($c, message => "No such user");
+        return 1;
+    }
+    my $entity = $user->subscription($portal);
+    $c->stash(entity => $entity);
+    $self->status_ok($c, entity => $c->stash->{entity});
+    return 1;
+}
+
+sub subscription_POST {
+    my($self, $c, $id) = @_;
+    my $user = $c->model('DB::User')->find({ id => $id });
+    if (! $user) {
+        $c->message({ type => "error", message => "user_not_found" });
+        $self->status_not_found($c, message => "No such user");
+        return 1;
+    }
+    my $data = $c->request->body_parameters;
+
+    if ($data->{expires} !~ /^\d{4}-\d{2}-\d{2}$/) {
+        $c->message({ type => 'error', message => 'expiry_date_invalid' });
+        $c->response->redirect($c->req->uri);
+        return 1;
+    } else {
+        $user->update_or_create_related("user_subscriptions", {
+            portal_id => $data->{portal},
+            expires => $data->{expires},
+            level => $data->{level},
+            reminder_sent => $data->{reminder_sent},
+            permanent => $data->{permanent} ? 1 : 0,
+        });
+        $c->message({ type => 'success', message => 'user_subscription_updated' });
+        $c->response->redirect($c->uri_for_action("/admin/user/edit", $id));
+        return 1;
+    }
+}
+
+sub delete_subscription :Path('delete_subscription') Args(1) {
+    my($self, $c, $id) = @_;
+    my $user = $c->model('DB::User')->find({ id => $id });
+    if (! $user) {
+        $c->message({ type => "error", message => "user_not_found" });
+        $self->status_not_found($c, message => "No such user");
+        return 1;
+    }
+
+    $user->delete_related('user_subscriptions', { portal_id => $c->req->params->{portal} });
+    $c->message({ type => 'success', message => 'subscription_deleted' });
+    $c->response->redirect($c->uri_for_action("/admin/user/edit", $id));
+    return 1;
 }
 
 #

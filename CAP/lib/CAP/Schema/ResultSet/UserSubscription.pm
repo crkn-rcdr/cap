@@ -2,6 +2,7 @@ package CAP::Schema::ResultSet::UserSubscription;
 
 use strict;
 use warnings;
+use Date::Manip::Date;
 use base 'DBIx::Class::ResultSet';
 
  
@@ -83,6 +84,14 @@ sub expiring_subscriptions {
     }
   
     return $expiring_accounts;
+}
+
+sub active_subscriptions {
+    my($self) = @_;
+    my $date = new Date::Manip::Date;
+    $date->parse('now');
+    my $now = $date->printf("%Y-%m-%d %T");
+    return $self->search({ expires => { '>=' => $now }});
 }
 
 sub next_unsent_reminder {
