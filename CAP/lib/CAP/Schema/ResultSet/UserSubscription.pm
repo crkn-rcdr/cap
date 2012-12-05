@@ -109,23 +109,6 @@ sub next_unsent_reminder {
     return $expiring->first || undef;
 }
 
-sub update_subscription {
-    my($self, $user_id, $portal_id, $level, $expires) = @_;
-    my $row = $self->find(
-        {
-            'user_id'   => $user_id,
-            'portal_id' => $portal_id
-        }
-
-    );
-    $row->update(
-          {
-              'level'   => $level,
-              'expires' => $expires       
-          }
-    );
-    return 1;
-}
 
 
 1;

@@ -143,9 +143,9 @@ sub create :Path('create') :Args(0) {
     my $new_user_id = $c->model('DB::User')->get_user_id($data->{username});
     my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
     my $level = (int($c->config->{subscription_trial}) > 0) ? 1 : 0;
-    eval {
-        $new_user_subscription = $c->model('DB::UserSubscription')->subscribe($new_user_id, $portal_id, 1, "0000-00-00 00:00:00", 0);
-    };
+    #eval {
+    #   $new_user_subscription = $c->model('DB::UserSubscription')->subscribe($new_user_id, $portal_id, 1, "0000-00-00 00:00:00", 0);
+    #};
     $c->detach('/error', [500]) if ($@);
     $new_user->log("CREATED", sprintf("Userid: %s; username: %s", $new_user->username, $new_user->name));
 
@@ -171,7 +171,7 @@ sub create :Path('create') :Args(0) {
         });
 
         #update user_subscription table for trial subscriptions
-        $c->model('DB::UserSubscription')->update_subscription($new_user_id, $portal_id, 1, $newexpires);
+        $c->model('DB::UserSubscription')->subscribe($new_user_id, $portal_id, 1, $newexpires, 0);
 
         $new_user->log('TRIAL_START', "expires: $newexpires");
 
@@ -643,7 +643,7 @@ sub subscribe_finalize : Private
 
     #update user_subscription table for paid subscriptions
     my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
-    $c->model('DB::UserSubscription')->update_subscription($userid, $portal_id, 2, $newexpires);
+    $c->model('DB::UserSubscription')->update_subscribe($userid, $portal_id, 2, $newexpires, 0);
 
     # Send an email notification to administrators
     if (exists($c->config->{subscription_admins})) {
