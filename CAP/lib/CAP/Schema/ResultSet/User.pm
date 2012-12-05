@@ -301,5 +301,15 @@ sub get_all_data {
 
 }
 
+sub get_user_id {
+
+    my($self, $username) = @_;
+    my $get_row =  $self->search( {username => $username} );
+    my $row = $get_row->next;
+
+    return $row->id;
+
+}
+
 
 1;
