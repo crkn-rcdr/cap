@@ -35,7 +35,7 @@ sub index_GET {
     foreach my $s (@subscriptions) {
         my $id = $s->get_column('user_id');
         my $portal = $s->get_column('portal_id');
-        @sub_hash{$id} = [] unless $sub_hash{id};
+        $sub_hash{$id} = [] unless $sub_hash{id};
         push(@{$sub_hash{$id}}, $portal);
     }
     $c->stash->{subscriptions} = \%sub_hash;
