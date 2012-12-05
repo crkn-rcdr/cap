@@ -52,9 +52,7 @@ sub result_page :Path('') :Args(1) {
     $c->stash(log_search => 1) if ($resultset);
 
     # Get the min and max publication dates for the set
-    my $pubmin = $c->model('Solr')->search($subset)->pubmin($query->to_string) || 0;
-    my $pubmax = $c->model('Solr')->search($subset)->pubmax($query->to_string) || 0;
-
+    my($pubmin, $pubmax);
     eval { $pubmin = $c->model('Solr')->search($subset)->pubmin($query->to_string) || 0 };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
     eval { $pubmax = $c->model('Solr')->search($subset)->pubmax($query->to_string) || 0 };
