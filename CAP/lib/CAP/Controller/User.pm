@@ -562,8 +562,7 @@ sub subscribe_finalize : Private
 {
     my($self, $c, $success, $paymentid, $foreignid) = @_;
 
-    my $period = $c->config->{subscription_period}; # replace with expiry dates
-    $period = 365 unless ($period);
+    my $period = defined ( $c->config->{subscription_period} ) ? $c->config->{subscription_period} : 365; # replace with expiry dates
 
     $c->log->debug("User/subscribe_finalize: Success:$success , PaymentID: $paymentid ForeignID:$foreignid ") if ($c->debug);
 
@@ -613,22 +612,30 @@ sub subscribe_finalize : Private
 	my $user_account = $c->find_user({ id => $userid });
 
 	eval { $user_account->update({
-	    subexpires   => $newexpires,
-	    class        => 'paid',
-        remindersent => 0
-    }) };
+	        subexpires   => $newexpires,
+	        class        => 'paid',
+                remindersent => 0
+             })
+        };
 	if ($@) {
 	    $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);
 	    $c->detach('/error', [500,"user account"]);
 	}
-    $c->user->log('SUB_START', "expires: $newexpires");
+        $c->user->log('SUB_START', "expires: $newexpires");
+
+        #update user_subscription table for paid subscriptions
+        my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
+        $c->model('DB::UserSubscription')->subscribe($userid, $portal_id, 2, $newexpires, 0);
 
 	# Update current session. User may have become subscriber.
 	#$c->forward('/user/init');
-    $c->update_session(1);
-    } else {
+        $c->update_session(1);
+    }
+ 
+    else {
 	undef $newexpires;
     }
+
 
     # Whether successful or not, record completion and the messages
     # from PayPal
@@ -639,11 +646,9 @@ sub subscribe_finalize : Private
 	   oldexpire =>   $subexpires,
 	   newexpire =>   $newexpires,
            payment_id =>   $paymentid
-      				     }) };  
+      	  }) 
+    };  
 
-    #update user_subscription table for paid subscriptions
-    my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
-    $c->model('DB::UserSubscription')->subscribe($userid, $portal_id, 2, $newexpires, 0);
 
     # Send an email notification to administrators
     if (exists($c->config->{subscription_admins})) {
