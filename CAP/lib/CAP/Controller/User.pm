@@ -624,34 +624,26 @@ sub subscribe_finalize : Private
     my $newexpires = $datenew->printf("%Y-%m-%d");
     ## END date manipulation
 
-    if ($success) {
-        my $user_account = $c->find_user({ id => $userid });
 
-        eval { $user_account->update({
-                subexpires   => $newexpires,
-                class        => 'paid',
-                    remindersent => 0
-                 })
-            };
-        if ($@) {
-            $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);
-            $c->detach('/error', [500,"user account"]);
-        }
-            $c->user->log('SUB_START', "expires: $newexpires");
-
-            #update user_subscription table for paid subscriptions
-        my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
-        $c->model('DB::UserSubscription')->subscribe($userid, $portal_id, 2, $newexpires, 0);
-
-        # Update current session. User may have become subscriber.
-        #$c->forward('/user/init');
-        $c->update_session(1);
-        }
- 
-    else {
-        undef $newexpires;
+    # Update the subscription.
+    eval {
+        $subscription->update({
+            expires => $newexpires,
+            reminder_sent => 0,
+            expiry_logged => undef,
+            level => 2
+        });
+    };
+    if ($@) {
+        $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);
+        $c->detach('/error', [500,"user account"]);
     }
 
+    # update user_subscription table for paid subscriptions
+    my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
+
+    # Update current session. User may have become subscriber.
+    $c->update_session(1);
 
     # Whether successful or not, record completion and the messages
     # from PayPal
