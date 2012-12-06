@@ -562,17 +562,32 @@ sub subscribe_finalize : Private
 {
     my($self, $c, $success, $paymentid, $foreignid) = @_;
 
+    if (! $success) {
+        $c->message({ type => "error", message => "payment_failed" });
+        $c->response->redirect('/user/profile');
+    }
+
+
+
+    # TODO: since we are only handling ECO subscriptions right now, we'll
+    # hardcode the subscription here, but in future we will have to
+    # determine which portal we're trying to subscribe to.
+    my $subscription = $c->model('DB::UserSubscription')->find_or_create(user_id => $c->user->id, portal_id => 'eco');
+    $c->detach('/error', [500, "Could not find or create subscription"]) unless ($subscription);
+
+
     my $period = defined ( $c->config->{subscription_period} ) ? $c->config->{subscription_period} : 365; # replace with expiry dates
 
     $c->log->debug("User/subscribe_finalize: Success:$success , PaymentID: $paymentid ForeignID:$foreignid ") if ($c->debug);
 
+
     # Get the matching subscription row
     my $subscriberow = $c->user->subscriptions->find($foreignid);
     my $paymentrow = $c->user->payments->find($paymentid);
-    if (!$subscriberow || !$paymentrow) {
-	# No matching subscription and unable to create new row?
-	$c->detach('/error', [500, "Error finalizing subscription"]);
-	return 0;
+    unless ($subscriberow && $paymentrow) {
+        # No matching subscription and unable to create new row?
+        $c->detach('/error', [500, "Error finalizing subscription"]);
+        return 0;
     }
     my $message = $paymentrow->message;
     my $amount  = $paymentrow->amount;
@@ -580,7 +595,8 @@ sub subscribe_finalize : Private
 
     ## Date manipulation to set the old and new expiry dates
 
-    my $subexpires = $c->user->subexpires;
+    #my $subexpires = $c->user->subexpires;
+    my $subexpires = $subscription->expires;
 
     my $dateexp = new Date::Manip::Date;
     my $err = $dateexp->parse($subexpires);
@@ -588,10 +604,10 @@ sub subscribe_finalize : Private
     my $datetoday = new Date::Manip::Date;
     $datetoday->parse("today");
 
-   # If we couldn't parse expiry date (likely null), or expired in past.
+    # If we couldn't parse expiry date (likely null), or expired in past.
     if ($err || (($dateexp->cmp($datetoday)) <= 0)) {
         # The new expiry date is built from today
-	$dateexp=$datetoday;
+        $dateexp=$datetoday;
     }
 
     # Create a delta based on the period we were passed in.
@@ -609,31 +625,31 @@ sub subscribe_finalize : Private
     ## END date manipulation
 
     if ($success) {
-	my $user_account = $c->find_user({ id => $userid });
+        my $user_account = $c->find_user({ id => $userid });
 
-	eval { $user_account->update({
-	        subexpires   => $newexpires,
-	        class        => 'paid',
-                remindersent => 0
-             })
-        };
-	if ($@) {
-	    $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);
-	    $c->detach('/error', [500,"user account"]);
-	}
-        $c->user->log('SUB_START', "expires: $newexpires");
+        eval { $user_account->update({
+                subexpires   => $newexpires,
+                class        => 'paid',
+                    remindersent => 0
+                 })
+            };
+        if ($@) {
+            $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);
+            $c->detach('/error', [500,"user account"]);
+        }
+            $c->user->log('SUB_START', "expires: $newexpires");
 
-        #update user_subscription table for paid subscriptions
+            #update user_subscription table for paid subscriptions
         my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
         $c->model('DB::UserSubscription')->subscribe($userid, $portal_id, 2, $newexpires, 0);
 
-	# Update current session. User may have become subscriber.
-	#$c->forward('/user/init');
+        # Update current session. User may have become subscriber.
+        #$c->forward('/user/init');
         $c->update_session(1);
-    }
+        }
  
     else {
-	undef $newexpires;
+        undef $newexpires;
     }
 
 
@@ -661,16 +677,11 @@ sub subscribe_finalize : Private
 	$c->detach('/error', [500,"subscriber update"]);
     }
 
-    if ($success) {
-        $c->message(Message::Stack::Message->new(
-                level => "success",
-                msgid => "payment_complete",
-                params => [$amount]));
-        $c->response->redirect("/user/subscribe_confirmed");
-    } else {
-        $c->message({ type => "error", message => "payment_failed" });
-        $c->response->redirect('/user/profile');
-    }
+    $c->message(Message::Stack::Message->new(
+            level => "success",
+            msgid => "payment_complete",
+            params => [$amount]));
+    $c->response->redirect("/user/subscribe_confirmed");
     return 0;
 }
 
