@@ -643,7 +643,7 @@ sub subscribe_finalize : Private
 
     #update user_subscription table for paid subscriptions
     my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
-    $c->model('DB::UserSubscription')->update_subscribe($userid, $portal_id, 2, $newexpires, 0);
+    $c->model('DB::UserSubscription')->subscribe($userid, $portal_id, 2, $newexpires, 0);
 
     # Send an email notification to administrators
     if (exists($c->config->{subscription_admins})) {
