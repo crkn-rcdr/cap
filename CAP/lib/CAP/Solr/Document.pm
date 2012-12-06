@@ -14,13 +14,12 @@ use URI::Escape;
 # Properties from parameters passed to the constructor
 has 'key'           => (is => 'ro', isa => 'Str', default => ""); # Document key to retrieve
 has 'subset'        => (is => 'ro', isa => 'Str', default => ""); # Document must belong to this subset
-has 'server'        => (is => 'ro', isa => 'Str', required => 1);
+has 'solr'          => (is => 'ro', isa => 'WebService::Solr', documentation => 'Solr webservice object'); 
 has 'options'       => (is => 'ro', isa => 'HashRef', default => sub{{}});
 has 'doc'           => (is => 'ro', isa => 'WebService::Solr::Document');
 has 'exists'        => (is => 'ro', isa => 'Int', default => 1); # Was the document found in the Solr index?
 
 # Properties generated at build time
-has 'solr'          => (is => 'ro', isa => 'WebService::Solr', documentation => 'Solr webservice object'); 
 has 'record'        => (is => 'ro', isa => 'CAP::Solr::Record', documentation => 'Access record fields via this object');
 has 'child_count'   => (is => 'ro', isa => 'Int', default => 0, documentation => 'number of child records linked to this record');
 has 'sibling_count' => (is => 'ro', isa => 'Int', default => 0, documentation => 'number of child records of the parent record');
@@ -33,8 +32,6 @@ method BUILD {
     # record more than once.
     $self->{_parent_cache} = undef;
     $self->{_child_cache}  = {};
-
-    $self->{solr} = new WebService::Solr($self->server);
 
     # If a document record is supplied, use it. Otherwise, look up the
     # supplied key in the database.
@@ -85,7 +82,7 @@ method parent {
     my $doc;
     return undef unless ($self->record->pkey);
     return $self->{_parent_cache} if ($self->{_parent_cache});
-    eval { $doc = new CAP::Solr::Document({ key => $self->record->pkey, server => $self->server }) };
+    eval { $doc = new CAP::Solr::Document({ key => $self->record->pkey, solr => $self->solr }) };
 
     # If we didn't get an actual document, output a warning to stderr to
     # alert us to the fact that we have bad metadata and/or missing
@@ -116,7 +113,7 @@ method child (Int $seq) {
     return undef if ($seq > $self->child_count);
     return $self->{_child_cache}->{$seq} if ($self->{_child_cache}->{$seq});
     my $response = $self->solr->search("pkey:" . $self->key, { sort => 'seq asc', rows => 1, start => $seq - 1, fl => 'key' });
-    eval { $doc = new CAP::Solr::Document({ key => $response->docs->[0]->value_for('key'), server => $self->server }) };
+    eval { $doc = new CAP::Solr::Document({ key => $response->docs->[0]->value_for('key'), solr => $self->solr }) };
 
     # Check whether we got a value. Ignore children that are of the wrong
     # type, to prevent circular references and invalid structures.

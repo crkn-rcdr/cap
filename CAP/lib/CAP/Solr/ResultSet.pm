@@ -4,9 +4,10 @@ use warnings;
 use Moose;
 use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
+use WebService::Solr;
 use namespace::autoclean;
 
-has server   => (is => 'ro', isa => 'Str', required => 1);
+has solr     => (is => 'ro', isa => 'WebService::Solr', required => 1);
 has response => (is => 'ro', isa => 'WebService::Solr::Response', required => 1);
 has facets   => (is => 'ro', isa => 'HashRef', default => sub{{}}); # Parsed hash: { lang => { name => eng, count => 8 }, ... }
 has facet    => (is => 'ro', isa => 'HashRef', default => sub{{}}); # List form: { lang => [ eng, 10, fra, 8, zho 2 ], }
@@ -79,7 +80,7 @@ method BUILD {
 
     # Populate the docs list
     foreach my $doc ($self->response->docs) {
-        push(@{$self->{docs}}, new CAP::Solr::AuthDocument({ server => $self->server, doc => $doc }));
+        push(@{$self->{docs}}, new CAP::Solr::AuthDocument({ solr => $self->solr, doc => $doc }));
     }
 
 }

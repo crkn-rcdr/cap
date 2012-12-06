@@ -8,11 +8,13 @@ use MooseX::Method::Signatures;
 use namespace::autoclean;
 extends 'Catalyst::Model';
 
+use WebService::Solr;
 use CAP::Solr::AuthDocument;
 use CAP::Solr::Search;
 use CAP::Solr::Query;
 
 has 'server'        => (is => 'ro', isa => 'Str', default => 'http://localhost:8983/solr', required => 1);
+has 'interface'     => (is => 'ro', isa => 'WebService::Solr');
 has 'options'       => (is => 'ro', isa => 'HashRef');
 has 'fields'        => (is => 'ro', isa => 'HashRef');
 has 'types'         => (is => 'ro', isa => 'HashRef');
@@ -80,6 +82,8 @@ method BUILD {
     };
 
     $self->{default_field} = 'q';
+
+    $self->{interface} = new WebService::Solr($self->{server});
 }
 
 method document (Str $key, :$text = 0, :$subset = "") {
@@ -87,14 +91,14 @@ method document (Str $key, :$text = 0, :$subset = "") {
     $key =~ s/[^A-Za-z0-9_\.\-]//g; # Strip out characters that are not legal in document IDs
     my %fl = ();
     $fl{fl} = join(",", $self->options->{fl}, "tx") if ($text); # Include the page text
-    eval { $doc = new CAP::Solr::AuthDocument({ key => $key, subset => $subset, server => $self->server, options => { %{$self->options}, %fl } }) };
+    eval { $doc = new CAP::Solr::AuthDocument({ key => $key, subset => $subset, solr => $self->interface, options => { %{$self->options}, %fl } }) };
     if ($@) { warn $@; return undef; }
     return $doc;
 }
 
 method search (Str $subset = "") {
     my $search;
-    eval { $search = new CAP::Solr::Search({ server => $self->server, options => $self->options, subset => $subset }) };
+    eval { $search = new CAP::Solr::Search({ solr => $self->interface, options => $self->options, subset => $subset }) };
     if ($@) { return undef; }
     return $search;
 }

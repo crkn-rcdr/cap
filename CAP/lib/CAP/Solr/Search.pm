@@ -9,7 +9,7 @@ use WebService::Solr;
 use CAP::Solr::ResultSet;
 
 # Properties from parameters passed to the constructor
-has 'server'     => (is => 'ro', isa => 'Str', required => 1);
+has 'solr'       => (is => 'ro', isa => 'WebService::Solr', required => 1);
 has 'options'    => (is => 'ro', isa => 'HashRef');
 has 'subset'     => (is => 'ro', isa => 'Str', default => '');
 
@@ -24,9 +24,8 @@ method query (Str $query, HashRef :$options = {}, Str :$page = 0, Str :$raw = 0)
     # on the page number and number of rows per page.
     $options->{start} = ($page - 1) * $options->{rows} if ($page);
     
-    my $solr = new WebService::Solr($self->server);
     $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
-    my $response = $solr->search($query, $options);
+    my $response = $self->solr->search($query, $options);
 
     # Return either the parsed ResultSet (default) or the HTTP::Response
     # object, depending on what was requested.
@@ -35,16 +34,15 @@ method query (Str $query, HashRef :$options = {}, Str :$page = 0, Str :$raw = 0)
     }
     else {
         return undef unless ($response->ok);
-        my $resultset = new CAP::Solr::ResultSet({ server => $self->server, response => $response});
+        my $resultset = new CAP::Solr::ResultSet({ solr => $self->solr, response => $response});
         return $resultset;
     }
 }
 
 # Get the earliest publication date in the result set for $query
 method pubmin (Str $query) {
-    my $solr = new WebService::Solr($self->server);
     $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
-    my $result = $solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmin asc', 'fl' => 'pubmin' });
+    my $result = $self->solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmin asc', 'fl' => 'pubmin' });
     if ($result->docs->[0]) {
         return $result->docs->[0]->value_for('pubmin') || "";
     }
@@ -55,9 +53,8 @@ method pubmin (Str $query) {
 
 # Get the latest publication date in the result set for $query
 method pubmax (Str $query) {
-    my $solr = new WebService::Solr($self->server);
     $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
-    my $result = $solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmax desc', 'fl' => 'pubmax' });
+    my $result = $self->solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmax desc', 'fl' => 'pubmax' });
     if ($result->docs->[0]) {
         return $result->docs->[0]->value_for('pubmax') || "";
     }
