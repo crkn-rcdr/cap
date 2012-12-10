@@ -562,7 +562,31 @@ sub subscribe_finalize : Private
 {
     my($self, $c, $success, $paymentid, $foreignid) = @_;
 
+    # Get the matching subscription row
+    my $subscriberow = $c->user->subscriptions->find($foreignid);
+    my $paymentrow = $c->user->payments->find($paymentid);
+    unless ($subscriberow && $paymentrow) {
+        # No matching subscription and unable to create new row?
+        $c->detach('/error', [500, "Error finalizing subscription"]);
+        return 0;
+    }
+    my $message = $paymentrow->message;
+    my $amount  = $paymentrow->amount;
+    my $userid =  $c->user->id;
+
+
     if (! $success) {
+
+        # Record completion and the messages from PayPal
+        eval { $subscriberow->update({
+            completed => \'now()', #' Makes Emacs Happy
+            success => $success,
+            payment_id => $paymentid,
+            oldexpire =>   undef,
+            newexpire =>   undef,
+            payment_id =>   $paymentid
+        })};  
+
         $c->message({ type => "error", message => "payment_failed" });
         $c->response->redirect('/user/profile');
     }
@@ -580,18 +604,6 @@ sub subscribe_finalize : Private
 
     $c->log->debug("User/subscribe_finalize: Success:$success , PaymentID: $paymentid ForeignID:$foreignid ") if ($c->debug);
 
-
-    # Get the matching subscription row
-    my $subscriberow = $c->user->subscriptions->find($foreignid);
-    my $paymentrow = $c->user->payments->find($paymentid);
-    unless ($subscriberow && $paymentrow) {
-        # No matching subscription and unable to create new row?
-        $c->detach('/error', [500, "Error finalizing subscription"]);
-        return 0;
-    }
-    my $message = $paymentrow->message;
-    my $amount  = $paymentrow->amount;
-    my $userid =  $c->user->id;
 
     ## Date manipulation to set the old and new expiry dates
 
