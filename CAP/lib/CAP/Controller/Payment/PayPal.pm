@@ -137,18 +137,21 @@ sub finalize :Path('finalize') {
     if (! $token) {
 	# If this isn't a legitimate query, generate an error
 	$c->message({ type => "error", message => "paypal_token_none" });
-	$c->detach('/index');
+	$c->response->redirect('/index');
+        return 0;
     }
 
     my ($returnto, $amount);
     my $paymentrow = $c->user->payments->find({token => $token });
     if (!$paymentrow) {
 	$c->message({ type => "error", message => "paypal_token_notfound" });
-	$c->detach('/index');
+	$c->response->redirect('/index');
+        return 0;
     }
     if ($paymentrow->completed) {
 	$c->message({ type => "error", message => "paypal_token_completed" });
-	$c->detach('/index');
+	$c->response->redirect('/index');
+        return 0;
     }
 
     $returnto = $paymentrow->returnto;
