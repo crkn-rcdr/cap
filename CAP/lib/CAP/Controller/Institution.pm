@@ -103,13 +103,25 @@ sub show_stats {
     my $year;
     my $first_of_month;
     my $yearly_stats;
+    my $monthly_stats;
     my $end_month;
     my $start_month;
     my $current_date;
+    
+    my $key;
+    my $value;
+    my $yearly_total;
 
     for ( $year = $first_year ; $year <= $end_year ; $year++ ) {
 
         $yearly_stats = [];
+        $yearly_total = {
+                            searches     => 0,
+                            page_views   => 0,
+                            sessions     => 0,
+                            requests     => 0
+                         };
+
 
         # If we're only reporting on this year we don't need to go all the way to December
         $end_month = ( $year < $end_year ) ? 12 : $end_date->printf("%m");
@@ -119,17 +131,22 @@ sub show_stats {
 
         # Iterate through all the months
         for ( $month = $start_month ; $month <= $end_month ; $month++ ) {
+            # Parse the date
             $current_date = new Date::Manip::Date;
-            # $err = $current_date->parse_format( '%Y\\-%f\\-%e',
-            #                                   join('-', ($year, $month, '1')));
             $err = $current_date->parse(join('-', ($year, $month, '1')));
             $first_of_month = $current_date->printf("%Y-%m-01");
-            push(
-                 @{$yearly_stats},
-                 $c->model('DB::StatsUsageInstitution')->get_stats($inst_arg, $first_of_month)
-            );
+            
+            # Feed monthly totals into arrayref for that year
+            $monthly_stats = $c->model('DB::StatsUsageInstitution')->get_stats($inst_arg, $first_of_month);
+            push( @{$yearly_stats}, $monthly_stats );
+            
+            # Add the monthly totals to the yearly totals
+            while(($key, $value) = each(%{$monthly_stats})) {
+                $yearly_total->{$key} += $value
+            }
         }
         $c->stash->{usage_results}->{$year} = $yearly_stats;
+        $c->stash->{yearly_total}->{$year}  = $yearly_total;
 
     }
 
