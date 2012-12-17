@@ -31,7 +31,7 @@ sub index_GET {
         $list->{$institution->name} = {
             id => $institution->id,
             code => $institution->code ? $institution->code : '',
-            url => $c->uri_for_action('admin/institution/edit', [$institution->id])->as_string(),
+            url => $c->uri_for_action('admin/institution/edit', $institution->id)->as_string(),
         };
     }
     $c->stash->{entity} = $list;
