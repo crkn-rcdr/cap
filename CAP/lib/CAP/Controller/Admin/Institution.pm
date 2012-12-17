@@ -242,23 +242,20 @@ sub contributor_POST {
     my @urls = ref($data{url}) eq 'ARRAY' ? @{$data{url}} : ($data{url});
     my @descriptions = ref($data{description}) eq 'ARRAY' ? @{$data{description}} : ($data{description});
 
-    if (grep(/^((https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?)?$/, @urls) != scalar(@urls)) {
-        $c->message({ type => "error", message => "url_invalid" });
-        $c->stash(entity => $institution->portal_contributor($data{portal}));
-    } else {
-        foreach (0 .. (scalar(@langs) - 1)) {
-            $institution->update_or_create_related('contributors', {
-                portal_id => $data{portal},
-                logo => $data{logo} ? 1 : 0,
-                logo_filename => $data{logo_filename},
-                lang => $langs[$_],
-                url => $urls[$_],
-                description => $descriptions[$_],
+
+    foreach (0 .. (scalar(@langs) - 1)) {
+        $institution->update_or_create_related('contributors', {
+            portal_id => $data{portal},
+            logo => $data{logo} ? 1 : 0,
+            logo_filename => $data{logo_filename},
+            lang => $langs[$_],
+            url => $urls[$_],
+            description => $descriptions[$_],
             });
-        }
-        $c->message({ type => "success", message => "contributor_updated" });
-        $c->response->redirect($c->uri_for_action("/admin/institution/edit", $id));
     }
+    $c->message({ type => "success", message => "contributor_updated" });
+    $c->response->redirect($c->uri_for_action("/admin/institution/edit", $id));
+
     return 0;
 }
 
