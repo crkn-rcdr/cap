@@ -388,7 +388,7 @@ sub subscription_active {
     my($self, $portal) = @_;
     my $sub = $self->find_related('user_subscriptions', { portal_id => $portal->id });
     return 0 unless ($sub);
-    return 1 if ($sub->permanent || $sub->expires->epoch()) > time
+    return 1 if ($sub->permanent || $sub->expires->epoch() > time)
 }
 
 # Returns the date the subscription expire(d|s). Returns 'permanent' if
