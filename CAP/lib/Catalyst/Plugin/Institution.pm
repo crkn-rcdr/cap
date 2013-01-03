@@ -23,7 +23,12 @@ my $institution = $c->institution;
 
 __PACKAGE__->mk_accessors(qw/institution/);
 
-sub get_institution {
+=head2 set_portal
+
+Set the institution, if one is associated with the request.
+
+=cut
+sub set_institution {
     my($c) = @_;
     my $host = substr($c->req->uri->host, 0, index($c->req->uri->host, '.'));
     my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->req->address);

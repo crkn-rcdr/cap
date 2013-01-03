@@ -18,84 +18,46 @@ BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 sub auto :Private
 {
     my($self, $c) = @_;
-    my %params = ();
-    my %cookies = ();
 
-    $c->stash->{current_view} = 'Default';
-
-    # Check the MySQL database version; make sure we are up to date
-    if (! $c->model('DB::Info')->check_version($c->config->{db_version})) {
-        $c->detach("config_error", ["Incorrect cap.info database version (cap.conf is expecting version " . $c->config->{db_version} . "). Upgrade database or modify cap.conf."]);
-    }
+    # Make sure the CAP database version agrees with the config file.
+    $c->model('DB::Info')->assert_version($c->config->{db_version});
     
-    # Configure the portal.  If no portal is found or the portal is
-    # disabled, redirect to the default URL. Stash the portal id for the
-    # templates.
-    $c->configure_portal;
-    unless ($c->portal && $c->portal->enabled) {
-        $c->res->redirect($c->config->{default_url});
-        $c->detach();
-    }
-    $c->stash->{portal} = $c->portal->id; 
+    # Determine which portal to use and configure it.
+    $c->set_portal;
 
-    # If the request IP is linked to an institution, populate the
-    # institution table.
-    $c->get_institution;
+    # Set the institution associated with this request.
+    $c->set_institution;
 
+    # Set various per-request configuration variables.
+    $c->stash($c->model('Configurator')->configAll($c->portal, $c->req, $c->config));
 
-    # Set the interface language. In order of preference, look for: a
-    # usrlang query parameter that explicitly sets the language; a
-    # usrlang cookie that remembers the last selected preference; the
-    # user agent's accept-language value; and finally the default
-    # language.
-    my $default_lang = $c->portal->default_lang;
-    if (! $default_lang) {
-        $c->detach("config_error", ["no supported languages defined for portal " . $c->portal->id]);
-    }
-    if ($c->request->params->{usrlang} && $c->portal->supports_lang($c->request->params->{usrlang})) {
-        $c->stash->{lang} = $c->request->params->{usrlang};
-    }
-    elsif ($c->request->cookie('usrlang') && $c->portal->supports_lang($c->request->cookie('usrlang')->value)) {
-        $c->stash->{lang} = $c->request->cookie('usrlang')->value;
-    }
-    elsif ($c->req->header('Accept-Language')) {
-        foreach my $accept_lang (split(/\s*,\s*/, $c->req->header('Accept-Language'))) {
-            my ($value) = split(';q=', $accept_lang);
-            if ($value) {
-                $value = lc(substr($value, 0, 2));
-                if ($c->portal->supports_lang($value)) {
-                    $c->stash->{lang} = $value;
-                    last;
-                }
-            }
-        }
-    }
-    $c->stash->{lang} = $default_lang unless $c->stash->{lang};
+    # Set the content type and template paths based on the view and portal.
+    $c->response->content_type($c->stash->{content_type});
+    $c->stash->{additional_template_paths} = [
+        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->portal->id),
+        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
+    ];
+
+    ### Everything below here still needs to be examined and possibly refactored.
+
+    # Set I18N information for the selected language.
+    $c->languages([$c->stash->{lang}]);
+
+    # Load the set of labels to use
+    $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
+    $c->stash->{contributors} = $c->model('DB::Institution')->get_contributors($c->stash->{lang}, $c->portal);
+    $c->stash->{languages} = $c->model('DB::Language')->get_labels($c->stash->{lang});
+    $c->stash->{media} = $c->model('DB::MediaType')->get_labels($c->stash->{lang});
 
 
-    # FIXME: hard code this here so we don't have to have config files
-    # anymore. Later, get rid of it and put in some db-based stuff.
-    if ($c->portal->id eq 'eco') {
-        $c->stash->{subscription_price} = 100;
-    }
-    else {
-        $c->stash->{subscription_price} = 0;
-    }
 
-    # Stash the portal name
-    $c->stash->{portal_name} = $c->portal->get_string('name', $c->stash->{lang});
-
-    # Stash the search bar placeholder text
-    $c->stash->{search_bar_placeholder} = $c->portal->get_string('search_bar', $c->stash->{lang});
-
-    # Stash a list of supported interface languages
-    $c->stash->{supported_langs} = $c->portal->langs;
-
+    # TODO: it looks like this isn't needed...
     # Stash the instituion alias
-    if ($c->session->{subscribing_institution_id}) {
-        $c->stash->{institution_alias} = $c->model('DB::InstitutionAlias')->get_alias($c->session->{subscribing_institution_id},
-            $c->stash->{lang}) || $c->session->{subscribing_institution}; 
-    }
+    #if ($c->session->{subscribing_institution_id}) {
+    #    $c->stash->{institution_alias} = $c->model('DB::InstitutionAlias')->get_alias($c->session->{subscribing_institution_id},
+    #        $c->stash->{lang}) || $c->session->{subscribing_institution}; 
+    #}
+
 
     # If this is an anonymous request, check for a persistence token and,
     # if valid, automatically login the user.
@@ -115,55 +77,13 @@ sub auto :Private
         eval { $c->user->update({lastseen => time()}) };
         $c->detach('/error', 500) if ($@);
     }
-    
 
-    #
-    # Set session variables
-    #
-    
+    # Create or update the session and increment the session counter.
     $c->update_session();
     ++$c->session->{count};
 
-    # Set the current view
-    if (! $c->config->{default_view}) {
-        $c->detach("config_error", ["default_view is not set"]);
-    }
-    if ($c->req->params->{fmt}) {
-        if ($c->config->{fmt}->{$c->req->params->{fmt}}) {
-            $c->stash->{current_view} = $c->config->{fmt}->{$c->req->params->{fmt}}->{view};
-            $c->res->content_type($c->config->{fmt}->{$c->req->params->{fmt}}->{content_type});
-        }
-        else {
-            $c->stash->{current_view} = $c->config->{default_view};
-        }
-    }
-    else {
-        $c->stash->{current_view} = $c->config->{default_view};
-    }
-    $c->stash->{additional_template_paths} = [
-        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->portal->id),
-        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
-    ];
-
     # Set a cookie to remember the interface language.
     $c->res->cookies->{usrlang} = { value => $c->stash->{lang}, expires => time() + 7776000 }; # Cookie expires in 90 days TODO: put in cap.conf?
-
-    # Set I18N information for the selected language.
-    $c->languages([$c->stash->{lang}]);
-
-    # Fetch a set of language-appropriate labels and tags.
-    $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
-    $c->stash->{contributors} = $c->model('DB::Institution')->get_contributors($c->stash->{lang}, $c->portal);
-    $c->stash->{languages} = $c->model('DB::Language')->get_labels($c->stash->{lang});
-    $c->stash->{media} = $c->model('DB::MediaType')->get_labels($c->stash->{lang});
-
-    # Initialize the query response with default values. These may be
-    # added to or overwritten when a search query is executed.
-    $c->stash('response' => {
-        request => "" . $c->req->{uri}, # we need to prepend "" in order to force this to a string
-        status => 200,
-        version => '0.3', # TODO: this should be in cap.conf
-    });
 
     # Log the request.
     $c->model('DB::RequestLog')->log($c);
