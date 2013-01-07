@@ -50,15 +50,6 @@ sub auto :Private
     $c->stash->{media} = $c->model('DB::MediaType')->get_labels($c->stash->{lang});
 
 
-
-    # TODO: it looks like this isn't needed...
-    # Stash the instituion alias
-    #if ($c->session->{subscribing_institution_id}) {
-    #    $c->stash->{institution_alias} = $c->model('DB::InstitutionAlias')->get_alias($c->session->{subscribing_institution_id},
-    #        $c->stash->{lang}) || $c->session->{subscribing_institution}; 
-    #}
-
-
     # If this is an anonymous request, check for a persistence token and,
     # if valid, automatically login the user.
     if (! $c->user_exists) {
