@@ -1,0 +1,37 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+=head1 export - export data from the CAP database in JSON format.
+
+=head1 Usage
+
+export SET [...] [-file NAME]
+
+=cut
+
+use Getopt::Long;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use CAP;
+use CAP::Util::Export;
+
+my $file;
+GetOptions(
+    '-file=s' => \$file
+) or die("$!\n");
+
+my $c = CAP->new();
+my $e = new CAP::Util::Export(c => $c);
+
+foreach my $set (@ARGV) {
+    $e->add($set);
+}
+if ($file) {
+    open(OUTPUT, ">$file") or die("Cannot open $file for writing: $!\n");
+    print(OUTPUT $e->export);
+    close(OUTPUT);
+}
+else {
+    print($e->export);
+}
