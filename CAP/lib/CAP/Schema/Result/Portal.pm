@@ -375,4 +375,15 @@ sub has_page {
     return 0;
 }
 
+sub subset {
+    my $self = shift;
+    my @result = $self->search_related('portal_collections')->get_column('collection_id')->all;
+    my @subset = ();
+    foreach my $collection (@result) {
+        push(@subset, "collection:$collection");
+    }
+    return "" unless (@subset);
+    return "(" . join(" OR ", @subset) . ")";
+}
+
 1;

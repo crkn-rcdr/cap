@@ -99,15 +99,6 @@ sub has_role {
     return 0;
 }
 
-# Retrieve the Solr search subset
-# TODO: replace this with a $c->portal->search_subset call + update refs
-# in the controllers.
-sub search_subset {
-    my($c) = @_;
-    my $subset = $c->model('DB::PortalCollection')->search_subset($c->portal->id);
-    return $subset;
-}
-
 # TODO: some of this can be moved into the model.
 # This function creates and/or updates the user's session info.
 sub update_session {

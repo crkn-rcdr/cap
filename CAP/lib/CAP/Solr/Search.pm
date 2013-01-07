@@ -6,16 +6,41 @@ use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
 use namespace::autoclean;
 use WebService::Solr;
+use CAP::Solr::Query;
 use CAP::Solr::ResultSet;
 
 # Properties from parameters passed to the constructor
-has 'solr'       => (is => 'ro', isa => 'WebService::Solr', required => 1);
-has 'options'    => (is => 'ro', isa => 'HashRef');
-has 'subset'     => (is => 'ro', isa => 'Str', default => '');
+has 'solr'    => (is => 'ro', isa => 'WebService::Solr', required => 1);
+has 'params'  => (is => 'rw', isa => 'HashRef');
+has 'options' => (is => 'rw', isa => 'HashRef');
+has 'sorting' => (is => 'rw', isa => 'HashRef');
+has 'subset'  => (is => 'rw', isa => 'Str', default => '');
+has 'query'   => (is => 'rw', isa => 'CAP::Solr::Query');
 
-has 'resultset'  => (is => 'ro', isa => 'CAP::Solr::ResultSet');
+method BUILD {
+    $self->_initialize();
+}
 
-method query (Str $query, HashRef :$options = {}, Str :$page = 0, Str :$raw = 0) {
+method _initialize () {
+    # Create empty q,tx parameters if none were specified.
+    $self->params->{q} ||= "";
+    $self->params->{tx} ||= "";
+
+    # Limit the query when necessary
+    $self->query->limit_type($self->params->{t});
+    $self->query->limit_date($self->params->{df}, $self->params->{dt});
+
+    # Set up the query
+    my $query_string = $self->query->rewrite_query($self->params);
+    my $base_field = $self->params->{field} || 'q';
+    $self->query->append($query_string, parse => 1, base_field => $base_field);
+    $self->query->append($self->subset);
+
+    # Add sorting to options
+    $self->options->{sort} = $self->_sort_order($self->params->{so});
+}
+
+method run (HashRef :$options = {}, Str :$page = 0, Str :$raw = 0) {
 
     # Merge any supplied options with the default options.
     $options = { %{$self->options}, %{$options} };
@@ -24,8 +49,7 @@ method query (Str $query, HashRef :$options = {}, Str :$page = 0, Str :$raw = 0)
     # on the page number and number of rows per page.
     $options->{start} = ($page - 1) * $options->{rows} if ($page);
     
-    $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
-    my $response = $self->solr->search($query, $options);
+    my $response = $self->solr->search($self->query->to_string(), $options);
 
     # Return either the parsed ResultSet (default) or the HTTP::Response
     # object, depending on what was requested.
@@ -40,23 +64,19 @@ method query (Str $query, HashRef :$options = {}, Str :$page = 0, Str :$raw = 0)
 }
 
 # Get the earliest publication date in the result set for $query
-method pubmin (Str $query) {
-    $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
-    my $result = $self->solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmin asc', 'fl' => 'pubmin' });
-    if ($result->docs->[0]) {
-        return $result->docs->[0]->value_for('pubmin') || "";
-    }
-    else {
-        return "";
-    }
+method pubmin () {
+    return $self->_pubbound('pubmin', 'pubmin asc');
 }
 
 # Get the latest publication date in the result set for $query
-method pubmax (Str $query) {
-    $query = join('', $query, ' AND (', $self->subset, ')') if ($self->subset);
-    my $result = $self->solr->search($query, { 'start' => 0, 'rows' => 1, 'sort' => 'pubmax desc', 'fl' => 'pubmax' });
+method pubmax () {
+    return $self->_pubbound('pubmax', 'pubmax desc');
+}
+
+method _pubbound (Str $field, Str $sort) {
+    my $result = $self->solr->search($self->query->to_string(), { 'start' => 0, 'rows' => 1, 'sort' => $sort, 'fl' => $field });
     if ($result->docs->[0]) {
-        return $result->docs->[0]->value_for('pubmax') || "";
+        return $result->docs->[0]->value_for($field) || "";
     }
     else {
         return "";
@@ -65,18 +85,22 @@ method pubmax (Str $query) {
 
 
 # Return a count of records for $query
-method count (Str $query) {
-    my $response = $self->query($query, options => { rows => 0 });
+method count () {
+    my $response = $self->run(options => { rows => 0 });
     return undef unless ($response);
     return $response->hits;
 }
 
 # Returns the $pos'th record in the result set (e.g. $pos = 2 == 2nd
 # record in the result set). Returns a CAP::Solr::Document object.
-method nth_record (Str $query, Int $pos) {
-    my $response = $self->query($query, options => { start => $pos, rows => 1 });
+method nth_record (Int $pos) {
+    my $response = $self->run(options => { start => $pos, rows => 1 });
     return undef unless ($response);
     return $response->docs->[0];
+}
+
+method _sort_order (Maybe [Str] $sort) {
+    return $self->sorting->{$sort} || $self->sorting->{default};
 }
 
 __PACKAGE__->meta->make_immutable;

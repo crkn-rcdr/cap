@@ -21,67 +21,23 @@ sub index :Path('') :Args(0) {
 sub result_page :Path('') :Args(1) {
     my($self, $c, $page) = @_;
 
-    # Create empty q,tx parameters if none were specified.
-    $c->req->params->{q} = "" unless ($c->req->params->{q});
-    $c->req->params->{tx} = "" unless ($c->req->params->{tx});
-
     # Retrieve the first page of results unless otherwise requested.
     $page = 1 unless ($page > 1);
 
-    my $options = {};
-
-    my $subset = $c->search_subset;
-
-    # Construct the main query:
-    my $query = $c->model('Solr')->query;
-    $query->limit_type($c->req->params->{t});
-    $query->limit_date($c->req->params->{df}, $c->req->params->{dt});
-
-    my $query_string = $query->rewrite_query($c->req->params);
-    my $base_field = $c->req->params->{field} || 'q';
-    $query->append($query_string, parse => 1, base_field => $base_field);
-
-    # Set query options
-    $options->{sort} = $query->sort_order($c->req->params->{so});
+    my $subset = $c->portal->subset;
+    my $searcher = $c->model('Solr')->search($c->req->params, $subset);
 
     # Run the main search
-    my $resultset;
-    eval { $resultset = $c->model('Solr')->search($subset)->query($query->to_string, options => $options, page => $page) };
-    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
-
-    $c->stash(log_search => 1) if ($resultset);
-
-    # Get the min and max publication dates for the set
-    my($pubmin, $pubmax);
-    eval { $pubmin = $c->model('Solr')->search($subset)->pubmin($query->to_string) || 0 };
-    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
-    eval { $pubmax = $c->model('Solr')->search($subset)->pubmax($query->to_string) || 0 };
+    my($resultset, $pubmin, $pubmax);
+    eval {
+        $resultset = $searcher->run(page => $page);
+        $pubmin = $searcher->pubmin || 0;
+        $pubmax = $searcher->pubmax || 0;
+    };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
     # Search within the text of the child records
-    my $pages = {};
-    my $response_pages = {};
-    foreach my $doc (@{$resultset->docs}) {
-        if ($doc->type_is('document') && $doc->child_count && (
-            ($c->req->params->{q} && $c->req->params->{q} =~ /\S/) ||
-            ($c->req->params->{tx} && $c->req->params->{tx} =~ /\S/)
-        )) {
-            my $pg_query = $c->model('Solr')->query;
-            $pg_query->append($c->req->params->{q}, parse => 1, base_field => 'q');
-            $pg_query->append($c->req->params->{tx}, parse => 1, base_field => 'tx');
-            $pg_query->append("pkey:" . $doc->key);
-            my $pg_resultset;
-            eval { $pg_resultset = $c->model('Solr')->search($subset)->query($pg_query->to_string, options => { %{$options}, sort => $pg_query->sort_order('seq') } ) };
-            $c->detach('/error', [503, "Solr error: $@"]) if ($@);
-            if ($pg_resultset->hits) {
-                $pages->{$doc->key} = $pg_resultset;
-                $response_pages->{$doc->key} = {
-                    result => $pg_resultset->api('result'),
-                    docs   => $pg_resultset->api('docs'),
-                };
-            }
-        }
-    }
+    my $pages = $c->model('Solr')->search_pages($resultset, $c->req->params, $subset);
 
     # Record the last search parameters
     $c->session->{search} = {
@@ -91,11 +47,12 @@ sub result_page :Path('') :Args(1) {
     };
 
     $c->stash(
-        pubmin    => int(substr($pubmin, 0, 4)),
-        pubmax    => int(substr($pubmax, 0, 4)),
-        pages     => $pages,
-        resultset => $resultset,
-        template  => 'search.tt',
+        pubmin     => int(substr($pubmin, 0, 4)),
+        pubmax     => int(substr($pubmax, 0, 4)),
+        pages      => $pages,
+        resultset  => $resultset,
+        log_search => $resultset ? 1 : 0,
+        template   => 'search.tt',
     );
 
     return 1;

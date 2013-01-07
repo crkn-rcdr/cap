@@ -12,7 +12,7 @@ __PACKAGE__->config(
 sub index :Path :Args(1) {
     my ( $self, $c, $key ) = @_;
 
-    my $doc = $c->model("Solr")->document($key, subset => $c->search_subset);
+    my $doc = $c->model("Solr")->document($key, subset => $c->portal->subset);
     $c->detach("/error", [404, "Record not found: $key"]) unless $doc && $doc->found && $doc->record->canonicalUri;
 
     $c->model('DB::OutboundLink')->create({

@@ -35,7 +35,7 @@ sub view :Private {
     # Should we include the document text with the result?
     my $text = int($c->req->params->{api_text} || 0);
 
-    my $doc = $c->model("Solr")->document($key, text => $text, subset => $c->search_subset);
+    my $doc = $c->model("Solr")->document($key, text => $text, subset => $c->portal->subset);
     $c->detach("/error", [404, "Record not found: $key"]) unless $doc && $doc->found;
 
     # Put the document structure into the response object for use by the API.
@@ -101,16 +101,13 @@ sub view_series :Private {
 
     my $page = ($c->req->params->{page} && int($c->req->params->{page} > 0)) ? int($c->req->params->{page}) : 1;
 
-    my $query = $c->model('Solr')->query;
-    $query->limit_type('issue');
-    $query->append("pkey:" . $doc->key);
     my $options = {
         'sort' => 'seq asc',
         'fl'   => 'key,pkey,label,pubmin,pubmax,type,contributor,canonicalUri',
         'rows' => 20,
     };
     my $issues;
-    eval { $issues = $c->model('Solr')->search($c->search_subset)->query($query->to_string, options => $options, page => $page) };
+    eval { $issues = $c->model('Solr')->search({ pkey => $doc->key, t => 'issue' }, $c->portal->subset)->run(options => $options, page => $page) };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
     $c->stash(
@@ -125,17 +122,12 @@ sub view_series :Private {
 sub random : Path('/viewrandom') Args() {
     my($self, $c) = @_;
 
-
-    # Pick a document at random
-    my $ndocs;
-    eval { $ndocs = $c->model('Solr')->search($c->search_subset)->count('type:document') };
-    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
-    my $index = int(rand() * $ndocs) + 1;
-
-    # Get the record
     my $doc;
-    eval { $doc = $c->model('Solr')->search($c->search_subset)->nth_record('type:document', $index) };
+    eval {
+       $doc = $c->model('Solr')->random_document($c->portal->subset); 
+    };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
+
     if ($doc) {
         $c->res->redirect($c->uri_for_action('view/key', $doc->key));
         $c->detach();

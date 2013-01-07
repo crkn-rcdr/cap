@@ -12,6 +12,7 @@ use WebService::Solr;
 use CAP::Solr::AuthDocument;
 use CAP::Solr::Search;
 use CAP::Solr::Query;
+use CAP::Solr::ResultSet;
 
 has 'server'        => (is => 'ro', isa => 'Str', default => 'http://localhost:8983/solr', required => 1);
 has 'interface'     => (is => 'ro', isa => 'WebService::Solr');
@@ -96,15 +97,39 @@ method document (Str $key, :$text = 0, :$subset = "") {
     return $doc;
 }
 
-method search (Str $subset = "") {
-    my $search;
-    eval { $search = new CAP::Solr::Search({ solr => $self->interface, options => $self->options, subset => $subset }) };
-    if ($@) { return undef; }
+method search (HashRef $params = {}, Str $subset = "") {
+    my $query = new CAP::Solr::Query(default_field => $self->default_field, fields => $self->fields, types => $self->types);
+    my $search = new CAP::Solr::Search({
+        solr => $self->interface,
+        params => $params,
+        options => $self->options,
+        sorting => $self->sorting,
+        subset => $subset,
+        query => $query });
     return $search;
 }
 
-method query {
-    return new CAP::Solr::Query(default_field => $self->default_field, fields => $self->fields, types => $self->types, sorting => $self->sorting);
+method search_pages (CAP::Solr::ResultSet $resultset, HashRef $params, Str $subset = "") {
+    my $result = {};
+    if (($params->{q} && $params->{q} =~ /\S/) ||
+        ($params->{tx} && $params->{tx} =~ /\S/)) {
+        my $pageset;
+        my @sub_params = ('q', $params->{q}, 'tx', $params->{tx}, 'so', 'seq', 't', 'page');
+        foreach my $doc (@{$resultset->docs}) {
+            if ($doc->type_is('document') && $doc->child_count) {
+                $pageset = $self->search({ @sub_params, 'pkey', $doc->key }, $subset)->run();
+                $result->{$doc->key} = $pageset if ($pageset->hits);
+            }
+        }
+    }
+    return $result;
+}
+
+method random_document (Str $subset = "") {
+    my $searcher = $self->search({ t => 'document' }, $subset);
+    my $ndocs = $searcher->count();
+    my $index = int(rand() * $ndocs) + 1;
+    return $searcher->nth_record($index);
 }
 
 1;

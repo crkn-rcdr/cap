@@ -11,9 +11,11 @@ use utf8;
 has 'query'         => (is => 'ro', isa => 'ArrayRef', default => sub{[]});
 has 'fields'        => (is => 'ro', isa => 'HashRef', required  => 1);
 has 'types'         => (is => 'ro', isa => 'HashRef', required  => 1);
-has 'sorting'       => (is => 'ro', isa => 'HashRef', required => 1);
 has 'default_field' => (is => 'ro', isa => 'Str', required => 1);
 
+method BUILD {
+
+}
 
 method append (Maybe [Str] $fragment = "", Int :$parse = 0, Str :$base_field = '') {
     return 0 unless ($fragment);
@@ -99,7 +101,7 @@ method append (Maybe [Str] $fragment = "", Int :$parse = 0, Str :$base_field = '
         }
     }
     else {
-        push(@query, $fragment);
+        push(@query, $fragment) if $fragment; # don't push empty fragments into the query list
     }
 
     push (@{$self->{query}}, join(" AND ", @query));
@@ -176,12 +178,6 @@ method limit_date (Maybe [Str] $from, Maybe [Str] $to) {
             $self->append("pubmin:[* TO $to-12-31T23:59:59.999Z]");
         }
     }
-}
-
-method sort_order (Maybe [Str] $sort) {
-    return $self->sorting->{default} unless ($sort && $self->sorting->{$sort});
-    return $sort && $self->sorting->{$sort};
-
 }
 
 method to_string {
