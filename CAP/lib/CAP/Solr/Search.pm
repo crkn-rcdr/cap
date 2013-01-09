@@ -100,7 +100,8 @@ method nth_record (Int $pos) {
 }
 
 method _sort_order (Maybe [Str] $sort) {
-    return $self->sorting->{$sort} || $self->sorting->{default};
+    return $self->sorting->{$sort} if ($sort);
+    return $self->sorting->{default};
 }
 
 __PACKAGE__->meta->make_immutable;
