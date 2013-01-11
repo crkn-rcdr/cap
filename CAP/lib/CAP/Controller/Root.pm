@@ -21,6 +21,9 @@ sub auto :Private
 
     # Make sure the CAP database version agrees with the config file.
     $c->model('DB::Info')->assert_version($c->config->{db_version});
+
+    # Create a session if we don't already have one.
+    $c->initialize_session;
     
     # Determine which portal to use and configure it.
     $c->set_portal;
@@ -38,17 +41,21 @@ sub auto :Private
         join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
     ];
 
-    ### Everything below here still needs to be examined and possibly refactored.
-
-    # Set I18N information for the selected language.
+    # Configure the interface language. Stash the language in a separate
+    # cookie with a long expiration time so that the user's language
+    # preference is stored long-term on their browser.
     $c->languages([$c->stash->{lang}]);
-
-    # Load the set of labels to use
-    $c->stash->{label} = $c->model('DB::Labels')->get_labels($c->stash->{lang});
-    $c->stash->{contributors} = $c->model('DB::Institution')->get_contributors($c->stash->{lang}, $c->portal);
-    $c->stash->{languages} = $c->model('DB::Language')->get_labels($c->stash->{lang});
-    $c->stash->{media} = $c->model('DB::MediaType')->get_labels($c->stash->{lang});
-
+    $c->res->cookies->{usrlang} = {
+        domain => $c->stash->{cookie_domain},
+        value => $c->stash->{lang},
+        expires => time() + 7776000
+    }; 
+    $c->stash(
+        label        => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
+        contributors => $c->model('DB::Institution')->get_contributors($c->stash->{lang}, $c->portal),
+        languages    => $c->model('DB::Language')->get_labels($c->stash->{lang}),
+        media        => $c->model('DB::MediaType')->get_labels($c->stash->{lang}),
+    );
 
     # If this is an anonymous request, check for a persistence token and,
     # if valid, automatically login the user.
@@ -69,14 +76,15 @@ sub auto :Private
         $c->detach('/error', 500) if ($@);
     }
 
-    # Create or update the session and increment the session counter.
+    # Create or update the session and increment the session counter
     $c->update_session();
+
+    # Route this request to/from the secure host if necessary
+    $c->model('Secure')->routeRequest($c);
+
+    # If we got to here, it means we will attempt to actually do
+    # something, so increment the request counter and log the request
     ++$c->session->{count};
-
-    # Set a cookie to remember the interface language.
-    $c->res->cookies->{usrlang} = { value => $c->stash->{lang}, expires => time() + 7776000 }; # Cookie expires in 90 days TODO: put in cap.conf?
-
-    # Log the request.
     $c->model('DB::RequestLog')->log($c);
 
     return 1;

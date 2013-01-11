@@ -181,6 +181,29 @@ method setContentType($request, $config) {
     return 'text/html'
 }
 
+=head2 setCookieDomain
+
+$cookie_domain = setCookieDomain($request, $config);
+
+=over 4
+
+Sets the domain for cookies to the same one used by the session.
+
+=back
+
+=cut
+method setCookieDomain($request, $config) {
+    my $domain;
+    if ($config->{'Plugin::Session'} && $config->{'Plugin::Session'}->{cookie_domain}) {
+        $domain = $config->{'Plugin::Session'}->{cookie_domain};
+    }
+    else {
+        $domain = $request->uri->host;
+    }
+    return $domain;
+}
+
+
 =head2 configAll
 
 %config = configAll($portal, $request)
@@ -204,6 +227,7 @@ method configAll ($portal, $request, $config) {
     $config{subscripton_price} = $self->subscriptionPrice($portal);
     $config{current_view} = $self->setView($request, $config);
     $config{content_type} = $self->setContentType($request, $config);
+    $config{cookie_domain} = $self->setCookieDomain($request, $config);
 
     return %config;
 }

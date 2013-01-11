@@ -65,12 +65,8 @@ __PACKAGE__->config(
         },
     },
 
-    #'require_ssl' => {
-    #    remain_in_ssl => 0,      # Set to 1 to keep the user in SSL once directed there
-    #    no_cache      => 0,      # Would need to be set if running multiple domains w/wildcard cert.
-    #    detach_on_redirect => 1, # Detach immediately if we redirect
-    #},
-
+    # This needs to be re-defined in cap.conf or cap_local.conf anyway, so
+    # maybe it can be removed from here at some point.
     'Plugin::Session' => {
         cookie_expires => 0, # session cookie
         expires => 7200,     # 2 hours
@@ -99,6 +95,18 @@ sub has_role {
     return 0;
 }
 
+sub initialize_session {
+    my($c) = @_;
+
+    # No need to do anything if the session exists already.
+    return 1 if ($c->sessionid);
+
+    $c->session();
+    $c->session->{count} = 0;
+    $c->log->debug(sprintf("Created new session", $c->sessionid)) if ($c->debug);
+    return 1;
+}
+
 # TODO: some of this can be moved into the model.
 # This function creates and/or updates the user's session info.
 sub update_session {
@@ -109,17 +117,6 @@ sub update_session {
     if ($c->req->params->{expiresession}) {
         $c->log->debug(sprintf("Invalidating existing session %s", $c->sessionid)) if ($c->debug);
         $c->delete_session("expiresession parameter used");
-    }
-
-    # If there is no session, create one.
-    if (! $c->sessionid) {
-        $c->session();
-        $c->session->{count} = 0;
-        $c->log->debug(sprintf("Created new session", $c->sessionid)) if ($c->debug);
-    }
-
-    # Initialize the session counter, if it is not already.
-    if (! $c->session->{count}) {
         $c->session->{count} = 0;
     }
 

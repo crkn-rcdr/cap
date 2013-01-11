@@ -239,8 +239,9 @@ sub login :Path('login') :Args(0) {
                 # Set the session to be persistent or a session cookie.
                 my $token = $c->model('DB::User')->set_token($c->user->id);
                 $c->response->cookies->{persistent} = {
+                    domain => $c->stash->{cookie_domain},
                     value => $token,
-                    expires => time() + 7776000 # 90 days TODO: this should be configurable in $portal.conf or cap.conf
+                    expires => time() + 7776000
                 };
             }
             else {

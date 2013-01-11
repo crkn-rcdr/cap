@@ -31,8 +31,27 @@ portal is found, redirect to a default location.
 =cut
 sub set_portal {
     my($c) = @_;
-    my $host = substr($c->req->uri->host, 0, index($c->req->uri->host, '.'));
+    my $host;
+
+    # If this is a request to the secure host, set the portal based on the
+    # portal_host session variable. Ignore if the secure host is not
+    # configured.
+    if ($c->config->{secure} &&
+        $c->config->{secure}->{host} &&
+        $c->req->uri->host eq $c->config->{secure}->{host}
+    ) {
+        $host = $c->session->{portal};
+    }
+
+    # Otherwise, set the portal based on the hostname.
+    else {
+        $host = substr($c->req->uri->host, 0, index($c->req->uri->host, '.'));
+        $c->session->{portal_host} = $c->req->uri->host;
+        $c->session->{portal} = $host;
+    }
+
     my $portal =  $c->model('DB::PortalHost')->get_portal($host);
+
     $c->portal($portal);
     unless ($c->portal && $c->portal->enabled) {
         $c->res->redirect($c->config->{default_url});
