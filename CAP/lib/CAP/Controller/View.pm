@@ -83,6 +83,7 @@ sub view_doc :Private {
 
         $c->stash(
             doc => $doc,
+            matching_pages => $c->model('Solr')->search_document_pages($doc, $c->session->{search}->{params}, $c->portal->subset),
             rotate => $c->session->{rotate} || 0,
             size => $c->session->{size} || 1,
             template => "view_doc.tt",

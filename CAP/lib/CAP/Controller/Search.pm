@@ -36,9 +36,6 @@ sub result_page :Path('') :Args(1) {
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
-    # Search within the text of the child records
-    my $pages = $c->model('Solr')->search_pages($resultset, $c->req->params, $subset);
-
     # Record the last search parameters
     $c->session->{search} = {
         start    => $page,
@@ -49,12 +46,32 @@ sub result_page :Path('') :Args(1) {
     $c->stash(
         pubmin     => int(substr($pubmin, 0, 4)),
         pubmax     => int(substr($pubmax, 0, 4)),
-        pages      => $pages,
         resultset  => $resultset,
         log_search => $resultset ? 1 : 0,
         template   => 'search.tt',
     );
 
+    return 1;
+}
+
+sub matching_pages_initial :Path('matching_pages_initial') :Args(1) {
+    my($self, $c, $key) = @_;
+    $c->detach('matching_pages', [$key, 10, 0]);
+    return 1;
+}
+
+sub matching_pages_remaining :Path('matching_pages_remaining') :Args(1) {
+    my($self, $c, $key) = @_;
+    $c->detach('matching_pages', [$key, $c->req->params->{rows}, 10]);
+    return 1;
+}
+
+sub matching_pages :Private {
+    my($self, $c, $key, $rows, $start) = @_;
+    $c->detach('/error', [404, "Can only be called through fmt=ajax"]) unless $c->stash->{current_view} eq 'Ajax';
+    my $subset = $c->portal->subset;
+    my $doc = $c->model('Solr')->document($key, subset => $subset);
+    $c->stash( doc => $doc, page_search => $c->model('Solr')->search_document_pages($doc, $c->req->params, $subset, $rows, $start));
     return 1;
 }
 

@@ -109,17 +109,18 @@ method search (HashRef $params = {}, Str $subset = "") {
     return $search;
 }
 
-method search_pages (CAP::Solr::ResultSet $resultset, HashRef $params, Str $subset = "") {
+method search_document_pages (CAP::Solr::Document $doc, HashRef $params, Str $subset = "", Int $rows = 10, Int $start = 0) {
     my $result = {};
     if (($params->{q} && $params->{q} =~ /\S/) ||
         ($params->{tx} && $params->{tx} =~ /\S/)) {
-        my $pageset;
-        my @sub_params = ('q', $params->{q}, 'tx', $params->{tx}, 'so', 'seq', 't', 'page');
-        foreach my $doc (@{$resultset->docs}) {
-            if ($doc->type_is('document') && $doc->child_count) {
-                $pageset = $self->search({ @sub_params, 'pkey', $doc->key }, $subset)->run();
-                $result->{$doc->key} = $pageset if ($pageset->hits);
-            }
+        if ($doc->type_is('document') && $doc->child_count) {
+            my $search_params = { 'q', $params->{q}, 'tx', $params->{tx}, 'pkey', $doc->key, 'so', 'seq', 't', 'page' };
+            my $pageset = $self->search($search_params, $subset)->run(options => {
+                rows => $rows,
+                start => $start,
+                fl => 'key,seq,label,pkey,canonicalUri,contributor,type'
+            });
+            $result = $pageset if ($pageset->hits);
         }
     }
     return $result;
