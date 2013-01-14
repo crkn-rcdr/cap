@@ -238,10 +238,11 @@ sub login :Path('login') :Args(0) {
             if ($persistent) {
                 # Set the session to be persistent or a session cookie.
                 my $token = $c->model('DB::User')->set_token($c->user->id);
-                $c->response->cookies->{persistent} = {
+                $c->response->cookies->{$c->config->{cookies}->{persist}} = {
                     domain => $c->stash->{cookie_domain},
                     value => $token,
-                    expires => time() + 7776000
+                    expires => time() + 7776000,
+                    httponly => 1
                 };
             }
             else {

@@ -45,10 +45,11 @@ sub auto :Private
     # cookie with a long expiration time so that the user's language
     # preference is stored long-term on their browser.
     $c->languages([$c->stash->{lang}]);
-    $c->res->cookies->{usrlang} = {
+    $c->res->cookies->{$c->config->{cookies}->{lang}} = {
         domain => $c->stash->{cookie_domain},
         value => $c->stash->{lang},
-        expires => time() + 7776000
+        expires => time() + 7776000,
+        httponly => 1
     }; 
     $c->stash(
         label        => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
