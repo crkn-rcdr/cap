@@ -248,7 +248,12 @@ sub login :Path('login') :Args(0) {
             else {
                 # Clear any pre-existing persistence cookies and tokens
                 $c->model('DB::User')->clear_token($c->user->id);
-                $c->response->cookies->{persistent} = { value => '', expires => 0 }
+                $c->response->cookies->{$c->config->{cookies}->{persist}} = { 
+                    domain => $c->stash->{cookie_domain},
+                    value => '',
+                    expires => 0,
+                    httponly => 1
+                }
             }
 
             my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
@@ -283,7 +288,12 @@ sub logout :Path('logout') :Args(0) {
 
     # Log out and clear any persistent token and cookie.
     $c->model('DB::User')->clear_token($c->user->id);
-    $c->response->cookies->{persistent} = { value => '', expires => 0 };
+    $c->response->cookies->{$c->config->{cookies}->{persist}} = {
+        domain => $c->stash->{cookie_domain},
+        value => '',
+        expires => 0,
+        httponly => 1
+    };
     $c->user->log('LOGOUT');
     $c->logout();
     #$c->forward('init'); # Reinitialize after logout to clear current subscription, etc. info

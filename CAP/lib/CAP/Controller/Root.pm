@@ -61,8 +61,8 @@ sub auto :Private
     # If this is an anonymous request, check for a persistence token and,
     # if valid, automatically login the user.
     if (! $c->user_exists) {
-        if ($c->request->cookie("persistent")) {
-            my $id = $c->model('DB::User')->validate_token($c->request->cookie("persistent")->value);
+        if ($c->request->cookie($c->config->{cookies}->{psersist})) {
+            my $id = $c->model('DB::User')->validate_token($c->request->cookie($c->config->{cookies}->{persist})->value);
             if ($id) {
                 $c->set_authenticated($c->find_user({id => $id}));
                 $c->persist_user();
