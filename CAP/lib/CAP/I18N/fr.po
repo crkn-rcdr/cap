@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2013-01-16 08:15-0500\n"
+"PO-Revision-Date: 2013-01-16 09:21-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -1825,7 +1825,7 @@ msgstr "Recherches"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/matching_pages.tt:3
 msgid "Searching for matching pages..."
-msgstr ""
+msgstr "Recherche des pages correspondantes..."
 
 #: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:18
 msgid "Searching within"
