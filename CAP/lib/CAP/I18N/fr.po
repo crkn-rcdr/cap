@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2012-12-18 10:21-0500\n"
+"PO-Revision-Date: 2013-01-16 08:15-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -63,12 +63,12 @@ msgstr "90 jours"
 msgid ":"
 msgstr " :"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:23
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:36
 msgid "<strong>Administrator:</strong> you are an administrator"
 msgstr "<strong>Administrateur :</strong> vous êtes un administrateur"
 
 #. (c.session.subscribing_institution)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:18
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:31
 msgid "<strong>Institutional Subscriber:</strong> you are currently accessing ECO as a member of <em>%1</em>. This gives you full access to the ECO collection."
 msgstr "<strong>Abonné institutionnel :</strong> vous accédez actuellement au site NML à titre de membre de <em>%1</em>. Ceci vous permet d'accéder à la collection complète de NML."
 
@@ -191,9 +191,14 @@ msgstr "Admin"
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:4
 #: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:6
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:6
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:19
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:20
 msgid "Admin Menu"
 msgstr "Menu Admin"
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:16
+msgid "Administrative Functions"
+msgstr ""
 
 msgid "Administrator"
 msgstr "Administrateur"
@@ -286,7 +291,7 @@ msgstr "Numéros disponibles : %1"
 msgid "Back to collections"
 msgstr "Retour aux collections"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:5
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:7
 msgid "Back to search results"
 msgstr "Retour à la page des résultats"
 
@@ -663,7 +668,7 @@ msgstr "Période d’essai gratuit de NML"
 msgid "ECO Subscriber"
 msgstr "Abonné(e) de NML"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:50
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:63
 msgid "ECO Subscriber."
 msgstr "Abonné(e) de NML."
 
@@ -675,7 +680,7 @@ msgid "ECO Tax Receipt"
 msgstr "Reçu d’impôt pour NML"
 
 #. ($payment)
-#: ../Controller/User.pm:553
+#: ../Controller/User.pm:555
 msgid "ECO subscription for $%1"
 msgstr "Abonnment à NML : %1 $"
 
@@ -829,7 +834,7 @@ msgstr "Expiration"
 msgid "Expires on %1"
 msgstr "Expire le %1"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:54
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:67
 msgid "Extend it today!"
 msgstr "Prolongez-le dès aujourd’hui!"
 
@@ -1216,7 +1221,7 @@ msgstr "Manitoba"
 msgid "Manitoba (MB)"
 msgstr "Manitoba (MB)"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:58
+#: ../../../../../cap-root/templates/Ajax/Common/search/matching_pages_initial.tt:3
 msgid "Matching pages:"
 msgstr "Pages correspondantes :"
 
@@ -1329,6 +1334,10 @@ msgstr "Aucun numéro trouvé"
 msgid "No items match your search criteria"
 msgstr "Votre recherche n'a produit aucun résultat"
 
+#: ../../../../../cap-root/templates/Ajax/Common/search/matching_pages_initial.tt:11
+msgid "No matching pages found."
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:7
 msgid "No results"
 msgstr "Aucun résultat"
@@ -1348,7 +1357,7 @@ msgstr "Territoires du Nord-Ouest (NT)"
 msgid "Not a subscriber"
 msgstr "Non abonné"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:36
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:49
 msgid "Not a subscriber."
 msgstr "Non abonné."
 
@@ -1387,6 +1396,15 @@ msgstr "Options"
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:8
 msgid "Order"
 msgstr "Trier"
+
+#: ../../../../../cap-root/templates/Default/Common/reports/links/index.tt:3
+#: ../../../../../cap-root/templates/Default/Common/reports/links/index.tt:7
+msgid "Outbound Links"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:7
+msgid "Outbound links"
+msgstr ""
 
 msgid "Page"
 msgstr "Page"
@@ -1428,7 +1446,7 @@ msgstr "Réinitialisation du mot de passe"
 msgid "Password reset"
 msgstr "Réinitialisation du mot de passe"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:71
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:84
 msgid "Payment History"
 msgstr "Historique des paiements"
 
@@ -1614,7 +1632,7 @@ msgstr "Rappel envoyé"
 msgid "Renew today"
 msgstr "Renouvelez dès aujourd’hui!"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:58
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:71
 msgid "Renew today!"
 msgstr "Renouvelez dès aujourd’hui!"
 
@@ -1631,8 +1649,13 @@ msgstr ""
 msgid "Reports Menu"
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/reports/links/index.tt:22
 #: ../../../../../cap-root/templates/Default/Common/reports/user/index.tt:40
 msgid "Reports menu"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/reports/links/index.tt:1
+msgid "Reports: Outbound Links"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/reports/user/index.tt:1
@@ -1722,7 +1745,7 @@ msgid "Save Changes"
 msgstr "Sauvegarder les modifications"
 
 #: ../../../../../cap-root/templates/Default/1812/partial/search_form.tt:33
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:13
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:16
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:4
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:9
 #: ../../../../../cap-root/templates/Default/dfait/partial/search_form.tt:33
@@ -1764,19 +1787,21 @@ msgstr "Recherche dans la collection"
 msgid "Search this collection"
 msgstr "Recherche dans cette collection"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:12
 msgid "Search this document"
 msgstr "Recherche dans ce document"
 
 msgid "Search this item's %1 %2"
 msgstr "Effectuer une recherche dans les %1 %2 de ce document"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:12
 msgid "Search this series"
 msgstr "Effectuer une recherche dans cette série"
 
 msgid "Search within this collection (%1 pages)"
 msgstr "Recherche dans cette collection (%1 pages)"
+
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:14
+msgid "Search within this document:"
+msgstr "Recherche dans ce document :"
 
 msgid "Search within this issue (%1 pages)"
 msgstr "Recherche dans ce numéro (%1 pages)"
@@ -1787,12 +1812,20 @@ msgstr "Recherche dans ce document (%1 pages)"
 msgid "Search within this publication (%1 pages)"
 msgstr "Recherche dans cette publication (%1 pages)"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:14
+msgid "Search within this series:"
+msgstr "Recherche dans cette série :"
+
 msgid "Search:"
 msgstr "Recherche dans :"
 
 #: ../../../../../cap-root/templates/Default/Common/institution.tt:28
 msgid "Searches"
 msgstr "Recherches"
+
+#: ../../../../../cap-root/templates/Default/Common/partial/matching_pages.tt:3
+msgid "Searching for matching pages..."
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:18
 msgid "Searching within"
@@ -1836,7 +1869,7 @@ msgid "Show All Media"
 msgstr "Afficher tous les médias"
 
 #. (page_search.hits)
-#: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:64
+#: ../../../../../cap-root/templates/Ajax/Common/search/matching_pages_initial.tt:7
 msgid "Show all %1 matches"
 msgstr "Afficher chacune des %1 pages correspondantes"
 
@@ -1980,9 +2013,9 @@ msgstr "Abonnez-vous dès aujourd’hui"
 #: ../../../../../cap-root/templates/Default/Common/layout/header.tt:12
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:9
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer.tt:10
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:38
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:44
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:48
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:51
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:57
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:61
 #: ../../../../../cap-root/templates/Default/eco/layout/header.tt:15
 #: ../../../../../cap-root/templates/Default/whf/layout/header.tt:12
 msgid "Subscribe today!"
@@ -2028,7 +2061,7 @@ msgstr "L’abonnement expire le"
 msgid "Subscription IP Blocks"
 msgstr "Plages IP pour les abonnements"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:56
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:69
 msgid "Subscription expired."
 msgstr "Abonnement expiré."
 
@@ -2036,7 +2069,7 @@ msgstr "Abonnement expiré."
 msgid "Subscription price"
 msgstr "Coût de l'abonnement"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:14
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:27
 msgid "Subscription status"
 msgstr "Statut de l’abonnement"
 
@@ -2052,6 +2085,7 @@ msgid "Surprise me!"
 msgstr "Surprenez-moi!"
 
 #: ../../../../../cap-root/templates/Default/Common/reports/index.tt:3
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:22
 msgid "System Reports"
 msgstr ""
 
@@ -2228,11 +2262,11 @@ msgstr "Montant total du paiement"
 msgid "Trial Ended"
 msgstr "Période d’essai terminée"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:46
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:59
 msgid "Trial ended."
 msgstr "Période d’essai terminée"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:40
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:53
 msgid "Trial subscription."
 msgstr "Abonnement d'essai."
 
@@ -2274,7 +2308,7 @@ msgstr "Utilisation"
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:12
 #: ../../../../../cap-root/templates/Default/Common/admin/usage.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/usage.tt:3
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:91
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:104
 msgid "Usage Statistics"
 msgstr "Statistiques d’utilisation"
 
@@ -2409,7 +2443,6 @@ msgid "Welcome"
 msgstr "Bienvenue"
 
 #. (c.session.subscribing_institution)
-#. (institution_alias)
 #: ../../../../../cap-root/templates/Default/1812/layout/header.tt:32
 #: ../../../../../cap-root/templates/Default/Common/layout/header.tt:32
 #: ../../../../../cap-root/templates/Default/eco/layout/header.tt:7
@@ -2445,7 +2478,7 @@ msgstr "Oui"
 msgid "You are accessing ECO from an institution that has subscribed to our collection. You will have full access whenever accessing ECO from your institution's network."
 msgstr "Vous accédez à NML par l’entremise d’une institution abonnée à notre collection. Vous bénéficierez d’un accès complet à NML chaque fois que vous consulterez ce site sur le réseau de votre institution."
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:37
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:50
 msgid "You are not currently subscribed to ECO. Subscription allows full access to the ECO collection, and funds the digitization of new content."
 msgstr "Présentement, vous n’avez pas d’abonnement à NML. L’abonnement vous donne accès à toute la collection NML et finance la numérisation de nouveaux contenus."
 
@@ -2502,7 +2535,7 @@ msgid "You received this email because a request was made to %1 to reset your pa
 msgstr "Vous avez reçu ce courriel parce qu’une demande a été envoyée à %1 pour la réinitialisation de votre mot de passe."
 
 #. (format_date(sub_expires)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:47
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:60
 msgid "Your ECO free trial ended on %1. Subscribe to regain access to the complete ECO collection, including subscriber-only features not available during your trial."
 msgstr "Votre période d’essai gratuit à NML s’est terminée le %1. Abonnez-vous pour récupérer l’accès à toute la collection NML, y compris certaines fonctions réservées uniquement aux abonnés et non disponibles durant votre période d’essai."
 
@@ -2518,7 +2551,7 @@ msgid "Your email address is invalid."
 msgstr "Votre adresse de courriel n’est pas valide."
 
 #. (format_date(c.user.subexpires)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:42
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:55
 msgid "Your free trial ends on %1. Subscribe today to maintain access to the complete ECO collection, enable PDF downloads and other subscriber benefits, and fund the digitization of new content."
 msgstr " Votre période d’essai se termine le %1. Abonnez-vous dès aujourd’hui pour conserver l’accès à toute la collection NML, permettre le téléchargement de fichiers PDF, profiter des autres avantages réservés aux abonnés et financer la numérisation de nouveaux contenus."
 
@@ -2578,12 +2611,12 @@ msgid "Your single best source for discovering Canadian documentary heritage"
 msgstr "La source par excellence pour découvrir le patrimoine documentaire canadien"
 
 #. (format_date(sub_expires)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:57
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:70
 msgid "Your subscription ended on %1. Renew it to regain access to the complete ECO collection."
 msgstr "Votre abonnement a pris fin le %1. Renouvelez-le afin d'avoir de nouveau accès à la collection complète de NML."
 
 #. (format_date(sub_expires)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:52
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:65
 msgid "Your subscription expires on %1."
 msgstr "Votre abonnement expire le %1"
 
