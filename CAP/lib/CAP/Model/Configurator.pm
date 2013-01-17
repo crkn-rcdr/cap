@@ -31,13 +31,13 @@ selected language.
 
 =back
 =cut
-method setLang ($portal, $request) {
+method setLang ($portal, $request, $config) {
     my $lang;
     if ($request->params->{usrlang} && $portal->supports_lang($request->params->{usrlang})) {
         $lang = $request->params->{usrlang};
     }
-    elsif ($request->cookie('usrlang') && $portal->supports_lang($request->cookie('usrlang')->value)) {
-        $lang = $request->cookie('usrlang')->value;
+    elsif ($request->cookie('usrlang') && $portal->supports_lang($request->cookie($config->{cookies}->{lang})->value)) {
+        $lang = $request->cookie($config->{cookies}->{lang})->value;
     }
     elsif ($request->header('Accept-Language')) {
         foreach my $accept_lang (split(/\s*,\s*/, $request->header('Accept-Language'))) {
@@ -219,7 +219,7 @@ the standard way to configure CAP for a request.
 method configAll ($portal, $request, $config) {
     my %config = ();
 
-    $config{lang} = $self->setLang($portal, $request);
+    $config{lang} = $self->setLang($portal, $request, $config);
     $config{portal} = $self->portalId($portal);
     $config{portal_name} = $self->portalName($portal, $config{lang});
     $config{search_bar_placeholder} = $self->searchPlaceholder($portal, $config{lang});
