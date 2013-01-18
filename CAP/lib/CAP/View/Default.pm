@@ -33,22 +33,6 @@ __PACKAGE__->config(
         megabytes => sub {
             return sprintf("%3.1f", $_[0] / 1048576);
         },
-        # Create a radio button element with the supplied name, value, and
-        # other attributes. Check the button if the value matches the
-        # request parameter of the same name, or if it is the default and
-        # no request parameter value is set.
-        radioButton => sub {
-            my ($c, $name, $value, $attrs, $default) = @_;
-            my @attrs = ("type=\"radio\"", "name=\"$name\"", "value=\"$value\"");
-            foreach my $name (keys(%{$attrs})) {
-                push(@attrs, "$name=\"$attrs->{$name}\"");
-            }
-            push (@attrs, 'checked="checked"') if (
-                ($c->req->params->{$name} && $c->session->{search}->{params}->{$name} eq $value) ||
-                (! $c->req->params->{$name} && $default)
-            );
-            return "<input " . join(" ", @attrs) . "/>";
-        },
 
         # Refines $param by adding/replacing any keys that appear in
         # refine. Returns a new hash.

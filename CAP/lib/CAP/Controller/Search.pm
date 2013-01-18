@@ -37,7 +37,7 @@ sub result_page :Path('') :Args(1) {
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
     # Record the last search parameters
-    $c->session->{search} = {
+    $c->session->{$c->portal->id}->{search} = {
         start    => $page,
         params   => $c->req->params,
         hits     => $resultset->hits,

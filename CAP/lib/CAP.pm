@@ -120,30 +120,22 @@ sub update_session {
         $c->session->{count} = 0;
     }
 
+    $c->session->{$c->portal->id} = {} unless defined($c->session->{$c->portal->id});
+
     # Refresh the session data if this is a new session, if the refresh
     # inrerval has been reached, or on request.
     if ($c->session->{count} % $c->config->{session_refresh_interval} == 0 || $force_refresh) {
         $c->log->debug("Doing refresh of session information") if ($c->debug);
 
-        # Initialize authorization structure
-        $c->session->{auth} = {
-            'user_class'               => 'none',
-            'user_expiry_epoch'        => 0,
-            'institutional_sub'        => 0    
-        };    
-
         # Find the user's subscribing institution, if any
-        $c->session->{subscribing_institution} = 0;
+        $c->session->{$c->portal->id}->{subscribing_institution} = undef;
         my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->req->address);
 
         if ($institution && $institution->is_subscriber($c->portal)) {
-                $c->session->{subscribing_institution} = $institution->name;
-                $c->session->{subscribing_institution_id} = $institution->id;
-                $c->session->{auth}->{institution_sub} = 1;
+            $c->session->{$c->portal->id}->{subscribing_institution} = {id => $institution->id, name => $institution->name };
         }
 
 
-        $c->session->{is_subscriber} = 0;
         if ($c->user_exists) {
 
             # Update the user information to reflect any background changes
@@ -152,13 +144,6 @@ sub update_session {
             # sanity check anyway; need to consider further.
             $c->set_authenticated($c->find_user({ id => $c->user->id }));
             $c->persist_user();
-
-            $c->session->{auth}->{user_class} = $c->user->class;
-            $c->session->{auth}->{user_expiry_epoch} = $c->user->subexpires->epoch() if $c->user->subexpires;
-
-            # Check the user's subscription status
-            $c->session->{is_subscriber} = $c->model('DB::User')->has_active_subscription($c->user->id);
-
         }
 
     }

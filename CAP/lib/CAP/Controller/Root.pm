@@ -141,7 +141,7 @@ sub index :Local Does('NoSSL') Path('') Args(0)
     my($self, $c) = @_;
 
     # Messsages bugging you to subscribe already
-    if ($c->portal->id eq 'eco' && !$c->session->{subscribing_institution}) {
+    if ($c->portal->id eq 'eco' && !$c->session->{eco}->{subscribing_institution}) {
         if ($c->user_exists) {
             my $sub_level = $c->user->subscriber_level($c->portal);
             my $sub_active = $c->user->subscription_active($c->portal);

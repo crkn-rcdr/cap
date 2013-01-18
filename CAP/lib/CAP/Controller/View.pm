@@ -74,18 +74,19 @@ sub view_doc :Private {
         $c->detach("/error", [404, "Page not found: $seq"]) unless $page;
 
         # Set image size and rotation
+        my $size = 1;
+        my $rotate = 0;
         if (defined($c->request->query_params->{s}) && defined($c->config->{derivative}->{size}->{$c->request->query_params->{s}})) {
-            $c->session->{size} = $c->request->query_params->{s};
+            $size = int($c->request->query_params->{s});
         }
         if (defined($c->request->query_params->{r}) && defined($c->config->{derivative}->{rotate}->{$c->request->query_params->{r}})) {
-            $c->session->{rotate} = $c->request->query_params->{r};
+            $rotate = int($c->request->query_params->{r});
         }
 
         $c->stash(
             doc => $doc,
-            matching_pages => $c->model('Solr')->search_document_pages($doc, $c->session->{search}->{params}, $c->portal->subset),
-            rotate => $c->session->{rotate} || 0,
-            size => $c->session->{size} || 1,
+            rotate => $rotate,
+            size => $size,
             template => "view_doc.tt",
         );
     } else { # we don't have a document with pages
