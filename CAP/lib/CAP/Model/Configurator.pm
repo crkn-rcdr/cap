@@ -36,7 +36,7 @@ method setLang ($portal, $request, $config) {
     if ($request->params->{usrlang} && $portal->supports_lang($request->params->{usrlang})) {
         $lang = $request->params->{usrlang};
     }
-    elsif ($request->cookie('usrlang') && $portal->supports_lang($request->cookie($config->{cookies}->{lang})->value)) {
+    elsif ($request->cookie($config->{cookies}->{lang})) && $portal->supports_lang($request->cookie($config->{cookies}->{lang})->value)) {
         $lang = $request->cookie($config->{cookies}->{lang})->value;
     }
     elsif ($request->header('Accept-Language')) {
