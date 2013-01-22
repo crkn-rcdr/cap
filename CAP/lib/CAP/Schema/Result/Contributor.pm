@@ -63,12 +63,12 @@ __PACKAGE__->table("contributor");
 
 =head2 url
 
-  data_type: 'text'
+  data_type: 'mediumtext'
   is_nullable: 1
 
 =head2 description
 
-  data_type: 'text'
+  data_type: 'mediumtext'
   is_nullable: 1
 
 =head2 logo
@@ -104,9 +104,9 @@ __PACKAGE__->add_columns(
   "lang",
   { data_type => "varchar", default_value => "", is_nullable => 0, size => 2 },
   "url",
-  { data_type => "text", is_nullable => 1 },
+  { data_type => "mediumtext", is_nullable => 1 },
   "description",
-  { data_type => "text", is_nullable => 1 },
+  { data_type => "mediumtext", is_nullable => 1 },
   "logo",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "logo_filename",
@@ -160,8 +160,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2012-11-06 15:11:20
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:azuRR2g21053Q+BhQMfVaA
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:kqjO2TO0nnyDRTP0APMFUA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

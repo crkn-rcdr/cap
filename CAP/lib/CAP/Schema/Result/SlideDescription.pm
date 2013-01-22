@@ -53,7 +53,7 @@ __PACKAGE__->table("slide_description");
 
 =head2 description
 
-  data_type: 'text'
+  data_type: 'mediumtext'
   is_nullable: 1
 
 =cut
@@ -64,7 +64,7 @@ __PACKAGE__->add_columns(
   "lang",
   { data_type => "varchar", is_nullable => 0, size => 2 },
   "description",
-  { data_type => "text", is_nullable => 1 },
+  { data_type => "mediumtext", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -94,8 +94,8 @@ Related object: L<CAP::Schema::Result::Slide>
 __PACKAGE__->belongs_to("slide_id", "CAP::Schema::Result::Slide", { id => "slide_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-05 08:38:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:W2YbPSBkwA6NRiuTE+6lkw
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:f7UQOzyMbGTb+81nRXtatg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

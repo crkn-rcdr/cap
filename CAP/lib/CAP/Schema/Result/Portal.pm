@@ -42,6 +42,7 @@ __PACKAGE__->table("portal");
 =head2 id
 
   data_type: 'varchar'
+  default_value: (empty string)
   is_nullable: 0
   size: 64
 
@@ -79,7 +80,7 @@ __PACKAGE__->table("portal");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "varchar", is_nullable => 0, size => 64 },
+  { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
   "enabled",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "view_all",
@@ -118,7 +119,7 @@ __PACKAGE__->has_many(
   "contributors",
   "CAP::Schema::Result::Contributor",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_subscriptions
@@ -133,7 +134,7 @@ __PACKAGE__->has_many(
   "institution_subscriptions",
   "CAP::Schema::Result::InstitutionSubscription",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 outbound_links
@@ -148,7 +149,7 @@ __PACKAGE__->has_many(
   "outbound_links",
   "CAP::Schema::Result::OutboundLink",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_collections
@@ -163,7 +164,7 @@ __PACKAGE__->has_many(
   "portal_collections",
   "CAP::Schema::Result::PortalCollection",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_features
@@ -178,7 +179,7 @@ __PACKAGE__->has_many(
   "portal_features",
   "CAP::Schema::Result::PortalFeature",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_hosts
@@ -193,7 +194,7 @@ __PACKAGE__->has_many(
   "portal_hosts",
   "CAP::Schema::Result::PortalHost",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_langs
@@ -208,7 +209,7 @@ __PACKAGE__->has_many(
   "portal_langs",
   "CAP::Schema::Result::PortalLang",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_strings
@@ -223,7 +224,7 @@ __PACKAGE__->has_many(
   "portal_strings",
   "CAP::Schema::Result::PortalString",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_subscriptions
@@ -238,7 +239,7 @@ __PACKAGE__->has_many(
   "portal_subscriptions",
   "CAP::Schema::Result::PortalSubscription",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_supports
@@ -253,7 +254,22 @@ __PACKAGE__->has_many(
   "portal_supports",
   "CAP::Schema::Result::PortalSupport",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
+);
+
+=head2 stats_usage_portals
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::StatsUsagePortal>
+
+=cut
+
+__PACKAGE__->has_many(
+  "stats_usage_portals",
+  "CAP::Schema::Result::StatsUsagePortal",
+  { "foreign.portal_id" => "self.id" },
+  {},
 );
 
 =head2 user_subscriptions
@@ -268,7 +284,7 @@ __PACKAGE__->has_many(
   "user_subscriptions",
   "CAP::Schema::Result::UserSubscription",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_ids
@@ -286,8 +302,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-08 09:17:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6GCZF4tJ+zFmALiVs0aMhg
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dFuWiafnNLDvjkmrGfePcw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
