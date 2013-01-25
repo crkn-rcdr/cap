@@ -19,15 +19,15 @@ sub index : Private {
     
     # Find the date of the last update or find the first entry in the log table if there is none
     my $last_update = $c->model('DB::StatsUsageInstitution')->last_update() || $c->model('DB::RequestLog')->get_start();
-    my $date_type = ref $last_update;
+    # my $date_type = ref $last_update;
     
-    $c->log->error("last_update is type $date_type");
+    # $c->log->error("last_update is type $date_type");
     
-    $c->model('DB::CronLog')->create({
-            action  => 'compile institutional stats',
-            ok      => 1,
-            message => "last_update is type $date_type",
-    });
+    # $c->model('DB::CronLog')->create({
+    #        action  => 'compile institutional stats',
+    #        ok      => 1,
+    #        message => "last_update is type $date_type",
+    # });
 
 
 
@@ -58,7 +58,7 @@ sub index : Private {
     
     my $first_of_month_st =  join ('-',($start_year,$start_month,'1'));
         
-    $c->log->error("compiling data from $first_of_month_st to $first_of_month_end");
+    # $c->log->error("compiling data from $first_of_month_st to $first_of_month_end");
     
     $c->model('DB::CronLog')->create({
             action  => 'compile institutional stats',
@@ -96,7 +96,7 @@ sub index : Private {
            for ($month = $start_month; $month <= $end_month; $month++) {
                
                # get the monthly stats from the request log
-               $monthly_stats = $c->model('DB::RequestLog')->get_monthly_stats($inst, $month, $year);
+               $monthly_stats = $c->model('DB::RequestLog')->get_monthly_inst_stats($inst, $month, $year);
                
                # make sure the dates are in the correct format
                

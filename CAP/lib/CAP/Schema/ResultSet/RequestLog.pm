@@ -32,7 +32,7 @@ sub log {
     );
 }
 
-sub get_monthly_stats {
+sub get_monthly_inst_stats {
 
     my ( $self, $institution_id, $month, $year ) = @_;
 
@@ -99,6 +99,73 @@ sub get_monthly_stats {
     return $stats;
 }
 
+sub get_monthly_portal_stats {
+
+    my ( $self, $portal, $month, $year ) = @_;
+
+    # get the number of searches
+    my $search_logs = $self->search(
+        {
+            'month(time)'    => $month,
+            'year(time)'     => $year,
+            'portal'         => $portal,
+            'action'         => 'search'
+        }
+    );
+    my $search_count = $search_logs->count;
+
+    # get the number of views    
+    my $view_logs = $self->search(
+        {
+            'month(time)'    => $month,
+            'year(time)'     => $year,
+            'portal'         => $portal,
+            -or =>  [
+                      {'action'  => 'view'},
+                      {'action'  => 'file/get_page_uri'} 
+                    ]
+        }
+    ); 
+    my $view_count = $view_logs->count;
+
+    # get the number of sessions    
+    my $session_logs = $self->search(
+        {
+            'month(time)'    => $month,
+            'year(time)'     => $year,
+            'portal'         => $portal
+
+        },        
+        {
+            columns  => [ 'session' ],
+            distinct => 1
+        }
+    );      
+    my $session_count = $session_logs->count;
+    
+    # get the number of requests    
+    my $request_logs = $self->search(
+        {
+            'month(time)'    => $month,
+            'year(time)'     => $year,
+            'portal'         => $portal
+
+        }        
+    );      
+    my $request_count = $request_logs->count;   
+    
+    # Return everything as a hash reference
+
+    my $stats = { 
+                  searches       => $search_count,
+                  page_views     => $view_count,
+                  sessions       => $session_count,
+                  requests       => $request_count                  
+                };
+    
+    return $stats;
+}
+
 sub get_start {
 
     # Returns a timedate object of first entry in table
@@ -144,5 +211,28 @@ sub get_institutions {
   
 }
 
+sub get_portals {
+
+  my ($self, $c) = @_;
+  
+  my $rs = $self->search(
+    { portal => { 'IS NOT' => undef } },
+    {
+      columns => 'portal',
+      distinct => 1
+    }
+  );
+  
+  my $portals = [];
+  my $row;
+  my $portal;
+  my $value;
+  while ($row = $rs->next()) {
+     $portal = $row->portal;
+     push (@$portals, $portal);   
+  }
+  return $portals;
+  
+}
 
 1;
