@@ -4,10 +4,6 @@ use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 
-__PACKAGE__->config(
-    action_roles => [ 'NoSSL' ]
-);
-
 # Log and redirect to the canonical URI for document $key.
 sub index :Path :Args(1) {
     my ( $self, $c, $key ) = @_;

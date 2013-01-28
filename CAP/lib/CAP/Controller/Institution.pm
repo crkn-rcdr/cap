@@ -5,7 +5,6 @@ use Date::Manip::Date;
 
 BEGIN { extends 'Catalyst::Controller::ActionRole'; }
 
-__PACKAGE__->config( action_roles => ['RequireSSL'] );
 
 =head1 NAME
 
@@ -28,12 +27,9 @@ Queries the request_log table and stashes a hashref of user stats for a given in
 sub auto : Private {
     my ( $self, $c ) = @_;
 
-    # Require SSL for all operations
-    #    $c->require_ssl;
 
-# Only allow administrators and institution managers to access any of these functions.
-# Everyone else goes to the login page.
-
+    # Only allow administrators and institution managers to access any of these functions.
+    # Everyone else goes to the login page.
     unless ( $c->user_exists ) {
         redirect_user($c);
         return 1;

@@ -32,9 +32,15 @@ method routeRequest ($c) {
             last;
         }
     }
+    foreach my $nonsecure_path (qw( /index /search/ /view/ /file/ )) {
+        if (substr($action_path, 0, length($nonsecure_path)) eq $nonsecure_path) {
+            $secure_action = -1;
+            last;
+        }
+    }
 
     # This request should be handled using the secure host
-    if ($secure_action) {
+    if ($secure_action > 0) {
         if ($c->req->uri->host eq $secure_host) {
             if ($c->session->{portal_host}) {
                 return 1; # Process request
@@ -51,7 +57,7 @@ method routeRequest ($c) {
     }
 
     # This request should be handled using the non-secure portal host
-    else {
+    elsif ($secure_action < 0) {
         if ($c->req->uri->host eq $secure_host) {
             if ($c->session->{portal_host}) {
                 $c->req->uri->scheme('http');
@@ -66,6 +72,9 @@ method routeRequest ($c) {
             return 1; # Process request
         }
     }
+
+    # Otherwise this request can be handled using either secure or non-secure
+    return 1;
 
 }
 

@@ -11,10 +11,6 @@ use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/login user/r
 
 BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 
-__PACKAGE__->config(
-    action_roles => [ 'RequireSSL' ]
-);
-
 
 sub auto :Private {
     my($self, $c) = @_;
@@ -24,9 +20,6 @@ sub auto :Private {
         $c->response->redirect($c->uri_for_action('/index'));
         return 0;
     }
-
-    # Require SSL for all operations
-    # $c->require_ssl;
 
     # Actions relating to creating a new account, logging in, or
     # recovering a lost password are only available to anonymous users.

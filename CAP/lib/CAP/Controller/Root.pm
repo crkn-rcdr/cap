@@ -92,7 +92,7 @@ sub auto :Private
 }
 
 
-sub access_denied : Private :Local Does('NoSSL') {
+sub access_denied :Private {
     my($self, $c) = @_;
     warn("[debug] Access denied (insufficient privileges)") if ($c->debug);
     $c->stash->{page} = $c->{stash}->{uri};
@@ -100,7 +100,7 @@ sub access_denied : Private :Local Does('NoSSL') {
 }
 
 # The default action is to redirect back to the main page.
-sub default :Path :Local Does('NoSSL') {
+sub default :Path {
     my($self, $c) = @_;
     $c->res->redirect($c->uri_for_action('index'));
     $c->detach();
@@ -136,7 +136,7 @@ sub error :Private
 
 # These are the basic actions we have to handle. 
 
-sub index :Local Does('NoSSL') Path('') Args(0)
+sub index :Path('') Args(0)
 {
     my($self, $c) = @_;
 
@@ -172,7 +172,7 @@ sub index :Local Does('NoSSL') Path('') Args(0)
     $c->stash->{template} = "index.tt";
 }
 
-sub support :Path('support') :Local Does('NoSSL') Args() {
+sub support :Path('support') :Args() {
     my ($self, $c, $page) = @_;
     unless ($c->portal->has_page($page)) {
         $c->detach("error", [404]);
@@ -202,7 +202,7 @@ sub config_error :Private
 
 # Serve a file in the static directory under root. In production, requests
 # for /static should be intercepted and handled by the web server.
-sub static : Path('static') :Local Does('NoSSL') Args()
+sub static : Path('static') :Args()
 {
     my($self, $c, @path) = @_;
     my $file = join('/', $c->config->{root}, 'static', @path);

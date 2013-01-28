@@ -5,10 +5,6 @@ use parent qw/Catalyst::Controller::ActionRole/;
 
 BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 
-__PACKAGE__->config(
-    action_roles => [ 'RequireSSL' ]
-);
-
 sub auto :Private {
     my($self, $c) = @_;
 
