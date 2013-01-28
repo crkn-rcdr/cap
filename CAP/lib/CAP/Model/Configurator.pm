@@ -224,7 +224,7 @@ method configAll ($portal, $request, $config) {
     $config{portal_name} = $self->portalName($portal, $config{lang});
     $config{search_bar_placeholder} = $self->searchPlaceholder($portal, $config{lang});
     $config{supported_langs} = $self->supportedLangs($portal);
-    $config{subscripton_price} = $self->subscriptionPrice($portal);
+    $config{subscription_price} = $self->subscriptionPrice($portal);
     $config{current_view} = $self->setView($request, $config);
     $config{content_type} = $self->setContentType($request, $config);
     $config{cookie_domain} = $self->setCookieDomain($request, $config);

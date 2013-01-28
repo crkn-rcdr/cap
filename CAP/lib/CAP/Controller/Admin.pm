@@ -32,7 +32,7 @@ sub auto :Private {
 sub index :Path :Args(0) {
     my($self, $c) = @_;
     $c->stash->{users} = $c->model('DB::User')->count;
-    $c->stash->{subscribers} = $c->model('DB::User')->subscribers;
+    $c->stash->{subscribers} = $c->model('DB::UserSubscription')->active_subscriptions;
     return 1;
 }
 

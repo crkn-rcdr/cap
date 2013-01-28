@@ -44,7 +44,7 @@ sub index_GET {
     $c->stash->{stats} = {
         active_trials => $c->model('DB::User')->active_trials,
         expired_trials => $c->model('DB::User')->expired_trials,
-        active_subscriptions => $c->model('DB::User')->active_subscriptions,
+        active_subscriptions => $c->model('DB::UserSubscription')->active_subscriptions->count,
         expired_subscriptions => $c->model('DB::User')->expired_subscriptions,
         unconfirmed_accounts => $c->model('DB::User')->unconfirmed_accounts,
     };
