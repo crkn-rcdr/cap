@@ -33,6 +33,7 @@ sub auto :Private
 
     # Set various per-request configuration variables.
     $c->stash($c->model('Configurator')->configAll($c->portal, $c->req, $c->config));
+    warn $c->stash->{subscription_price};
 
     # Set the content type and template paths based on the view and portal.
     $c->response->content_type($c->stash->{content_type});
