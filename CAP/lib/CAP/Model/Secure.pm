@@ -22,8 +22,23 @@ method routeRequest ($c) {
     my $secure_protocol = $c->config->{secure}->{protocol} || die("In cap.conf: missing protocol directive in <secure>");
     my $secure_host     = $c->config->{secure}->{host} || die("In cap.conf: missing host directive in <secure>");
 
+    # The secure host must handle https requests only (unless protcol is
+    # http, in the case of local installs). Other hosts must only handle
+    # http requests. Redirect requests with incorrect protocols.
+    if ($secure_protocol eq 'https' && $c->req->uri->host eq $secure_host && ! $c->req->secure) {
+        $c->req->uri->scheme('https');
+        $c->res->redirect($c->req->uri);
+        $c->detach();
+    }
+    elsif ($c->req->uri->host ne $secure_host && $c->req->secure) {
+        $c->req->uri->scheme('http');
+        $c->res->redirect($c->req->uri);
+        $c->detach();
+    }
+
     
-    # Get the action path and determine if it needs to be secure.
+    # Get the action path and determine if it needs to be secure or
+    # non-secure, or if it can be either.
     my $secure_action = 0;
     my $action_path = $c->action->private_path;
     foreach my $secure_path (qw( /user/ /admin/ /reports/ /institution/ )) {
@@ -53,6 +68,7 @@ method routeRequest ($c) {
             $c->req->uri->scheme($secure_protocol);
             $c->req->uri->host($secure_host);
             $c->res->redirect($c->req->uri);
+            $c->detach();
         }
     }
 
@@ -63,6 +79,7 @@ method routeRequest ($c) {
                 $c->req->uri->scheme('http');
                 $c->req->uri->host($c->session->{portal_host});
                 $c->res->redirect($c->req->uri);
+                $c->detach();
             }
             else {
                 $c->detach('/error', [400, "Attempt to redirect back to non-HTTPS site with no portal_host defined"]);
