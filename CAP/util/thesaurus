@@ -11,14 +11,75 @@ use CAP;
 
 my $c = CAP->new();
 
-#foreach my $file (@ARGV) {
+foreach my $file (@ARGV) {
 #    add_marc($file);
+    add_dc($file);
+}
+
+#while (my $file = <STDIN>) {
+#    chomp($file);
+#    warn("Adding $file\n");
+#    #add_marc($file);
+#    add_dc($file);
 #}
 
-while (my $file = <STDIN>) {
-    chomp($file);
-    warn("Adding $file\n");
-    add_marc($file);
+
+# Add parliamentary hiserarchical browsing data based on the DC
+# identifier.
+sub add_dc {
+    my($file) = @_;
+    my $xml = XML::LibXML->load_xml(location => $file);
+    my $contributor = 'oop';
+    my $collection = 'oop';
+
+    my $mets = XML::LibXML::XPathContext->new($xml->documentElement());
+    $mets->registerNs('mets', 'http://www.loc.gov/METS/');
+    $mets->registerNs('dc', 'http://canadiana.ca/schema/2012/xsd/cmr');
+
+    my $doc_id = $mets->findvalue('/mets:mets/@OBJID');
+
+    $c->model('DB::DocumentCollection')->update_or_create(contributor => $contributor, id => $doc_id, collection => $collection);
+
+    foreach my $dc ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="DC"]/mets:xmlData')) {
+        my $identifier = $dc->findvalue('simpledc/dc:identifier');
+        my($chamber, $parliament, $session) = split(/-/, $identifier);
+
+        my $p_no = substr($parliament, 1);
+        my $s_no = substr($session, 1);
+        my $chamber_name;
+        my $parliament_name;
+        my $session_name;
+        if ($chamber eq 'HOC') {
+            $chamber_name = "House of Commons";
+            $parliament_name = sprintf("Parliament %d", $p_no);
+            $session_name = sprintf("Session %d", $s_no);
+        }
+        elsif ($chamber eq 'CDC') {
+            $chamber_name = "Chambre des communes";
+            $parliament_name = sprintf("Législature %d", $p_no);
+            $session_name = sprintf("Session %d", $s_no);
+        }
+        elsif ($chamber eq 'SOC') {
+            $chamber_name = "Senate of Canada";
+            $parliament_name = sprintf("Parliament %d", $p_no);
+            $session_name = sprintf("Session %d", $s_no);
+        }
+        elsif ($chamber eq 'SDC') {
+            $chamber_name = "Sénat du Canada";
+            $parliament_name = sprintf("Législature %d", $p_no);
+            $session_name = sprintf("Session %d", $s_no);
+        }
+
+        # Establish all three terms, if they don't exist.
+        my $thesaurus_id;
+        $thesaurus_id = $c->model('DB::Thesaurus')->add_term($chamber_name, $chamber);
+        $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $thesaurus_id});
+        $thesaurus_id = $c->model('DB::Thesaurus')->add_term($parliament_name, $chamber, $parliament);
+        $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $thesaurus_id});
+        $thesaurus_id = $c->model('DB::Thesaurus')->add_term($session_name, $chamber, $parliament, $session);
+        $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $thesaurus_id});
+
+    }
 }
 
 # Add subject headings as needed from the MARCXML in the METS record and
