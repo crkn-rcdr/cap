@@ -117,9 +117,9 @@ sub update_session {
     if ($c->req->params->{expiresession}) {
         $c->log->debug(sprintf("Invalidating existing session %s", $c->sessionid)) if ($c->debug);
         $c->delete_session("expiresession parameter used");
-        $c->session->{count} = 0;
     }
 
+    $c->session->{count} = 0 unless ($c->session->{count});
     $c->session->{$c->portal->id} = {} unless defined($c->session->{$c->portal->id});
 
     # Refresh the session data if this is a new session, if the refresh
