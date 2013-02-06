@@ -41,22 +41,17 @@ __PACKAGE__->table("thesaurus");
 
 =head2 id
 
-  data_type: 'integer'
-  is_auto_increment: 1
+  data_type: 'varchar'
   is_nullable: 0
+  size: 128
 
 =head2 parent
 
-  data_type: 'integer'
-  is_nullable: 1
-
-=head2 term
-
   data_type: 'varchar'
   is_nullable: 1
-  size: 128
+  size: 256
 
-=head2 label
+=head2 term
 
   data_type: 'text'
   is_nullable: 1
@@ -65,12 +60,10 @@ __PACKAGE__->table("thesaurus");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  { data_type => "varchar", is_nullable => 0, size => 128 },
   "parent",
-  { data_type => "integer", is_nullable => 1 },
+  { data_type => "varchar", is_nullable => 1, size => 256 },
   "term",
-  { data_type => "varchar", is_nullable => 1, size => 128 },
-  "label",
   { data_type => "text", is_nullable => 1 },
 );
 
@@ -100,7 +93,7 @@ __PACKAGE__->has_many(
   "document_thesauruses",
   "CAP::Schema::Result::DocumentThesaurus",
   { "foreign.thesaurus_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 document_collections
@@ -118,8 +111,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/jcmHyIlQm4X4j9YYnEm5g
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 12:29:06
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HYfP89NFybqh1mDji2Qzig
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

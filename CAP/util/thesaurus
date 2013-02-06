@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use utf8;
 
+use Getopt::Long;
 use XML::LibXML;
 use XML::LibXML::XPathContext;
 use FindBin;
@@ -10,18 +11,116 @@ use lib "$FindBin::Bin/../lib";
 use CAP;
 
 my $c = CAP->new();
+my $contributor = undef;
+my $collections = [];
+GetOptions('contributor=s' => \$contributor, 'collection=s@' => \$collections) or die("\n");
+die("You must specify a contributor via the -contributor switch.\n") unless ($contributor);
 
-foreach my $file (@ARGV) {
-#    add_marc($file);
-    add_dc($file);
+
+if (@ARGV) {
+    foreach my $file (@ARGV) {
+        process($c, $file, $contributor, $collections);
+    }
+}
+else {
+    while (my $file = <STDIN>) {
+        chomp($file);
+        process($c, $file, $contributor, $collections);
+    }
 }
 
-#while (my $file = <STDIN>) {
-#    chomp($file);
-#    warn("Adding $file\n");
-#    #add_marc($file);
-#    add_dc($file);
-#}
+sub process {
+    my($c, $file, $contributor, $collections) = @_;
+
+    # Parse the file and create an XPath context object with the required
+    # namespaces.
+    my $xml = XML::LibXML->load_xml(location => $file);
+    my $mets = XML::LibXML::XPathContext->new($xml->documentElement());
+    $mets->registerNs('mets', 'http://www.loc.gov/METS/');
+    $mets->registerNs('dc', 'http://canadiana.ca/schema/2012/xsd/cmr');
+
+    # Get the document identifier
+    my $doc_id = $mets->findvalue('/mets:mets/@OBJID') or die("Cannot get document ID from file $file");
+
+    # Add the document to listed collections, if specified.
+    foreach my $collection (@{$collections}) {
+        $c->model('DB::DocumentCollection')->update_or_create(contributor => $contributor, id => $doc_id, collection => $collection);
+    }
+
+    foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="DC"]/mets:xmlData')) {
+        process_dc($c, $doc_id, $record, $contributor);
+    }
+    foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="MARC"]/mets:xmlData')) {
+        warn "MARC record: $record\n";
+    }
+}
+
+sub process_dc {
+    my($c, $doc_id, $record, $contributor) = @_;
+
+    if ($contributor eq 'oop' && substr($doc_id, 0, 8) eq 'debates_') {
+        process_dc_oopDebates($c, $doc_id, $record, $contributor);
+    }
+}
+
+sub process_dc_oopDebates {
+    my($c, $doc_id, $record, $contributor) = @_;
+
+    # Construct a 3-level hierarchy based on the primary identifier field.
+    my $identifier = $record->findvalue('simpledc/dc:identifier[position() = 1]') or return 0;
+    my($chamber, $parliament, $session) = split(/-/, $identifier);
+    my $parl_no = int(substr($parliament, 1));
+    my $session_no = int(substr($session, 1));
+    my @thesaurus_ids;
+
+    if ($chamber eq 'HOC') {
+        @thesaurus_ids = $c->model('DB::Thesaurus')->create_hierarchy(
+            [ 'oop-hoc', $parliament, $session ],
+            [ 'House of Commons', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
+        );
+    }
+    elsif ($chamber eq 'CDC') {
+        @thesaurus_ids = $c->model('DB::Thesaurus')->create_hierarchy(
+            [ 'oop-cdc', $parliament, $session ],
+            [ 'Chambre des communes', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
+        );
+    }
+    elsif ($chamber eq 'SOC') {
+        @thesaurus_ids = $c->model('DB::Thesaurus')->create_hierarchy(
+            [ 'oop-soc', $parliament, $session ],
+            [ 'Senate of Canada', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
+        );
+    }
+    elsif ($chamber eq 'SDC') {
+        @thesaurus_ids = $c->model('DB::Thesaurus')->create_hierarchy(
+            [ 'oop-sdc', $parliament, $session ],
+            [ 'Sénat du Canada', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
+        );
+    }
+
+    # Add this document to all levels of the hieararcy in the
+    # document_thesaurus table.
+    $c->model('DB::DocumentThesaurus')->add_document($contributor, $doc_id, @thesaurus_ids);
+}
+
+sub ordinal {
+    my($int, $lang, $gender) = @_;
+    my $suffix;
+
+    if ($lang eq 'en') {
+        if    (($int % 10 == 1) && ! ($int % 100 == 11)) { $suffix = 'st' }
+        elsif (($int % 10 == 2) && ! ($int % 100 == 12)) { $suffix = 'nd' }
+        elsif (($int % 10 == 3) && ! ($int % 100 == 13)) { $suffix = 'rd' }
+        else  { $suffix = 'th' }
+    }
+    if ($lang eq 'fr') {
+        if    ($int == 1 && $gender eq 'm') { $suffix = 'er' }
+        elsif ($int == 1 && $gender ne 'm') { $suffix = 're' }
+        else  { $suffix = 'e' }
+    }
+
+    return join("", $int, $suffix);
+}
 
 
 # Add parliamentary hiserarchical browsing data based on the DC

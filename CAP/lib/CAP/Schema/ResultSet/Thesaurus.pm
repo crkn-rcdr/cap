@@ -3,18 +3,73 @@ package CAP::Schema::ResultSet::Thesaurus;
 use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';
+use utf8;
+
+sub create_hierarchy {
+    my($self, $keys, $terms) = @_;
+    my @key = ();
+    my @ids = ();
+
+    die("Uneven number of keys and terms") unless (@{$keys} == @{$terms});
+    while(@{$keys}) {
+        my $parent = join(':', @key);
+        push(@key, $self->normalize_key(shift(@{$keys})));
+        my $id = join(':', @key);
+        my $term = shift(@{$terms});
+        $self->update_or_create({
+            id     => $id,
+            parent => $parent,
+            term   => $term
+        });
+        push(@ids, $id);
+    }
+    
+    return @ids;
+}
+
+sub normalize_key {
+    my($self, $key) = @_;
+
+    # Normalize space
+    $key =~ s/^\s+//;
+    $key =~ s/\s+$//;
+    $key =~ s/\s+/ /g;
+
+    # Strip accents (TODO: needs more work)
+    $key =~ tr/ÀàÁáÂâÄäÃãÅå/a/;
+    $key =~ tr/ÈèÉéÊêËë/e/;
+    $key =~ tr/ÌìÍíÎîÏï/i/;
+    $key =~ tr/ÒòÓóÔôÖöÕõØo/o/;
+    $key =~ tr/ÙùÚúÛûÜü/u/;
+    $key =~ tr/Çç/c/;
+    $key =~ tr/Ññ/n/;
+    $key =~ s/[Œœ]/oe/g;
+    $key =~ s/[Ææ]/ae/g;
+
+    # Normalize case
+    $key = lc($key);
+
+    # Remove characters other than alphanumeric, space, underscore, hyphen
+    $key =~ s/[^a-z0-9 _-]//g;
+
+    return $key;
+}
+
+# Fetch all top-level thesaurus terms
 
 sub top_level_terms {
     my($self, $portal) = @_;
     my $list = [];
 
-    my $terms = $self->search({ parent => undef }, { order_by => { -asc => 'term' } });
+    my $terms = $self->search({ parent => "" }, { order_by => { -asc => 'id' } });
     while (my $row = $terms->next) {
         push(@{$list}, { term => $row });
     }
 
     return $list;
 }
+
+#################
 
 sub narrower_terms {
     my($self, $portal, $id) = @_;
@@ -28,8 +83,8 @@ sub narrower_terms {
     my $terms = $self->search(
         { parent => $parent->id, 'portal_collections.portal_id' => $portal->id },
         {
-            select   => [ 'me.id', 'parent', 'term', 'label', { count => 'me.id' } ],
-            as       => [ 'id', 'parent', 'term', 'label', 'count' ],
+            select   => [ 'me.id', 'parent', 'term',  { count => 'me.id' } ],
+            as       => [ 'id', 'parent', 'term', 'count' ],
             join     => { 'document_thesauruses' => { 'document_collection' => { 'collection' => 'portal_collections'}}},
             distinct => [ 'id' ],
             order_by => { -asc => 'term' },

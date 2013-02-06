@@ -78,7 +78,7 @@ __PACKAGE__->has_many(
   "user_roles",
   "CAP::Schema::Result::UserRole",
   { "foreign.role_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_ids
@@ -92,8 +92,8 @@ Composing rels: L</user_roles> -> user_id
 __PACKAGE__->many_to_many("user_ids", "user_roles", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LzdARvX/jFCH3fuIgXQhhQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 09:15:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wcsIAmpzEjcH/DTr0fMmbQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

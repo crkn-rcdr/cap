@@ -66,7 +66,7 @@ __PACKAGE__->table("user_log");
 
 =head2 info
 
-  data_type: 'mediumtext'
+  data_type: 'text'
   is_nullable: 1
 
 =cut
@@ -108,7 +108,7 @@ __PACKAGE__->add_columns(
     is_nullable => 1,
   },
   "info",
-  { data_type => "mediumtext", is_nullable => 1 },
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -136,8 +136,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:A8lhYrZdELjnZWE0nkXWmw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 09:15:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uBjYh+xVNhQF8/G4ZyaENw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

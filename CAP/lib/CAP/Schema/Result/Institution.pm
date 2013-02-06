@@ -114,7 +114,7 @@ __PACKAGE__->has_many(
   "contributors",
   "CAP::Schema::Result::Contributor",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 counter_logs
@@ -129,7 +129,7 @@ __PACKAGE__->has_many(
   "counter_logs",
   "CAP::Schema::Result::CounterLog",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_alias
@@ -144,7 +144,7 @@ __PACKAGE__->has_many(
   "institution_alias",
   "CAP::Schema::Result::InstitutionAlias",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_ipaddrs
@@ -159,7 +159,7 @@ __PACKAGE__->has_many(
   "institution_ipaddrs",
   "CAP::Schema::Result::InstitutionIpaddr",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_mgmts
@@ -174,7 +174,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_subscriptions
@@ -189,7 +189,7 @@ __PACKAGE__->has_many(
   "institution_subscriptions",
   "CAP::Schema::Result::InstitutionSubscription",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 request_logs
@@ -204,7 +204,7 @@ __PACKAGE__->has_many(
   "request_logs",
   "CAP::Schema::Result::RequestLog",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 stats_usage_institutions
@@ -219,7 +219,7 @@ __PACKAGE__->has_many(
   "stats_usage_institutions",
   "CAP::Schema::Result::StatsUsageInstitution",
   { "foreign.institution_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 portal_ids
@@ -243,8 +243,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FjCCMJOqosSeDs5PBYUJUg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 12:29:06
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:eNmnmJpkecave7EunO75Ag
 
 
 sub aliases {

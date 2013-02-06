@@ -78,7 +78,7 @@ __PACKAGE__->has_many(
   "document_collections",
   "CAP::Schema::Result::DocumentCollection",
   { "foreign.collection" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 portal_collections
@@ -93,12 +93,12 @@ __PACKAGE__->has_many(
   "portal_collections",
   "CAP::Schema::Result::PortalCollection",
   { "foreign.collection_id" => "self.id" },
-  {},
+  undef,
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:X8jrdbewRuhSK+C7lcTlVQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 09:15:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:d0wtJWTQ7vf7OM6a6UKWlw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

@@ -125,7 +125,7 @@ __PACKAGE__->has_many(
     "foreign.contributor" => "self.contributor",
     "foreign.id" => "self.id",
   },
-  {},
+  undef,
 );
 
 =head2 thesaurus_ids
@@ -139,8 +139,8 @@ Composing rels: L</document_thesauruses> -> thesaurus_id
 __PACKAGE__->many_to_many("thesaurus_ids", "document_thesauruses", "thesaurus_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lvSccownEpAZKsgwcg1+kA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 12:29:06
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bCvEIPqVyJHi1HL+RKN9iQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

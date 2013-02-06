@@ -53,7 +53,7 @@ __PACKAGE__->table("institution_alias");
 
 =head2 name
 
-  data_type: 'mediumtext'
+  data_type: 'text'
   is_nullable: 0
 
 =cut
@@ -64,7 +64,7 @@ __PACKAGE__->add_columns(
   "lang",
   { data_type => "varchar", is_nullable => 0, size => 2 },
   "name",
-  { data_type => "mediumtext", is_nullable => 0 },
+  { data_type => "text", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -98,8 +98,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-01-21 16:40:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vJit63SOCRpa0dSAtxXCUA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 09:15:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:a98PyVoqGAg69dMYNd8PDg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

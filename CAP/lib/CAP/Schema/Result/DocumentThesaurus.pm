@@ -53,14 +53,15 @@ __PACKAGE__->table("document_thesaurus");
   default_value: (empty string)
   is_foreign_key: 1
   is_nullable: 0
-  size: 128
+  size: 64
 
 =head2 thesaurus_id
 
-  data_type: 'integer'
-  default_value: 0
+  data_type: 'varchar'
+  default_value: (empty string)
   is_foreign_key: 1
   is_nullable: 0
+  size: 128
 
 =cut
 
@@ -79,14 +80,15 @@ __PACKAGE__->add_columns(
     default_value => "",
     is_foreign_key => 1,
     is_nullable => 0,
-    size => 128,
+    size => 64,
   },
   "thesaurus_id",
   {
-    data_type      => "integer",
-    default_value  => 0,
+    data_type => "varchar",
+    default_value => "",
     is_foreign_key => 1,
-    is_nullable    => 0,
+    is_nullable => 0,
+    size => 128,
   },
 );
 
@@ -137,8 +139,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-14 08:53:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iQbNAJCdn5uMDoMQw01EiQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 12:29:06
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DGFu1ZsSPQyKo8weyHO97g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
