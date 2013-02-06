@@ -30,9 +30,9 @@ method BUILD {
         Language
         MediaType
         Role
+        Thesaurus
         DocumentCollection
         DocumentThesaurus
-        Thesaurus
     )];
 }
 
