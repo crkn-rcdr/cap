@@ -87,7 +87,7 @@ sub narrower_terms {
             as       => [ 'id', 'parent', 'term', 'count' ],
             join     => { 'document_thesauruses' => { 'document_collection' => { 'collection' => 'portal_collections'}}},
             distinct => [ 'id' ],
-            order_by => { -asc => 'term' },
+            order_by => { -asc => 'id' },
         }
     );
     while (my $row = $terms->next) {
