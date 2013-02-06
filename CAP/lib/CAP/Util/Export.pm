@@ -60,11 +60,7 @@ method import_data (Str $file) {
     close(JSON);
 
     foreach my $table (@{$data}) {
-        given ($table->[0]) {
-            when ('Thesaurus')  { $self->_import_replace($table) };
-            default             { $self->_import_general($table) };
-        }
-
+        $self->_import_general($table);
     }
 }
 
