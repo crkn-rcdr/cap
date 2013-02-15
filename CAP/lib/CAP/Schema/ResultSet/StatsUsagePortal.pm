@@ -59,12 +59,12 @@ sub first_month {
 }
 
 sub get_stats {
-    my ( $self, $inst, $month ) = @_;
+    my ( $self, $portal, $month ) = @_;
 
     my $row = $self->find(
         {
             'month_starting' => $month,
-            'portal_id' => $inst
+            'portal_id' => $portal
         }
 
     );
@@ -74,7 +74,7 @@ sub get_stats {
     if ( defined($row) ) {
 
         $stats = {
-            portal_id => $row->portal_id,
+            portal_id      => $row->portal_id,
             searches       => $row->searches,
             views          => $row->page_views,
             sessions       => $row->sessions,
@@ -86,7 +86,7 @@ sub get_stats {
     else {
 
         $stats = {
-            portal_id => $inst,
+            portal_id      => $portal,
             searches       => 0,
             views          => 0,
             sessions       => 0,
