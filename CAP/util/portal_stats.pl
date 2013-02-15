@@ -22,7 +22,6 @@ my $c = CAP->new();
 
 my $last_update = $c->model('DB::StatsUsagePortal')->last_update() || $c->model('DB::RequestLog')->get_start();
 
-say "last update is $last_update";
 
 my $row;
 my $error;
@@ -33,7 +32,6 @@ my $err                 = $end_date->parse('today');
 my $end_year            = $end_date->printf("%Y");
 my $first_of_month_end  = $end_date->printf("%Y-%m-01");
 
-say "last update is $last_update";
 
 
 # Parse the start date    
@@ -43,7 +41,7 @@ my $start_month = $last_update->{local_c}->{month};
 
     my $first_of_month_st =  join ('-',($start_year,$start_month,'1'));
         
-    print "compiling data from $first_of_month_st to $first_of_month_end";
+    say "compiling data from $first_of_month_st to $first_of_month_end";
     
   
     # Get a list of distinct portals in the request log
@@ -82,16 +80,11 @@ my $start_month = $last_update->{local_c}->{month};
                $current_date_string = join ('-',($year,$month,'1'));
                
 
-               say "current date string is $current_date_string";
+               # say "current date string is $current_date_string";
             
                $current_date  = new Date::Manip::Date;
                $err           = $current_date->parse($current_date_string);
-               # $err           = $current_date->parse_format('%Y\\-%f\\-%e', $current_date_string);
-               # if ( $err ) {
-
-               #     say $err;               
-
-               # }
+               say $err if $err;
                
                $first_of_month   = $current_date->printf("%Y-%m-01");
                
