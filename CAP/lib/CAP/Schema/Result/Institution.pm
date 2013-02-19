@@ -222,6 +222,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 titles
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Titles>
+
+=cut
+
+__PACKAGE__->has_many(
+  "titles",
+  "CAP::Schema::Result::Titles",
+  { "foreign.institution_id" => "self.id" },
+  undef,
+);
+
 =head2 portal_ids
 
 Type: many_to_many
@@ -243,8 +258,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 12:29:06
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:eNmnmJpkecave7EunO75Ag
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-19 12:59:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9soKLcgMS91dtvi+HKAhnw
 
 
 sub aliases {

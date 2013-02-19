@@ -1,4 +1,4 @@
-package CAP::Schema::ResultSet::DocumentThesaurus;
+package CAP::Schema::ResultSet::TitlesThesauruses;
 use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';

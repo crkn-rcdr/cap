@@ -1,4 +1,4 @@
-package CAP::Schema::ResultSet::Thesaurus;
+package CAP::Schema::ResultSet::Thesauruses;
 
 use strict;
 use warnings;

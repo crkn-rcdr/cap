@@ -110,37 +110,9 @@ __PACKAGE__->belongs_to(
   { id => "collection" },
 );
 
-=head2 document_thesauruses
 
-Type: has_many
-
-Related object: L<CAP::Schema::Result::DocumentThesaurus>
-
-=cut
-
-__PACKAGE__->has_many(
-  "document_thesauruses",
-  "CAP::Schema::Result::DocumentThesaurus",
-  {
-    "foreign.contributor" => "self.contributor",
-    "foreign.id" => "self.id",
-  },
-  undef,
-);
-
-=head2 thesaurus_ids
-
-Type: many_to_many
-
-Composing rels: L</document_thesauruses> -> thesaurus_id
-
-=cut
-
-__PACKAGE__->many_to_many("thesaurus_ids", "document_thesauruses", "thesaurus_id");
-
-
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 12:29:06
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bCvEIPqVyJHi1HL+RKN9iQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-19 12:59:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/e2OK010hlS78/sgRaBmfg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

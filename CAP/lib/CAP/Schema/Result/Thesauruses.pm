@@ -1,12 +1,12 @@
 use utf8;
-package CAP::Schema::Result::Thesaurus;
+package CAP::Schema::Result::Thesauruses;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-CAP::Schema::Result::Thesaurus
+CAP::Schema::Result::Thesauruses
 
 =cut
 
@@ -31,21 +31,26 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<thesaurus>
+=head1 TABLE: C<thesauruses>
 
 =cut
 
-__PACKAGE__->table("thesaurus");
+__PACKAGE__->table("thesauruses");
 
 =head1 ACCESSORS
 
 =head2 id
 
-  data_type: 'varchar'
+  data_type: 'integer'
+  is_auto_increment: 1
   is_nullable: 0
-  size: 128
 
 =head2 parent
+
+  data_type: 'integer'
+  is_nullable: 1
+
+=head2 sortkey
 
   data_type: 'varchar'
   is_nullable: 1
@@ -60,8 +65,10 @@ __PACKAGE__->table("thesaurus");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "varchar", is_nullable => 0, size => 128 },
+  { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "parent",
+  { data_type => "integer", is_nullable => 1 },
+  "sortkey",
   { data_type => "varchar", is_nullable => 1, size => 256 },
   "term",
   { data_type => "text", is_nullable => 1 },
@@ -81,38 +88,34 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 document_thesauruses
+=head2 titles_thesauruses
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::DocumentThesaurus>
+Related object: L<CAP::Schema::Result::TitlesThesauruses>
 
 =cut
 
 __PACKAGE__->has_many(
-  "document_thesauruses",
-  "CAP::Schema::Result::DocumentThesaurus",
+  "titles_thesauruses",
+  "CAP::Schema::Result::TitlesThesauruses",
   { "foreign.thesaurus_id" => "self.id" },
   undef,
 );
 
-=head2 document_collections
+=head2 title_ids
 
 Type: many_to_many
 
-Composing rels: L</document_thesauruses> -> document_collection
+Composing rels: L</titles_thesauruses> -> title_id
 
 =cut
 
-__PACKAGE__->many_to_many(
-  "document_collections",
-  "document_thesauruses",
-  "document_collection",
-);
+__PACKAGE__->many_to_many("title_ids", "titles_thesauruses", "title_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 12:29:06
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HYfP89NFybqh1mDji2Qzig
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-19 12:59:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:IdVTqrUDiaGvo9ddL+/Dtg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
