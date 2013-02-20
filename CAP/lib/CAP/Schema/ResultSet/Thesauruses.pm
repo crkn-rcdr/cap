@@ -5,29 +5,50 @@ use warnings;
 use base 'DBIx::Class::ResultSet';
 use utf8;
 
+=head2 create_hierarchy($self, \@keys, \@terms)
+
+Create or update the thesaurus with a hierarchy of terms defined by
+\@terms and the corresponding sort \@keys. Terms will be created or
+updated based on matching sort keys within the hierarchy, so this will
+overwrite any existing term with the same sortkey and the same place in
+the hierarchy (same parent key).
+
+Returns a list of all of the row ids.
+
+=cut
 sub create_hierarchy {
     my($self, $keys, $terms) = @_;
     my @key = ();
     my @ids = ();
+    my $parent = undef;
 
     die("Uneven number of keys and terms") unless (@{$keys} == @{$terms});
     while(@{$keys}) {
-        my $parent = join(':', @key);
-        push(@key, $self->normalize_key(shift(@{$keys})));
-        my $id = join(':', @key);
-        my $term = shift(@{$terms});
-        $self->update_or_create({
-            id     => $id,
-            parent => $parent,
-            term   => $term
-        });
-        push(@ids, $id);
+        my($sortkey) = $self->normalize_sortkey(shift(@{$keys}));
+        my($term) = shift(@{$terms});
+
+        # Determine if there is a pre-existing entry with the same parent
+        # and key. If there is, update it. If not, create a new term.
+        my $entry = $self->search({ parent => $parent, sortkey => $sortkey })->first;
+        if ($entry) {
+            $entry->update({ term => $term });
+        }
+        else {
+            $entry = $self->create({
+                parent => $parent,
+                sortkey => $sortkey,
+                term => $term
+            });
+        }
+
+        push(@ids, $entry->id);
+        $parent = $entry->id;
     }
-    
+
     return @ids;
 }
 
-sub normalize_key {
+sub normalize_sortkey {
     my($self, $key) = @_;
 
     # Normalize space
@@ -61,7 +82,7 @@ sub top_level_terms {
     my($self, $portal) = @_;
     my $list = [];
 
-    my $terms = $self->search({ parent => "" }, { order_by => { -asc => 'id' } });
+    my $terms = $self->search({ parent => undef }, { order_by  => { -asc => 'sortkey' }});
     while (my $row = $terms->next) {
         push(@{$list}, { term => $row });
     }
@@ -69,8 +90,12 @@ sub top_level_terms {
     return $list;
 }
 
-#################
 
+=head2 narrower_terms($portal, $id)
+
+Retrieve all terms with parent $id containing documents belonging to $portal.
+
+=cut
 sub narrower_terms {
     my($self, $portal, $id) = @_;
     my $list = [];
@@ -81,18 +106,42 @@ sub narrower_terms {
     return undef unless ($parent);
 
     my $terms = $self->search(
-        { parent => $parent->id, 'portal_collections.portal_id' => $portal->id },
+        { parent => $parent->id },
         {
-            select   => [ 'me.id', 'parent', 'term',  { count => 'me.id' } ],
-            as       => [ 'id', 'parent', 'term', 'count' ],
-            join     => { 'document_thesauruses' => { 'document_collection' => { 'collection' => 'portal_collections'}}},
+            select   => [ 'me.id', 'parent', 'sortkey', 'term', { count => 'me.id' } ],
+            as       => [ 'id', 'parent', 'sortkey', 'term', 'count' ],
+            join     => { 'titles_thesauruses' },
             distinct => [ 'id' ],
-            order_by => { -asc => 'id' },
+            order_by => { -asc => 'sortkey' },
+            group_by => [ 'id' ]
         }
     );
+
     while (my $row = $terms->next) {
         push(@{$list}, $row);
     }
+
+    return $list;
+
+    ###############
+    # TODO: the above code fetches all items in the thesaurus,
+    # irrespective of what portal they belong to. The code below used to
+    # get terms for titles that were in the requesting portal only, but it
+    # needs to be redone using a new table structure.
+
+    #my $terms = $self->search(
+    #    { parent => $parent->id, 'portal_collections.portal_id' => $portal->id },
+    #    {
+    #        select   => [ 'me.id', 'parent', 'term',  { count => 'me.id' } ],
+    #        as       => [ 'id', 'parent', 'term', 'count' ],
+    #        join     => { 'document_thesauruses' => { 'document_collection' => { 'collection' => 'portal_collections'}}},
+    #        distinct => [ 'id' ],
+    #        order_by => { -asc => 'id' },
+    #    }
+    #);
+    #while (my $row = $terms->next) {
+    #    push(@{$list}, $row);
+    #}
 
     #my $terms = $self->search({ parent => $parent->id }, { order_by => { -asc => 'term' } });
     #while (my $row = $terms->next) {

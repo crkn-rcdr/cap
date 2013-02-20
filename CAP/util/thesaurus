@@ -3,6 +3,9 @@ use strict;
 use warnings;
 use utf8;
 
+# Parse a METS record and add the title, document and page information to
+# CAP. Also generate thesaurus terms.
+
 use Getopt::Long;
 use XML::LibXML;
 use XML::LibXML::XPathContext;
@@ -11,11 +14,13 @@ use lib "$FindBin::Bin/../lib";
 use CAP;
 
 my $c = CAP->new();
-my $contributor = undef;
+my $contributor_id = undef;
 my $collections = [];
-GetOptions('contributor=s' => \$contributor, 'collection=s@' => \$collections) or die("\n");
-die("You must specify a contributor via the -contributor switch.\n") unless ($contributor);
+GetOptions('contributor=s' => \$contributor_id, 'collection=s@' => \$collections) or die("\n");
+die("You must specify a contributor via the -contributor switch.\n") unless ($contributor_id);
 
+my $contributor = $c->model('DB::Institution')->find({ code => $contributor_id });
+die("Cannot find contributing institution '$contributor_id'") unless ($contributor);
 
 if (@ARGV) {
     foreach my $file (@ARGV) {
@@ -40,31 +45,50 @@ sub process {
     $mets->registerNs('dc', 'http://canadiana.ca/schema/2012/xsd/cmr');
 
     # Get the document identifier
-    my $doc_id = $mets->findvalue('/mets:mets/@OBJID') or die("Cannot get document ID from file $file");
+    my $identifier = $mets->findvalue('/mets:mets/@OBJID') or die("Cannot get document ID from file $file");
 
-    # Add the document to listed collections, if specified.
-    foreach my $collection (@{$collections}) {
-        $c->model('DB::DocumentCollection')->update_or_create(contributor => $contributor, id => $doc_id, collection => $collection);
-    }
+    # Add the title, document and page information if it is missing.
+    foreach my $div ($mets->findnodes('/mets:mets/mets:structMap/mets:div')) {
+        my $type = $div->getAttribute('TYPE');
+        my $label = $div->getAttribute('LABEL');
 
-    foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="DC"]/mets:xmlData')) {
-        process_dc($c, $doc_id, $record, $contributor);
-    }
-    foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="MARC"]/mets:xmlData')) {
-        warn "MARC record: $record\n";
+        # Add the title to the database.
+        if ($type eq 'series') {
+            my $title = $c->model('DB::Titles')->update_or_create({
+                institution_id => $contributor->id,
+                identifier => $identifier,
+                label => $label
+            });
+
+            # Add the document to listed collections, if specified.
+            #foreach my $collection (@{$collections}) {
+            #    $c->model('DB::DocumentCollection')->update_or_create(contributor => $contributor, id => $doc_id, collection => $collection);
+            #}
+
+            foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="DC"]/mets:xmlData')) {
+                process_dc($c, $title, $record, $contributor);
+            }
+            foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="MARC"]/mets:xmlData')) {
+                warn "MARC record: $record\n";
+            }
+
+        }
+        else {
+            die("Don't know what to do with type '$type'");
+        }
     }
 }
 
 sub process_dc {
-    my($c, $doc_id, $record, $contributor) = @_;
+    my($c, $title, $record, $contributor) = @_;
 
-    if ($contributor eq 'oop' && substr($doc_id, 0, 8) eq 'debates_') {
-        process_dc_oopDebates($c, $doc_id, $record, $contributor);
+    if ($contributor->code eq 'oop' && substr($title->identifier, 0, 8) eq 'debates_') {
+        process_dc_oopDebates($c, $title, $record, $contributor);
     }
 }
 
 sub process_dc_oopDebates {
-    my($c, $doc_id, $record, $contributor) = @_;
+    my($c, $title, $record, $contributor) = @_;
 
     # Construct a 3-level hierarchy based on the primary identifier field.
     my $identifier = $record->findvalue('simpledc/dc:identifier[position() = 1]') or return 0;
@@ -74,33 +98,32 @@ sub process_dc_oopDebates {
     my @thesaurus_ids;
 
     if ($chamber eq 'HOC') {
-        @thesaurus_ids = $c->model('DB::Thesaurus')->create_hierarchy(
+        @thesaurus_ids = $c->model('DB::Thesauruses')->create_hierarchy(
             [ 'oop-hoc', $parliament, $session ],
             [ 'House of Commons', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
         );
     }
     elsif ($chamber eq 'CDC') {
-        @thesaurus_ids = $c->model('DB::Thesaurus')->create_hierarchy(
+        @thesaurus_ids = $c->model('DB::Thesauruses')->create_hierarchy(
             [ 'oop-cdc', $parliament, $session ],
             [ 'Chambre des communes', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
         );
     }
     elsif ($chamber eq 'SOC') {
-        @thesaurus_ids = $c->model('DB::Thesaurus')->create_hierarchy(
+        @thesaurus_ids = $c->model('DB::Thesauruses')->create_hierarchy(
             [ 'oop-soc', $parliament, $session ],
             [ 'Senate of Canada', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
         );
     }
     elsif ($chamber eq 'SDC') {
-        @thesaurus_ids = $c->model('DB::Thesaurus')->create_hierarchy(
+        @thesaurus_ids = $c->model('DB::Thesauruses')->create_hierarchy(
             [ 'oop-sdc', $parliament, $session ],
             [ 'Sénat du Canada', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
         );
     }
 
-    # Add this document to all levels of the hieararcy in the
-    # document_thesaurus table.
-    $c->model('DB::DocumentThesaurus')->add_document($contributor, $doc_id, @thesaurus_ids);
+    # Add all terms to this title.
+    $c->model('DB::TitlesThesauruses')->add_terms($title, @thesaurus_ids);
 }
 
 sub ordinal {
