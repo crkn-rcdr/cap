@@ -256,6 +256,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 portals_titles
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::PortalsTitles>
+
+=cut
+
+__PACKAGE__->has_many(
+  "portals_titles",
+  "CAP::Schema::Result::PortalsTitles",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
 =head2 stats_usage_portals
 
 Type: has_many
@@ -300,9 +315,19 @@ __PACKAGE__->many_to_many(
   "institution_id",
 );
 
+=head2 title_ids
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-05 09:15:15
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ts59ToDc2obNZ4nH8t9dxg
+Type: many_to_many
+
+Composing rels: L</portals_titles> -> title_id
+
+=cut
+
+__PACKAGE__->many_to_many("title_ids", "portals_titles", "title_id");
+
+
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-20 09:09:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:baU//zq3ZyFA2ZuCYWQm9A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

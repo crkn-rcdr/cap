@@ -134,6 +134,21 @@ __PACKAGE__->belongs_to(
   { id => "institution_id" },
 );
 
+=head2 portals_titles
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::PortalsTitles>
+
+=cut
+
+__PACKAGE__->has_many(
+  "portals_titles",
+  "CAP::Schema::Result::PortalsTitles",
+  { "foreign.title_id" => "self.id" },
+  undef,
+);
+
 =head2 titles_terms
 
 Type: has_many
@@ -149,6 +164,16 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 portal_ids
+
+Type: many_to_many
+
+Composing rels: L</portals_titles> -> portal_id
+
+=cut
+
+__PACKAGE__->many_to_many("portal_ids", "portals_titles", "portal_id");
+
 =head2 term_ids
 
 Type: many_to_many
@@ -160,8 +185,8 @@ Composing rels: L</titles_terms> -> term_id
 __PACKAGE__->many_to_many("term_ids", "titles_terms", "term_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-20 08:43:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ONA54dXgenmdQRORht4lWg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-20 09:09:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cKcidS4jKkegyG0sRBn6wA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
