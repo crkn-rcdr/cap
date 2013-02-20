@@ -54,7 +54,7 @@ method BUILD {
         pkey =>        { type => 'string', template => 'pkey: %' },
         set =>         { type => 'string', template => 'set: %' },
         identifier =>  { type => 'string', template => 'identifier: %' },
-        tid =>         { type => 'sint',   template => 'thesaurusID: %' },
+        term =>        { type => 'sint',   template => 'term: %' },
         au =>          { type => 'text',   template => 'au:%' },
         ti =>          { type => 'text',   template => 'ti:%' },
         su =>          { type => 'text',   template => 'su:%' },
