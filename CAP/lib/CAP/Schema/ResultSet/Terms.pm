@@ -110,7 +110,7 @@ sub narrower_terms {
         {
             select   => [ 'me.id', 'parent', 'sortkey', 'term', { count => 'me.id' } ],
             as       => [ 'id', 'parent', 'sortkey', 'term', 'count' ],
-            join     => { 'titles_thesauruses' },
+            join     => { 'titles_terms' },
             distinct => [ 'id' ],
             order_by => { -asc => 'sortkey' },
             group_by => [ 'id' ]
