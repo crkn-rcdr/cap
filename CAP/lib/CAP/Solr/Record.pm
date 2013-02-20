@@ -99,6 +99,7 @@ method api {
     $fl->{creator}  = $self->au    if ($self->au);
     $fl->{subject}  = $self->su    if ($self->su);
     $fl->{note}     = $self->no    if ($self->no);
+    $fl->{published} = $self->pu    if ($self->pu);
     $fl->{abstract} = $self->ab    if ($self->ab);
     $fl->{text}     = $self->tx    if ($self->tx);
     $fl->{lang}     = $self->lang  if ($self->lang);
