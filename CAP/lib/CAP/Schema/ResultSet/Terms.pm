@@ -97,23 +97,22 @@ Retrieve all terms with parent $id containing documents belonging to $portal.
 
 =cut
 sub narrower_terms {
-    my($self, $portal, $id) = @_;
+    my($self, $portal, $term_id) = @_;
     my $list = [];
 
 
     # Get the term we want narrower terms for.
-    my $parent = $self->get_term($id);
+    my $parent = $self->get_term($term_id);
     return undef unless ($parent);
 
     my $terms = $self->search(
-        { parent => $parent->id },
+        { parent => $parent->id, 'portals_titles.portal_id' => $portal->id },
         {
             select   => [ 'me.id', 'parent', 'sortkey', 'term', { count => 'me.id' } ],
             as       => [ 'id', 'parent', 'sortkey', 'term', 'count' ],
-            join     => { 'titles_terms' },
+            join     => { 'titles_terms' => { 'title_id' =>  'portals_titles' }},
             distinct => [ 'id' ],
             order_by => { -asc => 'sortkey' },
-            group_by => [ 'id' ]
         }
     );
 
@@ -121,33 +120,6 @@ sub narrower_terms {
         push(@{$list}, $row);
     }
 
-    return $list;
-
-    ###############
-    # TODO: the above code fetches all items in the thesaurus,
-    # irrespective of what portal they belong to. The code below used to
-    # get terms for titles that were in the requesting portal only, but it
-    # needs to be redone using a new table structure.
-
-    #my $terms = $self->search(
-    #    { parent => $parent->id, 'portal_collections.portal_id' => $portal->id },
-    #    {
-    #        select   => [ 'me.id', 'parent', 'term',  { count => 'me.id' } ],
-    #        as       => [ 'id', 'parent', 'term', 'count' ],
-    #        join     => { 'document_thesauruses' => { 'document_collection' => { 'collection' => 'portal_collections'}}},
-    #        distinct => [ 'id' ],
-    #        order_by => { -asc => 'id' },
-    #    }
-    #);
-    #while (my $row = $terms->next) {
-    #    push(@{$list}, $row);
-    #}
-
-    #my $terms = $self->search({ parent => $parent->id }, { order_by => { -asc => 'term' } });
-    #while (my $row = $terms->next) {
-    #    my $count = $self->search_related('document_thesauruses', { thesaurus_id => $row->id })->count;
-    #    push(@{$list}, { term => $row, count => $count });
-    #}
     return $list;
 }
 

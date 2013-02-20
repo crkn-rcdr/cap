@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::InstitutionIpaddr;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::InstitutionIpaddr
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<institution_ipaddr>
+=head1 NAME
+
+CAP::Schema::Result::InstitutionIpaddr
 
 =cut
 
@@ -75,17 +56,6 @@ __PACKAGE__->add_columns(
   "end",
   { data_type => "bigint", extra => { unsigned => 1 }, is_nullable => 0 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</cidr>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("cidr");
 
 =head1 RELATIONS
@@ -105,8 +75,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-05 08:38:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CcpurWyEW4I3+IRNB9uvJA
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2013-02-20 09:44:25
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xjAt1lbur0MWtqXAfQaEMQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

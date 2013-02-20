@@ -15,8 +15,8 @@ use CAP;
 
 my $c = CAP->new();
 my $contributor_id = undef;
-my $collections = [];
-GetOptions('contributor=s' => \$contributor_id, 'collection=s@' => \$collections) or die("\n");
+my $portals = [];
+GetOptions('contributor=s' => \$contributor_id, 'portals=s@' => \$portals) or die("\n");
 die("You must specify a contributor via the -contributor switch.\n") unless ($contributor_id);
 
 my $contributor = $c->model('DB::Institution')->find({ code => $contributor_id });
@@ -24,18 +24,18 @@ die("Cannot find contributing institution '$contributor_id'") unless ($contribut
 
 if (@ARGV) {
     foreach my $file (@ARGV) {
-        process($c, $file, $contributor, $collections);
+        process($c, $file, $contributor, $portals);
     }
 }
 else {
     while (my $file = <STDIN>) {
         chomp($file);
-        process($c, $file, $contributor, $collections);
+        process($c, $file, $contributor, $portals);
     }
 }
 
 sub process {
-    my($c, $file, $contributor, $collections) = @_;
+    my($c, $file, $contributor, $portals) = @_;
 
     # Parse the file and create an XPath context object with the required
     # namespaces.
@@ -60,10 +60,10 @@ sub process {
                 label => $label
             });
 
-            # Add the document to listed collections, if specified.
-            #foreach my $collection (@{$collections}) {
-            #    $c->model('DB::DocumentCollection')->update_or_create(contributor => $contributor, id => $doc_id, collection => $collection);
-            #}
+            # Add the document to listed portals, if specified.
+            foreach my $portal (@{$portals}) {
+                $c->model('DB::PortalsTitles')->update_or_create({ portal_id => $portal, title_id => $title->id });
+            }
 
             foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="DC"]/mets:xmlData')) {
                 process_dc($c, $title, $record, $contributor);
@@ -98,32 +98,32 @@ sub process_dc_oopDebates {
     my @thesaurus_ids;
 
     if ($chamber eq 'HOC') {
-        @thesaurus_ids = $c->model('DB::Thesauruses')->create_hierarchy(
+        @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-hoc', $parliament, $session ],
             [ 'House of Commons', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
         );
     }
     elsif ($chamber eq 'CDC') {
-        @thesaurus_ids = $c->model('DB::Thesauruses')->create_hierarchy(
+        @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-cdc', $parliament, $session ],
             [ 'Chambre des communes', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
         );
     }
     elsif ($chamber eq 'SOC') {
-        @thesaurus_ids = $c->model('DB::Thesauruses')->create_hierarchy(
+        @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-soc', $parliament, $session ],
             [ 'Senate of Canada', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
         );
     }
     elsif ($chamber eq 'SDC') {
-        @thesaurus_ids = $c->model('DB::Thesauruses')->create_hierarchy(
+        @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-sdc', $parliament, $session ],
             [ 'Sénat du Canada', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
         );
     }
 
     # Add all terms to this title.
-    $c->model('DB::TitlesThesauruses')->add_terms($title, @thesaurus_ids);
+    $c->model('DB::TitlesTerms')->add_terms($title, @thesaurus_ids);
 }
 
 sub ordinal {
@@ -145,64 +145,6 @@ sub ordinal {
     return join("", $int, $suffix);
 }
 
-
-# Add parliamentary hiserarchical browsing data based on the DC
-# identifier.
-sub add_dc {
-    my($file) = @_;
-    my $xml = XML::LibXML->load_xml(location => $file);
-    my $contributor = 'oop';
-    my $collection = 'oop';
-
-    my $mets = XML::LibXML::XPathContext->new($xml->documentElement());
-    $mets->registerNs('mets', 'http://www.loc.gov/METS/');
-    $mets->registerNs('dc', 'http://canadiana.ca/schema/2012/xsd/cmr');
-
-    my $doc_id = $mets->findvalue('/mets:mets/@OBJID');
-
-    $c->model('DB::DocumentCollection')->update_or_create(contributor => $contributor, id => $doc_id, collection => $collection);
-
-    foreach my $dc ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="DC"]/mets:xmlData')) {
-        my $identifier = $dc->findvalue('simpledc/dc:identifier');
-        my($chamber, $parliament, $session) = split(/-/, $identifier);
-
-        my $p_no = substr($parliament, 1);
-        my $s_no = substr($session, 1);
-        my $chamber_name;
-        my $parliament_name;
-        my $session_name;
-        if ($chamber eq 'HOC') {
-            $chamber_name = "House of Commons";
-            $parliament_name = sprintf("Parliament %d", $p_no);
-            $session_name = sprintf("Session %d", $s_no);
-        }
-        elsif ($chamber eq 'CDC') {
-            $chamber_name = "Chambre des communes";
-            $parliament_name = sprintf("Législature %d", $p_no);
-            $session_name = sprintf("Session %d", $s_no);
-        }
-        elsif ($chamber eq 'SOC') {
-            $chamber_name = "Senate of Canada";
-            $parliament_name = sprintf("Parliament %d", $p_no);
-            $session_name = sprintf("Session %d", $s_no);
-        }
-        elsif ($chamber eq 'SDC') {
-            $chamber_name = "Sénat du Canada";
-            $parliament_name = sprintf("Législature %d", $p_no);
-            $session_name = sprintf("Session %d", $s_no);
-        }
-
-        # Establish all three terms, if they don't exist.
-        my $thesaurus_id;
-        $thesaurus_id = $c->model('DB::Thesaurus')->add_term($chamber_name, $chamber);
-        $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $thesaurus_id});
-        $thesaurus_id = $c->model('DB::Thesaurus')->add_term($parliament_name, $chamber, $parliament);
-        $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $thesaurus_id});
-        $thesaurus_id = $c->model('DB::Thesaurus')->add_term($session_name, $chamber, $parliament, $session);
-        $c->model('DB::DocumentThesaurus')->find_or_create({contributor => $contributor, id => $doc_id, thesaurus_id => $thesaurus_id});
-
-    }
-}
 
 # Add subject headings as needed from the MARCXML in the METS record and
 # add the document as part of those headings.

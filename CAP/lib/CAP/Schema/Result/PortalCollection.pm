@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::PortalCollection;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::PortalCollection
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<portal_collection>
+=head1 NAME
+
+CAP::Schema::Result::PortalCollection
 
 =cut
 
@@ -83,36 +64,9 @@ __PACKAGE__->add_columns(
   "hosted",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</portal_id>
-
-=item * L</collection_id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("portal_id", "collection_id");
 
 =head1 RELATIONS
-
-=head2 collection_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::Collection>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "collection_id",
-  "CAP::Schema::Result::Collection",
-  { id => "collection_id" },
-);
 
 =head2 portal_id
 
@@ -128,9 +82,23 @@ __PACKAGE__->belongs_to(
   { id => "portal_id" },
 );
 
+=head2 collection_id
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-14 09:29:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5KYaCMXsdW/vPs1vgDML3Q
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Collection>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "collection_id",
+  "CAP::Schema::Result::Collection",
+  { id => "collection_id" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2013-02-20 09:44:25
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pbr1JTpHRep9NOv0X/EC6w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

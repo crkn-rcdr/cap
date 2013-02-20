@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::PortalLang;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::PortalLang
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<portal_lang>
+=head1 NAME
+
+CAP::Schema::Result::PortalLang
 
 =cut
 
@@ -68,19 +49,6 @@ __PACKAGE__->add_columns(
   "priority",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</portal_id>
-
-=item * L</lang>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("portal_id", "lang");
 
 =head1 RELATIONS
@@ -100,8 +68,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2012-11-05 08:38:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:shjjYx4G+SpK32cJaqnChg
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2013-02-20 09:44:25
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ad594Ka+mh/1IcVf5xjtfg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

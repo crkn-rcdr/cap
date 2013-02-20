@@ -1,37 +1,18 @@
-use utf8;
 package CAP::Schema::Result::Institution;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
-
-=head1 NAME
-
-CAP::Schema::Result::Institution
-
-=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 COMPONENTS LOADED
-
-=over 4
-
-=item * L<DBIx::Class::InflateColumn::DateTime>
-
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
-=back
-
-=cut
-
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<institution>
+=head1 NAME
+
+CAP::Schema::Result::Institution
 
 =cut
 
@@ -73,31 +54,7 @@ __PACKAGE__->add_columns(
     size => 128,
   },
 );
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</id>
-
-=back
-
-=cut
-
 __PACKAGE__->set_primary_key("id");
-
-=head1 UNIQUE CONSTRAINTS
-
-=head2 C<code>
-
-=over 4
-
-=item * L</code>
-
-=back
-
-=cut
-
 __PACKAGE__->add_unique_constraint("code", ["code"]);
 
 =head1 RELATIONS
@@ -114,7 +71,7 @@ __PACKAGE__->has_many(
   "contributors",
   "CAP::Schema::Result::Contributor",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 counter_logs
@@ -129,7 +86,7 @@ __PACKAGE__->has_many(
   "counter_logs",
   "CAP::Schema::Result::CounterLog",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_alias
@@ -144,7 +101,7 @@ __PACKAGE__->has_many(
   "institution_alias",
   "CAP::Schema::Result::InstitutionAlias",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_ipaddrs
@@ -159,7 +116,7 @@ __PACKAGE__->has_many(
   "institution_ipaddrs",
   "CAP::Schema::Result::InstitutionIpaddr",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_mgmts
@@ -174,7 +131,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_subscriptions
@@ -189,7 +146,7 @@ __PACKAGE__->has_many(
   "institution_subscriptions",
   "CAP::Schema::Result::InstitutionSubscription",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 request_logs
@@ -204,7 +161,7 @@ __PACKAGE__->has_many(
   "request_logs",
   "CAP::Schema::Result::RequestLog",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 stats_usage_institutions
@@ -219,7 +176,7 @@ __PACKAGE__->has_many(
   "stats_usage_institutions",
   "CAP::Schema::Result::StatsUsageInstitution",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 titles
@@ -234,32 +191,12 @@ __PACKAGE__->has_many(
   "titles",
   "CAP::Schema::Result::Titles",
   { "foreign.institution_id" => "self.id" },
-  undef,
+  {},
 );
 
-=head2 portal_ids
 
-Type: many_to_many
-
-Composing rels: L</institution_subscriptions> -> portal_id
-
-=cut
-
-__PACKAGE__->many_to_many("portal_ids", "institution_subscriptions", "portal_id");
-
-=head2 user_ids
-
-Type: many_to_many
-
-Composing rels: L</institution_mgmts> -> user_id
-
-=cut
-
-__PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
-
-
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-19 12:59:50
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9soKLcgMS91dtvi+HKAhnw
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2013-02-20 09:44:25
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TR8httclP5+hsB08/PosEQ
 
 
 sub aliases {
