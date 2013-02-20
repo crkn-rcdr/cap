@@ -1,4 +1,4 @@
-package CAP::Schema::ResultSet::TitlesThesauruses;
+package CAP::Schema::ResultSet::TitlesTerms;
 use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';

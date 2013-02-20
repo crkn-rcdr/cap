@@ -134,34 +134,34 @@ __PACKAGE__->belongs_to(
   { id => "institution_id" },
 );
 
-=head2 titles_thesauruses
+=head2 titles_terms
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::TitlesThesauruses>
+Related object: L<CAP::Schema::Result::TitlesTerms>
 
 =cut
 
 __PACKAGE__->has_many(
-  "titles_thesauruses",
-  "CAP::Schema::Result::TitlesThesauruses",
+  "titles_terms",
+  "CAP::Schema::Result::TitlesTerms",
   { "foreign.title_id" => "self.id" },
   undef,
 );
 
-=head2 thesaurus_ids
+=head2 term_ids
 
 Type: many_to_many
 
-Composing rels: L</titles_thesauruses> -> thesaurus_id
+Composing rels: L</titles_terms> -> term_id
 
 =cut
 
-__PACKAGE__->many_to_many("thesaurus_ids", "titles_thesauruses", "thesaurus_id");
+__PACKAGE__->many_to_many("term_ids", "titles_terms", "term_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-19 13:17:02
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:t5CJbw7pRRgciik9RHSS5A
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-20 08:43:00
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ONA54dXgenmdQRORht4lWg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
