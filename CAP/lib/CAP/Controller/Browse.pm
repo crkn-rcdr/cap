@@ -20,6 +20,14 @@ sub browse :Path :Args(1) {
         browse => $c->model('DB::Terms')->narrower_terms($c->portal, $id),
         browse_path => $c->model('DB::Terms')->path($id),
     );
+
+    # If there are no narrower terms, redirect to a search for the current
+    # term.
+    if (@{$c->stash->{'browse'}} == 0) {
+        $c->res->redirect($c->uri_for_action('/search/index', { 'term' => $id }));
+        $c->detach();
+    }
+
     return 1;
 }
 
