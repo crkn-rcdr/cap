@@ -16,4 +16,15 @@ sub with_names {
         { join => 'portal_strings', '+select' => ['portal_strings.string'], '+as' => ['string'] });
 }
 
+sub list_portals {
+    my ($self) = shift();
+    my $get_portals = $self->search({});
+    my $row;
+    my $portal_id;
+    my $portals = [];    
+    while ($row = $get_portals->next) {
+       push (@$portals, $row->id);
+    }
+    return $portals;
+}
 1;

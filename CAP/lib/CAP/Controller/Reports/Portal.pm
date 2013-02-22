@@ -21,14 +21,15 @@ Catalyst Controller.
 
 =cut
 
-sub index :Path :Args(1) {
+sub index :Path :Args(2) {
     my ($self, $c) = @_;
     
 
     my $portal = defined ( $c->portal->id ) ? $c->portal->id : 'eco';
 
     # Get some action
-    my $action = $c->request->arguments->[0];
+    my $action = $c->request->arguments->[1];
+    my $portal = $c->request->arguments->[0];
     $c->log->error("action is $action : $!\n");
     
 #     $c->stash->{template} = 'portal_stats.tt';
