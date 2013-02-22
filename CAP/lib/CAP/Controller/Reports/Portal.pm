@@ -25,17 +25,16 @@ sub index :Path :Args(2) {
     my ($self, $c) = @_;
     
 
-    my $portal = defined ( $c->portal->id ) ? $c->portal->id : 'eco';
+    # my $portal = defined ( $c->portal->id ) ? $c->portal->id : 'eco';
 
     # Get some action
     my $action = $c->request->arguments->[1];
     my $portal = $c->request->arguments->[0];
+    $c->stash->{current_portal} = $portal;
     $c->log->error("action is $action : $!\n");
     
-#     $c->stash->{template} = 'portal_stats.tt';
 
     if ( $action eq 'stats' ) {
-        # $c->stash->{template} = 'portal_stats.tt';
         show_stats($c, $portal);
     }
 
