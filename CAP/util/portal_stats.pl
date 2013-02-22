@@ -45,8 +45,8 @@ my $start_month = $last_update->{local_c}->{month};
     
   
     # Get a list of distinct portals in the request log
-    my $portals = $c->model('DB::RequestLog')->get_portals($c);
-    
+    # my $portals = $c->model('DB::RequestLog')->get_portals($c); finds distinct portals in log file
+    my $portals = $c->model('DB::Portal')->list_portals();
     my $month;
     my $first_of_month;
     my $year;
@@ -100,6 +100,8 @@ my $start_month = $last_update->{local_c}->{month};
        }
         
     }
-   
+
+# my $portal_list = $c->model('DB::Portal')->list_portals();
+
 
 say "\ndone";
