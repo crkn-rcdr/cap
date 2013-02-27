@@ -20,6 +20,9 @@ use CAP;
 
 my $c = CAP->new();
 
+say "\n\n\n";
+
+
 my $last_update = $c->model('DB::StatsUsagePortal')->last_update() || $c->model('DB::RequestLog')->get_start();
 
 
@@ -38,70 +41,61 @@ my $first_of_month_end  = $end_date->printf("%Y-%m-01");
 my $start_date             = new Date::Manip::Date;
 my $start_year = $last_update->{local_c}->{year};
 my $start_month = $last_update->{local_c}->{month};
+my $start_day = $last_update->{local_c}->{day};
 
-    my $first_of_month_st =  join ('-',($start_year,$start_month,'1'));
-        
-    say "compiling data from $first_of_month_st to $first_of_month_end";
-    
-  
-    # Get a list of distinct portals in the request log
-    # my $portals = $c->model('DB::RequestLog')->get_portals($c); finds distinct portals in log file
-    my $portals = $c->model('DB::Portal')->list_portals();
-    my $month;
-    my $first_of_month;
-    my $year;
-    my $current_date;
-    my $current_date_string;
-    my $monthly_stats;
-    my $portal;
+say "start date is " . join("-",$start_year,$start_month,$start_day);
+my $first_of_month_st =  join ('-',($start_year,$start_month,'1'));
+         
+# Get a list of distinct portals from the portals table
+my $portals = $c->model('DB::Portal')->list_portals();
+my $month;
+my $first_of_month;
+my $year;
+my $current_date;
+my $current_date_string;
+my $monthly_stats;
+my $portal;
 
+
+# Iterate through all the portals
+foreach $portal (@$portals) {
+
+    say "\ncompiling stats for $portal";
+    say "    years $start_year through $end_year";
 
     for ($year = $start_year; $year <= $end_year; $year++) {
     
         # If we're only reporting on this year we don't need to go all the way to December
         my $end_month = ($year < $end_year) ? 12 : $end_date->printf("%m");
-        
+       
         # Similarly we don't need to go all the way back to January if we start later
         $start_month = ($year > $start_year) ? 1 : $start_month ;        
+        
+        say "        $year: months $start_month through $end_month";
 
-        # Iterate through all the portals
-        foreach $portal (@$portals) {
-           
+        # Iterate through all the months
+        for ($month = $start_month; $month <= $end_month; $month++) {
+               
+            # get the monthly stats from the request log
+            $monthly_stats = $c->model('DB::RequestLog')->get_monthly_portal_stats($portal, $month, $year);
+ 
+            # make sure the dates are in the correct format
+            $current_date_string = join ('-',($year,$month,'1'));               
+            say "            compiling for month starting $current_date_string";
+            $current_date  = new Date::Manip::Date;
+            $err           = $current_date->parse($current_date_string);
+            say $err if $err;
+            $first_of_month   = $current_date->printf("%Y-%m-01");
 
-
-           # Iterate through all the months
-           for ($month = $start_month; $month <= $end_month; $month++) {
-               
-               # get the monthly stats from the request log
-               $monthly_stats = $c->model('DB::RequestLog')->get_monthly_portal_stats($portal, $month, $year);
-               
-               # make sure the dates are in the correct format
-               
-               $current_date_string = join ('-',($year,$month,'1'));
-               
-
-               # say "current date string is $current_date_string";
-            
-               $current_date  = new Date::Manip::Date;
-               $err           = $current_date->parse($current_date_string);
-               say $err if $err;
-               
-               $first_of_month   = $current_date->printf("%Y-%m-01");
-               
-
-    
-               # update or insert as required
-               $monthly_stats->{'portal_id'} = $portal;               
-               $monthly_stats->{'month_starting'} = $first_of_month;              
-               $c->model('DB::StatsUsagePortal')->update_monthly_stats($monthly_stats);
-
-           }
+            # update or insert as required
+            $monthly_stats->{'portal_id'} = $portal;               
+            $monthly_stats->{'month_starting'} = $first_of_month;              
+            $c->model('DB::StatsUsagePortal')->update_monthly_stats($monthly_stats);
 
        }
-        
-    }
 
-# my $portal_list = $c->model('DB::Portal')->list_portals();
-
+   }
+       
+}
 
 say "\ndone";
