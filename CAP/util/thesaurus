@@ -42,7 +42,8 @@ sub process {
     my $xml = XML::LibXML->load_xml(location => $file);
     my $mets = XML::LibXML::XPathContext->new($xml->documentElement());
     $mets->registerNs('mets', 'http://www.loc.gov/METS/');
-    $mets->registerNs('dc', 'http://canadiana.ca/schema/2012/xsd/cmr');
+    $mets->registerNs('dc', 'http://purl.org/dc/elements/1.1/');
+    $mets->registerNs('issueinfo', 'http://canadiana.ca/schema/2012/xsd/issueinfo');
 
     # Get the document identifier
     my $identifier = $mets->findvalue('/mets:mets/@OBJID') or die("Cannot get document ID from file $file");
@@ -52,7 +53,7 @@ sub process {
         my $type = $div->getAttribute('TYPE');
         my $label = $div->getAttribute('LABEL');
 
-        # Add the title to the database.
+        # Series records
         if ($type eq 'series') {
             my $title = $c->model('DB::Titles')->update_or_create({
                 institution_id => $contributor->id,
@@ -73,6 +74,58 @@ sub process {
             }
 
         }
+
+        # Issue records
+        elsif ($type eq 'issue') {
+            die("Ooops... not an issue")
+                unless ($mets->findvalue('/mets:mets/mets:structMap/mets:div/@TYPE') eq 'issue');
+
+            # Get the dmdSec identifier
+            my $dmdid = $mets->findvalue('/mets:mets/mets:structMap/mets:div/@DMDID');
+
+            # Get the parent identifier
+            my $parent_id = $mets->findvalue("descendant::mets:dmdSec[\@ID='$dmdid']/descendant::issueinfo:series")
+                or die("Can't get parent ID for $identifier");
+
+            my $sequence = $mets->findvalue(
+            '/mets:mets/mets:dmdSec/mets:mdWrap[@OTHERMDTYPE="issueinfo"]/mets:xmlData/issueinfo:issueinfo/issueinfo:sequence'
+            ) or die("Can't get sequence for $identifier (TODO: should not be fatal, assume null)");
+
+            # Find the title that the document belongs to.
+            my $title = $c->model('DB::Titles')->find({ institution_id => $contributor->id, identifier => $parent_id});
+            if (! $title) {
+                warn("Can't process issue $identifier ($label) yet: no parent record $parent_id");
+                next;
+            }
+
+            # Add to the documents table.
+            my $document = $c->model('DB::Documents')->update_or_create({
+                title_id => $title->id, 
+                identifier => $identifier,
+                sequence => $sequence,
+                label => $label
+            });
+
+            # Add the document pages
+            my $pg_sequence = 0;
+            foreach my $page ($mets->findnodes('/mets:mets/mets:structMap/mets:div/mets:div')) {
+                ++$pg_sequence;
+                my $type = $page->getAttribute('TYPE');
+                my $pg_identifier = "$identifier.$pg_sequence";
+                my $dmdid = $page->getAttribute('DMDID');
+                my $label = $page->getAttribute('LABEL');
+                die("Ooops... type for $pg_identifier should be page, but is $type") unless ($type eq 'page');
+
+                $c->model('DB::Pages')->update_or_create({
+                    document_id => $document->id,
+                    identifier => $pg_identifier,
+                    sequence => $pg_sequence,
+                    label => $label
+                });
+            }
+
+        }
+
         else {
             die("Don't know what to do with type '$type'");
         }
@@ -99,26 +152,26 @@ sub process_dc_oopDebates {
 
     if ($chamber eq 'HOC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
-            [ 'oop-hoc', $parliament, $session ],
-            [ 'House of Commons', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
+            [ 'oop-debates-en', '2-hoc', $parliament, $session ],
+            [ 'English', 'House of Commons', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
         );
     }
     elsif ($chamber eq 'CDC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
-            [ 'oop-cdc', $parliament, $session ],
-            [ 'Chambre des communes', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
+            [ 'oop-debates-fr', '2-cdc', $parliament, $session ],
+            [ 'Français', 'Chambre des communes', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
         );
     }
     elsif ($chamber eq 'SOC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
-            [ 'oop-soc', $parliament, $session ],
-            [ 'Senate of Canada', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
+            [ 'oop-debates-en', '1-soc', $parliament, $session ],
+            [ 'English', 'Senate of Canada', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
         );
     }
     elsif ($chamber eq 'SDC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
-            [ 'oop-sdc', $parliament, $session ],
-            [ 'Sénat du Canada', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
+            [ 'oop-debates-fr', '1-sdc', $parliament, $session ],
+            [ 'Français', 'Sénat du Canada', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
         );
     }
 
