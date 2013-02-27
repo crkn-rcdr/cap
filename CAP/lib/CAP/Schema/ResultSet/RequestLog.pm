@@ -181,8 +181,8 @@ sub get_start {
     );
     my $result = $search_min->next;
     my $date = $result->time;
-    use Data::Dumper;
-    warn Dumper($result);
+    # use Data::Dumper;
+    # warn Dumper($result);
     
     return $date;
 }

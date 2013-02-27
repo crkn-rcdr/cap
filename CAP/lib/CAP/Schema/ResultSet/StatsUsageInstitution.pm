@@ -40,7 +40,7 @@ sub last_update {
     my $row = $self->search( {}, { order_by => { -desc => 'last_updated' } } )->first;
 
     # return 0 if the database is empty;
-    my $last_update = defined($row) ? $row->month_starting : 0;
+    my $last_update = defined($row) ? $row->last_updated : 0;
     return $last_update;
 
 }
