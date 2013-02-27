@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::PortalSupport;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::PortalSupport
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::PortalSupport
+=head1 TABLE: C<portal_support>
 
 =cut
 
@@ -49,6 +68,19 @@ __PACKAGE__->add_columns(
   "page",
   { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</portal_id>
+
+=item * L</page>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("portal_id", "page");
 
 =head1 RELATIONS
@@ -68,8 +100,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2013-02-20 09:44:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5cAAlx7IxdZlVZrTIxHVPg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-27 08:15:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:t0uMvzy8YUHDbxZ45nQgcQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

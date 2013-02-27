@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::Contributor;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::Contributor
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::Contributor
+=head1 TABLE: C<contributor>
 
 =cut
 
@@ -93,23 +112,24 @@ __PACKAGE__->add_columns(
   "logo_filename",
   { data_type => "varchar", is_nullable => 1, size => 32 },
 );
-__PACKAGE__->set_primary_key("portal_id", "institution_id", "lang");
 
-=head1 RELATIONS
+=head1 PRIMARY KEY
 
-=head2 portal_id
+=over 4
 
-Type: belongs_to
+=item * L</portal_id>
 
-Related object: L<CAP::Schema::Result::Portal>
+=item * L</institution_id>
+
+=item * L</lang>
+
+=back
 
 =cut
 
-__PACKAGE__->belongs_to(
-  "portal_id",
-  "CAP::Schema::Result::Portal",
-  { id => "portal_id" },
-);
+__PACKAGE__->set_primary_key("portal_id", "institution_id", "lang");
+
+=head1 RELATIONS
 
 =head2 institution_id
 
@@ -125,9 +145,23 @@ __PACKAGE__->belongs_to(
   { id => "institution_id" },
 );
 
+=head2 portal_id
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2013-02-20 09:44:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sCAz7hV4FF5JxQOeh2WFTg
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Portal>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "portal_id",
+  "CAP::Schema::Result::Portal",
+  { id => "portal_id" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-27 08:15:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B3I//TONI9mxE/B5uDgk/Q
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

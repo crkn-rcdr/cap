@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::Subscription;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::Subscription
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::Subscription
+=head1 TABLE: C<subscription>
 
 =cut
 
@@ -175,21 +194,46 @@ __PACKAGE__->add_columns(
   "note",
   { data_type => "text", is_nullable => 1 },
 );
-__PACKAGE__->set_primary_key("id");
-__PACKAGE__->add_unique_constraint("rcpt_id", ["rcpt_id"]);
-__PACKAGE__->add_unique_constraint("rcpt_no", ["rcpt_no"]);
 
-=head1 RELATIONS
+=head1 PRIMARY KEY
 
-=head2 user_id
+=over 4
 
-Type: belongs_to
+=item * L</id>
 
-Related object: L<CAP::Schema::Result::User>
+=back
 
 =cut
 
-__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+__PACKAGE__->set_primary_key("id");
+
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<rcpt_id>
+
+=over 4
+
+=item * L</rcpt_id>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("rcpt_id", ["rcpt_id"]);
+
+=head2 C<rcpt_no>
+
+=over 4
+
+=item * L</rcpt_no>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("rcpt_no", ["rcpt_no"]);
+
+=head1 RELATIONS
 
 =head2 payment_id
 
@@ -205,9 +249,19 @@ __PACKAGE__->belongs_to(
   { id => "payment_id" },
 );
 
+=head2 user_id
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2013-02-20 09:44:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Pzzg8j0SUPX9acF2N9K5rw
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-27 08:15:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:S+Vlq0XJA0nCGU6rTP0VRw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

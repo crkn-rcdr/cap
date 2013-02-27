@@ -1,18 +1,37 @@
+use utf8;
 package CAP::Schema::Result::MediaType;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+CAP::Schema::Result::MediaType
+
+=cut
 
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
+
+=over 4
+
+=item * L<DBIx::Class::InflateColumn::DateTime>
+
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
+=back
+
+=cut
+
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 NAME
-
-CAP::Schema::Result::MediaType
+=head1 TABLE: C<media_type>
 
 =cut
 
@@ -50,11 +69,24 @@ __PACKAGE__->add_columns(
   "label",
   { data_type => "varchar", is_nullable => 1, size => 128 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</code>
+
+=item * L</lang>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("code", "lang");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2013-02-20 09:44:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GJOdmaQkurREPbExkAmR3Q
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-27 08:15:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ODpC4NNlReWvEPF11zSEtw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
