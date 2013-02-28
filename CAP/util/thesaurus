@@ -111,14 +111,12 @@ sub process {
             foreach my $page ($mets->findnodes('/mets:mets/mets:structMap/mets:div/mets:div')) {
                 ++$pg_sequence;
                 my $type = $page->getAttribute('TYPE');
-                my $pg_identifier = "$identifier.$pg_sequence";
                 my $dmdid = $page->getAttribute('DMDID');
                 my $label = $page->getAttribute('LABEL');
-                die("Ooops... type for $pg_identifier should be page, but is $type") unless ($type eq 'page');
+                die("Ooops... type for $pg_sequence should be page, but is $type") unless ($type eq 'page');
 
                 $c->model('DB::Pages')->update_or_create({
                     document_id => $document->id,
-                    identifier => $pg_identifier,
                     sequence => $pg_sequence,
                     label => $label
                 });
