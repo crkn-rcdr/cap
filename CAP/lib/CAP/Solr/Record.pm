@@ -27,6 +27,10 @@ has 'collection'  => (is => 'ro', isa => 'ArrayRef');
 has 'identifier'  => (is => 'ro', isa => 'ArrayRef');
 has 'pg_label'    => (is => 'ro', isa => 'ArrayRef');
 
+has 'term' => (is => 'ro', isa => 'ArrayRef');
+has 'cap_id' => (is => 'ro', isa => 'Int');
+has 'cap_title_id' => (is => 'ro', isa => 'Int');
+
 has 'ti' => (is => 'ro', isa => 'ArrayRef');
 has 'au' => (is => 'ro', isa => 'ArrayRef');
 has 'pu' => (is => 'ro', isa => 'ArrayRef');
@@ -65,7 +69,7 @@ around BUILDARGS => sub {
     # These are multi-valued fields and must be returned in list form.
     my %multival = map { $_ => 1 } (qw(
         lang media set collection identifier pg_label ti au pu su no de ab tx no_continued no_continues
-        no_extent no_frequency no_missing no_rights no_source
+        no_extent no_frequency no_missing no_rights no_source term
     ));
 
     # Collect the names of all the fields in the record.

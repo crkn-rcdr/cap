@@ -386,6 +386,17 @@ sub get_string {
 # matches a hosted collection for this portal.
 sub hosts_doc {
     my($self, $doc) = @_;
+
+    # Look up the title in the portals_titles table to see if it is hosted.
+    my $title = $self->search_related('portals_titles', { title_id => $doc->record->cap_title_id })->first;
+    # TODO: later, we should log a warning here if $title is NULL (after
+    # collections is gone)
+    return 1 if ($title && $title->hosted);
+
+    #warn("Falling back on collections test");
+
+    # TODO: Collections are being deprecated; eventually, this will go
+    # away.
     foreach my $hosted ($self->search_related('portal_collections', { hosted => 1 })) {
         foreach my $collection (@{$doc->record->collection}) {
             if ($collection eq $hosted->collection_id->id) {
@@ -393,6 +404,7 @@ sub hosts_doc {
             }
         }
     }
+
     return 0;
 }
 
