@@ -54,6 +54,11 @@ __PACKAGE__->table("portals_titles");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 hosted
+
+  data_type: 'tinyint'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -72,6 +77,8 @@ __PACKAGE__->add_columns(
     is_foreign_key => 1,
     is_nullable    => 0,
   },
+  "hosted",
+  { data_type => "tinyint", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -119,8 +126,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-27 08:15:49
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EMOd7aFiSQGnWHVSaoSpoQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-28 09:20:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Up0ENrodSp946It+8rOtjQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

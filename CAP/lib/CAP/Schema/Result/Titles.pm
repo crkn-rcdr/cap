@@ -164,16 +164,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 portal_ids
-
-Type: many_to_many
-
-Composing rels: L</portals_titles> -> portal_id
-
-=cut
-
-__PACKAGE__->many_to_many("portal_ids", "portals_titles", "portal_id");
-
 =head2 term_ids
 
 Type: many_to_many
@@ -185,8 +175,8 @@ Composing rels: L</titles_terms> -> term_id
 __PACKAGE__->many_to_many("term_ids", "titles_terms", "term_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-27 08:15:49
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vr9m30so7jeLumJXBkYxkA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-28 09:20:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KoJFdKzZl+ekFzUe6Ua/rA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
