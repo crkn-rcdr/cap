@@ -84,8 +84,6 @@ method authorize ($portal, $user, $institution) {
         $level = 2;
     }
 
-    warn "Access Level: $level\n";
-
     # Set to true if the user's access level is equal to or greater
     # than the required level.
     $self->auth->all_pages(int($level >= 1));
