@@ -22,20 +22,29 @@ die("You must specify a contributor via the -contributor switch.\n") unless ($co
 my $contributor = $c->model('DB::Institution')->find({ code => $contributor_id });
 die("Cannot find contributing institution '$contributor_id'") unless ($contributor);
 
+my @ARGV2 = (); # Collect titles we can't process on the first round because they are missing a parent
 if (@ARGV) {
     foreach my $file (@ARGV) {
-        process($c, $file, $contributor, $portals);
+        process($c, $file, $contributor, $portals, 1);
     }
 }
 else {
     while (my $file = <STDIN>) {
         chomp($file);
-        process($c, $file, $contributor, $portals);
+        process($c, $file, $contributor, $portals, 1);
+    }
+}
+
+# Try to process the titles we couldn't do on pass 1
+if (@ARGV2) {
+    print("Attempting to process remaining titles\n");
+    foreach my $file (@ARGV2) {
+        process($c, $file, $contributor, $portals, 2);
     }
 }
 
 sub process {
-    my($c, $file, $contributor, $portals) = @_;
+    my($c, $file, $contributor, $portals, $pass) = @_;
 
     # Parse the file and create an XPath context object with the required
     # namespaces.
@@ -61,9 +70,11 @@ sub process {
                 label => $label
             });
 
-            # Add the document to listed portals, if specified.
+            # Add the document to listed portals, if specified. FIXME: we
+            # automatically set the hosted flag, which may not be what we
+            # want.
             foreach my $portal (@{$portals}) {
-                $c->model('DB::PortalsTitles')->update_or_create({ portal_id => $portal, title_id => $title->id });
+                $c->model('DB::PortalsTitles')->update_or_create({ portal_id => $portal, title_id => $title->id, hosted => 1 });
             }
 
             foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="DC"]/mets:xmlData')) {
@@ -94,7 +105,13 @@ sub process {
             # Find the title that the document belongs to.
             my $title = $c->model('DB::Titles')->find({ institution_id => $contributor->id, identifier => $parent_id});
             if (! $title) {
-                warn("Can't process issue $identifier ($label) yet: no parent record $parent_id");
+                if ($pass == 1) {
+                    print("Delaying processing of $identifier ($label) until we have parent record $parent_id\n");
+                    push(@ARGV2, $file)
+                }
+                else {
+                    warn("Can't process issue $identifier ($label) yet: no parent record $parent_id");
+                }
                 next;
             }
 
