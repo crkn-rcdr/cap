@@ -422,6 +422,10 @@ sub subset {
     foreach my $collection (@result) {
         push(@subset, "collection:$collection");
     }
+
+    # TODO: eventually, this will be the only thing we need to return.
+    push(@subset, "portal:" . $self->id);
+
     return "" unless (@subset);
     return "(" . join(" OR ", @subset) . ")";
 }
