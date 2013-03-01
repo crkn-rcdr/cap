@@ -69,6 +69,11 @@ __PACKAGE__->table("discounts");
   datetime_undef_if_invalid: 1
   is_nullable: 1
 
+=head2 description
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -86,6 +91,8 @@ __PACKAGE__->add_columns(
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
   },
+  "description",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -161,8 +168,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 15:07:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5JeKDP8xPf9nUHOVdeGwMw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 15:11:45
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:To2FjacT4j5m3v9fOlEaLQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
