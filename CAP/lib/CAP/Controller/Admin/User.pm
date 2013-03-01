@@ -133,7 +133,7 @@ sub edit_GET {
         return 1;
     }
 
-    my @roles = $c->model('DB::Role')->all();
+    my @roles = $c->model('DB::Roles')->all();
 
     # TODO: Determine if we need a different portal feature for subscriptions
     my @s_portals = $c->model("DB::Portal")->with_feature("users")->with_names($c->stash->{lang});
@@ -189,7 +189,7 @@ sub edit_POST {
         $update->{password} = $data->{password} if $data->{password};
 
         $user->update($update);
-        $user->set_roles($data->{role}, $c->model('DB::Role')->all());
+        $user->set_roles($data->{role}, $c->model('DB::Roles')->all());
 
         $c->message({ type => 'success', message => 'user_updated' });
         $c->response->redirect($c->uri_for_action('/admin/user/index'));

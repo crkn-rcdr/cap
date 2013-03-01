@@ -1,12 +1,12 @@
 use utf8;
-package CAP::Schema::Result::TitlesTerms;
+package CAP::Schema::Result::UserRoles;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-CAP::Schema::Result::TitlesTerms
+CAP::Schema::Result::UserRoles
 
 =cut
 
@@ -27,44 +27,46 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime");
 
-=head1 TABLE: C<titles_terms>
+=head1 TABLE: C<user_roles>
 
 =cut
 
-__PACKAGE__->table("titles_terms");
+__PACKAGE__->table("user_roles");
 
 =head1 ACCESSORS
 
-=head2 title_id
+=head2 user_id
 
   data_type: 'integer'
   default_value: 0
   is_foreign_key: 1
   is_nullable: 0
 
-=head2 term_id
+=head2 role_id
 
-  data_type: 'integer'
-  default_value: 0
+  data_type: 'varchar'
+  default_value: (empty string)
   is_foreign_key: 1
   is_nullable: 0
+  size: 32
 
 =cut
 
 __PACKAGE__->add_columns(
-  "title_id",
+  "user_id",
   {
     data_type      => "integer",
     default_value  => 0,
     is_foreign_key => 1,
     is_nullable    => 0,
   },
-  "term_id",
+  "role_id",
   {
-    data_type      => "integer",
-    default_value  => 0,
+    data_type => "varchar",
+    default_value => "",
     is_foreign_key => 1,
-    is_nullable    => 0,
+    is_nullable => 0,
+    size => 32,
   },
 );
 
@@ -72,45 +74,31 @@ __PACKAGE__->add_columns(
 
 =over 4
 
-=item * L</title_id>
+=item * L</user_id>
 
-=item * L</term_id>
+=item * L</role_id>
 
 =back
 
 =cut
 
-__PACKAGE__->set_primary_key("title_id", "term_id");
+__PACKAGE__->set_primary_key("user_id", "role_id");
 
 =head1 RELATIONS
 
-=head2 term_id
+=head2 user_id
 
 Type: belongs_to
 
-Related object: L<CAP::Schema::Result::Terms>
+Related object: L<CAP::Schema::Result::User>
 
 =cut
 
-__PACKAGE__->belongs_to("term_id", "CAP::Schema::Result::Terms", { id => "term_id" });
-
-=head2 title_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::Titles>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "title_id",
-  "CAP::Schema::Result::Titles",
-  { id => "title_id" },
-);
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
 # Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 10:13:27
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VwbmGUS1Wzgfy+hl4tII2Q
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hUCzRxNLRj0Z+FLt3joeXw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

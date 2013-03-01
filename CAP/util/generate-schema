@@ -4,33 +4,66 @@ use warnings;
 use FindBin;
 use Config::General;
 
-# Run this script any time you modify the MySQL CAP database in order to
-# re-generate the correct schema files.
+=head1 generate-schema
 
-my $db = undef;
+Generates or re-generates model and schema files for CAP.
 
-eval {
-  my $config_file = "$FindBin::Bin/../cap_local.conf";
-  $db = {Config::General->new((
-    '-ConfigFile' => $config_file,
-    '-AutoTrue' => 1,
-  ))->getall}->{Component}->{'Model::DB'}->{connect_info};
-};
+This script must be run after making any changes to any of the model databases.
 
-if ( !$db ) {
+=cut
+
+my @configs = ("$FindBin::Bin/../cap_local.conf", "$FindBin::Bin/../cap.conf");
+my @databases = ('cap', 'cap_core');
+
+# Retrieve the connection info. Abort if any are missing.
+my $dbinfo = undef;
+print("Getting connect info.\n");
+foreach my $config (@configs) {
+    print("  trying $config... ");
+
     eval {
-	my $config_file = "$FindBin::Bin/../cap.conf";
-	$db = {Config::General->new((
-		      '-ConfigFile' => $config_file,
-		      '-AutoTrue' => 1,
-				       ))->getall}->{Component}->{'Model::DB'}->{connect_info};
+        $dbinfo = {Config::General->new((
+            '-ConfigFile' => $config,
+            '-AutoTrue' => 1,
+        ))->getall}->{Component}->{"Model::DB"}->{connect_info};
     };
+
+    if ($dbinfo) {
+        print("OK\n");
+        last;
+    }
+    else {
+        print("not found\n");
+    }
 }
 
-if ($db) {
-
-`$FindBin::Bin/../script/cap_create.pl model DB DBIC::Schema CAP::Schema create=static components=TimeStamp,EncodedColumn $db->{dsn} $db->{user} $db->{password}`;
-
-} else {
-    print "Missing database settings...\n\n";
+unless ($dbinfo) {
+    die("  FAIL: could not find database connect information.");
 }
+
+# Create the models
+foreach my $db (@databases) {
+    $dbinfo->{dsn} =~ s/:\w+$/:$db/;
+    my @command = (
+        "$FindBin::Bin/../script/cap_create.pl",
+        "model",
+        "DB",
+        "DBIC::Schema",
+        "CAP::Schema",
+        "create=static",
+        "TimeStamp,EncodedColumn",
+        $dbinfo->{dsn},
+        $dbinfo->{user},
+        $dbinfo->{password}
+    );
+    my $cmd_string = join(" ", @command);
+    print("Updating $db. Command is:\n  $cmd_string\n");
+
+    if (system(@command)) {
+        die("Failed: $!");
+    }
+
+}
+
+exit;
+

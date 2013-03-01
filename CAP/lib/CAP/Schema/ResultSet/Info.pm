@@ -19,7 +19,7 @@ sub assert_version {
     my($self, $assert_version) = @_;
     my $db_version = $self->find({ name => 'version' });
     unless ($db_version && $db_version->value && int($db_version->value) eq int($assert_version)) {
-        die("assert_version failed: CAP database version is $db_version but is supposed to be $assert_version");
+        die("assert_version failed: CAP database version is " . $db_version->value . " but is supposed to be $assert_version");
     }
     return 1;
 }

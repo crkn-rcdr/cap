@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<promocode>
 
@@ -85,8 +81,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-27 08:15:49
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6nZ+for/A9OCnYpZ2+Ij5Q
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 10:13:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B6W25ijmop21N3XbmGA8oQ
 
 sub expired {
     my $self = shift;

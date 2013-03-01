@@ -84,15 +84,16 @@ __PACKAGE__->config(
 __PACKAGE__->setup();
 
 
-# Return true if an authenticated user exists and has at least one of the
-# named roles
+=head2 has_role($role)
+
+If a user exists in the current context, calls $c->user->has_role($role)
+and returns the value. If no user exists, it returns false. 
+
+=cut
 sub has_role {
-    my($c, @roles) = @_;
+    my($c, $role) = @_;
     return 0 unless $c->user_exists;
-    foreach my $role (@roles) {
-        return 1 if $c->model('DB::UserRole')->user_has_role($c->user->id, $role);
-    }
-    return 0;
+    return $c->user->has_role($role);
 }
 
 sub initialize_session {

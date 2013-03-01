@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<user>
 
@@ -300,13 +296,13 @@ __PACKAGE__->has_many(
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::UserRole>
+Related object: L<CAP::Schema::Result::UserRoles>
 
 =cut
 
 __PACKAGE__->has_many(
   "user_roles",
-  "CAP::Schema::Result::UserRole",
+  "CAP::Schema::Result::UserRoles",
   { "foreign.user_id" => "self.id" },
   undef,
 );
@@ -336,19 +332,9 @@ Composing rels: L</institution_mgmts> -> institution_id
 
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
-=head2 role_ids
 
-Type: many_to_many
-
-Composing rels: L</user_roles> -> role_id
-
-=cut
-
-__PACKAGE__->many_to_many("role_ids", "user_roles", "role_id");
-
-
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-02-27 08:15:49
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zT0rhWy+TxZx+jq1GAqAQg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 10:13:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Ab30GFvTvhOdVMSXZtPvLg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
@@ -364,6 +350,22 @@ __PACKAGE__->add_columns(
         encode_check_method => 'check_password',
     } 
 );
+
+=head2 has_role($role_name, [$by_name])
+
+Returns true if the user has the role $role_name. If $by_name is defined
+and nonzero, this method returns true only if the user has the named role.
+Otherwise, the method will also return true for any query if the user has
+the administrator role.
+
+=cut
+sub has_role {
+    my($self, $role_name, $by_name) = @_;
+    return 1 if ($self->find_related('user_roles', { role_id => $role_name} ));
+    return 0 if ($by_name);
+    return 1 if ($self->find_related('user_roles', { role_id => 'administrator'} ));
+    return 0;
+}
 
 # Returns the subscriber level for the user's subscription to $portal; 0 for no subscription
 sub subscriber_level {
