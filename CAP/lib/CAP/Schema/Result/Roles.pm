@@ -21,11 +21,15 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
 =head1 TABLE: C<roles>
 
@@ -68,8 +72,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 10:13:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sd45ivFRy299LTe9lSzY1g
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:06
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tMWJCPyMdwXRO9LJ1gS4zg
 
 # We need to tell CAP that this table is not in the cap database.
 __PACKAGE__->table("cap_core.roles");

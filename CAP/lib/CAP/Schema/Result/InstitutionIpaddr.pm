@@ -21,11 +21,15 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
 =head1 TABLE: C<institution_ipaddr>
 
@@ -101,8 +105,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 10:13:27
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:yAEGzoEilupk0LuOgiHnKg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ewwiBrkAfaRpArx+NWs3Cg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

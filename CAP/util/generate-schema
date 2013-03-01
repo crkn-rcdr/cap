@@ -51,7 +51,7 @@ foreach my $db (@databases) {
         "DBIC::Schema",
         "CAP::Schema",
         "create=static",
-        "TimeStamp,EncodedColumn",
+        "components=TimeStamp,EncodedColumn",
         $dbinfo->{dsn},
         $dbinfo->{user},
         $dbinfo->{password}
