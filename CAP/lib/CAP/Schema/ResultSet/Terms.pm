@@ -84,7 +84,7 @@ sub top_level_terms {
 
     my $terms = $self->search({ parent => undef }, { order_by  => { -asc => 'sortkey' }});
     while (my $row = $terms->next) {
-        push(@{$list}, { term => $row });
+        push(@{$list}, $row);
     }
 
     return $list;
@@ -192,6 +192,11 @@ sub add_term {
         }
     }
 
+}
+
+sub term_has_children {
+    my($self, $id) = @_;
+    return $self->search({ parent => $id })->count() > 0;
 }
 
 

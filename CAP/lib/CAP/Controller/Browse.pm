@@ -16,8 +16,18 @@ sub index :Path :Args(0) {
 
 sub browse :Path :Args(1) {
     my($self, $c, $id) = @_;
+
+    my $terms = $c->model('DB::Terms')->narrower_terms($c->portal, $id);
+    my $title_urls = {};
+    foreach my $term (@{$terms}) {
+        if ($term->get_column('count') == 1 && !$c->model('DB::Terms')->term_has_children($term->id)) {
+            # FIXME: Hey you've hardcoded the contributor code here!!
+            $title_urls->{$term->id} = $c->uri_for_action('view/key', "oop." . $term->titles->first()->identifier)->as_string;
+        }
+    }
     $c->stash(
-        browse => $c->model('DB::Terms')->narrower_terms($c->portal, $id),
+        browse => $terms,
+        title_urls => $title_urls,
         browse_path => $c->model('DB::Terms')->path($id),
     );
 

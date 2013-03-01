@@ -119,4 +119,7 @@ __PACKAGE__->many_to_many("title_ids", "titles_terms", "title_id");
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
+
+__PACKAGE__->many_to_many( 'titles', 'titles_terms', 'title_id' );
+
 1;
