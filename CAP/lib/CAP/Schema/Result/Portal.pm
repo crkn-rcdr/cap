@@ -121,6 +121,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 discounts
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Discounts>
+
+=cut
+
+__PACKAGE__->has_many(
+  "discounts",
+  "CAP::Schema::Result::Discounts",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
 =head2 institution_subscriptions
 
 Type: has_many
@@ -316,8 +331,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AepyVyQgoQOythn5s+CYiA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 15:07:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:04UdRQvi9BegNIZr2H1atQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -259,9 +259,24 @@ Related object: L<CAP::Schema::Result::User>
 
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
+=head2 users_discounts
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LBvoik83iQlmNnMRI88w5A
+Type: has_many
+
+Related object: L<CAP::Schema::Result::UsersDiscounts>
+
+=cut
+
+__PACKAGE__->has_many(
+  "users_discounts",
+  "CAP::Schema::Result::UsersDiscounts",
+  { "foreign.subscription_id" => "self.id" },
+  undef,
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 15:07:30
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:YdEfXWq4+6rAN+hxdPnRWQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
