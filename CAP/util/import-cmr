@@ -1,0 +1,214 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use utf8;
+
+=head1 import-record
+
+Import record(s) into the cap titles, documents and pages tables.
+
+=cut
+
+use Getopt::Long;
+use XML::LibXML;
+use XML::LibXML::XPathContext;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use CAP;
+
+my $c = CAP->new();
+my $portals = [];
+GetOptions('portals=s@' => \$portals) or die("\n");
+
+
+my %CONTRIBUTORS = ();
+my @NEXT_QUEUE = ();
+my @QUEUE = ();
+
+# Build the initial queue of files to process from the command line or stdin.
+if (@ARGV) {
+    my @NEXT_QUEUE = @ARGV;
+}
+else {
+    while (my $file = <STDIN>) {
+        chomp($file);
+        push(@NEXT_QUEUE, $file);
+    }
+}
+
+my $passes = 3; # We may need up to 3 passes to get the dependencies correct
+for (my $pass = 1; $pass <= $passes; ++$pass) {
+
+    # Prepare the queue for this pass
+    @QUEUE = @NEXT_QUEUE;
+    @NEXT_QUEUE = ();
+
+    # If there are no files left to process, 
+    if (@QUEUE == 0) {
+        printf("Finished on pass %d\n", $pass - 1);
+        exit 0;
+    }
+
+    printf("Running pass %d of %d with %d files\n", $pass, $passes, int(@QUEUE));
+
+    # Process the queue. Put any files that are not fully processed back
+    # on to the next queue.
+    while(my $file = shift(@QUEUE)) {
+        die("No such file: $file\n") unless (-f $file);
+        if (! process($c, $file, $portals)) {
+            printf("Adding %s to queue for pass %d\n", $file, $pass + 1);
+            push(@NEXT_QUEUE, $file);
+        }
+    }
+}
+
+foreach my $file (@NEXT_QUEUE) {
+    print("Failed to process all records in $file\n");
+}
+exit(0);
+
+
+sub process {
+    my($c, $file, $portals) = @_;
+    my $all_ok = 1;
+
+    # Parse the file and create an xpath context
+    my $xml = XML::LibXML->load_xml(location => $file);
+    my $xpc = XML::LibXML::XPathContext->new($xml->documentElement());
+    $xpc->registerNs('cmr', 'http://canadiana.ca/schema/2012/xsd/cmr');
+
+    # Determine if we are dealing with a namespace or namespaceless CMR
+    # record and create the appropriate xpath queries
+    my $xpc_record;
+    my $xpc_type;
+    my $xpc_contributor;
+    my $xpc_key;
+    my $xpc_pkey;
+    my $xpc_label;
+    my $xpc_seq;
+    if ($xpc->findnodes('/recordset')) {
+        $xpc_record = '/recordset/record';
+        $xpc_type = 'type';
+        $xpc_contributor = 'contributor';
+        $xpc_key = 'key';
+        $xpc_pkey = 'pkey';
+        $xpc_label = 'label';
+        $xpc_seq = 'seq';
+    }
+    elsif ($xpc->findnodes('/cmr:recordset')) {
+        $xpc_record = '/cmr:recordset/cmr:record';
+        $xpc_type = 'cmr:type';
+        $xpc_contributor = 'cmr:contributor';
+        $xpc_key = 'cmr:key';
+        $xpc_pkey = 'cmr:pkey';
+        $xpc_label = 'cmr:label';
+        $xpc_seq = 'cmr:seq';
+    }
+    else {
+        die("Don't know what kind of record $file is\n");
+    }
+
+    # Process each record within the recordset.
+    foreach my $record ($xpc->findnodes($xpc_record)) {
+        my $type = $record->findvalue($xpc_type);
+        my $contributor = $record->findvalue($xpc_contributor);
+        my $key = $record->findvalue($xpc_key);
+        my $pkey = $record->findvalue($xpc_pkey);
+        my $label = $record->findvalue($xpc_label);
+        my $seq = $record->findvalue($xpc_seq);
+
+        # Look up the contributor ID
+        my $contributor_id = contributor_lookup($c, $contributor);
+
+        if ($type eq 'series') {
+            my $title = add_title($contributor_id, $key, $label, $portals);
+        }
+        elsif ($type eq 'document') {
+            # Document is an issue in a series
+            if ($pkey) {
+                my $title = $c->model('DB::Titles')->find({
+                    institution_id => $contributor_id,
+                    identifier => $pkey
+                });
+                if ($title) {
+                    my $document = $c->model('DB::Documents')->update_or_create({
+                        title_id => $title->id, 
+                        identifier => $key,
+                        label => $label
+                    });
+                }
+                else {
+                    $all_ok = 0;
+                }
+            }
+            
+            # Document is a monograph
+            else {
+                my $title = add_title($contributor_id, $key, $label, $portals);
+                my $document = $c->model('DB::Documents')->update_or_create({
+                    title_id => $title->id, 
+                    identifier => $key,
+                    label => $label
+                });
+            }
+        }
+        elsif ($type eq 'page') {
+            die("Page $key is missing a sequence") unless ($seq);
+            my $document = $c->model('DB::Documents')->by_identifier($pkey, $contributor_id);
+            if ($document) {
+                my $page = $c->model('DB::Pages')->update_or_create({
+                    document_id => $document->id,
+                    sequence => $seq,
+                    label => $label,
+                });
+            }
+            else {
+                $all_ok = 0;
+            }
+        }
+        else {
+            die("Don't know how to handle document type $type");
+        }
+    }
+
+    return $all_ok;
+}
+
+
+# Returns the CAP contributor id for $code.
+sub contributor_lookup {
+    my($c, $code) = @_;
+
+    # If the ID is already cached, return the cached value
+    return $CONTRIBUTORS{$code} if ($CONTRIBUTORS{$code});
+
+    # Otherwise, look it up
+    my $contributor = $c->model('DB::Institution')->find({ code => $code });
+
+    die("Lookup of contributor code $code failed") unless ($contributor);
+    $CONTRIBUTORS{$code} = $contributor->id;
+    return $contributor->id;
+}
+
+# Create or update the title and add it to all of the portals listed in
+# @{$portals}
+sub add_title {
+    my($contributor_id, $key, $label, $portals) = @_;
+    my $title = $c->model('DB::Titles')->update_or_create({
+        institution_id => $contributor_id,
+        identifier => $key,
+        label => $label
+    });
+
+    foreach my $portal_id (@${portals}) {
+        my $portal = $c->model('DB::Portal')->find({ id => $portal_id });
+        die("Nonexistent portal: $portal_id") unless ($portal);
+        $c->model('DB::PortalsTitles')->update_or_create({
+            portal_id => $portal->id,
+            title_id => $title->id,
+            hosted => 1
+        });
+    }
+
+    return $title;
+}

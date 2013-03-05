@@ -14,37 +14,28 @@ use lib "$FindBin::Bin/../lib";
 use CAP;
 
 my $c = CAP->new();
-my $contributor_id = undef;
-my $portals = [];
-GetOptions('contributor=s' => \$contributor_id, 'portals=s@' => \$portals) or die("\n");
-die("You must specify a contributor via the -contributor switch.\n") unless ($contributor_id);
 
+# Process the command line and look up the institutional contributor.
+my $contributor_id = undef;
+GetOptions('contributor=s' => \$contributor_id) or die("\n");
+die("You must specify a contributor via the -contributor switch.\n") unless ($contributor_id);
 my $contributor = $c->model('DB::Institution')->find({ code => $contributor_id });
 die("Cannot find contributing institution '$contributor_id'") unless ($contributor);
 
-my @ARGV2 = (); # Collect titles we can't process on the first round because they are missing a parent
 if (@ARGV) {
     foreach my $file (@ARGV) {
-        process($c, $file, $contributor, $portals, 1);
+        process($c, $file, $contributor);
     }
 }
 else {
     while (my $file = <STDIN>) {
         chomp($file);
-        process($c, $file, $contributor, $portals, 1);
-    }
-}
-
-# Try to process the titles we couldn't do on pass 1
-if (@ARGV2) {
-    print("Attempting to process remaining titles\n");
-    foreach my $file (@ARGV2) {
-        process($c, $file, $contributor, $portals, 2);
+        process($c, $file, $contributor);
     }
 }
 
 sub process {
-    my($c, $file, $contributor, $portals, $pass) = @_;
+    my($c, $file, $contributor) = @_;
 
     # Parse the file and create an XPath context object with the required
     # namespaces.
@@ -52,101 +43,71 @@ sub process {
     my $mets = XML::LibXML::XPathContext->new($xml->documentElement());
     $mets->registerNs('mets', 'http://www.loc.gov/METS/');
     $mets->registerNs('dc', 'http://purl.org/dc/elements/1.1/');
-    $mets->registerNs('issueinfo', 'http://canadiana.ca/schema/2012/xsd/issueinfo');
 
     # Get the document identifier
     my $identifier = $mets->findvalue('/mets:mets/@OBJID') or die("Cannot get document ID from file $file");
 
-    # Add the title, document and page information if it is missing.
-    foreach my $div ($mets->findnodes('/mets:mets/mets:structMap/mets:div')) {
-        my $type = $div->getAttribute('TYPE');
-        my $label = $div->getAttribute('LABEL');
+    # Get the main structMap division and look up the associated metadata.
+    my $div = ($mets->findnodes('/mets:mets/mets:structMap/mets:div'))[0];
+    die("Can't find valid structMap in $file") unless ($div);
+    my $type = $div->getAttribute('TYPE');
+    my $dmdid = $div->getAttribute('DMDID');
+    my $dmd = ($mets->findnodes("/mets:mets/descendant::mets:dmdSec[\@ID='$dmdid']/mets:mdWrap"))[0];
+    die("Can't find dmdSec with \@ID=$dmdid in $file") unless ($dmd);
+    my $record = ($mets->findnodes('mets:xmlData', $dmd))[0];
+    die("Can't find xmlData within dmdSec witih \@ID=$dmdid in $file") unless ($record);
 
-        # Series records
-        if ($type eq 'series') {
-            my $title = $c->model('DB::Titles')->update_or_create({
-                institution_id => $contributor->id,
-                identifier => $identifier,
-                label => $label
-            });
+    # Ignore issues - they do not get their own thesaurus terms.
+    return if ($type eq 'issue');
 
-            # Add the document to listed portals, if specified. FIXME: we
-            # automatically set the hosted flag, which may not be what we
-            # want.
-            foreach my $portal (@{$portals}) {
-                $c->model('DB::PortalsTitles')->update_or_create({ portal_id => $portal, title_id => $title->id, hosted => 1 });
-            }
+    # Look up the title
+    my $title = $c->model('DB::Titles')->find({ identifier => $identifier, institution_id => $contributor->id});
+    die("Cannot find record for $identifier") unless ($title);
+    print("Processing $type: $identifier\n");
 
-            foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="DC"]/mets:xmlData')) {
-                process_dc($c, $title, $record, $contributor);
-            }
-            foreach my $record ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="MARC"]/mets:xmlData')) {
-                warn "MARC record: $record\n";
-            }
+    my $md_type = $dmd->getAttribute('MDTYPE');
+    if ($md_type eq 'MARC') {
+        die("Can't yet deal with type $md_type");
+    }
+    elsif ($md_type eq 'DC') {
+        process_dc($c, $title, $record, $contributor);
+    }
+    else {
+        die("Don't know how to deal with MDTYPE $md_type in $file");
+    }
 
-        }
+}
 
-        # Issue records
-        elsif ($type eq 'issue') {
-            die("Ooops... not an issue")
-                unless ($mets->findvalue('/mets:mets/mets:structMap/mets:div/@TYPE') eq 'issue');
+# Process standard MARC records.
+sub process_marc {
+    my($c, $title, $record, $contributor) = @_;
 
-            # Get the dmdSec identifier
-            my $dmdid = $mets->findvalue('/mets:mets/mets:structMap/mets:div/@DMDID');
+    # TODO: we aren't going to add subject headings at the moment...
+    return 1;
 
-            # Get the parent identifier
-            my $parent_id = $mets->findvalue("descendant::mets:dmdSec[\@ID='$dmdid']/descendant::issueinfo:series")
-                or die("Can't get parent ID for $identifier");
+    my $mets = XML::LibXML::XPathContext->new($record);
+    $mets->registerNs('mets', 'http://www.loc.gov/METS/');
+    $mets->registerNs('marc', 'http://www.loc.gov/MARC21/slim');
 
-            my $sequence = $mets->findvalue(
-            '/mets:mets/mets:dmdSec/mets:mdWrap[@OTHERMDTYPE="issueinfo"]/mets:xmlData/issueinfo:issueinfo/issueinfo:sequence'
-            ) or die("Can't get sequence for $identifier (TODO: should not be fatal, assume null)");
-
-            # Find the title that the document belongs to.
-            my $title = $c->model('DB::Titles')->find({ institution_id => $contributor->id, identifier => $parent_id});
-            if (! $title) {
-                if ($pass == 1) {
-                    print("Delaying processing of $identifier ($label) until we have parent record $parent_id\n");
-                    push(@ARGV2, $file)
+    # Parse out the subject headings into thesaurus terms.
+    foreach my $marc ($mets->findnodes('/mets:mets/mets:dmdSec/mets:mdWrap[@MDTYPE="MARC"]/mets:xmlData')) {
+        foreach my $field (qw(600 610 611 630 648 650 651 653 654 655 656 657 658 662)) {
+            foreach my $subject ($mets->findnodes("descendant::marc:datafield[\@tag='$field']", $marc)) {
+                if ($subject->getAttribute('ind2') eq '6' || $subject->getAttribute('ind2' eq '9')) {
+                    print "RVM Subject in $field\n";
                 }
                 else {
-                    warn("Can't process issue $identifier ($label) yet: no parent record $parent_id");
+                    print "LCSH Subject in $field\n";
                 }
-                next;
             }
-
-            # Add to the documents table.
-            my $document = $c->model('DB::Documents')->update_or_create({
-                title_id => $title->id, 
-                identifier => $identifier,
-                sequence => $sequence,
-                label => $label
-            });
-
-            # Add the document pages
-            my $pg_sequence = 0;
-            foreach my $page ($mets->findnodes('/mets:mets/mets:structMap/mets:div/mets:div')) {
-                ++$pg_sequence;
-                my $type = $page->getAttribute('TYPE');
-                my $dmdid = $page->getAttribute('DMDID');
-                my $label = $page->getAttribute('LABEL');
-                die("Ooops... type for $pg_sequence should be page, but is $type") unless ($type eq 'page');
-
-                $c->model('DB::Pages')->update_or_create({
-                    document_id => $document->id,
-                    sequence => $pg_sequence,
-                    label => $label
-                });
-            }
-
-        }
-
-        else {
-            die("Don't know what to do with type '$type'");
         }
     }
 }
 
+
+# Process Dublin Core records. As each DC implementation is different, we
+# need to implement things differently depending on the contributor and
+# specific project.
 sub process_dc {
     my($c, $title, $record, $contributor) = @_;
 
