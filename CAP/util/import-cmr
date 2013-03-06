@@ -27,7 +27,8 @@ my @QUEUE = ();
 
 # Build the initial queue of files to process from the command line or stdin.
 if (@ARGV) {
-    my @NEXT_QUEUE = @ARGV;
+    print "ARGV\n";
+    @NEXT_QUEUE = @ARGV;
 }
 else {
     while (my $file = <STDIN>) {
@@ -68,7 +69,7 @@ for (my $pass = 1; $pass <= $passes; ++$pass) {
 foreach my $file (@NEXT_QUEUE) {
     print("Failed to process all records in $file\n");
 }
-printf("Record(s) from %d files were not processed\n") if (@NEXT_QUEUE);
+printf("Record(s) from %d files were not processed\n", int(@NEXT_QUEUE)) if (@NEXT_QUEUE);
 exit(0);
 
 
