@@ -122,6 +122,9 @@ sub process {
         my $label = $record->findvalue($xpc_label);
         my $seq = $record->findvalue($xpc_seq);
 
+        # Convert obsolete types to modern ones
+        $type = 'document' if ($type eq 'monograph');
+
         # Look up the contributor ID
         my $contributor_id = contributor_lookup($c, $contributor);
 
