@@ -49,14 +49,17 @@ for (my $pass = 1; $pass <= $passes; ++$pass) {
         exit 0;
     }
 
-    printf("Running pass %d of %d with %d files\n", $pass, $passes, int(@QUEUE));
+    printf("Starting pass %d of %d with %d files\n", $pass, $passes, int(@QUEUE));
 
     # Process the queue. Put any files that are not fully processed back
     # on to the next queue.
+    my $count = 0;
+    my $queue_size = int(@QUEUE);
+    $| = 1;
     while(my $file = shift(@QUEUE)) {
         die("No such file: $file\n") unless (-f $file);
+        printf("Pass: %d of %d; file: %d of %d (%d deferred)\r", $pass, $passes, ++$count, $queue_size, int(@NEXT_QUEUE));
         if (! process($c, $file, $portals)) {
-            printf("Adding %s to queue for pass %d\n", $file, $pass + 1);
             push(@NEXT_QUEUE, $file);
         }
     }
@@ -65,6 +68,7 @@ for (my $pass = 1; $pass <= $passes; ++$pass) {
 foreach my $file (@NEXT_QUEUE) {
     print("Failed to process all records in $file\n");
 }
+printf("Record(s) from %d files were not processed\n") if (@NEXT_QUEUE);
 exit(0);
 
 
@@ -138,6 +142,7 @@ sub process {
                     });
                 }
                 else {
+                    print("No parent series $pkey yet for $key\n");
                     $all_ok = 0;
                 }
             }
@@ -163,6 +168,7 @@ sub process {
                 });
             }
             else {
+                print("Did not find parent doucment $pkey for page $key\n");
                 $all_ok = 0;
             }
         }
