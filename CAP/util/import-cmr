@@ -115,15 +115,16 @@ sub process {
 
     # Process each record within the recordset.
     foreach my $record ($xpc->findnodes($xpc_record)) {
-        my $type = $record->findvalue($xpc_type);
-        my $contributor = $record->findvalue($xpc_contributor);
-        my $key = $record->findvalue($xpc_key);
-        my $pkey = $record->findvalue($xpc_pkey);
-        my $label = $record->findvalue($xpc_label);
-        my $seq = $record->findvalue($xpc_seq);
+        my $type = $xpc->findvalue($xpc_type, $record);
+        my $contributor = $xpc->findvalue($xpc_contributor, $record);
+        my $key = $xpc->findvalue($xpc_key, $record);
+        my $pkey = $xpc->findvalue($xpc_pkey, $record);
+        my $label = $xpc->findvalue($xpc_label, $record);
+        my $seq = $xpc->findvalue($xpc_seq, $record);
 
         # Convert obsolete types to modern ones
         $type = 'document' if ($type eq 'monograph');
+        $type = 'document' if ($type eq 'issue');
 
         # Look up the contributor ID
         my $contributor_id = contributor_lookup($c, $contributor);
@@ -162,7 +163,7 @@ sub process {
             }
         }
         elsif ($type eq 'page') {
-            die("Page $key is missing a sequence") unless ($seq);
+            die("Page $key in $file is missing a sequence") unless ($seq);
             my $document = $c->model('DB::Documents')->by_identifier($pkey, $contributor_id);
             if ($document) {
                 my $page = $c->model('DB::Pages')->update_or_create({
