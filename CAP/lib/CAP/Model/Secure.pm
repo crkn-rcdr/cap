@@ -41,7 +41,7 @@ method routeRequest ($c) {
     # non-secure, or if it can be either.
     my $secure_action = 0;
     my $action_path = $c->action->private_path;
-    foreach my $secure_path (qw( /user/ /admin/ /reports/ /institution/ )) {
+    foreach my $secure_path (qw( /user/ /admin/ /content/ /reports/ /institution/ )) {
         if (substr($action_path, 0, length($secure_path)) eq $secure_path) {
             $secure_action = 1;
             last;

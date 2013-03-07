@@ -335,7 +335,18 @@ __PACKAGE__->many_to_many(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:04UdRQvi9BegNIZr2H1atQ
 
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+=head2 name([$lang])
+
+Returns the name of the portal.
+
+=cut
+sub name {
+    my($self, $lang) = @_;
+    return '[[UNDEFINED]]' unless ($lang);
+    my $result = $self->search_related('portal_strings', { lang => $lang, label => 'name' })->first;
+    return $result->string if ($result);
+    return '[[UNDEFINED]]';
+}
 
 sub hosts {
     my $self = shift;
