@@ -125,6 +125,7 @@ sub process {
         # Convert obsolete types to modern ones
         $type = 'document' if ($type eq 'monograph');
         $type = 'document' if ($type eq 'issue');
+        $type = 'series'   if ($type eq 'serial');
 
         # Look up the contributor ID
         my $contributor_id = contributor_lookup($c, $contributor);
