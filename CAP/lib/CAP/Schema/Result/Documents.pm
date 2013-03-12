@@ -101,6 +101,22 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<title_id_2>
+
+=over 4
+
+=item * L</title_id>
+
+=item * L</identifier>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("title_id_2", ["title_id", "identifier"]);
+
 =head1 RELATIONS
 
 =head2 pages
@@ -133,8 +149,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jzVWfZECTP6C5Kbpfd0+8A
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-12 09:18:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4BPbAajpFRzmtE8E7aUMkQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
