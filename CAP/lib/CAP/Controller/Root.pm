@@ -24,6 +24,9 @@ sub auto :Private
 
     # Create a session if we don't already have one.
     $c->initialize_session;
+
+    # Initialize util class
+    $c->set_util;
     
     # Determine which portal to use and configure it.
     $c->set_portal;

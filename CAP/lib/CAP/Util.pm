@@ -1,7 +1,11 @@
 package CAP::Util;
 use strict;
 use warnings;
+use namespace::autoclean;
+use Moose;
+use MooseX::Method::Signatures;
 
+has 'c' => (is => 'ro', isa => 'CAP', required => 1);
 
 =head1 CAP::Util - General utility functions
 
@@ -13,11 +17,10 @@ This package is for general utility, helper and macro-type functions.
 
 =head2 build_entity($object)
 
-Build a hashrefh containing the column names and values of database $object.
+Build a hashref containing the column names and values of database $object.
 
 =cut
-sub build_entity {
-    my($object) = @_;
+method build_entity ($object) {
     my $entity = {};
     foreach my $column ($object->result_source->columns) {
         $entity->{$column} = $object->get_column($column);

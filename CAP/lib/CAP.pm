@@ -35,6 +35,7 @@ use Catalyst qw/
 
                 Portal
                 Institution
+                Util
                /;
 
 # Configure the application. 

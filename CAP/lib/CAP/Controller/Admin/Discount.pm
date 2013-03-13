@@ -123,7 +123,7 @@ sub edit_GET {
     }
 
     $c->stash(
-        entity => CAP::Util::build_entity($discount)
+        entity => $c->cap->build_entity($discount)
     );
 }
 
