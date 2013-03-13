@@ -120,7 +120,21 @@ sub process_dc_oopDebates {
     my($c, $title, $record, $contributor) = @_;
 
     # Construct a 3-level hierarchy based on the primary identifier field.
-    my $identifier = $record->findvalue('simpledc/dc:identifier[position() = 1]') or return 0;
+    my $identifier = "";
+    my $prime_minister = "";
+    my $session_date = $record->findvalue('simpledc/dc:coverage[position() = 1]');
+    foreach my $idfield ($record->findnodes('simpledc/dc:identifier')) {
+        my $value = $idfield->findvalue('.');
+        # The principal identifier
+        if ($value =~ /^\w{3}-\w{3}-\w{3}$/) {
+            $identifier = $value;
+        }
+        elsif ($value =~ /^PM:/) {
+            $prime_minister = substr($value, 3);
+        }
+    }
+    die("No identifier") unless $identifier;
+
     my($chamber, $parliament, $session) = split(/-/, $identifier);
     my $parl_no = int(substr($parliament, 1));
     my $session_no = int(substr($session, 1));
@@ -129,25 +143,25 @@ sub process_dc_oopDebates {
     if ($chamber eq 'HOC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-debates-en', '2-hoc', $parliament, $session ],
-            [ 'English', 'House of Commons', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
+            [ 'English', 'House of Commons', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session: %s (%s)', ordinal($session_no, 'en'), $session_date, $prime_minister)]
         );
     }
     elsif ($chamber eq 'CDC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-debates-fr', '2-cdc', $parliament, $session ],
-            [ 'Français', 'Chambre des communes', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
+            [ 'Français', 'Chambre des communes', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session : %s (%s)', ordinal($session_no, 'fr', 'f'), $session_date, $prime_minister)]
         );
     }
     elsif ($chamber eq 'SOC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-debates-en', '1-soc', $parliament, $session ],
-            [ 'English', 'Senate of Canada', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session', ordinal($session_no, 'en'))]
+            [ 'English', 'Senate', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session: %s', ordinal($session_no, 'en'), $session_date)]
         );
     }
     elsif ($chamber eq 'SDC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-debates-fr', '1-sdc', $parliament, $session ],
-            [ 'Français', 'Sénat du Canada', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session', ordinal($session_no, 'fr', 'f'))]
+            [ 'Français', 'Sénat', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session : %s', ordinal($session_no, 'fr', 'f'), $session_date)]
         );
     }
 
