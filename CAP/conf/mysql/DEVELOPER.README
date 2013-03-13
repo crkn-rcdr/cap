@@ -1,0 +1,22 @@
+We should eventually have a script to automate this, but for now:
+
+To create a database image for development, do the following:
+
+In MySQL:
+
+drop database if exists cap_core;
+drop database if exists cap;
+drop database if exists cap_log;
+
+
+Then run:
+
+./setup 
+mysql cap -u root -p < cap_developer.sql
+mysql cap -u root -p < cap_content.sql
+
+
+You will have a database that should have all of the required portal,
+institution, content, etc. tables populated. There will be one user
+account with username 'admin@c7a.ca' and password 'password'
+
