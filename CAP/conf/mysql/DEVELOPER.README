@@ -20,3 +20,7 @@ You will have a database that should have all of the required portal,
 institution, content, etc. tables populated. There will be one user
 account with username 'admin@c7a.ca' and password 'password'
 
+NOTE: you only need to do this if your database is out of date. It is not
+necessary to do this on every update. This procedure will (obviously)
+destroy any existing data in your database, so do a dump of any exisitng
+data you may want to keep.
