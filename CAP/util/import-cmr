@@ -75,6 +75,7 @@ exit(0);
 
 sub process {
     my($c, $file, $portals) = @_;
+    my $deferred_newline = 0;
     my $all_ok = 1;
 
     # Parse the file and create an xpath context
@@ -181,7 +182,8 @@ sub process {
                 });
             }
             else {
-                print("Did not find parent doucment $pkey for page $key\n");
+                print("Did not find parent doucment $pkey for page $key\r");
+                $deferred_newline = 1;
                 $all_ok = 0;
             }
         }
@@ -190,6 +192,7 @@ sub process {
         }
     }
 
+    print("\n") if ($deferred_newline);
     return $all_ok;
 }
 
