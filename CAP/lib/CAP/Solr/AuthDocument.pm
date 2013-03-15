@@ -120,42 +120,28 @@ method authorize ($portal, $user, $institution) {
         }
     }
 
-    #warn "All pages is " . $self->auth->all_pages;
-    #warn "View all is " . $self->auth->view_all;
-    #warn "View part is " . $self->auth->view_part;
-    #warn "Download is " . $self->auth->download;
-    #warn "Resize is " . $self->auth->resize;
-    #warn "Pages is " . join(" ", @{$self->auth->pages});
-    #warn "Page 1 is " . $self->auth->page(1);
-    #warn "Page 30 is " . $self->auth->page(30);
-
     return;
 
 }
 
-around 'derivative_request' => sub {
+around 'validate_derivative' => sub {
     my $orig = shift;
     my $self = shift;
-    my ($content_config, $derivative_config, $seq, $filename, $size, $rotate, $format) = @_;
+    my ($seq, $size, $default_size) = @_;
 
-    my $child = $self->child($seq);
-    my $size_str = $derivative_config->{size}->{$size} || $derivative_config->{default_size};
     return [403, "Not authenticated."] unless $self->auth;
-    return [400, $self->key . " does not have page at seq $seq."] unless $child;
     return [403, "Not allowed to view this page."] unless $self->auth->page($seq);
-    return [400, $child->key . " does not have a canonical master."] unless $child->canonicalMaster;
-    return [403, "Not allowed to resize this page."] unless ($size_str eq $derivative_config->{default_size} || $self->auth->resize);
+    return [403, "Not allowed to resize this page."] unless ($size eq $default_size || $self->auth->resize);
 
     $self->$orig(@_);
 };
 
-around 'download_request' => sub {
+around 'validate_download' => sub {
     my $orig = shift;
     my $self = shift;
 
     return [403, "Not authenticated."] unless $self->auth;
     return [403, "Not allowed to download this resource."] unless $self->auth->download;
-    return [400, "Document " . $self->key . " does not have a canonical download."] unless $self->canonicalDownload;
 
     $self->$orig(@_);
 };

@@ -134,59 +134,16 @@ method canonical_label {
     return ($self->parent ? $self->parent->label . " : " : "") . $self->label;
 }
 
-method derivative_request (HashRef $content_config, HashRef $derivative_config, Int $seq, Str $filename, Str $size, Str $rotate, Str $format) {
+method validate_derivative (Int $seq, Str $size, Str $default_size) {
     my $child = $self->child($seq);
-    my $size_str = $derivative_config->{size}->{$size} || $derivative_config->{default_size};
-    my $rotate_angle = $derivative_config->{rotate}->{$rotate} || "0";
-
-    my $expires = $self->_expires();
-    my $from = $child->canonicalMaster;
-    my $signature = $self->_signature($content_config->{password}, $filename, $expires, $from, $size_str, $rotate_angle);
-
-    my $params = [
-        $self->_to_query('expires', $expires),
-        $self->_to_query('signature', $signature),
-        $self->_to_query('key', $content_config->{key}),
-        $self->_to_query('from', $from),
-        $self->_to_query('format', $format),
-        $self->_to_query('size', $size_str),
-        $self->_to_query('rotate', $rotate_angle),
-    ];
-
-    return [200, $self->_request_uri($content_config->{url}, $filename, $params)];
+    return [400, $self->key . " does not have page at seq $seq."] unless $child;
+    return [400, $child->key . " does not have a canonical master."] unless $child->canonicalMaster;
+    return [200, "OK"];
 }
 
-method download_request (HashRef $content_config) {
-    my $expires = $self->_expires();
-    my $filename = $self->canonicalDownload;
-    my $signature = $self->_signature($content_config->{password}, $filename, $expires, "", "", "");
-
-    my $params = [
-        $self->_to_query('expires', $expires),
-        $self->_to_query('signature', $signature),
-        $self->_to_query('key', $content_config->{key}),
-        $self->_to_query('file', $filename),
-    ];
-    
-    return [200, $self->_request_uri($content_config->{url}, $filename, $params)];
-}
-
-method _expires {
-    my $time = time() + 90000; # 25 hours in the future
-    $time = $time - ($time % 86400); # normalize the expiry time to the closest 24 hour period
-    return $time; # minimum 1 hour from now, maximum 25
-}
-
-method _signature (Str $password, Str $filename, Str $expires, Str $from, Str $size, Str $rotate) {
-    return sha1_hex("$password\n$filename\n$expires\n$from\n$size\n$rotate");
-}
-
-method _to_query (Str $name, $value) {
-    return $name . '=' . uri_escape($value);
-}
-
-method _request_uri (Str $content_url, Str $filename, ArrayRef $params) {
-    return join('?', join('/', $content_url, $filename), join('&', @{$params}))
+method validate_download {
+    return [400, "Document " . $self->key . " does not have a canonical download."] unless $self->canonicalDownload;
+    return [200, "OK"];
 }
 
 # Convenient accessors for fields used internally by cap so we can

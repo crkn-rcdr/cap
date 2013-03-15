@@ -25,7 +25,7 @@ sub get_page_uri :Local :Args(2) {
         $doc->authorize($c->portal, $c->user, $c->institution);
         my $size = $c->req->params->{s} || "1";
         my $rotate = $c->req->params->{r} || "0";
-        $result = $doc->derivative_request($c->config->{content}, $c->config->{derivative}, $seq, "file.jpg", $size, $rotate, "jpg");
+        $result = $c->cap->derivative_request($doc, $seq, "file.jpg", $size, $rotate, "jpg");
     }
 
     if ($c->req->params->{redirect}) {
