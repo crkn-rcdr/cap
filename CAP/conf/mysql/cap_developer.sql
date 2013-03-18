@@ -1179,7 +1179,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin@c7ca.ca','f08c37500dbca982f1fb5a85d702d2c126ecf8e7kqY+9t+5Yq','Administrator','',1,1,'2013-01-01 05:00:00',1363179035,0,'permanent',NULL,0);
+INSERT INTO `user` VALUES (1,'admin@c7a.ca','f08c37500dbca982f1fb5a85d702d2c126ecf8e7kqY+9t+5Yq','Administrator','',1,1,'2013-01-01 05:00:00',1363179035,0,'permanent',NULL,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
