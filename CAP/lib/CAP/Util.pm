@@ -53,9 +53,14 @@ method derivative_request (CAP::Solr::Document $document, Int $seq, Str $filenam
             format => $format,
             size => $size_str,
             rotate => $rotate_angle,
+            portalid => $self->c->portal->id,
+            userid => defined ($self->c->user) ? $self->c->user->id : undef,
+            institutionid => defined($self->c->institution) ? $self->c->institution->id : undef,
+            sessionid => $self->c->sessionid,
+            sessioncount => $self->c->session->{count},
         };
         $data->{signature} = $self->_request_signature($data);
-        my %query_params = slice_def($data, qw/expires signature key from format size rotate/);
+        my %query_params = slice_def($data, qw/expires signature key from format size rotate portalid userid institutionid sessionid sessioncount/);
         $response->[1] = $self->_request_uri($config->{url}, $data->{file}, \%query_params);
     }
     return $response;
@@ -76,9 +81,14 @@ method download_request (CAP::Solr::Document $document) {
             file => $document->canonicalDownload,
             key => $config->{key},
             password => $config->{password},
+            portalid => $self->c->portal->id,
+            userid => defined ($self->c->user) ? $self->c->user->id : undef,
+            institutionid => defined($self->c->institution) ? $self->c->institution->id : undef,
+            sessionid => $self->c->sessionid,
+            sessioncount => $self->c->session->{count},
         };
         $data->{signature} = $self->_request_signature($data);
-        my %query_params = slice_def($data, qw/expires signature key file/);
+        my %query_params = slice_def($data, qw/expires signature key file portalid userid institutionid sessionid sessioncount/);
         $response->[1] = $self->_request_uri($config->{url}, $data->{file}, \%query_params);
     }
     return $response;
@@ -91,7 +101,7 @@ method _request_expires {
 }
 
 method _request_signature (HashRef $signature_data) {
-    my @keys = qw/password file expires from size rotate/;
+    my @keys = qw/password file expires from size rotate portalid userid institutionid sessionid sessioncount/;
     return sha1_hex(join("\n", map { defined($_) ? $_ : '' } @{$signature_data}{@keys}));
 }
 
