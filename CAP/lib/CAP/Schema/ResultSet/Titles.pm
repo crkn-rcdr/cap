@@ -10,54 +10,148 @@ use base 'DBIx::Class::ResultSet';
 
 =cut
 
-=head2 unassigned
 
-Returns the set of all titles for the supplied institution that are not assigned to any portal.
+=head2 institutions
+
+Returns a list of institutions, sorted by name, which own one or more titles.
 
 =cut
-sub unassigned {
-    my($self, $institution_id) = @_;
-    my $result = $self->search(
-        { institution_id => $institution_id, portal_id => { '=' => undef } },
-        { join => 'portals_titles' }
-    );
+sub institutions {
+    my($self) = @_;
+    my @institutions;
+
+    my $result = $self->search({}, {
+        select => [ 'institution_id' ],
+        distinct => 1,
+        join => 'institution_id',
+        order_by => 'institution_id.name'
+    });
+    while (my $institution = $result->next) {
+        push(@institutions, $institution->institution_id);
+    }
+    
+    return @institutions;
+}
+
+
+=head2 titles_for_institution ($institution, %params)
+
+Returns all titles belonging to $institution. %params affects the subset
+and/or page returned (TBD).
+
+=cut
+sub titles_for_institution {
+    my($self, $institution, %params) = @_;
+    my $query = { 'me.institution_id' => $institution->id };
+    my $limit = {};
+    my $page = $params{page} || undef;
+    my $rows = $params{rows} || 50;
+    my $portal = $params{portal} || undef;
+    my $hosted = $params{hosted};
+
+    # Return a paged result set
+    if ($page) {
+        $limit->{page} = $page;
+        $limit->{rows} = $rows;
+    }
+
+    # A portal and the unassigned flag are incompatible with one
+    # another. The unassigned flag takes precedence.
+    if ($params{unassigned}) {
+        $query->{portal_id} = { '=' => undef };
+        $limit->{join} = 'portals_titles';
+    }
+    elsif ($portal) {
+        $query->{'portals_titles.portal_id'} = $portal->id;
+        if (defined($hosted)) {
+            $query->{'portals_titles.hosted'} = $hosted;
+        }
+        $limit->{join} = 'portals_titles';
+    }
+
+    return $self->search($query, $limit);
+}
+
+
+sub titles_for_portal {
+    my($self, $portal, %params) = @_;
+    my $page = $params{page} || undef;
+    my $rows = $params{rows} || 50;
+    my $institution = $params{institution} || undef;
+    my $query = { 'portals_titles.portal_id' => $portal->id };
+    my $limit = { join => 'portals_titles' };
+    my $hosted = $params{hosted};
+
+    # Return a paged result set
+    if ($page) {
+        $limit->{page} = $page;
+        $limit->{rows} = $rows;
+    }
+    
+    # Limit by indexed/hosted
+    if (defined($hosted)) {
+        $query->{'portals_titles.hosted'} = $hosted;
+    }
+
+    # Limit by institution
+    if (defined($institution)) {
+        $query->{'me.institution_id'} = $institution->id;
+    }
+
+    return $self->search($query, $limit);
+}
+
+=head2 titles_for_portal ($portal [,$page [,$rows]])
+
+Like titles_for_institution() but returns titles that are present in $portal.
+
+=cut
+sub titles_for_portal_2 {
+    my($self, $portal, $page, $rows) = @_;
+    my $result;
+    $rows = 50 unless ($rows);
+
+    if ($page) {
+        $result = $self->search({ 'portals_titles.portal_id' => $portal->id }, { join => 'portals_titles', page => $page, rows => $rows });
+    }
+    else {
+        $result = $self->search({ 'portals_titles.portal_id' => $portal->id }, { join => 'portals_titles' });
+    }
+
     return $result;
 }
 
-=head2 count_by_institution
 
-Return a list of institutions that own one or more titles along with the
-total number of titles and the number of titles not assigned to any
-portals.
+##################
 
-[ { institution => $inst, titles => $titles, unassigned => $unassigned }, ... ]
 
-=cut
-sub counts_by_institution {
-    my($self) = @_;
-    my @counts = ();
+sub counts_for_portal {
+    my($self, $portal) = @_;
 
-    # A set of institutions with the corresponding number of titles
-    # belonging to them, by title count in descending order.
-    my $institutions = $self->search(
-        {},
+    my $result = $self->search(
         {
-            select => [ 'institution_id', { count => 'id', -as => 'title_count' } ],
-            as     => [ 'institution_id', 'title_count' ],
+            'portals_titles.portal_id' => $portal->id
+        },
+        {
+            select   => [ 'institution_id', { count => 'id', -as => 'title_count' } ],
+            as       => [ 'institution_id', 'titles' ],
             group_by => [ 'institution_id' ],
-            order_by => [ { -desc => 'title_count' } ]
+            order_by => [ { -desc => 'title_count' } ],
+            join     => 'portals_titles'
         }
     );
 
-    while (my $i = $institutions->next) {
-        push(@counts, {
-            institution => $i->institution_id,
-            titles => $i->get_column('title_count'),
-            unassigned => $self->unassigned($i->institution_id->id)->count
+    my @institutions = ();
+    while (my $result = $result->next) {
+        push(@institutions, {
+            institution => $result->institution_id,
+            titles => $result->get_column('titles')
         });
     }
-
-    return \@counts;
+    return \@institutions;
 }
+
+
+
 
 1;

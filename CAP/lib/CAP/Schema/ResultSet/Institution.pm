@@ -5,6 +5,18 @@ use warnings;
 use base 'DBIx::Class::ResultSet';
 use Text::Trim qw/trim/;
 
+=head2 list
+
+Returns a list of all institutions. Will return an array or arryref, depending on the calling context.
+
+=cut
+sub list {
+    my($self) = @_;
+    my @institutions = $self->search({})->all;
+    return @institutions if (wantarray);
+    return \@institutions;
+}
+
 # builds a labels-like hash of contributor labels from institutions with contributor codes
 sub get_contributors {
     my ($self, $lang, $portal) = @_;
