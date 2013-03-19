@@ -132,6 +132,17 @@ method rewrite_query (HashRef $params) {
 
     foreach my $field (@field_params) {
         if ($params->{$field}) {
+            # Rewrite the param if it's an ARRAY ref
+            if (ref($params->{$field}) eq 'ARRAY') {
+                my $re = '';
+                foreach my $p (@{$params->{$field}}) {
+                    if ($p) {
+                        $re .= $re ? (' ' . $p) : $p;
+                    }
+                }
+                $params->{$field} = $re;
+            }
+            
             my @value = ();
 
             while ($params->{$field} =~ /
