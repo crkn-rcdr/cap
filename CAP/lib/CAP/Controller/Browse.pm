@@ -8,6 +8,8 @@ BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 sub index :Path :Args(0) {
     my($self, $c) = @_;
 
+    delete $c->session->{$c->portal->id}->{search};
+
     $c->stash(
         browse => $c->model('DB::Terms')->top_level_terms($c->portal),
     );
@@ -31,6 +33,8 @@ sub browse :Path :Args(1) {
         browse_path => $c->model('DB::Terms')->path($id),
     );
 
+    delete $c->session->{$c->portal->id}->{search};
+    
     # If there are no narrower terms, redirect to a search for the current
     # term.
     if (@{$c->stash->{'browse'}} == 0) {
