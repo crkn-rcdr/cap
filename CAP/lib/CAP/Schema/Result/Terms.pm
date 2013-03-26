@@ -122,4 +122,14 @@ __PACKAGE__->many_to_many("title_ids", "titles_terms", "title_id");
 
 __PACKAGE__->many_to_many( 'titles', 'titles_terms', 'title_id' );
 
+sub has_children {
+    my($self) = @_;
+    return $self->result_source->resultset->search({ parent => $self->id })->count() > 0;
+}
+
+sub first_identifier {
+    my($self) = @_;
+    return $self->titles->first()->identifier;
+}
+
 1;

@@ -10,8 +10,10 @@ sub index :Path :Args(0) {
 
     delete $c->session->{$c->portal->id}->{search};
 
+    my @tree = $c->model('DB::Terms')->term_tree($c->portal);
     $c->stash(
-        browse => $c->model('DB::Terms')->top_level_terms($c->portal),
+        browse => \@tree,
+        id_prefix => "oop."
     );
     return 1;
 }
@@ -22,7 +24,7 @@ sub browse :Path :Args(1) {
     my $terms = $c->model('DB::Terms')->narrower_terms($c->portal, $id);
     my $title_urls = {};
     foreach my $term (@{$terms}) {
-        if ($term->get_column('count') == 1 && !$c->model('DB::Terms')->term_has_children($term->id)) {
+        if ($term->get_column('count') == 1 && !$term->has_children()) {
             # FIXME: Hey you've hardcoded the contributor code here!!
             $title_urls->{$term->id} = $c->uri_for_action('view/key', "oop." . $term->titles->first()->identifier)->as_string;
         }

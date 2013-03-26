@@ -59,7 +59,6 @@ sub auto :Private
         contributors => $c->model('DB::Institution')->get_contributors($c->stash->{lang}, $c->portal),
         languages    => $c->model('DB::Language')->get_labels($c->stash->{lang}),
         media        => $c->model('DB::MediaType')->get_labels($c->stash->{lang}),
-        top_level_terms => $c->model('DB::Terms')->top_level_terms($c->portal),
     );
 
     # If this is an anonymous request, check for a persistence token and,
@@ -170,6 +169,15 @@ sub index :Path('') Args(0)
         } else {
             $c->message({ type => "success", message => "anonymous_prod" });
         }
+    }
+
+    # TODO: figure out a better solution than hardcoding this
+    if ($c->portal->id eq 'parl') {
+        my @tree = $c->model('DB::Terms')->term_tree($c->portal);
+        $c->stash(
+            browse => \@tree,
+            id_prefix => "oop.",
+        );
     }
 
     $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->portal->id, "frontpage");

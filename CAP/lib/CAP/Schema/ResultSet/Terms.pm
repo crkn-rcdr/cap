@@ -3,6 +3,7 @@ package CAP::Schema::ResultSet::Terms;
 use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';
+use Tree::Simple 'use_weak_refs';
 use utf8;
 
 =head2 create_hierarchy($self, \@keys, \@terms)
@@ -123,6 +124,34 @@ sub narrower_terms {
     return $list;
 }
 
+sub term_tree {
+    my($self, $portal) = @_;
+    my @terms = $self->search(
+        { 'portals_titles.portal_id' => $portal->id },
+        {   select   => [ 'me.id', 'parent', 'sortkey', 'term', 'title_id.identifier', { count => 'me.id' } ],
+            as       => [ 'id', 'parent', 'sortkey', 'term', 'identifier', 'count' ],
+            join     => { 'titles_terms' => { 'title_id' =>  'portals_titles' }},
+            group_by => [ 'me.id' ],
+            order_by => { -asc => 'sortkey' },
+        }
+    )->all();
+
+    my %index = ();
+    my @top_level = ();
+    foreach my $term (@terms) {
+        unless (exists $index{$term->parent}) { $index{$term->parent} = new Tree::Simple(0); }
+        if (exists $index{$term->id}) {
+            $index{$term->id}->setNodeValue($term);
+            $index{$term->parent}->addChild($index{$term->id});
+        } else {
+            $index{$term->id} = new Tree::Simple($term, $index{$term->parent});
+        }
+        unless (defined $term->parent) { push @top_level, $index{$term->id}; }
+    }
+
+    return @top_level;
+}
+
 sub path {
     my($self, $id) = @_;
     my $path = [];
@@ -192,11 +221,6 @@ sub add_term {
         }
     }
 
-}
-
-sub term_has_children {
-    my($self, $id) = @_;
-    return $self->search({ parent => $id })->count() > 0;
 }
 
 
