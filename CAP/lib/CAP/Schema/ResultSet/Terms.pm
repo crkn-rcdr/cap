@@ -139,10 +139,12 @@ sub term_tree {
     my %index = ();
     my @top_level = ();
     foreach my $term (@terms) {
-        unless (exists $index{$term->parent}) { $index{$term->parent} = new Tree::Simple(0); }
+        if (defined $term->parent) {
+            unless (exists $index{$term->parent}) { $index{$term->parent} = new Tree::Simple(0); }
+        }
         if (exists $index{$term->id}) {
             $index{$term->id}->setNodeValue($term);
-            $index{$term->parent}->addChild($index{$term->id});
+            if (defined $term->parent) { $index{$term->parent}->addChild($index{$term->id}); }
         } else {
             $index{$term->id} = new Tree::Simple($term, $index{$term->parent});
         }
