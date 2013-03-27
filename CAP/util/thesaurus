@@ -140,33 +140,35 @@ sub process_dc_oopDebates {
     my $session_no = int(substr($session, 1));
     my @thesaurus_ids;
 
-    if ($chamber eq 'HOC') {
+    if ($chamber eq 'HOC' || $chamber eq 'CCC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-debates-en', '2-hoc', $parliament, $session ],
             [ 'English', 'House of Commons', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session: %s (%s)', ordinal($session_no, 'en'), $session_date, $prime_minister)]
         );
+        $c->model('DB::TitlesTerms')->add_terms($title, @thesaurus_ids);
     }
-    elsif ($chamber eq 'CDC') {
+    if ($chamber eq 'CDC' || $chamber eq 'CCC') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-debates-fr', '2-cdc', $parliament, $session ],
             [ 'Français', 'Chambre des communes', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session : %s (%s)', ordinal($session_no, 'fr', 'f'), $session_date, $prime_minister)]
         );
+        $c->model('DB::TitlesTerms')->add_terms($title, @thesaurus_ids);
     }
-    elsif ($chamber eq 'SOC') {
+    if ($chamber eq 'SOC' || $chamber eq 'SSS') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-debates-en', '1-soc', $parliament, $session ],
             [ 'English', 'Senate', sprintf('%s Parliament', ordinal($parl_no, 'en')), sprintf('%s Session: %s', ordinal($session_no, 'en'), $session_date)]
         );
+        $c->model('DB::TitlesTerms')->add_terms($title, @thesaurus_ids);
     }
-    elsif ($chamber eq 'SDC') {
+    if ($chamber eq 'SDC' || $chamber eq 'SSS') {
         @thesaurus_ids = $c->model('DB::Terms')->create_hierarchy(
             [ 'oop-debates-fr', '1-sdc', $parliament, $session ],
             [ 'Français', 'Sénat', sprintf('%s Législature', ordinal($parl_no, 'fr', 'f')), sprintf('%s Session : %s', ordinal($session_no, 'fr', 'f'), $session_date)]
         );
+        $c->model('DB::TitlesTerms')->add_terms($title, @thesaurus_ids);
     }
 
-    # Add all terms to this title.
-    $c->model('DB::TitlesTerms')->add_terms($title, @thesaurus_ids);
 }
 
 sub ordinal {
