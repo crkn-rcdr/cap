@@ -7,26 +7,7 @@ use base 'DBIx::Class::Row';
 use POSIX qw(strftime);
 
 
-sub new_subscription
-{
-    ## inserts new row into subscriprion table
-    my ($self, $c, $promo, $amount, $trname, $rcpt_amt, $processor) = @_;
 
-    my $userid =  $c->user->id;
-    
-    my $create = $self->create({
-        completed =>   undef,
-        user_id   =>   $userid,
-        promo     =>   $promo,
-        amount    =>   $amount,
-        rcpt_name =>   $trname,
-        rcpt_amt  =>   $rcpt_amt,
-	processor =>   $processor
-    });
-
-    # Should this return a boolean based on whether the create worked?
-    return $create;
-}
 
 
 sub get_row
@@ -111,25 +92,6 @@ sub confirm_subscription
 
 
 
-sub add_receipt
-{
-    # updates receipt information
-    my($self,$user_id,$rcpt_amt,$rcpt_name,$rcpt_no) = @_;
-
-    my $resultset = $self->user_id_resultset($user_id);
-
-    my $update =  $resultset->update(
-                                {
-                                   
-                                    recpt_amt   => $rcpt_amt,
-                                    recpt_name  => $rcpt_name,
-                                    recpt_no    => $rcpt_no
-                                  
-                                }     
-                             );    
-    return $update;
-
-}
 
 sub existing_request_in_progress
 {

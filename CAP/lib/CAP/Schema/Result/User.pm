@@ -409,33 +409,9 @@ sub subscription_expires {
 }
 
 
-# TODO: the next 5 subroutines reference the old, one portal subscription
-# model. They need to be removed and replaced in code + templates with
-# references to new methods.
-sub has_active_subscription {
-    my $self = shift;
-    return ($self->subexpires && ($self->subexpires->epoch() >= time)) ? 1 : 0;
-}
 
-sub subscription_within_warning {
-    my ($self, $days) = @_;
-    return ($self->subexpires && ($self->subexpires->epoch() < (time + $days * 86400))) ? 1 : 0;
-}
 
-sub has_expired_subscription {
-    my $self = shift;
-    return ($self->subexpires && ($self->subexpires->epoch() < time)) ? 1 : 0;
-}
 
-sub has_class {
-    my $self = shift; my $name = shift;
-    return defined $name ? $self->class eq $name : defined $self->class;
-}
-
-sub has_permanent_subscription {
-    my $self = shift;
-    return $self->has_class('permanent');
-}
 
 sub set_roles {
     my ($self, $on_roles, @all_roles) = @_;

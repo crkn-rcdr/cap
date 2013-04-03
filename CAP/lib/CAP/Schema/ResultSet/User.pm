@@ -131,8 +131,7 @@ sub validate_token
 sub has_active_subscription
 {
     my($self, $id) = @_;
-    my $now = strftime("%Y-%m-%d %H:%M:%S", localtime);
-    return $self->search({ id => $id, subexpires => { '>=', $now } })->count;
+    return $self->search({ id => $id, active => 1 })->count;
 }
 
 sub subscribers
@@ -143,65 +142,7 @@ sub subscribers
 }
 
 
-sub get_user_class {
 
-    my($self, $id) = @_;
-    my $get_class =  $self->search(
-                                {
-                         
-                                    id => $id
-                                  
-                                }           
-                             );
-    my $result = $get_class->next;
-
-    return $result->class;
-
-}
-
-# Number of active trial subscriptions
-sub active_trials {
-    my($self) = @_;
-    return $self->search({
-        active    => 1,
-        confirmed => 1,
-        class     => 'trial',
-        subexpires   => { '>=', strftime("%Y-%m-%d %H:%M:%S", localtime)}
-    })->count;
-}
-
-# Number of expired trial subscriptions
-sub expired_trials {
-    my($self) = @_;
-    return $self->search({
-        active    => 1,
-        confirmed => 1,
-        class     => 'trial',
-        subexpires   => { '<', strftime("%Y-%m-%d %H:%M:%S", localtime)}
-    })->count;
-}
-
-# Number of active paid subscriptions
-sub active_subscriptions {
-    my($self) = @_;
-    return $self->search({
-        active    => 1,
-        confirmed => 1,
-        class     => 'paid',
-        subexpires   => { '>=', strftime("%Y-%m-%d %H:%M:%S", localtime)}
-    })->count;
-}
-
-# Number of expired paid subscriptions
-sub expired_subscriptions {
-    my($self) = @_;
-    return $self->search({
-        active    => 1,
-        confirmed => 1,
-        class     => 'paid',
-        subexpires   => { '<', strftime("%Y-%m-%d %H:%M:%S", localtime)}
-    })->count;
-}
 
 # Number of unconfirmed user accounts
 sub unconfirmed_accounts {
@@ -245,8 +186,8 @@ sub requests {
         { 'request_logs.id' => { '!=' => undef } },
         {
             join => 'request_logs',
-            select => ['id', 'name', 'class', { count => { distinct => 'request_logs.session' }, '-as' => 'sessions'}, { count => 'me.id', '-as' => 'requests' }],
-            as => ['id', 'name', 'class', 'sessions', 'requests'],
+            select => ['id', 'name', { count => { distinct => 'request_logs.session' }, '-as' => 'sessions'}, { count => 'me.id', '-as' => 'requests' }],
+            as => ['id', 'name', 'sessions', 'requests'],
             group_by => ['me.id'],
             order_by => 'sessions desc'
         }
@@ -263,7 +204,6 @@ sub next_unsent_reminder {
 
     my $expiring = $self->search ({
         subexpires   => { '<=' => $from_date, '>=' => $now },
-        class        => { '!=' => 'permanent' },
         active       => 1,
         remindersent => 0,
         confirmed    => 1,

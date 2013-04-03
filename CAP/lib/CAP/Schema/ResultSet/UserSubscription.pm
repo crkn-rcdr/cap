@@ -94,6 +94,16 @@ sub active_subscriptions {
     return $self->search({ expires => { '>=' => $now }});
 }
 
+
+sub expired_subscriptions {
+    my($self) = @_;
+    my $date = new Date::Manip::Date;
+    $date->parse('now');
+    my $now = $date->printf("%Y-%m-%d %T");
+    return $self->search({ expires => { '<' => $now }});
+ }
+
+
 sub next_unsent_reminder {
     my($self, $from_date, $now) = @_;
 
