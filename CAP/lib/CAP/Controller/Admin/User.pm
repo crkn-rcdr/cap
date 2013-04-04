@@ -293,9 +293,6 @@ sub _build_entity {
         confirmed => $user->confirmed,
         active => $user->active,
         lastseen => $user->lastseen,
-        class => $user->class,
-        subexpires => $user->subexpires . "", # Coerce into an integer
-        subscriber => $user->has_active_subscription,
         roles => $roles,
     };
 }
