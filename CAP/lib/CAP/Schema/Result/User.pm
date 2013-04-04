@@ -99,25 +99,6 @@ __PACKAGE__->table("user");
   default_value: 0
   is_nullable: 0
 
-=head2 class
-
-  data_type: 'enum'
-  default_value: 'basic'
-  extra: {list => ["basic","trial","paid","permanent"]}
-  is_nullable: 0
-
-=head2 subexpires
-
-  data_type: 'datetime'
-  datetime_undef_if_invalid: 1
-  is_nullable: 1
-
-=head2 remindersent
-
-  data_type: 'tinyint'
-  default_value: 0
-  is_nullable: 1
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -146,21 +127,6 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 0 },
   "credits",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
-  "class",
-  {
-    data_type => "enum",
-    default_value => "basic",
-    extra => { list => ["basic", "trial", "paid", "permanent"] },
-    is_nullable => 0,
-  },
-  "subexpires",
-  {
-    data_type => "datetime",
-    datetime_undef_if_invalid => 1,
-    is_nullable => 1,
-  },
-  "remindersent",
-  { data_type => "tinyint", default_value => 0, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -232,21 +198,6 @@ Related object: L<CAP::Schema::Result::Payment>
 __PACKAGE__->has_many(
   "payments",
   "CAP::Schema::Result::Payment",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
-=head2 request_logs
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::RequestLog>
-
-=cut
-
-__PACKAGE__->has_many(
-  "request_logs",
-  "CAP::Schema::Result::RequestLog",
   { "foreign.user_id" => "self.id" },
   undef,
 );
@@ -337,8 +288,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rjOwnh20oxd+3S3QXukWNQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-04 09:18:55
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QUW/JdsGj8rBchPbMN5aUA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

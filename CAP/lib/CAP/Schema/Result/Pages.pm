@@ -93,22 +93,6 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
-=head1 UNIQUE CONSTRAINTS
-
-=head2 C<document_id_2>
-
-=over 4
-
-=item * L</document_id>
-
-=item * L</sequence>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("document_id_2", ["document_id", "sequence"]);
-
 =head1 RELATIONS
 
 =head2 document_id
@@ -126,8 +110,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vNiDrXCwQ7Zwbz1JDEUuTw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-21 08:46:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xaclScYeEoazjW4kJs8wHg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

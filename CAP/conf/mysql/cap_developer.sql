@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.24, for osx10.6 (i386)
 --
--- Host: localhost    Database: cap
+-- Host: localhost    Database: cap_skel
 -- ------------------------------------------------------
 -- Server version	5.5.24
 
@@ -14,28 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `collection`
---
-
-DROP TABLE IF EXISTS `collection`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `collection` (
-  `id` varchar(32) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `collection`
---
-
-LOCK TABLES `collection` WRITE;
-/*!40000 ALTER TABLE `collection` DISABLE KEYS */;
-/*!40000 ALTER TABLE `collection` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `contributor`
@@ -149,32 +127,6 @@ CREATE TABLE `discounts` (
 LOCK TABLES `discounts` WRITE;
 /*!40000 ALTER TABLE `discounts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discounts` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `document_collection`
---
-
-DROP TABLE IF EXISTS `document_collection`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `document_collection` (
-  `contributor` varchar(32) NOT NULL DEFAULT '',
-  `id` varchar(128) NOT NULL DEFAULT '',
-  `collection` varchar(32) NOT NULL DEFAULT '',
-  PRIMARY KEY (`contributor`,`id`,`collection`),
-  KEY `collection` (`collection`),
-  CONSTRAINT `document_collection_ibfk_1` FOREIGN KEY (`collection`) REFERENCES `collection` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `document_collection`
---
-
-LOCK TABLES `document_collection` WRITE;
-/*!40000 ALTER TABLE `document_collection` DISABLE KEYS */;
-/*!40000 ALTER TABLE `document_collection` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -583,34 +535,6 @@ CREATE TABLE `portal` (
 LOCK TABLES `portal` WRITE;
 /*!40000 ALTER TABLE `portal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `portal` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `portal_collection`
---
-
-DROP TABLE IF EXISTS `portal_collection`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `portal_collection` (
-  `portal_id` varchar(64) NOT NULL DEFAULT '',
-  `collection_id` varchar(32) NOT NULL DEFAULT '',
-  `hosted` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`portal_id`,`collection_id`),
-  KEY `portal_id` (`portal_id`),
-  KEY `collection_id` (`collection_id`),
-  CONSTRAINT `portal_collection_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `portal_collection_ibfk_2` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `portal_collection`
---
-
-LOCK TABLES `portal_collection` WRITE;
-/*!40000 ALTER TABLE `portal_collection` DISABLE KEYS */;
-/*!40000 ALTER TABLE `portal_collection` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1163,13 +1087,9 @@ CREATE TABLE `user` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `lastseen` int(11) NOT NULL,
   `credits` int(11) NOT NULL DEFAULT '0',
-  `class` enum('basic','trial','paid','permanent') NOT NULL DEFAULT 'basic',
-  `subexpires` datetime DEFAULT NULL,
-  `remindersent` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  KEY `token` (`token`),
-  KEY `remindersent` (`remindersent`)
+  KEY `token` (`token`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1179,7 +1099,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin@c7a.ca','f08c37500dbca982f1fb5a85d702d2c126ecf8e7kqY+9t+5Yq','Administrator','',1,1,'2013-01-01 05:00:00',1363179035,0,'permanent',NULL,0);
+INSERT INTO `user` VALUES (1,'admin@c7a.ca','f08c37500dbca982f1fb5a85d702d2c126ecf8e7kqY+9t+5Yq','Administrator','',1,1,'2013-01-01 05:00:00',1363179035,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1335,4 +1255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-13 10:21:56
+-- Dump completed on 2013-04-04  9:19:38

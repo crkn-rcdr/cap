@@ -42,6 +42,7 @@ __PACKAGE__->table("portal");
 =head2 id
 
   data_type: 'varchar'
+  default_value: (empty string)
   is_nullable: 0
   size: 64
 
@@ -79,7 +80,7 @@ __PACKAGE__->table("portal");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "varchar", is_nullable => 0, size => 64 },
+  { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
   "enabled",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "view_all",
@@ -162,21 +163,6 @@ Related object: L<CAP::Schema::Result::OutboundLink>
 __PACKAGE__->has_many(
   "outbound_links",
   "CAP::Schema::Result::OutboundLink",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 portal_collections
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::PortalCollection>
-
-=cut
-
-__PACKAGE__->has_many(
-  "portal_collections",
-  "CAP::Schema::Result::PortalCollection",
   { "foreign.portal_id" => "self.id" },
   undef,
 );
@@ -331,8 +317,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 15:07:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:04UdRQvi9BegNIZr2H1atQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-03 09:15:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vACgoTpmHnV/j1vNyAlXQQ
 
 
 =head2 name([$lang])
@@ -423,13 +409,13 @@ sub hosts_doc {
 
     # TODO: Collections are being deprecated; eventually, this will go
     # away.
-    foreach my $hosted ($self->search_related('portal_collections', { hosted => 1 })) {
-        foreach my $collection (@{$doc->record->collection}) {
-            if ($collection eq $hosted->collection_id->id) {
-                return 1;
-            }
-        }
-    }
+    #foreach my $hosted ($self->search_related('portal_collections', { hosted => 1 })) {
+    #    foreach my $collection (@{$doc->record->collection}) {
+    #        if ($collection eq $hosted->collection_id->id) {
+    #            return 1;
+    #        }
+    #    }
+    #}
 
     return 0;
 }
@@ -445,11 +431,11 @@ sub has_page {
 
 sub subset {
     my $self = shift;
-    my @result = $self->search_related('portal_collections')->get_column('collection_id')->all;
+    #my @result = $self->search_related('portal_collections')->get_column('collection_id')->all;
     my @subset = ();
-    foreach my $collection (@result) {
-        push(@subset, "collection:$collection");
-    }
+    #foreach my $collection (@result) {
+    #    push(@subset, "collection:$collection");
+    #}
 
     # TODO: eventually, this will be the only thing we need to return.
     push(@subset, "portal:" . $self->id);

@@ -1,12 +1,12 @@
 use utf8;
-package CAP::Schema::Result::RequestLog;
+package CAP::Schema::Result::Requests;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-CAP::Schema::Result::RequestLog
+CAP::Schema::Result::Requests
 
 =cut
 
@@ -31,11 +31,11 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<request_log>
+=head1 TABLE: C<requests>
 
 =cut
 
-__PACKAGE__->table("request_log");
+__PACKAGE__->table("requests");
 
 =head1 ACCESSORS
 
@@ -139,51 +139,12 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
-=head1 RELATIONS
 
-=head2 institution_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::Institution>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "institution_id",
-  "CAP::Schema::Result::Institution",
-  { id => "institution_id" },
-);
-
-=head2 search_logs
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::SearchLog>
-
-=cut
-
-__PACKAGE__->has_many(
-  "search_logs",
-  "CAP::Schema::Result::SearchLog",
-  { "foreign.request_id" => "self.id" },
-  undef,
-);
-
-=head2 user_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::User>
-
-=cut
-
-__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-03 09:15:50
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CMLf591jfQOnMD0r3/JQ7A
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:aG4qzXx1De9ApjbyZyhe9g
+# We need to tell CAP that this table is not in the cap database.
+__PACKAGE__->table("cap_log.requests");
 
-
-# You can replace this text with custom content, and it will be preserved on regeneration
 1;

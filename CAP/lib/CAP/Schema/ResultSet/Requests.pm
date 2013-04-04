@@ -1,4 +1,4 @@
-package CAP::Schema::ResultSet::RequestLog;
+package CAP::Schema::ResultSet::Requests;
 
 use strict;
 use warnings;

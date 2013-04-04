@@ -10,7 +10,6 @@ mysqldump -u root -p cap \
     collection \
     contributor \
     discounts \
-    document_collection \
     documents \
     institution \
     institution_alias \

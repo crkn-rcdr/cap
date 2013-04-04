@@ -103,7 +103,7 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 UNIQUE CONSTRAINTS
 
-=head2 C<title_id_2>
+=head2 C<documents_ibfk_2>
 
 =over 4
 
@@ -115,7 +115,7 @@ __PACKAGE__->set_primary_key("id");
 
 =cut
 
-__PACKAGE__->add_unique_constraint("title_id_2", ["title_id", "identifier"]);
+__PACKAGE__->add_unique_constraint("documents_ibfk_2", ["title_id", "identifier"]);
 
 =head1 RELATIONS
 
@@ -149,8 +149,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-12 09:18:27
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4BPbAajpFRzmtE8E7aUMkQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-21 08:46:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dQQfeFhm/JSlehjROJcy3w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

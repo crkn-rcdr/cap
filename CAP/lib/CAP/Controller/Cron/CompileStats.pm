@@ -18,7 +18,7 @@ sub index : Private {
     my $first_of_month_end  = $end_date->printf("%Y-%m-01");
     
     # Find the date of the last update or find the first entry in the log table if there is none
-    my $last_update = $c->model('DB::StatsUsageInstitution')->last_update() || $c->model('DB::RequestLog')->get_start();
+    my $last_update = $c->model('DB::StatsUsageInstitution')->last_update() || $c->model('DB::Requests')->get_start();
     # my $date_type = ref $last_update;
     
     # $c->log->error("last_update is type $date_type");
@@ -68,7 +68,7 @@ sub index : Private {
     
   
     # Get a list of distinct institutions in the request log
-    my $institutions = $c->model('DB::RequestLog')->get_institutions($c);
+    my $institutions = $c->model('DB::Requests')->get_institutions($c);
     
     my $month;
     my $first_of_month;
@@ -96,7 +96,7 @@ sub index : Private {
            for ($month = $start_month; $month <= $end_month; $month++) {
                
                # get the monthly stats from the request log
-               $monthly_stats = $c->model('DB::RequestLog')->get_monthly_inst_stats($inst, $month, $year);
+               $monthly_stats = $c->model('DB::Requests')->get_monthly_inst_stats($inst, $month, $year);
                
                # make sure the dates are in the correct format
                

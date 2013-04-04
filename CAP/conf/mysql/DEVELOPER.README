@@ -14,6 +14,7 @@ Then run:
 ./setup 
 mysql cap -u root -p < cap_developer.sql
 mysql cap -u root -p < cap_content.sql
+mysql cap -u root -p < cap_log.sql
 
 
 You will have a database that should have all of the required portal,

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2013-03-20 13:38-0500\n"
+"PO-Revision-Date: 2013-04-03 12:19-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
@@ -1314,7 +1314,7 @@ msgstr "Ce lien ouvre un nouvelle fenêtre"
 
 #: ../../../../../cap-root/templates/Default/parl/view_series.tt:19
 msgid "List"
-msgstr ""
+msgstr "Liste"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:14
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/batch.tt:8

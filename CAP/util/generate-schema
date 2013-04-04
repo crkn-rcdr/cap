@@ -13,7 +13,7 @@ This script must be run after making any changes to any of the model databases.
 =cut
 
 my @configs = ("$FindBin::Bin/../cap_local.conf", "$FindBin::Bin/../cap.conf");
-my @databases = ('cap', 'cap_core');
+my @databases = ('cap', 'cap_core', 'cap_log');
 
 # Retrieve the connection info. Abort if any are missing.
 my $dbinfo = undef;
