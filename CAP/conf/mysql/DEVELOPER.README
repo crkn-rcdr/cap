@@ -13,7 +13,7 @@ Then run:
 
 ./setup 
 mysql cap -u root -p < cap_developer.sql
-mysql cap -u root -p < cap_content.sql
+zcat cap_content.sql.gz | mysql cap -u root -p
 mysql cap -u root -p < cap_log.sql
 
 
