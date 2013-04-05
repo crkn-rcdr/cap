@@ -15,10 +15,6 @@ extends 'Catalyst::Model';
 
 method routeRequest ($c) {
 
-    # Don't do any secure/insecure routing if the secure host is not
-    # configured.
-    return unless ($c->config->{secure});
-
     my $secure_protocol = $c->config->{secure}->{protocol} || die("In cap.conf: missing protocol directive in <secure>");
     my $secure_host     = $c->config->{secure}->{host} || die("In cap.conf: missing host directive in <secure>");
 
