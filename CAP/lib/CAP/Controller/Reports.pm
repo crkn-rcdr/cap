@@ -20,6 +20,11 @@ sub auto :Private {
 
 sub index :Path :Args(0) {
     my($self, $c) = @_;
+    $c->stash(
+        entity => {
+            portals => [$c->model('DB::Portal')->list]
+        }
+    );
     return 1;
 }
 

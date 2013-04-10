@@ -4,27 +4,35 @@ use namespace::autoclean;
 use Encode;
 use feature "switch";
 
-__PACKAGE__->config(
-    map => {
-        'text/html' => [ 'View', 'Default' ],
-    },
-);
+__PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ] } );
 
 BEGIN { extends 'Catalyst::Controller::REST'; }
 
 
-#
-# Index: list portals 
-#
+sub base : Chained('/') PathPart('admin/portal') CaptureArgs(1) {
+    my($self, $c, $portal_id) = @_;
+
+    # Get the portal to view/edit
+    my $portal = $c->model('DB::Portal')->find({ id => $portal_id });
+    if (! $portal) {
+        $c->message({ type => "error", message => "invalid_entity", params => ['portal'] });
+        $self->status_not_found($c, message => "No such portal");
+        $c->res->redirect($c->uri_for_action("/admin/index"));
+        $c->detach();
+    }
+
+    $c->stash(entity => $portal);
+    return 1;
+}
 
 
-sub index :Path :Args(0) ActionClass('REST') {
+sub index :Chained('base') PathPart('') Args(0) ActionClass('REST') {
     my($self, $c) = @_;
 }
 
 sub index_GET {
     my($self, $c) = @_;
-    $c->stash->{entity} = [$c->model('DB::Portal')->all];
+    $self->status_ok($c, entity => $c->stash->{entity});
     return 1;
 }
 
