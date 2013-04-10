@@ -49,31 +49,61 @@ __PACKAGE__->table("portal");
 =head2 enabled
 
   data_type: 'tinyint'
+  is_nullable: 0
+
+=head2 users
+
+  data_type: 'tinyint'
   default_value: 0
   is_nullable: 0
 
-=head2 view_all
+=head2 subscriptions
 
-  data_type: 'integer'
-  default_value: 1
+  data_type: 'tinyint'
+  default_value: 0
   is_nullable: 0
 
-=head2 view_limited
+=head2 institutions
 
-  data_type: 'integer'
-  default_value: 1
+  data_type: 'tinyint'
+  default_value: 0
   is_nullable: 0
 
-=head2 resize
+=head2 access_preview
 
   data_type: 'integer'
-  default_value: 1
+  default_value: 0
   is_nullable: 0
 
-=head2 download
+=head2 access_all
 
   data_type: 'integer'
-  default_value: 1
+  default_value: 0
+  is_nullable: 0
+
+=head2 access_resize
+
+  data_type: 'integer'
+  default_value: 0
+  is_nullable: 0
+
+=head2 access_download
+
+  data_type: 'integer'
+  default_value: 0
+  is_nullable: 0
+
+=head2 access_purchase
+
+  data_type: 'integer'
+  default_value: 0
+  is_nullable: 0
+
+=head2 updated
+
+  data_type: 'timestamp'
+  datetime_undef_if_invalid: 1
+  default_value: current_timestamp
   is_nullable: 0
 
 =cut
@@ -82,15 +112,30 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
   "enabled",
+  { data_type => "tinyint", is_nullable => 0 },
+  "users",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "view_all",
-  { data_type => "integer", default_value => 1, is_nullable => 0 },
-  "view_limited",
-  { data_type => "integer", default_value => 1, is_nullable => 0 },
-  "resize",
-  { data_type => "integer", default_value => 1, is_nullable => 0 },
-  "download",
-  { data_type => "integer", default_value => 1, is_nullable => 0 },
+  "subscriptions",
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
+  "institutions",
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
+  "access_preview",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "access_all",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "access_resize",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "access_download",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "access_purchase",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "updated",
+  {
+    data_type => "timestamp",
+    datetime_undef_if_invalid => 1,
+    default_value => \"current_timestamp",
+    is_nullable => 0,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -212,47 +257,17 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 portal_strings
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::PortalString>
-
-=cut
-
-__PACKAGE__->has_many(
-  "portal_strings",
-  "CAP::Schema::Result::PortalString",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
 =head2 portal_subscriptions
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::PortalSubscription>
+Related object: L<CAP::Schema::Result::PortalSubscriptions>
 
 =cut
 
 __PACKAGE__->has_many(
   "portal_subscriptions",
-  "CAP::Schema::Result::PortalSubscription",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 portal_supports
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::PortalSupport>
-
-=cut
-
-__PACKAGE__->has_many(
-  "portal_supports",
-  "CAP::Schema::Result::PortalSupport",
+  "CAP::Schema::Result::PortalSubscriptions",
   { "foreign.portal_id" => "self.id" },
   undef,
 );
@@ -317,21 +332,96 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-03 09:15:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vACgoTpmHnV/j1vNyAlXQQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-05 14:15:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:C6cdYu0TWfDW8+YI2qCAmg
 
 
 =head2 name([$lang])
 
-Returns the name of the portal.
+Returns the title of the portal in the current language.
 
 =cut
-sub name {
+sub title {
     my($self, $lang) = @_;
     return '[[UNDEFINED]]' unless ($lang);
-    my $result = $self->search_related('portal_strings', { lang => $lang, label => 'name' })->first;
-    return $result->string if ($result);
+    my $result = $self->related_resultset('portal_langs')->find({ lang => $lang });
+    return $result->title if ($result);
     return '[[UNDEFINED]]';
+}
+
+=head2 subscriptions
+
+Returns all subscriptions defined for the portal
+
+=cut
+sub get_subscriptions {
+    my($self) = @_;
+    return $self->search_related('portal_subscriptions')->all;
+}
+
+
+=head2 features
+
+Returns a set of hash keys (with values set to 1) for each feature in this portal
+
+=cut
+sub features {
+    my($self) = @_;
+    my $features = {};
+    my $result = $self->search_related('portal_features');
+    while (my $feature = $result->next) {
+        $features->{$feature->feature} = 1;
+    }
+    return $features;
+}
+
+
+=head2 add_feature ($feature)
+
+Adds the portal feature $feature, if it does not already exist.
+
+=cut
+sub add_feature {
+    my($self, $feature) = @_;
+    my $result = $self->related_resultset('portal_features')->find_or_create({ feature => $feature });
+}
+
+=head2 remove_feature ($feature)
+
+Removes the portal feature $feature, if it exists.
+
+=cut
+sub remove_feature {
+    my($self, $feature) = @_;
+    my $result = $self->related_resultset('portal_features')->find({ feature => $feature });
+    $result->delete if ($result);
+}
+
+
+=head2
+
+Returns matching rows from the portal_lang table.
+
+=cut
+sub get_languages {
+    my($self) =@_;
+    return $self->search_related('portal_langs');
+}
+
+
+
+=head2 set_language($lang, $priority, $title)
+
+Creates or updates the portal_lang with the listed characteristics
+
+=cut
+sub set_language {
+    my($self, $lang, $priority, $title) = @_;
+    $self->related_resultset('portal_langs')->update_or_create({
+        lang => $lang,
+        priority => $priority,
+        title => $title
+    })
 }
 
 sub hosts {
@@ -341,15 +431,6 @@ sub hosts {
         push(@{$hosts}, $_->id);
     }
     return $hosts;
-}
-
-sub collections {
-    my $self = shift;
-    my $collections = [];
-    foreach($self->search_related('portal_collections', undef, { order_by => 'collection_id' })) {
-        push(@{$collections}, { id => $_->get_column('collection_id'), hosted => $_->hosted });
-    }
-    return $collections;
 }
 
 # Get the default language for the portal, if none is specified. This is
@@ -383,15 +464,6 @@ sub langs {
         push(@{$langs}, $_->lang);
     }
     return $langs;
-}
-
-# Returns the string associated with $label and $lang.
-sub get_string {
-    my($self, $label, $lang) = @_;
-    my $result = $self->search_related('portal_strings', { label => $label, lang => $lang });
-    return $result->first->string if ($result->count);
-    return ("[UNDEFINED $label-$lang]");
-
 }
 
 # Return true if at least one of the collection fields in $doc's record

@@ -199,6 +199,7 @@ DROP TABLE IF EXISTS `info`;
 CREATE TABLE `info` (
   `name` varchar(32) NOT NULL,
   `value` varchar(64) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -209,7 +210,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','58');
+INSERT INTO `info` VALUES ('version','58',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -520,10 +521,15 @@ DROP TABLE IF EXISTS `portal`;
 CREATE TABLE `portal` (
   `id` varchar(64) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '0',
-  `view_all` int(11) NOT NULL DEFAULT '1',
-  `view_limited` int(11) NOT NULL DEFAULT '1',
-  `resize` int(11) NOT NULL DEFAULT '1',
-  `download` int(11) NOT NULL DEFAULT '1',
+  `users` tinyint(1) NOT NULL DEFAULT '0',
+  `subscriptions` tinyint(1) NOT NULL DEFAULT '0',
+  `institutions` tinyint(1) NOT NULL DEFAULT '0',
+  `access_preview` int(11) NOT NULL DEFAULT '0',
+  `access_all` int(11) NOT NULL DEFAULT '0',
+  `access_resize` int(11) NOT NULL DEFAULT '0',
+  `access_download` int(11) NOT NULL DEFAULT '0',
+  `access_purchase` int(11) NOT NULL DEFAULT '0',
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -599,6 +605,7 @@ CREATE TABLE `portal_lang` (
   `portal_id` varchar(64) NOT NULL,
   `lang` varchar(2) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(128) DEFAULT 'NEW PORTAL',
   PRIMARY KEY (`portal_id`,`lang`),
   UNIQUE KEY `portal_id` (`portal_id`,`lang`),
   KEY `portal_id_2` (`portal_id`),
@@ -616,80 +623,31 @@ LOCK TABLES `portal_lang` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `portal_string`
+-- Table structure for table `portal_subscriptions`
 --
 
-DROP TABLE IF EXISTS `portal_string`;
+DROP TABLE IF EXISTS `portal_subscriptions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `portal_string` (
-  `portal_id` varchar(64) NOT NULL DEFAULT '',
-  `lang` varchar(2) NOT NULL DEFAULT '',
-  `label` varchar(64) NOT NULL DEFAULT '',
-  `string` text,
-  PRIMARY KEY (`portal_id`,`lang`,`label`),
-  CONSTRAINT `portal_string_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `portal_string`
---
-
-LOCK TABLES `portal_string` WRITE;
-/*!40000 ALTER TABLE `portal_string` DISABLE KEYS */;
-/*!40000 ALTER TABLE `portal_string` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `portal_subscription`
---
-
-DROP TABLE IF EXISTS `portal_subscription`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `portal_subscription` (
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `portal_id` varchar(64) NOT NULL DEFAULT '',
-  `type` enum('trial','regular','permanent') NOT NULL DEFAULT 'regular',
-  `expires` datetime DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`portal_id`),
+CREATE TABLE `portal_subscriptions` (
+  `id` varchar(32) NOT NULL,
+  `portal_id` varchar(64) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `portal_id` (`portal_id`),
-  CONSTRAINT `portal_subscription_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`)
+  CONSTRAINT `portal_subscriptions_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `portal_subscription`
+-- Dumping data for table `portal_subscriptions`
 --
 
-LOCK TABLES `portal_subscription` WRITE;
-/*!40000 ALTER TABLE `portal_subscription` DISABLE KEYS */;
-/*!40000 ALTER TABLE `portal_subscription` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `portal_support`
---
-
-DROP TABLE IF EXISTS `portal_support`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `portal_support` (
-  `portal_id` varchar(64) NOT NULL DEFAULT '',
-  `page` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`portal_id`,`page`),
-  CONSTRAINT `portal_support_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `portal_support`
---
-
-LOCK TABLES `portal_support` WRITE;
-/*!40000 ALTER TABLE `portal_support` DISABLE KEYS */;
-/*!40000 ALTER TABLE `portal_support` ENABLE KEYS */;
+LOCK TABLES `portal_subscriptions` WRITE;
+/*!40000 ALTER TABLE `portal_subscriptions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `portal_subscriptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -703,8 +661,11 @@ CREATE TABLE `portals_titles` (
   `portal_id` varchar(64) NOT NULL DEFAULT '',
   `title_id` int(11) NOT NULL DEFAULT '0',
   `hosted` tinyint(1) DEFAULT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`portal_id`,`title_id`),
   KEY `title_id` (`title_id`),
+  KEY `modified` (`updated`),
+  KEY `updated` (`updated`),
   CONSTRAINT `portals_titles_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `portals_titles_ibfk_2` FOREIGN KEY (`title_id`) REFERENCES `titles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1027,9 +988,12 @@ CREATE TABLE `titles` (
   `institution_id` int(11) NOT NULL,
   `identifier` varchar(64) NOT NULL,
   `label` text NOT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `institution_id` (`institution_id`,`identifier`),
   KEY `identifier` (`identifier`),
+  KEY `modified` (`updated`),
+  KEY `updated` (`updated`),
   CONSTRAINT `titles_ibfk_1` FOREIGN KEY (`institution_id`) REFERENCES `institution` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1255,4 +1219,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-04  9:19:38
+-- Dump completed on 2013-04-10 10:15:31

@@ -186,9 +186,6 @@ sub index :Path('') Args(0)
 
 sub support :Path('support') :Args() {
     my ($self, $c, $page) = @_;
-    unless ($c->portal->has_page($page)) {
-        $c->detach("error", [404]);
-    }
     $c->stash->{support_resource} = $page;
     $c->stash->{template} = 'support.tt';
     return 1;

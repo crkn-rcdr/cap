@@ -24,14 +24,7 @@ sub index :Path :Args(0) ActionClass('REST') {
 
 sub index_GET {
     my($self, $c) = @_;
-    my $list = {};
-    foreach my $portal ($c->model("DB::Portal")->all()) {
-        $list->{$portal->id} = {
-            enabled => $portal->enabled,
-        };
-    }
-    $c->stash->{entity} = $list;
-    $self->status_ok($c, entity => $list);
+    $c->stash->{entity} = [$c->model('DB::Portal')->all];
     return 1;
 }
 
@@ -62,14 +55,14 @@ sub edit_GET {
         $self->status_not_found( $c, message => "No such portal");
         return 1;
     }
-    my @all_collections = $c->model('DB::Collection')->all();
 
     $c->stash(entity => {
-        id => $portal->id,
-        enabled => $portal->enabled,
-        hosts => $portal->hosts(),
-        collections => $portal->collections(),
-        all_collections => \@all_collections,
+        id      => $portal->id,
+        access  => $c->cap->build_entity($portal),
+        features => $portal->features,
+        languages => [$portal->get_languages],
+        hosts   => $portal->hosts(),
+        subscriptions => [$portal->get_subscriptions]
     });
 
     $self->status_ok($c, entity => $c->stash->{entity});
@@ -88,42 +81,66 @@ sub edit_POST {
     my %data = %{$c->req->body_params};
 
     given ($data{update}) {
-        when ('update_portal') {
+        when ('access') {
             $portal->update({
-                enabled => $data{enabled} ? 1 : 0
+                enabled         => $data{enabled} ? 1 : 0,
+                users           => $data{users} ? 1 : 0,
+                subscriptions   => $data{subscriptions} ? 1 : 0,
+                institutions    => $data{institutions} ? 1 : 0,
+                access_preview  => $data{access_preview},
+                access_all      => $data{access_all},
+                access_resize   => $data{access_resize},
+                access_download => $data{access_download},
+                access_purchase => $data{access_purchase},
             });
-        } when ('delete_hosts') {
+        }
+        when ('delete_hosts') {
             my @list = to_list($data{delete_hosts});
 
             foreach my $host (@list) {
                 my $record = $c->model("DB::PortalHost")->find({ id => $host });
                 $record->delete() if ($record);
             }
-        } when ('new_host') {
+        }
+        when ('update_features') {
+            foreach my $feature (qw(contributors random_doc)) {
+                if ($data{"feature_$feature"}) {
+                    $portal->add_feature($feature);
+                }
+                else {
+                    $portal->remove_feature($feature);
+                }
+            }
+        }
+        when ('update_languages') {
+            # TODO: validate...
+            $portal->set_language($data{language_lang}, $data{language_priority}, $data{language_title});
+        }
+        when ('new_host') {
             my $validation = $c->model("DB::PortalHost")->validate($data{new_host});
             if ($validation->{valid}) {
                 $portal->create_related("portal_hosts", { id => $data{new_host} });
             } else {
                 $c->message({ type => "error", message => $validation->{error} });
             }
-        } when ('update_collections') {
-            my @collections = to_list($data{collections});
-            my @hosted = to_list($data{hosted_collections});
-            my @delete = to_list($data{delete_collections});
-            foreach my $collection (@collections) {
-                my $ss = $portal->search_related("portal_collections", { collection_id => $collection });
-                if (grep /^$collection$/, @delete) {
-                    $ss->delete();
-                } else {
-                    $ss->update({ hosted => (scalar(grep(/^$collection$/, @hosted)) ? 1 : 0) });
+        }
+        when ('new_subscription') {
+            my $validation = $c->model('DB::PortalSubscriptions')->validate(%data);
+            if ($validation->{valid}) {
+                $portal->create_related("portal_subscriptions", {
+                    id => $data{subscription_id},
+                    level => $data{subscription_level},
+                    duration => $data{subscription_duration},
+                    price => $data{subscription_price}
+                });
+            }
+            else {
+                foreach my $error (@{$validation->{errors}}) {
+                    $c->message({ type => "error", message => $error });
                 }
             }
-        } when ('new_collection') {
-            $portal->find_or_create_related("portal_collections", {
-                collection_id => $data{new_collection_id},
-                hosted => defined($data{new_collection_hosted})
-            });
-        } default {
+        }
+        default {
             warn "No update parameter passed";
         }
     }

@@ -69,7 +69,7 @@ Get the portal's name for the selected language.
 =back
 =cut
 method portalName($portal, $lang) {
-    return $portal->get_string('name', $lang) || '[CAP Portal]';
+    return $portal->title($lang);
 }
 
 
@@ -86,21 +86,6 @@ Return the portal id string.
 =cut
 method portalId($portal) {
     return $portal->id;
-}
-
-
-=head2 searchPlaceholder
-
-$search_bar_placeholder = searchPlaceholder($portal, $lang)
-
-=over 4
-
-Returns the search field placeholder text to display.
-
-=back
-=cut
-method searchPlaceholder($portal, $lang) {
-    return $portal->get_string('search_bar', $lang) || '[Search]';
 }
 
 =head2 supportedLangs
@@ -222,7 +207,6 @@ method configAll ($portal, $request, $config) {
     $config{lang} = $self->setLang($portal, $request, $config);
     $config{portal} = $self->portalId($portal);
     $config{portal_name} = $self->portalName($portal, $config{lang});
-    $config{search_bar_placeholder} = $self->searchPlaceholder($portal, $config{lang});
     $config{supported_langs} = $self->supportedLangs($portal);
     $config{subscription_price} = $self->subscriptionPrice($portal);
     $config{current_view} = $self->setView($request, $config);

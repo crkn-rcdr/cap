@@ -34,8 +34,8 @@ sub index_GET {
                 '+as' => [ 'count' ]
             })];
     my %portals = ();
-    foreach($c->model("DB::PortalString")->search({ lang => $c->stash->{lang}, label => 'name'})) {
-        $portals{$_->get_column('portal_id')} = $_->get_column('string');
+    foreach($c->model("DB::PortalLang")->search({ lang => $c->stash->{lang} })) {
+        $portals{$_->portal_id} = $_->title;
     }
     $c->stash(
         {

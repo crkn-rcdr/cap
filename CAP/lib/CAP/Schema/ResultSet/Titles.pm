@@ -6,10 +6,9 @@ use base 'DBIx::Class::ResultSet';
 
 =head1 CAP::Schema::ResultSet::Titles
 
-=head1 Methods
+=head1 METHODS
 
 =cut
-
 
 =head2 institutions
 
@@ -118,6 +117,28 @@ sub titles_for_portal_2 {
         $result = $self->search({ 'portals_titles.portal_id' => $portal->id }, { join => 'portals_titles' });
     }
 
+    return $result;
+}
+
+
+=head2 updated_after (DateTime)
+
+Returns a set of titles which have either been updated or added to a portal on or after DateTime
+
+=cut
+sub updated_after {
+    my($self, $time) = @_;
+    my $result = $self->search(
+        {
+            '-or' => [
+                'me.updated' => { '>=' => $time },
+                'portals_titles.updated' => { '>=' => $time }
+            ]
+        },
+        {
+            join => 'portals_titles'
+        }
+    );
     return $result;
 }
 

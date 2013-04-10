@@ -11,8 +11,8 @@ Returns a list of all institutions. Will return an array or arryref, depending o
 
 =cut
 sub list {
-    my($self) = @_;
-    my @institutions = $self->search({})->all;
+    my($self, $lang) = @_;
+    my @institutions = $self->search({}, { order_by => 'name' } )->all;
     return @institutions if (wantarray);
     return \@institutions;
 }

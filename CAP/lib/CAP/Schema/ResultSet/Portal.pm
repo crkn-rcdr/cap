@@ -16,6 +16,18 @@ sub list {
     return \@portals;
 }
 
+=head2 list_subscribable
+
+Returns portals that can be subscribed to.
+
+=cut
+sub list_subscribable {
+    my($self) = @_;
+    my @portals = $self->search({ subscriptions => 1})->all;
+    return @portals if (wantarray);
+    return \@portals;
+}
+
 
 
 

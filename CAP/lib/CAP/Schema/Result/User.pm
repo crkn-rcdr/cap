@@ -409,15 +409,24 @@ sub log {
 
 sub subscription {
     my($self, $portal) = @_;
-    my $entity = { id => $self->id, username => $self->username, name => $self->name, portal => $portal };
-    my $subscription = $self->find_related("user_subscriptions", { portal_id => $portal });
-    if ($subscription) {
-        $entity->{expires} = $subscription->expires;
-        $entity->{reminder_sent} = $subscription->reminder_sent;
-        $entity->{permanent} = $subscription->permanent;
-        $entity->{level} = $subscription->level;
+    my $subscription = $self->find_related("user_subscriptions", { portal_id => $portal->id });
+    return $subscription;
+}
+
+=head2 managed_institutions
+
+Returns a list of institutions the user manages
+
+=cut
+sub managed_institutions {
+    my($self) = @_;
+    my $result = $self->search_related('institution_mgmts', {}, { join => 'institution_id', order_by => [ 'institution_id.name' ] });
+    my @institutions = ();
+    while (my $row = $result->next) {
+        push(@institutions, $row->institution_id);
     }
-    return $entity;
+    return @institutions if (wantarray);
+    return \@institutions;
 }
 
 1;

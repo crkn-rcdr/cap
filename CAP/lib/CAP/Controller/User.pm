@@ -378,9 +378,20 @@ sub reset :Path('reset') :Args() {
 sub profile :Path('profile') :Args(0) {
     my($self, $c) = @_;
 
+    my @subscriptions;
+    foreach my $portal ($c->model('DB::Portal')->list_subscribable) {
+        my $subscription = $c->user->subscription($portal);
+        push(@subscriptions, {
+            portal => $portal,
+            active => $c->user->subscription_active($portal), 
+            subscription => $c->user->subscription($portal)
+        });
+    }
+
     # Stash the payment history
     $c->stash(
         payment_history => $c->model('DB::Subscription')->payment_history($c->user->id),
+        subscriptions => \@subscriptions
     );
 
     # Get a list of institutions where the user has management privileges

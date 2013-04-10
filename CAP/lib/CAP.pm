@@ -87,14 +87,19 @@ __PACKAGE__->setup();
 
 =head2 has_role($role)
 
-If a user exists in the current context, calls $c->user->has_role($role)
-and returns the value. If no user exists, it returns false. 
+If a user exists in the current context, calls $c->user->has_role() for
+each role in @roles. Returns true if the user has at least one of the
+listed roles, or if the user is an administrator. In all other cases,
+returns false.
 
 =cut
 sub has_role {
-    my($c, $role) = @_;
+    my($c, @roles) = @_;
     return 0 unless $c->user_exists;
-    return $c->user->has_role($role);
+    foreach my $role (@roles) {
+        return 1 if $c->user->has_role($role);
+    }
+    return 0;
 }
 
 sub initialize_session {

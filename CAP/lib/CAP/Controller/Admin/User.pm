@@ -133,16 +133,20 @@ sub edit_GET {
 
     my @roles = $c->model('DB::Roles')->all();
 
-    # TODO: Determine if we need a different portal feature for subscriptions
-    my @s_portals = $c->model("DB::Portal")->with_feature("users")->with_names($c->stash->{lang});
-    my %names = $c->model("DB::PortalString")->names($c->stash->{lang});
-    my @subscriptions = $user->search_related('user_subscriptions');
-    
+    my @subscriptions = ();
+    foreach my $portal ($c->model('DB::Portal')->list_subscribable) {
+        push(@subscriptions, {
+            portal => $portal,
+            active => $user->subscription_active($portal),
+            subscription => $user->subscription($portal)
+        });
+    }
+
     $c->stash(
         entity => $self->_build_entity($user),
+        institutions => [$c->model('DB::Institution')->list],
+        managed_institutions => [$user->managed_institutions],
         roles => \@roles,
-        portal_names => \%names,
-        s_portals => \@s_portals,
         subscriptions => \@subscriptions,
     );
 
@@ -179,7 +183,6 @@ sub edit_POST {
         my $update = {
             username => $data->{username},
             name => $data->{name},
-            class => $data->{class},
             active => $data->{active} ? 1 : 0,
             confirmed => $data->{confirmed} ? 1 : 0,
         };
@@ -196,21 +199,7 @@ sub edit_POST {
 }
 
 sub subscription :Local Path('subscription') Args(1) ActionClass('REST') {
-}
-
-sub subscription_GET {
     my($self, $c, $id) = @_;
-    my $portal = $c->req->params->{portal};
-    my $user = $c->model("DB::User")->find($id);
-    if (! $user) {
-        $c->message({ type => "error", message => "user_not_found" });
-        $self->status_not_found($c, message => "No such user");
-        return 1;
-    }
-    my $entity = $user->subscription($portal);
-    $c->stash(entity => $entity);
-    $self->status_ok($c, entity => $c->stash->{entity});
-    return 1;
 }
 
 sub subscription_POST {
@@ -225,14 +214,14 @@ sub subscription_POST {
 
     if ($data->{expires} !~ /^\d{4}-\d{2}-\d{2}$/) {
         $c->message({ type => 'error', message => 'expiry_date_invalid' });
-        $c->response->redirect($c->req->uri);
-        return 1;
+        $c->response->redirect($c->uri_for_action('/admin/user/edit', $id));
+        $c->detach();
     } else {
         $user->update_or_create_related("user_subscriptions", {
             portal_id => $data->{portal},
             expires => $data->{expires},
             level => $data->{level},
-            reminder_sent => $data->{reminder_sent},
+            reminder_sent => $data->{reminder_sent} ? 1 : 0,
             permanent => $data->{permanent} ? 1 : 0,
         });
         $c->message({ type => 'success', message => 'user_subscription_updated' });
@@ -247,13 +236,62 @@ sub delete_subscription :Path('delete_subscription') Args(1) {
     if (! $user) {
         $c->message({ type => "error", message => "user_not_found" });
         $self->status_not_found($c, message => "No such user");
-        return 1;
+        $c->response->redirect($c->uri_for_action('/admin/user/index'));
+        $c->detach();
     }
 
     $user->delete_related('user_subscriptions', { portal_id => $c->req->params->{portal} });
     $c->message({ type => 'success', message => 'subscription_deleted' });
     $c->response->redirect($c->uri_for_action("/admin/user/edit", $id));
     return 1;
+}
+
+sub add_institution :Path('add_institution') Args(1) {
+    my($self, $c, $id) = @_;
+    my $user = $c->model('DB::User')->find({ id => $id });
+    if (! $user) {
+        $c->message({ type => "error", message => "user_not_found" });
+        $self->status_not_found($c, message => "No such user");
+        $c->response->redirect($c->uri_for_action('/admin/user/index'));
+        $c->detach();
+    }
+
+    my $institution = $c->model('DB::Institution')->find({ id => $c->req->params->{institution_id} });
+    if (! $institution) {
+        $c->message({ type => "error", message => "institution_not_found" });
+        $self->status_not_found($c, message => "No such institution");
+        $c->response->redirect($c->uri_for_action('/admin/user/index', [$user->id]));
+        $c->detach();
+    }
+
+    $c->model('DB::InstitutionMgmt')->update_or_create({ user_id => $user->id, institution_id => $institution->id });
+    $c->message({ type => "success", message => "institution_added_for_user" });
+    $c->response->redirect($c->uri_for_action('/admin/user/edit', $user->id));
+    $c->detach();
+}
+
+sub remove_institution :Path('remove_institution') Args(1) {
+    my($self, $c, $id) = @_;
+    my $user = $c->model('DB::User')->find({ id => $id });
+    if (! $user) {
+        $c->message({ type => "error", message => "user_not_found" });
+        $self->status_not_found($c, message => "No such user");
+        $c->response->redirect($c->uri_for_action('/admin/user/index'));
+        $c->detach();
+    }
+
+    my $institution = $c->model('DB::Institution')->find({ id => $c->req->params->{institution_id} });
+    if (! $institution) {
+        $c->message({ type => "error", message => "institution_not_found" });
+        $self->status_not_found($c, message => "No such institution");
+        $c->response->redirect($c->uri_for_action('/admin/user/index', [$user->id]));
+        $c->detach();
+    }
+    my $link = $c->model('DB::InstitutionMgmt')->find({ user_id => $user->id, institution_id => $institution->id });
+    $link->delete if ($link);
+    $c->message({ type => "success", message => "institution_removed_for_user" });
+    $c->response->redirect($c->uri_for_action('/admin/user/edit', $user->id));
+    $c->detach();
 }
 
 #

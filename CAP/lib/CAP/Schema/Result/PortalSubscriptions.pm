@@ -1,12 +1,12 @@
 use utf8;
-package CAP::Schema::Result::PortalLang;
+package CAP::Schema::Result::PortalSubscriptions;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-CAP::Schema::Result::PortalLang
+CAP::Schema::Result::PortalSubscriptions
 
 =cut
 
@@ -31,71 +31,69 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
-=head1 TABLE: C<portal_lang>
+=head1 TABLE: C<portal_subscriptions>
 
 =cut
 
-__PACKAGE__->table("portal_lang");
+__PACKAGE__->table("portal_subscriptions");
 
 =head1 ACCESSORS
+
+=head2 id
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 32
 
 =head2 portal_id
 
   data_type: 'varchar'
   is_foreign_key: 1
-  is_nullable: 0
+  is_nullable: 1
   size: 64
 
-=head2 lang
-
-  data_type: 'varchar'
-  is_nullable: 0
-  size: 2
-
-=head2 priority
+=head2 level
 
   data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
-=head2 title
-
-  data_type: 'varchar'
-  default_value: 'NEW PORTAL'
   is_nullable: 1
-  size: 128
+
+=head2 duration
+
+  data_type: 'integer'
+  is_nullable: 1
+
+=head2 price
+
+  data_type: 'decimal'
+  is_nullable: 1
+  size: [10,2]
 
 =cut
 
 __PACKAGE__->add_columns(
+  "id",
+  { data_type => "varchar", is_nullable => 0, size => 32 },
   "portal_id",
-  { data_type => "varchar", is_foreign_key => 1, is_nullable => 0, size => 64 },
-  "lang",
-  { data_type => "varchar", is_nullable => 0, size => 2 },
-  "priority",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
-  "title",
-  {
-    data_type => "varchar",
-    default_value => "NEW PORTAL",
-    is_nullable => 1,
-    size => 128,
-  },
+  { data_type => "varchar", is_foreign_key => 1, is_nullable => 1, size => 64 },
+  "level",
+  { data_type => "integer", is_nullable => 1 },
+  "duration",
+  { data_type => "integer", is_nullable => 1 },
+  "price",
+  { data_type => "decimal", is_nullable => 1, size => [10, 2] },
 );
 
 =head1 PRIMARY KEY
 
 =over 4
 
-=item * L</portal_id>
-
-=item * L</lang>
+=item * L</id>
 
 =back
 
 =cut
 
-__PACKAGE__->set_primary_key("portal_id", "lang");
+__PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
@@ -114,8 +112,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-05 13:21:32
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9NI/pU90gpdJ9BrR1dvVdA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-05 08:01:34
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:r75nsE50ljUIptksEN+1Jw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

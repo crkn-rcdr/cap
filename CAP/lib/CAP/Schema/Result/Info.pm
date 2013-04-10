@@ -51,6 +51,12 @@ __PACKAGE__->table("info");
   is_nullable: 1
   size: 64
 
+=head2 time
+
+  data_type: 'datetime'
+  datetime_undef_if_invalid: 1
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -58,6 +64,12 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 32 },
   "value",
   { data_type => "varchar", is_nullable => 1, size => 64 },
+  "time",
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -73,8 +85,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("name");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:94xOv/2nMAfvJWhzATYguw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-04 12:53:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DuTxeP//kL5y9wrOy0AXhA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
