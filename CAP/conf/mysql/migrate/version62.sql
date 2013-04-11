@@ -1,4 +1,4 @@
-UPDATE info SET value = '61' WHERE name = 'version';
+UPDATE info SET value = '62' WHERE name = 'version';
 
 CREATE TABLE images(
     id INT PRIMARY KEY AUTO_INCREMENT,
