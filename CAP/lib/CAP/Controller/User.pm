@@ -5,21 +5,16 @@ use Captcha::reCAPTCHA;
 use Date::Manip::Date;
 use Date::Manip::Delta;
 use Text::Trim qw/trim/;
-use parent qw/Catalyst::Controller::ActionRole/;
 
 use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/login user/reconfirm user/reset };
 
-BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+__PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ] } );
+
+BEGIN { extends 'Catalyst::Controller::REST'; }
 
 
 sub auto :Private {
     my($self, $c) = @_;
-
-    # Require that this portal has user accounts enabled
-    if (! $c->portal->has_feature('users')) {
-        $c->response->redirect($c->uri_for_action('/index'));
-        return 0;
-    }
 
     # Actions relating to creating a new account, logging in, or
     # recovering a lost password are only available to anonymous users.
@@ -29,7 +24,8 @@ sub auto :Private {
             $c->response->redirect($c->uri_for_action('/index'));
             return 0;
         }
-    } else {
+    }
+    else {
         unless ($c->user_exists) {
             # All other requests are limited to logged in users; redirect
             # anonymous requests to the login page.
@@ -40,6 +36,67 @@ sub auto :Private {
             return 0;
         }
     }
+
+    return 1;
+}
+
+
+=head2 profile
+
+Display or edit the user's profile
+
+=cut
+
+sub profile : Path('profile') Args(0) ActionClass('REST') {
+    my($self, $c) = @_;
+}
+
+sub profile_GET {
+    my($self, $c) = @_;
+
+    my @subscriptions;
+    foreach my $portal ($c->model('DB::Portal')->list_subscribable) {
+        my $subscription = $c->user->subscription($portal);
+        push(@subscriptions, {
+            portal => $portal,
+            active => $c->user->subscription_active($portal), 
+            subscription => $c->user->subscription($portal)
+        });
+    }
+
+    $c->stash(
+        entity => {
+            subscriptions => \@subscriptions,
+            institutions => [$c->user->managed_institutions]
+        }
+    );
+
+    $self->status_ok($c, entity => $c->stash->{entity});
+    return 1;
+}
+
+sub profile_POST {
+    my($self, $c) = @_;
+}
+
+
+sub profile1 :Path('profile/foo') :Args(0) {
+    my($self, $c) = @_;
+
+    # Stash the payment history
+    $c->stash(
+        payment_history => $c->model('DB::Subscription')->payment_history($c->user->id),
+    );
+
+    # Get a list of institutions where the user has management privileges
+    my $institutions = $c->model('DB::InstitutionMgmt')->list_inst_for_user($c->user->id);
+
+    # Need the institution alias 
+    foreach my $inst (@$institutions) {
+        $inst->{'name'} = $c->model('DB::InstitutionAlias')->get_alias($inst->{'id'},$c->stash->{lang}) || $inst->{'name'};
+    }
+
+    $c->stash->{user_institution_list} = $institutions;    
 
     return 1;
 }
@@ -371,38 +428,6 @@ sub reset :Path('reset') :Args() {
             $c->message({ type => "error", message => "username_not_found" });
         }
     }
-
-    return 1;
-}
-
-sub profile :Path('profile') :Args(0) {
-    my($self, $c) = @_;
-
-    my @subscriptions;
-    foreach my $portal ($c->model('DB::Portal')->list_subscribable) {
-        my $subscription = $c->user->subscription($portal);
-        push(@subscriptions, {
-            portal => $portal,
-            active => $c->user->subscription_active($portal), 
-            subscription => $c->user->subscription($portal)
-        });
-    }
-
-    # Stash the payment history
-    $c->stash(
-        payment_history => $c->model('DB::Subscription')->payment_history($c->user->id),
-        subscriptions => \@subscriptions
-    );
-
-    # Get a list of institutions where the user has management privileges
-    my $institutions = $c->model('DB::InstitutionMgmt')->list_inst_for_user($c->user->id);
-
-    # Need the institution alias 
-    foreach my $inst (@$institutions) {
-        $inst->{'name'} = $c->model('DB::InstitutionAlias')->get_alias($inst->{'id'},$c->stash->{lang}) || $inst->{'name'};
-    }
-
-    $c->stash->{user_institution_list} = $institutions;    
 
     return 1;
 }

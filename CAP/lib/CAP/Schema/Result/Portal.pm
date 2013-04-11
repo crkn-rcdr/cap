@@ -302,6 +302,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 subscriptions
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Subscription>
+
+=cut
+
+__PACKAGE__->has_many(
+  "subscriptions",
+  "CAP::Schema::Result::Subscription",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
 =head2 user_subscriptions
 
 Type: has_many
@@ -332,8 +347,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-05 14:15:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:C6cdYu0TWfDW8+YI2qCAmg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-11 14:00:32
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N42XSR5rv990mXWgPU8wTQ
 
 
 =head2 name([$lang])
@@ -409,7 +424,6 @@ sub get_languages {
 }
 
 
-
 =head2 set_language($lang, $priority, $title)
 
 Creates or updates the portal_lang with the listed characteristics
@@ -423,6 +437,34 @@ sub set_language {
         title => $title
     })
 }
+
+
+=head2 subscription($subscription_id)
+
+Retireves $subscription_id for the portal.
+
+=cut
+sub subscription {
+    my($self, $subscription_id) = @_;
+    return $self->find_related('portal_subscriptions', { id => $subscription_id });
+}
+
+
+=head2 discount ($code)
+
+Retrieves the requested discount
+
+=cut
+sub discount {
+    my($self, $code) = @_;
+    return $self->find_related('discounts', { code => $code });
+}
+
+
+
+
+
+
 
 sub hosts {
     my $self = shift;

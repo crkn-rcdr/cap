@@ -322,6 +322,52 @@ sub has_role {
     return 0;
 }
 
+
+=head2 subscription ($portal)
+
+Returns the susbcription for $portal.
+
+=cut
+sub subscription {
+    my($self, $portal) = @_;
+    my $subscription = $self->find_related("user_subscriptions", { portal_id => $portal->id });
+    return $subscription;
+}
+
+
+=head2 open_subscription
+
+Creates a new subscription row, or updates an existing pending subscription.
+
+=cut
+sub open_subscription {
+    my($self, $product, $discount, $discount_amount) = @_;
+    my $portal = $product->portal_id;
+    my $discount_code;
+    $discount_code = $discount->code if ($discount);
+
+    # If the user has an existing open subscription, find it. Otherwise,c
+    # create a new one.
+    my $subscription = $self->find_related('subscriptions', { completed => undef }  );
+
+    if ($subscription) {
+        $subscription->update({
+            portal_id => $portal->id,
+            discount_code => $discount_code,
+            discount_amount => $discount_amount
+        });
+    }
+    else {
+        $subscription = $self->create_related('subscriptions', {
+            portal_id => $portal->id,
+            discount_code => $discount_code,
+            discount_amount => $discount_amount
+        });
+    }
+    return $subscription;
+}
+
+
 # Returns the subscriber level for the user's subscription to $portal; 0 for no subscription
 sub subscriber_level {
     my($self, $portal) = @_;
@@ -405,12 +451,6 @@ sub log {
         warn(sprintf("Error updating user_log for user %d: $@\n", $self->id));
     }
     return 1;
-}
-
-sub subscription {
-    my($self, $portal) = @_;
-    my $subscription = $self->find_related("user_subscriptions", { portal_id => $portal->id });
-    return $subscription;
 }
 
 =head2 managed_institutions

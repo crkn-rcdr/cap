@@ -1,6 +1,5 @@
 use utf8;
 package CAP::Schema::Result::Institution;
-use Net::IP;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
@@ -244,8 +243,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-03 09:15:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3jihy6AVWj/fn9mgvhZYCw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-11 14:00:32
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N+uFRuIXpliFKtWnmCv2fQ
 
 
 =head2 update_if_valid ($data)

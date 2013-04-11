@@ -173,6 +173,38 @@ __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id
 # Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Tt5lajeKpvw6uxUbj+uBrQ
 
+=head2 active
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+Returns true if the subscription is currently active
+
+=cut
+sub active {
+    my($self) = @_;
+    return 1 if $self->permanent;
+    return 1 if DateTime->compare(DateTime->now(), $self->expires) != 1;
+    return 0;
+}
+
+
+=head2 calculate_expiry ($duration)
+
+Calculate an expiry date of DateTime::Duration $duration  from either now
+(if the subscription has expired) or from the current expiry date.
+
+=cut
+sub calculate_expiry {
+    my($self, $duration) = @_;
+    my $now = DateTime->now();
+    my $expires = $self->expires;
+
+    if (DateTime->compare($now, $self->expires) != 1) {
+        return $self->expires->clone->add_duration($duration);
+    }
+    else {
+        return $now->add_duration($duration);
+    }
+}
+
+
+
 1;

@@ -44,6 +44,10 @@ sub index_GET {
 
 sub create :Local :Path('create') ActionClass('REST') {
     my($self, $c) = @_;
+    $c->stash(
+        entity => { subscribable => [$c->model('DB::Portal')->list_subscribable] }
+    );
+
 }
 
 sub create_GET {

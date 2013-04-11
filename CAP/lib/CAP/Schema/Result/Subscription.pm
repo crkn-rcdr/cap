@@ -58,6 +58,13 @@ __PACKAGE__->table("subscription");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 portal_id
+
+  data_type: 'varchar'
+  is_foreign_key: 1
+  is_nullable: 0
+  size: 64
+
 =head2 completed
 
   data_type: 'datetime'
@@ -69,11 +76,17 @@ __PACKAGE__->table("subscription");
   data_type: 'tinyint'
   is_nullable: 1
 
-=head2 promo
+=head2 discount_code
 
   data_type: 'varchar'
   is_nullable: 1
-  size: 32
+  size: 16
+
+=head2 discount_amount
+
+  data_type: 'decimal'
+  is_nullable: 1
+  size: [10,2]
 
 =head2 oldexpire
 
@@ -91,40 +104,6 @@ __PACKAGE__->table("subscription");
 
   data_type: 'integer'
   is_foreign_key: 1
-  is_nullable: 1
-
-=head2 rcpt_amt
-
-  data_type: 'decimal'
-  default_value: 0.00
-  is_nullable: 1
-  size: [10,2]
-
-=head2 rcpt_name
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 rcpt_address
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 rcpt_no
-
-  data_type: 'integer'
-  is_nullable: 1
-
-=head2 rcpt_id
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 20
-
-=head2 rcpt_date
-
-  data_type: 'datetime'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 note
@@ -146,6 +125,8 @@ __PACKAGE__->add_columns(
   },
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "portal_id",
+  { data_type => "varchar", is_foreign_key => 1, is_nullable => 0, size => 64 },
   "completed",
   {
     data_type => "datetime",
@@ -154,8 +135,10 @@ __PACKAGE__->add_columns(
   },
   "success",
   { data_type => "tinyint", is_nullable => 1 },
-  "promo",
-  { data_type => "varchar", is_nullable => 1, size => 32 },
+  "discount_code",
+  { data_type => "varchar", is_nullable => 1, size => 16 },
+  "discount_amount",
+  { data_type => "decimal", is_nullable => 1, size => [10, 2] },
   "oldexpire",
   {
     data_type => "datetime",
@@ -170,27 +153,6 @@ __PACKAGE__->add_columns(
   },
   "payment_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-  "rcpt_amt",
-  {
-    data_type => "decimal",
-    default_value => "0.00",
-    is_nullable => 1,
-    size => [10, 2],
-  },
-  "rcpt_name",
-  { data_type => "text", is_nullable => 1 },
-  "rcpt_address",
-  { data_type => "text", is_nullable => 1 },
-  "rcpt_no",
-  { data_type => "integer", is_nullable => 1 },
-  "rcpt_id",
-  { data_type => "varchar", is_nullable => 1, size => 20 },
-  "rcpt_date",
-  {
-    data_type => "datetime",
-    datetime_undef_if_invalid => 1,
-    is_nullable => 1,
-  },
   "note",
   { data_type => "text", is_nullable => 1 },
 );
@@ -207,32 +169,6 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
-=head1 UNIQUE CONSTRAINTS
-
-=head2 C<rcpt_id>
-
-=over 4
-
-=item * L</rcpt_id>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("rcpt_id", ["rcpt_id"]);
-
-=head2 C<rcpt_no>
-
-=over 4
-
-=item * L</rcpt_no>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("rcpt_no", ["rcpt_no"]);
-
 =head1 RELATIONS
 
 =head2 payment_id
@@ -247,6 +183,20 @@ __PACKAGE__->belongs_to(
   "payment_id",
   "CAP::Schema::Result::Payment",
   { id => "payment_id" },
+);
+
+=head2 portal_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Portal>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "portal_id",
+  "CAP::Schema::Result::Portal",
+  { id => "portal_id" },
 );
 
 =head2 user_id
@@ -275,8 +225,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 15:07:30
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:YdEfXWq4+6rAN+hxdPnRWQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-11 14:31:08
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rEHhP7LaBBGwzknpJWSYlQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

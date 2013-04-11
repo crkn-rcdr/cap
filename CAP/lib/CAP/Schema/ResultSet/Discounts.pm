@@ -9,12 +9,18 @@ use base 'DBIx::Class::ResultSet';
 
 =cut
 
-=head2 validate($fields)
+=head2 list
+
+Returns a list of all discounts. Will return an array or arryref,
+depending on the calling context.
 
 =cut
-sub validate {
-    my($self, $fields) = @_;
-    my @errors = ();
+sub list {
+    my($self) = @_;
+    my @discounts = $self->search({}, { order_by => 'expires' })->all;
+    return @discounts if (wantarray);
+    return \@discounts;
 }
+
 
 1;
