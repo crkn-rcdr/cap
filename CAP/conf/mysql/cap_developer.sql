@@ -190,6 +190,63 @@ LOCK TABLES `feedback` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `image_resources`
+--
+
+DROP TABLE IF EXISTS `image_resources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `image_resources` (
+  `image_id` int(11) NOT NULL DEFAULT '0',
+  `lang` varchar(2) NOT NULL DEFAULT '',
+  `resource` enum('title','description') NOT NULL DEFAULT 'title',
+  `value` text,
+  PRIMARY KEY (`image_id`,`lang`,`resource`),
+  CONSTRAINT `image_resources_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `image_resources`
+--
+
+LOCK TABLES `image_resources` WRITE;
+/*!40000 ALTER TABLE `image_resources` DISABLE KEYS */;
+/*!40000 ALTER TABLE `image_resources` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `images`
+--
+
+DROP TABLE IF EXISTS `images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `filename` varchar(128) NOT NULL,
+  `content_type` varchar(32) NOT NULL,
+  `height` int(11) NOT NULL,
+  `width` int(11) NOT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `filename` (`filename`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `images_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `images`
+--
+
+LOCK TABLES `images` WRITE;
+/*!40000 ALTER TABLE `images` DISABLE KEYS */;
+/*!40000 ALTER TABLE `images` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `info`
 --
 
@@ -210,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','58',NULL);
+INSERT INTO `info` VALUES ('version','62',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -917,26 +974,22 @@ CREATE TABLE `subscription` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
+  `portal_id` varchar(64) NOT NULL,
   `completed` datetime DEFAULT NULL,
   `success` tinyint(1) DEFAULT NULL,
-  `promo` varchar(32) DEFAULT NULL,
+  `discount_code` varchar(16) DEFAULT NULL,
+  `discount_amount` decimal(10,2) DEFAULT NULL,
   `oldexpire` datetime DEFAULT NULL,
   `newexpire` datetime DEFAULT NULL,
   `payment_id` int(11) DEFAULT NULL,
-  `rcpt_amt` decimal(10,2) DEFAULT '0.00',
-  `rcpt_name` text,
-  `rcpt_address` text,
-  `rcpt_no` int(11) DEFAULT NULL,
-  `rcpt_id` varchar(20) DEFAULT NULL,
-  `rcpt_date` datetime DEFAULT NULL,
   `note` text,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `rcpt_no` (`rcpt_no`),
-  UNIQUE KEY `rcpt_id` (`rcpt_id`),
   KEY `user_id` (`user_id`),
   KEY `payment_id` (`payment_id`),
+  KEY `subscription_ibfk_3` (`portal_id`),
   CONSTRAINT `subscription_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `subscription_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`)
+  CONSTRAINT `subscription_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
+  CONSTRAINT `subscription_ibfk_3` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1219,4 +1272,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-10 10:15:31
+-- Dump completed on 2013-04-12  9:57:52
