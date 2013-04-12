@@ -439,6 +439,19 @@ sub set_language {
 }
 
 
+=head2 list_subscriptions
+
+Returns a list of subscriptions for this portal
+
+=cut
+sub list_subscriptions {
+    my($self) = @_;
+    my @subscriptions = $self->search_related('portal_subscriptions')->all;
+    return @subscriptions if (wantarray);
+    return \@subscriptions;
+}
+
+
 =head2 subscription($subscription_id)
 
 Retireves $subscription_id for the portal.

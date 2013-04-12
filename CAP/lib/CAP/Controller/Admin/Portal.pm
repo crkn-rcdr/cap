@@ -21,7 +21,14 @@ sub base : Chained('/') PathPart('admin/portal') CaptureArgs(1) {
         $c->detach();
     }
 
-    $c->stash(entity => $portal);
+    $c->stash(entity => {
+        portal  => $portal,
+        features => $portal->features,
+        languages => [$portal->get_languages],
+        hosts   => $portal->hosts(),
+        subscriptions => [$portal->get_subscriptions]
+    });
+
     return 1;
 }
 
@@ -44,7 +51,7 @@ sub create :Path('create') {
     my($self, $c) = @_;
     my $id = $c->req->body_parameters->{id};
     my $portal = $c->model("DB::Portal")->find_or_create({ id => $id });
-    $c->res->redirect($c->uri_for_action('/admin/portal/edit', $id));
+    $c->res->redirect($c->uri_for_action('/admin/portal/index', $id));
 }
 
 #
@@ -53,28 +60,6 @@ sub create :Path('create') {
 
 sub edit :Local Path('edit') Args(1) ActionClass('REST') {
     my($self, $c, $id) = @_;
-}
-
-sub edit_GET {
-    my($self, $c, $id) = @_;
-    my $portal = $c->model('DB::Portal')->find({ id => $id });
-    if (! $portal) {
-        $c->message({ type => "error", message => "portal_not_found" });
-        $self->status_not_found( $c, message => "No such portal");
-        return 1;
-    }
-
-    $c->stash(entity => {
-        id      => $portal->id,
-        access  => $c->cap->build_entity($portal),
-        features => $portal->features,
-        languages => [$portal->get_languages],
-        hosts   => $portal->hosts(),
-        subscriptions => [$portal->get_subscriptions]
-    });
-
-    $self->status_ok($c, entity => $c->stash->{entity});
-    return 1;
 }
 
 sub edit_POST {
@@ -153,8 +138,8 @@ sub edit_POST {
         }
     }
 
-    $c->res->redirect($c->uri_for_action("/admin/portal/edit", $id));
-    return 1;
+    $c->res->redirect($c->uri_for_action("/admin/portal/index", [$portal->id]));
+    $c->detach();
 }
 
 sub to_list {

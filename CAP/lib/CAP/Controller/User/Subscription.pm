@@ -92,7 +92,7 @@ sub subscribe : Chained('base') PathPart('subscribe') Args(1) ActionClass('REST'
 
 
     # Determine the expiration date
-    my $duration = DateTime::Duration->new(days => $product->duration);
+    my $duration = DateTime::Duration->new(days => $product->duration + 1); # Round up to the next day
     if ($subscription) {
         $c->stash->{entity}->{expiry} = $subscription->calculate_expiry($duration);
     }
@@ -113,6 +113,7 @@ sub subscribe_POST {
     my($self, $c, $product_id) = @_;
     my $portal = $c->stash->{entity}->{portal};
     my $product = $c->stash->{entity}->{product};
+    my $expiry = $c->stash->{entity}->{expiry};
     my $data = $c->stash->{data};
     my $submit = $data->{submit};
     my $tos_ok = $data->{tos_ok};
@@ -147,7 +148,7 @@ sub subscribe_POST {
             # FIXME: we aren't preserving the discount code here.
         }
 
-        my $subscription = $c->user->open_subscription($product, $discount, $discount_amount);
+        my $subscription = $c->user->open_subscription($product, $expiry, $discount, $discount_amount);
         #$c->detach('payment/paypal/pay', ["DESCRIBE PRODUCT HERE", '/user/subscibe_finalize', $subscription->id]);
     }
 

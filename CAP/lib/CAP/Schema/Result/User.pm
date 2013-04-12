@@ -341,7 +341,7 @@ Creates a new subscription row, or updates an existing pending subscription.
 
 =cut
 sub open_subscription {
-    my($self, $product, $discount, $discount_amount) = @_;
+    my($self, $product, $expiry, $discount, $discount_amount) = @_;
     my $portal = $product->portal_id;
     my $discount_code;
     $discount_code = $discount->code if ($discount);
@@ -354,14 +354,16 @@ sub open_subscription {
         $subscription->update({
             portal_id => $portal->id,
             discount_code => $discount_code,
-            discount_amount => $discount_amount
+            discount_amount => $discount_amount,
+            newexpire => $expiry
         });
     }
     else {
         $subscription = $self->create_related('subscriptions', {
             portal_id => $portal->id,
             discount_code => $discount_code,
-            discount_amount => $discount_amount
+            discount_amount => $discount_amount,
+            newexpire => $expiry
         });
     }
     return $subscription;
