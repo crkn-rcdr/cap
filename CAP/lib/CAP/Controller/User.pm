@@ -601,43 +601,56 @@ sub subscribe_process :Path('subscribe_process') :Args(0) {
 
 sub subscribe_finalize : Private
 {
-    my($self, $c, $success, $paymentid, $foreignid) = @_;
+    my($self, $c, $success, $payment_id, $foreign_id) = @_;
+    my $subscription = $c->user->retrieve_subscription;
+    my $payment = $c->user->retrieve_payment($foreign_id);
 
-    # Get the matching subscription row
-    my $subscriberow = $c->user->subscriptions->find($foreignid);
-    my $paymentrow = $c->user->payments->find($paymentid);
-    unless ($subscriberow && $paymentrow) {
-        # No matching subscription and unable to create new row?
-        $c->detach('/error', [500, "Error finalizing subscription"]);
-        return 0;
+    if (!($subscription && $payment)) {
+        $c->message({ type => "error", message => "payment_error" });
+        $self->status_bad_request($c, message => "Error processing payment");
+        $c->res->redirect($c->uri_for_action("/user/profile"));
+        $c->detach();
     }
+
+    if (! $success) {
+        $subscription->update({
+            completed => DateTime->now(),
+            success => $success,
+            oldexpire => undef,
+            newexpire => undef,
+            payment_id => $payment_id,
+        });
+        $c->message({ type => "error", message => "payment_failed" });
+        $self->status_bad_request($c, message => "Your payment was not processed");
+        $c->res->redirect($c->uri_for_action("/user/profile"));
+        $c->detach();
+    }
+
+
+    $c->message({ type => "success", message => "This is as far as the test code goes" });
+    $self->status_bad_request($c, message => "Finished code block");
+    $c->res->redirect($c->uri_for_action("/user/profile"));
+    $c->detach();
+
+
+    # *** TESTING:: Dont' do anything.
+    return 1;
+
+    my $paymentid;
+    my $subscriberow;
+    my $foreignid;
+    my $paymentrow;
     my $message = $paymentrow->message;
     my $amount  = $paymentrow->amount;
     my $userid =  $c->user->id;
 
-
-    if (! $success) {
-
-        # Record completion and the messages from PayPal
-        eval { $subscriberow->update({
-            completed => \'now()', #' Makes Emacs Happy
-            success => $success,
-            payment_id => $paymentid,
-            oldexpire =>   undef,
-            newexpire =>   undef,
-            payment_id =>   $paymentid
-        })};  
-
-        $c->message({ type => "error", message => "payment_failed" });
-        $c->response->redirect('/user/profile');
-    }
 
 
 
     # TODO: since we are only handling ECO subscriptions right now, we'll
     # hardcode the subscription here, but in future we will have to
     # determine which portal we're trying to subscribe to.
-    my $subscription = $c->model('DB::UserSubscription')->find_or_create(user_id => $c->user->id, portal_id => 'eco');
+    $subscription = $c->model('DB::UserSubscription')->find_or_create(user_id => $c->user->id, portal_id => 'eco');
     $c->detach('/error', [500, "Could not find or create subscription"]) unless ($subscription);
 
 

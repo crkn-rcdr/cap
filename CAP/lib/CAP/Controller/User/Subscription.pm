@@ -97,7 +97,7 @@ sub subscribe : Chained('base') PathPart('subscribe') Args(1) ActionClass('REST'
         $c->stash->{entity}->{expiry} = $subscription->calculate_expiry($duration);
     }
     else {
-        $c->stash->{entity}->{expiry} = DateTime->now()->calculate_expiry($duration);
+        $c->stash->{entity}->{expiry} = DateTime->now()->add_duration($duration);
     }
 
     return 1;
@@ -149,7 +149,7 @@ sub subscribe_POST {
         }
 
         my $subscription = $c->user->open_subscription($product, $expiry, $discount, $discount_amount);
-        #$c->detach('payment/paypal/pay', ["DESCRIBE PRODUCT HERE", '/user/subscibe_finalize', $subscription->id]);
+        $c->detach('/payment/paypal/pay', [500, "DESCRIBE PRODUCT HERE", '/user/subscribe_finalize', $subscription->id]);
     }
 
 

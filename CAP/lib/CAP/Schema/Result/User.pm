@@ -385,6 +385,30 @@ sub open_subscription {
 }
 
 
+=head2 retrieve_subscription
+
+Retrieves the user's current pending open subscription and
+
+=cut
+sub retrieve_subscription {
+    my($self) = @_;
+    return $self->find_related('subscriptions', { completed => undef });
+}
+
+
+=head2 retrieve_payment ($foreign_id)
+
+Retrieves a payment based on its foreign id column
+
+=cut
+sub retrieve_payment {
+    my($self, $foreign_id) = @_;
+    my $payment = $self->search_related('payments', { foreignid => $foreign_id });
+    return $payment->first if ($payment->count);
+    return undef;
+}
+
+
 # Returns the subscriber level for the user's subscription to $portal; 0 for no subscription
 sub subscriber_level {
     my($self, $portal) = @_;

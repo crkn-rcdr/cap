@@ -11,10 +11,10 @@ sub auto :Private {
 
     # Don't do anything if PayPal is not enabled for this portal. Anyone
     # trying to call finalize will instead be redirected to /.
-    if (! $c->portal->has_feature('paypal')) {
-        $c->response->redirect('/index');
-        return 0;
-    }
+    #if (! $c->portal->has_feature('paypal')) {
+    #    $c->response->redirect('/index');
+    #    return 0;
+    #}
 
     # Proceed with normal processing.
     return 1;
