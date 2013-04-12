@@ -169,7 +169,22 @@ __PACKAGE__->has_many(
   "feedbacks",
   "CAP::Schema::Result::Feedback",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
+);
+
+=head2 images
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Images>
+
+=cut
+
+__PACKAGE__->has_many(
+  "images",
+  "CAP::Schema::Result::Images",
+  { "foreign.user_id" => "self.id" },
+  {},
 );
 
 =head2 institution_mgmts
@@ -184,7 +199,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 payments
@@ -199,7 +214,7 @@ __PACKAGE__->has_many(
   "payments",
   "CAP::Schema::Result::Payment",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 subscriptions
@@ -214,7 +229,7 @@ __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_documents
@@ -229,7 +244,7 @@ __PACKAGE__->has_many(
   "user_documents",
   "CAP::Schema::Result::UserDocument",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_logs
@@ -244,7 +259,7 @@ __PACKAGE__->has_many(
   "user_logs",
   "CAP::Schema::Result::UserLog",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_roles
@@ -259,7 +274,7 @@ __PACKAGE__->has_many(
   "user_roles",
   "CAP::Schema::Result::UserRoles",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_subscriptions
@@ -274,7 +289,7 @@ __PACKAGE__->has_many(
   "user_subscriptions",
   "CAP::Schema::Result::UserSubscription",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_ids
@@ -288,8 +303,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-04 09:18:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QUW/JdsGj8rBchPbMN5aUA
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-04-12 12:39:10
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:+kgdqzsbBVY5MWdup3esPA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
