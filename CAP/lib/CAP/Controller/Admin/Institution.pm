@@ -59,7 +59,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 Edit the basic institution information (name, code).
 
 =cut
-sub edit :Chained('base') :PathPart('edit') :Args(0) ActionClass('REST') {
+sub edit : Chained('base') PathPart('edit') Args(0) ActionClass('REST') {
     my ($self, $c) = @_;
 }
 
@@ -204,5 +204,25 @@ sub updated :Private {
 }
 
 __PACKAGE__->meta->make_immutable;
+
+
+
+
+=head2 create
+
+Create a new institution
+
+=cut
+
+sub create : Path('/institution/create') Args(0) ActionClass('REST') {
+    my($self, $c) = @_;
+}
+
+sub create_GET {
+    my($self, $c) = @_;
+    my $institution = $c->model('DB::Institution')->create({});
+    $c->res->redirect($c->uri_for_action('/admin/institution/index', [$institution->id]));
+    $c->detach();
+}
 
 1;
