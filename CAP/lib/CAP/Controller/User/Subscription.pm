@@ -123,6 +123,14 @@ sub subscribe_POST {
             $c->detach();
         }
 
+        # Check that the code is still valid
+        if (! $discount->active) {
+            $c->message({ type => "error", message => "invalid_discount_expired", params => [ $discount->code ]});
+            $self->status_bad_request($c, message => "Discount code expired");
+            $c->res->redirect($c->uri_for_action("/user/subscription/subscribe", [$portal->id, $product->id]));
+            $c->detach();
+        }
+
         # Check that the user has not already redeemed the code
         if ($c->user->discount_used($discount)) {
             $c->message({ type => "error", message => "invalid_discount_reused", params => [ $discount->code ]});
