@@ -499,105 +499,6 @@ sub edit :Path('edit') :Args(0) {
     return 1;
 }
 
-# for subscribe GETs.
-sub subscribe :Path('subscribe') :Args(0) {
-    my($self, $c) = @_;
-
-    my $amount = $c->stash->{subscription_price}; # getting this from the portal config
-    my $promocode = $c->request->params->{promocode} || '';
-    my $promo_value = 0;
-    my $promo_message = '';
-
-    if ($promocode) {
-        my $promo_row = $c->model('DB::Promocode')->find($promocode);
-        if ($promo_row) {
-            if ($promo_row->expired) {
-                $promo_message = 'expired';
-            } else {
-                $promo_value = int($promo_row->amount);
-                $promo_message = 'OK';
-            }
-        } else {
-            $promo_message = 'invalid';
-        }
-    }
-
-    $c->stash({
-        promocode => $promocode,
-        promo_value => $promo_value,
-        promo_message => $promo_message,
-    });
-
-    return 1;
-}
-
-# for subscribe POSTs.
-sub subscribe_process :Path('subscribe_process') :Args(0) {
-    my ($self, $c) = @_;
-    my $mode = $c->req->params->{submit} || "";
-    my $promocode = $c->req->params->{promocode};
-    my $terms = $c->req->params->{terms};
-    my $promo_value = 0;
-    my $amount = $c->stash->{subscription_price}; # getting this from the portal config
-
-    my $get_vars = {
-        promocode => $promocode,
-    };
-
-    if ($mode eq "verify_code") {
-        $c->response->redirect($c->uri_for_action("/user/subscribe", $get_vars), 303);
-        return 0;
-    } elsif ($mode eq "subscribe") {
-        my $error = 0;
-
-        # Validate promocode
-        if ($promocode) {
-            my $promo_row = $c->model('DB::Promocode')->find($promocode);
-            if ($promo_row) {
-                if ($promo_row->expired) {
-                    $c->message({ type => "error", message => "promocode_expired" });
-                    $error = 1;
-                } else {
-                    $promo_value = $promo_row->amount;
-                }
-            } else {
-                $c->message({ type => "error", message => "promocode_invalid" });
-                $error = 1;
-            }
-        }
-
-        # Ensure terms checkbox is checked
-        unless (defined($terms)) {
-            $c->message({ type => "error", message => "terms_required" });
-            $error = 1;
-        }
-        
-        if ($error) {
-            $c->response->redirect($c->uri_for_action("/user/subscribe", $get_vars), 303);
-            return 1;
-        };
-
-        my $payment = $amount - $promo_value;
-
-        # Create the subscription row. Delete any current pending
-        # subscription transactions for this user first so that we never
-        # have more than one active pending subscription per user.
-        my $incomplete_transactions = $c->model('DB::Subscription')->search({ user_id => $c->user->id, completed => undef});
-        $incomplete_transactions->delete if ($incomplete_transactions);
-        my $subscriptionrow = $c->user->add_to_subscriptions(
-            {
-                completed    => undef,
-                promo        => $promocode,
-            }
-        );
-        # TODO Refactor the format_money macro within templates to work here too, or some other solution
-        $c->detach('/payment/paypal/pay', [$payment, $c->loc("ECO subscription for \$[_1]", $payment), '/user/subscribe_finalize', $subscriptionrow->id]);
-    } else {
-        $c->detach("/error", [404, "This is not the page you're looking for."]);
-    }
-
-    return 1;
-}
 
 sub subscribe_finalize : Private
 {
@@ -612,135 +513,33 @@ sub subscribe_finalize : Private
         $c->detach();
     }
 
+    # Send an email notification to administrators
+    if (exists($c->config->{subscription_admins})) {
+        $c->forward("/mail/subscription_notice",
+            [$c->config->{subscription_admins}, $success, $subscription->old_expire, $subscription->new_expire, $payment->message]
+        );
+    }
+
     if (! $success) {
-        $subscription->update({
-            completed => DateTime->now(),
-            success => $success,
-            oldexpire => undef,
-            newexpire => undef,
-            payment_id => $payment_id,
-        });
+        $c->user->close_subscription($payment);
         $c->message({ type => "error", message => "payment_failed" });
         $self->status_bad_request($c, message => "Your payment was not processed");
         $c->res->redirect($c->uri_for_action("/user/profile"));
         $c->detach();
     }
 
+    $c->log->debug("User/subscribe_finalize: Success:$success; PaymentID: $payment_id; ForeignID:$foreign_id ") if ($c->debug);
 
-    $c->message({ type => "success", message => "This is as far as the test code goes" });
-    $self->status_bad_request($c, message => "Finished code block");
+    # Finalize the subscription
+    $c->user->set_subscription($subscription);
+    $c->user->close_subscription($payment);
+
+
+    $c->message({ type => "success", message => "ok_subscription" });
+    $self->status_bad_request($c, message => "Subscription completed successfully");
     $c->res->redirect($c->uri_for_action("/user/profile"));
     $c->detach();
 
-
-    # *** TESTING:: Dont' do anything.
-    return 1;
-
-    my $paymentid;
-    my $subscriberow;
-    my $foreignid;
-    my $paymentrow;
-    my $message = $paymentrow->message;
-    my $amount  = $paymentrow->amount;
-    my $userid =  $c->user->id;
-
-
-
-
-    # TODO: since we are only handling ECO subscriptions right now, we'll
-    # hardcode the subscription here, but in future we will have to
-    # determine which portal we're trying to subscribe to.
-    $subscription = $c->model('DB::UserSubscription')->find_or_create(user_id => $c->user->id, portal_id => 'eco');
-    $c->detach('/error', [500, "Could not find or create subscription"]) unless ($subscription);
-
-
-    my $period = defined ( $c->config->{subscription_period} ) ? $c->config->{subscription_period} : 365; # replace with expiry dates
-
-    $c->log->debug("User/subscribe_finalize: Success:$success , PaymentID: $paymentid ForeignID:$foreignid ") if ($c->debug);
-
-
-    ## Date manipulation to set the old and new expiry dates
-
-    #my $subexpires = $c->user->subexpires;
-    my $subexpires = $subscription->expires;
-
-    my $dateexp = new Date::Manip::Date;
-    my $err = $dateexp->parse($subexpires);
-
-    my $datetoday = new Date::Manip::Date;
-    $datetoday->parse("today");
-
-    # If we couldn't parse expiry date (likely null), or expired in past.
-    if ($err || (($dateexp->cmp($datetoday)) <= 0)) {
-        # The new expiry date is built from today
-        $dateexp=$datetoday;
-    }
-
-    # Create a delta based on the period we were passed in.
-    my $deltaexpire = new Date::Manip::Delta;
-    $err = $deltaexpire->parse($period . " days");
-
-    if ($err) {
-	# If I was passed in a bad period, then what?
-	## TODO: localize
-	$c->detach('/error', [500, "Subscription period invalid"]);
-	return 0;
-    }
-    my $datenew = $dateexp->calc($deltaexpire);
-    my $newexpires = $datenew->printf("%Y-%m-%d");
-    ## END date manipulation
-
-
-    # Update the subscription.
-    eval {
-        $subscription->update({
-            expires => $newexpires,
-            reminder_sent => 0,
-            expiry_logged => undef,
-            level => 2
-        });
-    };
-    if ($@) {
-        $c->log->debug("User/subscribe_finalize: user account:  " .$@) if ($c->debug);
-        $c->detach('/error', [500,"user account"]);
-    }
-
-    # update user_subscription table for paid subscriptions
-    my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
-
-    # Update current session. User may have become subscriber.
-    $c->update_session(1);
-
-    # Whether successful or not, record completion and the messages
-    # from PayPal
-    eval { $subscriberow->update({
-	   completed => \'now()', #' Makes Emacs Happy
-	   success => $success,
-	   payment_id => $paymentid,
-	   oldexpire =>   $subexpires,
-	   newexpire =>   $newexpires,
-           payment_id =>   $paymentid
-      	  }) 
-    };  
-
-
-    # Send an email notification to administrators
-    if (exists($c->config->{subscription_admins})) {
-        $c->forward("/mail/subscription_notice", [$c->config->{subscription_admins}, $success, $subexpires, $newexpires, $message]);
-    }
-
-
-    if ($@) {
-	$c->log->debug("User/subscribe_finalize subscriber update:  " .$@) if ($c->debug);
-	$c->detach('/error', [500,"subscriber update"]);
-    }
-
-    $c->message(Message::Stack::Message->new(
-            level => "success",
-            msgid => "payment_complete",
-            params => [$amount]));
-    $c->response->redirect("/user/subscribe_confirmed");
-    return 0;
 }
 
 sub subscribe_confirmed :Path('subscribe_confirmed') :Args(0) {

@@ -76,10 +76,10 @@ sub edit_POST {
     given ($data{update}) {
         when ('access') {
             $portal->update({
-                enabled         => $data{enabled} ? 1 : 0,
-                users           => $data{users} ? 1 : 0,
-                subscriptions   => $data{subscriptions} ? 1 : 0,
-                institutions    => $data{institutions} ? 1 : 0,
+                enabled                => $data{enabled} ? 1 : 0,
+                supports_users         => $data{supports_users} ? 1 : 0,
+                supports_subscriptions => $data{supports_subscriptions} ? 1 : 0,
+                supports_institutions  => $data{supports_institutions} ? 1 : 0,
                 access_preview  => $data{access_preview},
                 access_all      => $data{access_all},
                 access_resize   => $data{access_resize},

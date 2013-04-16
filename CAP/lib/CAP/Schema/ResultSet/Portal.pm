@@ -23,7 +23,7 @@ Returns portals that can be subscribed to.
 =cut
 sub list_subscribable {
     my($self) = @_;
-    my @portals = $self->search({ subscriptions => 1})->all;
+    my @portals = $self->search({ supports_subscriptions => 1})->all;
     return @portals if (wantarray);
     return \@portals;
 }

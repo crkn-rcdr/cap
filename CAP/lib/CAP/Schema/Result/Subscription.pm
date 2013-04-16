@@ -76,6 +76,12 @@ __PACKAGE__->table("subscription");
   data_type: 'tinyint'
   is_nullable: 1
 
+=head2 product
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 32
+
 =head2 discount_code
 
   data_type: 'varchar'
@@ -88,16 +94,26 @@ __PACKAGE__->table("subscription");
   is_nullable: 1
   size: [10,2]
 
-=head2 oldexpire
+=head2 old_expire
 
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
   is_nullable: 1
 
-=head2 newexpire
+=head2 new_expire
 
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
+  is_nullable: 1
+
+=head2 old_level
+
+  data_type: 'integer'
+  is_nullable: 1
+
+=head2 new_level
+
+  data_type: 'integer'
   is_nullable: 1
 
 =head2 payment_id
@@ -135,22 +151,28 @@ __PACKAGE__->add_columns(
   },
   "success",
   { data_type => "tinyint", is_nullable => 1 },
+  "product",
+  { data_type => "varchar", is_nullable => 1, size => 32 },
   "discount_code",
   { data_type => "varchar", is_nullable => 1, size => 16 },
   "discount_amount",
   { data_type => "decimal", is_nullable => 1, size => [10, 2] },
-  "oldexpire",
+  "old_expire",
   {
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
   },
-  "newexpire",
+  "new_expire",
   {
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
   },
+  "old_level",
+  { data_type => "integer", is_nullable => 1 },
+  "new_level",
+  { data_type => "integer", is_nullable => 1 },
   "payment_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "note",
@@ -225,8 +247,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-11 14:31:08
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rEHhP7LaBBGwzknpJWSYlQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-12 13:00:57
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QkEY1Vy2izigMaWZEosavQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

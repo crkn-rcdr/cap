@@ -144,7 +144,7 @@ __PACKAGE__->has_many(
   "image_resources",
   "CAP::Schema::Result::ImageResources",
   { "foreign.image_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_id
@@ -158,8 +158,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-04-12 12:39:10
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zeVDNnSvk4CCuo9PMiwIgg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-12 13:00:57
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uvJ3IyARORyiIFLbDEHa/w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

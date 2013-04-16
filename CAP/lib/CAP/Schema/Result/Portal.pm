@@ -51,19 +51,19 @@ __PACKAGE__->table("portal");
   data_type: 'tinyint'
   is_nullable: 0
 
-=head2 users
+=head2 supports_users
 
   data_type: 'tinyint'
   default_value: 0
   is_nullable: 0
 
-=head2 subscriptions
+=head2 supports_subscriptions
 
   data_type: 'tinyint'
   default_value: 0
   is_nullable: 0
 
-=head2 institutions
+=head2 supports_institutions
 
   data_type: 'tinyint'
   default_value: 0
@@ -113,11 +113,11 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
   "enabled",
   { data_type => "tinyint", is_nullable => 0 },
-  "users",
+  "supports_users",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "subscriptions",
+  "supports_subscriptions",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "institutions",
+  "supports_institutions",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "access_preview",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
@@ -347,8 +347,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-11 14:00:32
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N42XSR5rv990mXWgPU8wTQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-15 11:22:45
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cx4seUcPiOqEYCMPdlIcPg
 
 
 =head2 name([$lang])

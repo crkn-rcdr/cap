@@ -169,7 +169,7 @@ __PACKAGE__->has_many(
   "feedbacks",
   "CAP::Schema::Result::Feedback",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 images
@@ -184,7 +184,7 @@ __PACKAGE__->has_many(
   "images",
   "CAP::Schema::Result::Images",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_mgmts
@@ -199,7 +199,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 payments
@@ -214,7 +214,7 @@ __PACKAGE__->has_many(
   "payments",
   "CAP::Schema::Result::Payment",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 subscriptions
@@ -229,7 +229,7 @@ __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_documents
@@ -244,7 +244,7 @@ __PACKAGE__->has_many(
   "user_documents",
   "CAP::Schema::Result::UserDocument",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_logs
@@ -259,7 +259,7 @@ __PACKAGE__->has_many(
   "user_logs",
   "CAP::Schema::Result::UserLog",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_roles
@@ -274,7 +274,7 @@ __PACKAGE__->has_many(
   "user_roles",
   "CAP::Schema::Result::UserRoles",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 user_subscriptions
@@ -289,7 +289,7 @@ __PACKAGE__->has_many(
   "user_subscriptions",
   "CAP::Schema::Result::UserSubscription",
   { "foreign.user_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_ids
@@ -303,13 +303,12 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-04-12 12:39:10
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:+kgdqzsbBVY5MWdup3esPA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-12 13:01:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RtrPDvIXvF7oZdXhWPk/4Q
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
 
-#__PACKAGE__->load_components('ForceUTF8');
 __PACKAGE__->add_columns(
     'password' => {
         data_type => 'VARCHAR',
@@ -320,6 +319,16 @@ __PACKAGE__->add_columns(
         encode_check_method => 'check_password',
     } 
 );
+
+
+# This relationship does not get auto-generated, for some reason.
+__PACKAGE__->has_many(
+  "user_discounts",
+  "CAP::Schema::Result::UsersDiscounts",
+  { "foreign.user_id" => "self.id" },
+  undef,
+);
+
 
 =head2 has_role($role_name, [$by_name])
 
@@ -358,28 +367,40 @@ Creates a new subscription row, or updates an existing pending subscription.
 sub open_subscription {
     my($self, $product, $expiry, $discount, $discount_amount) = @_;
     my $portal = $product->portal_id;
+    my $old_expire = undef;
+    my $old_level = undef;
     my $discount_code;
     $discount_code = $discount->code if ($discount);
 
-    # If the user has an existing open subscription, find it. Otherwise,c
+    # If the user has an existing subscription to this portal, store the
+    # current expiry date and level.
+    my $user_subscription = $self->find_related('user_subscriptions', { portal_id => $product->portal_id->id });
+    if ($user_subscription) {
+        $old_expire = $user_subscription->expires;
+        $old_level = $user_subscription->level;
+    }
+
+
+    # If the user has an existing open subscription, find it. Otherwise,
     # create a new one.
     my $subscription = $self->find_related('subscriptions', { completed => undef }  );
 
+    my $fields = {
+        portal_id => $portal->id,
+        product => $product->id,
+        discount_code => $discount_code,
+        discount_amount => $discount_amount,
+        old_expire => $old_expire,
+        new_expire => $expiry,
+        old_level => $old_level,
+        new_level => $product->level
+    };
+
     if ($subscription) {
-        $subscription->update({
-            portal_id => $portal->id,
-            discount_code => $discount_code,
-            discount_amount => $discount_amount,
-            newexpire => $expiry
-        });
+        $subscription->update($fields);
     }
     else {
-        $subscription = $self->create_related('subscriptions', {
-            portal_id => $portal->id,
-            discount_code => $discount_code,
-            discount_amount => $discount_amount,
-            newexpire => $expiry
-        });
+        $subscription = $self->create_related('subscriptions', $fields);
     }
     return $subscription;
 }
@@ -396,6 +417,25 @@ sub retrieve_subscription {
 }
 
 
+=head2 close_subscription
+
+Finalize a subscription row based on the $payment
+
+=cut
+sub close_subscription {
+    my($self, $payment) = @_;
+    my $subscription = $self->find_related('subscriptions', { completed => undef }  );
+    if ($subscription) {
+        $subscription->update({
+            completed => DateTime->now(),
+            success => $payment->success,
+            payment_id => $payment->id
+        });
+    }
+    return $subscription;
+}
+
+
 =head2 retrieve_payment ($foreign_id)
 
 Retrieves a payment based on its foreign id column
@@ -407,6 +447,49 @@ sub retrieve_payment {
     return $payment->first if ($payment->count);
     return undef;
 }
+
+
+=head2 set_subscription ($subscription)
+
+Set's a user's subscription in the user_subscriptions table to values from
+$subscription. Resets the reminder sent and expiry_logged flags. If a
+discount code was used, record the use.
+
+=cut
+sub set_subscription {
+    my($self, $subscription) = @_;
+    my $user_subscription = $self->find_or_create_related('user_subscriptions', { portal_id => $subscription->portal_id });
+    $user_subscription->update({
+        expires => $subscription->new_expire,
+        reminder_sent => 0,
+        expiry_logged => undef,
+        level => $subscription->new_level
+    });
+
+    if ($subscription->discount_code) {
+        # Get the ID for the discount code
+        my $discount = $self->result_source->schema->resultset('Discounts')->find({ code => $subscription->discount_code });
+        if ($discount) {
+            $self->update_or_create_related('user_discounts', { discount_id => $discount->id, subscription_id => $subscription->id });
+        }
+    }
+
+    return $user_subscription;
+}
+
+
+=head2 discount_used ($discount)
+
+If the user has previously used the specified discount, return the
+corresponding subscription row. Otherwise, return undef.
+
+=cut
+sub discount_used {
+    my($self, $discount) = @_;
+    my $subscription = $self->find_related('user_discounts', { discount_id => $discount->id });
+    return $subscription || undef;
+}
+
 
 
 # Returns the subscriber level for the user's subscription to $portal; 0 for no subscription

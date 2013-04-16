@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','62',NULL);
+INSERT INTO `info` VALUES ('version','64',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -578,9 +578,9 @@ DROP TABLE IF EXISTS `portal`;
 CREATE TABLE `portal` (
   `id` varchar(64) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '0',
-  `users` tinyint(1) NOT NULL DEFAULT '0',
-  `subscriptions` tinyint(1) NOT NULL DEFAULT '0',
-  `institutions` tinyint(1) NOT NULL DEFAULT '0',
+  `supports_users` tinyint(1) NOT NULL DEFAULT '0',
+  `supports_subscriptions` tinyint(1) NOT NULL DEFAULT '0',
+  `supports_institutions` tinyint(1) NOT NULL DEFAULT '0',
   `access_preview` int(11) NOT NULL DEFAULT '0',
   `access_all` int(11) NOT NULL DEFAULT '0',
   `access_resize` int(11) NOT NULL DEFAULT '0',
@@ -977,10 +977,13 @@ CREATE TABLE `subscription` (
   `portal_id` varchar(64) NOT NULL,
   `completed` datetime DEFAULT NULL,
   `success` tinyint(1) DEFAULT NULL,
+  `product` varchar(32) DEFAULT NULL,
   `discount_code` varchar(16) DEFAULT NULL,
   `discount_amount` decimal(10,2) DEFAULT NULL,
-  `oldexpire` datetime DEFAULT NULL,
-  `newexpire` datetime DEFAULT NULL,
+  `old_expire` datetime DEFAULT NULL,
+  `new_expire` datetime DEFAULT NULL,
+  `old_level` int(11) DEFAULT NULL,
+  `new_level` int(11) DEFAULT NULL,
   `payment_id` int(11) DEFAULT NULL,
   `note` text,
   PRIMARY KEY (`id`),
@@ -1272,4 +1275,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-12  9:57:52
+-- Dump completed on 2013-04-16  8:04:40

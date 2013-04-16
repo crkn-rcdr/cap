@@ -23,25 +23,19 @@ sub base : Chained('/') PathPart('user/subscription') CaptureArgs(1) {
 
     # Get the portal to subscribe to. It must support subscriptions.
     my $portal = $c->model('DB::Portal')->find({ id => $portal_id });
-    if (! $portal) {
-        $c->message({ type => "error", message => "invalid_entity", params => ['portal'] });
-        $self->status_not_found($c, message => "No such portal");
-        $c->res->redirect($c->uri_for_action("/user/profile"));
-        $c->detach();
-    }
-    if (! $portal->subscriptions) {
-        $c->message({ type => "error", message => "invalid_argument", params => ['Portal', $portal->id] });
-        $self->status_not_found($c, message => "Subscriptions not supported");
-        $c->res->redirect($c->uri_for_action("/user/profile"));
+    unless ($portal && $portal->supports_subscriptions) {
+        $c->message({ type => "error", message => "bad_request" });
+        $self->status_bad_request($c, message => "Nonexistent or non-subscribable portal");
+        $c->res->redirect($c->uri_for_action("/index"));
         $c->detach();
     }
 
-    # Get the user's existing subscription, if any.
+    # Get the user's existing subscription. Permanent subscriptions cannot be modified by the user.
     my $subscription = $c->user->subscription($portal);
     if ($subscription && $subscription->permanent) {
-        $c->message({ type => "error", message => "sub_is_permanent" });
-        $self->status_not_found($c, message => "Cannot change permanent subscription");
-        $c->res->redirect($c->uri_for_action("/user/profile"));
+        $c->message({ type => "error", message => "bad_request" });
+        $self->status_bad_request($c, message => "User request to modify a permanent subscription");
+        $c->res->redirect($c->uri_for_action("/index"));
         $c->detach();
     }
 
@@ -82,9 +76,9 @@ sub subscribe : Chained('base') PathPart('subscribe') Args(1) ActionClass('REST'
     # Get the subscription product
     my $product = $portal->subscription($product_id);
     if (! $product) {
-        $c->message({ type => "error", message => "invalid_entity", params => ['portal'] });
-        $self->status_not_found($c, message => "No such portal");
-        $c->res->redirect($c->uri_for_action("/user/profile"));
+        $c->message({ type => "error", message => "bad_request" });
+        $self->status_bad_request($c, message => "Request for nonexistent subscription product");
+        $c->res->redirect($c->uri_for_action("/index"));
         $c->detach();
     }
     $c->stash->{entity}->{product} = $product;
@@ -118,38 +112,54 @@ sub subscribe_POST {
     my $submit = $data->{submit};
     my $tos_ok = $data->{tos_ok};
 
+    # If a discount code is supplied, validate it.
     if ($data->{code}) {
         my $code = $data->{code};
         my $discount = $portal->discount($code);
         if (! $discount) {
-            $c->message({ type => "error", message => "invalid_discount_code" });
+            $c->message({ type => "error", message => "invalid_discount_code", params => [ $code ] });
             $self->status_bad_request($c, message => "Invalid discount code");
             $c->res->redirect($c->uri_for_action("/user/subscription/subscribe", [$portal->id, $product->id]));
             $c->detach();
         }
 
-        # TODO: here is where we will check to see if the user has already used this code ...
+        # Check that the user has not already redeemed the code
+        if ($c->user->discount_used($discount)) {
+            $c->message({ type => "error", message => "invalid_discount_reused", params => [ $discount->code ]});
+            $self->status_bad_request($c, message => "Discount code already used");
+            $c->res->redirect($c->uri_for_action("/user/subscription/subscribe", [$portal->id, $product->id]));
+            $c->detach();
+        }
 
+        # Calculate the amount of the discount
         my $discount_amount = ($product->price * $discount->percentage) / 100;
         $c->stash->{entity}->{discount} = $discount;
         $c->stash->{entity}->{discount_amount} = $discount_amount;
         $c->stash->{entity}->{payable} = $product->price - $discount_amount;
     }
 
+    # If this i
     if ($submit eq 'checkout') {
         my $discount = $c->stash->{entity}->{discount};
         my $discount_amount = $c->stash->{entity}->{discount_amount};
+        my $payable = $c->stash->{entity}->{payable};
 
         if (! $tos_ok) {
-            $c->message({ type => "error", message => "tos_agreement" });
-            $self->status_bad_request($c, message => "Terms of service not agreed to");
+            $c->message({ type => "error", message => "invalid_tos" });
+            $self->status_bad_request($c, message => "User did not agree to terms of service");
             $c->res->redirect($c->uri_for_action("/user/subscription/subscribe", [$portal->id, $product->id]));
             $c->detach();
-            # FIXME: we aren't preserving the discount code here.
         }
 
         my $subscription = $c->user->open_subscription($product, $expiry, $discount, $discount_amount);
-        $c->detach('/payment/paypal/pay', [500, "DESCRIBE PRODUCT HERE", '/user/subscribe_finalize', $subscription->id]);
+        my $description = sprintf(
+            "%s. %s. %s. %s",
+            $c->loc("Subscription to [_1]", $portal->title($c->stash->{lang})),
+            $c->loc("Duration: [_1] days", $product->duration),
+            $c->loc("Expires on [_1]", $expiry->ymd),
+            $c->loc("Price: \$[_1]", $payable)
+        );
+        $c->detach('/payment/paypal/pay', [$payable, $description, '/user/subscribe_finalize', $subscription->id]);
     }
 
 
