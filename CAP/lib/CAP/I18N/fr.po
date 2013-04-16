@@ -7,12 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CAP 0.1\n"
 "POT-Creation-Date: 2010-04-29 14:00+EDT\n"
-"PO-Revision-Date: 2013-04-03 12:19-0500\n"
+"PO-Revision-Date: 2013-04-16 09:19-0500\n"
 "Last-Translator: William Wueppelmann <william.wueppelmann@canadiana.ca>\n"
 "Language-Team: Canadiana.org <info@canadiana.ca>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#. (i.price)
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:250
+msgid "$%1"
+msgstr ""
 
 #. (hosted)
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:20
@@ -29,9 +34,51 @@ msgstr ""
 msgid "%1 Titles"
 msgstr ""
 
+#. (msg.params.0)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:30
+msgid "%1 cannot be empty"
+msgstr ""
+
+#. (msg.params.0)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:33
+msgid "%1 cannot be null"
+msgstr ""
+
+#. (msg.params.0, msg.params.1, msg.params.2)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:31
+msgid "%1 conflicts with existing range %2 belonging to %3"
+msgstr ""
+
+#. (msg.params.0, msg.params.1, msg.params.2)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:29
+msgid "%1 contains an invalid character: %2. Allowable characters include: %3"
+msgstr ""
+
+#. (msg.params.0, msg.params.1)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:28
+msgid "%1 contains an invalid value: %2"
+msgstr ""
+
+#. (i.duration)
+#. (entity.product.duration)
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:249
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:53
+msgid "%1 days"
+msgstr ""
+
+#. (msg.params.0, msg.params.1)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:32
+msgid "%1 exceeds maximum length of %2"
+msgstr ""
+
 #. (size)
 #: ../../../../../cap-root/templates/Default/Common/partial/published_and_pages.tt:7
 msgid "%1 issues"
+msgstr ""
+
+#. (msg.params.0, msg.params.1)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:34
+msgid "%1 musts have a length of %2 characters"
 msgstr ""
 
 #. (size)
@@ -97,12 +144,9 @@ msgstr "90 jours"
 msgid ":"
 msgstr " :"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:39
 msgid "<strong>Administrator:</strong> you are an administrator"
 msgstr "<strong>Administrateur :</strong> vous êtes un administrateur"
 
-#. (c.session.$portal.subscribing_institution.name)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:34
 msgid "<strong>Institutional Subscriber:</strong> you are currently accessing ECO as a member of <em>%1</em>. This gives you full access to the ECO collection."
 msgstr "<strong>Abonné institutionnel :</strong> vous accédez actuellement au site NML à titre de membre de <em>%1</em>. Ceci vous permet d'accéder à la collection complète de NML."
 
@@ -119,7 +163,7 @@ msgstr "Un message courriel a été envoyé à %1 vous informant comment réinit
 #: ../../../../../cap-root/templates/Default/Common/view_doc.tt:24
 #: ../../../../../cap-root/templates/Default/Common/view_series.tt:20
 #: ../../../../../cap-root/templates/Default/parl/partial/header_nav.tt:30
-#: ../../../../../cap-root/templates/Default/parl/view_series.tt:20
+#: ../../../../../cap-root/templates/Default/parl/view_series.tt:19
 msgid "About"
 msgstr "À propos"
 
@@ -139,63 +183,73 @@ msgstr "À propos de Canadiana.org"
 msgid "About this site"
 msgstr "À propos"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:13
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:27
+msgid "Access"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/error.tt:14
 msgid "Access Restricted"
 msgstr "Accès restreint"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:32
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:24
 msgid "Accounts pending confirmation"
 msgstr "Comptes en attente de validation"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:38
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:46
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:47
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:98
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:38
 msgid "Active"
 msgstr "Activé"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:49
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:41
 msgid "Active Subscriptions"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:24
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:16
 msgid "Active paid subscribers"
 msgstr "Abonnés en règle"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:16
 msgid "Active trial users"
 msgstr "Utilisateurs en période d’essai"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:226
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:39
 msgid "Add"
 msgstr "Ajouter"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:13
 msgid "Add Collection"
 msgstr "Ajouter collection"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:138
-msgid "Add Contributor Information"
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:108
+msgid "Add IP Address Range"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:106
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:213
+msgid "Add Managed Institution"
+msgstr ""
+
 msgid "Add Range"
 msgstr "Ajouter une plage"
 
 msgid "Add Sponsored Collection"
 msgstr "Ajouter une collection commanditée"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:287
+msgid "Add Subscription"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:37
 msgid "Add Titles"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:81
 msgid "Add collection"
 msgstr "Ajouter une collection"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:47
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:220
 msgid "Add host"
 msgstr "Ajouter une hôte"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:26
 msgid "Add new Institution"
 msgstr "Ajouter une nouvelle institution"
 
@@ -213,25 +267,42 @@ msgstr "Ajouter un nouveau code promotionnel"
 msgid "Add new user"
 msgstr "Ajouter un nouvel utilisateur"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:57
+msgid "Add or Update Alias"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:166
+msgid "Add or Update Language"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:143
+msgid "Add or Update Subscription"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:56
 msgid "Add slide"
 msgstr "Ajouter une diapositive"
 
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:142
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:68
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:97
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:107
 msgid "Add to Portal"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:124
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:116
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:99
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:109
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:126
 msgid "Add to portal"
 msgstr ""
 
 #. (msg.params.0, msg.params.1)
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:8
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:38
 msgid "Added %1 titles to %2"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:57
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:72
+msgid "Added or Updated"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:36
@@ -244,23 +315,26 @@ msgstr "Adresse"
 msgid "Address (Line 2)"
 msgstr "Adresse (ligne 2)"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:110
+msgid "Address or CIDR Range"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:6
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:7
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:20
 msgid "Admin"
 msgstr "Admin"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:4
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:6
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/index.tt:6
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:1
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:3
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:4
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:6
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:6
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:19
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:20
 msgid "Admin Menu"
 msgstr "Menu Admin"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:16
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:102
 msgid "Administrative Functions"
 msgstr ""
 
@@ -279,13 +353,22 @@ msgstr "Alberta"
 msgid "Alberta (AB)"
 msgstr "Alberta (AB)"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:12
+msgid "Aliases"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/1812/partial/search_form.tt:19
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:25
 #: ../../../../../cap-root/templates/Default/dfait/partial/search_form.tt:19
 #: ../../../../../cap-root/templates/Default/eco/partial/search_form.tt:19
+#: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:16
 #: ../../../../../cap-root/templates/Default/whf/partial/search_form.tt:19
 msgid "All"
-msgstr "Tous"
+msgstr "à Toutes"
+
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:9
+msgid "All Titles"
+msgstr ""
 
 msgid "All content copyright © Foreign Affairs and International Trade"
 msgstr "Tous droits réservés © Affaires étrangères et Commerce international"
@@ -301,9 +384,14 @@ msgstr "Tous ces mots :"
 msgid "All titles (%1)"
 msgstr ""
 
-#. (titles)
+#. (unassigned)
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:44
 msgid "All unassigned titles (%1)"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:155
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:181
+msgid "Alternate"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:12
@@ -311,8 +399,12 @@ msgstr ""
 msgid "Amount"
 msgstr "Montant"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:29
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:30
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:48
+msgid "Amount Payable"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:59
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:60
 msgid "An account already exists for that email address."
 msgstr "Un compte existe déjà pour cette adresse de courriel."
 
@@ -322,7 +414,6 @@ msgid "An email message has been sent to %1 with instructions for resetting your
 msgstr "Un message courriel a été envoyé à %1 vous informant comment réinitialiser votre mot de passe."
 
 #: ../../../../../cap-root/templates/Default/parl/partial/search_controls.tt:47
-#: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:16
 msgid "Any"
 msgstr ""
 
@@ -334,19 +425,19 @@ msgstr "Apparaissant :"
 #. (entity.name)
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:47
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:43
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:79
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:88
 msgid "Are you sure you want to delete %1?"
 msgstr "Êtes-vous certain de vouloir supprimer %1?"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:125
-msgid "Are you sure you want to delete this contributor information?"
+#. (i.portal.title(lang)
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:130
+msgid "Are you sure you want to delete the subscription to %1?"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:144
 msgid "Are you sure you want to delete this institution?"
 msgstr "Êtes-vous certain de vouloir supprimer cette institution?"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:87
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:110
 msgid "Are you sure you want to delete this portal?"
 msgstr "Êtes-vous certain de vouloir supprimer ce portail?"
 
@@ -355,12 +446,11 @@ msgstr "Êtes-vous certain de vouloir supprimer ce portail?"
 msgid "Are you sure you want to delete this slideshow?"
 msgstr "Êtes-vous certain de vouloir supprimer ce diaporama?"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:60
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:109
-msgid "Are you sure you want to delete this subscription?"
+#. (i.name, entity.name)
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:203
+msgid "Are you sure you want to remove %1 for %2?"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:3
 msgid "Available Collections"
 msgstr "Collections disponibles"
 
@@ -372,8 +462,7 @@ msgstr "Numéros disponibles : %1"
 msgid "Back to collections"
 msgstr "Retour aux collections"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:7
-#: ../../../../../cap-root/templates/Default/parl/partial/keyword_search.tt:7
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:9
 msgid "Back to search results"
 msgstr "Retour à la page des résultats"
 
@@ -381,9 +470,7 @@ msgstr "Retour à la page des résultats"
 msgid "Bad Request"
 msgstr "Requête inadéquate"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:9
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:7
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:31
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:32
 msgid "Basic Information"
 msgstr "Informations de base"
 
@@ -415,7 +502,7 @@ msgstr "Blogue"
 #: ../../../../../cap-root/templates/Default/parl/partial/search_controls.tt:41
 #: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:8
 msgid "Both Chambers"
-msgstr "les deux chambres"
+msgstr "à Les deux chambres"
 
 #: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:25
 msgid "Both Languages"
@@ -430,6 +517,8 @@ msgstr "Colombie-Britannique (BC)"
 msgid "Brought to you by Agriculture and Agri-Food Canada"
 msgstr "Présenté par Agriculture et Agroalimentaire Canada"
 
+#: ../../../../../cap-root/templates/Default/Common/browse/index.tt:1
+#: ../../../../../cap-root/templates/Default/Common/browse/index.tt:3
 #: ../../../../../cap-root/templates/Default/parl/index.tt:5
 #: ../../../../../cap-root/templates/Default/parl/partial/header_nav.tt:29
 msgid "Browse"
@@ -453,7 +542,13 @@ msgstr ""
 msgid "But avoiding the words:"
 msgstr "Mais en évitant les mots :"
 
-#: ../../../../../cap-root/templates/Default/parl/view_series.tt:18
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:1
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:3
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:7
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:105
+msgid "CAP Administration"
+msgstr ""
+
 msgid "Calendar"
 msgstr "Calendrier"
 
@@ -480,10 +575,10 @@ msgstr ""
 msgid "Canadiana.org is a non-profit organization. Subscriptions fund the operation of Early Canadiana Online and the digitization of new content."
 msgstr "Canadiana.org est un organisme sans but lucratif. Les abonnements financent l’opération de Notre mémoire en ligne et la numérisation de nouveaux contenus."
 
-#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:46
+#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:50
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:46
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:43
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:78
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:87
 #: ../../../../../cap-root/templates/Default/Common/partial/delete_confirm.tt:10
 msgid "Cancel"
 msgstr "Annuler"
@@ -501,9 +596,13 @@ msgstr ""
 msgid "Change order"
 msgstr "Modifier l’ordre"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:62
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:71
 msgid "Change password"
 msgstr "Changer le mot de passe"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:79
+msgid "Checkout"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:13
 msgid "Choose a new password"
@@ -523,9 +622,7 @@ msgid "Click here if your browser does not automatically redirect you"
 msgstr "Cliquez ici si votre navigateur ne vous redirige pas automatiquement."
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:14
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:23
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:30
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:8
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:35
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:10
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:21
 msgid "Code"
@@ -536,7 +633,6 @@ msgid "Code (max. 16 chars.)"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/1812/partial/search_form.tt:17
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:55
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:23
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:82
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:22
@@ -558,13 +654,11 @@ msgstr "Label de la collection"
 msgid "Collection:"
 msgstr "Collection :"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/collections.tt:1
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:51
 msgid "Collections"
 msgstr "Collections"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:32
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:45
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:41
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:37
 msgid "Confirmed"
 msgstr "Confirmé"
 
@@ -575,7 +669,7 @@ msgstr "Confirmé"
 msgid "Contact us"
 msgstr "Contactez-nous"
 
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:16
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:17
 msgid "Content"
 msgstr ""
 
@@ -591,6 +685,10 @@ msgstr "Continue"
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:80
 msgid "Contributor"
 msgstr "Collaborateur"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:15
+msgid "Contributor Info"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/contributors.tt:13
 msgid "Contributor logo"
@@ -618,9 +716,7 @@ msgstr "© Canadiana.org 2010-11"
 msgid "Corporate"
 msgstr "Enterprises"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:45
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:32
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:29
+#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:49
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/index.tt:51
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:78
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:42
@@ -631,7 +727,7 @@ msgstr "Créer"
 msgid "Create Account"
 msgstr "Créer un compte"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:15
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:58
 msgid "Create new"
 msgstr "Créer un nouveau"
 
@@ -639,7 +735,6 @@ msgstr "Créer un nouveau"
 msgid "Create new code"
 msgstr "Créer un nouveau code"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:24
 msgid "Create new portal"
 msgstr "Créer un nouveau portail"
 
@@ -650,7 +745,7 @@ msgstr "Créer un nouveau compte utilisateur"
 msgid "Create/Edit a slideshow"
 msgstr "Créer/Modifier un diaporama"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:47
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:39
 msgid "Created"
 msgstr "Date de création"
 
@@ -679,7 +774,7 @@ msgstr "MAECI"
 msgid "DFAIT Library"
 msgstr "Bibliothèque MAECI"
 
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:36
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:37
 msgid "Database ID"
 msgstr ""
 
@@ -702,27 +797,26 @@ msgstr "Année(s)"
 msgid "Date range:"
 msgstr "Plage de dates :"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:125
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:60
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:82
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:57
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:153
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:180
+msgid "Default"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/index.tt:20
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:43
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:109
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:129
 #: ../../../../../cap-root/templates/Default/Common/partial/delete_confirm.tt:11
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:144
 msgid "Delete Institution"
 msgstr "Supprimer l’institution"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:87
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:110
 msgid "Delete Portal"
 msgstr "Supprimer un portai"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:95
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:31
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:204
 msgid "Delete Selected"
 msgstr "Supprimer les sélections"
 
@@ -734,11 +828,11 @@ msgstr ""
 msgid "Delete slideshow"
 msgstr "Supprimer un diaporama"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:79
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:88
 msgid "Delete user"
 msgstr "Supprimer utilatisateur"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:38
+#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:42
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:38
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/contributor.tt:43
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:27
@@ -756,11 +850,23 @@ msgstr "Description : %1"
 msgid "Details"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:29
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:59
 msgid "Did you forget your password?"
 msgstr "Vous avez oublié votre mot de passe?"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:26
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:100
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:56
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:67
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:78
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:89
+msgid "Disabled"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:43
+msgid "Discount"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:30
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:26
 msgid "Discount (%)"
 msgstr ""
@@ -772,14 +878,23 @@ msgstr ""
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:5
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:7
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/index.tt:2
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:18
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:60
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:8
 msgid "Discount Codes"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:39
+msgid "Discount code applied"
 msgstr ""
 
 #. (promocode)
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:38
 msgid "Discount from promotion code \"%1\""
 msgstr "Remise pour le code promotionnel \"%1\""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:117
+msgid "Display contributors in bibliographic records"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:5
 msgid "Document Record"
@@ -811,6 +926,19 @@ msgstr "Télécharger (%1)"
 msgid "Download image:"
 msgstr "Télécharger image"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:232
+msgid "Duration"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:274
+msgid "Duration (days)"
+msgstr ""
+
+#. ($product->duration)
+#: ../Controller/User/Subscription.pm:158
+msgid "Duration: %1 days"
+msgstr ""
+
 #: ../Controller/Mail.pm:126
 msgid "ECO Account Activation"
 msgstr "Activation de votre compte NM"
@@ -821,7 +949,6 @@ msgstr "Période d’essai gratuit de NML"
 msgid "ECO Subscriber"
 msgstr "Abonné(e) de NML"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:66
 msgid "ECO Subscriber."
 msgstr "Abonné(e) de NML."
 
@@ -832,8 +959,6 @@ msgstr "Abonnment à NML confirmé"
 msgid "ECO Tax Receipt"
 msgstr "Reçu d’impôt pour NML"
 
-#. ($payment)
-#: ../Controller/User.pm:558
 msgid "ECO subscription for $%1"
 msgstr "Abonnment à NML : %1 $"
 
@@ -846,7 +971,6 @@ msgstr "Notre mémoire en ligne (NML) est la première collection de grande enve
 
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/index.tt:19
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:42
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:108
 msgid "Edit"
 msgstr "Éditer"
 
@@ -855,21 +979,21 @@ msgstr "Éditer"
 msgid "Edit Profile"
 msgstr "Modifier le profil"
 
+#. (entity.name)
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:1
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:4
+msgid "Edit User: %1"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/contributor.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/contributor.tt:2
 msgid "Edit contributor information"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:12
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:35
 msgid "Edit details/change password"
 msgstr "Modifier les détails ou le mot de passe"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:124
-msgid "Edit information"
-msgstr ""
-
-#. (entity.name)
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:1
 msgid "Edit institution - %1"
 msgstr "Éditer institution - %1"
 
@@ -883,20 +1007,12 @@ msgstr "Modifier une diapositive"
 msgid "Edit subscription information"
 msgstr ""
 
-#. (entity.id)
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:2
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:3
-msgid "Editing portal: %1"
-msgstr ""
-
 #. (entity.code)
-#. (entity.name)
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:4
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:4
 msgid "Editing: %1"
 msgstr "Modifié : %1"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:44
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:36
 msgid "Email"
 msgstr "Courriel"
 
@@ -905,25 +1021,32 @@ msgid "Email Address"
 msgstr "Adresse courriel"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:14
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:20
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:29
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:8
 #: ../../../../../cap-root/templates/Default/Common/user/create.tt:20
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:9
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:32
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:27
 msgid "Email address"
 msgstr "Adresse courriel"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:15
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:8
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:29
 msgid "Enabled"
 msgstr "Activé"
 
 msgid "Ends"
 msgstr "Expiration"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:143
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:171
+#: ../../../../../cap-root/templates/Default/Common/partial/language_name.tt:6
+#: ../../../../../cap-root/templates/Default/Common/partial/language_options.tt:5
 #: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:26
 msgid "English"
 msgstr "Anglais"
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:68
+msgid "Enter discount code"
+msgstr ""
 
 msgid "Enter your email address to receive instructions on how to reset your password"
 msgstr "Veuillez saisir votre adresse de courriel pour recevoir des instructions sur la façon de réinitialiser votre mot de passe."
@@ -963,36 +1086,46 @@ msgstr ""
 msgid "Everything"
 msgstr "Tout"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:92
-msgid "Expiration"
-msgstr ""
-
 msgid "Expiration date"
 msgstr "Date d’expiration"
 
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:48
 msgid "Expired"
 msgstr "Expiré"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:28
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:20
 msgid "Expired paid subscribers"
 msgstr "Utilisateurs dont l’abonnement est échu"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:20
 msgid "Expired trial users"
 msgstr "Utilisateurs dont la période d’essai est échue"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:32
+#: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:36
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:32
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:11
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:36
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:100
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:20
 msgid "Expires"
 msgstr "Expiration"
 
+#. ($expiry->ymd)
+#: ../Controller/User/Subscription.pm:159
 msgid "Expires on %1"
 msgstr "Expire le %1"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:70
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:164
+msgid "Expiry Date"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:102
+msgid "Expiry Logged"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:67
+msgid "Extend"
+msgstr ""
+
 msgid "Extend it today!"
 msgstr "Prolongez-le dès aujourd’hui!"
 
@@ -1004,12 +1137,17 @@ msgstr "Prolonger l'abonnement"
 msgid "Extent"
 msgstr "Description"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:115
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:14
+msgid "Features"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/feedback.tt:2
 msgid "Feedback"
 msgstr "Commentaires"
 
-#. ('<a href="' _ c.uri_for_action("user/subscribe")
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:13
+#. ('<a href="' _ c.uri_for_action("user/profile")
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:43
 msgid "Find ECO useful? %1 to get PDF downloads and all subscriber benefits."
 msgstr "Vous trouvez NML utile? %1 pour télécharger des fichiers PDF et profiter des avantages réservés aux abonnés."
 
@@ -1042,6 +1180,10 @@ msgstr "Vous avez oublié votre mot de passe?"
 msgid "Free Trial"
 msgstr "Période d’essai gratuit"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:145
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:172
+#: ../../../../../cap-root/templates/Default/Common/partial/language_name.tt:8
+#: ../../../../../cap-root/templates/Default/Common/partial/language_options.tt:6
 #: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:27
 msgid "French"
 msgstr "Français"
@@ -1053,8 +1195,15 @@ msgstr "Fréquence"
 msgid "From a collection held by %1"
 msgstr "Provient de la collection de %1"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:64
+msgid "Full Access"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:6
+msgid "General"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:12
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:12
 msgid "General information"
 msgstr "Information générale"
 
@@ -1092,20 +1241,22 @@ msgstr "Aide"
 msgid "Home"
 msgstr "Accueil"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:29
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:202
 msgid "Host"
 msgstr "Hôte"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:56
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:80
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:134
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:60
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:109
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:66
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:119
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:73
 msgid "Hosted"
 msgstr "Hébergée"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:25
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:16
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:198
+msgid "Hostnames"
+msgstr ""
+
 msgid "Hosts"
 msgstr "Hôtes"
 
@@ -1120,23 +1271,30 @@ msgstr "Chambre des communes"
 msgid "I agree to the Early Canadiana Online %1"
 msgstr "J'accepte les %1 de Notre mémoire en ligne"
 
+#. ("<a href=\"" _ c.uri_for_action("support", "terms")
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:75
+msgid "I have read and agree to the Canadiana %1"
+msgstr ""
+
 msgid "I would like a Canadian official receipt for income tax purposes."
 msgstr "J’aimerais obtenir un reçu officiel canadien pour fins d’impôt."
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:11
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:9
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:26
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:23
 #: ../../../../../cap-root/templates/Default/Common/content/institution/titles.tt:20
 msgid "ID"
 msgstr "ID"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:14
+msgid "IP Addresses"
+msgstr ""
+
 #. (msg.params.0, msg.params.1)
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:23
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:53
 msgid "IP address range %1 conflicts with existing range %2"
 msgstr "L’adresse IP %1 entre en conflit avec l’adresse IP %2 existante."
 
 #: ../../../../../cap-root/templates/Default/Common/content/institution/titles.tt:21
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:40
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:41
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:13
 msgid "Identifier"
 msgstr "Identificateur"
@@ -1165,7 +1323,7 @@ msgstr "Si vous avez des questions concernant ce message, veuillez nous contacte
 msgid "Import"
 msgstr "Importer"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:27
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:57
 msgid "Incorrect password."
 msgstr "Mot de passe inexact."
 
@@ -1179,40 +1337,43 @@ msgstr ""
 msgid "Indexed Only"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:65
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:71
 msgid "Indexed in Portal"
 msgstr ""
 
 msgid "Individual page results"
 msgstr "Afficher les résultats page par page"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:6
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/contributor.tt:7
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:11
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:21
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:215
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:28
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:48
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:49
 msgid "Institution"
 msgstr "Institution"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:30
-msgid "Institution Aliases"
-msgstr ""
-
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:21
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:51
 msgid "Institution deleted"
 msgstr "Institution supprimé"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/batch.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/batch.tt:3
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:23
 msgid "Institution import/export"
 msgstr "Imports-exports de l’institution"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:22
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:52
 msgid "Institution not found"
 msgstr "Institution non trouvé"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/usage.tt:25
 msgid "Institution requests"
 msgstr "Requêtes de l’institution"
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:15
+msgid "Institutional"
+msgstr ""
 
 msgid "Institutional Subscription: %1"
 msgstr "Abonnement institutionnel : %1"
@@ -1225,10 +1386,11 @@ msgstr "Rapport d’utilisation de l’institution pour %1"
 msgid "Institutional subscriber"
 msgstr "Abonné institutionnel"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:1
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:3
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:47
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:14
 #: ../../../../../cap-root/templates/Default/Common/content/index.tt:8
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:12
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:8
 msgid "Institutions"
 msgstr "Institutions"
 
@@ -1236,7 +1398,7 @@ msgstr "Institutions"
 msgid "Insufficient Privileges"
 msgstr "Privilèges insuffisants"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:19
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:49
 msgid "Invalid username or password. Please try again."
 msgstr "Nom d’utilisateur ou mot de passe non valide. Veuillez essayer à nouveau."
 
@@ -1248,10 +1410,12 @@ msgid "Issue Title"
 msgstr "Titre du numéro"
 
 #: ../../../../../cap-root/templates/Default/Common/content/institution/titles.tt:22
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:44
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:45
 msgid "Label"
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:59
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:168
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:24
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:78
 #: ../../../../../cap-root/templates/Default/parl/partial/search_controls.tt:83
@@ -1262,14 +1426,23 @@ msgstr "Langue"
 msgid "Language:"
 msgstr "Langue :"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:135
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:15
+msgid "Languages"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer_toolbar.tt:12
 msgid "Last Page"
 msgstr "Dernière page"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:44
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:48
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:53
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:40
 msgid "Last Seen"
 msgstr "Dernière visite"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:103
+msgid "Last Updated"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/edit.tt:29
 msgid "Leave blank to keep unchanged"
@@ -1278,10 +1451,25 @@ msgstr "Laisser en blanc pour le conserver"
 msgid "Less detail"
 msgstr "Description brève "
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:95
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:26
 msgid "Level"
 msgstr "Niveau"
+
+#. (i.level)
+#. (i.subscription.level)
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:246
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:117
+msgid "Level %1"
+msgstr ""
+
+#. (i.subscription.level)
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:54
+msgid "Level %1 Subscriber"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:29
+msgid "Level %1 subscription"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/social_media_links.tt:1
 msgid "Like us on Facebook"
@@ -1312,17 +1500,15 @@ msgstr "Lier les URL"
 msgid "Link opens in a new window"
 msgstr "Ce lien ouvre un nouvelle fenêtre"
 
-#: ../../../../../cap-root/templates/Default/parl/view_series.tt:19
+#: ../../../../../cap-root/templates/Default/parl/view_series.tt:18
 msgid "List"
 msgstr "Liste"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:14
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/batch.tt:8
 msgid "List Institutions"
 msgstr "Lister les institutions"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:13
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:86
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:57
 msgid "List Portals"
 msgstr "Lister des portails"
 
@@ -1331,16 +1517,14 @@ msgstr "Lister des portails"
 msgid "List Titles: %1"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:15
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:58
 msgid "List Users"
 msgstr "Lister les utilisateurs"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:5
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:7
 msgid "List all users"
 msgstr "Lister tous les utilisateurs"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:143
 msgid "List institutions"
 msgstr "Lister les institutions"
 
@@ -1398,7 +1582,11 @@ msgstr "Quitter"
 msgid "Look for..."
 msgstr "Rechercher..."
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:19
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:21
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:35
+msgid "Manage"
+msgstr ""
+
 msgid "Manage Collections"
 msgstr "Gérer les collections"
 
@@ -1408,7 +1596,7 @@ msgstr "Gérer les collections"
 #: ../../../../../cap-root/templates/Default/Common/content/institution/titles.tt:7
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:7
 #: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:7
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:22
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:108
 msgid "Manage Content"
 msgstr ""
 
@@ -1419,13 +1607,25 @@ msgstr ""
 msgid "Manage Content: %1"
 msgstr ""
 
+#. (entity.institution.name)
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:2
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:4
+msgid "Manage Institution: %1"
+msgstr ""
+
+#. (entity.portal.id)
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:2
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:9
+msgid "Manage Portal: %1"
+msgstr ""
+
 #. (show_portal, show_location)
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:2
 msgid "Manage Slideshow: %1, %2"
 msgstr "Gérer le diaporama : %1, %2"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:16
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:59
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/index.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/index.tt:2
 msgid "Manage Slideshows"
@@ -1480,19 +1680,20 @@ msgstr "Description longue"
 msgid "More options"
 msgstr "Autres options"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:17
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:28
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:7
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:29
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:67
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:230
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:259
 #: ../../../../../cap-root/templates/Default/Common/admin/usage.tt:29
 #: ../../../../../cap-root/templates/Default/Common/admin/usage.tt:8
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:20
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:26
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:35
 #: ../../../../../cap-root/templates/Default/Common/user/edit.tt:14
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:7
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:30
 msgid "Name"
 msgstr "Nom"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:46
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:55
 msgid "Never"
 msgstr "Jamais"
 
@@ -1501,6 +1702,10 @@ msgstr "Nouveau-Brunswick"
 
 msgid "New Brunswick (NB)"
 msgstr "Nouveau-Brunswick (NB)"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:42
+msgid "New Code"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:12
@@ -1512,6 +1717,10 @@ msgstr ""
 #: ../../../../../cap-root/templates/Default/parl/partial/header_nav.tt:28
 msgid "New Search"
 msgstr "Nouvelle recherche"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:257
+msgid "New Subscription"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:30
 msgid "New code"
@@ -1537,7 +1746,7 @@ msgstr "Nouvelle recherche"
 msgid "New user"
 msgstr "Nouveau utilisateur"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:47
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:77
 msgid "New user created successfully."
 msgstr "Nouvel utilisateur créé avec succès."
 
@@ -1555,10 +1764,14 @@ msgstr "suivante"
 msgid "Next Page"
 msgstr "Page suivante"
 
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:82
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:92
 #: ../../../../../cap-root/templates/Default/Common/macro/format_boolean.tt:1
 msgid "No"
 msgstr "Non"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:134
+msgid "No Subscription"
+msgstr ""
 
 msgid "No issues found"
 msgstr "Aucun numéro trouvé"
@@ -1586,10 +1799,13 @@ msgstr "Territoires du Nord-Ouest"
 msgid "Northwest Territories (NT)"
 msgstr "Territoires du Nord-Ouest (NT)"
 
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:46
+msgid "Not Subscribed"
+msgstr ""
+
 msgid "Not a subscriber"
 msgstr "Non abonné"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:52
 msgid "Not a subscriber."
 msgstr "Non abonné."
 
@@ -1621,7 +1837,7 @@ msgstr "Ontario"
 msgid "Ontario (ON)"
 msgstr "Ontario (ON)"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:10
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:55
 msgid "Options"
 msgstr "Options"
 
@@ -1629,12 +1845,16 @@ msgstr "Options"
 msgid "Order"
 msgstr "Trier"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:9
+msgid "Other"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/reports/links/index.tt:3
 #: ../../../../../cap-root/templates/Default/Common/reports/links/index.tt:7
 msgid "Outbound Links"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:7
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:36
 msgid "Outbound links"
 msgstr ""
 
@@ -1663,13 +1883,13 @@ msgstr "Pages"
 #: ../../../../../cap-root/templates/Default/parl/partial/search_controls.tt:45
 #: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:14
 msgid "Parliament"
-msgstr "Parlement"
+msgstr "à Législature"
 
 msgid "Part of"
 msgstr "Fait partie de :"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:29
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:64
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:73
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:14
 #: ../../../../../cap-root/templates/Default/Common/user/create.tt:32
 msgid "Password"
@@ -1684,7 +1904,11 @@ msgstr "Réinitialisation du mot de passe"
 msgid "Password reset"
 msgstr "Réinitialisation du mot de passe"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:87
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:97
+msgid "Pay per Download"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:76
 msgid "Payment History"
 msgstr "Historique des paiements"
 
@@ -1692,8 +1916,10 @@ msgstr "Historique des paiements"
 msgid "Payment Information"
 msgstr "Information sur le paiement"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:93
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:170
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:99
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:32
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:59
 msgid "Permanent"
 msgstr ""
 
@@ -1704,24 +1930,28 @@ msgstr "Lien permanent"
 msgid "Permanent subscription"
 msgstr "Abonnement permanent"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:5
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:28
 msgid "Personal details"
 msgstr "Profil personnel"
 
 msgid "Personal subscriptions"
 msgstr "Abonnements individuels"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:41
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:71
 msgid "Please ensure that your postal code is valid."
 msgstr "Veuillez vous assurer de la validité de votre code postal."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:31
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:61
 msgid "Please enter a name."
 msgstr "Veuillez saisir un nom."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:43
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:73
 msgid "Please enter the words displayed in the anti-spam window."
 msgstr "Veuillez saisir les mots affichés dans la fenêtre antipourriel."
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:13
+msgid "Please review your subscription details. If you have a discount code to redeem, enter it where indicated below. When you are ready to subscribe, click the Checkout button to be taken to PayPal to complete your payment."
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:15
 msgid "Please verify the following information and click Subscribe to proceed to our payment processor. When you have completed your payment, you will automatically be returned here."
@@ -1730,32 +1960,25 @@ msgstr "Veuillez vérifier les informations suivantes et cliquez sur Abonnement 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:20
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:20
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/contributor.tt:13
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:116
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:52
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:7
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/index.tt:33
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/index.tt:7
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:91
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:145
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:96
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:13
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:76
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:18
 msgid "Portal"
 msgstr "Portail"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:2
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:3
 msgid "Portal Configuration"
 msgstr "Configuration du portail"
-
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:110
-msgid "Portal Contributor"
-msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/reports/portal/portal_stats.tt:1
 msgid "Portal Stats"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:46
-msgid "Portal Subscriptions"
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:186
+msgid "Portal Title"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/reports/portal/index.tt:14
@@ -1763,14 +1986,40 @@ msgstr ""
 msgid "Portal Usage Report For "
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:7
 #: ../../../../../cap-root/templates/Default/Common/content/index.tt:11
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:12
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:19
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:20
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:7
 msgid "Portals"
 msgstr ""
 
 msgid "Postal Code"
 msgstr "Code postale"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:244
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:269
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:115
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:159
+msgid "Premium"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:103
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:59
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:70
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:81
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:92
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:52
+msgid "Premium Subscriber"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:27
+msgid "Premium subscription"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:53
+msgid "Preview Access"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/paginator.tt:16
 msgid "Previous"
@@ -1780,11 +2029,28 @@ msgstr "précédente"
 msgid "Previous Page"
 msgstr "Page précédente"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:233
+msgid "Price"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:280
+msgid "Price ($)"
+msgstr ""
+
+#. ($payable)
+#: ../Controller/User/Subscription.pm:160
+msgid "Price: $%1"
+msgstr ""
+
 msgid "Prince Edward Island"
 msgstr "Île-du-Prince-Édouard"
 
 msgid "Prince Edward Island (PE)"
 msgstr "Île-du-Prince-Édouard (PE)"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:177
+msgid "Priority"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/1812/content/footer.tt:11
 #: ../../../../../cap-root/templates/Default/co/content/footer.tt:7
@@ -1798,6 +2064,10 @@ msgstr "Politique sur la vie privée et avis juridiques"
 
 msgid "Produced by Canadiana.org"
 msgstr "Réalisée par Canadiana.org"
+
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:8
+msgid "Profile"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:18
 msgid "Promotion Code"
@@ -1815,7 +2085,6 @@ msgstr "Code promotionnel non valide."
 msgid "Promotion code valid!"
 msgstr "Code promotionnel valide."
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:17
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:2
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:4
 msgid "Promotional Codes"
@@ -1823,6 +2092,14 @@ msgstr "Codes promotionnels"
 
 msgid "Province/Territory"
 msgstr "Province/Territoire"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:101
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:57
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:68
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:79
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:90
+msgid "Public"
+msgstr ""
 
 msgid "Publication years"
 msgstr "Années de publication"
@@ -1849,12 +2126,16 @@ msgstr "Québec (QC)"
 msgid "Random Document"
 msgstr "Document choisi au hasard"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:123
+msgid "Random document link"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/user/edit.tt:33
 msgid "Re-enter new password"
 msgstr "Saisissez de nouveau votre nouveau mot de passe"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:35
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:70
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:79
 #: ../../../../../cap-root/templates/Default/Common/user/create.tt:39
 msgid "Re-enter password"
 msgstr "Saisissez de nouveau votre mot de passe"
@@ -1867,34 +2148,59 @@ msgstr "Raffinez votre recherche :"
 msgid "Register today for a free trial!"
 msgstr "Inscrivez-vous dès aujourd’hui pour une période d’essai gratuit!"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:9
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:39
 msgid "Register today to subscribe!"
 msgstr "Inscrivez-vous pour vous abonner dès aujourd'hui!"
 
-#. (users)
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:7
 msgid "Registered users: %1"
 msgstr "Utilisateurs inscrits : %1"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:242
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:268
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:113
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:158
+msgid "Regular"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:102
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:58
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:69
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:80
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:91
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:50
+msgid "Regular Subscriber"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:25
+msgid "Regular subscription"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:23
 msgid "Remember me on this computer"
 msgstr "Rappelez-vous de moi sur cet ordinateur"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:94
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:101
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:176
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:38
 msgid "Reminder Sent"
 msgstr "Rappel envoyé"
 
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:67
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:87
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:102
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:51
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:202
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:74
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:97
 msgid "Remove"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:11
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:66
+msgid "Renew"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:41
 msgid "Renew today"
 msgstr "Renouvelez dès aujourd’hui!"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:74
 msgid "Renew today!"
 msgstr "Renouvelez dès aujourd’hui!"
 
@@ -1905,10 +2211,6 @@ msgstr "Répétez le mot de passe"
 #. (period)
 #: ../../../../../cap-root/templates/Default/Common/reports/widget_period.tt:2
 msgid "Report for the past %1 days"
-msgstr ""
-
-#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:1
-msgid "Reports Menu"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/reports/links/index.tt:22
@@ -1938,6 +2240,10 @@ msgstr "Réinitialiser le mot de passe"
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:20
 msgid "Reset password"
 msgstr "Réinitialiser le mot de passe"
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:75
+msgid "Resize Images"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer_toolbar.tt:19
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer_toolbar.tt:20
@@ -1984,6 +2290,9 @@ msgstr "Résultats jusqu’à %1"
 msgid "Return to the main page"
 msgstr "Retour à la page d’accueil"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:6
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:5
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:6
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:6
 #: ../../../../../cap-root/templates/Default/Common/content/institution/titles.tt:6
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:6
@@ -1991,11 +2300,16 @@ msgstr "Retour à la page d’accueil"
 msgid "Return to:"
 msgstr ""
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:11
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:2
+msgid "Review Subscription"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:20
 msgid "Rights"
 msgstr "Droits"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:51
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:60
 msgid "Roles"
 msgstr "Rôles"
 
@@ -2018,13 +2332,12 @@ msgid "Save Changes"
 msgstr "Sauvegarder les modifications"
 
 #: ../../../../../cap-root/templates/Default/1812/partial/search_form.tt:33
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:16
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:22
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:4
 #: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:9
 #: ../../../../../cap-root/templates/Default/dfait/partial/search_form.tt:33
 #: ../../../../../cap-root/templates/Default/eco/partial/collection_list.tt:21
 #: ../../../../../cap-root/templates/Default/eco/partial/search_form.tt:33
-#: ../../../../../cap-root/templates/Default/parl/partial/keyword_search.tt:16
 #: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:37
 #: ../../../../../cap-root/templates/Default/whf/partial/search_form.tt:33
 msgid "Search"
@@ -2050,6 +2363,12 @@ msgstr "Options de recherche"
 msgid "Search results"
 msgstr "Liste des résultats"
 
+#: ../../../../../cap-root/templates/Default/1812/partial/search_form.tt:3
+#: ../../../../../cap-root/templates/Default/Common/partial/search_form.tt:3
+#: ../../../../../cap-root/templates/Default/dfait/partial/search_form.tt:3
+#: ../../../../../cap-root/templates/Default/eco/partial/search_form.tt:3
+#: ../../../../../cap-root/templates/Default/parl/partial/search_form.tt:3
+#: ../../../../../cap-root/templates/Default/whf/partial/search_form.tt:3
 msgid "Search the collection"
 msgstr "Recherche dans la collection"
 
@@ -2069,7 +2388,7 @@ msgstr "Effectuer une recherche dans cette série"
 msgid "Search within this collection (%1 pages)"
 msgstr "Recherche dans cette collection (%1 pages)"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:14
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:2
 msgid "Search within this document:"
 msgstr "Recherche dans ce document :"
 
@@ -2082,17 +2401,20 @@ msgstr "Recherche dans ce document (%1 pages)"
 msgid "Search within this publication (%1 pages)"
 msgstr "Recherche dans cette publication (%1 pages)"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:14
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:1
 msgid "Search within this series:"
 msgstr "Recherche dans cette série :"
 
-#: ../../../../../cap-root/templates/Default/parl/partial/keyword_search.tt:14
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:1
 msgid "Search within this session:"
 msgstr "Recherche dans cette session :"
 
-#: ../../../../../cap-root/templates/Default/parl/partial/keyword_search.tt:14
 msgid "Search within this sitting day:"
 msgstr "Recherche dans cette journée de séance :"
+
+#: ../../../../../cap-root/templates/Default/Common/partial/keyword_search.tt:2
+msgid "Search within this volume:"
+msgstr "Rechercher dans ce volume :"
 
 msgid "Search:"
 msgstr "Recherche dans :"
@@ -2253,6 +2575,12 @@ msgstr "Début"
 msgid "Statistics"
 msgstr "Statistiques"
 
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:1
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:3
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:111
+msgid "Statistics and Reports"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/error.tt:37
 msgid "Status:"
 msgstr "Statut :"
@@ -2277,9 +2605,9 @@ msgstr "Soumettre"
 msgid "Submit Feedback"
 msgstr "Envoyez-nous vos commentaires"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:73
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:122
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:87
 #: ../../../../../cap-root/templates/Default/Common/partial/header_nav.tt:18
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:65
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:1
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:55
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:18
@@ -2287,21 +2615,25 @@ msgstr "Envoyez-nous vos commentaires"
 msgid "Subscribe"
 msgstr "Pour s'abonner"
 
+#. (entity.portal.title(lang)
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:1
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:8
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:8
+msgid "Subscribe to %1"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:4
 msgid "Subscribe to Early Canadiana Online"
 msgstr "Abonnez-vous à Notre mémoire en ligne"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:12
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:13
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:42
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:43
 msgid "Subscribe today"
 msgstr "Abonnez-vous dès aujourd’hui"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/header_nav.tt:12
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:10
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:40
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer.tt:10
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:54
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:60
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:64
 #: ../../../../../cap-root/templates/Default/parl/partial/header_nav.tt:12
 msgid "Subscribe today!"
 msgstr "Abonnez-vous dès aujourd’hui!"
@@ -2317,14 +2649,12 @@ msgid "Subscribers can download a copy of this document."
 msgstr "Les abonné(e)s peuvent télécharger une copie de ce document."
 
 #. ('<a href="' _ c.uri_for_action("user/create")
-#. ('<a href="' _ c.uri_for_action("user/subscribe")
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:10
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:9
+#. ('<a href="' _ c.uri_for_action("user/profile")
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:39
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:40
 msgid "Subscribers have access to the full range of ECO content. %1"
 msgstr "Les abonnés ont accès à l’ensemble du contenu de NML. %1"
 
-#. (subscribers)
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:8
 msgid "Subscribers: %1"
 msgstr "Abonné(e)s : %1"
 
@@ -2342,11 +2672,17 @@ msgstr "Abonnement expiré"
 msgid "Subscription Expires"
 msgstr "L’abonnement expire le"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:77
 msgid "Subscription IP Blocks"
 msgstr "Plages IP pour les abonnements"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:72
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:52
+msgid "Subscription Period"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:34
+msgid "Subscription Price"
+msgstr ""
+
 msgid "Subscription expired."
 msgstr "Abonnement expiré."
 
@@ -2354,11 +2690,20 @@ msgstr "Abonnement expiré."
 msgid "Subscription price"
 msgstr "Coût de l'abonnement"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:30
 msgid "Subscription status"
 msgstr "Statut de l’abonnement"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:85
+#. ($portal->title($c->stash->{lang})
+#: ../Controller/User/Subscription.pm:157
+msgid "Subscription to %1"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:13
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:18
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:226
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:41
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:13
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:11
 msgid "Subscriptions"
 msgstr ""
 
@@ -2374,16 +2719,12 @@ msgstr "Support"
 msgid "Surprise me!"
 msgstr "Surprenez-moi!"
 
-#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:3
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:25
-msgid "System Reports"
-msgstr ""
-
 msgid "Tax Receipt"
 msgstr "Reçu d'impôt"
 
 #: ../../../../../cap-root/templates/Default/Common/user/create.tt:50
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:53
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:75
 msgid "Terms of Service"
 msgstr "Conditions de service"
 
@@ -2416,9 +2757,19 @@ msgstr "Merci de vos commentaires."
 msgid "The Canadiana Team"
 msgstr "L’équipe de Canadiana"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:17
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:47
 msgid "The PayPal token was not found."
 msgstr "The PayPal token was not found."
+
+#. (msg.params.0)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:14
+msgid "The discount code '%1' has already been redeemed"
+msgstr ""
+
+#. (msg.params.0)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:13
+msgid "The discount code '%1' was not found"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:9
 msgid "The page you requested cannot be displayed."
@@ -2428,19 +2779,24 @@ msgstr "La page demandée ne peut être affichée."
 msgid "The page you were looking for cannot be found."
 msgstr "La page demandée est introuvable."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:32
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:62
 msgid "The passwords you entered do not match."
 msgstr "Les mots de passe que vous avez saisis ne correspondent pas."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:35
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:65
 msgid "The promotion code you entered has expired."
 msgstr "Le code promotionnel que vous avez saisi est expiré."
+
+#. (msg.params.0)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:22
+msgid "The requested %1 does not exist"
+msgstr ""
 
 msgid "The username and password do not match"
 msgstr "Le nom d’utilisateur et le mot de passe ne correspondent pas"
 
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:13
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:22
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:23
 msgid "Themes"
 msgstr ""
 
@@ -2457,7 +2813,7 @@ msgstr "Il n’y a encore aucun diaporama. En créer un ci-dessous."
 msgid "There was a problem with your request; try again in a few moments."
 msgstr "Un problème est survenu lors de votre requête. Essayez de nouveau dans quelques instants."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:24
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:54
 msgid "There was an error adding the requested IP address range"
 msgstr "Une erreur est survenue au moment d’ajouter la plage d’adresse IP requise."
 
@@ -2465,40 +2821,16 @@ msgstr "Une erreur est survenue au moment d’ajouter la plage d’adresse IP re
 msgid "There was an error retrieving this page."
 msgstr "Une erreur est survenue lors du téléchargement de cette page."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:16
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:46
 msgid "There was no PayPal token."
 msgstr "There was no PayPal token."
 
 msgid "This document contains %1 pages"
 msgstr " Ce document contient %1 pages"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:112
-msgid "This institution contributes to the following portals:"
-msgstr ""
-
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:66
-msgid "This institution does not subscribe to any of our portals."
-msgstr ""
-
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:131
-msgid "This institution is not listed as a contributor to any of our portals."
-msgstr ""
-
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:48
-msgid "This institution subscribes to the following portals:"
-msgstr ""
-
 #: ../../../../../cap-root/templates/Default/Common/partial/page_viewer.tt:10
 msgid "This page is not included in this document's free preview, but subscribers receive full access."
 msgstr "La prévisualisation gratuite de cette page n’est pas disponible pour ce document, mais les abonnés jouissent d’un plein accès."
-
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:115
-msgid "This user does not subscribe to any of our services."
-msgstr ""
-
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:87
-msgid "This user subscribes to the following portals:"
-msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/edit_slide.tt:12
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:10
@@ -2511,7 +2843,7 @@ msgstr "URL de l’imagette"
 msgid "Thumbnail: %1"
 msgstr "Imagette : %1"
 
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:13
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:14
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:10
 msgid "Title"
 msgstr "Titre"
@@ -2566,14 +2898,17 @@ msgstr "Montant total du paiement"
 msgid "Trial Ended"
 msgstr "Période d’essai terminée"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:62
 msgid "Trial ended."
 msgstr "Période d’essai terminée"
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:56
 msgid "Trial subscription."
 msgstr "Abonnement d'essai."
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:231
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:265
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:155
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:97
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:22
 msgid "Type"
 msgstr "Type"
 
@@ -2583,8 +2918,16 @@ msgid "URL"
 msgstr "URL"
 
 #. (msg.params.0)
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:20
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:50
 msgid "Unknown identifiers: %1"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:86
+msgid "Unlimited Downloads"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:85
+msgid "Unsubscribe"
 msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:29
@@ -2594,17 +2937,18 @@ msgstr "Déplacer vers le haut"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:45
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/contributor.tt:51
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:41
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:22
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:109
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:130
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:193
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/edit_slide.tt:26
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:77
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:183
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:86
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:45
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:85
 #: ../../../../../cap-root/templates/Default/parl/partial/search_controls.tt:85
 msgid "Update"
 msgstr "Mise à jour"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/edit.tt:69
 msgid "Update Collections"
 msgstr "Mise à jour des collections"
 
@@ -2612,25 +2956,23 @@ msgstr "Mise à jour des collections"
 msgid "Update discount code"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:1
 msgid "Update user"
 msgstr "Mettre à jour le profil de l’utilisateur"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:9
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:9
+#. (msg.params.0)
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:25
+msgid "Updated %1"
+msgstr ""
+
 msgid "Usage"
 msgstr "Utilisation"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/index.tt:12
 #: ../../../../../cap-root/templates/Default/Common/admin/usage.tt:1
 #: ../../../../../cap-root/templates/Default/Common/admin/usage.tt:3
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:107
+#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:94
 msgid "Usage Statistics"
 msgstr "Statistiques d’utilisation"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/edit.tt:142
-#: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:17
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:17
 msgid "Usage report"
 msgstr "Rapport d’utilisation"
 
@@ -2639,7 +2981,13 @@ msgstr "Rapport d’utilisation"
 msgid "Usage report for %1"
 msgstr "Rapport d’utilisation pour %1"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:43
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:70
+msgid "Use Code"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:12
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:21
+#: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:35
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:7
 msgid "User"
 msgstr "Utilatisateur"
@@ -2654,7 +3002,7 @@ msgstr "Abonnement d'essai."
 msgid "User Activity Report"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:14
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:23
 msgid "User ID"
 msgstr "ID utilisateur"
 
@@ -2663,7 +3011,7 @@ msgstr "ID utilisateur"
 msgid "User Log for %1 (%2)"
 msgstr ""
 
-#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:6
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:35
 msgid "User activity"
 msgstr ""
 
@@ -2671,7 +3019,7 @@ msgstr ""
 msgid "User feedback"
 msgstr "Rétroactions des utilisateurs"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:45
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:75
 msgid "User not found"
 msgstr "Utilisateur non trouvée"
 
@@ -2687,8 +3035,11 @@ msgid "Username"
 msgstr "Nom de utilisateur"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/index.tt:3
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:35
+#: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:8
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:2
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:3
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:9
 msgid "Users"
 msgstr "Utilisateurs"
 
@@ -2746,9 +3097,13 @@ msgstr "Vos commentaires et suggestions sur la façon d’améliorer Notre mémo
 msgid "We welcome your comments on how we may improve this site. Please provide them below."
 msgstr "Vos commentaires sur la façon d’améliorer ce site sont les bienvenus. Veuillez nous les communiquer ci-dessous."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:46
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:76
 msgid "We were unable to find an account matching that email address. Please verify that this is the email address for your account and try again."
 msgstr "Il nous a été impossible de trouver un compte correspondant à cette adresse de courriel. Veuillez vérifier si cette adresse de courriel est celle qui se rapporte à votre compte et essayez de nouveau."
+
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:10
+msgid "We were unable to process your request"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:27
 msgid "We're sorry; we were unable to process your request."
@@ -2772,7 +3127,7 @@ msgid "Welcome, %1"
 msgstr "Bienvenue à %1"
 
 #. (c.user.name)
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:25
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:55
 msgid "Welcome, %1!"
 msgstr "Bienvenue, %1!"
 
@@ -2794,7 +3149,7 @@ msgstr "AAAA"
 msgid "Years"
 msgstr "Années"
 
-#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:80
+#: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:90
 #: ../../../../../cap-root/templates/Default/Common/macro/format_boolean.tt:1
 msgid "Yes"
 msgstr "Oui"
@@ -2802,7 +3157,6 @@ msgstr "Oui"
 msgid "You are accessing ECO from an institution that has subscribed to our collection. You will have full access whenever accessing ECO from your institution's network."
 msgstr "Vous accédez à NML par l’entremise d’une institution abonnée à notre collection. Vous bénéficierez d’un accès complet à NML chaque fois que vous consulterez ce site sur le réseau de votre institution."
 
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:53
 msgid "You are not currently subscribed to ECO. Subscription allows full access to the ECO collection, and funds the digitization of new content."
 msgstr "Présentement, vous n’avez pas d’abonnement à NML. L’abonnement vous donne accès à toute la collection NML et finance la numérisation de nouveaux contenus."
 
@@ -2813,7 +3167,7 @@ msgstr "Vous êtes abonné(e) aux collections suivantes"
 msgid "You do not have sufficient privileges to view this page."
 msgstr "Vos privilèges sont insuffisants pour visionner cette page."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:36
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:66
 msgid "You have entered an invalid promotion code."
 msgstr "Le code promotionnel que vous avez saisi n’est pas valide."
 
@@ -2821,15 +3175,15 @@ msgstr "Le code promotionnel que vous avez saisi n’est pas valide."
 msgid "You have not yet confirmed your user account. Check your email for further instructions"
 msgstr "Vous n’avez pas encore confirmé votre compte utilisateur. Veuillez vérifier votre courriel pour d’autres instructions."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:44
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:74
 msgid "You have successfully confirmed and activated your account. Welcome!"
 msgstr "Vous avez confirmé et activé votre compte avec succès. Bienvenu!"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:26
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:56
 msgid "You have successfully logged out."
 msgstr "Fermeture de session réussie."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:42
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:72
 msgid "You must agree to the Early Canadiana Online Terms of Service to proceed."
 msgstr "Pour continuer, vous devez accepter les conditions de service de Notre mémoire en ligne."
 
@@ -2837,19 +3191,23 @@ msgstr "Pour continuer, vous devez accepter les conditions de service de Notre m
 msgid "You must be logged in to view this page."
 msgstr " Vous devez ouvrir une session pour visionner cette page."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:39
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:69
 msgid "You must enter a city to generate a tax receipt."
 msgstr "Vous devez saisir une ville pour l’émission d’un reçu d’impôt."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:37
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:67
 msgid "You must enter a donor name to generate a tax receipt."
 msgstr "Vous devez saisir le nom d’un donateur pour l’émission d’un reçu d’impôt."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:38
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:68
 msgid "You must enter an address to generate a tax receipt."
 msgstr "Vous devez saisir une adresse pour l’émission d’un reçu d’impôt."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:40
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:15
+msgid "You must read and agree to the Canadiana Terms of Service"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:70
 msgid "You must select a province or territory to generate a tax receipt."
 msgstr "Vous devez sélectionner une province ou un territoire pour l’émission d’un reçu d’impôt."
 
@@ -2858,29 +3216,31 @@ msgstr "Vous devez sélectionner une province ou un territoire pour l’émissio
 msgid "You received this email because a request was made to %1 to reset your password."
 msgstr "Vous avez reçu ce courriel parce qu’une demande a été envoyée à %1 pour la réinitialisation de votre mot de passe."
 
-#. (format_date(sub_expires)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:63
 msgid "Your ECO free trial ended on %1. Subscribe to regain access to the complete ECO collection, including subscriber-only features not available during your trial."
 msgstr "Votre période d’essai gratuit à NML s’est terminée le %1. Abonnez-vous pour récupérer l’accès à toute la collection NML, y compris certaines fonctions réservées uniquement aux abonnés et non disponibles durant votre période d’essai."
 
 msgid "Your ECO subscription expired on %1. Renew it to regain access to the complete ECO collection."
 msgstr "Votre abonnement à NML expire le %1. Renouvelez-le pour conserver un accès à toute la collection NML."
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:5
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:7
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:14
 msgid "Your Profile"
 msgstr "Votre profil"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:28
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:58
 msgid "Your email address is invalid."
 msgstr "Votre adresse de courriel n’est pas valide."
 
-#. (format_date(c.user.subexpires)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:58
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:56
+msgid "Your existing subscription will expire"
+msgstr ""
+
 msgid "Your free trial ends on %1. Subscribe today to maintain access to the complete ECO collection, enable PDF downloads and other subscriber benefits, and fund the digitization of new content."
 msgstr " Votre période d’essai se termine le %1. Abonnez-vous dès aujourd’hui pour conserver l’accès à toute la collection NML, permettre le téléchargement de fichiers PDF, profiter des autres avantages réservés aux abonnés et financer la numérisation de nouveaux contenus."
 
-#. ('<a href="' _ c.uri_for_action("user/subscribe")
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:12
+#. ('<a href="' _ c.uri_for_action("user/profile")
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:42
 msgid "Your free trial period has expired. %1 to regain full access to all ECO content."
 msgstr "Votre période d’essai gratuit est terminée. %1 pour récupérer l’accès complet à tout le contenu de  NML."
 
@@ -2888,19 +3248,23 @@ msgstr "Votre période d’essai gratuit est terminée. %1 pour récupérer l’
 msgid "Your name"
 msgstr "Votre nom"
 
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:60
+msgid "Your new subscription will expire"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:8
 msgid "Your password has successfully been reset."
 msgstr "Votre mot de passe a été réinitialisé avec succès."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:33
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:63
 msgid "Your password must be at least six characters long and may not contain spaces."
 msgstr "Votre mot de passe doit contenir au moins six caractères et aucun espace."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:15
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:45
 msgid "Your payment could not be processed correctly."
 msgstr "Le traitement de votre paiement a échoué."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:18
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:48
 msgid "Your payment has already been successfully completed."
 msgstr " Votre paiement a été complété avec succès."
 
@@ -2923,29 +3287,25 @@ msgid "Your payment of %1 gives you a one-year subscription to Early Canadiana O
 msgstr "Votre paiement de %1 vous procure un abonnement d’un an à Notre mémoire en ligne et une adhésion comme membre de Canadiana.org."
 
 #. (format_money(msg.params.0)
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:14
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:44
 msgid "Your payment of %1 has been processed successfully."
 msgstr "Votre paiement de %1 a été traité avec succès."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:34
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:64
 msgid "Your profile has been updated successfully."
 msgstr "Votre profile a été mis à jour avec succès."
 
 msgid "Your single best source for discovering Canadian documentary heritage"
 msgstr "La source par excellence pour découvrir le patrimoine documentaire canadien"
 
-#. (format_date(sub_expires)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:73
 msgid "Your subscription ended on %1. Renew it to regain access to the complete ECO collection."
 msgstr "Votre abonnement a pris fin le %1. Renouvelez-le afin d'avoir de nouveau accès à la collection complète de NML."
 
-#. (format_date(sub_expires)
-#: ../../../../../cap-root/templates/Default/Common/user/profile.tt:68
 msgid "Your subscription expires on %1."
 msgstr "Votre abonnement expire le %1"
 
-#. ('<a href="' _ c.uri_for_action("user/subscribe")
-#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:11
+#. ('<a href="' _ c.uri_for_action("user/profile")
+#: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:41
 msgid "Your subscription has expired. %1 to regain full access to all ECO content."
 msgstr "Votre abonnement est expiré. %1 pour profiter de nouveau d'un accès à tout le contenu de NML."
 
