@@ -33,6 +33,7 @@ use Catalyst qw/
                 MessageStack
 
 
+                Auth
                 Portal
                 Institution
                 Util
@@ -138,7 +139,7 @@ sub update_session {
         $c->session->{$c->portal->id}->{subscribing_institution} = undef;
         my $institution = $c->model('DB::InstitutionIpaddr')->institution_for_ip($c->req->address);
 
-        if ($institution && $institution->is_subscriber($c->portal)) {
+        if ($institution && $institution->subscriber($c->portal)) {
             $c->session->{$c->portal->id}->{subscribing_institution} = {id => $institution->id, name => $institution->name };
         }
 

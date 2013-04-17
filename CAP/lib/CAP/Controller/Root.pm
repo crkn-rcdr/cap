@@ -86,6 +86,9 @@ sub auto :Private
     # Route this request to/from the secure host if necessary
     $c->model('Secure')->routeRequest($c);
 
+    # Configure the user's permissions
+    $c->set_auth;
+
     # If we got to here, it means we will attempt to actually do
     # something, so increment the request counter and log the request
     ++$c->session->{count};

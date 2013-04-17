@@ -22,7 +22,7 @@ sub get_page_uri :Local :Args(2) {
     unless ($doc && $doc->found) {
         $result = [404, "No document with key $key"];
     } else {
-        $doc->authorize($c->portal, $c->user, $c->institution);
+        $doc->authorize($c->auth);
         my $size = $c->req->params->{s} || "1";
         my $rotate = $c->req->params->{r} || "0";
         $result = $c->cap->derivative_request($doc, $seq, "file.jpg", $size, $rotate, "jpg");

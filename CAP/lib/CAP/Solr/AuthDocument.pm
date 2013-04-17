@@ -6,7 +6,6 @@ use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
 use namespace::autoclean;
 
-has 'all_pages'  => (is => 'rw', isa => 'Int'); # Deprecated
 has 'view_all'   => (is => 'rw', isa => 'Int', default => 0);
 has 'view_part'  => (is => 'rw', isa => 'Int', default => 0);
 has 'download'   => (is => 'rw', isa => 'Int', default => 0);
@@ -42,66 +41,25 @@ method BUILD {
     $self->{auth} = new CAP::Solr::AuthDocument::Auth;
 }
 
-method authorize ($portal, $user, $institution) {
-
-    # TODO: this is still a temporary workaround to having a set of
-    # database-driven rules. It works as long as 'eco' is the only portal
-    # that does not provide full open access to all content. This should
-    # be replaced by a set of generic rule checks with all of the specific
-    # parameters being defined in a database table.
-
-    # Initialize the user's subscription level to 0 (none)
-    my $level = 0;
-
-    # Set the user's subscription level based on
-    if ($user) {
-        my $subscription = $user->find_related('user_subscriptions', { portal_id => $portal });
-        # If the user has no subscription for this portal, access level
-        # remains 0.
-        if (! $subscription) {
-            $level = 0;
-        }
-        # If the user's subscription is permanent, get the subscription level
-        elsif ($subscription->permanent) {
-            $level = $subscription->level;
-        }
-        # If the subscription has not yet expired, the the subscription level
-        elsif ($subscription->expires->epoch() >= time) {
-            $level = $subscription->level;
-        }
-    }
-
-    # If we have an institutional subscription, the subscription level is
-    # set to 2 (maximum)
-    if ($institution) {
-        if ($institution->is_subscriber($portal)) {
-            $level = 2;
-        }
-    }
-
-    # All portals other than ECO give the user an effective access level of 2.
-    if ($portal->id ne 'eco') {
-        $level = 2;
-    }
+method authorize ($auth) {
 
     # Set to true if the user's access level is equal to or greater
     # than the required level.
-    $self->auth->all_pages(int($level >= 1));
-    $self->auth->view_all(int($level >= 1));
-    $self->auth->view_part(int($level >= 1));
-    $self->auth->download(int($level >= 2));
-    $self->auth->resize(int($level >= 1));
+    my $level;
     
-    # Level 1 gives access to all pages, level 0 to only a preview.
-    if ($level >= 1) {
-        if ($self->record_type eq 'document') {
-            for (my $page = 0; $page < $self->child_count; ++$page) {
-                $self->auth->addPage(1);
-            }
+    # Set the authorizations for this document
+    $self->auth->view_all($auth->all);
+    $self->auth->view_part($auth->preview);
+    $self->auth->download($auth->download);
+    $self->auth->resize($auth->resize);
+
+    # Compile a list of pages that can be viewed based on whether the user
+    # has full, preview or no access.
+    for (my $page = 0; $page < $self->child_count; ++$page) {
+        if ($auth->all) {
+            $self->auth->addPage(1);
         }
-    }
-    else {
-        for (my $page = 0; $page < $self->child_count; ++$page) {
+        elsif ($auth->preview) {
             # The first page is always allowed (in case there is only one # page)
             if ($page == 1) {
                 $self->auth->addPage(1);
@@ -118,10 +76,12 @@ method authorize ($portal, $user, $institution) {
                 $self->auth->addPage(0);
             }
         }
+        else {
+            $self->auth->addPage(0);
+        }
     }
-
-    return;
-
+    
+    return 1;
 }
 
 around 'validate_derivative' => sub {

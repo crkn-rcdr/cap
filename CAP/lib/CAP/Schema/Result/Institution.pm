@@ -467,19 +467,22 @@ sub delete_ipaddress {
 }
 
 
+=head2 subscriber ($portal)
+
+Returns true if the institution susbcribes to $portal.
+
+=cut
+sub subscriber {
+    my($self, $portal) = @_;
+    my $subscriber = $self->find_related('institution_subscriptions', { portal_id => $portal->id });
+    return 1 if $subscriber;
+    return 0;
+}
+
 
 
 
 #######
-
-
-# Return true if this institution subscribes to the current portal.
-sub is_subscriber {
-    my($self, $portal) = @_;
-    my $subscriber = $self->search_related('institution_subscriptions', { portal_id => $portal->id })->count;
-    return 1 if $subscriber;
-    return 0;
-}
 
 
 sub set_alias {
