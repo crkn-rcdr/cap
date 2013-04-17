@@ -256,12 +256,12 @@ indicating whether or not the data is valid and a list of error messages.
 sub update_if_valid {
     my($self, $data) = @_;
     my @errors = ();
-    my $code = $data->{code} || "";
+    my $code = $data->{code} || undef;
     my $name = $data->{name} || "";
 
     # code: optional, lowercase alpha only, 16 characters max.
     push(@errors, { message => 'invalid_maxlen', params => [ 'Code', '16' ] }) unless (length($code) <= 16);
-    push(@errors, { message => 'invalid_char', params => [ 'Code', $1, 'a-z' ] }) if ($code =~ /([^a-z])/);
+    push(@errors, { message => 'invalid_char', params => [ 'Code', $1, 'a-z' ] }) if ($code && $code =~ /([^a-z])/);
 
     # name: required, 128 characters max.
     push(@errors, { message => 'invalid_empty', params => [ 'Name' ] }) unless ($name && $name =~ /\S/);

@@ -71,6 +71,26 @@ sub edit_POST {
     $c->detach('/admin/institution/updated');
 }
 
+
+=head2 delete
+
+Delete the institution
+
+=cut
+sub delete : Chained('base') PathPart('delete') Args(0) ActionClass('REST') {
+    my($self, $c) = @_;
+}
+
+sub delete_GET {
+    my($self, $c) = @_;
+    my $institution = $c->stash->{entity}->{institution};
+    $c->message({ type => "success", message => "admin_deleted_entity", params => [ $institution->name ] });
+    $institution->delete;
+    $self->status_ok($c, entity => $c->stash->{entity});
+    $c->res->redirect($c->uri_for_action("/admin/index"));
+    $c->detach();
+}
+
 =head2 alias
 
 Edit or create an institution alias.
@@ -203,10 +223,6 @@ sub updated :Private {
     $c->detach();
 }
 
-__PACKAGE__->meta->make_immutable;
-
-
-
 
 =head2 create
 
@@ -224,5 +240,7 @@ sub create_GET {
     $c->res->redirect($c->uri_for_action('/admin/institution/index', [$institution->id]));
     $c->detach();
 }
+
+__PACKAGE__->meta->make_immutable;
 
 1;
