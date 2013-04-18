@@ -128,7 +128,7 @@ sub assign : Chained('base') :Path('assign') :Args(0) {
             }
         }
         if ($title_count > 0) {
-            $c->message({ type => "success", message => "added_titles", params => [ $title_count, $portal->name($c->stash->{lang}) ] });
+            $c->message({ type => "success", message => "added_titles", params => [ $title_count, $portal->title($c->stash->{lang}) ] });
         }
         if (@notfound) {
             $c->message({ type => "failure", message => "identifier_not_found", params => [ join(", ", @notfound) ] });
@@ -156,7 +156,7 @@ sub assign : Chained('base') :Path('assign') :Args(0) {
                 hosted => $hosted
             });
         }
-        $c->message({ type => "success", message => "added_titles", params => [ $title_count, $portal->name($c->stash->{lang}) ] });
+        $c->message({ type => "success", message => "added_titles", params => [ $title_count, $portal->title($c->stash->{lang}) ] });
     }
 
     $c->res->redirect($c->uri_for_action('/content/institution/index', [ $institution->id ]));
