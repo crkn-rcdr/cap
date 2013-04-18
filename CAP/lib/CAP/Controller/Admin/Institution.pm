@@ -105,7 +105,7 @@ sub alias_POST {
     my $institution = $c->stash->{entity}->{institution};
     my $data = $c->stash->{data};
     $c->stash(update => $institution->update_alias_if_valid($data));
-    $c->detach('/admin/institution/updated');
+    $c->detach('/admin/institution/updated', ['tab_aliases']);
 }
 
 
@@ -123,7 +123,7 @@ sub alias_delete_GET {
     my $institution = $c->stash->{entity}->{institution};
     my $data = $c->req->params;
     $c->stash(update => $institution->delete_alias($data));
-    $c->detach('/admin/institution/updated');
+    $c->detach('/admin/institution/updated', ['tab_aliases']);
 }
 
 
@@ -141,7 +141,7 @@ sub subscribe_GET {
     my $institution = $c->stash->{entity}->{institution};
     my $portal = $c->model('DB::Portal')->find({id => $portal_id});
     $c->stash(update => $institution->subscribe_if_exists({ portal => $portal }));
-    $c->detach('/admin/institution/updated');
+    $c->detach('/admin/institution/updated', ['tab_subscriptions']);
 }
 
 
@@ -159,7 +159,7 @@ sub subscribe_delete_GET {
     my $institution = $c->stash->{entity}->{institution};
     my $portal = $c->model('DB::Portal')->find({id => $portal_id});
     $c->stash(update => $institution->unsubscribe({ portal => $portal }));
-    $c->detach('/admin/institution/updated');
+    $c->detach('/admin/institution/updated', ['tab_subscriptions']);
 }
 
 
@@ -177,7 +177,7 @@ sub ipaddress_POST {
     my $institution = $c->stash->{entity}->{institution};
     my $data = $c->stash->{data};
     $c->stash(update => $institution->add_ipaddress_if_valid($data));
-    $c->detach('/admin/institution/updated');
+    $c->detach('/admin/institution/updated', ['tab_ipaddresses']);
 }
 
 
@@ -194,7 +194,7 @@ sub ipaddress_delete_GET {
     my($self, $c, $start) = @_;
     my $institution = $c->stash->{entity}->{institution};
     $c->stash(update => $institution->delete_ipaddress({ start => $start }));
-    $c->detach('/admin/institution/updated');
+    $c->detach('/admin/institution/updated', ['tab_ipaddresses']);
 }
 
 
@@ -204,7 +204,7 @@ Methods that update an institution detach to here to check for success and to ge
 
 =cut
 sub updated :Private {
-    my($self, $c) = @_;
+    my($self, $c, $fragment) = @_;
     my $update = $c->stash->{update};
     my $institution = $c->stash->{entity}->{institution};
 
@@ -219,7 +219,9 @@ sub updated :Private {
         $self->status_bad_request($c, message => "Input is invalid");
     }
 
-    $c->res->redirect($c->uri_for_action('/admin/institution/index', [$institution->id]));
+    my $uri = $c->uri_for_action('/admin/institution/index', [$institution->id]);
+    $uri->fragment($fragment) if ($fragment);
+    $c->res->redirect($uri);
     $c->detach();
 }
 
