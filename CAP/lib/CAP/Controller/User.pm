@@ -533,6 +533,8 @@ sub subscribe_finalize : Private
     # Finalize the subscription
     $c->user->set_subscription($subscription);
     $c->user->close_subscription($payment);
+    $c->user->log('SUB_START', sprintf("Subscription to %s: level %d, expiry set to %s",
+        $subscription->portal_id->id, $subscription->new_level, $subscription->new_expire->ymd));
 
 
     $c->message({ type => "success", message => "ok_subscription" });
@@ -540,10 +542,6 @@ sub subscribe_finalize : Private
     $c->res->redirect($c->uri_for_action("/user/profile"));
     $c->detach();
 
-}
-
-sub subscribe_confirmed :Path('subscribe_confirmed') :Args(0) {
-    return 0;
 }
 
 __PACKAGE__->meta->make_immutable;
