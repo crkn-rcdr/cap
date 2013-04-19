@@ -491,6 +491,20 @@ sub discount_used {
 }
 
 
+=head2 subscription_history 
+
+Returns a user's susbcription transaction history, starting with the most
+recent. Includes only completed transactions.
+
+=cut
+sub subscription_history {
+    my($self) = @_;
+    my @history = $self->search_related('subscriptions', { completed => { '!=' => undef }}, { order_by => { -desc => 'completed'}})->all;
+    return @history if (wantarray);
+    return \@history;
+}
+
+
 
 # Returns the subscriber level for the user's subscription to $portal; 0 for no subscription
 sub subscriber_level {
