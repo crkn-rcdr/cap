@@ -275,6 +275,18 @@ sub update_if_valid {
     return { valid => 1, errors => [] };
 }
 
+=head2 alias ($lang)
+
+Return the alias for $lang. If not defined, the default name is used
+
+=cut
+sub alias {
+    my($self, $lang) = @_;
+    my $alias = $self->find_related('institution_alias', { lang => $lang });
+    return $alias->name if ($alias);
+    return $self->name;
+}
+
 
 =head2 aliases
 

@@ -72,7 +72,8 @@ sub show_stats {
 
     # Get the institution name
     my $inst_arg  = $c->request->arguments->[0];
-    my $inst_name = $c->model('DB::Institution')->get_name($inst_arg);
+    my $institution = $c->model('DB::Institution')->find({ id => $inst_arg });
+    my $inst_name = $institution->alias($c->stash->{lang});
     $c->stash->{report_inst} = $inst_name;
 
     # Get date of first log entry
