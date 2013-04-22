@@ -31,6 +31,40 @@ method build_entity ($object) {
     return $entity;
 }
 
+
+=head2 uri_for_portal ($hostname, @args)
+
+Calls uri_for_action(@args) and then changes the hostname part of the URL
+to $hostname and the protocol to http. $hostname can either be a bare
+hostname or a complete URL, in which case the hostname part is used.
+
+=cut
+method uri_for_portal(Str $hostname, Item @args) {
+    $hostname =~ s!.*://!! if $hostname =~ m!://!;
+    $hostname =~ s/\..*//;
+    my $uri = $self->c->uri_for_action(@args);
+    my $host = $uri->host;
+    $host = $hostname . substr($host, index($host, '.'));
+    $uri->scheme('http');
+    $uri->host($host);
+    return $uri;
+}
+
+
+=head2 uri_for_secure (@args)
+
+Calls uri_for_action(@args) and then changes the hostname to the secure
+portal. Note that protocol is not forced to secure: this should be taken
+care of in Model/Secure.pm
+
+=cut
+method uri_for_secure(Item @args) {
+    my $uri = $self->c->uri_for_action(@args);
+    my $host = $self->c->config->{secure}->{host};
+    $uri->host($host);
+    return $uri;
+}
+
 =head2 derivative_request (CAP::Solr::Document $document, Int $seq, Str $filename, Str $size, Str $rotate, Str $format)
 
 Request a derivative URI for COS, for the given $document.

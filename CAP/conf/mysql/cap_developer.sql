@@ -597,6 +597,7 @@ CREATE TABLE `portal` (
 
 LOCK TABLES `portal` WRITE;
 /*!40000 ALTER TABLE `portal` DISABLE KEYS */;
+INSERT INTO `portal` VALUES ('canadiana',1,1,0,0,-1,-1,-1,-1,-1,'2013-04-19 15:14:34');
 /*!40000 ALTER TABLE `portal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -648,6 +649,7 @@ CREATE TABLE `portal_host` (
 
 LOCK TABLES `portal_host` WRITE;
 /*!40000 ALTER TABLE `portal_host` DISABLE KEYS */;
+INSERT INTO `portal_host` VALUES ('secure','canadiana');
 /*!40000 ALTER TABLE `portal_host` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -676,6 +678,7 @@ CREATE TABLE `portal_lang` (
 
 LOCK TABLES `portal_lang` WRITE;
 /*!40000 ALTER TABLE `portal_lang` DISABLE KEYS */;
+INSERT INTO `portal_lang` VALUES ('canadiana','en',10,'Canadiana'),('canadiana','fr',0,'Canadiana');
 /*!40000 ALTER TABLE `portal_lang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1275,4 +1278,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-16  8:04:40
+-- Dump completed on 2013-04-19 11:28:07
