@@ -474,33 +474,59 @@ sub discount {
 }
 
 
-=head2 canonical_hostname
+=head2 canonical_hostname ($hostname)
 
-Returns the canonical hostname for the portal, or undef if there isn't one.
+Returns the canonical hostname for the portal, or undef if there isn't
+one. If $hostname is provided (and exists), it is made the new canonical
+hostname.
 
 =cut
 sub canonical_hostname {
-    my($self) = @_;
-    my $host = $self->find_related('portal_hosts', { canonical => 1 });
-    warn $host;
-    return $host->id if ($host);
-    return undef;
+    my($self, $hostname) = @_;
+    my $canonical = $self->find_related('portal_hosts', { canonical => 1 });
+    return undef unless ($canonical);
+
+    if ($hostname) {
+        my $new_canonical =  $self->find_related('portal_hosts', { id => $hostname });
+        if ($new_canonical) {
+            $canonical->update({ canonical => undef });
+            $new_canonical->update({ canonical => 1 });
+            return $new_canonical;
+        }
+    }
+    else {
+        return $canonical->id;
+    }
 }
 
 
+=head2 hosts
 
+Return the hostnames for the portal
 
-
-
-
+=cut
 sub hosts {
     my $self = shift;
-    my $hosts = [];
-    foreach ($self->search_related('portal_hosts', undef, { order_by => 'id' })) {
-        push(@{$hosts}, $_->id);
-    }
-    return $hosts;
+    my @hosts = $self->search_related('portal_hosts', undef, { order_by => 'id' })->all;
+    return @hosts if (wantarray);
+    return \@hosts;
 }
+
+
+=head2 delete_host ($hostname)
+
+Disassociate $hostname from the portal
+
+=cut
+sub delete_host {
+    my($self, $hostname) = @_;
+    my $host = $self->find_related('portal_hosts', { id => $hostname });
+    $host->delete if ($host);
+    return 1;
+}
+
+
+
 
 # Get the default language for the portal, if none is specified. This is
 # based on the value of the priority column.

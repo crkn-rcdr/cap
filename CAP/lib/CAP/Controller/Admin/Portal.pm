@@ -25,7 +25,7 @@ sub base : Chained('/') PathPart('admin/portal') CaptureArgs(1) {
         portal  => $portal,
         features => $portal->features,
         languages => [$portal->get_languages],
-        hosts   => $portal->hosts(),
+        hosts   => [$portal->hosts],
         subscriptions => [$portal->get_subscriptions]
     });
 
@@ -42,6 +42,41 @@ sub index_GET {
     $self->status_ok($c, entity => $c->stash->{entity});
     return 1;
 }
+
+
+=head2 delete_host
+
+Delete a hostname from this portal
+
+=cut
+sub delete_host : Chained('base') PathPart('delete_host') Args(1) ActionClass('REST') {
+    my($self, $c, $host_id) = @_;
+}
+
+sub delete_host_GET {
+    my($self, $c, $host_id) = @_;
+    my $portal = $c->stash->{entity}->{portal};
+    $portal->delete_host($host_id);
+    $c->detach('/admin/portal/updated', ['tab_hostnames']);
+}
+
+
+=head2 canoncial_host
+
+Set the hostname as canonical
+
+=cut
+sub canonical_host : Chained('base') PathPart('canonical_host') Args(1) ActionClass('REST') {
+    my($self, $c, $host_id) = @_;
+}
+
+sub canonical_host_GET {
+    my($self, $c, $host_id) = @_;
+    my $portal = $c->stash->{entity}->{portal};
+    $portal->canonical_hostname($host_id);
+    $c->detach('/admin/portal/updated', ['tab_hostnames']);
+}
+
 
 #
 # Create: add a new portal
@@ -164,6 +199,23 @@ sub delete :Path('delete') Args(1) {
     }
     $c->res->redirect($c->uri_for_action('admin/portal/index'));
     return 1;
+}
+
+
+
+=head2 updated
+
+Methods that update a portal detach to here to check for success and to genereate messages.
+
+=cut
+sub updated :Private {
+    my($self, $c, $fragment) = @_;
+    my $portal = $c->stash->{entity}->{portal};
+
+    my $uri = $c->uri_for_action('/admin/portal/index', [$portal->id]);
+    $uri->fragment($fragment) if ($fragment);
+    $c->res->redirect($uri);
+    $c->detach();
 }
 
 
