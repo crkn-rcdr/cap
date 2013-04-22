@@ -52,6 +52,11 @@ __PACKAGE__->table("portal_host");
   is_nullable: 1
   size: 64
 
+=head2 canonical
+
+  data_type: 'tinyint'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -59,6 +64,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 32 },
   "portal_id",
   { data_type => "varchar", is_foreign_key => 1, is_nullable => 1, size => 64 },
+  "canonical",
+  { data_type => "tinyint", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -72,6 +79,22 @@ __PACKAGE__->add_columns(
 =cut
 
 __PACKAGE__->set_primary_key("id");
+
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<canonical_host>
+
+=over 4
+
+=item * L</id>
+
+=item * L</canonical>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("canonical_host", ["id", "canonical"]);
 
 =head1 RELATIONS
 
@@ -90,8 +113,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0U4QPemBnfeZAIB/lFlUCw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-22 13:10:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tVLJZPE4RwYW5XktKW6rlQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

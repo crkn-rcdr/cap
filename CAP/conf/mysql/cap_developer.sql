@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','64',NULL);
+INSERT INTO `info` VALUES ('version','65',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -637,7 +637,9 @@ DROP TABLE IF EXISTS `portal_host`;
 CREATE TABLE `portal_host` (
   `id` varchar(32) NOT NULL,
   `portal_id` varchar(64) DEFAULT NULL,
+  `canonical` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `canonical_host` (`id`,`canonical`),
   KEY `portal_id` (`portal_id`),
   CONSTRAINT `portal_host_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -649,7 +651,7 @@ CREATE TABLE `portal_host` (
 
 LOCK TABLES `portal_host` WRITE;
 /*!40000 ALTER TABLE `portal_host` DISABLE KEYS */;
-INSERT INTO `portal_host` VALUES ('secure','canadiana');
+INSERT INTO `portal_host` VALUES ('secure','canadiana',NULL);
 /*!40000 ALTER TABLE `portal_host` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1278,4 +1280,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-19 11:28:07
+-- Dump completed on 2013-04-22 13:16:10

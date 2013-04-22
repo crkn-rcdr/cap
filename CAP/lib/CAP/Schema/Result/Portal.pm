@@ -474,6 +474,20 @@ sub discount {
 }
 
 
+=head2 canonical_hostname
+
+Returns the canonical hostname for the portal, or undef if there isn't one.
+
+=cut
+sub canonical_hostname {
+    my($self) = @_;
+    my $host = $self->find_related('portal_hosts', { canonical => 1 });
+    warn $host;
+    return $host->id if ($host);
+    return undef;
+}
+
+
 
 
 
