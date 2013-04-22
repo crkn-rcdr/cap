@@ -123,23 +123,12 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
-=head1 RELATIONS
 
-=head2 user_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::User>
-
-=cut
-
-__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-22 14:33:38
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6dHBoalj+RQwBWWHI2dmbQ
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Dg3Datj8czWNH74ZP8FEyQ
-
-
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+# We need to tell CAP that this table is not in the cap database.
+__PACKAGE__->table("cap_log.user_log");
 
 1;

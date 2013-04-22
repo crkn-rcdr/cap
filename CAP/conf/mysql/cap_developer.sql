@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','65',NULL);
+INSERT INTO `info` VALUES ('version','66',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1154,34 +1154,6 @@ LOCK TABLES `user_document` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_log`
---
-
-DROP TABLE IF EXISTS `user_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `event` enum('CREATED','CONFIRMED','TRIAL_START','TRIAL_END','SUB_START','SUB_END','LOGIN','LOGOUT','RESTORE_SESSION','PASSWORD_CHANGED','USERNAME_CHANGED','NAME_CHANGED','LOGIN_FAILED','REMINDER_SENT','RESET_REQUEST') DEFAULT NULL,
-  `info` text,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `user_log_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_log`
---
-
-LOCK TABLES `user_log` WRITE;
-/*!40000 ALTER TABLE `user_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_log` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user_roles`
 --
 
@@ -1280,4 +1252,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-22 13:16:10
+-- Dump completed on 2013-04-22 14:28:05

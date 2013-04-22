@@ -247,21 +247,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 user_logs
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::UserLog>
-
-=cut
-
-__PACKAGE__->has_many(
-  "user_logs",
-  "CAP::Schema::Result::UserLog",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
 =head2 user_roles
 
 Type: has_many
@@ -303,8 +288,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-12 13:01:19
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RtrPDvIXvF7oZdXhWPk/4Q
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-22 14:33:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dBV4N2ByxaIDcj22fqIbPw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
@@ -325,6 +310,14 @@ __PACKAGE__->add_columns(
 __PACKAGE__->has_many(
   "user_discounts",
   "CAP::Schema::Result::UsersDiscounts",
+  { "foreign.user_id" => "self.id" },
+  undef,
+);
+
+# This relationship does not get auto-generated, for some reason.
+__PACKAGE__->has_many(
+  "user_logs",
+  "CAP::Schema::Result::UserLog",
   { "foreign.user_id" => "self.id" },
   undef,
 );
