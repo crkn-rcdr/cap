@@ -484,17 +484,19 @@ hostname.
 sub canonical_hostname {
     my($self, $hostname) = @_;
     my $canonical = $self->find_related('portal_hosts', { canonical => 1 });
-    return undef unless ($canonical);
 
     if ($hostname) {
         my $new_canonical =  $self->find_related('portal_hosts', { id => $hostname });
         if ($new_canonical) {
-            $canonical->update({ canonical => undef });
+            if ($canonical) {
+                $canonical->update({ canonical => undef });
+            }
             $new_canonical->update({ canonical => 1 });
             return $new_canonical;
         }
     }
     else {
+        return undef unless ($canonical);
         return $canonical->id;
     }
 }
