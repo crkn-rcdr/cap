@@ -101,6 +101,7 @@ sub expiring_subscription_reminder {
     my $id;
     my $portal;
     my $user;
+    my $username;
     
     while (my $user_sub = $c->model('DB::UserSubscription')->next_unsent_reminder($cutoff_date, $now)) {
 
@@ -118,7 +119,7 @@ sub expiring_subscription_reminder {
 
         # Grab the pertinent info from the user table
         $user = $c->model('DB::User')->get_user_info($id);
-        
+        $username = $user->username;
 
         # Verify that we actually set the flag. Log an error and abort if not.
         # NOTE: the discard_changes method above is supposed to read back
@@ -128,7 +129,7 @@ sub expiring_subscription_reminder {
             $c->model('DB::CronLog')->create({
                 action  => 'reminder_notice',
                 ok      => 0,
-                message => sprintf("Failed to set remindersent=1 for user %d (%s)", $id, $user->username)
+                message => sprintf("Failed to set remindersent=1 for user %d (%s)", $id, $username)
             });
             last;
         }
@@ -143,9 +144,10 @@ sub expiring_subscription_reminder {
                 action  => 'crondaily(expiring_subscription_reminder)',
                 ok      => 1,
                 message => sprintf("Reminder sent: user id=%d (%s); %s account expires %s",
-                    $user->id, $user->username, $user_sub->level, $user_sub->expires)
+                    $user->id, $username, $user_sub->level, $user_sub->expires)
         });
-        $user->log('REMINDER_SENT');
+
+        $user->log('REMINDER_SENT', "user $username, $portal portal, expires $exp_date->{en}");
 
     }
 
