@@ -55,7 +55,7 @@ sub sendmail {
 
 	my $textbody = $c->view("Mail")->render($c, $template);
 
-	# Two part MIM message:  plain text + attachment
+	# Two part MIME message:  plain text + attachment
 	my @parts = (
 	    Email::MIME->create (
 		attributes => {
@@ -79,12 +79,15 @@ sub sendmail {
 		parts => \@parts,
 	    });
 
-    } else {
+    }
+    
+    else {
 	# Send simple email
+	
 	$c->email({
 		header => $header,
 		body => $c->view("Mail")->render($c, $template)
-	    });
+	    }) or die "could not send mail";
     }
     $c->stash(additional_template_paths => $old_template_paths);
     return 1;
@@ -95,10 +98,7 @@ sub user_reset :Private {
     $c->stash(confirm_link => $confirm_link);
 
     my $from = $c->config->{email_from};
-    if (! $from) {
-	return 1;
-    }
-
+    return unless ( $from );
     my $header = [
         From => $from,
         To => $recipient,
@@ -117,9 +117,7 @@ sub user_activate :Private {
     );
 
     my $from = $c->config->{email_from};
-    if (! $from) {
-	return 1;
-    }
+    return unless ( $from );
     my $header = [
         From => $from,
         To => $recipient,
@@ -139,9 +137,8 @@ sub subscription_notice :Private {
     );
 
     my $from = $c->config->{email_from};
-    if (! $from) {
-	return 1;
-    }
+    return unless ( $from );
+    
     my $header = [
         From => $from,
         To => $admins,
@@ -163,9 +160,7 @@ sub feedback :Private {
     );
 
     my $from = $c->config->{email_from};
-    if (! $from) {
-	return 1;
-    }
+    return unless ( $from );
     my $header = [
         From => $from,
         To => $to,
@@ -180,12 +175,7 @@ sub subscription_reminder :Private {
     use feature 'switch';
     my ($self, $c, $exp_acct, $exp_date) = @_;
     
-    
-    
-    #my $recipient  =  $exp_acct->{username};
-    #my $sub_class  =  $exp_acct->{class};
     my $recipient  =  $exp_acct->username;
-    my $sub_class  =  $exp_acct->class;
     
     $c->stash(recipient  =>  $exp_acct->username,
               real_name  =>  $exp_acct->name,
@@ -193,33 +183,20 @@ sub subscription_reminder :Private {
               exp_en     =>  $exp_date->{en},
               exp_fr     =>  $exp_date->{fr} 
     );
-    
-    
+      
     
     my $from = $c->config->{email_from};
     
-    $c->model('DB::CronLog')->create({
-               action  => 'reminder_notice',
-               ok      => 0,
-               message => "from address is $from"
-    });    
-    
-    if (! $from) {
-	return 1;
-    }
+    # Don't want to return 1 here
+    return unless ( $from );
+
     my $header = [
         From => $from,
         To =>   $recipient,
         Subject => "Your Canadiana.org subscription / Votre abonnement Canadiana.org"
     ];
 
-    my $template = "";
-    given ($sub_class) {
-            when ("trial") {$template = "trial_reminder.tt"}
-            when ("basic") {$template = "subscription_reminder.tt"}
-            when ("paid")  {$template = "subscription_reminder.tt"}
-            when ("") {return 1}
-    }
+    my $template = "subscription_reminder.tt";
 
     $self->sendmail($c, $template, $header);
 

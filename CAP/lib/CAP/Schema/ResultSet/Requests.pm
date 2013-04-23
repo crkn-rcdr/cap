@@ -204,8 +204,8 @@ sub get_institutions {
   my $inst;
   my $value;
   while ($row = $rs->next()) {
-     $inst = $row->institution_id->id;
-     push (@$institutions, $inst);   
+     $inst = $row->institution_id;
+     push (@$institutions, $inst);
   }
   return $institutions;
   
