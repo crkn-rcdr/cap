@@ -141,9 +141,6 @@ method first_page {
     my $toc_seq = (firstidx { $_ =~ /table of contents/i } @chunk) + 1;
     return $toc_seq if $toc_seq > 0;
 
-    my $page_0_seq = (firstidx { $_ =~ /p\. 0/i } @chunk) + 1;
-    return 2 if $page_0_seq == 1;
-
     my $page_seq = (firstidx { $_ =~ /p\./i } @chunk) + 1;
     return $page_seq if $page_seq > 0;
 
