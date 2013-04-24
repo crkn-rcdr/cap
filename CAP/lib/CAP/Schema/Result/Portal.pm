@@ -593,7 +593,7 @@ sub hosts_doc {
 sub has_page {
     my($self, $page) = @_;
     my $result = $self->search_related('portal_supports', { page => $page });
-    warn $result->count . " for " . $page;
+    #warn $result->count . " for " . $page;
     return 1 if $result->count;
     return 0;
 }
