@@ -364,14 +364,14 @@ sub title {
     return '[[UNDEFINED]]';
 }
 
-=head2 subscriptions
+=head2 get_subscriptions
 
-Returns all subscriptions defined for the portal
+Returns all subscriptions defined for the portal, sorted by duration
 
 =cut
 sub get_subscriptions {
     my($self) = @_;
-    return $self->search_related('portal_subscriptions')->all;
+    return $self->search_related('portal_subscriptions', {}, { order_by => { -asc => 'duration' }})->all;
 }
 
 

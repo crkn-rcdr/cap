@@ -40,7 +40,11 @@ sub base : Chained('/') PathPart('user/subscription') CaptureArgs(1) {
     }
 
     $c->stash(
-        entity => { portal => $portal, subscription => $subscription },
+        entity => {
+            portal => $portal,
+            subscription => $subscription,
+            products => [$portal->get_subscriptions]
+        },
         data => $c->req->body_params,
         discount => undef,
         discount_amount => 0
