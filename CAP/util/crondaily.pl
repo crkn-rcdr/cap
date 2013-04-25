@@ -69,7 +69,7 @@ sub expiring_subscription_reminder {
     
     # Generally we don't want to run this subroutine unless we're on a production server
     # or on the workstation of the maintainer
-    return 1 unless ( $c->config->{production} && -e $c->config->{productionflagfile} );
+    return 1 unless ( $c->config->{productionflagfile} && -e $c->config->{productionflagfile} );
    
     $c->model('DB::CronLog')->create({
                action  => 'crondaily',
