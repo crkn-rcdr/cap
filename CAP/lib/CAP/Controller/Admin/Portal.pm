@@ -120,6 +120,8 @@ sub edit_POST {
                 access_resize   => $data{access_resize},
                 access_download => $data{access_download},
                 access_purchase => $data{access_purchase},
+                access_search => $data{access_search},
+                access_browse => $data{access_browse},
             });
         }
         when ('delete_hosts') {

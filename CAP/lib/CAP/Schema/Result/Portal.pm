@@ -99,6 +99,18 @@ __PACKAGE__->table("portal");
   default_value: 0
   is_nullable: 0
 
+=head2 access_search
+
+  data_type: 'tinyint'
+  default_value: 0
+  is_nullable: 0
+
+=head2 access_browse
+
+  data_type: 'tinyint'
+  default_value: 0
+  is_nullable: 0
+
 =head2 updated
 
   data_type: 'timestamp'
@@ -129,6 +141,10 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "access_purchase",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "access_search",
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
+  "access_browse",
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "updated",
   {
     data_type => "timestamp",
@@ -347,8 +363,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-15 11:22:45
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cx4seUcPiOqEYCMPdlIcPg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-24 15:24:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jkqTQfec0YJ+BezrIjxIBg
 
 
 =head2 name([$lang])
