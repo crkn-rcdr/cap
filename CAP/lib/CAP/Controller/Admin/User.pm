@@ -284,7 +284,7 @@ sub remove_institution :Path('remove_institution') Args(1) {
     if (! $institution) {
         $c->message({ type => "error", message => "institution_not_found" });
         $self->status_not_found($c, message => "No such institution");
-        $c->response->redirect($c->uri_for_action('/admin/user/index', [$user->id]));
+        $c->response->redirect($c->uri_for_action('/admin/user/index', $user->id));
         $c->detach();
     }
     my $link = $c->model('DB::InstitutionMgmt')->find({ user_id => $user->id, institution_id => $institution->id });
