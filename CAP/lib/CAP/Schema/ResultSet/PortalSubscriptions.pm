@@ -17,16 +17,16 @@ sub validate {
     my @errors = ();
 
     unless ($param{subscription_id} =~ /^\w{1,32}$/) {
-        $valid = 0; push(@errors, 'validate_subscription_invalid_name');
+        $valid = 0; push(@errors, 'invalid_subscription_name');
     }
     unless ($param{subscription_level} == 1 || $param{level} == 2) {
-        $valid = 0; push(@errors, 'validate_subscription_invalid_level');
+        $valid = 0; push(@errors, 'invalid_subscription_level');
     }
     unless ($param{subscription_duration} =~ /^\d+$/ && int($param{subscription_duration} > 0)) {
-        $valid = 0; push(@errors, 'validate_subscription_invalid_duration');
+        $valid = 0; push(@errors, 'invalid_subscription_duration');
     }
-    unless ($param{subscription_price} =~ /^\d+$/ && int($param{subscription_price} > 0)) {
-        $valid = 0; push(@errors, 'validate_subscription_invalid_price');
+    unless ($param{subscription_price} =~ /^\d+(\.\d\d)?$/ && int($param{subscription_price} > 0)) {
+        $valid = 0; push(@errors, 'invalid_subscription_price');
     }
 
     return { valid => $valid, errors => \@errors }
