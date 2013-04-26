@@ -94,14 +94,13 @@ sub profile_POST {
         $c->message({ type => 'error', message => $error });
     }
 
-    # Don't update anything if there were any errors.
-    return 1 if @errors;
+    unless (@errors) {
+        eval { $c->user->update_account_information($data); };
+        $c->detach('/error', [500]) if ($@);    
+        $c->message({ type => "success", message => "profile_updated" });
+        $c->persist_user();
+    }
 
-    eval { $c->user->update_account_information($data); };
-    $c->detach('/error', [500]) if ($@);    
-
-    $c->message({ type => "success", message => "profile_updated" });
-    $c->persist_user();
     $c->response->redirect($c->uri_for_action("/user/profile"));
     $c->detach();
 
