@@ -5,6 +5,9 @@ use strict;
 use warnings;
 use feature qw(switch say);
 
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
 use lib '../lib';
 use CAP;
 use Date::Manip::Date;
