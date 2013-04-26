@@ -584,6 +584,33 @@ sub log {
     return 1;
 }
 
+=head2 update_account_information
+
+Updates a user's email address, name, and password (if supplied).
+
+=cut
+sub update_account_information {
+    my($self, $data) = @_;
+
+    my %old_info = (username => $self->username, name => $self->name);
+    $self->update({
+        username => $data->{username},
+        name     => $data->{name},
+    });
+
+    if ($old_info{username} ne $data->{username}) {
+        $self->log('USERNAME_CHANGED', sprintf("from %s to %s", $old_info{username}, $data->{username}));
+    }
+    if ($old_info{name} ne $data->{name}) {
+        $self->log('NAME_CHANGED', sprintf("from %s to %s", $old_info{name}, $data->{name}));
+    }
+
+    # Change the password, if requested.
+    if ($data->{password}) {
+        $self->update({ password => $data->{password} });
+        $self->log('PASSWORD_CHANGED', "");
+    }
+}
 =head2 managed_institutions
 
 Returns a list of institutions the user manages

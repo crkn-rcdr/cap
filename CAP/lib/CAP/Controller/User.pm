@@ -78,6 +78,34 @@ sub profile_GET {
 
 sub profile_POST {
     my($self, $c) = @_;
+    my $data = $c->request->body_parameters;
+    foreach my $k (qw/username password password_check/) { trim $data->{$k}; }
+
+    my @errors = ();
+
+    if (!$c->authenticate({ username => $c->user->username, password => $data->{current_password} })) {
+        push @errors, 'password_check_failed';
+    } else {
+        push @errors, $c->model('DB::User')->validate(
+            $data, $c->config->{user}->{fields}, validate_password => $data->{password}, current_user => $c->user->username);
+    }
+
+    foreach my $error (@errors) {
+        $c->message({ type => 'error', message => $error });
+    }
+
+    # Don't update anything if there were any errors.
+    return 1 if @errors;
+
+    eval { $c->user->update_account_information($data); };
+    $c->detach('/error', [500]) if ($@);    
+
+    $c->message({ type => "success", message => "profile_updated" });
+    $c->persist_user();
+    $c->response->redirect($c->uri_for_action("/user/profile"));
+    $c->detach();
+
+    return 1;
 }
 
 
@@ -411,74 +439,6 @@ sub reset :Path('reset') :Args() {
 
     return 1;
 }
-
-
-sub edit :Path('edit') :Args(0) {
-    my($self, $c) = @_;
-    my $data = $c->request->body_parameters;
-    trim($data->{username});
-    trim($data->{password});
-    trim($data->{password_check});
-
-    #  Just show the form if this request isn't a form submission.
-    if (! $data->{submitted}) {
-        $c->stash->{userinfo} = $c->user;
-        return 1;
-    }
-    else {
-        $c->stash->{userinfo} = {
-            username => $data->{username},
-            name     => $data->{name},
-        };
-    }
-
-    my @errors = ();
-
-    if (!$c->authenticate({ username => $c->user->username, password => $data->{current_password} })) {
-        push @errors, 'password_check_failed';
-    } else {
-        push @errors, $c->model('DB::User')->validate(
-            $data, $c->config->{user}->{fields}, validate_password => $data->{password}, current_user => $c->user->username);
-    }
-
-    foreach my $error (@errors) {
-        $c->message({ type => 'error', message => $error });
-    }
-
-    # Don't update anything if there were any errors.
-    return 1 if @errors;
-
-    # Update the user's profile.
-    my %old_info = (username => $c->user->username, name => $c->user->name);
-    eval {
-        $c->user->update({
-            'username' => $data->{username},
-            'name'     => $data->{name},
-        });
-    };
-    $c->detach('/error', [500]) if ($@);
-    if ($old_info{username} ne $c->user->username) {
-        $c->user->log('USERNAME_CHANGED', sprintf("from %s to %s", $old_info{username}, $c->user->username));
-    }
-    if ($old_info{name} ne $c->user->name) {
-        $c->user->log('NAME_CHANGED', sprintf("from %s to %s", $old_info{name}, $c->user->name));
-    }
-
-
-    # Change the password, if requested.
-    if ($data->{password}) {
-        eval { $c->user->update({ 'password' => $data->{password} }); };
-        $c->detach('/error', [500]) if ($@);
-        $c->user->log('PASSWORD_CHANGED', "from edit profile");
-    }
-
-    $c->message({ type => "success", message => "profile_updated" });
-    $c->persist_user();
-    $c->go("profile");
-
-    return 1;
-}
-
 
 sub subscribe_finalize : Private
 {
