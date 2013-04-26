@@ -17,19 +17,21 @@ use Date::Manip::Date;
 # for each individual job.
 my $c = CAP->new();
 
-# Check to see if previous instance of this script is still running
-my $existing_pid = $c->model('DB::Info')->existing_pid($0);
 
-if ( defined ($existing_pid) ) {
-   $c->model('DB::CronLog')->create({
-               action  => 'crondaily',
-               ok      => 0,
-               message => "$0 already running; killing myself as an example to others"
-    });    
-    die "script already running with PID $existing_pid\n";
+my  $set_pid = $c->model('DB::Info')->obtain_pid_lock( $0, $$ );
+
+
+
+unless (  $set_pid )  {
+    $c->model('DB::CronLog')->create(
+        {
+            action => 'cronweekly',
+            ok     => 0,
+            message => "$0 already running; killing myself as an example to others"
+        }
+    );
+    die "cronweekly.pl: detected another version of myself, dying gracefully\nif the existing process is not responding please kill it and delete the crondaily.pl row in cap.info";
 }
-
-my $set_pid = $c->model('DB::Info')->set_pid($0, $$);
 
 my $job;
 
