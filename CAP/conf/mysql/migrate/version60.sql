@@ -1,13 +1,13 @@
-UPDATE info SET value = '60' WHERE name = 'version';
+-- UPDATE info SET value = '60' WHERE name = 'version';
+-- 
+-- ALTER TABLE titles ADD COLUMN updated TIMESTAMP AFTER label;
+-- ALTER TABLE titles ADD INDEX(updated);
+-- ALTER TABLE portals_titles ADD COLUMN updated TIMESTAMP AFTER hosted;
+-- ALTER TABLE portals_titles ADD INDEX(updated);
+-- ALTER TABLE info ADD COLUMN time DATETIME AFTER value;
 
-ALTER TABLE titles ADD COLUMN updated TIMESTAMP AFTER label;
-ALTER TABLE titles ADD INDEX(updated);
-ALTER TABLE portals_titles ADD COLUMN updated TIMESTAMP AFTER hosted;
-ALTER TABLE portals_titles ADD INDEX(updated);
-ALTER TABLE info ADD COLUMN time DATETIME AFTER value;
-
-DROP TABLE portal_subscription;
-CREATE TABLE portal_subscriptions(id VARCHAR(32) PRIMARY KEY, portal_id VARCHAR(64), FOREIGN KEY(portal_id) REFERENCES portal(id), level INT, duration INT, price DECIMAL(10,2)) ENGINE=INNODB DEFAULT CHARSET=utf8;
+-- DROP TABLE portal_subscription;
+-- CREATE TABLE portal_subscriptions(id VARCHAR(32) PRIMARY KEY, portal_id VARCHAR(64), FOREIGN KEY(portal_id) REFERENCES portal(id), level INT, duration INT, price DECIMAL(10,2)) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 
 ALTER TABLE portal DROP COLUMN view_all, DROP COLUMN view_limited, DROP COLUMN resize, DROP COLUMN download;

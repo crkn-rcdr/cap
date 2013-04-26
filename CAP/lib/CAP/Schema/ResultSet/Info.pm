@@ -32,27 +32,30 @@ sub existing_pid {
     return $process_id;
 }
 
-sub set_pid {
-    # set pid for cron script
+
+
+sub obtain_pid_lock {
+
+    # return false if you find an existing instance of the script
     my ($self, $script, $pid) = @_;
-    my $insert =   $self->create({
+    my $script_running = $self->find({ name  => $script });
+
+    if ( defined ($script_running) ) {
+        return 0;
+    }
+    
+    # otherwise insert pid and return true
+    else {
+            my $insert =   $self->create({
                                    name  => $script,
                                    value => $pid,
                                    time => \'NOW()'
-    });
-    return 1;
- }
+          });
+          return 1;
+    }
 
-sub delete_pid {
-    # delete pid when you're done
-    my ($self, $script, $pid) = @_;
-    my $script_running = $self->find({
-                                       name  => $script,
-                                       value => $pid
-    });
-    my $delete = $script_running->delete();
-    return 1;
 }
+
 
 1;
 
