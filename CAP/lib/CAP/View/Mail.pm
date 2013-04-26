@@ -9,6 +9,7 @@ __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
     STRICT => 0,
     render_die => 1,
+    EVAL_PERL => 1,
 );
 
 =head1 NAME

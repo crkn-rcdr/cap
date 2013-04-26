@@ -512,16 +512,16 @@ sub subscribe_finalize : Private
 
     # Finalize the subscription
     $c->user->set_subscription($subscription);
-    $c->user->close_subscription($payment);
+    $subscription = $c->user->close_subscription($payment);
     $c->user->log('SUB_START', sprintf("Subscription to %s: level %d, expiry set to %s",
         $subscription->portal_id->id, $subscription->new_level, $subscription->new_expire->ymd));
 
+    # Notify the user via email of their new/updated subscription
+    $c->forward('/mail/subscription_confirmation', [ $subscription ]);
 
-    $c->message({ type => "success", message => "ok_subscription" });
-    $self->status_bad_request($c, message => "Subscription completed successfully");
-    $c->res->redirect($c->uri_for_action("/user/profile"));
-    $c->detach();
-
+    # Send the user to a confirmation page/receipt
+    $c->stash->{template} = 'user/subscribe_finalize.tt';
+    return 1;
 }
 
 __PACKAGE__->meta->make_immutable;

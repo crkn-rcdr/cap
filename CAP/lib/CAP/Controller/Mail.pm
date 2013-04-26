@@ -32,7 +32,9 @@ sub sendmail {
     my $old_template_paths = $c->stash->{additional_template_paths};
     $c->stash(additional_template_paths => [
         join('/', $c->config->{root}, 'templates', 'Mail', $c->stash->{portal}),
-        join('/', $c->config->{root}, 'templates', 'Mail', 'Common')
+        join('/', $c->config->{root}, 'templates', 'Mail', 'Common'),
+        join('/', $c->config->{root}, 'templates', 'Default', $c->stash->{portal}),
+        join('/', $c->config->{root}, 'templates', 'Default', 'Common')
     ]);
 
 
@@ -200,6 +202,30 @@ sub subscription_reminder :Private {
 
     $self->sendmail($c, $template, $header);
 
+    return 1;
+}
+
+
+
+=head2 subscription_confirmation ($subscription)
+
+Send a message to the user to confirm their new subscription.
+
+=cut
+sub subscription_confirmation :Private {
+    my($self, $c, $subscription) = @_;
+
+    $c->stash(
+        subscription => $subscription
+    );
+
+    my $header = [
+        From =>  $c->config->{email_from},
+        To => $c->user->username,
+        Subject => $c->loc("Your Canadiana Subscription")
+    ];
+
+    $self->sendmail($c, 'subscription_confirmation.tt', $header);
     return 1;
 }
 
