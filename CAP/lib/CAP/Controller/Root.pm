@@ -75,6 +75,8 @@ sub auto :Private
     }
 
     # Update the user's last access time.
+    # # TODO: this should be a last login time and updated only on auto or
+    # manual login
     if ($c->user_exists) {
         eval { $c->user->update({lastseen => time()}) };
         $c->detach('/error', 500) if ($@);
@@ -85,6 +87,14 @@ sub auto :Private
 
     # Route this request to/from the secure host if necessary
     $c->model('Secure')->routeRequest($c);
+
+    # Get the return portal and return URI, if there is one.
+    if ($c->session->{origin}) {
+        $c->stash( 'origin' => {
+            portal => $c->model('DB::Portal')->find($c->session->{origin}->{portal}),
+            uri => $c->session->{origin}->{uri}
+        });
+    }
 
     # Configure the user's permissions
     $c->set_auth;

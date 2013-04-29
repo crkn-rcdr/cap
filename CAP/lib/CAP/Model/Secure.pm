@@ -18,6 +18,12 @@ method routeRequest ($c) {
     my $secure_protocol = $c->config->{secure}->{protocol} || die("In cap.conf: missing protocol directive in <secure>");
     my $secure_host     = $c->config->{secure}->{host} || die("In cap.conf: missing host directive in <secure>");
 
+    # If this is not the secure host, we need to forget any origin
+    # information in the session.
+    if ($c->req->uri->host ne $secure_host) {
+        $c->session('origin' => undef);
+    }
+
     # The secure host must handle https requests only (unless protcol is
     # http, in the case of local installs). Other hosts must only handle
     # http requests. Redirect requests with incorrect protocols.
@@ -45,14 +51,11 @@ method routeRequest ($c) {
     # This request should be handled using the secure host
     if ($secure_action > 0) {
         if ($c->req->uri->host eq $secure_host) {
-            if ($c->session->{portal_host}) {
-                return 1; # Process request
-            }
-            else {
-                $c->detach('/error', [400, "Request to secure host with no source portal_host defined"]);
-            }
+            return 1; # Process request
         }
         else {
+            # Record the portal and URI we came from
+            $c->session('origin' => { portal => $c->portal->id, uri => $c->req->referer } );
             $c->req->uri->scheme($secure_protocol);
             $c->req->uri->host($secure_host);
             $c->res->redirect($c->req->uri);

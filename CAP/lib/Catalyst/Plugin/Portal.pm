@@ -31,14 +31,10 @@ portal is found, redirect to a default location.
 =cut
 sub set_portal {
     my($c) = @_;
-    my $host;
 
-    # Otherwise, set the portal based on the hostname.
-    #else {
-        $host = substr($c->req->uri->host, 0, index($c->req->uri->host, '.'));
-        $c->session->{portal_host} = $c->req->uri->host;
-        $c->session->{portal} = $host;
-    #}
+    my $host = substr($c->req->uri->host, 0, index($c->req->uri->host, '.'));
+    $c->session->{portal_host} = $c->req->uri->host;
+    $c->session->{portal} = $host;
 
     my $portal =  $c->model('DB::PortalHost')->get_portal($host);
 
