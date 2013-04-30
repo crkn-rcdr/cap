@@ -30,7 +30,7 @@ unless (  $set_pid )  {
             message => "$0 already running; killing myself as an example to others"
         }
     );
-    die "cronweekly.pl: detected another version of myself, dying gracefully\nif the existing process is not responding please kill it and delete the crondaily.pl row in cap.info";
+    die "crondaily.pl: detected another version of myself, dying gracefully\nif the existing process is not responding please kill it and delete the crondaily.pl row in cap.info";
 }
 
 my $job;
