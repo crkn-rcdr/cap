@@ -65,6 +65,11 @@ __PACKAGE__->table("portal_lang");
   is_nullable: 1
   size: 128
 
+=head2 description
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -81,6 +86,8 @@ __PACKAGE__->add_columns(
     is_nullable => 1,
     size => 128,
   },
+  "description",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -114,8 +121,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-05 13:21:32
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9NI/pU90gpdJ9BrR1dvVdA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-30 08:45:37
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:88KJCfnENQces93nWOG8BA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

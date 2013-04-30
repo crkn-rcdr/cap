@@ -367,9 +367,9 @@ __PACKAGE__->many_to_many(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jkqTQfec0YJ+BezrIjxIBg
 
 
-=head2 name([$lang])
+=head2 title($lang)
 
-Returns the title of the portal in the current language.
+Returns the title of the portal in $lang.
 
 =cut
 sub title {
@@ -378,6 +378,20 @@ sub title {
     my $result = $self->related_resultset('portal_langs')->find({ lang => $lang });
     return $result->title if ($result);
     return '[[UNDEFINED]]';
+}
+
+
+=head2 description($lang)
+
+Returns the description of the portal for $lang.
+
+=cut
+sub description {
+    my($self, $lang) = @_;
+    return "" unless ($lang);
+    my $result = $self->related_resultset('portal_langs')->find({ lang => $lang });
+    return $result->description if ($result);
+    return "";
 }
 
 =head2 get_subscriptions
@@ -440,17 +454,18 @@ sub get_languages {
 }
 
 
-=head2 set_language($lang, $priority, $title)
+=head2 set_language($lang, $priority, $title, $description)
 
 Creates or updates the portal_lang with the listed characteristics
 
 =cut
 sub set_language {
-    my($self, $lang, $priority, $title) = @_;
+    my($self, $lang, $priority, $title, $description) = @_;
     $self->related_resultset('portal_langs')->update_or_create({
-        lang => $lang,
-        priority => $priority,
-        title => $title
+        lang        => $lang,
+        priority    => $priority,
+        title       => $title,
+        description => $description
     })
 }
 

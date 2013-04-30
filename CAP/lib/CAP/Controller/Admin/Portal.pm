@@ -115,13 +115,13 @@ sub edit_POST {
                 supports_users         => $data{supports_users} ? 1 : 0,
                 supports_subscriptions => $data{supports_subscriptions} ? 1 : 0,
                 supports_institutions  => $data{supports_institutions} ? 1 : 0,
-                access_preview  => $data{access_preview},
-                access_all      => $data{access_all},
-                access_resize   => $data{access_resize},
-                access_download => $data{access_download},
-                access_purchase => $data{access_purchase},
-                access_search => $data{access_search},
-                access_browse => $data{access_browse},
+                access_preview         => $data{access_preview},
+                access_all             => $data{access_all},
+                access_resize          => $data{access_resize},
+                access_download        => $data{access_download},
+                access_purchase        => $data{access_purchase},
+                access_search          => $data{access_search},
+                access_browse          => $data{access_browse},
             });
         }
         when ('delete_hosts') {
@@ -144,7 +144,7 @@ sub edit_POST {
         }
         when ('update_languages') {
             # TODO: validate...
-            $portal->set_language($data{language_lang}, $data{language_priority}, $data{language_title});
+            $portal->set_language($data{language_lang}, $data{language_priority}, $data{language_title}, $data{language_description});
         }
         when ('new_host') {
             my $validation = $c->model("DB::PortalHost")->validate($data{new_host});

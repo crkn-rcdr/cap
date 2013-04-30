@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','67',NULL);
+INSERT INTO `info` VALUES ('version','68',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -669,6 +669,7 @@ CREATE TABLE `portal_lang` (
   `lang` varchar(2) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT '0',
   `title` varchar(128) DEFAULT 'NEW PORTAL',
+  `description` text,
   PRIMARY KEY (`portal_id`,`lang`),
   UNIQUE KEY `portal_id` (`portal_id`,`lang`),
   KEY `portal_id_2` (`portal_id`),
@@ -682,7 +683,7 @@ CREATE TABLE `portal_lang` (
 
 LOCK TABLES `portal_lang` WRITE;
 /*!40000 ALTER TABLE `portal_lang` DISABLE KEYS */;
-INSERT INTO `portal_lang` VALUES ('canadiana','en',10,'Canadiana'),('canadiana','fr',0,'Canadiana');
+INSERT INTO `portal_lang` VALUES ('canadiana','en',10,'Canadiana',NULL),('canadiana','fr',0,'Canadiana',NULL);
 /*!40000 ALTER TABLE `portal_lang` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1254,4 +1255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-24 15:24:16
+-- Dump completed on 2013-04-30  8:34:27
