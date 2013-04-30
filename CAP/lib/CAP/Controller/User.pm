@@ -56,11 +56,15 @@ sub profile_GET {
 
     my @subscriptions;
     foreach my $portal ($c->model('DB::Portal')->list_subscribable) {
-        my $subscription = $c->user->subscription($portal);
+        my $institutional = 0;
+        if ($c->institution) {
+            $institutional = $c->institution->subscribes_to($portal);
+        }
         push(@subscriptions, {
             portal => $portal,
             active => $c->user->subscription_active($portal), 
-            subscription => $c->user->subscription($portal)
+            subscription => $c->user->subscription($portal),
+            institutional => $institutional
         });
     }
 
