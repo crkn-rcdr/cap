@@ -161,24 +161,6 @@ sub index :Path('') Args(0)
         if ($c->user_exists) {
             my $sub_level = $c->user->subscriber_level($c->portal);
             my $sub_active = $c->user->subscription_active($c->portal);
-
-            # Trial subscribers get a message regarding their current or
-            # expired trial.
-            if ($sub_level == 1) {
-                if ($sub_active) {
-                    $c->message({ type => "success", message => "active_trial_prod" });
-                }
-                else {
-                    $c->message({ type => "success", message => "expired_trial_prod" });
-                }
-            }
-
-            # Expired full subscribers get a message informing them their
-            # subscription is over
-            elsif ($sub_level == 2 && $sub_active == 0) {
-                $c->message({ type => "success", message => "expired_sub" });
-            }
-
         } else {
             $c->message({ type => "success", message => "anonymous_prod" });
         }
