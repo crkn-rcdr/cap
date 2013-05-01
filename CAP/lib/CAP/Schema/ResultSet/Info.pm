@@ -24,12 +24,15 @@ sub assert_version {
     return 1;
 }
 
-sub existing_pid {
+sub delete_pid {
     # returns pid of existing cron script or undef
-    my ($self, $script) = @_;
-    my $script_running = $self->find({ name  => $script });
-    my $process_id = defined ($script_running) ? $script_running->value : undef;
-    return $process_id;
+    my ($self, $script, $pid) = @_;
+    my $row   =  $self->find({ 
+                                                              name  => $script,
+                                                              value  =>   $pid
+                                                        });
+    my $delete_row  =  $row->delete();
+    return  1;
 }
 
 
