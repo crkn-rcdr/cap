@@ -206,5 +206,19 @@ sub calculate_expiry {
 }
 
 
+=head2 expires_within ($days)
+
+Returns true if the subscription will expire within $days from now
+
+=cut
+sub expires_within {
+    my($self, $days) = @_;
+    my $boundary = DateTime->now()->add({ days => $days });
+    warn "HI";
+    warn $boundary->ymd;
+    return 1 if DateTime->compare($self->expires, $boundary) != 1;
+}
+
+
 
 1;

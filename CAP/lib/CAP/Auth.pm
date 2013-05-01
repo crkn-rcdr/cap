@@ -9,7 +9,7 @@ has 'all'             => (is => 'ro', isa => 'Int', default => 0, documentation 
 has 'download'        => (is => 'ro', isa => 'Int', default => 0, documentation => 'can download distribution media');
 has 'preview'         => (is => 'ro', isa => 'Int', default => 0, documentation => 'can view preview content');
 has 'resize'          => (is => 'ro', isa => 'Int', default => 0, documentation => 'can resize images');
-has 'individual_sub'  => (is => 'ro', isa => 'Int', default => 0, documentation => 'has an individual subscription');
+has 'subscription'    => (is => 'ro', isa => 'Maybe[CAP::Model::DB::UserSubscription]', default => undef, documentation => 'subscription row');
 has 'institution_sub' => (is => 'ro', isa => 'Int', default => 0, documentation => 'has an institutional subscription');
 
 around BUILDARGS  => sub {
@@ -25,9 +25,11 @@ around BUILDARGS  => sub {
     # (if active), otherwise zero.
     if ($user) {
         my $subscription = $user->subscription($portal);
-        if ($subscription && $subscription->active) {
-            $level = $subscription->level;
-            $params{individual_sub} = 1;
+        if ($subscription) {
+            $params{subscription} = $subscription;
+            if ($subscription->active) {
+                $level = $subscription->level;
+            }
         }
     }
 
@@ -35,7 +37,7 @@ around BUILDARGS  => sub {
     if ($institution) {
         if ($institution->subscriber($portal)) {
             $level = 2;
-            $params{institutional_sub} = 1;
+            $params{institution_sub} = 1;
         }
     }
 
