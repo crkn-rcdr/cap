@@ -44,6 +44,7 @@ method routeRequest ($c) {
     foreach my $secure_path (qw( /user/ /admin/ /content/ /reports/ /institution/ )) {
         if (substr($action_path, 0, length($secure_path)) eq $secure_path) {
             $secure_action = 1;
+            $c->stash->{secure_action} = 1;
             last;
         }
     }
