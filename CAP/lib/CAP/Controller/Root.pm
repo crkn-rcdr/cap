@@ -156,16 +156,6 @@ sub index :Path('') Args(0)
 {
     my($self, $c) = @_;
 
-    # Messsages bugging you to subscribe already
-    if ($c->portal->id eq 'eco' && !$c->session->{eco}->{subscribing_institution}) {
-        if ($c->user_exists) {
-            my $sub_level = $c->user->subscriber_level($c->portal);
-            my $sub_active = $c->user->subscription_active($c->portal);
-        } else {
-            $c->message({ type => "success", message => "anonymous_prod" });
-        }
-    }
-
     # TODO: figure out a better solution than hardcoding this
     if ($c->portal->id eq 'parl') {
         my @tree = $c->model('DB::Terms')->term_tree($c->portal);

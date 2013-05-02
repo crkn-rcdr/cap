@@ -319,7 +319,6 @@ sub login :Path('login') :Args(0) {
 
             my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
             delete($c->session->{login_redirect});
-            $c->message({ type => "success", message => "login_success" });
             $c->response->redirect($redirect);
         }
         else {
@@ -360,7 +359,6 @@ sub logout :Path('logout') :Args(0) {
     #$c->forward('init'); # Reinitialize after logout to clear current subscription, etc. info
     $c->update_session(1);
 
-    $c->message({ type => "success", message => "logout_success" });
     return $c->response->redirect($c->uri_for_action('index'));
 }
 
