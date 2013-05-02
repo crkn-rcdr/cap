@@ -8,9 +8,10 @@ use feature qw(switch say);
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 
-use lib '../lib';
 use CAP;
 use Date::Manip::Date;
+
+my $scriptname = 'crondaily';
 
 # Create a CAP object here so that you don't have to do it separately
 # for each individual job.
@@ -19,7 +20,7 @@ my $c = CAP->new();
 # Check to see if previous instance of this script is still running
 # my $existing_pid = $c->model('DB::Info')->existing_pid($0);
 
-my  $set_pid = $c->model('DB::Info')->obtain_pid_lock( $0, $$ );
+my  $set_pid = $c->model('DB::Info')->obtain_pid_lock( $scriptname, $$ );
 
 
 
@@ -28,17 +29,13 @@ unless (  $set_pid )  {
         {
             action => 'cronweekly',
             ok     => 0,
-            message => "$0 already running; killing myself as an example to others"
+            message => "$scriptname already running; killing myself as an example to others"
         }
     );
     die "cronweekly.pl: detected another version of myself, dying gracefully\nif the existing process is not responding please kill it and delete the cronweekly.pl row in cap.info";
 }
 
-# my $set_pid = $c->model('DB::Info')->set_pid( $0, $$ );
 
-# List of jobs to run. We can move this to the database or config file later.
-# To create a new job put it in a sub and add it to this list.
-# To disable a job just comment it out
 my %actions = (
     compile_portal_stats      => \&compile_portal_stats,
     compile_institution_stats => \&compile_institution_stats
@@ -64,7 +61,7 @@ foreach $job ( keys(%actions) ) {
 
 }
 
-my $delete_pid = $c->model('DB::Info')->delete_pid( $0, $$ );
+my $delete_pid = $c->model('DB::Info')->delete_pid( $scriptname, $$ );
 
 $c->model('DB::CronLog')->create(
     {

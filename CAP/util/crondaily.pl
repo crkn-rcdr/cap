@@ -8,17 +8,17 @@ use feature qw(switch say);
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 
-use lib '../lib';
 use CAP;
 use Date::Manip::Date;
 
+my $scriptname = 'cronweekly';
 
 # Create a CAP object here so that you don't have to do it separately
 # for each individual job.
 my $c = CAP->new();
 
 
-my  $set_pid = $c->model('DB::Info')->obtain_pid_lock( $0, $$ );
+my  $set_pid = $c->model('DB::Info')->obtain_pid_lock( $scriptname, $$ );
 
 
 
@@ -27,7 +27,7 @@ unless (  $set_pid )  {
         {
             action => 'cronweekly',
             ok     => 0,
-            message => "$0 already running; killing myself as an example to others"
+            message => "$scriptname already running; killing myself as an example to others"
         }
     );
     die "crondaily.pl: detected another version of myself, dying gracefully\nif the existing process is not responding please kill it and delete the crondaily.pl row in cap.info";
@@ -58,7 +58,7 @@ foreach $job (keys(%actions)) {
 
 }
 
-my $delete_pid = $c->model('DB::Info')->delete_pid($0, $$);
+my $delete_pid = $c->model('DB::Info')->delete_pid($scriptname, $$);
 
 $c->model('DB::CronLog')->create({
                action  => 'crondaily',
