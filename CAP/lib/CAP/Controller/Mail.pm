@@ -230,6 +230,21 @@ sub subscription_confirmation :Private {
 }
 
 
+sub status_report :Private {
+    my($self, $c, $recipients, %data) = @_;
+
+    my $header = [
+        From =>  $c->config->{email_from},
+        To => $recipients,
+        Subject => $c->loc("CAP System Status Report"),
+        'Content-Type' => 'text/html'
+    ];
+    $c->stash(mail_data => {%data});
+    $self->sendmail($c, 'status_report.tt', $header);
+    return 1;
+}
+
+
 
 
 =head1 AUTHOR

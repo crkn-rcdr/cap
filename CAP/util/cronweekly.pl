@@ -38,7 +38,8 @@ unless (  $set_pid )  {
 
 my %actions = (
     compile_portal_stats      => \&compile_portal_stats,
-    compile_institution_stats => \&compile_institution_stats
+    compile_institution_stats => \&compile_institution_stats,
+    status_report             => \&status_report
 );
 
 my $job;
@@ -264,6 +265,44 @@ sub compile_institution_stats {
             message => "done compiling institution stats"
         }
     );
+
+    return 1;
+}
+
+
+# Compile a system status report and send it to designated users
+sub status_report {
+    my $c = shift();
+
+    # We need something in the portal ID field so that Mail won't
+    # complain. FIXME: this is not a great solution.
+    $c->stash(portal => 'Default');
+
+
+    # If there is no one to send a status report to, then don't bother
+    # doing any work.
+    unless ($c->config->{mailinglist}->{status_report}) {
+        $c->model('DB::CronLog')->create({
+            action => 'status_report',
+            ok => 0,
+            message => "No mailing list configured in config->{mailinglist}->{status_report}"
+        });
+        return 1;
+    }
+
+    my $recipients =$c->config->{mailinglist}->{status_report};
+
+    $c->controller('Mail')->status_report($c, $recipients,
+        portal_stats_current => [$c->model('DB::StatsUsagePortal')->stats_for_month()],
+        portal_stats_previous => [$c->model('DB::StatsUsagePortal')->stats_for_month(1)],
+        user_subscriptions => [$c->model('DB::UserSubscription')->active_by_portal()]
+    );
+
+    $c->model('DB::CronLog')->create({
+        action => 'status_report',
+        ok => 1,
+        message => "Mailed status report to: $recipients"
+    });
 
     return 1;
 }

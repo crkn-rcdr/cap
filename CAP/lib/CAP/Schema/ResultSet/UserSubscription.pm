@@ -5,6 +5,26 @@ use warnings;
 use Date::Manip::Date;
 use base 'DBIx::Class::ResultSet';
 
+=head2 active_by_portal
+
+Return the number of currently active subscriptions by portal
+
+=cut
+sub active_by_portal {
+    my($self) = @_;
+    my @result = $self->search(
+        { expires => { '>=' => DateTime->now() }},
+        {
+            select => [ 'portal_id', { count => 'user_id', -as => 'user_count' } ],
+            as     => [ 'portal_id', 'user_count' ],
+            group_by => 'portal_id',
+            order_by => [ { -desc => 'user_count' }]
+        }
+    )->all;
+    return @result if (wantarray);
+    return \@result;
+}
+
  
 sub subscription {
     my ($self, $userid, $portalid) = @_;

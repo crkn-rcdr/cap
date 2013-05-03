@@ -4,6 +4,24 @@ use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';
 
+
+=head2 stats_for_month($offset)
+
+Returns usage statistics for the current month for all portals, or for
+$offset months ago, if $offset is defined.
+
+=cut
+sub stats_for_month {
+    my($self, $offset) = @_;
+    my $month = DateTime->now()->truncate(to => 'month');
+    if ($offset) {
+        $month->subtract(DateTime::Duration->new(months => $offset))->truncate(to => 'month');
+    }
+    my @result = $self->search({ month_starting => $month })->all;
+    return @result if (wantarray);
+    return \@result;
+}
+
 sub update_monthly_stats {
 
     
