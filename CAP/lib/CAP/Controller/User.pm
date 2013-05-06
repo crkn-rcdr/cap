@@ -382,6 +382,8 @@ sub confirm :Path('confirm') :Args(1) {
 }
 
 sub confirmed :Path('confirmed') :Args(0) {
+    my($self, $c) = @_;
+    $c->stash->{portals} = [$c->model("DB::Portal")->list];
     return 0;
 }
 
