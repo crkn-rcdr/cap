@@ -11,7 +11,7 @@ use lib "$FindBin::Bin/../lib";
 use CAP;
 use Date::Manip::Date;
 
-my $scriptname = 'crondaily';
+my $scriptname = 'cronweekly';
 
 # Create a CAP object here so that you don't have to do it separately
 # for each individual job.

@@ -11,7 +11,7 @@ use lib "$FindBin::Bin/../lib";
 use CAP;
 use Date::Manip::Date;
 
-my $scriptname = 'cronweekly';
+my $scriptname = 'crondaily';
 
 # Create a CAP object here so that you don't have to do it separately
 # for each individual job.
@@ -25,8 +25,8 @@ my  $set_pid = $c->model('DB::Info')->obtain_pid_lock( $scriptname, $$ );
 unless (  $set_pid )  {
     $c->model('DB::CronLog')->create(
         {
-            action => 'cronweekly',
-            ok     => 0,
+            action     => 'crondaily',
+            ok              => 0,
             message => "$scriptname already running; killing myself as an example to others"
         }
     );
@@ -40,8 +40,8 @@ my $job;
 # To disable a job just comment it out
 my %actions = (
                 expiring_subscription_reminder  =>  \&expiring_subscription_reminder,
-                remove_unconfirmed       =>  \&remove_unconfirmed,
-                session                  =>  \&session
+                remove_unconfirmed                         =>  \&remove_unconfirmed,
+                session                                                        =>  \&session
               );
               
               
@@ -50,9 +50,9 @@ foreach $job (keys(%actions)) {
     eval { $actions{$job}->($c) };
     if ( ($@) ) {
         $c->model('DB::CronLog')->create({
-               action  => 'crondaily',
-               ok      => 0,
-               message => "error: $@; could not perform $job"
+                   action      => 'crondaily',
+                   ok              => 0,
+                   message => "error: $@; could not perform $job"
         });          
     }
 
@@ -61,9 +61,9 @@ foreach $job (keys(%actions)) {
 my $delete_pid = $c->model('DB::Info')->delete_pid($scriptname, $$);
 
 $c->model('DB::CronLog')->create({
-               action  => 'crondaily',
-               ok      => 1,
-               message => "done"
+               action        => 'crondaily',
+               ok                 => 1,
+               message   => "done"
 });
 
 
@@ -77,8 +77,8 @@ sub expiring_subscription_reminder {
     return 1 unless ( $c->config->{productionflagfile} && -e $c->config->{productionflagfile} );
    
     $c->model('DB::CronLog')->create({
-               action  => 'crondaily',
-               ok      => 0,
+               action       => 'crondaily',
+               ok               => 0,
                message => "running expiring_trial_reminder"
     }); 
    
@@ -88,7 +88,7 @@ sub expiring_subscription_reminder {
     # Get the cutoff date in a format the database understands
     my $date = new Date::Manip::Date;
     my $datestr = "in " . $days . " business days";
-    my $err = $date->parse($datestr);
+    my $err  = $date->parse($datestr);
     my $cutoff_date = $date->printf("%Y-%m-%d %T");
 
     # Get today's date because we don't want to be sending messages if the account has already expired
@@ -132,8 +132,8 @@ sub expiring_subscription_reminder {
         # if this is actually the case.
         unless ($user_sub->reminder_sent) {
             $c->model('DB::CronLog')->create({
-                action  => 'reminder_notice',
-                ok      => 0,
+                action       => 'reminder_notice',
+                ok               => 0,
                 message => sprintf("Failed to set remindersent=1 for user %d (%s)", $id, $username)
             });
             last;
@@ -146,10 +146,10 @@ sub expiring_subscription_reminder {
         $c->controller('Mail')->subscription_reminder($c, $user, $exp_date);
 
         $c->model('DB::CronLog')->create({
-                action  => 'crondaily(expiring_subscription_reminder)',
-                ok      => 1,
+                action       => 'crondaily(expiring_subscription_reminder)',
+                ok               => 1,
                 message => sprintf("Reminder sent: user id=%d (%s); %s account expires %s",
-                    $user->id, $username, $user_sub->level, $user_sub->expires)
+                                                             $user->id, $username, $user_sub->level, $user_sub->expires)
         });
 
         $user->log('REMINDER_SENT', "user $username, $portal portal, expires $exp_date->{en}");
@@ -167,8 +167,8 @@ sub remove_unconfirmed {
     
    
     $c->model('DB::CronLog')->create({
-               action  => 'crondaily',
-               ok      => 0,
+               action       => 'crondaily',
+               ok               => 0,
                message => "running remove_unconfirmed"
     }); 
     
