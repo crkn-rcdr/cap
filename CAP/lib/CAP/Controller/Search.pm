@@ -9,6 +9,30 @@ use parent qw/Catalyst::Controller::ActionRole/;
 
 BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 
+sub auto :Private {
+    my($self, $c) = @_;
+
+    # Check whether search is enabled and, if so, whether the user has
+    # sufficient privileges to access it.
+    if ($c->portal->access_search == -1) {
+        $c->res->redirect($c->uri_for_action('/index'));
+        $c->detach();
+    }
+    elsif (! $c->auth->search) {
+        warn("Insufficient access to search");
+        if ($c->user) {
+            $c->res->redirect($c->uri_for_action('/index'));
+        }
+        else {
+            $c->session->{login_redirect} = $c->req->uri;
+            $c->response->redirect($c->uri_for_action('/user/login'));
+        }
+        $c->detach();
+    }
+
+    return 1;
+}
+
 sub index :Path('') :Args(0) {
     my($self, $c) = @_;
     $c->detach('result_page', [1]);
