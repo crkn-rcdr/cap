@@ -37,9 +37,9 @@ unless (  $set_pid )  {
 
 
 my %actions = (
-    compile_portal_stats      => \&compile_portal_stats,
+    compile_portal_stats          => \&compile_portal_stats,
     compile_institution_stats => \&compile_institution_stats,
-    status_report             => \&status_report
+    status_report                           => \&status_report
 );
 
 my $job;
@@ -111,7 +111,7 @@ sub compile_portal_stats {
 
         $c->model('DB::CronLog')->create(
             {
-                action => 'cronweekly',
+                action => 'cronweekly->compile_portal_stats',
                 ok     => 1,
                 message => "compiling for portal $portal, years $start_year through $end_year"
             }
@@ -137,7 +137,7 @@ sub compile_portal_stats {
 
                 $c->model('DB::CronLog')->create(
                     {
-                        action   => 'cronweekly',
+                        action   => 'cronweekly->compile_portal_stats',
                         ok       => 1,
                         message  => "compiling for portal $portal, month starting $current_date_string"
                     }
@@ -161,7 +161,7 @@ sub compile_portal_stats {
 
     $c->model('DB::CronLog')->create(
         {
-            action  => 'cronweekly',
+            action  => 'cronweekly->compile_portal_stats',
             ok      => 1,
             message => "done compiling portal stats"
         }
@@ -176,7 +176,8 @@ sub compile_institution_stats {
     my $c = shift();
 
     my $last_update = $c->model('DB::StatsUsageInstitution')->last_update()
-      || $c->model('DB::Requests')->get_start();
+                                                                           ||
+                                              $c->model('DB::Requests')->get_start();
 
     my $row;
     my $error;
@@ -210,7 +211,7 @@ sub compile_institution_stats {
 
         $c->model('DB::CronLog')->create(
             {
-                action => 'cronweekly',
+                action => 'cronweekly->compile_institution_stats',
                 ok     => 1,
                 message => "compiling for institution $institution, years $start_year through $end_year"
             }
@@ -235,7 +236,7 @@ sub compile_institution_stats {
 
                 $c->model('DB::CronLog')->create(
                     {
-                        action => 'cronweekly',
+                        action => 'cronweekly->compile_institution_stats',
                         ok     => 1,
                         message => "compiling for institution $institution, month starting $current_date_string"
                     }
@@ -260,7 +261,7 @@ sub compile_institution_stats {
 
     $c->model('DB::CronLog')->create(
         {
-            action  => 'cronweekly',
+            action  => 'cronweekly->compile_institution_stats',
             ok      => 1,
             message => "done compiling institution stats"
         }
@@ -283,7 +284,7 @@ sub status_report {
     # doing any work.
     unless ($c->config->{mailinglist}->{status_report}) {
         $c->model('DB::CronLog')->create({
-            action => 'status_report',
+            action => 'cronweekly->status_report',
             ok => 0,
             message => "No mailing list configured in config->{mailinglist}->{status_report}"
         });

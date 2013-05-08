@@ -77,7 +77,7 @@ sub expiring_subscription_reminder {
     return 1 unless ( $c->config->{productionflagfile} && -e $c->config->{productionflagfile} );
    
     $c->model('DB::CronLog')->create({
-               action       => 'crondaily',
+               action       => 'crondaily->expiring_subscription_reminder',
                ok               => 0,
                message => "running expiring_trial_reminder"
     }); 
@@ -132,7 +132,7 @@ sub expiring_subscription_reminder {
         # if this is actually the case.
         unless ($user_sub->reminder_sent) {
             $c->model('DB::CronLog')->create({
-                action       => 'reminder_notice',
+                action       => 'crondaily->expiring_subscription_reminder',
                 ok               => 0,
                 message => sprintf("Failed to set remindersent=1 for user %d (%s)", $id, $username)
             });
@@ -146,7 +146,7 @@ sub expiring_subscription_reminder {
         $c->controller('Mail')->subscription_reminder($c, $user, $exp_date);
 
         $c->model('DB::CronLog')->create({
-                action       => 'crondaily(expiring_subscription_reminder)',
+                action       => 'crondaily->expiring_subscription_reminder',
                 ok               => 1,
                 message => sprintf("Reminder sent: user id=%d (%s); %s account expires %s",
                                                              $user->id, $username, $user_sub->level, $user_sub->expires)
@@ -167,7 +167,7 @@ sub remove_unconfirmed {
     
    
     $c->model('DB::CronLog')->create({
-               action       => 'crondaily',
+               action       => 'crondaily->remove_unconfirmed',
                ok               => 0,
                message => "running remove_unconfirmed"
     }); 
@@ -183,7 +183,7 @@ sub remove_unconfirmed {
     
     my $num_removed = $c->model('DB::User')->delete_unconfirmed($cutoff_date);
     $c->model('DB::CronLog')->create({
-        action  => 'crondaily(remove_unconfirmed)',
+        action  => 'crondaily->remove_unconfirmed',
         ok      => 1,
         message => "Removed $num_removed unconfirmed users",
     });
@@ -196,14 +196,14 @@ sub session {
 
     my $c = shift();
     $c->model('DB::CronLog')->create({
-               action  => 'crondaily',
+               action  => 'crondaily->session',
                ok      => 0,
                message => "running session"
     }); 
     my $expired = $c->model('DB::Sessions')->remove_expired();
     if ($expired) {
         $c->model('DB::CronLog')->create({
-            action  => 'crondaily(session)',
+            action  => 'crondaily->session',
             ok      => 1,
             message => "$expired expired sessions removed",
         });
