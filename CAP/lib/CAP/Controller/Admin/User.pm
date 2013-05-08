@@ -2,53 +2,85 @@ package CAP::Controller::Admin::User;
 use Moose;
 use namespace::autoclean;
 
-__PACKAGE__->config(
-    map => {
-        'text/html' => [ 'View', 'Default' ],
-    },
-);
+__PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ], } );
 
 BEGIN {extends 'Catalyst::Controller::REST'; }
 
-#
-# Index: list users
-#
 
-sub index :Path :Args(0) ActionClass('REST') {
-    my($self, $c) = @_;
+sub base : Chained('/') PathPart('admin/user') CaptureArgs(1) {
+    my($self, $c, $user_id) = @_;
+
+    # Get the user to view/edit
+    my $user = $c->model('DB::User')->find({ id => $user_id });
+    if (! $user) {
+        $c->message({ type => "error", message => "invalid_user" });
+        $self->status_not_found($c, message => "No such user");
+        $c->res->redirect($c->uri_for_action("/admin/index"));
+        $c->detach();
+    }
+
+    $c->stash(entity => {
+        user => $user
+    });
+
+    return 1;
+}
+
+=head2 index
+
+View or edit a user's profile
+
+=cut
+sub index : Chained('base') PathPart('') Args(0) ActionClass('REST') {
+    my($self, $c, $id) = @_;
 }
 
 sub index_GET {
     my($self, $c) = @_;
-    my $list  = {};
-    my $users = [$c->model('DB::User')->all];
-    $c->stash->{users} = $users;
-    foreach my $user (@{$users}) {
-        $list->{$user->id} = {
-            username => $user->username,
-            name     => $user->name,
-        };
+    my $user = $c->stash->{entity}->{user};
+    my @subscriptions = ();
+
+    foreach my $portal ($c->model('DB::Portal')->list_subscribable) {
+        push(@subscriptions, {
+            portal => $portal,
+            active => $user->subscription_active($portal),
+            subscription => $user->subscription($portal)
+        });
     }
 
-    my @subscriptions = $c->model('DB::UserSubscription')->active_subscriptions;
-    my %sub_hash = ();
-    foreach my $s (@subscriptions) {
-        my $id = $s->get_column('user_id');
-        my $portal = $s->get_column('portal_id');
-        $sub_hash{$id} = [] unless $sub_hash{id};
-        push(@{$sub_hash{$id}}, $portal);
-    }
-    $c->stash->{subscriptions} = \%sub_hash;
+    $c->stash->{entity}->{roles} = [$c->model('DB::Roles')->list];
+    $c->stash->{entity}->{subscriptions} = \@subscriptions;
+    $c->stash->{entity}->{institutions} = [$c->model('DB::Institution')->list];
+    $c->stash->{entity}->{managed_institutions} = [$user->managed_institutions];
 
-    # Some aggregate statistics about users
-    $c->stash->{stats} = {
-        active_subscriptions => $c->model('DB::UserSubscription')->active_subscriptions->count,
-        expired_subscriptions => $c->model('DB::UserSubscription')->expired_subscriptions,
-        unconfirmed_accounts => $c->model('DB::User')->unconfirmed_accounts,
-    };
-    $self->status_ok($c, entity => $list);
+    $self->status_ok($c, entity => $c->stash->{entity});
     return 1;
 }
+
+sub index_POST {
+    my($self, $c) = @_;
+    my $user = $c->stash->{entity}->{user};
+    my $data = $c->request->body_parameters;
+
+    my $action = $data->{update};
+
+    if (! $action) {
+        warn "No action";
+    }
+    elsif ($action eq 'account') {
+        $c->stash(update => $user->update_if_valid($data));
+        $c->detach('/admin/user/updated', ['tab_account']);
+    }
+    elsif ($action eq 'roles') {
+        $c->stash(update => $user->update_roles_if_valid($data));
+        $c->detach('/admin/user/updated', ['tab_roles']);
+    }
+    else {
+        warn "Unspecified action";
+    }
+    return 1;
+}
+
 
 #
 # Create: add a new user
@@ -110,92 +142,8 @@ sub create_POST {
     $data{active} = 1;
     my $user = $c->model('DB::User')->create(\%data);
     $c->message({ type => "success", message => "user_created" });
-    $c->response->redirect($c->uri_for_action("/admin/user/edit", $user->get_column('id')));
+    $c->response->redirect($c->uri_for_action("/admin/user/index", [$user->get_column('id')]));
     return 1;
-}
-
-#
-# Edit: edit an existing user
-#
-
-sub edit :Local Path('edit') Args(1) ActionClass('REST') {
-    my($self, $c, $id) = @_;
-}
-
-sub edit_GET {
-    my($self, $c, $id) = @_;
-    my $user = $c->model('DB::User')->find({ id => $id });
-    if (! $user) {
-        $c->message({ type => "error", message => "user_not_found" });
-        $self->status_not_found($c, message => "No such user");
-        return 1;
-    }
-
-    my @roles = $c->model('DB::Roles')->all();
-
-    my @subscriptions = ();
-    foreach my $portal ($c->model('DB::Portal')->list_subscribable) {
-        push(@subscriptions, {
-            portal => $portal,
-            active => $user->subscription_active($portal),
-            subscription => $user->subscription($portal)
-        });
-    }
-
-    $c->stash(
-        entity => $self->_build_entity($user),
-        institutions => [$c->model('DB::Institution')->list],
-        managed_institutions => [$user->managed_institutions],
-        roles => \@roles,
-        subscriptions => \@subscriptions,
-    );
-
-    $self->status_ok($c, entity => $c->stash->{entity});
-    return 1;
-}
-
-sub edit_POST {
-    my($self, $c, $id) = @_;
-    my $user = $c->model('DB::User')->find({ id => $id });
-    if (! $user) {
-        $c->message({ type => "error", message => "user_not_found" });
-        $self->status_not_found($c, message => "No such user");
-        return 1;
-    }
-
-    my $data = $c->request->body_parameters;
-
-    my @errors = ();
-
-    push @errors, $c->model('DB::User')->validate($data,
-        $c->config->{user}->{fields},
-        validate_password => $data->{password},
-        current_user => $user->username);
-
-    foreach my $error (@errors) {
-        $c->message({ type => 'error', message => $error });
-    }
-
-    if (@errors) {
-        $c->response->redirect($c->uri_for_action('/admin/user/edit', $id));
-        return 1;
-    } else {
-        my $update = {
-            username => $data->{username},
-            name => $data->{name},
-            active => $data->{active} ? 1 : 0,
-            confirmed => $data->{confirmed} ? 1 : 0,
-        };
-
-        $update->{password} = $data->{password} if $data->{password};
-
-        $user->update($update);
-        $user->set_roles($data->{role}, $c->model('DB::Roles')->all());
-
-        $c->message({ type => 'success', message => 'user_updated' });
-        $c->response->redirect($c->uri_for_action('/admin/user/index'));
-        return 0;
-    }
 }
 
 sub subscription :Local Path('subscription') Args(1) ActionClass('REST') {
@@ -214,7 +162,7 @@ sub subscription_POST {
 
     if ($data->{expires} !~ /^\d{4}-\d{2}-\d{2}$/) {
         $c->message({ type => 'error', message => 'expiry_date_invalid' });
-        $c->response->redirect($c->uri_for_action('/admin/user/edit', $id));
+        $c->response->redirect($c->uri_for_action('/admin/user/index', [$id]));
         $c->detach();
     } else {
         $user->update_or_create_related("user_subscriptions", {
@@ -224,8 +172,9 @@ sub subscription_POST {
             reminder_sent => $data->{reminder_sent} ? 1 : 0,
             permanent => $data->{permanent} ? 1 : 0,
         });
-        $c->message({ type => 'success', message => 'user_subscription_updated' });
-        $c->response->redirect($c->uri_for_action("/admin/user/edit", $id));
+        my $uri = $c->uri_for_action("/admin/user/index", [$id]);
+        $uri->fragment('#tab_subscriptions');
+        $c->response->redirect($uri);
         return 1;
     }
 }
@@ -241,8 +190,9 @@ sub delete_subscription :Path('delete_subscription') Args(1) {
     }
 
     $user->delete_related('user_subscriptions', { portal_id => $c->req->params->{portal} });
-    $c->message({ type => 'success', message => 'subscription_deleted' });
-    $c->response->redirect($c->uri_for_action("/admin/user/edit", $id));
+    my $uri = $c->uri_for_action("/admin/user/index", [$id]);
+    $uri->fragment('tab_subscriptions');
+    $c->response->redirect($uri);
     return 1;
 }
 
@@ -265,8 +215,9 @@ sub add_institution :Path('add_institution') Args(1) {
     }
 
     $c->model('DB::InstitutionMgmt')->update_or_create({ user_id => $user->id, institution_id => $institution->id });
-    $c->message({ type => "success", message => "institution_added_for_user" });
-    $c->response->redirect($c->uri_for_action('/admin/user/edit', $user->id));
+    my $uri = $c->uri_for_action('/admin/user/index', [$user->id]);
+    $uri->fragment('tab_institutions');
+    $c->response->redirect($uri);
     $c->detach();
 }
 
@@ -289,8 +240,9 @@ sub remove_institution :Path('remove_institution') Args(1) {
     }
     my $link = $c->model('DB::InstitutionMgmt')->find({ user_id => $user->id, institution_id => $institution->id });
     $link->delete if ($link);
-    $c->message({ type => "success", message => "institution_removed_for_user" });
-    $c->response->redirect($c->uri_for_action('/admin/user/edit', $user->id));
+    my $uri = $c->uri_for_action('/admin/user/index', [$user->id]);
+    $uri->fragment('tab_institutions');
+    $c->response->redirect($uri);
     $c->detach();
 }
 
@@ -312,28 +264,34 @@ sub delete :Path('delete') Args(1) {
     return 1;
 }
 
-#
-# Build the user entity
-#
 
-sub _build_entity {
-    my($self, $user) = @_;
-    my $roles = [];
-    foreach my $role ($user->search_related('user_roles')) {
-        push @{$roles}, $role->get_column('role_id');
+=head2 updated
+
+Methods that update an institution detach to here to check for success and to genereate messages.
+
+=cut
+sub updated :Private {
+    my($self, $c, $fragment) = @_;
+    my $update = $c->stash->{update};
+    my $user = $c->stash->{entity}->{user};
+
+    if ($update->{valid}) {
+        $self->status_ok($c, entity => $c->stash->{entity});
+    }
+    else {
+        foreach my $error (@{$update->{errors}}) {
+            $c->message({ type => "error", %{$error} });
+        }
+        $self->status_bad_request($c, message => "Input is invalid");
     }
 
-    return {
-        id => $user->id,
-        username => $user->username,
-        name => $user->name,
-        token => $user->token,
-        confirmed => $user->confirmed,
-        active => $user->active,
-        lastseen => $user->lastseen,
-        roles => $roles,
-    };
+    $c->message({ type => "success", message => "admin_updated_entity", params => [ $user->username ] });
+    my $uri = $c->uri_for_action('/admin/user/index', [$user->id]);
+    $uri->fragment($fragment) if ($fragment);
+    $c->res->redirect($uri);
+    $c->detach();
 }
+
 __PACKAGE__->meta->make_immutable;
 
 1;

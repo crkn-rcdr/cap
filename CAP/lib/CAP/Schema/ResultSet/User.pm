@@ -6,6 +6,30 @@ use base 'DBIx::Class::ResultSet';
 use Digest::SHA qw(sha1_hex);
 use POSIX qw(strftime);
 
+=head2 filter (\%params)
+
+Return a filtered set of users based on %params. Default is to return the first 10 users by ID.
+
+=cut
+sub filter {
+    my($self, $params) = @_;
+    my $query = {};
+    my $options = { rows => 10, page => 1 };
+    my $limit = $params->{limit} || undef;
+    my $username = $params->{email} || undef;
+    my $name = $params->{name} || undef;
+
+    # Add all defined search limiters
+    $query->{username} = { -like => "%$username%" } if ($username);
+    $query->{name} = { -like => "%$name%" } if ($name);
+    $options->{rows} = $limit if ($limit);
+
+    my @result = $self->search($query, $options)->all;
+    return @result if (wantarray);
+    return \@result;
+}
+
+
 sub validate {
     my($self, $fields, $re, %options) = @_;
     my @errors = ();

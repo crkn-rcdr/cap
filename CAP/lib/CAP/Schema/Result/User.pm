@@ -323,6 +323,82 @@ __PACKAGE__->has_many(
 );
 
 
+=heade update_if_valid ($data)
+
+Updates the user account if the data is valid. Returns a validation hash.
+
+=cut
+sub update_if_valid {
+    my($self, $data) = @_;
+    my @errors = ();
+    my $username = $data->{username} || "";
+    my $name = $data->{name} || "";
+    my $confirmed = 0; $confirmed = 1 if ($data->{confirmed});
+    my $active = 0; $active = 1 if ($data->{active});
+    my $password = $data->{password} || "";
+    my $passwordCheck = $data->{password_check} || "";
+
+    # Username must be between 1 and 128 characters
+    push(@errors, { message => 'invalid_empty', params => [ 'User name' ] }) unless ($name);
+    push(@errors, { message => 'invalid_maxlen', params => [ 'User name', 128 ] }) unless (length($name) <= 128);
+    
+    # Name must be no more than 128 characters and look like an email
+    # address
+    push(@errors, { message => 'invalid_maxlen', params => [ 'Email address', 128 ]}) unless (length($username) <= 128);
+    push(@errors, { message => 'invalid_email' }) unless ($username =~ /^\S+\@\S+$/);
+    
+    # If password is supplied, it must be 6+ characters and match the check password
+    push(@errors, { message => 'invalid_minlen', params => [ 'Password', 6 ] }) if ($password && length($password) < 6);
+    push(@errors, { message => 'invalid_password_mismatch' }) if ($password && $password ne $passwordCheck);
+
+    return { valid => 0, errors => \@errors } if (@errors);
+
+    $self->update({
+        username => $username,
+        name => $name,
+        confirmed => $confirmed,
+        active => $active
+    });
+
+    $self->update({ password => $password }) if ($password);
+
+    return { valid => 1, errors => [] };
+
+}
+
+
+=head2 update_roles_if_valid ($data)
+
+Updates the user's roles if the data is valid. Returns a validation hash.
+
+=cut
+sub update_roles_if_valid {
+    my($self, $data) = @_;
+    my @errors = ();
+    my @roles = ();
+
+    if ($data->{roles}) {
+        if (ref($data->{roles}) eq 'ARRAY') {
+            @roles = @{$data->{roles}};
+        }
+        else {
+            @roles = ($data->{roles});
+        }
+    }
+
+    # Each role must exist
+    foreach my $role (@roles) {
+        unless ($self->result_source->schema->resultset('Roles')->find($role)) {
+            push(@errors, { message => 'invalid_role', params => [ $role ] });
+        }
+    }
+
+    return { valid => 0, errors => \@errors } if (@errors);
+    $self->related_resultset('user_roles')->set_roles($self, @roles);
+    return { valid => 1, errors => [] };
+}
+
+
 =head2 has_role($role_name, [$by_name])
 
 Returns true if the user has the role $role_name. If $by_name is defined

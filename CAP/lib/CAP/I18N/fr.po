@@ -17,12 +17,12 @@ msgstr "%1 $"
 #. (hosted)
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:20
 msgid "%1 Hosted titles"
-msgstr ""
+msgstr "%1 titres hébergés"
 
 #. (indexed)
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:21
 msgid "%1 Indexed titles"
-msgstr ""
+msgstr "%1 titres indexés"
 
 #. (titles)
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:19
@@ -37,12 +37,12 @@ msgstr ""
 #. (msg.params.0)
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:37
 msgid "%1 cannot be null"
-msgstr ""
+msgstr "%1 : cette valeur ne peut être nulle"
 
 #. (msg.params.0, msg.params.1, msg.params.2)
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:35
 msgid "%1 conflicts with existing range %2 belonging to %3"
-msgstr ""
+msgstr "L’adresse IP %1 entre en conflit avec l’adresse 2% existante qui appartient à 3%"
 
 #. (msg.params.0, msg.params.1, msg.params.2)
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:33
@@ -90,12 +90,12 @@ msgstr "%1 résultats"
 #. (unassigned)
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:30
 msgid "%1 titles are unassigned"
-msgstr ""
+msgstr " %1 titres ne sont pas attribués"
 
 #. (titles)
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:24
 msgid "%1 titles in total"
-msgstr ""
+msgstr "%1 titres au total"
 
 #. (format_number(hits)
 #: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:4
@@ -116,7 +116,7 @@ msgstr "Le profil de %1"
 #. (item.get_column('count')
 #: ../../../../../cap-root/templates/Default/Common/browse/browse.tt:22
 msgid "(View all %1 items)"
-msgstr ""
+msgstr "(Visionner l’ensemble des %1 documents)"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/published_and_pages.tt:5
 msgid "1 issue"
@@ -159,7 +159,7 @@ msgstr "Un compte Canadiana a été créé pour %1. Pour confirmer et activer vo
 #. (c.user.username)
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:8
 msgid "A copy of your receipt will be sent to you at %1."
-msgstr ""
+msgstr "Une copie de votre reçu vous sera retournée à %1."
 
 #. (formdata.username)
 #: ../../../../../cap-root/templates/Default/Common/user/create.tt:4
@@ -382,7 +382,7 @@ msgstr "Toutes"
 
 #: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:9
 msgid "All Titles"
-msgstr ""
+msgstr "Tous les titres"
 
 msgid "All content copyright © Foreign Affairs and International Trade"
 msgstr "Tous droits réservés © Affaires étrangères et Commerce international"
@@ -396,12 +396,12 @@ msgstr "Tous ces mots :"
 #. (titles)
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:42
 msgid "All titles (%1)"
-msgstr ""
+msgstr "Tous les titres (%1)"
 
 #. (unassigned)
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:44
 msgid "All unassigned titles (%1)"
-msgstr ""
+msgstr "Tous les titres non attribués (%1)"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:178
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:205
@@ -415,11 +415,11 @@ msgstr "Montant"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:36
 msgid "Amount Paid"
-msgstr ""
+msgstr "Montant payé"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:48
 msgid "Amount Payable"
-msgstr ""
+msgstr "Montant dû"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:63
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:64
@@ -581,7 +581,7 @@ msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/partial/social_media_links.tt:4
 msgid "Canadiana's Flickr photostream"
-msgstr ""
+msgstr "Compte Flickr Photostream de Canadiana"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:5
 msgid "Canadiana.org is a non-profit organization. Subscriptions fund the operation of Early Canadiana Online and the digitization of new content."
@@ -615,7 +615,7 @@ msgstr "Changer le mot de passe"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:79
 msgid "Checkout"
-msgstr ""
+msgstr "Paiement"
 
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:13
 msgid "Choose a new password"
@@ -907,14 +907,14 @@ msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:12
 msgid "Discount Code"
-msgstr ""
+msgstr "Code promotionnel"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:4
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:7
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/index.tt:2
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:8
 msgid "Discount Codes"
-msgstr ""
+msgstr "Codes promotionnels"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:39
 msgid "Discount code applied"
@@ -961,16 +961,16 @@ msgstr "Télécharger image"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:261
 msgid "Duration"
-msgstr ""
+msgstr "Durée"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:303
 msgid "Duration (days)"
-msgstr ""
+msgstr "Durée (jours)"
 
 #. ($product->duration)
 #: ../../CAP/Controller/User/Subscription.pm:170
 msgid "Duration: %1 days"
-msgstr ""
+msgstr "Durée : %1 jours"
 
 #: ../../CAP/Controller/Mail.pm:126
 msgid "ECO Account Activation"
@@ -2006,7 +2006,7 @@ msgstr "Veuillez saisir les mots affichés dans la fenêtre antipourriel."
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:13
 msgid "Please review your subscription details. If you have a discount code to redeem, enter it where indicated below. When you are ready to subscribe, click the Checkout button to be taken to PayPal to complete your payment."
-msgstr ""
+msgstr "Veuillez vérifier les détails de votre abonnement. Si vous voulez utiliser votre code promotionnel, saisissez-le à l’endroit indiqué ci-dessous. Lorsque vous serez prêt(e) à vous abonner, cliquer sur le bouton « Paiement » qui vous permettra de compléter votre paiement sur PayPal"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:15
 msgid "Please verify the following information and click Subscribe to proceed to our payment processor. When you have completed your payment, you will automatically be returned here."
@@ -2058,7 +2058,7 @@ msgstr "Code postale"
 #: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:104
 #: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:142
 msgid "Premium"
-msgstr ""
+msgstr "Premium"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:104
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:115
@@ -2069,17 +2069,17 @@ msgstr ""
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:93
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:88
 msgid "Premium Subscriber"
-msgstr ""
+msgstr "Abonné(e) Premium"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:29
 #: ../../../../../cap-root/templates/Mail/Common/subscription_confirmation.tt:13
 msgid "Premium Subscription"
-msgstr ""
+msgstr "Abonnement Premium"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:20
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:27
 msgid "Premium subscription"
-msgstr ""
+msgstr "Abonnement Premium"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:54
 msgid "Preview Access"
@@ -2224,7 +2224,7 @@ msgstr "Utilisateurs inscrits : %1"
 #: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:102
 #: ../../../../../cap-root/templates/Default/Common/admin/user/edit.tt:141
 msgid "Regular"
-msgstr ""
+msgstr "Régulier"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:103
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:114
@@ -2235,17 +2235,17 @@ msgstr ""
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:92
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:86
 msgid "Regular Subscriber"
-msgstr ""
+msgstr "Abonné(e) régulier(ère)"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:27
 #: ../../../../../cap-root/templates/Mail/Common/subscription_confirmation.tt:11
 msgid "Regular Subscription"
-msgstr ""
+msgstr "Abonnement régulier"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:18
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:25
 msgid "Regular subscription"
-msgstr ""
+msgstr "Abonnement régulier"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/user_login.tt:23
 msgid "Remember me on this computer"
@@ -2870,17 +2870,17 @@ msgstr "The PayPal token was not found."
 #. (msg.params.0)
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:15
 msgid "The discount code '%1' has already been redeemed"
-msgstr ""
+msgstr "Le code promotionnel ‘%1’ a déjà été utilisé."
 
 #. (msg.params.0)
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:14
 msgid "The discount code '%1' has expired"
-msgstr ""
+msgstr "Le code promotionnel ‘%1’ est expiré."
 
 #. (msg.params.0)
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:13
 msgid "The discount code '%1' was not found"
-msgstr ""
+msgstr "Le code promotionnel ‘%1’ est introuvable."
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:9
 msgid "The page you requested cannot be displayed."
@@ -3009,11 +3009,11 @@ msgstr "Montant total du paiement"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:12
 msgid "Transaction Date"
-msgstr ""
+msgstr "Date de la transaction"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:16
 msgid "Transaction ID"
-msgstr ""
+msgstr "No de la transaction"
 
 msgid "Trial Ended"
 msgstr "Période d’essai terminée"
@@ -3169,7 +3169,7 @@ msgstr "Vérifiez le code promotionnel"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/social_media_links.tt:5
 msgid "Videos on YouTube"
-msgstr ""
+msgstr "Vidéos sur YouTube"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:162
 #: ../../../../../cap-root/templates/Default/Common/view_doc.tt:23
