@@ -222,7 +222,8 @@ sub subscription_confirmation :Private {
     my $header = [
         From =>  $c->config->{email_from},
         To => $c->user->username,
-        Subject => $c->loc("Your Canadiana Subscription")
+        Subject => $c->loc("Your Canadiana Subscription"),
+        'Content-Type' => 'text/html'
     ];
 
     $self->sendmail($c, 'subscription_confirmation.tt', $header);
