@@ -78,15 +78,15 @@ sub canonical_host_GET {
 }
 
 
-#
-# Create: add a new portal
-#
+=head2 create
 
+Create a new portal with a random name (portal_###)
+
+=cut
 sub create :Path('create') {
     my($self, $c) = @_;
-    my $id = $c->req->body_parameters->{id};
-    my $portal = $c->model("DB::Portal")->find_or_create({ id => $id });
-    $c->res->redirect($c->uri_for_action('/admin/portal/index', $id));
+    my $portal = $c->model("DB::Portal")->new_portal;
+    $c->res->redirect($c->uri_for_action('/admin/portal/index', [$portal->id]));
 }
 
 #
@@ -111,6 +111,7 @@ sub edit_POST {
     given ($data{update}) {
         when ('access') {
             $portal->update({
+                id                     => $data{id},
                 enabled                => $data{enabled} ? 1 : 0,
                 supports_users         => $data{supports_users} ? 1 : 0,
                 supports_subscriptions => $data{supports_subscriptions} ? 1 : 0,
@@ -199,7 +200,9 @@ sub delete :Path('delete') Args(1) {
     else {
         $c->message({ type => "error", message => "portal_not_found" });
     }
-    $c->res->redirect($c->uri_for_action('admin/portal/index'));
+    my $uri = $c->uri_for_action('admin/index');
+    $uri->fragment('tab_portals');
+    $c->res->redirect($uri);
     return 1;
 }
 

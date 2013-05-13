@@ -29,6 +29,17 @@ sub list_subscribable {
 }
 
 
+=head2 new_portal
+
+Creates a new portal with a dummy placeholder identifier
+
+=cut
+sub new_portal {
+    my($self) = @_;
+    my $id = 'portal_' . int(rand() * 100000);
+    my $portal = $self->find_or_create({ id => $id, enabled => 0 });
+    return $portal;
+}
 
 
 
