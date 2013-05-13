@@ -107,6 +107,7 @@ sub edit_POST {
     }
 
     my %data = %{$c->req->body_params};
+    my $fragment = "";
 
     given ($data{update}) {
         when ('access') {
@@ -124,6 +125,7 @@ sub edit_POST {
                 access_search          => $data{access_search},
                 access_browse          => $data{access_browse},
             });
+            $fragment = 'tab_access';
         }
         when ('delete_hosts') {
             my @list = to_list($data{delete_hosts});
@@ -142,10 +144,12 @@ sub edit_POST {
                     $portal->remove_feature($feature);
                 }
             }
+            $fragment = 'tab_features';
         }
         when ('update_languages') {
             # TODO: validate...
             $portal->set_language($data{language_lang}, $data{language_priority}, $data{language_title}, $data{language_description});
+            $fragment = 'tab_languages';
         }
         when ('new_host') {
             my $validation = $c->model("DB::PortalHost")->validate($data{new_host});
@@ -154,6 +158,7 @@ sub edit_POST {
             } else {
                 $c->message({ type => "error", message => $validation->{error} });
             }
+            $fragment = 'tab_hostnames';
         }
         when ('new_subscription') {
             my $validation = $c->model('DB::PortalSubscriptions')->validate(%data);
@@ -176,7 +181,9 @@ sub edit_POST {
         }
     }
 
-    $c->res->redirect($c->uri_for_action("/admin/portal/index", [$portal->id]));
+    my $uri = $c->uri_for_action("/admin/portal/index", [$portal->id]);
+    $uri->fragment($fragment) if ($fragment);
+    $c->res->redirect($uri);
     $c->detach();
 }
 
