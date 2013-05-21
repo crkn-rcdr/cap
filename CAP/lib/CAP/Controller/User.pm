@@ -198,6 +198,7 @@ sub create :Path('create') :Args(0) {
 
     # Don't update anything if there were any errors.
     if (@errors) {
+        $c->stash->{template} = 'user/login.tt';
         $c->detach('/user/login');
         return 1;
     }
