@@ -6,7 +6,7 @@ use Date::Manip::Date;
 use Date::Manip::Delta;
 use Text::Trim qw/trim/;
 
-use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/login user/reconfirm user/reset };
+use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/confirmation_required user/login user/reconfirm user/reset };
 
 __PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ] } );
 
@@ -111,57 +111,76 @@ sub profile_POST {
     return 1;
 }
 
+sub login :Path('login') :Args(0) {
+    my ( $self, $c ) = @_;
+    my $username    = trim($c->request->params->{username})   || "";
+    my $password    = trim($c->request->params->{password})   || "";
+    my $persistent  = $c->request->params->{persistent} || 0;
 
+    my($captcha_success, $captcha_output) = $c->cap->generate_captcha();
+    $c->stash->{captcha} = $captcha_output;
+
+    if ($c->find_user({ username => $username, confirmed => 0 })) {
+        $c->response->redirect($c->uri_for_action('/user/confirmation_required', [$username]));
+        $c->detach();
+        return 1;
+    }
+    elsif ($username) {
+        if ($c->authenticate(({ username => $username, password => $password, confirmed => 1, active => 1 }))) {
+            $c->user->log('LOGIN', sprintf("from: %s", $c->req->address));
+            $c->forward('/user/handle_persistence', [$persistent]);
+
+            my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
+            delete($c->session->{login_redirect});
+            $c->response->redirect($redirect);
+        }
+        else {
+            my $user = $c->find_user({ username =>  $username});
+            if ($user) { $user->log_failed_login(); }
+            $c->message({ type => "error", message => "auth_failed" });
+        }
+    }
+
+    # Initialize some session variables
+    #$c->forward('init');
+    $c->update_session(1);
+
+    # Display the login page
+    return 1;
+}
+
+sub handle_persistence :Private {
+    my($self, $c, $persistent) = @_;
+    if ($persistent) {
+        # Set the session to be persistent or a session cookie.
+        my $token = $c->model('DB::User')->set_token($c->user->id);
+        $c->response->cookies->{$c->config->{cookies}->{persist}} = {
+            domain => $c->stash->{cookie_domain},
+            value => $token,
+            expires => time() + 7776000,
+            httponly => 1
+        };
+    }
+    else {
+        # Clear any pre-existing persistence cookies and tokens
+        $c->model('DB::User')->clear_token($c->user->id);
+        $c->response->cookies->{$c->config->{cookies}->{persist}} = { 
+            domain => $c->stash->{cookie_domain},
+            value => '',
+            expires => 0,
+            httponly => 1
+        }
+    }
+    return 1;
+}
 
 # Create a new account
 sub create :Path('create') :Args(0) {
     my($self, $c) = @_;
     my $data = $c->request->body_parameters;
-    trim($data->{username});
-    trim($data->{password});
-    trim($data->{password_check});
-    my $captcha_info = $c->config->{captcha};
+    foreach my $k (qw/username password password_check/) { trim $data->{$k}; }
 
-    # If the keys are configured, then check -- otherwise no
-    my $captcha_success = 0;
-
-    if ($captcha_info->{enabled} && $captcha_info->{publickey} && $captcha_info->{privatekey}) {
-        my $captcha = Captcha::reCAPTCHA->new;
-        my $captcha_error = undef;
-
-        my $rcf = $c->request->params->{recaptcha_challenge_field};
-        my $rrf = $c->request->params->{recaptcha_response_field};
-
-        if ($data->{recaptcha_response_field})  {
-            my $captcha_result = $captcha->check_answer(
-                $captcha_info->{privatekey},
-                $ENV{'REMOTE_ADDR'},
-                $data->{recaptcha_challenge_field},
-                $data->{recaptcha_response_field});
-            if ( $captcha_result->{is_valid} ) {
-                $captcha_success = 1;
-            } else {
-                $captcha_error = $captcha_result->{error};
-            }
-        }
-        $c->stash->{captcha} = $captcha->get_html($captcha_info->{publickey}, $captcha_error, 1, { theme => 'clean', lang => $c->stash->{lang} });
-    } else {
-        # If we aren't checking captcha, give blank html and set success.
-        $c->stash->{captcha}="";
-        $captcha_success = 1;
-    }
-
-    $c->stash->{completed} = 0;
-
-    # If this is not a form submission, just show the empty form.
-    return 1 unless ($data->{submitted});
-
-    # BEGIN POST
-
-    $c->stash->{formdata} = {
-        username => $data->{username},
-        name     => $data->{name},
-    };
+    my($captcha_success, $captcha_output) = $c->cap->generate_captcha();
 
     # Validate the submitted form data
     my @errors = ();
@@ -173,17 +192,15 @@ sub create :Path('create') :Args(0) {
     push @errors, $c->model('DB::User')->validate(
         $data, $c->config->{user}->{fields}, validate_password => 1);
 
-    # Ensure terms checkbox is checked
-    unless ($data->{terms}) {
-        push @errors, 'terms_required';
-    }
-
     foreach my $error (@errors) {
         $c->message({ type => 'error', message => $error });
     }
 
     # Don't update anything if there were any errors.
-    return 1 if @errors;
+    if (@errors) {
+        $c->detach('/user/login');
+        return 1;
+    }
  
     # Create the user
     my $new_user;
@@ -198,56 +215,22 @@ sub create :Path('create') :Args(0) {
         });
     };
     $c->detach('/error', [500]) if ($@);    
-
-    #Create row in subscription table
-    my $new_user_subscription;
-    my $new_user_id = $c->model('DB::User')->get_user_id($data->{username});
-    my $portal_id = defined($c->portal->id) ? $c->portal->id : 'eco';
-    my $level = (int($c->config->{subscription_trial}) > 0) ? 1 : 0;
-    #eval {
-    #   $new_user_subscription = $c->model('DB::UserSubscription')->subscribe($new_user_id, $portal_id, 1, "0000-00-00 00:00:00", 0);
-    #};
-    $c->detach('/error', [500]) if ($@);
     $new_user->log("CREATED", sprintf("Userid: %s; username: %s", $new_user->username, $new_user->name));
-
-    # If trial subscriptions are turned on, set the user's initial
-    # subscription data
-    if (int($c->config->{subscription_trial}) > 0) {
-        my $datetoday = new Date::Manip::Date;
-        $datetoday->parse("today");
-        my $deltaexpire = new Date::Manip::Delta;
-        my $err = $deltaexpire->parse(sprintf("%d days", $c->config->{subscription_trial}));
-        if ($err) {
-        # If I was passed in a bad period, then what?
-        ## TODO: localize
-        $c->detach('/error', [500, "Subscription period invalid"]);
-            return 0;
-        }
-        my $datenew = $datetoday->calc($deltaexpire);
-        my $newexpires = $datenew->printf("%Y-%m-%d");
-
-        $new_user->update({
-            subexpires => $newexpires,
-            class => 'trial',
-        });
-
-        #update user_subscription table for trial subscriptions
-        $c->model('DB::UserSubscription')->subscribe($new_user_id, $portal_id, 1, $newexpires, 0);
-
-        $new_user->log('TRIAL_START', "expires: $newexpires");
-
-    }
-
 
     # Send an activation email
     my $confirm_link = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
     $c->forward("/mail/user_activate", [$data->{username}, $data->{name}, $confirm_link]);
 
-    $c->stash->{completed}  = 1;
-
+    $c->response->redirect($c->uri_for_action('/user/confirmation_required', [$data->{username}]));
+    $c->detach();
     return 1;
 }
 
+sub confirmation_required :Path('confirmation_required') :Args(1) {
+    my($self, $c, $username) = @_;
+    $c->stash->{username} = $username;
+    return 1;
+}
 
 sub reconfirm :Path('reconfirm') :Args(1) {
     my($self, $c, $username) = @_;
@@ -276,71 +259,6 @@ sub reconfirm :Path('reconfirm') :Args(1) {
 }
 
 
-sub login :Path('login') :Args(0) {
-    my ( $self, $c ) = @_;
-    my $username    = trim($c->request->params->{username})   || "";
-    my $password    = trim($c->request->params->{password})   || "";
-    my $persistent  = $c->request->params->{persistent} || 0;
-
-    $c->stash->{formdata} = {
-        username => $username,
-    };
-
-    if ($c->user_exists()) {
-        # User is already logged in, so redirect to the main page.
-        $c->response->redirect($c->uri_for('index'));
-    }
-    elsif ($c->find_user({ username => $username, confirmed => 0 })) {
-        $c->stash->{needs_to_confirm} = 1;
-    }
-    elsif ($username) {
-        if ($c->authenticate(({ username => $username, password => $password, confirmed => 1, active => 1 }))) {
-            $c->user->log('LOGIN', sprintf("from: %s", $c->req->address));
-            if ($persistent) {
-                # Set the session to be persistent or a session cookie.
-                my $token = $c->model('DB::User')->set_token($c->user->id);
-                $c->response->cookies->{$c->config->{cookies}->{persist}} = {
-                    domain => $c->stash->{cookie_domain},
-                    value => $token,
-                    expires => time() + 7776000,
-                    httponly => 1
-                };
-            }
-            else {
-                # Clear any pre-existing persistence cookies and tokens
-                $c->model('DB::User')->clear_token($c->user->id);
-                $c->response->cookies->{$c->config->{cookies}->{persist}} = { 
-                    domain => $c->stash->{cookie_domain},
-                    value => '',
-                    expires => 0,
-                    httponly => 1
-                }
-            }
-
-            my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
-            delete($c->session->{login_redirect});
-            $c->response->redirect($redirect);
-        }
-        else {
-            my $user = $c->find_user({ username =>  $username});
-            if ($user) {
-                my $reason;
-                if (! $user->active) { $reason = 'not active'; }
-                elsif (! $user->confirmed) { $reason = 'not confirmed'; }
-                else { $reason = 'bad password'; }
-                $user->log("LOGIN_FAILED", $reason);
-            }
-            $c->message({ type => "error", message => "auth_failed" });
-        }
-    }
-
-    # Initialize some session variables
-    #$c->forward('init');
-    $c->update_session(1);
-
-    # Display the login page
-    return 1;
-}
 
 
 sub logout :Path('logout') :Args(0) {

@@ -659,6 +659,16 @@ sub log {
     return 1;
 }
 
+sub log_failed_login {
+    my($self) = @_;
+    my $reason;
+    if (! $self->active) { $reason = 'not active'; }
+    elsif (! $self->confirmed) { $reason = 'not confirmed'; }
+    else { $reason = 'bad password'; }
+    $self->log("LOGIN_FAILED", $reason);
+    return 0;
+}
+
 =head2 update_account_information
 
 Updates a user's email address, name, and password (if supplied).
