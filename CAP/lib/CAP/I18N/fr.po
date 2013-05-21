@@ -1120,7 +1120,7 @@ msgstr "Expiré"
 #. (format_date(i.subscription.expires)
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:84
 msgid "Expired on %1"
-msgstr ""
+msgstr "Expiré le %1"
 
 msgid "Expired paid subscribers"
 msgstr "Utilisateurs dont l’abonnement est échu"
@@ -1145,7 +1145,7 @@ msgstr "Expire le %1"
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:40
 #: ../../../../../cap-root/templates/Mail/Common/subscription_confirmation.tt:43
 msgid "Expiry Date"
-msgstr ""
+msgstr "Date d'échéance"
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:106
 msgid "Extend"
@@ -1153,7 +1153,7 @@ msgstr "Prolonger"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:17
 msgid "Extend It Now"
-msgstr ""
+msgstr "Le prolonger maintenant"
 
 msgid "Extend it today!"
 msgstr "Prolongez-le dès aujourd’hui!"
@@ -1230,7 +1230,7 @@ msgstr "Provient de la collection de %1"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:71
 msgid "Full Access"
-msgstr ""
+msgstr "Plein accès"
 
 #: ../../../../../cap-root/templates/Default/Common/reports/index.tt:6
 msgid "General"
@@ -1256,7 +1256,7 @@ msgstr "Bonjour %1,"
 
 #: ../../../../../cap-root/templates/Default/Common/reports/portal/portal_stats.tt:3
 msgid "Hello World"
-msgstr ""
+msgstr "Bonjour, tout le monde"
 
 #: ../../../../../cap-root/templates/Default/1812/partial/search_form.tt:34
 #: ../../../../../cap-root/templates/Default/Common/partial/search_controls.tt:86
@@ -1319,7 +1319,7 @@ msgstr "ID"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:16
 msgid "IP Addresses"
-msgstr ""
+msgstr "Addresses IP"
 
 #. (msg.params.0, msg.params.1)
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:63
@@ -1411,7 +1411,7 @@ msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:80
 msgid "Institutional Subscription"
-msgstr ""
+msgstr "Abonnement institutionnel"
 
 msgid "Institutional Subscription: %1"
 msgstr "Abonnement institutionnel : %1"
@@ -1848,7 +1848,7 @@ msgstr "Non"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:118
 msgid "No Subscription"
-msgstr ""
+msgstr "Non abonné(e)"
 
 msgid "No issues found"
 msgstr "Aucun numéro trouvé"
@@ -2734,14 +2734,14 @@ msgstr "Pour s'abonner"
 
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:27
 msgid "Subscribe Now"
-msgstr ""
+msgstr "S’abonner maintenant"
 
 #. (entity.portal.title(lang)
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:2
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:9
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:8
 msgid "Subscribe to %1"
-msgstr ""
+msgstr "S’abonner à %1"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:4
 msgid "Subscribe to Early Canadiana Online"
@@ -2780,8 +2780,8 @@ msgid "Subscribers: %1"
 msgstr "Abonné(e)s : %1"
 
 #: ../../../../../cap-root/templates/Mail/Common/subscription_confirmation.tt:27
-msgid "Subscriptin Type"
-msgstr ""
+msgid "Subscription Type"
+msgstr "Type d’abonnement"
 
 msgid "Subscription"
 msgstr "Abonnement"
@@ -2790,7 +2790,7 @@ msgstr "Abonnement"
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:4
 #: ../../../../../cap-root/templates/Mail/Common/subscription_confirmation.tt:6
 msgid "Subscription Confirmation"
-msgstr ""
+msgstr "Confirmation de l’abonnement"
 
 msgid "Subscription Confirmed"
 msgstr "Abonnement confirmé."
@@ -2843,7 +2843,7 @@ msgstr "Abonnements"
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:11
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:11
 msgid "Summary"
-msgstr ""
+msgstr "Résumé"
 
 #: ../../../../../cap-root/templates/Default/Common/support.tt:1
 msgid "Support"
@@ -3086,7 +3086,7 @@ msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:92
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Unsubscribe"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:29
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/show.tt:32
@@ -3147,7 +3147,7 @@ msgstr "Rapport d’utilisation pour %1"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:70
 msgid "Use Code"
-msgstr ""
+msgstr "Utilisez un code"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:7
 msgid "User"
@@ -3325,7 +3325,7 @@ msgstr "Oui"
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:14
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:19
 msgid "You are a subscriber to <em>%1</em>."
-msgstr ""
+msgstr "Vous êtes abonné(e) à <em>%1</em>."
 
 msgid "You are accessing ECO from an institution that has subscribed to our collection. You will have full access whenever accessing ECO from your institution's network."
 msgstr "Vous accédez à NML par l’entremise d’une institution abonnée à notre collection. Vous bénéficierez d’un accès complet à NML chaque fois que vous consulterez ce site sur le réseau de votre institution."
@@ -3335,7 +3335,7 @@ msgstr "Présentement, vous n’avez pas d’abonnement à NML. L’abonnement v
 
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:37
 msgid "You are not signed in."
-msgstr ""
+msgstr "Vous n’êtes pas inscrit(e)."
 
 msgid "You are subscribed to the following collections"
 msgstr "Vous êtes abonné(e) aux collections suivantes"
@@ -3343,12 +3343,12 @@ msgstr "Vous êtes abonné(e) aux collections suivantes"
 #. (c.portal.title(c.stash.lang)
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:32
 msgid "You are using a limited public version of %1. Full access is available to subcribers."
-msgstr ""
+msgstr "Vous utilisez une version en accès public restreint à %1. Le plein accès est disponible pour les abonné(e)s."
 
 #. (c.portal.title(c.stash.lang)
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:26
 msgid "You are using a limited public version of <em>%1</em>. To access the full content and features, you must be a subscriber."
-msgstr ""
+msgstr "Vous utilisez une version en accès public restreint de <em>%1</em>. Pour obtenir le plein accès au contenu et aux fonctionnalités, vous devez vous abonner."
 
 #: ../../../../../cap-root/templates/Default/Common/error.tt:12
 msgid "You do not have sufficient privileges to view this page."
@@ -3361,7 +3361,7 @@ msgstr "Le code promotionnel que vous avez saisi n’est pas valide."
 #. (c.institution.alias(c.stash.lang)
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:5
 msgid "You have full subscriber access to this Canadiana collection because you are accessing it from %1"
-msgstr ""
+msgstr "Vous avez le plein accès réservé aux abonné(e)s pour cette collection de Canadiana parce que vous y accédez  par le biais de %1."
 
 #: ../../../../../cap-root/templates/Default/Common/user/login.tt:4
 msgid "You have not yet confirmed your user account. Check your email for further instructions"
@@ -3397,7 +3397,7 @@ msgstr "Vous devez saisir une adresse pour l’émission d’un reçu d’impôt
 
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:19
 msgid "You must read and agree to the Canadiana Terms of Service"
-msgstr ""
+msgstr "Vous devez lire et accepter les conditions de service de Canadiana."
 
 #: ../../../../../cap-root/templates/Default/Common/partial/messages.tt:80
 msgid "You must select a province or territory to generate a tax receipt."
@@ -3410,7 +3410,7 @@ msgstr "Vous avez reçu ce courriel parce qu’une demande a été envoyée à %
 
 #: ../../CAP/Controller/Mail.pm:225
 msgid "Your Canadiana Subscription"
-msgstr ""
+msgstr "Votre abonnement à Canadiana"
 
 msgid "Your ECO free trial ended on %1. Subscribe to regain access to the complete ECO collection, including subscriber-only features not available during your trial."
 msgstr "Votre période d’essai gratuit à NML s’est terminée le %1. Abonnez-vous pour récupérer l’accès à toute la collection NML, y compris certaines fonctions réservées uniquement aux abonnés et non disponibles durant votre période d’essai."
@@ -3431,7 +3431,7 @@ msgstr "Votre adresse de courriel n’est pas valide."
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:56
 msgid "Your existing subscription will expire"
-msgstr ""
+msgstr "Votre abonnement actuel expirera"
 
 msgid "Your free trial ends on %1. Subscribe today to maintain access to the complete ECO collection, enable PDF downloads and other subscriber benefits, and fund the digitization of new content."
 msgstr " Votre période d’essai se termine le %1. Abonnez-vous dès aujourd’hui pour conserver l’accès à toute la collection NML, permettre le téléchargement de fichiers PDF, profiter des autres avantages réservés aux abonnés et financer la numérisation de nouveaux contenus."
@@ -3447,7 +3447,7 @@ msgstr "Votre nom"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:60
 msgid "Your new subscription will expire"
-msgstr ""
+msgstr "Votre nouvel abonnement expirera"
 
 #: ../../../../../cap-root/templates/Default/Common/user/reset.tt:8
 msgid "Your password has successfully been reset."
@@ -3509,17 +3509,17 @@ msgstr "Votre abonnement est expiré. %1 pour profiter de nouveau d'un accès à
 #. (c.portal.title(c.stash.lang)
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:22
 msgid "Your subscription has expired. You now have limited public access to <em>%1</em>."
-msgstr ""
+msgstr "Votre abonnement est expiré. Vous avez maintenant un accès public restreint à <em>%1</em>."
 
 #. (subscription.portal_id.title(lang)
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:6
 msgid "Your subscription to %1 has been confirmed. Please print this page for your records."
-msgstr ""
+msgstr "Votre abonnement à %1 est confirmé. Veuillez imprimer cette page pour vos dossiers."
 
 #. (c.portal.title(c.stash.lang)
 #: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:16
 msgid "Your subscription to <em>%1</em> will expire on %2."
-msgstr ""
+msgstr "Votre abonnement à <em>%1</em> expirera le %2."
 
 msgid "Yukon"
 msgstr "Yukon"
