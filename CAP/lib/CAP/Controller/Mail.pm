@@ -238,7 +238,7 @@ sub status_report :Private {
         From =>  $c->config->{email_from},
         To => $recipients,
         Subject => $c->loc("CAP System Status Report"),
-        'Content-Type' => 'text/html'
+        'Content-Type' => 'text/html; charset="UTF8"'
     ];
     $c->stash(mail_data => {%data});
     $self->sendmail($c, 'status_report.tt', $header);
