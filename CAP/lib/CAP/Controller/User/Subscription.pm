@@ -114,7 +114,7 @@ sub subscribe_POST {
     my $expiry = $c->stash->{entity}->{expiry};
     my $data = $c->stash->{data};
     my $submit = $data->{submit};
-    my $tos_ok = $data->{tos_ok};
+    my $tos_ok = $data->{terms};
 
     # If a discount code is supplied, validate it.
     if ($data->{code}) {
