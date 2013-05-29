@@ -142,9 +142,11 @@ sub subscription_notice :Private {
     return unless ( $from );
     
     my $header = [
-        From => $from,
-        To => $admins,
-        Subject => $c->loc('ECO Subscription Finalized')
+        'From'                                                  => $from,
+        'To'                                                         => $admins,
+        'Subject'                                             => $c->loc('ECO Subscription Finalized'),
+        'Content-Type'                                => 'text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding'  =>  '8bit'
     ];
 
     $self->sendmail($c, "subscribe_finalize.tt", $header);
@@ -164,9 +166,11 @@ sub feedback :Private {
     my $from = $c->config->{email_from};
     return unless ( $from );
     my $header = [
-        From => $from,
-        To => $to,
-        Subject => $c->loc('User feedback')
+        'From'                                                 => $from,
+        'To'                                                        => $to,
+        'Subject'                                             => $c->loc('User feedback'),
+        'Content-Type'                                => 'text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding'  =>  '8bit'
     ];
 
     $self->sendmail($c, "feedback.tt", $header);
@@ -193,9 +197,11 @@ sub subscription_reminder :Private {
     return unless ( $from );
 
     my $header = [
-        From => $from,
-        To =>   $recipient,
-        Subject => "Your Canadiana.org subscription / Votre abonnement Canadiana.org"
+        'From'                                                 => $from,
+        'To'                                                        =>   $recipient,
+        'Subject'                                             => "Your Canadiana.org subscription / Votre abonnement Canadiana.org",
+        'Content-Type'                                => 'text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding'  =>  '8bit'
     ];
 
     my $template = "subscription_reminder.tt";
