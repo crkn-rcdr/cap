@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<portal>
 
@@ -49,6 +45,7 @@ __PACKAGE__->table("portal");
 =head2 enabled
 
   data_type: 'tinyint'
+  default_value: 0
   is_nullable: 0
 
 =head2 supports_users
@@ -124,7 +121,7 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
   "enabled",
-  { data_type => "tinyint", is_nullable => 0 },
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "supports_users",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "supports_subscriptions",
@@ -180,7 +177,7 @@ __PACKAGE__->has_many(
   "contributors",
   "CAP::Schema::Result::Contributor",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 discounts
@@ -195,7 +192,7 @@ __PACKAGE__->has_many(
   "discounts",
   "CAP::Schema::Result::Discounts",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_subscriptions
@@ -210,7 +207,7 @@ __PACKAGE__->has_many(
   "institution_subscriptions",
   "CAP::Schema::Result::InstitutionSubscription",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 outbound_links
@@ -225,7 +222,7 @@ __PACKAGE__->has_many(
   "outbound_links",
   "CAP::Schema::Result::OutboundLink",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_features
@@ -240,7 +237,7 @@ __PACKAGE__->has_many(
   "portal_features",
   "CAP::Schema::Result::PortalFeature",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_hosts
@@ -255,7 +252,7 @@ __PACKAGE__->has_many(
   "portal_hosts",
   "CAP::Schema::Result::PortalHost",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_langs
@@ -270,7 +267,7 @@ __PACKAGE__->has_many(
   "portal_langs",
   "CAP::Schema::Result::PortalLang",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portal_subscriptions
@@ -285,7 +282,7 @@ __PACKAGE__->has_many(
   "portal_subscriptions",
   "CAP::Schema::Result::PortalSubscriptions",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 portals_titles
@@ -300,7 +297,22 @@ __PACKAGE__->has_many(
   "portals_titles",
   "CAP::Schema::Result::PortalsTitles",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
+);
+
+=head2 stats_usage_institutions
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::StatsUsageInstitution>
+
+=cut
+
+__PACKAGE__->has_many(
+  "stats_usage_institutions",
+  "CAP::Schema::Result::StatsUsageInstitution",
+  { "foreign.portal_id" => "self.id" },
+  {},
 );
 
 =head2 stats_usage_portals
@@ -315,7 +327,7 @@ __PACKAGE__->has_many(
   "stats_usage_portals",
   "CAP::Schema::Result::StatsUsagePortal",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 subscriptions
@@ -330,7 +342,7 @@ __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_subscriptions
@@ -345,7 +357,7 @@ __PACKAGE__->has_many(
   "user_subscriptions",
   "CAP::Schema::Result::UserSubscription",
   { "foreign.portal_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_ids
@@ -363,8 +375,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-24 15:24:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jkqTQfec0YJ+BezrIjxIBg
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:mIivaRAjP9wPFAZ17wQ1kg
 
 
 =head2 title($lang)

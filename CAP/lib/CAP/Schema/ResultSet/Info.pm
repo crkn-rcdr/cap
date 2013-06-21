@@ -25,7 +25,7 @@ sub assert_version {
 }
 
 sub delete_pid {
-    # returns pid of existing cron script or undef
+    # deletes the row for an existing process lock
     my ($self, $script, $pid) = @_;
     my $row   =  $self->find({ 
                                                               name  => $script,

@@ -59,11 +59,12 @@ sub first_month {
 }
 
 sub get_stats {
-    my ( $self, $inst, $month ) = @_;
+    my ( $self, $inst,  $portal, $month ) = @_;
 
     my $row = $self->find(
         {
             'month_starting' => $month,
+            'portal_id' => $portal,
             'institution_id' => $inst
         }
 

@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<feedback>
 
@@ -123,8 +119,8 @@ Related object: L<CAP::Schema::Result::User>
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:x10UipvpfDm3RBMRkFOQ4w
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/4ZvrMVL4/wcRVjGQTMpIA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

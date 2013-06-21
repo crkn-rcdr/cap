@@ -24,57 +24,59 @@ Queries the request_log table and stashes a hashref of user stats for a given in
 
 =cut
 
-sub auto : Private {
-    my ( $self, $c ) = @_;
 
 
-    # Only allow administrators and institution managers to access any of these functions.
-    # Everyone else goes to the login page.
+sub institution : Chained("/") : PathPart("institution") : CaptureArgs(1) {
+    
+     my ( $self, $c,$inst ) = @_;
+
+     #stash the name and number of the institution
+     $c->stash->{report_inst}       = $inst;
+     my $institution                           =  $c->model('DB::Institution')->find({ id => $inst });
+    $c->stash->{inst_name}          =  $institution->alias($c->stash->{lang});
+
+    # # Only allow administrators and institution managers to access any of these functions.
+    # # Everyone else goes to the login page.
     unless ( $c->user_exists ) {
         redirect_user($c);
         return 1;
     }
 
-    my $inst = $c->request->arguments->[0];
-    my $user = $c->user->id;
+     my $user = $c->user->id;
+    $c->log->debug("$user is not administrator\n")              unless $c->has_role('administrator');
+    $c->log->debug("$user is not institution manager\n") unless $c->model('DB::InstitutionMgmt')->is_inst_manager($user, $inst);
+
     unless ( $c->has_role('administrator') || $c->model('DB::InstitutionMgmt')->is_inst_manager($user, $inst) )  {
-        redirect_user($c);
-    }
+         redirect_user($c);
+    }     
+ 
+ }
 
-    return 1;
+
+ 
+ sub stats: Chained("institution") : PathPart("stats") :  Args(1) {
+    
+    my ( $self, $c, $portal ) = @_;
+  
+     $c->stash->{report_portal} = $portal;
+     $c->stash->{template} = 'institution.tt';
+     show_stats($c, $portal);
+ 
+     return 1;
+ 
 }
 
-sub index : Path : Args(2) {
-    my ( $self, $c ) = @_;
-
-    # Get some action
-    my $action = $c->request->arguments->[1];
-
-    $c->stash->{template} = 'institution.tt';
-
-    if ( $action eq 'stats' ) {
-        show_stats($c);
-    }
-
-    else {
-        redirect_user($c);
-    }
-
-    return 1;
-}
 
 sub show_stats {
 
-    my $c = shift();
+    my  ($c , $portal_arg) = @_;
 
     # Build the hashref we send to the template
     $c->stash->{usage_results} = {};
 
-    # Get the institution name
-    my $inst_arg  = $c->request->arguments->[0];
-    my $institution = $c->model('DB::Institution')->find({ id => $inst_arg });
-    my $inst_name = $institution->alias($c->stash->{lang});
-    $c->stash->{report_inst} = $inst_name;
+    # Get the institution and portal names
+    my $inst_arg                                 =  $c->stash->{'report_inst'};
+    $c->stash->{report_portal} =  $portal_arg; 
 
     # Get date of first log entry
     my $get_start = $c->model('DB::StatsUsageInstitution')->first_month();
@@ -113,11 +115,11 @@ sub show_stats {
 
         $yearly_stats = [];
         $yearly_total = {
-                            searches     => 0,
-                            page_views   => 0,
-                            sessions     => 0,
-                            requests     => 0
-                         };
+                            searches          => 0,
+                            page_views    => 0,
+                            sessions          => 0,
+                            requests         => 0
+         };
 
 
         # If we're only reporting on this year we don't need to go all the way to December
@@ -134,7 +136,7 @@ sub show_stats {
             $first_of_month = $current_date->printf("%Y-%m-01");
             
             # Feed monthly totals into arrayref for that year
-            $monthly_stats = $c->model('DB::StatsUsageInstitution')->get_stats($inst_arg, $first_of_month);
+            $monthly_stats = $c->model('DB::StatsUsageInstitution')->get_stats($inst_arg, $portal_arg, $first_of_month);
             push( @{$yearly_stats}, $monthly_stats );
             
             # Add the monthly totals to the yearly totals

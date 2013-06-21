@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<slide>
 
@@ -117,12 +113,12 @@ __PACKAGE__->has_many(
   "slide_descriptions",
   "CAP::Schema::Result::SlideDescription",
   { "foreign.slide_id" => "self.id" },
-  undef,
+  {},
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jMi8Te8LYiGHScQpbpX3KQ
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Fx1a82e0wmU0xiw/30xs+w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

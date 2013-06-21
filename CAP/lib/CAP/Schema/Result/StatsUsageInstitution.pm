@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<stats_usage_institution>
 
@@ -78,6 +74,14 @@ __PACKAGE__->table("stats_usage_institution");
   data_type: 'integer'
   is_nullable: 1
 
+=head2 portal_id
+
+  data_type: 'varchar'
+  default_value: 'eco'
+  is_foreign_key: 1
+  is_nullable: 0
+  size: 64
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -100,6 +104,14 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 1 },
   "requests",
   { data_type => "integer", is_nullable => 1 },
+  "portal_id",
+  {
+    data_type => "varchar",
+    default_value => "eco",
+    is_foreign_key => 1,
+    is_nullable => 0,
+    size => 64,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -110,11 +122,13 @@ __PACKAGE__->add_columns(
 
 =item * L</institution_id>
 
+=item * L</portal_id>
+
 =back
 
 =cut
 
-__PACKAGE__->set_primary_key("month_starting", "institution_id");
+__PACKAGE__->set_primary_key("month_starting", "institution_id", "portal_id");
 
 =head1 RELATIONS
 
@@ -132,9 +146,23 @@ __PACKAGE__->belongs_to(
   { id => "institution_id" },
 );
 
+=head2 portal_id
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 13:09:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6oRsjDKBmQkDqMIaZgr3eg
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Portal>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "portal_id",
+  "CAP::Schema::Result::Portal",
+  { id => "portal_id" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rFRKkrjbloryKqpd5aMq5g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

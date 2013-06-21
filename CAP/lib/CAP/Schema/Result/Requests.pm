@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<requests>
 
@@ -139,9 +135,35 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-03 09:15:50
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CMLf591jfQOnMD0r3/JQ7A
+=head2 institution_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::Institution>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "institution_id",
+  "CAP::Schema::Result::Institution",
+  { id => "institution_id" },
+);
+
+=head2 user_id
+
+Type: belongs_to
+
+Related object: L<CAP::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HHgexHdTjlvMrTHruIWWpg
 
 
 # We need to tell CAP that this table is not in the cap database.

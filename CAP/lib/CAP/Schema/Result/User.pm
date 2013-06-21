@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<user>
 
@@ -169,7 +165,7 @@ __PACKAGE__->has_many(
   "feedbacks",
   "CAP::Schema::Result::Feedback",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 images
@@ -184,7 +180,7 @@ __PACKAGE__->has_many(
   "images",
   "CAP::Schema::Result::Images",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_mgmts
@@ -199,7 +195,7 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 payments
@@ -214,7 +210,22 @@ __PACKAGE__->has_many(
   "payments",
   "CAP::Schema::Result::Payment",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
+);
+
+=head2 requests
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Requests>
+
+=cut
+
+__PACKAGE__->has_many(
+  "requests",
+  "CAP::Schema::Result::Requests",
+  { "foreign.user_id" => "self.id" },
+  {},
 );
 
 =head2 subscriptions
@@ -229,7 +240,7 @@ __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_documents
@@ -244,7 +255,7 @@ __PACKAGE__->has_many(
   "user_documents",
   "CAP::Schema::Result::UserDocument",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_roles
@@ -259,7 +270,7 @@ __PACKAGE__->has_many(
   "user_roles",
   "CAP::Schema::Result::UserRoles",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 user_subscriptions
@@ -274,7 +285,7 @@ __PACKAGE__->has_many(
   "user_subscriptions",
   "CAP::Schema::Result::UserSubscription",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 institution_ids
@@ -288,8 +299,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-04-22 14:33:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dBV4N2ByxaIDcj22fqIbPw
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2QtIbd3NGU4ShylsrQMybQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

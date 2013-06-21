@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<documents>
 
@@ -131,7 +127,7 @@ __PACKAGE__->has_many(
   "pages",
   "CAP::Schema::Result::Pages",
   { "foreign.document_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 title_id
@@ -149,8 +145,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-21 08:46:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dQQfeFhm/JSlehjROJcy3w
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CKHaJ7TbXcm0ABgEfUyCuw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -21,15 +21,11 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
-=item * L<DBIx::Class::TimeStamp>
-
-=item * L<DBIx::Class::EncodedColumn>
-
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<discounts>
 
@@ -149,7 +145,7 @@ __PACKAGE__->has_many(
   "users_discounts_discount_ids",
   "CAP::Schema::Result::UsersDiscounts",
   { "foreign.discount_id" => "self.id" },
-  undef,
+  {},
 );
 
 =head2 users_discounts_user_ids
@@ -164,12 +160,12 @@ __PACKAGE__->has_many(
   "users_discounts_user_ids",
   "CAP::Schema::Result::UsersDiscounts",
   { "foreign.user_id" => "self.id" },
-  undef,
+  {},
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-03-01 15:11:45
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:To2FjacT4j5m3v9fOlEaLQ
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:A90fcZhXgdSKtURbSwMjvg
 
 
 =head2 active
