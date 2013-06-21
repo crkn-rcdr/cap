@@ -8,3 +8,7 @@ ALTER TABLE stats_usage_institution
         FOREIGN KEY(portal_id)
         REFERENCES portal(id)
 	ON DELETE CASCADE;
+
+UPDATE info
+    SET value = '68'
+    WHERE name = 'version';
