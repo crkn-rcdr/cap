@@ -198,6 +198,7 @@ sub compile_institution_stats {
 
     # Get a list of distinct institutions from the institutions table
     my $institutions = $c->model('DB::Requests')->get_institutions($c);
+    my $portals = $c->model('DB::Portal')->list_portals();
     my $month;
     my $first_of_month;
     my $year;
@@ -209,54 +210,56 @@ sub compile_institution_stats {
     # Iterate through all the institutions
     foreach $institution ( @$institutions ) {
 
-        $c->model('DB::CronLog')->create(
-            {
-                action => 'cronweekly->compile_institution_stats',
-                ok     => 1,
-                message => "compiling for institution $institution, years $start_year through $end_year"
-            }
-        );
+        foreach $portal (@$portals) {
 
-        for ( $year = $start_year ; $year <= $end_year ; $year++ ) {
-
-            # If we're only reporting on this year we don't need to go all the way to December
-            my $end_month = ( $year < $end_year ) ? 12 : $end_date->printf("%m");
-
-            # Similarly we don't need to go all the way back to January if we start later
-            $start_month = ( $year > $start_year ) ? 1 : $start_month;
-
-            # Iterate through all the months
-            for ( $month = $start_month ; $month <= $end_month ; $month++ ) {
-
-                # get the monthly stats from the request log
-                $monthly_stats = $c->model('DB::Requests')->get_monthly_inst_stats( $institution, $month, $year );
-
-                # make sure the dates are in the correct format
-                $current_date_string = join( '-', ( $year, $month, '1' ) );
-
-                $c->model('DB::CronLog')->create(
-                    {
-                        action => 'cronweekly->compile_institution_stats',
-                        ok     => 1,
-                        message => "compiling for institution $institution, month starting $current_date_string"
-                    }
-                );
-
-                $current_date = new Date::Manip::Date;
-                $err          = $current_date->parse($current_date_string);
-                say $err if $err;
-                $first_of_month = $current_date->printf("%Y-%m-01");
-
-                # update or insert as required
-                $monthly_stats->{'institution_id'} = $institution;
-                $monthly_stats->{'month_starting'} = $first_of_month;
-                $c->model('DB::StatsUsageInstitution')
-                  ->update_monthly_stats($monthly_stats);
-
+            $c->model('DB::CronLog')->create(
+                {
+                    action => 'cronweekly->compile_institution_stats',
+                    ok     => 1,
+                    message => "compiling for institution $institution, years $start_year through $end_year"
+                }
+            );
+    
+            for ( $year = $start_year ; $year <= $end_year ; $year++ ) {
+    
+                # If we're only reporting on this year we don't need to go all the way to December
+                my $end_month = ( $year < $end_year ) ? 12 : $end_date->printf("%m");
+    
+                # Similarly we don't need to go all the way back to January if we start later
+                $start_month = ( $year > $start_year ) ? 1 : $start_month;
+    
+                # Iterate through all the months
+                for ( $month = $start_month ; $month <= $end_month ; $month++ ) {
+    
+                    # get the monthly stats from the request log
+                    $monthly_stats = $c->model('DB::Requests')->get_monthly_inst_stats( $institution, $month, $year );
+    
+                    # make sure the dates are in the correct format
+                    $current_date_string = join( '-', ( $year, $month, '1' ) );
+    
+                    $c->model('DB::CronLog')->create(
+                        {
+                            action => 'cronweekly->compile_institution_stats',
+                            ok     => 1,
+                            message => "compiling for institution $institution, month starting $current_date_string"
+                        }
+                    );
+    
+                    $current_date = new Date::Manip::Date;
+                    $err          = $current_date->parse($current_date_string);
+                    say $err if $err;
+                    $first_of_month = $current_date->printf("%Y-%m-01");
+    
+                    # update or insert as required
+                    $monthly_stats->{'institution_id'} = $institution;
+                    $monthly_stats->{'month_starting'} = $first_of_month;
+                    $c->model('DB::StatsUsageInstitution')->update_monthly_stats($monthly_stats);
+    
+                }
+    
             }
 
         }
-
     }
 
     $c->model('DB::CronLog')->create(
