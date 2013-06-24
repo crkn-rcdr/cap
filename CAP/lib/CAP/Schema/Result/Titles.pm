@@ -21,11 +21,15 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
 =head1 TABLE: C<titles>
 
@@ -127,7 +131,7 @@ __PACKAGE__->has_many(
   "documents",
   "CAP::Schema::Result::Documents",
   { "foreign.title_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 institution_id
@@ -156,7 +160,7 @@ __PACKAGE__->has_many(
   "portals_titles",
   "CAP::Schema::Result::PortalsTitles",
   { "foreign.title_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 titles_terms
@@ -171,7 +175,7 @@ __PACKAGE__->has_many(
   "titles_terms",
   "CAP::Schema::Result::TitlesTerms",
   { "foreign.title_id" => "self.id" },
-  {},
+  undef,
 );
 
 =head2 term_ids
@@ -185,8 +189,8 @@ Composing rels: L</titles_terms> -> term_id
 __PACKAGE__->many_to_many("term_ids", "titles_terms", "term_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:f+o9slzIGkwbNsw12q1TFw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tjMhPuRe86qnjkO3U6DDgw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

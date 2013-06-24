@@ -21,11 +21,15 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
 =head1 TABLE: C<stats_usage_institution>
 
@@ -77,7 +81,7 @@ __PACKAGE__->table("stats_usage_institution");
 =head2 portal_id
 
   data_type: 'varchar'
-  default_value: 'eco'
+  default_value: (empty string)
   is_foreign_key: 1
   is_nullable: 0
   size: 64
@@ -107,7 +111,7 @@ __PACKAGE__->add_columns(
   "portal_id",
   {
     data_type => "varchar",
-    default_value => "eco",
+    default_value => "",
     is_foreign_key => 1,
     is_nullable => 0,
     size => 64,
@@ -161,8 +165,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rFRKkrjbloryKqpd5aMq5g
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:XZBuyURxTkf5c+JsT72VeA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

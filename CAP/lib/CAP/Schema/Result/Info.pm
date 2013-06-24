@@ -21,11 +21,15 @@ use base 'DBIx::Class::Core';
 
 =item * L<DBIx::Class::InflateColumn::DateTime>
 
+=item * L<DBIx::Class::TimeStamp>
+
+=item * L<DBIx::Class::EncodedColumn>
+
 =back
 
 =cut
 
-__PACKAGE__->load_components("InflateColumn::DateTime");
+__PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
 
 =head1 TABLE: C<info>
 
@@ -81,8 +85,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("name");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-06-21 09:08:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QNzoRoX2EvKPQwn0ejafFQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tWi1hb4CZnMOCmlI7fLBuQ
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

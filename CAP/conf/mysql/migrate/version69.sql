@@ -3,12 +3,14 @@ ALTER TABLE stats_usage_institution
        DROP PRIMARY KEY,
        ADD PRIMARY KEY (month_starting,institution_id,portal_id);
 
+UPDATE stats_usage_institution SET portal_id = 'eco';
+
 ALTER TABLE stats_usage_institution
     ADD CONSTRAINT stats_usage_institution_ibfk_2
         FOREIGN KEY(portal_id)
         REFERENCES portal(id)
-	ON DELETE CASCADE;
+	ON DELETE CASCADE ON UPDATE CASCADE;
 
 UPDATE info
-    SET value = '68'
+    SET value = '69'
     WHERE name = 'version';
