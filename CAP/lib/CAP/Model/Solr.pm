@@ -133,4 +133,12 @@ method random_document (Str $subset = "") {
     return $searcher->nth_record($index);
 }
 
+method random_page (Str $subset = "") {
+    my $searcher = $self->search({ t => 'page' }, $subset);
+    my $ndocs = $searcher->count();
+    my $index = int(rand() * $ndocs) + 1;
+    return $searcher->nth_record($index);
+}
+
+
 1;

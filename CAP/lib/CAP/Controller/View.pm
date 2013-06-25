@@ -145,5 +145,22 @@ sub random : Path('/viewrandom') Args() {
     $c->detach('/error', [500, "Failed to retrieve document"]);
 }
 
+# Select a random page
+sub random_page : Path('/viewrandompage') Args() {
+    my($self, $c) = @_;
+
+    my $doc;
+    eval {
+       $doc = $c->model('Solr')->random_page($c->portal->subset); 
+    };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
+
+    if ($doc) {
+        $c->res->redirect($c->uri_for_action('view/key', $doc->key));
+        $c->detach();
+    }
+    $c->detach('/error', [500, "Failed to retrieve document"]);
+}
+
 __PACKAGE__->meta->make_immutable;
 
