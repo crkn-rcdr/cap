@@ -165,6 +165,13 @@ sub index :Path('') Args(0)
         );
     }
 
+    # More special portals!
+    if ($c->portal->id eq 'canadiana') {
+        $c->response->redirect($c->uri_for_action("/user/profile"));
+        $c->detach();
+        return 0;
+    }
+
     $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->portal->id, "frontpage");
     $c->stash->{template} = "index.tt";
     $c->stash->{portals} = [$c->model("DB::Portal")->list];
