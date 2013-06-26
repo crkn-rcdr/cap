@@ -60,14 +60,18 @@ sub first_month {
 
 sub get_stats {
     my ( $self, $inst,  $portal, $month ) = @_;
+    
+    my $find_hashref =          {
+                                                           'month_starting' => $month,
+                                                           'institution_id' => $inst
+    };
+
+    $find_hashref->{ 'portal_id' } = $portal unless ($portal  eq 'all');
 
     my $row = $self->find(
-        {
-            'month_starting' => $month,
-            'portal_id' => $portal,
-            'institution_id' => $inst
-        }
-
+        
+             $find_hashref
+        
     );
 
     my $stats;
@@ -97,6 +101,37 @@ sub get_stats {
     }
 
     return $stats;
+}
+
+
+sub get_portal_list {
+
+    
+    my ( $self, $institution ) = @_;
+    my $portals = [];
+    my $row;
+
+    
+    # first check to see if there is an existing row with up-to-date data
+    
+
+    my $search = $self->search(
+       
+        {
+            'institution_id'    => $institution
+        },        
+        {
+            columns => [ 'portal_id'],
+            distinct => 1
+        }
+    );
+    
+    while ($row = $search->next) {
+        push  (@$portals, $row->portal_id)
+   }
+
+    return $portals;
+
 }
 
 1;

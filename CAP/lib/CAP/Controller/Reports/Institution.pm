@@ -1,4 +1,4 @@
-package CAP::Controller::Institution;
+package CAP::Controller::Reports::Institution;
 use Moose;
 use namespace::autoclean;
 use Date::Manip::Date;
@@ -26,7 +26,7 @@ Queries the request_log table and stashes a hashref of user stats for a given in
 
 
 
-sub institution : Chained("/") : PathPart("institution") : CaptureArgs(1) {
+sub institution : Chained("/") : PathPart("reports/institution") : CaptureArgs(1) {
     
      my ( $self, $c,$inst ) = @_;
 
