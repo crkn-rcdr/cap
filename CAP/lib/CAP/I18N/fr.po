@@ -811,12 +811,12 @@ msgid "Current password"
 msgstr "Mot de passe actuel"
 
 #: ../../../../../cap-root/templates/Default/dfait/layout/header.tt:12
-msgid "DFAIT"
-msgstr "MAECI"
+msgid "DFATD"
+msgstr "MAECD"
 
 #: ../../../../../cap-root/templates/Default/dfait/layout/header.tt:10
-msgid "DFAIT Library"
-msgstr "Bibliothèque MAECI"
+msgid "DFATD Library"
+msgstr "Bibliothèque MAECD"
 
 #: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:37
 msgid "Database ID"
