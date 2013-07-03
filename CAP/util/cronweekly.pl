@@ -199,6 +199,7 @@ sub compile_institution_stats {
     # Get a list of distinct institutions from the institutions table
     my $institutions = $c->model('DB::Requests')->get_institutions($c);
     my $portals = $c->model('DB::Portal')->list_portals();
+    my $portal;
     my $month;
     my $first_of_month;
     my $year;
