@@ -226,10 +226,11 @@ sub subscription_confirmation :Private {
     );
 
     my $header = [
-        From =>  $c->config->{email_from},
-        To => $c->user->username,
-        Subject => $c->loc("Your Canadiana Subscription"),
-        'Content-Type' => 'text/html; charset="UTF-8"'
+        'From'                                                 =>  $c->config->{email_from},
+        'To'                                                       => $c->user->username,
+        'Subject'                                            => $c->loc("Your Canadiana Subscription"),
+        'Content-Transfer-Encoding'  =>  '8bit',
+        'Content-Type'                                => 'text/html; charset="UTF-8"'
     ];
 
     $self->sendmail($c, 'subscription_confirmation.tt', $header);
@@ -241,10 +242,11 @@ sub status_report :Private {
     my($self, $c, $recipients, %data) = @_;
 
     my $header = [
-        From =>  $c->config->{email_from},
-        To => $recipients,
-        Subject => $c->loc("CAP System Status Report"),
-        'Content-Type' => 'text/html; charset="UTF8"'
+        'From'                                                 =>  $c->config->{email_from},
+        'To'                                                        => $recipients,
+        'Subject'                                            => $c->loc("CAP System Status Report"),
+        'Content-Transfer-Encoding'  =>  '8bit',
+        'Content-Type'                                => 'text/html; charset="UTF8"'
     ];
     $c->stash(mail_data => {%data});
     $self->sendmail($c, 'status_report.tt', $header);
