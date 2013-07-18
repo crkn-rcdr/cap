@@ -8,7 +8,11 @@ use Text::Trim qw/trim/;
 
 use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/confirmation_required user/login user/reconfirm user/reset };
 
-__PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ] } );
+__PACKAGE__->config(
+                                                    default => 'text/html',
+                                                    map => { 'text/html' => [ 'View', 'Default' ] }
+                                                     );
+
 
 BEGIN { extends 'Catalyst::Controller::REST'; }
 
