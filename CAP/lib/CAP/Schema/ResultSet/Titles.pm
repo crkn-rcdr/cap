@@ -45,8 +45,11 @@ sub titles_for_institution {
     my $limit = {};
     my $page = $params{page} || undef;
     my $rows = $params{rows} || 50;
-    my $portal = $params{portal} || undef;
+    my $portal = $params{portal};
+    my $unassigned = $params{unassigned};
     my $hosted = $params{hosted};
+    my $identifier = $params{identifier};
+    my $label = $params{label};
 
     # Return a paged result set
     if ($page) {
@@ -54,17 +57,35 @@ sub titles_for_institution {
         $limit->{rows} = $rows;
     }
 
-    # A portal and the unassigned flag are incompatible with one
-    # another. The unassigned flag takes precedence.
-    if ($params{unassigned}) {
-        $query->{portal_id} = { '=' => undef };
-        $limit->{join} = 'portals_titles';
+    # Limit to titles matching the subtring for identifier
+    if ($identifier) {
+        # FIXME: is this a MySQLism? We need to escape _ and % so they
+        # aren't treated as metacharacters.
+        $identifier =~ s/_/\\_/g;
+        $identifier =~ s/%/\\%/g;
+        $query->{identifier} = { -like => "%$identifier%" };
     }
-    elsif ($portal) {
+
+    # Limit to titles matching the substring for the label
+    if ($label) {
+        # FIXME: is this a MySQLism? We need to escape _ and % so they
+        # aren't treated as metacharacters.
+        $label =~ s/_/\\_/g;
+        $label =~ s/%/\\%/g;
+        $query->{label} = { -like => "%$label%" };
+    }
+
+    # Portal and unassigned are incompatible options. If both are
+    # specified, portal overrides unassigned.
+    if ($portal) {
         $query->{'portals_titles.portal_id'} = $portal->id;
+        $limit->{join} = 'portals_titles';
         if (defined($hosted)) {
             $query->{'portals_titles.hosted'} = $hosted;
         }
+    }
+    elsif ($unassigned) {
+        $query->{portal_id} = { '=' => undef };
         $limit->{join} = 'portals_titles';
     }
 

@@ -77,6 +77,34 @@ sub titles : Chained('base') :Path('titles') :Args(1) {
     }
     elsif ($scope eq 'indexed') {
     }
+    elsif ($scope eq 'search') {
+        my $identifier = $c->req->params->{identifier};
+        my $label = $c->req->params->{label};
+        my $portal;
+        my $unassigned;
+        my $hosted;
+        if ($c->req->params->{portal}) {
+            if ($c->req->params->{portal} eq '!') {
+                $unassigned = 1;
+            }
+            else {
+                $portal = $c->model('DB::Portal')->find($c->req->params->{portal});
+            }
+        }
+        if ($c->req->params->{hosted}) {
+            $hosted = 1 if ($c->req->params->{hosted} eq 'hosted');
+            $hosted = 0 if ($c->req->params->{hosted} eq 'indexed');
+        }
+        $titles = $c->model('DB::Titles')->titles_for_institution(
+            $institution,
+            page => $page,
+            identifier => $identifier,
+            label => $label,
+            portal => $portal,
+            unassigned => $unassigned,
+            hosted => $hosted
+        );
+    }
     else {
         # Canonical = 'all' but this is the default action.
         $scope = 'all';

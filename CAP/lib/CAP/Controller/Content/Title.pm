@@ -29,7 +29,7 @@ sub base : Chained('/') PathPart('content/title') CaptureArgs(1) {
 
     my $title = $c->model('DB::Titles')->find({ id => $title_id });
     if (! $title) {
-        $c->message({ type => "error", message => "title_not_found" });
+        $c->message({ type => "error", message => "invalid_title_id", params => [ $title_id ] });
         $self->status_not_found( $c, message => "No such title");
         $c->res->redirect($c->uri_for_action('/content/index'));
         $c->detach();
@@ -61,7 +61,7 @@ sub add : Chained('base') :PathPart('add') :Args(0) {
 
     my $portal = $c->model('DB::Portal')->find({ id => $portal_id });
     if (! $portal) {
-        $c->message({ type => "error", message => "portal_not_found" });
+        $c->message({ type => "error", message => "invalid_portal", params => [ $portal_id ] });
         $self->status_not_found( $c, message => "No such portal");
     }
     else {
@@ -78,14 +78,27 @@ sub add : Chained('base') :PathPart('add') :Args(0) {
     $c->detach();
 }
 
+=head2 remove
+
+Remove the title from the specified portal.
+
+=cut
 sub remove : Chained('base') :PathPart('remove') :Args(1) {
     my($self, $c, $portal_id) = @_;
     my $title = $c->stash->{entity};
 
-    my $record = $c->model('DB::PortalsTitles')->find({ portal_id => $portal_id, title_id => $title->id });
+    my $portal = $c->model('DB::Portal')->find($portal_id);
+    if (! $portal) {
+        $c->message({ type => "error", message => "invalid_portal", params => [ $portal_id ] });
+        $self->status_not_found( $c, message => "No such portal");
+        $c->res->redirect($c->uri_for_action('/content/index'));
+        $c->detach();
+    }
+
+    my $record = $c->model('DB::PortalsTitles')->find({ portal_id => $portal->id, title_id => $title->id });
     if ($record) {
         $record->delete;
-        $c->message({ type => "success", message => "title_removed" });
+        $c->message({ type => "success", message => "content_title_removed_from_portal", params => [ $title->label, $portal->title($c->stash->{lang}) ] });
     }
     else {
         $c->message({ type => "error", message => "title_not_in_portal" });
