@@ -105,6 +105,18 @@ __PACKAGE__->table("user");
   default_value: 0
   is_nullable: 0
 
+=head2 can_transcribe
+
+  data_type: 'tinyint'
+  default_value: 1
+  is_nullable: 1
+
+=head2 can_review
+
+  data_type: 'tinyint'
+  default_value: 1
+  is_nullable: 1
+
 =head2 updated
 
   data_type: 'timestamp'
@@ -145,6 +157,10 @@ __PACKAGE__->add_columns(
   },
   "credits",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "can_transcribe",
+  { data_type => "tinyint", default_value => 1, is_nullable => 1 },
+  "can_review",
+  { data_type => "tinyint", default_value => 1, is_nullable => 1 },
   "updated",
   {
     data_type => "timestamp",
@@ -325,8 +341,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-12 08:25:27
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cvx7E+ckTXsllPC+iSVUpg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-13 12:27:23
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DCMTxp+3VMPGz23EcpcukA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
@@ -373,6 +389,8 @@ sub update_if_valid {
     my $name = $data->{name} || "";
     my $confirmed = 0; $confirmed = 1 if ($data->{confirmed});
     my $active = 0; $active = 1 if ($data->{active});
+    my $can_transcribe = 0; $can_transcribe = 1 if ($data->{can_transcribe});
+    my $can_review = 0; $can_review = 1 if ($data->{can_review});
     my $password = $data->{password} || "";
     my $passwordCheck = $data->{password_check} || "";
     my $user_for_username = $self->result_source->schema->resultset('User')->find({ username => $username });
@@ -387,7 +405,9 @@ sub update_if_valid {
         email => $email,
         name => $name,
         confirmed => $confirmed,
-        active => $active
+        active => $active,
+        can_transcribe => $can_transcribe,
+        can_review => $can_review
     });
 
     $self->update({ password => $password }) if ($password);

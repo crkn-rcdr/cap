@@ -106,7 +106,9 @@ sub profile_POST {
                 password => $data->{password},
                 password_check => $data->{password_check},
                 active => $c->user->active,
-                confirmed => $c->user->confirmed
+                confirmed => $c->user->confirmed,
+                can_transcribe => $c->user->can_transcribe,
+                can_review => $c->user->can_review
             },
         );
     }
