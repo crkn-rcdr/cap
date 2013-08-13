@@ -6,6 +6,23 @@ use base 'DBIx::Class::ResultSet';
 use Digest::SHA qw(sha1_hex);
 use POSIX qw(strftime);
 
+=head2 find_user ($identifier)
+
+Find a user by the string $identifier. If $identifier contains a '@' character, the email field is searched. Otherwise, the username string. Returns the user object or undef if no user is found.
+
+=cut
+sub find_user {
+    my($self, $identifier) = @_;
+    my $user;
+    if (index($identifier, '@') == -1) {
+        $user = $self->find({ username => $identifier });
+    }
+    else {
+        $user = $self->find({ email => $identifier });
+    }
+    return $user;
+}
+
 =head2 filter (\%params)
 
 Return a filtered set of users based on %params. Default is to return the first 10 users by ID.
@@ -30,40 +47,87 @@ sub filter {
 }
 
 
+=head2 validate ($data)
+
+Checks all of the parameters in $data to ensure they are valid.  Returns a
+list of errors. A zero-length list means all fields are valid. If $user is
+a user object, fields are validated in the context of that user (e.g. the
+user is allowed to have their own username). If it is undefined, fields
+are validated in the context of a new user (e.g. the user cannot have any
+existing username).
+
+=cut
 sub validate {
-    my($self, $fields, $re, %options) = @_;
+    my($self, $data, $user) = @_;
     my @errors = ();
-    $options{current_user} = '' unless defined($options{current_user});
-    if ($fields && $re) {
-        if (!$fields->{username}) {
-            push @errors, 'email_required';
-        } elsif ($self->find({ username => $fields->{username} })) {
-            if (!$options{current_user}) {
-                push @errors, 'account_exists';
-            } elsif ($options{current_user} ne $fields->{username}) {
-                push @errors, 'username_exists';
-            }
-        } elsif ($fields->{username} !~ /$re->{username}/) {
-            push @errors, 'email_invalid';
-        }
+    my $username = $data->{username} || "";
+    my $email = $data->{email} || "";
+    my $name = $data->{name} || "";
+    my $confirmed = 0; $confirmed = 1 if ($data->{confirmed});
+    my $active = 0; $active = 1 if ($data->{active});
+    my $password = $data->{password} || "";
+    my $passwordCheck = $data->{password_check} || "";
+    my $user_for_username = $self->result_source->schema->resultset('User')->find({ username => $username });
+    my $user_for_email = $self->result_source->schema->resultset('User')->find({ email => $email });
 
-        if (!$fields->{name}) {
-            push @errors, 'name_required';
-        } elsif ($fields->{name} !~ /$re->{name}/) {
-            push @errors, 'name_invalid';
-        }
-
-        if ($options{validate_password}) {
-            push @errors, $self->validate_password(
-                $fields->{password},
-                $fields->{password_check},
-                $re->{password});
-        }
-    } else {
-        push @errors, 'missing_information';
+    # Username must be between 1 and 64 characters and not already in use.
+    # It cannot contain the @ character (since that is how we distinguish
+    # usernames from email addresses).
+    push(@errors, { message => 'invalid_username' }) unless (
+        $username &&
+        length($username) >= 4 &&
+        length($username) <= 64 &&
+        index($username, '@') == -1
+    );
+    if ($user_for_username) {
+        push(@errors, { message => 'conflict_username', params => [ $username ] }) unless ($user && $user_for_username->id eq $user->id);
     }
-    return @errors;
+
+    # The email address must be 128 characters or less, must look vaguely
+    # like an email address, and cannot already be in use.
+    push(@errors, { message => 'invalid_email' }) unless (
+        $email &&
+        length($email) <= 128 &&
+        $email =~ /^\S+\@\S+\.\S+$/
+    );
+    if ($user_for_email) {
+        push(@errors, { message => 'conflict_email', params => [ $email ] }) unless ($user && $user_for_email->id eq $user->id);
+    }
+
+    # The real name must be 128 characters or less and cannot be empty
+    push(@errors, { message => 'invalid_realname' }) unless (
+        length($name) <= 128
+    );
+    
+    # If password is supplied, it must be 6+ characters and match the check password
+    push(@errors, { message => 'invalid_minlen', params => [ 'Password', 6 ] }) if ($password && length($password) < 6);
+    push(@errors, { message => 'invalid_password_mismatch' }) if ($password && $password ne $passwordCheck);
+
+    return (@errors);
 }
+
+=head2 create_if_valid($data)
+
+Create a new user with the hash $data if it validates. Return a hash with the user (if successful) and errors (if not)
+
+=cut
+sub create_if_valid {
+    my($self, $data) = @_;
+    my $user;
+    my @errors = $self->validate($data);
+    return { errors => \@errors } if (@errors);
+    $user = $self->create({
+        username => $data->{username},
+        email => $data->{email},
+        name => $data->{name},
+        password => $data->{password},
+        confirmed => $data->{confirmed},
+        active => $data->{active},
+        created => DateTime->now()
+    });
+    return { user => $user };
+}
+
 
 sub validate_password {
     my($self, $password, $check, $re) = @_;

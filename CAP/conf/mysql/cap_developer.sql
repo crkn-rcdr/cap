@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.24, for osx10.6 (i386)
 --
--- Host: localhost    Database: cap_skel
+-- Host: localhost    Database: cap_pristine
 -- ------------------------------------------------------
 -- Server version	5.5.24
 
@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','68',NULL);
+INSERT INTO `info` VALUES ('version','70',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1106,18 +1106,24 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(128) NOT NULL,
+  `username` varchar(64) NOT NULL,
+  `email` varchar(128) DEFAULT NULL,
   `password` varchar(50) NOT NULL,
   `name` varchar(128) DEFAULT NULL,
   `token` varchar(128) DEFAULT NULL,
   `confirmed` int(11) NOT NULL DEFAULT '0',
   `active` int(11) NOT NULL DEFAULT '1',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `lastseen` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `last_login` datetime DEFAULT NULL,
   `credits` int(11) NOT NULL DEFAULT '0',
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  KEY `token` (`token`)
+  UNIQUE KEY `username_2` (`username`),
+  UNIQUE KEY `username_3` (`username`),
+  UNIQUE KEY `username` (`email`),
+  UNIQUE KEY `email` (`email`),
+  KEY `token` (`token`),
+  KEY `updated` (`updated`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1127,7 +1133,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin@c7a.ca','f08c37500dbca982f1fb5a85d702d2c126ecf8e7kqY+9t+5Yq','Administrator','',1,1,'2013-01-01 05:00:00',1363179035,0);
+INSERT INTO `user` VALUES (1,'admin','admin@c7a.ca','f08c37500dbca982f1fb5a85d702d2c126ecf8e7kqY+9t+5Yq','Administrator','',1,1,'2013-01-01 00:00:00',NULL,0,'2013-08-12 13:14:03');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1255,4 +1261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-30  8:34:27
+-- Dump completed on 2013-08-12  9:14:23

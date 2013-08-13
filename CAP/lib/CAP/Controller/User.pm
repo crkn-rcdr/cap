@@ -6,12 +6,12 @@ use Date::Manip::Date;
 use Date::Manip::Delta;
 use Text::Trim qw/trim/;
 
-use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/confirmation_required user/login user/reconfirm user/reset };
+# If an action path is in this list, it can only be accessed by anonymous
+# (not logged in) users. Otherwise,  the reverse is true: only logged in
+# users can access the function. All other requests are redirected to /user/login.
+use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/confirmation_required user/login user/reconfirm user/reset user/reset_password };
 
-__PACKAGE__->config(
-                                                    default => 'text/html',
-                                                    map => { 'text/html' => [ 'View', 'Default' ] }
-                                                     );
+__PACKAGE__->config( default => 'text/html', map => { 'text/html' => [ 'View', 'Default' ] });
 
 
 BEGIN { extends 'Catalyst::Controller::REST'; }
@@ -86,72 +86,160 @@ sub profile_GET {
 
 sub profile_POST {
     my($self, $c) = @_;
+    my $update;
+
     my $data = $c->request->body_parameters;
     foreach my $k (qw/username password password_check/) { trim $data->{$k}; }
 
-    my @errors = ();
-
-    if (!$c->authenticate({ username => $c->user->username, password => $data->{current_password} })) {
-        push @errors, 'password_check_failed';
-    } else {
-        push @errors, $c->model('DB::User')->validate(
-            $data, $c->config->{user}->{fields}, validate_password => $data->{password}, current_user => $c->user->username);
+    if (! $c->authenticate({ id => $c->user->id, password => $data->{current_password} })) {
+        $update->{valid} = 0;
+        $update->{errors} = [  { message => 'invalid_password_check' } ];
+    }
+    else {
+        # The user is only allowed to update certain fields. The others
+        # remain unchanged.
+        $update = $c->user->update_if_valid(
+            {
+                username => $data->{username},
+                email => $data->{email},
+                name => $data->{name},
+                password => $data->{password},
+                password_check => $data->{password_check},
+                active => $c->user->active,
+                confirmed => $c->user->confirmed
+            },
+        );
     }
 
-    foreach my $error (@errors) {
-        $c->message({ type => 'error', message => $error });
-    }
-
-    unless (@errors) {
-        eval { $c->user->update_account_information($data); };
-        $c->detach('/error', [500]) if ($@);    
-        $c->message({ type => "success", message => "profile_updated" });
+    if ($update->{valid}) {
+        $self->status_ok($c, entity => $c->stash->{entity});
+        $c->message({ type => "success", message => "user_account_updated" });
         $c->persist_user();
     }
-
-    $c->response->redirect($c->uri_for_action("/user/profile"));
+    else {
+        foreach my $error (@{$update->{errors}}) {
+            $c->message({ type => "error", %{$error} });
+        }
+        $self->status_bad_request($c, message => "Input is invalid");
+    }
+    my $uri = $c->uri_for_action('/user/profile');
+    $uri->fragment('tab_account');
+    $c->res->redirect($uri);
     $c->detach();
 
     return 1;
 }
 
-sub login :Path('login') :Args(0) {
+sub login :Path('login') Args(0) ActionClass('REST') {
+    my($self, $c) = @_;
+}
+
+sub login_GET {
+    my($self, $c) = @_;
+    return 1;
+}
+
+sub login_POST {
     my ( $self, $c ) = @_;
+    my $data = $c->req->body_parameters;
+    $data->{submit} = 'login' unless ($data->{submit});
+    foreach my $k (qw/username email password password_check/) { trim($data->{$k}) if (defined($data->{k})) }
+
+    if ($data->{submit} eq 'create') {
+        $c->forward('/user/create', [ $data ]);
+    }
+    else { # Default is "login"
+        $c->forward('/user/do_login', [ $data ]);
+    }
+
+    return 1;
+}
+
+sub do_login :Private {
+    my ($self, $c, $data) = @_;
     my $username    = trim($c->request->params->{username})   || "";
     my $password    = trim($c->request->params->{password})   || "";
     my $persistent  = $c->request->params->{persistent} || 0;
+    my $user = $c->model('DB::User')->find_user($username);
 
     my($captcha_success, $captcha_output) = $c->cap->generate_captcha();
     $c->stash->{captcha} = $captcha_output;
 
-    if ($c->find_user({ username => $username, confirmed => 0 })) {
+
+    if (! $user) { # No account exists
+        $c->message({ type => "error", message => "invalid_login" });
+    }
+    elsif (! $user->active) { # Treat inactive accounts the same as an invalid username
+        $c->message({ type => "error", message => "invalid_login" });
+    }
+    elsif (! $user->confirmed) { # Redirect unconfirmed users to a confirmation required page
         $c->response->redirect($c->uri_for_action('/user/confirmation_required', [$username]));
         $c->detach();
-        return 1;
     }
-    elsif ($username) {
-        if ($c->authenticate(({ username => $username, password => $password, confirmed => 1, active => 1 }))) {
-            $c->user->log('LOGIN', sprintf("from: %s", $c->req->address));
-            $c->forward('/user/handle_persistence', [$persistent]);
+    elsif ($c->authenticate(({ id => $user->id, password => $password }))) { # Correct login credentials
+        $c->user->update({ last_login => DateTime->now() });
+        $c->user->log('LOGIN', sprintf("from: %s", $c->req->address));
+        $c->forward('/user/handle_persistence', [$persistent]);
 
-            my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
-            delete($c->session->{login_redirect});
-            $c->response->redirect($redirect);
-        }
-        else {
-            my $user = $c->find_user({ username =>  $username});
-            if ($user) { $user->log_failed_login(); }
-            $c->message({ type => "error", message => "auth_failed" });
-        }
+        $c->update_session(1);
+
+        # If the user was directed here by a previous action, return them
+        # to the originating page.
+        my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
+        delete($c->session->{login_redirect});
+        $c->response->redirect($redirect);
+
     }
-
-    # Initialize some session variables
-    #$c->forward('init');
-    $c->update_session(1);
+    else { # Incorrect login credentials
+        $c->message({ type => "error", message => "invalid_login" });
+        $user->log_failed_login();
+    }
 
     # Display the login page
     return 1;
 }
+
+# Create a new account
+sub create :Private {
+    my($self, $c, $data) = @_;
+    my @errors = ();
+
+    my($captcha_success, $captcha_output) = $c->cap->generate_captcha();
+
+
+    if (!$captcha_success) {
+        push @errors, 'captcha';
+    }
+
+    my $created = $c->model('DB::User')->create_if_valid({
+        username => $data->{username},
+        email => $data->{email},
+        name => $data->{name},
+        password => $data->{password},
+        password_check => $data->{password_check},
+        active => 1,
+        confirmed => 0
+    });
+
+    if ($created->{user}) {
+        $created->{user}->log("CREATED", sprintf("Userid: %s; username: %s", $created->{user}->email, $created->{user}->name));
+
+        # Send the confirmation/activation email
+        my $confirm_link = $c->uri_for_action('user/confirm', $created->{user}->confirmation_token);
+        $c->forward("/mail/user_activate", [$created->{user}->email, $created->{user}->name, $confirm_link]);
+        $c->response->redirect($c->uri_for_action('/user/confirmation_required', [$created->{user}->email]));
+        $c->detach();
+    }
+    else {
+        foreach my $error (@{$created->{errors}}) {
+            $c->message({ type => "error", %{$error} });
+        }
+        $self->status_bad_request($c, message => "Input is invalid");
+        return 1;
+    }
+
+}
+
 
 sub handle_persistence :Private {
     my($self, $c, $persistent) = @_;
@@ -175,59 +263,6 @@ sub handle_persistence :Private {
             httponly => 1
         }
     }
-    return 1;
-}
-
-# Create a new account
-sub create :Path('create') :Args(0) {
-    my($self, $c) = @_;
-    my $data = $c->request->body_parameters;
-    foreach my $k (qw/username password password_check/) { trim $data->{$k}; }
-
-    my($captcha_success, $captcha_output) = $c->cap->generate_captcha();
-
-    # Validate the submitted form data
-    my @errors = ();
-
-    if (!$captcha_success) {
-        push @errors, 'captcha';
-    }
-
-    push @errors, $c->model('DB::User')->validate(
-        $data, $c->config->{user}->{fields}, validate_password => 1);
-
-    foreach my $error (@errors) {
-        $c->message({ type => 'error', message => $error });
-    }
-
-    # Don't update anything if there were any errors.
-    if (@errors) {
-        $c->stash->{template} = 'user/login.tt';
-        $c->detach('/user/login');
-        return 1;
-    }
- 
-    # Create the user
-    my $new_user;
-    eval {
-        $new_user = $c->model('DB::User')->create({
-            'username'  => $data->{username},
-            'name'      => $data->{name},
-            'password'  => $data->{password},
-            'confirmed' => 0,
-            'active'    => 1,
-            'lastseen'  => time(),
-        });
-    };
-    $c->detach('/error', [500]) if ($@);    
-    $new_user->log("CREATED", sprintf("Userid: %s; username: %s", $new_user->username, $new_user->name));
-
-    # Send an activation email
-    my $confirm_link = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
-    $c->forward("/mail/user_activate", [$data->{username}, $data->{name}, $confirm_link]);
-
-    $c->response->redirect($c->uri_for_action('/user/confirmation_required', [$data->{username}]));
-    $c->detach();
     return 1;
 }
 
@@ -295,7 +330,7 @@ sub confirm :Path('confirm') :Args(1) {
     if ($id) {
         $c->set_authenticated($c->find_user({id => $id}));
         $c->persist_user();
-        $c->message({ type => "success", message => "user_confirm_success" });
+        $c->user->update({ last_login => DateTime->now() });
         $c->user->log('CONFIRMED');
         $c->response->redirect($c->uri_for_action("/user/confirmed"));
     } else {
@@ -310,7 +345,111 @@ sub confirmed :Path('confirmed') :Args(0) {
     return 0;
 }
 
-sub reset :Path('reset') :Args() {
+
+=head2
+
+Form to send an email to reset a forgotten password.
+
+=cut
+sub reset :Path('reset') Args(0) ActionClass('REST') {
+    my($self, $c) = @_;
+    return 1;
+}
+
+sub reset_GET {
+    my($self, $c) = @_;
+    return 1;
+}
+
+sub reset_POST {
+    my($self, $c) = @_;
+    my $data = $c->request->body_parameters;
+    foreach my $k (qw/username/) { trim($data->{$k}) if (defined($data->{k})) }
+    my $user = $c->model('DB::User')->find_user($data->{username});
+    my $mail_sent = 0;
+
+    if (! $user) {
+        $c->message({ type => 'error', message => 'user_not_found' });
+        $self->status_not_found($c, message => "No such user");
+    }
+    else {
+        my $confirm_link = $c->uri_for_action('user/reset_password', $user->confirmation_token);
+        $c->forward('/mail/user_reset', [$user->email, $confirm_link]);
+        $user->log("RESET_REQUEST", sprintf("from %s", $c->req->address));
+    }
+
+    $c->stash(user => $user);
+}
+
+
+=head2
+
+Allow a user to reset their password, if they have a valid reset token.
+
+=cut
+sub reset_password :Path('reset_password') Args(1) ActionClass('REST') {
+    my($self, $c, $token) = @_;
+    return 1;
+}
+
+sub reset_password_GET {
+    my($self, $c, $token) = @_;
+
+    # Retrieve the user id (if any) associated with this token.
+    my $user_id = $c->model('DB::User')->validate_confirmation($token);
+    $c->stash(token => $token, user_id => $user_id);
+
+    return 1;
+}
+
+sub reset_password_POST {
+    my($self, $c, $token) = @_;
+    my $data = $c->request->body_parameters;
+    foreach my $k (qw/username password password_check/) { trim $data->{$k}; }
+
+    # Retrieve the user id (if any) associated with this token.
+    my $user_id = $c->model('DB::User')->validate_confirmation($token);
+
+    # If we got a valid user id, check the supplied passwords. If they are
+    # alright, change the user's password and forward to their profile.
+    my $user;
+    if ($user_id) {
+        $user = $c->model('DB::User')->find({ id => $user_id }); # FIXME: the validate_confirmation really should return this in the first palce.
+        my $update = $user->update_if_valid({
+            username => $user->username,
+            email => $user->email,
+            name => $user->name,
+            password => $data->{password},
+            password_check => $data->{password_check},
+            active => $user->active,
+            confirmed => $user->confirmed
+        });
+
+        if ($update->{valid}) {
+            $self->status_ok($c, entity => $c->stash->{entity});
+            $c->message({ type => "success", message => "user_password_reset" });
+            $c->set_authenticated($c->find_user({id => $user_id}));
+            $c->persist_user();
+            $user->update({ last_login => DateTime->now() });
+            $user->log("RESET_REQUEST", sprintf("from %s", $c->req->address));
+            $c->res->redirect($c->uri_for_action('/user/profile', $c->user->id));
+            $c->detach();
+        }
+        else {
+            foreach my $error (@{$update->{errors}}) {
+                $c->message({ type => "error", %{$error} });
+            }
+            $self->status_bad_request($c, message => "Input is invalid");
+        }
+    }
+
+    $c->stash(token => $token, user_id => $user_id);
+    return 1;
+}
+
+
+
+sub reset_old :Path('reset') :Args() {
     my($self, $c, $key) = @_;
     my $username = trim($c->request->params->{username})             || ""; # Username/email address
     my $password  = trim($c->request->params->{password})            || ""; # Password

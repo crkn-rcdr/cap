@@ -82,68 +82,48 @@ sub index_POST {
 }
 
 
-#
-# Create: add a new user
-#
+=head2
 
+Create a new user administratively.
+
+=cut
 sub create :Local :Path('create') ActionClass('REST') {
     my($self, $c) = @_;
 }
 
 sub create_GET {
+    my($self, $c) = @_;
+    return 1;
 }
 
 sub create_POST {
     my($self, $c) = @_;
-    my %data;
-    foreach my $key (keys %{$c->req->body_parameters}) {
-        $data{$key} = $c->req->body_parameters->{$key} if $c->req->body_parameters->{$key};
+    my $data = $c->req->body_parameters;
+    my @errors = ();
+
+    foreach my $k (qw/username email password password_check/) { trim($data->{$k}) if (defined($data->{k})) }
+
+    my $created = $c->model('DB::User')->create_if_valid({
+        username => $data->{username},
+        email => $data->{email},
+        name => $data->{name},
+        password => $data->{password},
+        password_check => $data->{password_check},
+        active => 1,
+        confirmed => 1
+    });
+
+    if ($created->{user}) {
+        $c->res->redirect($c->uri_for_action('/admin/user/index', [ $created->{user}->id ]));
+        $c->detach();
     }
-
-    my $re_username = $c->config->{user}->{fields}->{username};
-    my $re_name     = $c->config->{user}->{fields}->{name};
-    my $re_password = $c->config->{user}->{fields}->{password};
-
-    my $error = 0;
-
-    # Validate username
-    if ($c->find_user({ username => $data{username} })) {
-        $c->message({ type => "error", message => "account_exists" });
-        $error = 1;
-    } elsif ($data{username} !~ /$re_username/) {
-        $c->message({ type => "error", message => "email_invalid" });
-        $error = 1;
-    }
-
-    # Validate name
-    if ($data{name} !~ /$re_name/) {
-        $c->message({ type => "error", message => "name_invalid" });
-        $error = 1;
-    }
-
-    # Validate password
-    if ($data{password} ne $data{password2}) {
-        $c->message({ type => "error", message => "password_match_failed" });
-        $error = 1;
-    } elsif ($data{password} !~ /$re_password/) {
-        $c->message({ type => "error", message => "password_invalid" });
-        $error = 1;
-    }
-    # won't be needing you anymore
-    delete $data{password2};
-
-    if ($error) {
-        delete $data{password};
-        $c->response->redirect($c->uri_for_action("/admin/user/create", \%data), 303);
+    else {
+        foreach my $error (@{$created->{errors}}) {
+            $c->message({ type => "error", %{$error} });
+        }
+        $self->status_bad_request($c, message => "Input is invalid");
         return 1;
     }
-
-    $data{confirmed} = 1;
-    $data{active} = 1;
-    my $user = $c->model('DB::User')->create(\%data);
-    $c->message({ type => "success", message => "user_created" });
-    $c->response->redirect($c->uri_for_action("/admin/user/index", [$user->get_column('id')]));
-    return 1;
 }
 
 sub subscription :Local Path('subscription') Args(1) ActionClass('REST') {
@@ -267,7 +247,7 @@ sub delete :Path('delete') Args(1) {
 
 =head2 updated
 
-Methods that update an institution detach to here to check for success and to genereate messages.
+Methods that update a user detach to here to check for success and to genereate messages.
 
 =cut
 sub updated :Private {
@@ -277,6 +257,7 @@ sub updated :Private {
 
     if ($update->{valid}) {
         $self->status_ok($c, entity => $c->stash->{entity});
+        $c->message({ type => "success", message => "admin_updated_entity", params => [ $user->username ] });
     }
     else {
         foreach my $error (@{$update->{errors}}) {
@@ -285,7 +266,6 @@ sub updated :Private {
         $self->status_bad_request($c, message => "Input is invalid");
     }
 
-    $c->message({ type => "success", message => "admin_updated_entity", params => [ $user->username ] });
     my $uri = $c->uri_for_action('/admin/user/index', [$user->id]);
     $uri->fragment($fragment) if ($fragment);
     $c->res->redirect($uri);

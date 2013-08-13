@@ -49,6 +49,12 @@ __PACKAGE__->table("user");
 
   data_type: 'varchar'
   is_nullable: 0
+  size: 64
+
+=head2 email
+
+  data_type: 'varchar'
+  is_nullable: 1
   size: 128
 
 =head2 password
@@ -83,20 +89,27 @@ __PACKAGE__->table("user");
 
 =head2 created
 
-  data_type: 'timestamp'
+  data_type: 'datetime'
   datetime_undef_if_invalid: 1
-  default_value: current_timestamp
   is_nullable: 0
 
-=head2 lastseen
+=head2 last_login
 
-  data_type: 'integer'
-  is_nullable: 0
+  data_type: 'datetime'
+  datetime_undef_if_invalid: 1
+  is_nullable: 1
 
 =head2 credits
 
   data_type: 'integer'
   default_value: 0
+  is_nullable: 0
+
+=head2 updated
+
+  data_type: 'timestamp'
+  datetime_undef_if_invalid: 1
+  default_value: current_timestamp
   is_nullable: 0
 
 =cut
@@ -105,7 +118,9 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "username",
-  { data_type => "varchar", is_nullable => 0, size => 128 },
+  { data_type => "varchar", is_nullable => 0, size => 64 },
+  "email",
+  { data_type => "varchar", is_nullable => 1, size => 128 },
   "password",
   { data_type => "varchar", is_nullable => 0, size => 50 },
   "name",
@@ -118,15 +133,25 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 1, is_nullable => 0 },
   "created",
   {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 0,
+  },
+  "last_login",
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+  },
+  "credits",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "updated",
+  {
     data_type => "timestamp",
     datetime_undef_if_invalid => 1,
     default_value => \"current_timestamp",
     is_nullable => 0,
   },
-  "lastseen",
-  { data_type => "integer", is_nullable => 0 },
-  "credits",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -143,7 +168,19 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 UNIQUE CONSTRAINTS
 
-=head2 C<username>
+=head2 C<email>
+
+=over 4
+
+=item * L</email>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("email", ["email"]);
+
+=head2 C<username_2>
 
 =over 4
 
@@ -153,7 +190,7 @@ __PACKAGE__->set_primary_key("id");
 
 =cut
 
-__PACKAGE__->add_unique_constraint("username", ["username"]);
+__PACKAGE__->add_unique_constraint("username_2", ["username"]);
 
 =head1 RELATIONS
 
@@ -288,8 +325,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xZ7p/vAIEVJXA0skqsjZfQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-12 08:25:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cvx7E+ckTXsllPC+iSVUpg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
@@ -323,7 +360,7 @@ __PACKAGE__->has_many(
 );
 
 
-=heade update_if_valid ($data)
+=head2 update_if_valid ($data)
 
 Updates the user account if the data is valid. Returns a validation hash.
 
@@ -332,29 +369,22 @@ sub update_if_valid {
     my($self, $data) = @_;
     my @errors = ();
     my $username = $data->{username} || "";
+    my $email = $data->{email} || "";
     my $name = $data->{name} || "";
     my $confirmed = 0; $confirmed = 1 if ($data->{confirmed});
     my $active = 0; $active = 1 if ($data->{active});
     my $password = $data->{password} || "";
     my $passwordCheck = $data->{password_check} || "";
+    my $user_for_username = $self->result_source->schema->resultset('User')->find({ username => $username });
+    my $user_for_email = $self->result_source->schema->resultset('User')->find({ email => $email });
 
-    # Username must be between 1 and 128 characters
-    push(@errors, { message => 'invalid_empty', params => [ 'User name' ] }) unless ($name);
-    push(@errors, { message => 'invalid_maxlen', params => [ 'User name', 128 ] }) unless (length($name) <= 128);
-    
-    # Name must be no more than 128 characters and look like an email
-    # address
-    push(@errors, { message => 'invalid_maxlen', params => [ 'Email address', 128 ]}) unless (length($username) <= 128);
-    push(@errors, { message => 'invalid_email' }) unless ($username =~ /^\S+\@\S+$/);
-    
-    # If password is supplied, it must be 6+ characters and match the check password
-    push(@errors, { message => 'invalid_minlen', params => [ 'Password', 6 ] }) if ($password && length($password) < 6);
-    push(@errors, { message => 'invalid_password_mismatch' }) if ($password && $password ne $passwordCheck);
+    push(@errors, $self->result_source->schema->resultset('User')->validate($data, $self));
 
     return { valid => 0, errors => \@errors } if (@errors);
 
     $self->update({
         username => $username,
+        email => $email,
         name => $name,
         confirmed => $confirmed,
         active => $active

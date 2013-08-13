@@ -69,17 +69,10 @@ sub auto :Private
             if ($id) {
                 $c->set_authenticated($c->find_user({id => $id}));
                 $c->persist_user();
+                $c->user->update({ last_login => DateTime->now() });
                 $c->user->log('RESTORE_SESSION', sprintf("from %s", $c->req->address));
             }
         }
-    }
-
-    # Update the user's last access time.
-    # # TODO: this should be a last login time and updated only on auto or
-    # manual login
-    if ($c->user_exists) {
-        eval { $c->user->update({lastseen => time()}) };
-        $c->detach('/error', 500) if ($@);
     }
 
     # Create or update the session and increment the session counter

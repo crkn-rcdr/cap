@@ -181,9 +181,9 @@ sub subscription_reminder :Private {
     use feature 'switch';
     my ($self, $c, $exp_acct, $exp_date) = @_;
     
-    my $recipient  =  $exp_acct->username;
+    my $recipient  =  $exp_acct->email;
     
-    $c->stash(recipient  =>  $exp_acct->username,
+    $c->stash(recipient  =>  $exp_acct->email,
               real_name  =>  $exp_acct->name,
               subexpires =>  $exp_date,
               exp_en     =>  $exp_date->{en},
@@ -227,7 +227,7 @@ sub subscription_confirmation :Private {
 
     my $header = [
         'From'                                                 =>  $c->config->{email_from},
-        'To'                                                       => $c->user->username,
+        'To'                                                       => $c->user->email,
         'Subject'                                            => $c->loc("Your Canadiana Subscription"),
         'Content-Transfer-Encoding'  =>  '8bit',
         'Content-Type'                                => 'text/html; charset="UTF-8"'
