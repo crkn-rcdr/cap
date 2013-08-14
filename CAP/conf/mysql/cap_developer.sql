@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','71',NULL);
+INSERT INTO `info` VALUES ('version','72',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1052,6 +1052,8 @@ CREATE TABLE `titles` (
   `institution_id` int(11) NOT NULL,
   `identifier` varchar(64) NOT NULL,
   `label` text NOT NULL,
+  `level` int(11) NOT NULL DEFAULT '0',
+  `transcribable` tinyint(1) NOT NULL DEFAULT '0',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `institution_id` (`institution_id`,`identifier`),
@@ -1263,4 +1265,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-13 12:26:57
+-- Dump completed on 2013-08-13 14:05:05

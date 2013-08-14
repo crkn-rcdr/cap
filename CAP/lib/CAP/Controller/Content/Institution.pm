@@ -64,57 +64,52 @@ sub index : Chained('base') :PathPart('') :Args(0) {
     return 1;
 }
 
-sub titles : Chained('base') :Path('titles') :Args(1) {
-    my($self, $c, $scope) = @_;
+sub titles : Chained('base') :Path('titles') {
+    my($self, $c) = @_;
     my $institution = $c->stash->{entity};
     my $page = $c->stash->{page};
     my $titles;
 
-    if ($scope eq 'unassigned') {
-        $titles = $c->model('DB::Titles')->titles_for_institution($institution, page => $page, unassigned => 1);
-    }
-    elsif ($scope eq 'hosted') {
-    }
-    elsif ($scope eq 'indexed') {
-    }
-    elsif ($scope eq 'search') {
-        my $identifier = $c->req->params->{identifier};
-        my $label = $c->req->params->{label};
-        my $portal;
-        my $unassigned;
-        my $hosted;
-        if ($c->req->params->{portal}) {
-            if ($c->req->params->{portal} eq '!') {
-                $unassigned = 1;
-            }
-            else {
-                $portal = $c->model('DB::Portal')->find($c->req->params->{portal});
-            }
+    my $identifier = $c->req->params->{identifier};
+    my $label = $c->req->params->{label};
+    my $portal;
+    my $unassigned;
+    my $hosted;
+    if ($c->req->params->{portal}) {
+        if ($c->req->params->{portal} eq '!') {
+            $unassigned = 1;
         }
-        if ($c->req->params->{hosted}) {
-            $hosted = 1 if ($c->req->params->{hosted} eq 'hosted');
-            $hosted = 0 if ($c->req->params->{hosted} eq 'indexed');
+        else {
+            $portal = $c->model('DB::Portal')->find($c->req->params->{portal});
         }
-        $titles = $c->model('DB::Titles')->titles_for_institution(
-            $institution,
-            page => $page,
-            identifier => $identifier,
-            label => $label,
-            portal => $portal,
-            unassigned => $unassigned,
-            hosted => $hosted
-        );
     }
-    else {
-        # Canonical = 'all' but this is the default action.
-        $scope = 'all';
-        $titles = $c->model('DB::Titles')->titles_for_institution($institution, page => $page);
+    if ($c->req->params->{hosted}) {
+        $hosted = 1 if ($c->req->params->{hosted} eq 'hosted');
+        $hosted = 0 if ($c->req->params->{hosted} eq 'indexed');
+    }
+    $titles = $c->model('DB::Titles')->titles_for_institution(
+        $institution,
+        page => $page,
+        identifier => $identifier,
+        label => $label,
+        portal => $portal,
+        unassigned => $unassigned,
+        hosted => $hosted
+    );
+
+    # Update these titles if the update action is selected.
+    if ($c->req->params->{submit} && $c->req->params->{submit} eq 'update') {
+        foreach my $title ($titles->all) {
+            $title->update_if_valid({
+                level => $c->req->params->{level},
+                transcribable => $c->req->params->{transcribable}
+            });
+        }
     }
 
     $c->stash(
         pager  => $titles->pager,
         titles => [$titles->all],
-        scope  => $scope
     );
     return 1;
 }

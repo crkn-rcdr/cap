@@ -41,14 +41,27 @@ sub base : Chained('/') PathPart('content/title') CaptureArgs(1) {
     return 1;
 }
 
-sub index : Chained('base') :PathPart('') :Args(0) {
+sub index : Chained('base') PathPart('') Args(0) :ActionClass('REST') {
+    my($self, $c) = @_;
+    return 1;
+}
+
+sub index_GET {
     my($self, $c) = @_;
     my $title = $c->stash->{entity};
-
     $c->stash(
         portal_list => [$c->model('DB::Portal')->list],
         portals => [$c->model('DB::PortalsTitles')->search({ title_id => $title->id })->all]
     );
+    return 1;
+}
+
+sub index_POST {
+    my($self, $c) = @_;
+    my $data = $c->request->body_parameters;
+    my $title = $c->stash->{entity};
+    $title->update_if_valid($data);
+    # TODO: we should inspect the return object and output error messages as needed.
     return 1;
 }
 

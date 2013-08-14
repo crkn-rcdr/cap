@@ -62,6 +62,18 @@ __PACKAGE__->table("titles");
   data_type: 'text'
   is_nullable: 0
 
+=head2 level
+
+  data_type: 'integer'
+  default_value: 0
+  is_nullable: 0
+
+=head2 transcribable
+
+  data_type: 'tinyint'
+  default_value: 0
+  is_nullable: 0
+
 =head2 updated
 
   data_type: 'timestamp'
@@ -80,6 +92,10 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 64 },
   "label",
   { data_type => "text", is_nullable => 0 },
+  "level",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "transcribable",
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "updated",
   {
     data_type => "timestamp",
@@ -189,11 +205,32 @@ Composing rels: L</titles_terms> -> term_id
 __PACKAGE__->many_to_many("term_ids", "titles_terms", "term_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tjMhPuRe86qnjkO3U6DDgw
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-13 14:31:25
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:M6pFUvtxEEMQ1Q30Qroikw
 
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+=head2 update_if_valid($data)
+
+Updates the row if the date is valid. Returns a validation hash.
+
+=cut
+sub update_if_valid {
+    my($self, $data) = @_;
+    my @errors = ();
+    my $level = ""; $level = $data->{level} if (defined($data->{level}));
+    my $transcribable = 0; $transcribable = 1 if ($data->{transcribable});
+
+    # Level must be an integer between 0 and 2.
+    push(@errors, { message => 'invalid_title_level' }) unless ($level =~ /^\d+$/ && int($level) >= 0 && int($level) <= 2);
+
+    return { valid => 0, errors => \@errors } if (@errors);
+
+    $self->update({
+        level => $level,
+        transcribable => $transcribable
+    });
+    return { valid => 1 };
+}
 
 
 __PACKAGE__->many_to_many( 'terms', 'titles_terms', 'term_id' );
