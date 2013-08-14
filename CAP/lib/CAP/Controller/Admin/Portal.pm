@@ -112,18 +112,19 @@ sub edit_POST {
     given ($data{update}) {
         when ('access') {
             $portal->update({
-                id                     => $data{id},
-                enabled                => $data{enabled} ? 1 : 0,
-                supports_users         => $data{supports_users} ? 1 : 0,
-                supports_subscriptions => $data{supports_subscriptions} ? 1 : 0,
-                supports_institutions  => $data{supports_institutions} ? 1 : 0,
-                access_preview         => $data{access_preview},
-                access_all             => $data{access_all},
-                access_resize          => $data{access_resize},
-                access_download        => $data{access_download},
-                access_purchase        => $data{access_purchase},
-                access_search          => $data{access_search},
-                access_browse          => $data{access_browse},
+                id                      => $data{id},
+                enabled                 => $data{enabled} ? 1 : 0,
+                supports_users          => $data{supports_users} ? 1 : 0,
+                supports_subscriptions  => $data{supports_subscriptions} ? 1 : 0,
+                supports_institutions   => $data{supports_institutions} ? 1 : 0,
+                supports_transcriptions => $data{supports_transcriptions} ? 1 : 0,
+                access_preview          => $data{access_preview},
+                access_all              => $data{access_all},
+                access_resize           => $data{access_resize},
+                access_download         => $data{access_download},
+                access_purchase         => $data{access_purchase},
+                access_search           => $data{access_search},
+                access_browse           => $data{access_browse},
             });
             $fragment = 'tab_access';
         }

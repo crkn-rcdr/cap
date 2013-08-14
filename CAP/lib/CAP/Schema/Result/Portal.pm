@@ -69,6 +69,12 @@ __PACKAGE__->table("portal");
   default_value: 0
   is_nullable: 0
 
+=head2 supports_transcriptions
+
+  data_type: 'tinyint'
+  default_value: 0
+  is_nullable: 0
+
 =head2 access_preview
 
   data_type: 'integer'
@@ -130,6 +136,8 @@ __PACKAGE__->add_columns(
   "supports_subscriptions",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "supports_institutions",
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
+  "supports_transcriptions",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "access_preview",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
@@ -378,8 +386,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wS8ESfNPH0CNeiVuQmb2VA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-14 14:50:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6xkCOv4ESiN8tnnw41/Rhg
 
 
 =head2 title($lang)
