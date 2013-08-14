@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','72',NULL);
+INSERT INTO `info` VALUES ('version','73',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -581,6 +581,7 @@ CREATE TABLE `portal` (
   `supports_users` tinyint(1) NOT NULL DEFAULT '0',
   `supports_subscriptions` tinyint(1) NOT NULL DEFAULT '0',
   `supports_institutions` tinyint(1) NOT NULL DEFAULT '0',
+  `supports_transcriptions` tinyint(1) NOT NULL DEFAULT '0',
   `access_preview` int(11) NOT NULL DEFAULT '0',
   `access_all` int(11) NOT NULL DEFAULT '0',
   `access_resize` int(11) NOT NULL DEFAULT '0',
@@ -599,7 +600,7 @@ CREATE TABLE `portal` (
 
 LOCK TABLES `portal` WRITE;
 /*!40000 ALTER TABLE `portal` DISABLE KEYS */;
-INSERT INTO `portal` VALUES ('canadiana',1,1,0,0,-1,-1,-1,-1,-1,0,0,'2013-04-19 15:14:34');
+INSERT INTO `portal` VALUES ('canadiana',1,1,0,0,0,-1,-1,-1,-1,-1,0,0,'2013-04-19 15:14:34');
 /*!40000 ALTER TABLE `portal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1265,4 +1266,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-13 14:05:05
+-- Dump completed on 2013-08-14 14:52:44
