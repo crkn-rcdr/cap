@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','73',NULL);
+INSERT INTO `info` VALUES ('version','74',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -516,11 +516,22 @@ CREATE TABLE `pages` (
   `document_id` int(11) NOT NULL,
   `sequence` int(11) DEFAULT '1',
   `label` text,
+  `transcription_user_id` int(11) DEFAULT NULL,
+  `review_user_id` int(11) DEFAULT NULL,
+  `transcription_status` enum('not_transcribed','locked_for_transcription','awaiting_review','locked_for_review','transcribed','transcribed_with_corrections') NOT NULL DEFAULT 'not_transcribed',
+  `transcription` text,
+  `type` enum('unknown','control','single_page','start_page','end_page','middle_page') NOT NULL DEFAULT 'unknown',
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `document_id_2` (`document_id`,`sequence`),
   KEY `document_id` (`document_id`),
   KEY `sequence` (`sequence`),
-  CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `documents` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `transcription_status` (`transcription_status`),
+  KEY `transcription_user_id` (`transcription_user_id`),
+  KEY `review_user_id` (`review_user_id`),
+  CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `documents` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`transcription_user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `pages_ibfk_3` FOREIGN KEY (`review_user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1266,4 +1277,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-14 14:52:44
+-- Dump completed on 2013-08-15  9:27:43

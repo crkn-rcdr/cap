@@ -255,6 +255,36 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 pages_review_user_ids
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Pages>
+
+=cut
+
+__PACKAGE__->has_many(
+  "pages_review_user_ids",
+  "CAP::Schema::Result::Pages",
+  { "foreign.review_user_id" => "self.id" },
+  undef,
+);
+
+=head2 pages_transcription_user_ids
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Pages>
+
+=cut
+
+__PACKAGE__->has_many(
+  "pages_transcription_user_ids",
+  "CAP::Schema::Result::Pages",
+  { "foreign.transcription_user_id" => "self.id" },
+  undef,
+);
+
 =head2 payments
 
 Type: has_many
@@ -341,8 +371,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-13 12:27:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DCMTxp+3VMPGz23EcpcukA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-15 09:34:18
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7mbiZfn2Zwldzh1B3MgD0g
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

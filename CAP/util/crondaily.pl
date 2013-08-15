@@ -40,8 +40,8 @@ my $job;
 # To disable a job just comment it out
 my %actions = (
                 expiring_subscription_reminder  =>  \&expiring_subscription_reminder,
-                remove_unconfirmed                         =>  \&remove_unconfirmed,
-                session                                                        =>  \&session
+                remove_unconfirmed              =>  \&remove_unconfirmed,
+                session                         =>  \&session,
               );
               
               
@@ -229,3 +229,4 @@ sub build_date_strings {
 
         return $exp_date;
 }
+
