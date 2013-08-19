@@ -75,48 +75,6 @@ __PACKAGE__->table("portal");
   default_value: 0
   is_nullable: 0
 
-=head2 access_preview
-
-  data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
-=head2 access_all
-
-  data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
-=head2 access_resize
-
-  data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
-=head2 access_download
-
-  data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
-=head2 access_purchase
-
-  data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
-=head2 access_search
-
-  data_type: 'tinyint'
-  default_value: 0
-  is_nullable: 0
-
-=head2 access_browse
-
-  data_type: 'tinyint'
-  default_value: 0
-  is_nullable: 0
-
 =head2 updated
 
   data_type: 'timestamp'
@@ -138,20 +96,6 @@ __PACKAGE__->add_columns(
   "supports_institutions",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "supports_transcriptions",
-  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "access_preview",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
-  "access_all",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
-  "access_resize",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
-  "access_download",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
-  "access_purchase",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
-  "access_search",
-  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "access_browse",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "updated",
   {
@@ -232,6 +176,21 @@ Related object: L<CAP::Schema::Result::OutboundLink>
 __PACKAGE__->has_many(
   "outbound_links",
   "CAP::Schema::Result::OutboundLink",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
+=head2 portal_accesses
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::PortalAccess>
+
+=cut
+
+__PACKAGE__->has_many(
+  "portal_accesses",
+  "CAP::Schema::Result::PortalAccess",
   { "foreign.portal_id" => "self.id" },
   undef,
 );
@@ -386,8 +345,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-14 14:50:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6xkCOv4ESiN8tnnw41/Rhg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-16 14:02:10
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Z2iU+d05g/BJBx1OCpwbxQ
 
 
 =head2 title($lang)
@@ -415,6 +374,51 @@ sub description {
     my $result = $self->related_resultset('portal_langs')->find({ lang => $lang });
     return $result->description if ($result);
     return "";
+}
+
+=head2 access
+
+Builds an access permission table as a hashref in the form: { feature => {
+content_level => user_level } } Where feature is the name of the
+feature (content, preview, download, etc.), content_level is the
+access level of the title and user level is the minimum user access
+level required to access that feature for that level of content.
+
+=cut
+sub access {
+    my($self) = @_;
+    my $matrix = {
+        preview => {},
+        content => {},
+        metadata => {},
+        resize => {},
+        download => {},
+        purchase => {},
+        searching => {},
+        browse => {}
+    };
+
+    foreach my $access ($self->search_related('portal_accesses')) {
+        foreach my $feature (qw(preview content metadata resize download purchase searching browse)) {
+            $matrix->{$feature}->{$access->level} = $access->get_column($feature);
+        }
+    }
+
+    return $matrix;
+}
+
+=head2 update_access($level, $feature => $value, ...)
+
+Updates the selected features to their respective values for content level $level
+
+=cut
+sub update_access {
+    my($self, $level, %features) = @_;
+
+    my $access = $self->find_related('portal_accesses', { level => $level });
+    return 0 unless ($access);
+    $access->update({%features});
+    return 1;
 }
 
 =head2 get_subscriptions

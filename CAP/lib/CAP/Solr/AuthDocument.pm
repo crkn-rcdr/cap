@@ -6,8 +6,8 @@ use Moose::Util::TypeConstraints;
 use MooseX::Method::Signatures;
 use namespace::autoclean;
 
-has 'view_all'   => (is => 'rw', isa => 'Int', default => 0);
-has 'view_part'  => (is => 'rw', isa => 'Int', default => 0);
+has 'content'    => (is => 'rw', isa => 'Int', default => 0);
+has 'preview'    => (is => 'rw', isa => 'Int', default => 0);
 has 'download'   => (is => 'rw', isa => 'Int', default => 0);
 has 'resize'     => (is => 'rw', isa => 'Int', default => 0);
 has 'pages'      => (is => 'rw', isa => 'ArrayRef', default => sub{[]});
@@ -41,25 +41,28 @@ method BUILD {
     $self->{auth} = new CAP::Solr::AuthDocument::Auth;
 }
 
-method authorize ($auth) {
+=head2 authorize($auth)
 
-    # Set to true if the user's access level is equal to or greater
-    # than the required level.
-    my $level;
+Determine the authorization status for this document. $auth is the CAP
+Auth object (i.e. $c->auth).
+
+=cut
+method authorize ($auth) {
     
     # Set the authorizations for this document
-    $self->auth->view_all($auth->all);
-    $self->auth->view_part($auth->preview);
-    $self->auth->download($auth->download);
-    $self->auth->resize($auth->resize);
+    $self->auth->content($auth->can_access('content'));
+    $self->auth->preview($auth->can_access('preview'));
+    $self->auth->download($auth->can_access('download'));
+    $self->auth->resize($auth->can_access('resize'));
+
 
     # Compile a list of pages that can be viewed based on whether the user
     # has full, preview or no access.
     for (my $page = 0; $page < $self->child_count; ++$page) {
-        if ($auth->all) {
+        if ($self->auth->content) {
             $self->auth->addPage(1);
         }
-        elsif ($auth->preview) {
+        elsif ($self->auth->preview) {
             # The first page is always allowed (in case there is only one # page)
             if ($page == 1) {
                 $self->auth->addPage(1);

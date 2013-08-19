@@ -23,6 +23,7 @@ sub base : Chained('/') PathPart('admin/portal') CaptureArgs(1) {
 
     $c->stash(entity => {
         portal  => $portal,
+        access => $portal->access,
         features => $portal->features,
         languages => [$portal->get_languages],
         hosts   => [$portal->hosts],
@@ -110,7 +111,7 @@ sub edit_POST {
     my $fragment = "";
 
     given ($data{update}) {
-        when ('access') {
+        when ('config') {
             $portal->update({
                 id                      => $data{id},
                 enabled                 => $data{enabled} ? 1 : 0,
@@ -126,6 +127,16 @@ sub edit_POST {
                 access_search           => $data{access_search},
                 access_browse           => $data{access_browse},
             });
+            $fragment = 'tab_configuration';
+        }
+        when ('access') {
+            foreach my $level (0, 1, 2) {
+                my %access = ();
+                foreach my $feature (qw(preview content metadata resize download purchase searching browse)) {
+                    $access{$feature} = $data{"${feature}_$level"} if (defined($data{"${feature}_$level"}));
+                }
+                $portal->update_access($level, %access);
+            }
             $fragment = 'tab_access';
         }
         when ('delete_hosts') {

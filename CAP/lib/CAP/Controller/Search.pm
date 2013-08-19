@@ -12,13 +12,16 @@ BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 sub auto :Private {
     my($self, $c) = @_;
 
+    my $search_enabled = $c->auth->is_enabled('searching');
+    my $can_search = $c->auth->can_use('searching');
+
     # Check whether search is enabled and, if so, whether the user has
     # sufficient privileges to access it.
-    if ($c->portal->access_search == -1) {
+    if (! $search_enabled) {
         $c->res->redirect($c->uri_for_action('/index'));
         $c->detach();
     }
-    elsif (! $c->auth->search) {
+    elsif (! $can_search) {
         warn("Insufficient access to search");
         if ($c->user) {
             $c->res->redirect($c->uri_for_action('/index'));

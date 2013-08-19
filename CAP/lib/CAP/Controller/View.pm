@@ -45,6 +45,7 @@ sub view :Private {
             }
             $c->forward("view_series", [$doc]);
         } when ('document') {
+            $c->auth->title_context($c->model('DB::Titles')->find($doc->record->cap_title_id));
             $doc->authorize($c->auth);
             $c->forward("view_doc", [$doc, $seq || $doc->record->first_page() ]);
         } when ('page') {

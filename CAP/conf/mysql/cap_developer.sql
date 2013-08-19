@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','74',NULL);
+INSERT INTO `info` VALUES ('version','76',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -593,13 +593,6 @@ CREATE TABLE `portal` (
   `supports_subscriptions` tinyint(1) NOT NULL DEFAULT '0',
   `supports_institutions` tinyint(1) NOT NULL DEFAULT '0',
   `supports_transcriptions` tinyint(1) NOT NULL DEFAULT '0',
-  `access_preview` int(11) NOT NULL DEFAULT '0',
-  `access_all` int(11) NOT NULL DEFAULT '0',
-  `access_resize` int(11) NOT NULL DEFAULT '0',
-  `access_download` int(11) NOT NULL DEFAULT '0',
-  `access_purchase` int(11) NOT NULL DEFAULT '0',
-  `access_search` tinyint(1) NOT NULL DEFAULT '0',
-  `access_browse` tinyint(1) NOT NULL DEFAULT '0',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -611,8 +604,41 @@ CREATE TABLE `portal` (
 
 LOCK TABLES `portal` WRITE;
 /*!40000 ALTER TABLE `portal` DISABLE KEYS */;
-INSERT INTO `portal` VALUES ('canadiana',1,1,0,0,0,-1,-1,-1,-1,-1,0,0,'2013-04-19 15:14:34');
+INSERT INTO `portal` VALUES ('canadiana',1,1,0,0,0,'2013-04-19 15:14:34');
 /*!40000 ALTER TABLE `portal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `portal_access`
+--
+
+DROP TABLE IF EXISTS `portal_access`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `portal_access` (
+  `portal_id` varchar(64) NOT NULL,
+  `level` int(11) NOT NULL,
+  `preview` int(11) NOT NULL DEFAULT '0',
+  `content` int(11) NOT NULL DEFAULT '0',
+  `metadata` int(11) NOT NULL DEFAULT '0',
+  `resize` int(11) NOT NULL DEFAULT '0',
+  `download` int(11) NOT NULL DEFAULT '0',
+  `purchase` int(11) NOT NULL DEFAULT '0',
+  `searching` int(11) NOT NULL DEFAULT '0',
+  `browse` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`portal_id`,`level`),
+  CONSTRAINT `portal_access_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `portal_access`
+--
+
+LOCK TABLES `portal_access` WRITE;
+/*!40000 ALTER TABLE `portal_access` DISABLE KEYS */;
+INSERT INTO `portal_access` VALUES ('canadiana',0,-1,-1,-1,-1,-1,-1,0,0),('canadiana',1,-1,-1,-1,-1,-1,-1,0,0),('canadiana',2,-1,-1,-1,-1,-1,-1,0,0);
+/*!40000 ALTER TABLE `portal_access` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1277,4 +1303,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-15  9:27:43
+-- Dump completed on 2013-08-16 14:02:03
