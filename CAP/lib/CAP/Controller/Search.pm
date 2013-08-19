@@ -27,7 +27,7 @@ sub auto :Private {
             $c->res->redirect($c->uri_for_action('/index'));
         }
         else {
-            $c->session->{login_redirect} = $c->req->uri;
+            #$c->session->{login_redirect} = $c->req->uri;
             $c->response->redirect($c->uri_for_action('/user/login'));
         }
         $c->detach();

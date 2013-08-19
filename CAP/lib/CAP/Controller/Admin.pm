@@ -18,9 +18,9 @@ sub auto :Private {
     # Only allow administrators to access any of these functions. Everyone
     # else gets a 404.
     unless ($c->has_role('administrator')) {
-        $c->session->{login_redirect} = $c->req->uri;
-        $c->response->redirect($c->uri_for('/user', 'login'));
-        return 0;
+        #$c->session->{login_redirect} = $c->req->uri;
+        $c->res->redirect($c->uri_for_action('user/login'));
+        $c->detach();
     }
 
     return 1;

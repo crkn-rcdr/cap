@@ -131,7 +131,7 @@ sub show_stats {
 sub redirect_user {
 
     my $c = shift();
-    $c->session->{login_redirect} = $c->req->uri;
+    #$c->session->{login_redirect} = $c->req->uri;
     $c->response->redirect( $c->uri_for( '/user', 'login' ) );
     return 1;
 

@@ -108,6 +108,17 @@ sub access_denied :Private {
     $c->detach('error', [403, "NOACCESS"]);
 }
 
+=head2 favico()
+
+Handle requests for /favicon.ico by redirecting them to /statit/favicon.ico
+
+=cut
+sub favicon :Path('favicon.ico') {
+    my($self, $c) = @_;
+    $c->res->redirect($c->uri_for_action('/static', 'favicon.ico'));
+    $c->detach();
+}
+
 # The default action is to redirect back to the main page.
 sub default :Path {
     my($self, $c) = @_;
@@ -150,6 +161,8 @@ sub index :Path('') Args(0)
     my($self, $c) = @_;
 
     # TODO: figure out a better solution than hardcoding this
+    # FIXME: we (soon) can use $c->portal->supports_browse to partially
+    # solve this.
     if ($c->portal->id eq 'parl') {
         my @tree = $c->model('DB::Terms')->term_tree($c->portal);
         $c->stash(
@@ -158,11 +171,11 @@ sub index :Path('') Args(0)
         );
     }
 
-    # More special portals!
-    if ($c->portal->id eq 'canadiana') {
+    # The secure portal has no index page: forward to the user's profile.
+    if ($c->req->uri->host eq $c->config->{secure}->{host}) {
+        warn "##### Request for / on Secure goes to /user/profile" if ($c->debug);
         $c->response->redirect($c->uri_for_action("/user/profile"));
         $c->detach();
-        return 0;
     }
 
     $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->portal->id, "frontpage");

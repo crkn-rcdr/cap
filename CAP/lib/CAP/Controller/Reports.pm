@@ -11,7 +11,7 @@ sub auto :Private {
     # Users with the admin or reports role may access these functions. Everyone
     # else gets 404ed or redirected to the login page.
     unless ($c->has_role('administrator', 'reports')) {
-        $c->session->{login_redirect} = $c->req->uri;
+        #$c->session->{login_redirect} = $c->req->uri;
         $c->response->redirect($c->uri_for('/user', 'login'));
         return 0;
     }

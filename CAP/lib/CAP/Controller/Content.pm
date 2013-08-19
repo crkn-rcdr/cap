@@ -29,7 +29,7 @@ sub auto :Private {
 
     # The content role is required for access
     unless ($c->has_role('content')) {
-        $c->session->{login_redirect} = $c->req->uri;
+        #$c->session->{login_redirect} = $c->req->uri;
         $c->response->redirect($c->uri_for('/user', 'login'));
         $c->detach();
     }

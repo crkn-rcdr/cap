@@ -33,9 +33,6 @@ sub auto :Private {
         unless ($c->user_exists) {
             # All other requests are limited to logged in users; redirect
             # anonymous requests to the login page.
-            # Record the current URI in the session so we can redirect there
-            # after login.
-            $c->session->{login_redirect} = $c->req->uri;
             $c->response->redirect($c->uri_for_action('/user/login'));
             return 0;
         }
@@ -185,12 +182,15 @@ sub do_login :Private {
 
         $c->update_session(1);
 
-        # If the user was directed here by a previous action, return them
-        # to the originating page.
-        my $redirect = $c->session->{login_redirect} || $c->uri_for_action('index');
-        delete($c->session->{login_redirect});
-        $c->response->redirect($redirect);
-
+        # If there is an origin URL, return to it. Otherwise, go to the
+        # user's profile.
+        if ($c->session->{origin} && $c->session->{origin}->{uri}) {
+            $c->res->redirect($c->session->{origin}->{uri});
+        }
+        else {
+            $c->res->redirect($c->uri_for_action('/user/profile'));
+        }
+        $c->detach();
     }
     else { # Incorrect login credentials
         $c->message({ type => "error", message => "invalid_login" });
@@ -316,10 +316,15 @@ sub logout :Path('logout') :Args(0) {
     };
     $c->user->log('LOGOUT');
     $c->logout();
-    #$c->forward('init'); # Reinitialize after logout to clear current subscription, etc. info
     $c->update_session(1);
 
-    return $c->response->redirect($c->uri_for_action('index'));
+    if ($c->session->{origin} && $c->session->{origin}->{uri}) {
+        $c->res->redirect($c->session->{origin}->{uri});
+    }
+    else {
+        $c->res->redirect($c->uri_for_action('/user/login'));
+    }
+    $c->detach();
 }
 
 

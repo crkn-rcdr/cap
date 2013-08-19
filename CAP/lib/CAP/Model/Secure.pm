@@ -56,7 +56,7 @@ method routeRequest ($c) {
         }
         else {
             # Record the portal and URI we came from
-            $c->session('origin' => { portal => $c->portal->id, uri => $c->req->referer } );
+            $c->session('origin' => { portal => $c->portal->id, uri => $c->req->referer || undef } );
             $c->req->uri->scheme($secure_protocol);
             $c->req->uri->host($secure_host);
             $c->res->redirect($c->req->uri);
