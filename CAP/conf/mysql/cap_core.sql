@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.24, for osx10.6 (i386)
 --
--- Host: localhost    Database: cap_core
+-- Host: localhost    Database: cap_core_pristine
 -- ------------------------------------------------------
 -- Server version	5.5.24
 
@@ -35,7 +35,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES ('administrator','do anything'),('content','manage portal and theme content'),('reports','view system status and usage reports');
+INSERT INTO `roles` VALUES ('administrator','do anything'),('content','manage portal and theme content'),('reports','view system status and usage reports'),('reviewer','perform quality control review');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-01 10:14:17
+-- Dump completed on 2013-08-20  8:09:54

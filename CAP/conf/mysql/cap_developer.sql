@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','76',NULL);
+INSERT INTO `info` VALUES ('version','78',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1158,6 +1158,7 @@ CREATE TABLE `user` (
   `credits` int(11) NOT NULL DEFAULT '0',
   `can_transcribe` tinyint(1) DEFAULT '1',
   `can_review` tinyint(1) DEFAULT '1',
+  `public_contributions` tinyint(1) DEFAULT '0',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_2` (`username`),
@@ -1175,7 +1176,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','admin@c7a.ca','f08c37500dbca982f1fb5a85d702d2c126ecf8e7kqY+9t+5Yq','Administrator','',1,1,'2013-01-01 00:00:00',NULL,0,1,1,'2013-08-12 13:14:03');
+INSERT INTO `user` VALUES (1,'admin','admin@c7a.ca','f08c37500dbca982f1fb5a85d702d2c126ecf8e7kqY+9t+5Yq','Administrator','',1,1,'2013-01-01 00:00:00',NULL,0,1,1,0,'2013-08-12 13:14:03');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1303,4 +1304,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-19  8:35:07
+-- Dump completed on 2013-08-20  8:09:40
