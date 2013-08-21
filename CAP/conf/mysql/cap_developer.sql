@@ -267,7 +267,7 @@ CREATE TABLE `info` (
 
 LOCK TABLES `info` WRITE;
 /*!40000 ALTER TABLE `info` DISABLE KEYS */;
-INSERT INTO `info` VALUES ('version','78',NULL);
+INSERT INTO `info` VALUES ('version','79',NULL);
 /*!40000 ALTER TABLE `info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -711,7 +711,7 @@ CREATE TABLE `portal_lang` (
   PRIMARY KEY (`portal_id`,`lang`),
   UNIQUE KEY `portal_id` (`portal_id`,`lang`),
   KEY `portal_id_2` (`portal_id`),
-  CONSTRAINT `portal_lang_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`)
+  CONSTRAINT `portal_lang_ibfk_1` FOREIGN KEY (`portal_id`) REFERENCES `portal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1304,4 +1304,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-20  8:09:40
+-- Dump completed on 2013-08-21 14:48:09
