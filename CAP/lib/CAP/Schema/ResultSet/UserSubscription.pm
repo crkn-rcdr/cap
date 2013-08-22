@@ -139,6 +139,39 @@ sub next_unsent_reminder {
     return $expiring->first || undef;
 }
 
+sub log_expired_subscriptions {
+    my ($self, $c) = @_;
+    my $row;
+    my  $message = "";
+    my $portal;
+    my $expires;
+    my $user;
+    my $date = new Date::Manip::Date;
+    $date->parse('now');
+    my $now = $date->printf("%Y-%m-%d %T");
+    my $expired_accts;
+ 
+    $expired_accts = $self->search(
+                                                    {
+                                                         expires                 =>  { '<' => $now },
+                                                         permanent         => '0',
+                                                         expiry_logged  =>   undef 
+                                                    }
+    );
+
+    # Iterate through the rows, log and update row for each expired account
+    while ( $row = $expired_accts->next ) {
+          $portal = $row->portal_id->id;
+          $expires = $row->expires->ymd();
+          $user = $c->model('DB::User')->get_user_info($row->user_id->id);
+          $message = "$portal subscription expired $expires";
+          $row->update( { expiry_logged  =>  $now } );
+          $user->log("SUB_END",  $message);
+   }
+ 
+    return;
+ 
+ }
 
 
 1;
