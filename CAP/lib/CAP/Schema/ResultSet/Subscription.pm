@@ -26,8 +26,12 @@ sub metrics {
             $metrics->{avg_revenue} += $row->payment_id->amount;
         }
         $metrics->{discount}++ if ($row->discount_code);
-        $metrics->{new}++ if (! $row->old_expire);
-        $metrics->{renewal}++ if ($row->new_expire);
+        if ($row->old_expire) {
+            $metrics->{renewal}++;
+        }
+        else {
+            $metrics->{new}++;
+        }
     }
 
     $metrics->{avg_revenue} /= $resultset->count if ($resultset->count);
