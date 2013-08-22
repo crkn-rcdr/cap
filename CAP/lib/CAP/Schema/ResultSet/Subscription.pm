@@ -7,6 +7,33 @@ use base 'DBIx::Class::Row';
 use POSIX qw(strftime);
 
 
+=head2 metrics ($resultset)
+
+Returns a hashref of metrics for $resultset.
+
+=cut
+sub metrics {
+    my($self, $resultset) = @_;
+    my $metrics = {
+        payment => 0,
+        new => 0,
+        renewals => 0
+    };
+
+    foreach my $row ($resultset->all) {
+        if ($row->payment_id) {
+            $metrics->{revenue} += $row->payment_id->amount;
+            $metrics->{avg_revenue} += $row->payment_id->amount;
+        }
+        $metrics->{discount}++ if ($row->discount_code);
+        $metrics->{new}++ if (! $row->old_expire);
+        $metrics->{renewal}++ if ($row->new_expire);
+    }
+
+    $metrics->{avg_revenue} /= $resultset->count if ($resultset->count);
+
+    return $metrics;
+}
 
 
 
