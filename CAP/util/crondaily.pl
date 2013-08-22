@@ -40,8 +40,10 @@ my $job;
 # To disable a job just comment it out
 my %actions = (
                 expiring_subscription_reminder  =>  \&expiring_subscription_reminder,
-                remove_unconfirmed              =>  \&remove_unconfirmed,
-                session                         =>  \&session,
+                remove_unconfirmed                          =>  \&remove_unconfirmed,
+                session                                                         =>  \&session,
+                log_expired_accounts                        => \&log_expired_accounts
+                
               );
               
               
@@ -211,6 +213,14 @@ sub session {
 }
 
 
+sub log_expired_accounts {
+   
+   my $c = shift();
+   my $log_expired = $c->model('DB::UserSubscription')->log_expired_subscriptions($c);
+
+ }
+ 
+ 
 sub build_date_strings {
     
         my $expires = shift();
