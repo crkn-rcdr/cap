@@ -55,6 +55,15 @@ sub view :Private {
         }
     }
 
+    # Log the document view
+    my $event = {};
+    $event->{title_id} = $doc->record->cap_title_id;
+    $event->{user_id} = $c->user->id if ($c->user_exists);
+    $event->{institution_id} = $c->institution->id if ($c->institution);
+    $event->{portal_id} = $c->portal->id;
+    $event->{session} = $c->sessionid;
+    $c->model('DB::TitleViews')->create($event);
+
     return 1;
 }
 

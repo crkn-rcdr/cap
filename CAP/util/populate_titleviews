@@ -1,0 +1,61 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Encode;
+
+# Populate cap_log.title_views from entries in request_log. This script
+# will take NUM_ROWS entries from request_log, starting with the most recent,
+# that are older than the newest entry in title_views. This should ensure
+# that duplicate entries are not created.
+#
+# Usage: populate_titleviews NUM_ROWS
+
+
+my $rows = shift(@ARGV) || die "Usage: $0 NUM_ROWS\n";
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use CAP;
+my $c = CAP->new();
+
+my $newest_view = $c->model('DB::TitleViews')->search({}, { rows => 1, order_by => { -asc => 'time' } })->first;
+my $requests = $c->model('DB::Requests')->search({ 'action' => 'view', 'time' => { '<' => $newest_view->time  } }, { rows => $rows, order_by => { -desc => 'time' }});
+#print $newest_view->time;
+
+while (my $request = $requests->next) {
+
+    # Split the document identifier into a contributor and local identifier part
+    my($contributor, $id) = split(/\./, $request->args, 2);
+    my $institution = $c->model('DB::Institution')->find({code => $contributor});
+    if (! $institution) {
+        warn("Can't find institution for $contributor");
+        next;
+    }
+
+    # Remove any page identifier or other arguments from the document.
+    $id =~ s/[\.\/\?].*//;
+
+    # Find the title. This may be a document or title reference, so we
+    # have to look for both.
+    my $title = $c->model('DB::Titles')->find({ identifier => $id });
+    if (! $title) {
+        my $document = $c->model('DB::Documents')->find({ identifier => $id });
+        if (! $document) {
+            warn("Cant find document for $id");
+            next;
+        }
+        $title = $document->title_id;
+    }
+
+    # Insert the new retrospective log entry
+    printf("%d %s %s %s\n", $title->id, $title->institution_id->code, $title->identifier, encode_utf8($title->label));
+    $c->model('DB::TitleViews')->create({
+        title_id => $title->id,
+        user_id => $request->user_id,
+        institution_id => $request->institution_id,
+        portal_id => $request->portal,
+        'time' => $request->time,
+        session => $request->session
+    });
+}
+
