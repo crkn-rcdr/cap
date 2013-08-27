@@ -19,9 +19,18 @@ method routeRequest ($c) {
     my $secure_host     = $c->config->{secure}->{host} || die("In cap.conf: missing host directive in <secure>");
 
     # If this is not the secure host, we need to forget any origin
-    # information in the session.
+    # information in the session. Otherwise, we want to remember the
+    # referring portal and URL, provided that it is also not the secure
+    # host.
     if ($c->req->uri->host ne $secure_host) {
         $c->session('origin' => undef);
+    }
+    else {
+        $c->req->referer =~ m#://(.*?)[:/]|$#;
+        if ($1 && $1 ne $secure_host) {
+            warn "Setting return host to " . $c->req->referer;
+            $c->session('origin' => { portal => $c->portal->id, uri => $c->req->referer || undef } );
+        }
     }
 
     # The secure host must handle https requests only (unless protcol is
@@ -55,8 +64,6 @@ method routeRequest ($c) {
             return 1; # Process request
         }
         else {
-            # Record the portal and URI we came from
-            $c->session('origin' => { portal => $c->portal->id, uri => $c->req->referer || undef } );
             $c->req->uri->scheme($secure_protocol);
             $c->req->uri->host($secure_host);
             $c->res->redirect($c->req->uri);
