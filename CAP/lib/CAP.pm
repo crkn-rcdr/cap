@@ -157,4 +157,27 @@ sub update_session {
     }
 }
 
+=head2 uri_for_portal_action($portal, @uri_args)
+
+Works just like uri_for_action but takes one additional argument
+specifying the name of the portal. Will also automatically set the
+protocol to http or https, depending on whether or not $portal is the
+secure portal name and whether or not the use of https for the secure
+portal is configured in cap.conf.
+
+=cut
+sub uri_for_portal_action {
+    my($c, $portal, @args) = @_;
+    my $uri = $c->uri_for_action(@args);
+    my $host = $portal . substr($uri->host, index($uri->host, '.'));
+    $uri->host($host);
+
+    my $secure_protocol = $c->config->{secure}->{protocol} || die("In cap.conf: missing protocol directive in <secure>");
+    my $secure_host     = $c->config->{secure}->{host} || die("In cap.conf: missing host directive in <secure>");
+    if ($uri->host eq $secure_host && ! $c->req->secure) { $uri->scheme($secure_protocol) }
+    else { $uri->scheme('http') }
+
+    return $uri;
+}
+
 1;
