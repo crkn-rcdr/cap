@@ -28,7 +28,6 @@ method routeRequest ($c) {
     else {
         $c->req->referer =~ m#://(.*?)[:/]|$#;
         if ($1 && $1 ne $secure_host) {
-            warn "Setting return host to " . $c->req->referer;
             $c->session('origin' => { portal => $c->portal->id, uri => $c->req->referer || undef } );
         }
     }
