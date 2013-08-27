@@ -34,7 +34,8 @@ sub index :Path :Args(0) {
             as => [ 'title_id', 'count' ],
             group_by => [ 'title_id' ],
             order_by => { -desc => 'count' },
-            rows => 100
+            rows => 50,
+            page => $c->stash->{page} || 1
         }
     );
 
@@ -44,9 +45,11 @@ sub index :Path :Args(0) {
         push(@{$entity}, { count => $record->get_column('count'), title => $title });
     }
 
-    $c->stash->{entity} = $entity;
+    $c->stash(
+        entity => $entity,
+        pager => $result->pager
+    );
     return 1;
-
 }
 
 

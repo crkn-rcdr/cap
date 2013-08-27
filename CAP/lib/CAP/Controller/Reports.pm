@@ -20,6 +20,7 @@ sub auto :Private {
     my $start;
     my $end;
     my $portal;
+    my $page = 1;
 
     # Set the reporting period. The default end date is now and the
     # default start date is 30 days before the end date.
@@ -46,11 +47,15 @@ sub auto :Private {
         $portal = $c->model('DB::Portal')->find($data->{portal});
     }
 
+    # If results are paged, get the page number
+    $page = $data->{page} if ($data->{page} && $data->{page} =~ /^\d+$/);
+
     $c->stash(
         start => $start,
         end => $end,
         limit_portal => $portal,
-        portals => [$c->model('DB::Portal')->list]
+        portals => [$c->model('DB::Portal')->list],
+        page => $page
     );
 
     return 1;

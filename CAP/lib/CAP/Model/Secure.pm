@@ -25,7 +25,7 @@ method routeRequest ($c) {
     if ($c->req->uri->host ne $secure_host) {
         $c->session('origin' => undef);
     }
-    else {
+    elsif ($c->req->referer) {
         $c->req->referer =~ m#://(.*?)[:/]|$#;
         if ($1 && $1 ne $secure_host) {
             $c->session('origin' => { portal => $c->portal->id, uri => $c->req->referer || undef } );
