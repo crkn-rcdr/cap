@@ -144,5 +144,17 @@ __PACKAGE__->belongs_to(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZuB0QMEfDMwfEDbGq9Y2fg
 
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+
+=head2 identifier
+
+Returns the $contributior.$local_id unique identifier
+
+=cut
+sub identifier {
+    my($self, $c) = @_;
+    my $contributor = $self->title_id->institution_id->code;
+    my $identifier = $self->title_id->identifier;
+    return join('.', $contributor, $identifier);
+}
+
 1;
