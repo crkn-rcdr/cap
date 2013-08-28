@@ -26,7 +26,11 @@ sub auto :Private {
     # default start date is 30 days before the end date.
     if ($data->{end}) {
         my($year, $month, $day) = split(/-/, $data->{end});
-        $end = DateTime->new({ year => $year, month => $month, day => $day});
+        my $params = {};
+        $params->{year} = $year if ($year && $year =~ /^\d{4}$/);
+        $params->{month} = $month if ($params->{year} && $month && $month =~ /^\d{2}$/);
+        $params->{day} = $day if ($params->{month} && $day && $day =~ /^\d{2}$/);
+        $end = DateTime->new($params);
     }
     else {
         $end = DateTime->now();
@@ -34,10 +38,13 @@ sub auto :Private {
 
     if ($data->{start}) {
         my($year, $month, $day) = split(/-/, $data->{start});
-        $start = DateTime->new({ year => $year, month => $month, day => $day});
+        my $params = {};
+        $params->{year} = $year if ($year && $year =~ /^\d{4}$/);
+        $params->{month} = $month if ($params->{year} && $month && $month =~ /^\d{2}$/);
+        $params->{day} = $day if ($params->{month} && $day && $day =~ /^\d{2}$/);
+        $start = DateTime->new($params);
     }
     else {
-        #$start = $end->clone->subtract(DateTime::Duration->new(days => 30));
         $start = $end->clone;
         $start->subtract(DateTime::Duration->new(days => 30));
     }
