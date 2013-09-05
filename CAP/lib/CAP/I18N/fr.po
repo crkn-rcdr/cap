@@ -55,10 +55,16 @@ msgid "%1 contains an invalid value: %2"
 msgstr "%1 comprend une valeur non valide : %2"
 
 #. (i.duration)
+#. (report_duration)
+#. (i.new_expire.delta_days(i.old_expire)
+#. (i.new_expire.delta_days(i.completed)
 #. (entity.product.duration)
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:256
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:25
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:53
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:20
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:21
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:79
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:81
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:46
 msgid "%1 days"
 msgstr "%1 jours"
 
@@ -105,6 +111,12 @@ msgstr " %1 titres ne sont pas attribués"
 
 msgid "%1 titles in total"
 msgstr "%1 titres au total"
+
+#. (start.ymd, end.ymd)
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:16
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:17
+msgid "%1 to %2"
+msgstr ""
 
 #. (format_number(hits)
 #: ../../../../../cap-root/templates/Default/Common/partial/search_results.tt:4
@@ -404,6 +416,9 @@ msgid "All"
 msgstr "Toutes"
 
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:37
+#: ../../../../../cap-root/templates/Default/Common/partial/report_filter.tt:20
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:24
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:25
 msgid "All Portals"
 msgstr "Tous les portails"
 
@@ -449,7 +464,7 @@ msgstr "Montant"
 msgid "Amount Paid"
 msgstr "Montant payé"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:48
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:41
 msgid "Amount Payable"
 msgstr "Montant dû"
 
@@ -508,6 +523,14 @@ msgstr "Numéros disponibles : %1"
 #: ../../../../../cap-root/templates/Default/heritagepremium/view_series.tt:13
 msgid "Available reels: %1"
 msgstr "bobines disponibles : 1%"
+
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:48
+msgid "Average Revenue Per Month (approximate)"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:44
+msgid "Average Revenue Per Subscription"
+msgstr ""
 
 msgid "Back to collections"
 msgstr "Retour aux collections"
@@ -583,7 +606,7 @@ msgstr "Parcourir"
 msgid "Browse Titles"
 msgstr "Parcourir la liste des titres"
 
-#: ../../../../../cap-root/templates/Default/heritage/index.tt:10
+#: ../../../../../cap-root/templates/Default/heritage/index.tt:9
 msgid "Browse all titles"
 msgstr "Parcourir tous les titres"
 
@@ -668,6 +691,10 @@ msgstr "Annuler"
 msgid "Chamber"
 msgstr "Chambre"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/report_filter.tt:2
+msgid "Change Report Criteria"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/reports/widget_period.tt:8
 msgid "Change Reporting Period"
 msgstr "Modifier la période visée par le rappor"
@@ -679,7 +706,7 @@ msgstr "Modifier l’ordre"
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:79
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:72
 msgid "Checkout"
 msgstr "Paiement"
 
@@ -767,6 +794,8 @@ msgid "Contact us"
 msgstr "Contactez-nous"
 
 #: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:16
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:8
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:10
 msgid "Content"
 msgstr "Contenu"
 
@@ -823,6 +852,10 @@ msgstr "© Canadiana.org 2010-11"
 
 msgid "Corporate"
 msgstr "Enterprises"
+
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:58
+msgid "Counts of the number of sessions in which each title was accessed (DEMO)"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/create.tt:50
 #: ../../../../../cap-root/templates/Default/Common/admin/slideshow/index.tt:51
@@ -900,6 +933,7 @@ msgstr "ID dans la base de données"
 
 #: ../../../../../cap-root/templates/Default/Common/reports/user/event.tt:7
 #: ../../../../../cap-root/templates/Default/Common/reports/user/log.tt:7
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:63
 msgid "Date"
 msgstr "Date"
 
@@ -985,7 +1019,7 @@ msgstr "Vous avez oublié votre mot de passe?"
 msgid "Disabled"
 msgstr "Désactivé"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:43
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:36
 msgid "Discount"
 msgstr "Remise"
 
@@ -995,10 +1029,11 @@ msgid "Discount (%)"
 msgstr "Remise (%)"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/discount/edit.tt:12
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:69
 msgid "Discount Code"
 msgstr "Code promotionnel"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:39
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:32
 msgid "Discount Code Applied"
 msgstr "Code promotionnel appliqué"
 
@@ -1008,6 +1043,10 @@ msgstr "Code promotionnel appliqué"
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:9
 msgid "Discount Codes"
 msgstr "Codes promotionnels"
+
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:40
+msgid "Discount Codes Used"
+msgstr ""
 
 #. (promocode)
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:38
@@ -1058,6 +1097,7 @@ msgid "Download image:"
 msgstr "Télécharger image"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:239
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:67
 msgid "Duration"
 msgstr "Durée"
 
@@ -1163,6 +1203,10 @@ msgstr "Un courriel vous a été envoyé à %1 avec des instructions pour réini
 msgid "Enabled"
 msgstr "Activé"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/report_filter.tt:11
+msgid "End Date"
+msgstr ""
+
 msgid "Ends"
 msgstr "Expiration"
 
@@ -1174,7 +1218,7 @@ msgstr "Expiration"
 msgid "English"
 msgstr "Anglais"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:68
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:61
 msgid "Enter discount code"
 msgstr "Saisir le code promotionnel"
 
@@ -1242,6 +1286,7 @@ msgstr "Utilisateurs dont la période d’essai est échue"
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:11
 #: ../../../../../cap-root/templates/Default/Common/admin/promocodes.tt:36
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:20
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:66
 msgid "Expires"
 msgstr "Expiration"
 
@@ -1260,7 +1305,6 @@ msgstr "Date d'échéance"
 msgid "Extend"
 msgstr "Prolonger"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:17
 msgid "Extend It Now"
 msgstr "Le prolonger maintenant"
 
@@ -1347,7 +1391,7 @@ msgstr "Français"
 msgid "Frequency"
 msgstr "Fréquence"
 
-#: ../../../../../cap-root/templates/Default/heritage/index.tt:11
+#: ../../../../../cap-root/templates/Default/heritage/index.tt:10
 msgid "Frequently asked questions"
 msgstr "Foire aux questions"
 
@@ -1434,7 +1478,7 @@ msgid "I agree to the Early Canadiana Online %1"
 msgstr "J'accepte les %1 de Notre mémoire en ligne"
 
 #. ("<a href=\"" _ c.uri_for_action("support", "terms")
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:75
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:68
 msgid "I have read and agree to the Canadiana %1"
 msgstr "J’ai lu et j’accepte les %1 de Canadiana"
 
@@ -1443,6 +1487,7 @@ msgstr "J’aimerais obtenir un reçu officiel canadien pour fins d’impôt."
 
 #: ../../../../../cap-root/templates/Default/Common/admin/institution/index.tt:25
 #: ../../../../../cap-root/templates/Default/Common/content/institution/titles.tt:31
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:40
 msgid "ID"
 msgstr "ID"
 
@@ -1486,7 +1531,7 @@ msgstr "Si vous avez des questions concernant ce message, veuillez nous contacte
 msgid "Import"
 msgstr "Importer"
 
-#: ../../../../../cap-root/templates/Default/heritage/index.tt:19
+#: ../../../../../cap-root/templates/Default/heritage/index.tt:17
 msgid "In partnership with"
 msgstr "En partenariat avec"
 
@@ -1555,8 +1600,6 @@ msgstr "Abonnement institutionnel : %1"
 msgid "Institutional Usage Report for %1"
 msgstr "Rapport d’utilisation de l’institution pour %1"
 
-#. (c.institution.alias(c.stash.lang)
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:4
 msgid "Institutional User: %1"
 msgstr "Utilisateur institutionnel : %1"
 
@@ -1661,8 +1704,7 @@ msgstr "Abonné(e) de niveau %1"
 msgid "Level %1 Subscription"
 msgstr "Abonnement de niveau %1"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:22
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:29
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:22
 msgid "Level %1 subscription"
 msgstr "Abonnement de niveau %1"
 
@@ -1753,11 +1795,9 @@ msgstr "Location"
 msgid "Log In"
 msgstr "Ouverture de session"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:38
 msgid "Log in or create a Canadiana account"
 msgstr "Ouvrir une session ou créer un compte Canadiana"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:33
 msgid "Log in or create an account to continue"
 msgstr "Ouvrir une session ou créer un compte pour continuer"
 
@@ -1929,6 +1969,10 @@ msgstr "Nom"
 msgid "Never"
 msgstr "Jamais"
 
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:84
+msgid "New"
+msgstr ""
+
 msgid "New Brunswick"
 msgstr "Nouveau-Brunswick"
 
@@ -1961,6 +2005,10 @@ msgstr "Nouvelle recherche"
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:264
 msgid "New Subscription"
 msgstr "Nouvel abonnement"
+
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:32
+msgid "New Subscriptions"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/index.tt:45
 msgid "New User"
@@ -2157,12 +2205,21 @@ msgstr "Réinitialisation du mot de passe"
 msgid "Pay per Download"
 msgstr "Téléchargement à la carte"
 
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:70
+msgid "Payment"
+msgstr ""
+
 msgid "Payment History"
 msgstr "Historique des paiements"
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:29
 msgid "Payment Information"
 msgstr "Information sur le paiement"
+
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:19
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:20
+msgid "Period Length"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:172
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:32
@@ -2195,7 +2252,7 @@ msgstr "Veuillez saisir un nom."
 msgid "Please enter the words displayed in the anti-spam window."
 msgstr "Veuillez saisir les mots affichés dans la fenêtre antipourriel."
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:13
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:6
 msgid "Please review your subscription details. If you have a discount code to redeem, enter it where indicated below. When you are ready to subscribe, click the Checkout button to be taken to PayPal to complete your payment."
 msgstr "Veuillez vérifier les détails de votre abonnement. Si vous voulez utiliser votre code promotionnel, saisissez-le à l’endroit indiqué ci-dessous. Lorsque vous serez prêt(e) à vous abonner, cliquer sur le bouton « Paiement » qui vous permettra de compléter votre paiement sur PayPal"
 
@@ -2212,8 +2269,12 @@ msgstr "Veuillez vérifier les informations suivantes et cliquez sur Abonnement 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:13
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:104
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:34
+#: ../../../../../cap-root/templates/Default/Common/partial/report_filter.tt:17
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:23
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:24
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:64
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:20
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:18
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:11
 #: ../../../../../cap-root/templates/Mail/Common/subscription_confirmation.tt:23
 msgid "Portal"
 msgstr "Portail"
@@ -2267,8 +2328,7 @@ msgstr "Abonné(e) Premium"
 msgid "Premium Subscription"
 msgstr "Abonnement Premium"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:20
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:27
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:20
 msgid "Premium subscription"
 msgstr "Abonnement Premium"
 
@@ -2435,6 +2495,7 @@ msgstr "Utilisateurs inscrits : %1"
 msgid "Regular"
 msgstr "Régulier"
 
+#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:101
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:93
 msgid "Regular Subscriber"
 msgstr "Abonné(e) régulier(ère)"
@@ -2444,12 +2505,10 @@ msgstr "Abonné(e) régulier(ère)"
 msgid "Regular Subscription"
 msgstr "Abonnement régulier"
 
-#: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:101
 msgid "Regular Subsscriber"
 msgstr "Abonné(e) regulier"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:18
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:25
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:18
 msgid "Regular subscription"
 msgstr "Abonnement régulier"
 
@@ -2482,7 +2541,6 @@ msgstr "<em>%1</em> a été supprimé de <em>%2</em>"
 msgid "Renew"
 msgstr "Renouvelez"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:23
 msgid "Renew It Now"
 msgstr "Renouvelez dès aujourd’hui"
 
@@ -2493,6 +2551,14 @@ msgstr "Renouvelez dès aujourd’hui"
 msgid "Renew today!"
 msgstr "Renouvelez dès aujourd’hui!"
 
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:84
+msgid "Renewal"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:36
+msgid "Renewals"
+msgstr ""
+
 msgid "Repeat password"
 msgstr "Répétez le mot de passe"
 
@@ -2501,6 +2567,13 @@ msgstr "Répétez le mot de passe"
 msgid "Report for the past %1 days"
 msgstr "Rapport pour les %1 derniers jours"
 
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:15
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:16
+msgid "Reporting Period"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:7
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:8
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:174
 msgid "Reports"
 msgstr "Rapports"
@@ -2513,6 +2586,10 @@ msgstr "Menu des rapports"
 #: ../../../../../cap-root/templates/Default/Common/reports/links/index.tt:1
 msgid "Reports: Outbound Links"
 msgstr "Rapports : Liens sortants"
+
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:2
+msgid "Reports: Titles by Access Frequency"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/reports/user/index.tt:1
 msgid "Reports: User Events"
@@ -2590,6 +2667,11 @@ msgstr "Page des résultats"
 msgid "Results up to %1."
 msgstr "Résultats jusqu’à %1"
 
+#. (origin.portal.title(c.stash.lang)
+#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:4
+msgid "Return to %1"
+msgstr "Retour à %1"
+
 msgid "Return to the main page"
 msgstr "Retour à la page d’accueil"
 
@@ -2603,8 +2685,12 @@ msgstr "Retour à la page d’accueil"
 msgid "Return to:"
 msgstr "Retour à :"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:11
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:52
+msgid "Revenue"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:2
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:4
 msgid "Review Subscription"
 msgstr "Révision de l’abonnement"
 
@@ -2837,6 +2923,8 @@ msgstr "Afficher tous les résultats"
 
 #. (pager.first, pager.last, pager.total_entries)
 #: ../../../../../cap-root/templates/Default/Common/content/institution/titles.tt:23
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:33
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:55
 msgid "Showing items %1 to %2 of %3"
 msgstr "Affichage des résultats %1 à %2 sur %3"
 
@@ -2901,6 +2989,10 @@ msgstr "Collections commanditées"
 msgid "Standard Search"
 msgstr "Recherche de bas"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/report_filter.tt:5
+msgid "Start Date"
+msgstr ""
+
 msgid "Started"
 msgstr "Début"
 
@@ -2930,6 +3022,7 @@ msgstr "Sujet"
 msgid "Subjects"
 msgstr "Sujets"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/report_filter.tt:32
 msgid "Submit"
 msgstr "Soumettre"
 
@@ -2942,20 +3035,17 @@ msgstr "Envoyez-nous vos commentaires"
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:111
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:1
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:55
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:27
 #: ../../../../../cap-root/templates/Default/canadiana/content/footer.tt:18
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:18
 msgid "Subscribe"
 msgstr "Pour s'abonner"
 
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:27
 msgid "Subscribe Now"
 msgstr "S’abonner maintenant"
 
 #. (entity.portal.title(lang)
 #: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:2
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:9
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:8
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:4
 msgid "Subscribe to %1"
 msgstr "S’abonner à %1"
 
@@ -2973,6 +3063,7 @@ msgstr "Abonnez-vous dès aujourd’hui"
 msgid "Subscribe today!"
 msgstr "Abonnez-vous dès aujourd’hui!"
 
+#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:13
 msgid "Subscriber"
 msgstr "Abonné(e)"
 
@@ -3005,6 +3096,10 @@ msgstr "Confirmation de l’abonnement"
 msgid "Subscription Confirmed"
 msgstr "Abonnement confirmé."
 
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:59
+msgid "Subscription Details"
+msgstr ""
+
 msgid "Subscription Expired"
 msgstr "Abonnement expiré"
 
@@ -3018,11 +3113,15 @@ msgstr "Historique de l’abonnement"
 msgid "Subscription IP Blocks"
 msgstr "Plages IP pour les abonnements"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:52
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:79
+msgid "Subscription Overview"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:45
 msgid "Subscription Period"
 msgstr "Période de l’abonnement"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:34
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:27
 msgid "Subscription Price"
 msgstr "Coût de l’abonnement"
 
@@ -3050,12 +3149,19 @@ msgstr "Abonnement à %1"
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:31
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:60
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:14
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:52
 #: ../../../../../cap-root/templates/Default/Common/user/profile.tt:11
 msgid "Subscriptions"
 msgstr "Abonnements"
 
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:3
+msgid "Subscriptions Report"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/content/institution/index.tt:11
 #: ../../../../../cap-root/templates/Default/Common/content/portal/index.tt:11
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:11
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:12
 msgid "Summary"
 msgstr "Résumé"
 
@@ -3071,7 +3177,7 @@ msgstr "Reçu d'impôt"
 
 #: ../../../../../cap-root/templates/Default/Common/user/login.tt:81
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:53
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:75
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:68
 msgid "Terms of Service"
 msgstr "Conditions de service"
 
@@ -3245,6 +3351,7 @@ msgstr "Imagette : %1"
 
 #: ../../../../../cap-root/templates/Default/Common/content/title/index.tt:13
 #: ../../../../../cap-root/templates/Default/Common/partial/document_record.tt:10
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:41
 msgid "Title"
 msgstr "Titre"
 
@@ -3275,6 +3382,11 @@ msgstr "Le niveau d’accès du titre doit être 0, 1 ou 2"
 msgid "Titles"
 msgstr "Titres"
 
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:30
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:57
+msgid "Titles by Access Frequency"
+msgstr ""
+
 msgid "To create a Canadiana user account, enter the following information. You will receive instructions on activating your account by email."
 msgstr "Pour créer un compte utilisateur Canadiana, saisissez les informations suivantes. Vous recevrez des instructions par courriel pour l’activation de votre compte."
 
@@ -3300,6 +3412,10 @@ msgstr "Pour réinitialiser votre mot de passe %1, cliquez sur le lien suivant :
 #: ../../../../../cap-root/templates/Default/Common/reports/portal/index.tt:52
 msgid "Total"
 msgstr "Total"
+
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:28
+msgid "Total Subscriptions"
+msgstr ""
 
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe.tt:45
 msgid "Total payment"
@@ -3331,8 +3447,9 @@ msgstr "Abonnement d'essai."
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:238
 #: ../../../../../cap-root/templates/Default/Common/admin/portal/index.tt:272
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:157
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:68
 #: ../../../../../cap-root/templates/Default/Common/user/subscribe_finalize.tt:24
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:22
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:15
 msgid "Type"
 msgstr "Type"
 
@@ -3429,16 +3546,17 @@ msgstr "Rapport d’utilisation pour %1"
 msgid "Usage report for %1 on portal %2"
 msgstr "Rapport d’utilisation du portail %2 en date du %1"
 
-#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:24
-#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:42
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:25
+#: ../../../../../cap-root/templates/Default/Common/reports/index.tt:43
 msgid "Usage stats"
 msgstr "Statistiques d’utilisation"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:70
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:63
 msgid "Use Code"
 msgstr "Utilisez un code"
 
 #: ../../../../../cap-root/templates/Default/Common/admin/user/subscription.tt:7
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:65
 msgid "User"
 msgstr "Utilatisateur"
 
@@ -3498,6 +3616,7 @@ msgstr "Nom d’utilisateur ou adresse courriel"
 #: ../../../../../cap-root/templates/Default/Common/admin/user/create.tt:5
 #: ../../../../../cap-root/templates/Default/Common/admin/user/index.tt:8
 #: ../../../../../cap-root/templates/Default/Common/reports/index.tt:9
+#: ../../../../../cap-root/templates/Default/Common/reports/user/subscriptions.tt:9
 msgid "Users"
 msgstr "Utilisateurs"
 
@@ -3551,6 +3670,14 @@ msgstr "Visualiser cette série de documents à %1 :"
 msgid "View user"
 msgstr "Visionner l’utilisateur"
 
+#: ../../../../../cap-root/templates/Default/Common/reports/content/index.tt:42
+msgid "Views"
+msgstr ""
+
+#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:6
+msgid "Visit Early Canadiana Online"
+msgstr ""
+
 #: ../../../../../cap-root/templates/Default/Common/user/login.tt:74
 msgid "We need to verify that you are a human being. Please enter the words in the image below."
 msgstr "Nous devons nous assurer que vous êtes un être humain. Veuillez saisir les mots dans l’image ci-dessous."
@@ -3588,6 +3715,8 @@ msgstr "Désolé, nous ne pouvons pas traiter votre requête."
 msgid "Welcome"
 msgstr "Bienvenue"
 
+#. (c.institution.alias(c.stash.lang)
+#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:10
 msgid "Welcome, %1"
 msgstr "Bienvenue à %1"
 
@@ -3621,9 +3750,6 @@ msgstr "Années"
 msgid "Yes"
 msgstr "Oui"
 
-#. (c.portal.title(c.stash.lang)
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:14
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:19
 msgid "You are a subscriber to <em>%1</em>."
 msgstr "Vous êtes abonné(e) à <em>%1</em>."
 
@@ -3633,20 +3759,15 @@ msgstr "Vous accédez à NML par l’entremise d’une institution abonnée à n
 msgid "You are not currently subscribed to ECO. Subscription allows full access to the ECO collection, and funds the digitization of new content."
 msgstr "Présentement, vous n’avez pas d’abonnement à NML. L’abonnement vous donne accès à toute la collection NML et finance la numérisation de nouveaux contenus."
 
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:37
 msgid "You are not signed in."
 msgstr "Vous n’êtes pas inscrit(e)."
 
 msgid "You are subscribed to the following collections"
 msgstr "Vous êtes abonné(e) aux collections suivantes"
 
-#. (c.portal.title(c.stash.lang)
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:32
 msgid "You are using a limited public version of %1. Full access is available to subcribers."
 msgstr "Vous utilisez une version en accès public restreint à %1. Le plein accès est disponible pour les abonné(e)s."
 
-#. (c.portal.title(c.stash.lang)
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:26
 msgid "You are using a limited public version of <em>%1</em>. To access the full content and features, you must be a subscriber."
 msgstr "Vous utilisez une version en accès public restreint de <em>%1</em>. Pour obtenir le plein accès au contenu et aux fonctionnalités, vous devez vous abonner."
 
@@ -3658,8 +3779,6 @@ msgstr "Vos privilèges sont insuffisants pour visionner cette page."
 msgid "You have entered an invalid promotion code."
 msgstr "Le code promotionnel que vous avez saisi n’est pas valide."
 
-#. (c.institution.alias(c.stash.lang)
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:5
 msgid "You have full subscriber access to this Canadiana collection because you are accessing it from %1"
 msgstr "Vous avez le plein accès réservé aux abonné(e)s pour cette collection de Canadiana parce que vous y accédez  par le biais de %1."
 
@@ -3727,8 +3846,8 @@ msgstr "Votre période d’essai gratuit à NML s’est terminée le %1. Abonnez
 msgid "Your ECO subscription expired on %1. Renew it to regain access to the complete ECO collection."
 msgstr "Votre abonnement à NML expire le %1. Renouvelez-le pour conserver un accès à toute la collection NML."
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:6
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:7
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/index.tt:9
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:78
 #: ../../../../../cap-root/templates/Default/canadiana/content/footer.tt:14
 #: ../../../../../cap-root/templates/Default/eco/content/footer.tt:14
 msgid "Your Profile"
@@ -3738,7 +3857,7 @@ msgstr "Votre profil"
 msgid "Your email address is invalid."
 msgstr "Votre adresse de courriel n’est pas valide."
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:56
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:49
 msgid "Your existing subscription will expire"
 msgstr "Votre abonnement actuel expirera"
 
@@ -3757,7 +3876,7 @@ msgstr "Votre nom"
 msgid "Your name cannot exceed 128 characters"
 msgstr "Votre nom ne peut pas dépasser 128 caractères"
 
-#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:60
+#: ../../../../../cap-root/templates/Default/Common/user/subscription/subscribe.tt:53
 msgid "Your new subscription will expire"
 msgstr "Votre nouvel abonnement expirera"
 
@@ -3817,8 +3936,6 @@ msgstr "Votre abonnement expire le %1"
 msgid "Your subscription has expired. %1 to regain full access to all ECO content."
 msgstr "Votre abonnement est expiré. %1 pour profiter de nouveau d'un accès à tout le contenu de NML."
 
-#. (c.portal.title(c.stash.lang)
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:22
 msgid "Your subscription has expired. You now have limited public access to <em>%1</em>."
 msgstr "Votre abonnement est expiré. Vous avez maintenant un accès public restreint à <em>%1</em>."
 
@@ -3827,8 +3944,6 @@ msgstr "Votre abonnement est expiré. Vous avez maintenant un accès public rest
 msgid "Your subscription to %1 has been confirmed. Please print this page for your records."
 msgstr "Votre abonnement à %1 est confirmé. Veuillez imprimer cette page pour vos dossiers."
 
-#. (c.portal.title(c.stash.lang)
-#: ../../../../../cap-root/templates/Default/Common/partial/access_status.tt:16
 msgid "Your subscription to <em>%1</em> will expire on %2."
 msgstr "Votre abonnement à <em>%1</em> expirera le %2."
 
@@ -3913,7 +4028,7 @@ msgstr "http://www.canadiana.ca/portail_fr"
 msgid "http://www.canadiana.ca/en/contact"
 msgstr "http://www.canadiana.ca/contact_fr"
 
-#: ../../../../../cap-root/templates/Default/heritage/index.tt:11
+#: ../../../../../cap-root/templates/Default/heritage/index.tt:10
 msgid "http://www.canadiana.ca/en/heritage-faq"
 msgstr "http://www.canadiana.ca/heritage-foq"
 
