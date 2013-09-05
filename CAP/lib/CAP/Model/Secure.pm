@@ -28,7 +28,8 @@ method routeRequest ($c) {
     elsif ($c->req->referer) {
         $c->req->referer =~ m#://(.*?)[:/]|$#;
         if ($1 && $1 ne $secure_host) {
-            $c->session('origin' => { portal => $c->portal->id, uri => $c->req->referer || undef } );
+            $c->req->referer =~ m#://([^.]+)#;
+            $c->session('origin' => { portal => $1, uri => $c->req->referer || undef } );
         }
     }
 
