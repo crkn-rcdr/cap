@@ -137,7 +137,7 @@ __PACKAGE__->belongs_to(
   { id => "portal_id" },
 );
 
-=head2 users_discounts_discount_ids
+=head2 users_discounts
 
 Type: has_many
 
@@ -146,30 +146,15 @@ Related object: L<CAP::Schema::Result::UsersDiscounts>
 =cut
 
 __PACKAGE__->has_many(
-  "users_discounts_discount_ids",
+  "users_discounts",
   "CAP::Schema::Result::UsersDiscounts",
   { "foreign.discount_id" => "self.id" },
   undef,
 );
 
-=head2 users_discounts_user_ids
 
-Type: has_many
-
-Related object: L<CAP::Schema::Result::UsersDiscounts>
-
-=cut
-
-__PACKAGE__->has_many(
-  "users_discounts_user_ids",
-  "CAP::Schema::Result::UsersDiscounts",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KK67y4K+oeOyo0jeL0AKlg
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-09-06 13:33:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3lJPHuWwcUjbpa5QIR6c2Q
 
 
 =head2 active

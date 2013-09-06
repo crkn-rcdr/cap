@@ -128,19 +128,15 @@ __PACKAGE__->belongs_to(
 
 Type: belongs_to
 
-Related object: L<CAP::Schema::Result::Discounts>
+Related object: L<CAP::Schema::Result::User>
 
 =cut
 
-__PACKAGE__->belongs_to(
-  "user_id",
-  "CAP::Schema::Result::Discounts",
-  { id => "user_id" },
-);
+__PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4n+dfepjA7U9XUmUgxZcLQ
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-09-06 13:33:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:YXMZsJWmWKyvf6vbRgciZg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

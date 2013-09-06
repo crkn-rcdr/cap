@@ -368,6 +368,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 users_discounts
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::UsersDiscounts>
+
+=cut
+
+__PACKAGE__->has_many(
+  "users_discounts",
+  "CAP::Schema::Result::UsersDiscounts",
+  { "foreign.user_id" => "self.id" },
+  undef,
+);
+
 =head2 institution_ids
 
 Type: many_to_many
@@ -379,8 +394,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-20 08:09:23
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:I8lKscb3ZKTqKQynJovjKA
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-09-06 13:33:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:kRTh5dsPNRE3AvTRVCaCfA
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
