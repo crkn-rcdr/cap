@@ -26,10 +26,17 @@ method routeRequest ($c) {
         $c->session('origin' => undef);
     }
     elsif ($c->req->referer) {
-        $c->req->referer =~ m#://(.*?)[:/]|$#;
-        if ($1 && $1 ne $secure_host) {
-            $c->req->referer =~ m#://([^.]+)#;
-            $c->session('origin' => { portal => $1, uri => $c->req->referer || undef } );
+        # FIXME: this is a temporary workaround to a specific instance of
+        # a generally more serious problem regarding non-CAP referers.
+        if ($c->req->referer =~ /paypal/) {
+            ;
+        }
+        else {
+            $c->req->referer =~ m#://(.*?)[:/]|$#;
+            if ($1 && $1 ne $secure_host) {
+                $c->req->referer =~ m#://([^.]+)#;
+                $c->session('origin' => { portal => $1, uri => $c->req->referer || undef } );
+            }
         }
     }
 
