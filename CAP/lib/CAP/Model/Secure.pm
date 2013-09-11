@@ -18,26 +18,46 @@ method routeRequest ($c) {
     my $secure_protocol = $c->config->{secure}->{protocol} || die("In cap.conf: missing protocol directive in <secure>");
     my $secure_host     = $c->config->{secure}->{host} || die("In cap.conf: missing host directive in <secure>");
 
+
     # If this is not the secure host, we need to forget any origin
     # information in the session. Otherwise, we want to remember the
     # referring portal and URL, provided that it is also not the secure
     # host.
     if ($c->req->uri->host ne $secure_host) {
+        #warn sprintf("Host is %s, so unsetting origin", $c->req->uri->host);
         $c->session('origin' => undef);
     }
     elsif ($c->req->referer) {
-        # FIXME: this is a temporary workaround to a specific instance of
-        # a generally more serious problem regarding non-CAP referers.
-        if ($c->req->referer =~ /paypal/) {
-            ;
-        }
-        else {
-            $c->req->referer =~ m#://(.*?)[:/]|$#;
-            if ($1 && $1 ne $secure_host) {
-                $c->req->referer =~ m#://([^.]+)#;
-                $c->session('origin' => { portal => $1, uri => $c->req->referer || undef } );
+
+        # Get the referer host and domain name.
+        my $referer = $c->req->referer; $referer =~ s#.*://##; $referer =~ s#[:/?].*##;
+        my($ref_host, $ref_domain) = split(/\./, $referer, 2);
+        #warn "Referer URL is $referer. Host is $ref_host. Domain is $ref_domain";
+
+        # If the referer is not the secure host, check to see if it is
+        # from a portal within our domain.
+        if ($referer ne $secure_host) {
+
+            # Get our host and domain name.
+            my($my_host, $my_domain) = split(/\./, $c->req->uri->host, 2);
+            #warn "My host is $my_host. Domain is $my_domain";
+
+            # See if the domains match. If they do, and if there is a portal
+            # that maps to the referer's host, then we conclude that the
+            # request came from one of our non-secure portals. If this is the
+            # case, we must remember the portal name and URL.
+            if ($my_domain eq $ref_domain) {
+                #warn("The domains are the same, so we check the portal name");
+                if ($c->model('DB::PortalHost')->find($ref_host)) {
+                    #warn("Found a portal for $ref_host so we remember the referer");
+                    $c->session('origin' => { portal => $ref_host, uri => $c->req->referer || undef } );
+                }
             }
         }
+
+    }
+    else {
+        #warn "Arrived at secure host with no referer";
     }
 
     # The secure host must handle https requests only (unless protcol is
