@@ -133,13 +133,37 @@ Set the current view according the request parameters.
 
 =cut
 method setView($request, $config) {
-    if ($request->params->{fmt}) {
-        my $fmt = $request->params->{fmt};
-        if ($config->{fmt}->{$fmt}) {
-            return $config->{fmt}->{$fmt}->{view};
+    #warn $request->action;
+    my $fmt = $request->params->{fmt};
+
+    # If a format is defined...
+    if ($fmt) {
+        my $view = $config->{fmt}->{$fmt};
+        
+        # And exists in the config...
+        if ($view) {
+
+            # Grab the list of actions that can use this view. Default is
+            # * (all actions). If an action matches, use the view
+            foreach my $action (split(/\s+/, $view->{actions} || '*')) {
+                if ($action eq '*' || $action eq $request->action) {
+                    return $config->{fmt}->{$fmt}->{view};
+                }
+            }
         }
+
+        # If the action doesn't match, undefine the format.
+        delete($request->params->{fmt});
     }
+
+    #if ($request->params->{fmt}) {
+    #    my $fmt = $request->params->{fmt};
+    #    if ($config->{fmt}->{$fmt}) {
+    #        return $config->{fmt}->{$fmt}->{view};
+    #    }
+    #}
     
+    # In all other cases, use the default view.
     return $config->{default_view} || 'Default';
 }
 
