@@ -1,0 +1,3 @@
+[% title = c.loc("Support") %]
+
+[% PROCESS "support/${support_resource}.tt" %]

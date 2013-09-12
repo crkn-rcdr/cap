@@ -1,0 +1,4 @@
+<div id="main" role="main" class="frontpage">
+[% INCLUDE partial/messages.tt | indent(4) %]
+[% content | indent(4) %]
+</div>

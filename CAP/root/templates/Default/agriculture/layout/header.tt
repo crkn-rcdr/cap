@@ -1,0 +1,10 @@
+﻿[% l = c.stash.lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+<header>
+    <div class="container">
+        <h1><a href="[% c.uri_for_action("/index") %]">[% portal_name %]</a></h1>
+        <ul class="nav-right">
+            <li><a href="[% c.uri_for_action("/index") %]">[% c.loc("New Search") %]</a></li>
+            <li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
+        </ul>
+    </div>
+</header>

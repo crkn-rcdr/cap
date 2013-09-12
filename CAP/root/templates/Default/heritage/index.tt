@@ -1,0 +1,18 @@
+[% title = c.loc("Welcome") -%]
+
+<div class="row">
+    <div class="span6 blurb">
+[% INCLUDE "content/index_text_${lang}.tt" | indent(8) -%]
+    </div>
+    <div class="span6 search">
+[% INCLUDE partial/search_form.tt | indent(8) %]
+		<h3><a href="[% c.uri_for_action("/search/index", { 't' => 'series' }) %]">[% c.loc("Browse all titles") %] &raquo;</a></h3>
+		<h3><a href="[% c.loc("http://www.canadiana.ca/en/heritage-faq") %]">[% c.loc("Frequently asked questions") %] &raquo;</a></h3>
+    </div>
+</div>
+
+[% INCLUDE partial/slideshow.tt shadow=1 %]
+[% INCLUDE partial/collection_list.tt %]
+
+<h2>[% c.loc("In partnership with") %]</h2>
+<p><img src="/static/images/crkn_logo.jpg" alt="CRKN / RCDR" /></p>

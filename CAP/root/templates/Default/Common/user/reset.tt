@@ -1,0 +1,25 @@
+[% title = c.loc("Password reset") %]
+
+<h2>[% c.loc("Password reset") %]</h2>
+
+[% IF user %]
+    <p>[% c.loc("Email has been sent to you at [_1] with instructions for resetting your password.", user.email) %]</p>
+    <p>[% c.loc("It may take a few minutes before you receive the message.  If you do not see the email in your inbox, remember to check your junk mail folder as well.") %]</p>
+[% ELSE %]
+    <p>[% c.loc("Enter your Canadiana username or the email address you signed up with below to receive an email with instructions for resetting your password.") %]</p>
+
+    <form class="form-horizontal" method="POST" action="[% c.uri_for_action('/user/reset') %]">
+        <fieldset>
+            <legend>[% c.loc("Request password reset") %]</legend>
+            <div class="control-group">
+                <label class="control-label" for="username">[% c.loc("Username or email address") %]</label>
+                <div class="controls">
+                    <input id="username" name="username" value="[% c.req.params.defined("username") ? c.req.params.username : "" %]" required />
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" name="submit" value="reset">[% c.loc("Send instructions") %]</button>
+            </div>
+        </fieldset>
+    </form>
+[% END %]

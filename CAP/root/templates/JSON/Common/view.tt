@@ -1,0 +1,13 @@
+[%-
+  USE JSON.Escape( pretty => 1);
+
+  api = {};
+
+  # Basic header info
+  api.version       = "0.4";
+  api.request       = "${c.req.uri}";
+
+  api.doc           = doc.record.api;
+
+  api.json;
+-%]

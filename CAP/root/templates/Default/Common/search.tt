@@ -1,0 +1,30 @@
+﻿[% title = "Search results for " _ c.req.query_params.q -%]
+
+[%-
+    MACRO sort_order(code) INCLUDE macro/sort_order.tt;
+    MACRO format_number(number) INCLUDE macro/format_number.tt;
+    MACRO hash_to_hidden(hash) INCLUDE macro/hash_to_hidden.tt;
+    keywords = c.req.query_params.defined("q") ? c.req.query_params.q : "";
+    pkey = c.req.query_params.defined("pkey") ? c.req.query_params.pkey : "";
+    sort = c.req.query_params.defined("so") ? c.req.query_params.so : "score";
+    searchLang = c.req.query_params.defined("lang") ? c.req.query_params.lang : "";
+    media = c.req.query_params.defined("media") ? c.req.query_params.media : "";
+    contributor = c.req.query_params.defined("contributor") ? c.req.query_params.contributor : "";
+    collection = c.req.query_params.defined("collection") ? c.req.query_params.collection : "";
+    date_from = c.req.query_params.defined("df") ? c.req.query_params.df : "";
+    date_to = c.req.query_params.defined("dt") ? c.req.query_params.dt : "";
+    hits = resultset.hits;
+    hits_from = resultset.hits_from;
+    hits_to = resultset.hits_to;
+    current_page = resultset.page;
+    total_pages = resultset.pages;
+-%]
+
+<div class="row">
+    <div class="span3">
+[% INCLUDE partial/search_controls.tt | indent(8) -%]
+    </div>
+    <div class="span9">
+[% INCLUDE partial/search_results.tt | indent(8) -%]
+    </div>
+</div>

@@ -1,0 +1,58 @@
+[% report_duration = start.delta_days(end).in_units('days') || 1 %]
+[% title = c.loc("Reports: Titles by Access Frequency") %]
+
+<h2>[% title %]</h2>
+
+<p>
+    <a href="[% c.uri_for_action("reports/index") %]">[% c.loc("Reports") %]</a> |
+    <a href="[% c.uri_for_action("reports/index") %]#tab_content">[% c.loc("Content") %]</a>
+</p>
+
+<h3>[% c.loc("Summary") %]</h3>
+
+<table class="table">
+    <tr>
+        <th>[% c.loc("Reporting Period") %]</th>
+        <td>[% c.loc("[_1] to [_2]", start.ymd, end.ymd) %]</td>
+    </tr>
+    <tr>
+        <th>[% c.loc("Period Length") %]</th>
+        <td>[% c.loc("[_1] days", report_duration) %]</td>
+    </tr>
+    <tr>
+        <th>[% c.loc("Portal") %]</th>
+        <td>[% IF limit_portal; limit_portal.title(lang); ELSE; c.loc("All Portals"); END %]</td>
+    </tr>
+</table>
+
+[% INCLUDE partial/report_filter.tt url = c.uri_for_action('/reports/content/index') %]
+
+<h3>[% c.loc("Titles by Access Frequency") %]</h3>
+
+[% IF pager.total_entries > pager.last %]
+<p>[% c.loc("Showing items [_1] to [_2] of [_3]", pager.first, pager.last, pager.total_entries) %]</p>
+[% END %]
+
+[% INCLUDE partial/paginator.tt current_page=pager.current_page total_pages=pager.last_page page_action='hash' hash_key='page'%]
+
+<table class="table">
+    <tr>
+        <th>[% c.loc("ID") %]</th>
+        <th>[% c.loc("Title") %]</th>
+        <th>[% c.loc("Views") %]</th>
+    </tr>
+    [% FOREACH i IN entity %]
+    <tr>
+        <td><a href="[% c.uri_for_action('content/title/index',  [i.title.id] ) %]">[% i.title.id %]</a></td>
+        <td><a href="[% c.uri_for_action('content/title/index',  [i.title.id] ) %]">[% i.title.label %]</a></td>
+        <td>[% i.count %]</td>
+    </tr>
+    [% END %]
+</table>
+
+
+[% IF pager.total_entries > pager.last %]
+<p>[% c.loc("Showing items [_1] to [_2] of [_3]", pager.first, pager.last, pager.total_entries) %]</p>
+[% END %]
+
+[% INCLUDE partial/paginator.tt current_page=pager.current_page total_pages=pager.last_page page_action='hash' hash_key='page'%]

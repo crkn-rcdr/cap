@@ -1,0 +1,39 @@
+[%-
+  # Generic error page.
+  title = c.loc("Error");
+-%]
+  
+[%
+  IF status == '400';
+    error_header = c.loc("Bad Request");
+    error_text   = c.loc("The page you requested cannot be displayed.");
+  ELSIF status == '403' && c.user_exists;
+    error_header = c.loc("Insufficient Privileges");
+    error_text   = c.loc("You do not have sufficient privileges to view this page.");
+  ELSIF status == '403' && ! c.user_exists;
+    error_header = c.loc("Access Restricted");
+    error_text   = c.loc("You must be logged in to view this page.");
+  ELSIF status == '404';
+    error_header = c.loc("Page Not Found");
+    error_text   = c.loc("The page you were looking for cannot be found.");
+  ELSIF status == '500';
+    error_header = c.loc("Server Error");
+    error_text   = c.loc("There was a problem with your request; try again in a few moments.");
+  ELSIF status == '503';
+    error_header = c.loc("Server Error");
+    error_text   = c.loc("There was a problem with your request; try again in a few moments.");
+  ELSE;
+    error_header = c.loc("Error");
+    error_text   = c.loc("We're sorry; we were unable to process your request.");
+  END;
+%]
+
+<h2>[% error_header %]</h2>
+
+<p>[% error_text %]</p>
+
+[% IF c.debug || c.has_role('administrator') %]
+<h3>[% c.loc("Additional Debugging Information") %]</h3>
+<p>[% c.loc("Status:") %] <strong>[% status %]</strong></p>
+<p>[% c.loc("Error:")  %] <strong>[% error %]</strong></p>
+[% END %]

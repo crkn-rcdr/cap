@@ -1,0 +1,16 @@
+<div>
+  <p>[% c.loc("Report for the past [_1] days", period) %]</p>
+
+  <div>
+    <form method="GET" action="">
+      <div>
+        <select name="period" onchange="this.form.submit()">
+          <option value="0">[% c.loc("Change Reporting Period") %]</option>
+          <option value="30">[% c.loc("30 days") %]</option>
+          <option value="90">[% c.loc("90 days") %]</option>
+          <option value="365">[% c.loc("1 year") %]</option>
+        </select>
+      </div>
+    </form>
+  </div>
+</div>

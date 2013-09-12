@@ -1,0 +1,9 @@
+﻿[% c.stash.description = "Ces collections contiennent plus de 80,000 livres rares, revues et publications gouvernementales datant des années 1600 jusqu'aux années 1940." %]
+
+<h2>À propos de Notre mémoire en ligne</h2>
+<p>Ces collections contiennent plus de 80,000 livres rares, revues et publications gouvernementales datant des années 1600 jusqu'aux années 1940. <a id="ecoMoreLink" href="#" class="hidden">Lire la suite...</a></p>
+<section id="ecoMore" class="hide_from_js">
+    <p>Cette collection rare de documents patrimoniaux présente de l’intérêt pour les universitaires, les généalogistes, les amateurs d’histoire et quiconque prend plaisir à lire l’histoire du Canada à ses débuts.</p>
+    <p>La collection Notre mémoire en ligne contient plus de 80,000 titres (3,500,000 pages) de livres rares, revues et publications officielles. La collection, qui ne cesse de se développer, comprend des imprimés datant de l’époque de l’arrivée des premiers colons européens jusqu’aux quatre premières décennies du XXe siècle.</p>
+    <p>Vous y trouverez des ouvrages écrits en 21 langues, dont le français, l’anglais, le latin, le grec, dix langues des Premières nations et plusieurs langues européennes.</p>
+</section>

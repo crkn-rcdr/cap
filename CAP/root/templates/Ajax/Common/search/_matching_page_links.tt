@@ -1,0 +1,3 @@
+[% FOR page IN page_search.docs -%]
+<a class="matching-page" [% IF is_hosted_document %]data-seq="[% page.seq %]" [% END %]href="[% is_hosted_document ? c.uri_for_action("view/key_seq", doc.key, page.seq).path : c.uri_for_action("link/index", page.key) %]"[% UNLESS is_hosted_document %] target="_blank"[% END %]>[% page.label | html %]</a>[% UNLESS loop.last %] | [% END %]
+[% END %]

@@ -1,0 +1,4 @@
+[% is_hosted_document = c.portal.hosts_doc(doc) -%]
+[% IF page_search.keys.size -%]
+| [% PROCESS search/_matching_page_links.tt %]
+[% END -%]

@@ -1,0 +1,5 @@
+[% c.loc("If you have any questions about this message, contact us at: info@canadiana.ca.") %]
+
+[% c.loc("Sincerely,") %]
+[% c.loc("The Canadiana Team") %]
+

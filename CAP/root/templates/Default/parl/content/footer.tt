@@ -1,0 +1,9 @@
+﻿<p>
+    [% IF c.stash.lang == "fr" %]
+        <a href="http://www.parl.gc.ca/ParlBusiness.aspx?Language=F" target="_blank">Contenu fourni par la Bibliothèque du Parlement</a><br />
+        <a href="http://www.canadiana.org/fr/accueil" target="_blank">Réalisé par Canadiana.org</a>
+    [% ELSE %]
+        <a href="http://www.parl.gc.ca/ParlBusiness.aspx?Language=E" target="_blank">Content provided by the Library of Parliament</a><br />
+        <a href="http://www.canadiana.org/en/home" target="_blank">Produced by Canadiana.org</a>
+    [% END %]
+</p>

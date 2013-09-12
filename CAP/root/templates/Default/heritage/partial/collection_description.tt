@@ -1,0 +1,28 @@
+﻿[% SWITCH key %]
+    [% CASE "heir" %]
+            <p><strong>1777 &mdash; 1854</strong></p>
+        [% IF c.stash.lang == "fr" %]
+            <p>En 1797, le gouvernement du Haut-Canada (aujourd’hui l’Ontario) a créé la Heir and Devisee Commission dont le but était de clarifier les titres de propriété de terres pour les colons établis sur des terres non concédées. Si votre ancêtre vivait dans le Haut-Canada vers cette époque, il y a des chances que vous puissiez trouver des références à son sujet dans cette collection. Les documents peuvent comprendre des affidavits, des cautionnements, des certificats de localisation, des procurations, des arrêtés en conseil, des copies de testaments, des emprunts hypothécaires, des contrats de vente et des lettres de témoignages. <a href="[% c.uri_for_action("/support", "heir_and_devisee") %]"><strong>Pour en savoir plus&nbsp;&raquo;</strong></a></p>
+        [% ELSE %]
+            <p>In 1797, the government of Upper Canada (now Ontario) established the Heir and Devisee Commission. Its purpose was to clarify land titles for settlers on unpatented land. If your ancestor was living in Upper Canada around this time, there is a chance that you might find them referenced in this collection. Records can include: affidavits, bonds, location certificates, powers of attorney, orders-in-council, copies of wills, mortgages, deeds of sale, and testimonial letters. <a href="[% c.uri_for_action("/support", "heir_and_devisee") %]"><strong>Read&nbsp;more&nbsp;&raquo;</strong></a></p>
+        [% END %]
+            <p><a class="btn btn-primary" href="[% c.uri_for_action("/view/key", "oocihm.lac_mikan_205142") %]">[% c.loc("Browse this collection") %]</a></p>
+    [% CASE "land" %]
+        [% IF c.stash.lang == "fr" %]
+            <p><strong>février 1787 &mdash; février 1841</strong></p>
+            <p>Les premiers colons du Haut-Canada, aujourd’hui l’Ontario, pouvaient présenter des demandes pour obtenir des terres de la Couronne en soumettant d’abord une pétition au gouvernement. Le Comité sur les terres du Conseil exécutif du Haut-Canada examinait ces demandes, puis décidait d’accorder ou non la concession d’une terre de la Couronne. Ces décisions sont enregistrées dans des registres de procès-verbaux communément désignés sous le titre de Upper Canada Land Books. Au total, plus de 82,000 pétitionnaires se sont présentés, au cours de cette période, devant le Comité pour soumettre leur demande en vue d’obtenir une terre de la Couronne. <a href="[% c.uri_for_action("/support", "land_books") %]"><strong>Pour en savoir plus&nbsp;&raquo;</strong></a></p>
+        [% ELSE %]
+            <p><strong>February 1787 &mdash; February 1841</strong></p>
+            <p>Early settlers in Upper Canada, now known as Ontario, could apply for ownership of Crown Lands by first submitting a written petition to the government. The Land Committee of the Executive Council of Upper Canada considered these petitions and made a decision of granting or not a Crown land; the record of those decisions are in the minutes, commonly known as the Upper Canada Land Books. In total, over 82,000 petitioners went before the Committee during this period to submit a request for Crown Land. <a href="[% c.uri_for_action("/support", "land_books") %]"><strong>Read&nbsp;more&nbsp;&raquo;</strong></a></p>
+        [% END %]
+            <p><a class="btn btn-primary" href="[% c.uri_for_action("/view/key", "oocihm.lac_mikan_205068") %]">[% c.loc("Browse this collection") %]</a></p>
+    [% CASE "sundries" %]
+            <p><strong>1766 &mdash; 1841</strong></p>
+        [% IF c.stash.lang == "fr" %]
+            <p>Cette série est constituée de documents reçus par le secrétaire civil du lieutenant-gouverneur du Haut-Canada (aujourd’hui l’Ontario) et couvre la période de 1766 à 1841. Les responsabilités du secrétaire civil consistaient à gérer ces documents en veillant aux envois d’accusés de réception, à leur transmission à la personne appropriée ou à leur classement. La collection comprend des lettres, des pétitions, des rapports, des demandes, des déclarations et des annexes, des certificats, des comptes, des mandats, des avis légaux, des instructions et des règlements, ainsi que des proclamations. <a href="[% c.uri_for_action("/support", "sundries") %]"><strong>Pour en savoir plus&nbsp;&raquo;</strong></a></p>
+        [% ELSE %]
+            <p>This series consists of documents received by the Civil Secretary to the Lieutenant Governor of Upper Canada (now Ontario) covering the years 1766-1841. The Civil Secretary’s responsibility was to manage the documents, ensuring that they were acknowledged, forwarded to the appropriate person, or filed. The collection includes letters, petitions, reports, applications, returns and schedules, certificates, accounts, warrants, legal opinions, instructions and regulations, and proclamations. <a href="[% c.uri_for_action("/support", "sundries") %]"><strong>Read&nbsp;more&nbsp;&raquo;</strong></a></p>
+        [% END %]
+            <p><a class="btn btn-primary" href="[% c.uri_for_action("/view/key", "oocihm.lac_mikan_125539") %]">[% c.loc("Browse this collection") %]</a></p>
+    [% CASE DEFAULT %]
+[% END %]

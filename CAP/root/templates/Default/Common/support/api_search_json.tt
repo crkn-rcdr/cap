@@ -1,0 +1,137 @@
+﻿<div class="support">
+
+<h2>Response Document</h2>
+
+<p>Version 0.3</p>
+
+[% IF lang == 'fr' %]
+Ce document de travail n'est disponible qu'en anglais. La version finale
+sera disponible en français
+[% END %]
+
+<p>This API is still under development and is subject to further change.</p>
+
+<h3>JSON Response Summary</h3>
+
+<p>Elements starting with <code>$</code> (e.g. <code>$field</code>) are
+variable names.</p>
+
+<pre>
+{
+   "<a href="#request">request</a>" : Str,
+   "<a href="#version">version</a>" : Str,
+
+ // Navigation information about the result set:
+   "result"  : {
+       "<a href="#page">page</a>"          : Int,
+       "<a href="#pages">pages</a>"         : Int,
+       "<a href="#prev_page">prev_page</a>"     : Str,
+       "<a href="#next_page">next_page</a>"     : Str,
+       "<a href="#hits">hits</a>"          : Int,
+       "<a href="#hits_per_page">hits_per_page</a>" : Int,
+       "<a href="#hits_from">hits_from</a>"     : Int,
+       "<a href="#hits_to">hits_to</a>"       : Int,
+       "<a href="#query_time">query_time</a>"    : Int,
+   },
+
+// About the range of publication dates in the set:
+   "pubdate" : {
+       "<a href="#min">min</a>"           : Str,
+       "<a href="#max">max</a>"           : Str,
+       "<a href="#min_year">min_year</a>"      : Int,
+       "<a href="#max_year">max_year</a>"      : Int,
+   },
+
+// Facetable fields:
+   "facet"   : {
+       "lang"         : [ name, value, ... ],
+       "media"        : [ name, value, ... ],
+       "contributor"  : [ name, value, ... ],
+   },
+
+// List of matching documents (current page):
+   "docs"   : [
+       {
+           "key"      : Str,
+           "pkey"     : Str,
+           "label"    : Str,
+           "type"     : Str,
+           "location" : Str,
+           "title"    : [ Str, ... ],
+           "creator"  : [ Str, ... ],
+           "Subject"  : [ Str, ... ],
+           "Note"     : [ Str, ... ],
+
+       }, ...
+   ],
+}
+</pre>
+
+<h3>Result Set Information</h3>
+
+<p>The first part of the response contains information about the search
+result set. These values are primarily useful for navigating through the
+result set.</p>
+
+<dl>
+  <dt><a name="request">request</a></dt>
+  <dd>The request URI</dd>
+  <dt><a name="version">version</a></dt>
+  <dd>Version string of the API</dd>
+  <dt><a name="page">page</a></dt>
+  <dd>Number of the current page of results</dd>
+  <dt><a name="page">pages</a></dt>
+  <dd>Number of pages in the result set</dd>
+  <dt><a name="prev_page">prev_page</a></dt>
+  <dd>URI to get the previous page of results</dd>
+  <dt><a name="next_page">next_page</a></dt>
+  <dd>URI to get the next page of results</dd>
+  <dt><a name="hits">hits</a></dt>
+  <dd>Total number of documents matching the search criteria</dd>
+  <dt><a name="hits_per_page">hits_per_page</a></dt>
+  <dd>Number of matches per page of results</dd>
+  <dt><a name="hits_from">hits_from</a></dt>
+  <dd>Number of the first result on the current result page</dd>
+  <dt><a name="hits_to">hits_to</a></dt>
+  <dd>Number of the last result on the current result page</dd>
+  <dt><a name="query_time">query_time</a></dt>
+  <dd>Time in milliseconds spend executing the main search query</dd>
+  <dt><a name="min">min</a></dt>
+  <dd>Earliest date of publication of any record in the result set</dd>
+  <dt><a name="max">max</a></dt>
+  <dd>Latest date of publication of any record in the result set</dd>
+  <dt><a name="min_year">min_year</a></dt>
+  <dd>Earliest year of publication of any record in the result set. (Same
+  as the first four characters of <a href="#min">min</a>.)</dd>
+  <dt><a name="max_year">max_year</a></dt>
+  <dd>Latest year of publication of any record in the result set. (Same
+  as the first four characters of <a href="#max">max</a>.)</dd>
+</dl>
+
+<h3>Facet fields</h3>
+
+<p>The <code>facet</code> section of the response provides facet counts for selected
+fields: document language, media type and contributor identifier. each
+facet field provides an array of value and count pairs, indicating the
+number of documents containing each value. In the following example, there
+are 18 documents in Englihsh, 12 in French and 7 in Chinese within the
+result set:
+
+<h3>Documents</h3>
+
+<p>The <code>docs</code> section of the response includes an array of
+documents for the current results page (corresponding to the position in
+the result set described by the <code>page</code>, <code>hits_from</code>
+and <code>hits_to</code> variables). Within each document is a table of
+field-value pairs. Fields which can only contain a single value (e.g.,
+<code>key</code>, <code>location</code> have string values, while fields
+that could contain more than one value (e.g., <code>title</code>,
+<code>creator</code>) have array values, even if there is only a single
+value for that particular record.</p>
+
+<pre>
+"lang" : [ "eng", 18, "fra", 12, "zho", 7 ]
+</pre>
+
+
+</div>

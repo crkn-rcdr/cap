@@ -1,0 +1,32 @@
+<p>
+    [% c.loc("Don't have an account?") %] <a href="[% c.uri_for_action("user/create") %]">[% c.loc("Sign up for your free account today!") %]</a>
+</p>
+<form class="form-horizontal" method="POST" action="[% c.uri_for_action("/user/login") %]">
+    <fieldset>
+        <legend>[% c.loc("Login to Early Canadiana Online") %]</legend>
+        <div class="control-group">
+            <label class="control-label" for="username">[% c.loc("Email address") %]</label>
+            <div class="controls">
+                <input type="email" id="username" name="username" value="[% formdata.username %]" required />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="password">[% c.loc("Password") %]</label>
+            <div class="controls">
+                <input type="password" id="password" name="password" required />
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input type="checkbox" name="persistent" />
+                    [% c.loc("Remember me on this computer") %]
+                </label>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" name="login" value="login">[% c.loc("Login") %]</button>
+            <a class="btn" href="[% c.uri_for_action("/user/reset") %]">[% c.loc("Forgot your password?") %]</a>
+        </div>
+    </fieldset>
+</form>

@@ -1,0 +1,43 @@
+﻿[%- BLOCK refine_link %]
+[% DEFAULT active = "" %]
+[% IF value == active %]
+    <strong>[% content %]</strong>
+[% ELSE %]
+    <a href="[% c.uri_for_action('search/index', c.req.mangle_params({ $field => value })) %]">[% content %]</a>
+[% END %]
+[% END -%]
+
+[%- BLOCK refine_date_link %]<a href="[% c.uri_for_action('search/index', c.req.mangle_params({ df => date_from, dt => date_to })) %]">[% content %]</a>[% END %]
+
+[%- BLOCK facet_pane %]
+    [% IF selected || (facets.size > 1) %]
+        [% WRAPPER layout/collapse_pane.tt name=name title=title open=selected %]
+            <nav>
+                [% IF selected %]
+                    <input type="hidden" name="[% name %]" value="[% c.req.query_params.defined(name) ? c.req.query_params.$name : "" %]" />
+                    <p>[% IF labels.defined(selected); labels.${selected}; ELSE; selected; END %] [% WRAPPER refine_link field=name value="" active=selected %]<b class="close">&times;</b>[% END %]</p>
+                [% ELSE %]
+                    <ul>
+                        [% FOREACH facet IN facets %]
+                            [% IF labels.defined(facet.name) %]
+                            <li>[% WRAPPER refine_link field=name value=facet.name %][% labels.${facet.name} %][% END %] ([% format_number(facet.count) %])</li>
+                            [% END %]
+                        [% END %]
+                    </ul>
+                [% END %]
+            </nav>
+        [% END %]
+    [% END %]
+[% END %]
+
+<aside class="search-controls">
+    <form method="GET" action="[% c.uri_for_action("/search/index") %]">
+        [% IF pkey %]<input type="hidden" name="pkey" value="[% pkey %]" />[% END -%]
+        <p>[% c.loc("Refine your search:") %]</p>
+        <input class="span3" type="text" name="q" value="[% c.req.query_params.defined("q") ? c.req.query_params.q : "" | html %]" />
+        <p>
+            <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
+            <a class="btn btn-large refine-search" href="[% c.uri_for_action("support", "search") %]">[% c.loc("Help") %]</a>
+        </p>
+    </form>
+</aside>

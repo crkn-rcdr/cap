@@ -1,0 +1,37 @@
+[% doc_title = doc.canonical_label | truncate(50) %]
+[% is_hosted_document = c.portal.hosts_doc(doc) %]
+[% title = doc_title _ (is_hosted_document ? " - " _ doc.active_child.label : "") %]
+[% c.stash.nofollow = 1 %]
+[% c.stash.description = doc.canonical_label;
+   IF doc.record.defined("pu"); c.stash.description = c.stash.description _ " : " _ doc.record.pu.join("; "); END;
+   IF doc.record.defined("au"); c.stash.description = c.stash.description _ " : " _ doc.record.au.join("; "); END %] 
+
+[% INCLUDE partial/keyword_search.tt label=doc.label key=doc.key t="page" so="seq" %]
+
+<h2>
+    [% IF doc.has_parent -%]
+        <a href="[% c.uri_for_action("view/key", doc.parent.key) %]">[% doc.parent.label %]</a> :
+    [% END -%]
+    [% doc.label %]
+</h2>
+[% INCLUDE partial/published_and_pages.tt record=doc.record %]
+[% UNLESS is_hosted_document %]
+<p>[% c.loc("View this document at [_1]:", c.stash.contributors.names.${doc.contributor}) %] <a href="[% c.uri_for_action("link/index", doc.key) %]" target="_blank">[% doc.canonical_label %]</a> <a class="new-window" title="[% c.loc("Link opens in a new window") %]" href="[% doc.canonicalUri %]"></a></p>
+[% END %]
+
+[% INCLUDE partial/manage_title.tt %]
+
+<ul class="nav nav-tabs">
+    [% IF is_hosted_document %]<li class="active"><a href="#pageViewer" data-toggle="tab">[% c.loc("View") %]</a></li>[% END %]
+    <li[% UNLESS is_hosted_document %] class="active"[% END %]><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>
+</ul>
+<div class="tab-content">
+    [% IF is_hosted_document %]
+    <div class="tab-pane active" id="pageViewer">
+        [% INCLUDE partial/page_viewer.tt %]
+    </div>
+    [% END %]
+    <div class="tab-pane[% UNLESS is_hosted_document %] active[% END %]" id="documentRecord">
+        [% INCLUDE partial/document_record.tt record=doc.record %]
+    </div>
+</div>

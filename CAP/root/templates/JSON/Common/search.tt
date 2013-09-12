@@ -1,0 +1,38 @@
+[%-
+  USE JSON.Escape( pretty => 1);
+
+  api = {};
+
+  # Basic header info
+  api.version       = "0.3";
+  api.request       = "${c.req.uri}";
+
+  # Page navigation
+  api.page          = resultset.page;
+  api.pages         = resultset.pages;
+  IF resultset.prev_page;
+    api.prev_page   = "${c.uri_for_action('/search/result_page', resultset.prev_page, c.req.params)}";
+  END;
+  IF resultset.next_page;
+    api.next_page   = "${c.uri_for_action('/search/result_page', resultset.next_page, c.req.params)}";
+  END;
+
+  # Number of results
+  api.hits          = resultset.hits;
+  api.hits_per_page = resultset.hits_per_page;
+  api.hits_from     = resultset.hits_from;
+  api.hits_to       = resultset.hits_to;
+
+  # Publication date range
+  api.pubmin        = pubmin;
+  api.pubmax        = pubmax;
+
+  # Document matches
+  api.docs          = resultset.api('docs');
+
+  # Facet counts
+  api.facet         = resultset.api('facet');
+
+  api.json
+-%]
+

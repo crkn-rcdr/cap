@@ -1,0 +1,9 @@
+[% MACRO format_money(amount) INCLUDE macro/format_money.tt %]
+[% title = c.loc("Subscribe to [_1]", entity.portal.title(lang)) %]
+
+<h2>[% c.loc("Subscribe to [_1]", entity.portal.title(lang)) %]</h2>
+
+[% INCLUDE "user/subscription/index_${entity.portal.id}.tt" %]
+
+<hr />
+<p><a class="btn" href="[% c.uri_for_action("/user/profile") %]">[% c.loc("Your Profile") %]</a></p>

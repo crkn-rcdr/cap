@@ -1,0 +1,12 @@
+[% is_hosted_document = c.portal.hosts_doc(doc) -%]
+[% IF page_search.keys.size -%]
+    [% c.loc("Matching pages:") %]
+    [% PROCESS search/_matching_page_links.tt -%]
+    [% IF page_search.hits > page_search.hits_to -%]
+        <span class="matching-pages-remaining">... <a class="matching-pages-remaining-link" data-rows="[% page_search.hits - 10 %]" href="[% c.uri_for_action("search/index", { q = c.req.query_params.q, pkey => doc.key, t => "page", so => "seq" }) %]">
+            [% c.loc("Show all [_1] matches", page_search.hits) %]
+        </a><span class="matching-pages-loading"><img class="loader" src="/static/images/loader.gif" alt="" /></span></span>
+    [% END -%]
+[% ELSE -%]
+    [% c.loc("No matching pages found.") %]
+[% END -%]

@@ -1,0 +1,11 @@
+[%-
+# Generate a table header with a list of columns
+# Usage: INCLUDE partial/table_header.tt columns=["Column Heading", ... ]
+-%]
+<thead>
+    <tr>
+    [% FOREACH column IN columns %]
+        <th>[% c.loc(column) %]</th>
+    [% END %]
+    </tr>
+</thead>

@@ -1,0 +1,5 @@
+﻿<h2>Collection numérique de la Guerre de 1812</h2>
+<p>La Collection numérique de la Guerre de 1812 est un portail de recherche recueillant des documents et objets historiques reliés à la guerre, ce qui comprend des livres, cartes, journaux, correspondance militaire, et objets physiques. Ce projet libre d’accès comprend le matériel de la Guerre de 1812 obtenu chez notre portail sœur, <a href="http://eco.canadiana.ca/?usrlang=fr" target="_blank">Notre mémoire en ligne</a>, ainsi que des items rendus disponibles grâce à la générosité de nos partenaires &mdash; musées, archives, départements gouvernementales, et la communauté patrimoniale plus généralement.</p>
+<h3>Collaborateur vedette</h3>
+<p>Parcs Canada a fait le don de <a href="[% c.uri_for_action("/search/index", { q => "", contributor => "oopac" }) %]">41 objets numériques</a>.<br />
+Decouvrez comment <a href="[% c.uri_for_action("/support", "contributors") %]">ajouter des items</a> et soutenir le projet.</p>

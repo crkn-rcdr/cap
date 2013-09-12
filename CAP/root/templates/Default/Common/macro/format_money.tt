@@ -1,0 +1,12 @@
+[%- PERL -%]
+    use Locale::Currency::Format;
+    
+    my $amt = "[% amount %]";
+    my $lang = "[% lang %]";
+
+    my $template = "\$#,###.##";
+    if ($lang eq 'fr') { $template = "#&nbsp;###,##&nbsp;\$"; }
+
+    currency_set("CAD", $template, FMT_HTML);
+    print currency_format("CAD", $amt, FMT_HTML);
+[%- END -%]

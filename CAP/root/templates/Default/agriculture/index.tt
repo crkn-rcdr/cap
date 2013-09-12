@@ -1,0 +1,10 @@
+﻿[% title = c.loc("Welcome") -%]
+
+<div class="row">
+    <div class="span2"><img class="ag-banner" src="/static/images/agcan_cover_en.jpg" alt="The Department of Agriculture" /></div>
+    <div class="span8">
+[% INCLUDE partial/search_form.tt | indent(8) -%]
+    </div>
+    <div class="span2"><img class="ag-banner" src="/static/images/agcan_cover_fr.jpg" alt="Ministère de l'Agriculture" /></div>
+</div>
+[% INCLUDE "content/index_text_${lang}.tt" -%]

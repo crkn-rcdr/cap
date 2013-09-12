@@ -1,0 +1,53 @@
+[% title = c.loc("New Discount Code") %]
+<p>
+    <a href="[% c.uri_for_action("admin/index") %]">[% c.loc("Admin Menu") %]</a> |
+    <a href="[% c.uri_for_action("admin/index") %]">[% c.loc("Discount Codes") %]</a>
+</p>
+
+<h2>[% c.loc("New Discount Code") %]</h2>
+
+<p>[% FOREACH thing IN c.req.body_parameters %][% thing.key _ ":" _ thing.value %] [% END %]</p>
+
+<form class="form-horizontal" method="POST" action="[% c.uri_for_action("/admin/discount/create") %]">
+    <fieldset>
+        <legend>[% c.loc("New Discount Code") %]</legend>
+        <div class="control-group">
+            <label class="control-label" for="code">[% c.loc("Code (max. 16 chars.)") %]</label>
+            <div class="controls">
+                <input type="text" id="code" name="code" value="[% c.req.params.defined("code") ? c.req.params.code : "" %]" required />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="code">[% c.loc("Portal") %]</label>
+            <div class="controls">
+                <select id="portal_id" name="portal_id">
+                [% FOREACH i IN entity.subscribable %]
+                    <option value="[% i.id %]"[% IF c.req.params.defined("portal_id") && c.req.params.portal_id == i.id %]selected="selected"[% END %]>[% i.title(lang) %]</option>
+                [% END %]
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="code">[% c.loc("Discount (%)") %]</label>
+            <div class="controls">
+                <input type="text" id="percentage" name="percentage" value="[% c.req.params.defined("percentage") ? c.req.params.percentage : "" %]" required />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="code">[% c.loc("Expires") %]</label>
+            <div class="controls">
+                <input type="text" id="expires" name="expires" value="[% c.req.params.defined("expires") ? c.req.params.expires : "" %]" required />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="code">[% c.loc("Description") %]</label>
+            <div class="controls">
+                <input type="text" id="description" name="description" value="[% c.req.params.defined("description") ? c.req.params.description : "" %]" required />
+            </div>
+        </div>
+    </fieldset>
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit" value="create">[% c.loc("Create") %]</button>
+        <a class="btn" href="[% c.uri_for_action("/admin/user/index") %]">[% c.loc("Cancel") %]</a>
+    </div>
+</form>

@@ -1,0 +1,43 @@
+[% title = c.loc("Usage Statistics") %]
+
+<h2>[% c.loc("Usage Statistics") %]</h2>
+<h3>[% c.loc("User requests") %]</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>[% c.loc("Name") %]</th>
+            <th>[% c.loc("Class") %]</th>
+            <th>[% c.loc("Sessions") %]</th>
+            <th>[% c.loc("Requests") %]</th>
+        </tr>
+    </thead>
+    <tbody>
+    [% FOREACH user_row IN user_requests -%]
+        <tr>
+            <td>[% user_row.name %]</td>
+            <td>[% user_row.class %]</td>
+            <td>[% user_row.get_column('sessions') %]</td>
+            <td>[% user_row.get_column('requests') %]</td>
+        </tr>
+    [% END -%]
+    </tbody>
+</table>
+<h3>[% c.loc("Institution requests") %]</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>[% c.loc("Name") %]</th>
+            <th>[% c.loc("Sessions") %]</th>
+            <th>[% c.loc("Requests") %]</th>
+        </tr>
+    </thead>
+    <tbody>
+    [% FOREACH institution IN institution_requests -%]
+        <tr>
+            <td>[% institution.name %]</td>
+            <td>[% institution.get_column('sessions') %]</td>
+            <td>[% institution.get_column('requests') %]</td>
+        </tr>
+    [% END -%]
+    </tbody>
+</table>

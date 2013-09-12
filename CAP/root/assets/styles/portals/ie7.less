@@ -1,0 +1,76 @@
+header h1 {
+    margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+    .search-bar { width: 476px - 155px - 4px; }
+}
+
+@media (min-width: 980px) {
+    .search-bar { width: 620px - 155px - 4px; }
+}
+
+@media (min-width: 1200px) {
+    .search-bar { width: 770px - 155px - 4px; }
+}
+
+.search-button {
+    margin-top: 5px;
+}
+
+.collapse-pane-header {
+    position: relative;
+    .caret {
+        display: block;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+    }
+}
+
+.collapse-pane-content {
+    position: relative;
+    .close {
+        position: absolute;
+        top: 9px;
+        right: 0px;
+    }
+}
+
+.footer-top {
+    border-top: 4px solid #363636;
+}
+.footer-banner {
+    display: none;
+}
+
+#pvToolbar {
+    padding-bottom: 0;
+}
+
+.btn-group {
+    vertical-align: 13px;
+}
+
+.pvicon-first { background-position: 0px -1px; }
+.pvicon-previous { background-position: -24px -1px; }
+.pvicon-next { background-position: -48px -1px; }
+.pvicon-last { background-position: -72px -1px; }
+.pvicon-rotate-left { background-position: -96px -1px; }
+.pvicon-rotate-right { background-position: -120px -1px; }
+.pvicon-smaller { background-position: -144px -1px; }
+.pvicon-bigger { background-position: -168px -1px; }
+.pvicon-download { background-position: -192px -1px; }
+
+.js .slideshow {
+    .slideshow-gallery {
+        margin: 0;
+        > li {
+            width: 150px;
+            margin-bottom: 18px;
+        }
+    }
+}
+
+#wrapper { z-index: 1; position: static; }
+#wrapper .bg { display: none; }

@@ -1,0 +1,139 @@
+﻿<div class="support">
+
+[% IF lang == 'fr' %]
+
+<h2>CONDITIONS DE SERVICE DE NOTRE MÉMOIRE EN LIGNE</h2>
+
+<h3>GÉNÉRAL</h3>
+
+<p>Voici les conditions de service régissant l’utilisation du site Web Notre
+mémoire en ligne (NML). Canadiana.org se réserve le droit d’actualiser de temps
+à autre ces conditions de service.</p>
+
+<h3>COMPTES UTILISATEURS ET VIE PRIVÉE</h3>
+
+<p>Pour obtenir un compte utilisateur de Canadiana, il faut fournir une adresse
+de courriel valide. Canadiana.org ne divulguera pas les adresses de courriel ni
+les informations sur les comptes à des tierces parties, à moins que la loi ne
+l’exige. Canadiana.org n’enverra pas de courriels aux adresses de courriels
+fournies par l’utilisateur à l’exception d’avis se rapportant directement au
+compte, au statut de l’abonnement ou à d’autres questions connexes.</p>
+
+<p>Canadiana.org se réserve le droit d’imposer des restrictions, de suspendre
+ou de résilier des comptes utilisateurs  dans les cas de comportements abusifs,
+illégaux ou qui entravent indûment l’accès des autres utilisateurs.</p>
+
+<p>Canadiana.org enregistre des informations sur l’utilisation du site. Ces
+informations peuvent être partagées de façon globale avec des tierces parties,
+mais les renseignements permettant l’identification des personnes ne seront pas
+divulgués sauf si la loi l’exige.</p>
+
+<h3>UTILISATION DU SITE</h3>
+
+<p>Les utilisateurs non abonnés à NML jouissent d’un accès limité à son contenu
+et à ses fonctions. Les abonnées et les utilisateurs qui consultent NML depuis
+les locaux d’une institution détenant une licence d’exploitation du site
+peuvent avoir accès à tout le contenu et à toutes les fonctions, mais l’accès à
+certaines fonctions pourrait nécessiter un compte utilisateur valide de
+Canadiana.</p>
+
+<p>Canadiana.org se réserve le droit d’imposer des limites raisonnables à
+l’utilisation du site par un particulier afin d’assurer la qualité du service
+dans son ensemble. Ceci inclue mais ne se limite pas à une restriction du
+nombre de téléchargements simultanés effectués par un quelconque individu.</p>
+
+<h3>ABONNEMENTS</h3>
+
+<p>Les abonnements sont destinés à un individu ou un ménage pour son
+utilisation personnelle. Les abonnés ne doivent pas divulguer les identifiants
+de leur compte Canadiana et doivent prendre des précautions raisonnables pour
+assurer la protection de leur mot de passe.</p>
+
+<p>Les abonnés ont accès à tout le contenu et à toutes les fonctions de NML
+pendant la durée de leur abonnement et ils peuvent télécharger des copies de
+n’importe quel document dans la collection. Ils peuvent aussi continuer à avoir
+accès et à utiliser des documents (fichiers PDF) téléchargés avant l’expiration
+de leur abonnement, mais les copies perdues ou détruites après la fin de la
+période d’abonnement ne peuvent être téléchargées de nouveau. Chaque abonné a
+la responsabilité de stocker et de sauvegarder adéquatement tout contenu
+téléchargé depuis le site NML.  </p>
+
+<p>Les abonnés consentent à limiter leur utilisation de NML à une utilisation
+personnelle raisonnable (pour des fins de recherche académique, commerciale ou
+autres). Les abonnés consentent, en particulier, à ne pas télécharger
+systématiquement, reproduire ou copier par tout autre moyen des portions
+considérables de la collection NML.</p> Canadiana.org détient les droits
+d’auteur à l’ensemble de la collection NML. Des portions substantielles de la
+collection ne peuvent être reproduites ou diffusées sans son autorisation
+explicite. 
+
+
+[% ELSE %]
+
+<h1>EARLY CANADIANA ONLINE TERMS OF SERVICE</h1>
+
+<h3>GENERAL</h3>
+
+<p>These are the Canadiana.org terms of service governing the use of the
+Early Canadiana Online (ECO) web site. Canadiana.org reserves the right to
+update these terms of service from time to time.</p>
+
+<h3>USER ACCOUNTS AND PRIVACY</h3>
+
+<p>In order to obtain a Canadiana user account, a valid e-mail address
+must be provided. Canadiana.org will not share email addresses or account
+information with third parties, except as required by law. Canadiana.org
+will not send unsolicited email to email addresses provided by the user,
+except for notices directly relating to account and subscription status
+and related matters.</p>
+
+<p>Canadiana.org retains the right to restrict, suspend or terminate user
+accounts for behaviour that is abusive, illegal, or which unduly impairs
+access for other users.</p>
+
+<p>Canadiana.org logs information about use of the site. This information
+may be shared in aggregate with third parties, but personally identifiable
+information will not be disclosed except as required by law.</p>
+
+<h3>USE OF THE SITE</h3>
+
+<p>Users who are not subscribers to ECO have limited access to the its
+content and features.  Subscribers and users accessing ECO from a location
+covered by an institutional site license have access to all content and
+features; however, access to certain features may require a valid
+Canadiana user account.</p>
+
+<p>Canadiana.org reserves the right to impose reasonable limits on an
+individual's use of the site in order to maintain overall quality of
+service. This includes but is not limited to restricting the number of
+concurrent downloads from any one individual.</p>
+
+<h3>SUBSCRIPTIONS</h3>
+
+<p>Subscriptions are for the personal use of one individual or household.
+Subscribers must not distribute their Canadiana account credentials and
+must take reasonable care to ensure that their password remains
+secure.</p>
+
+<p>Subscribers may access all ECO content and features for the duration of
+their subscription, and may download copies of any material in the
+collection.  They may also continue to access and use
+previously-downloaded materials (PDF documents) after their subscription
+terminates; however, lost or destroyed copies cannot be re-downloaded
+outside of the subscription period. It is the responsibility of the
+subscriber to ensure proper storage and backup of any content downloaded
+from the ECO site.</p>
+
+<p>Subscribers agree to limit their use of ECO to reasonable personal use
+(for any purpose, including academic and commercial). In particular,
+subscribers agree not to systematically download, mirror, or otherwise
+replicate substantial portions of the ECO collection.</p>
+
+<p>Canadiana.org holds copyright to the ECO collection as a whole.
+Substantial portions of the collection may not be reproduced or
+distributed without its express permission.</p>
+
+
+[% END %]
+
+</div>

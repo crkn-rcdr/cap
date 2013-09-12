@@ -1,0 +1,22 @@
+[%-
+# Add a form-actions row to a form with a submit button
+# USAGE: INCLUDE partial/form_submit.tt name="BUTTON_NAME" value="BUTTON_VALUE" label="BUTTON_TEXT" [ delete={DELETE_OPTS} ]
+-%]
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit" name="[% name %]" value="[% value %]">[% c.loc(label) %]</button>
+    [% IF delete.id %]
+        <a class="btn btn-danger" data-toggle="modal" href="#[% delete.id %]">[% delete.title %]</a>
+        <div class="modal fade hide" id="[% delete.id %]">
+            <div class="modal-header">
+                <h3>[% delete.title %]</h3>
+            </div>
+            <div class="modal-body">
+                <p>[% delete.description %]</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn" data-dismiss="modal">[% c.loc("Cancel") %]</a>
+                <a class="btn btn-danger" href="[% delete.href %]">[% c.loc("Delete") %]</a>
+            </div>
+        </div>
+    [% END %]
+</div>

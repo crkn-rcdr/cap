@@ -1,0 +1,12 @@
+[% page = doc.active_child %]
+[% INCLUDE partial/page_viewer_toolbar.tt %]
+<section id="pvPane">
+    <section id="pvImageContainer"[% UNLESS doc.auth.page(page.seq) %] class="hidden"[% END %]>
+        <div><img id="pvImg" src="[% IF doc.auth.page(page.seq); c.cap.derivative_request(doc, page.seq, "file.jpg", size, rotate, "jpg").1; END %]"></div>
+        <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
+        <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
+    </section>
+    <p id="pvLoading" class="loading hidden">[% c.loc("Loading...") %]</p>
+    <p id="pvSubscribe"[% IF doc.auth.page(page.seq) %] class="hidden"[% END %]>[% c.loc("This page is not included in this document's free preview, but subscribers receive full access.") %] <a href="[% c.uri_for_action("user/subscription/index", [ c.portal.id ]) %]">[% c.loc("Subscribe today!") %]</a></p>
+    <p id="pvError" class="hidden">[% c.loc("There was an error retrieving this page.") %]</p>
+</section>

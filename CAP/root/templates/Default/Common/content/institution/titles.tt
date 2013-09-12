@@ -1,0 +1,78 @@
+[% title = c.loc("List Titles: [_1]", entity.name) %]
+
+<h2>[% title %]</h2>
+
+<p>
+    [% c.loc("Return to:") %]
+    <a href="[% c.uri_for_action('/content/index') %]">[% c.loc("Manage Content") %]</a> ||
+    <a href="[% c.uri_for_action('/content/institution/index', [ entity.id ]) %]">[% entity.name %]</a>
+</p>
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#search" data-toggle="tab">[% c.loc("Search") %]</a>
+    </li>
+    <li>
+        <a href="#manage" data-toggle="tab">[% c.loc("Manage") %]</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="search">
+        [% IF pager.total_entries > pager.last %]
+        <p>[% c.loc("Showing items [_1] to [_2] of [_3]", pager.first, pager.last, pager.total_entries) %]</p>
+        [% END %]
+
+        [% INCLUDE partial/paginator.tt current_page=pager.current_page total_pages=pager.last_page page_action='hash' hash_key='page'%]
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>[% c.loc("ID") %]</th>
+                    <th>[% c.loc("Identifier") %]</th>
+                    <th>[% c.loc("Label") %]</th>
+                </tr>
+            </thead>
+            <tbody>
+                [% FOREACH t IN titles %]
+                    <tr>
+                        <td><a href="[% c.uri_for_action('/content/title/index', [ t.id ]) %]">[% t.id %]</a></td>
+                        <td><a href="[% c.uri_for_action('/content/title/index', [ t.id ]) %]">[% t.identifier %]</a></td>
+                        <td><a href="[% c.uri_for_action('/content/title/index', [ t.id ]) %]">[% t.label %]</a></td>
+                    </tr>
+                [% END %]
+            </tbody>
+        </table>
+
+        [% INCLUDE partial/paginator.tt current_page=pager.current_page total_pages=pager.last_page page_action='hash' hash_key='page'%]
+    </div>
+    <div class="tab-pane" id="manage">
+        <p>[% c.loc("Set values for [_1] tites", pager.total_entries) %]</p>
+        <form class="form-horizontal" method="POST" action="[% c.uri_for_action('content/institution/titles', [ entity.id ]) %]">
+            <input type="hidden" name="identifier" value="[% c.req.params.identifier %]"/>
+            <input type="hidden" name="label" value="[% c.req.params.label %]"/>
+            <input type="hidden" name="portal" value="[% c.req.params.portal %]"/>
+            <input type="hidden" name="hosted" value="[% c.req.params.hosted %]"/>
+            <div class="control-group">
+                <label class="control-label" for="title_level">[% c.loc("Access Level") %]</label>
+                <div class="controls">
+                    <select id="title_level" name="level">
+                        <option value="0"[% IF entity.level == 0 %] selected="selected"[% END %]>0 (Open)</option>
+                        <option value="1"[% IF entity.level == 1 %] selected="selected"[% END %]>1 (Free)</option>
+                        <option value="2"[% IF entity.level == 2 %] selected="selected"[% END %]>2 (Premium)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="title_transcribable">[% c.loc("Allow Transcription") %]</label>
+                <div class="controls">
+                    <input id="title_transcribable" name="transcribable" type="checkbox"[% IF entity.transcribable %] checked="checked"[% END %]/>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" name="submit" type="submit" value="update">[% c.loc("Update") %]</button>
+            </div>
+        </form>
+    </div>
+</div>

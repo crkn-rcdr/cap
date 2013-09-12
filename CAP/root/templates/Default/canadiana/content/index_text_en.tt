@@ -1,0 +1,35 @@
+[% c.stash.description = "Insert appropriate generic Canadiana description." %]
+
+<h2>Welcome to Canadiana</h2>
+
+<p>This is the Canadiana main page. It should provide some explanation of
+the Canadiana portal family and a list of portals with descriptions.</p>
+
+[% IF origin %]
+<p>You got here from [% origin.portal.title(lang) %]</p>
+<p>The URL you came from was [% origin.uri %]</p>
+<p><a href="[% origin.uri %]">Return from whence you came</a></p>
+[% ELSE %]
+<p>You came here directly</p>
+[% END %]
+
+[% IF c.user_exists %]
+<p><a href="[% c.uri_for_action('/user/profile') %]">MY ACCOUNT</a></p>
+[% ELSE %]
+<p><a href="[% c.uri_for_action('/user/login') %]">LOG IN/SIGN UP</a></p>
+[% END %]
+
+<table class="table">
+    [% INCLUDE partial/table_header.tt columns=["Portal", "Description"] %]
+    <tbody>
+    [% FOREACH i IN portals %]
+        [% IF i.enabled && i.supports_users && i.id != 'canadiana' # Show satellite portals that support users %]
+        <tr>
+            <td><a href="[% c.cap.uri_for_portal(i.id, '/index') %]">[% i.title(lang) %]</a></td>
+            <td>[% i.description(lang) %]</td>
+        </tr>
+        [% END %]
+    [% END %]
+    </tbody>
+</table>
+

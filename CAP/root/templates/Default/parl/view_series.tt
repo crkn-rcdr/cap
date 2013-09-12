@@ -1,0 +1,30 @@
+[% series_title = doc.canonical_label | truncate(50) %]
+[% is_hosted_document = c.portal.hosts_doc(doc) %]
+[% title = series_title | xhtml -%]
+[% c.stash.nofollow = 1 %]
+[% c.stash.description = doc.canonical_label;
+   IF doc.record.defined("pu"); c.stash.description = c.stash.description _ " : " _ doc.record.pu.join("; "); END;
+   IF doc.record.defined("au"); c.stash.description = c.stash.description _ " : " _ doc.record.au.join("; "); END %] 
+
+[% INCLUDE partial/keyword_search.tt label=doc.canonical_label key=doc.key %]
+
+<h2>[% doc.canonical_label %]</h2>
+<div class="row">
+    <div class="span4">
+        [% INCLUDE partial/browse.tt browse=browse terms=doc.record.term %]
+    </div>
+    <div class="span8">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#issuesList" data-toggle="tab">[% c.loc("List") %]</a></li>
+            <li><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="issuesList">
+                [% INCLUDE partial/issues_list.tt %]
+            </div>
+            <div class="tab-pane" id="documentRecord">
+                [% INCLUDE partial/document_record.tt record=doc.record %]
+            </div>
+        </div>
+    </div>
+</div>

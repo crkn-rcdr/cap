@@ -1,0 +1,20 @@
+<h2>[% c.loc("User Log for [_1] ([_2])", user.username, user.name) %]</h2>
+
+[% INCLUDE "reports/widget_period.tt" %]
+
+<table>
+  <tr>
+    <th>[% c.loc("Date") %]</th>
+    <th>[% c.loc("Event") %]</th>
+    <th>[% c.loc("Details") %]</th>
+  </tr>
+[% WHILE (item = user_report.next) %]
+  <tr>
+    <td>[% item.date %]</td>
+    <td><a href="[% c.uri_for_action('reports/user/event', item.event, { 'period' => period }) %]">[% item.event %]</a></td>
+    <td>[% item.info %]</td>
+  </tr>
+[% END %]
+</table>
+
+<p><a class="btn" href="[% c.uri_for_action('reports/user/index') %]">[% c.loc("User Activity Report") %]</a></p>

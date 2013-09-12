@@ -1,0 +1,191 @@
+@import "../cap.less";
+
+@footerHeight: 205px;
+@narrowFooterHeight: 385px;
+
+@mainColor: #610618;
+@lightColor: #ddd;
+@bgColor: #fff;
+
+@linkColor: @mainColor;
+@linkColorHover: lighten(@mainColor, 10%);
+
+@baseFontFamily: Georgia, serif;
+
+body {
+    background-image: url('/static/images/whf_bg.png');
+}
+
+.banner {
+    height: 245px;
+    background: rgb(224, 224, 224);
+    background: rgba(128, 128, 128, 0.2);
+    .banner-image {
+        background-image: url('/static/images/eco_banner_724.png');
+        height: 245px;
+    }
+}
+
+@media (min-width: 980px) {
+    .banner .banner-image { background-image: url('/static/images/eco_banner_940.png'); }
+}
+
+@media (min-width: 1200px) {
+    .banner .banner-image { background-image: url('/static/images/eco_banner_1170.png'); }
+}
+
+h2 {
+    color: @mainColor;
+    font-variant: small-caps;
+    text-rendering: auto;
+}
+
+.search-item h2 {
+    font-variant: normal;
+}
+
+.whf-search-bar {
+    font-size: @baseFontSize + 2px;
+    font-weight: bold;
+    padding: 9px 4px;
+    .border-radius(5px);
+    line-height: normal;
+}
+
+.blurb {
+    background-color: rgb(223, 207, 183);
+    background-color: rgba(205, 178, 140, .5);
+    overflow: hidden;
+    position: relative;
+    > * {
+        padding: 0 5px;
+        z-index: 3;
+        position: relative;
+    }
+    > .logo {
+        z-index: 2;
+        position: absolute;
+        bottom: 0px;
+        right: -10px;
+        width: 307px;
+        height: 174px;
+        background-image: url('/static/images/eco_logo.png');
+    }
+    .box-shadow(4px 4px 2px 2px #ddd);
+}
+
+.search {
+    position: relative;
+    > * {
+        z-index: 3;
+        position: relative;
+    }
+    > .bg-left {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 133px;
+        height: 85px;
+        background-image: url('/static/images/eco_search_left.png');
+        z-index: 2;
+    }
+    > .bg-right {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 135px;
+        height: 113px;
+        background-image: url('/static/images/eco_search_right.png');
+        z-index: 2;
+    }
+}
+
+@media (min-width: 768px) {
+    .blurb, .search {
+        min-height: 400px;
+    }
+}
+
+.collections {
+    .collections-list {
+        .collections-header {
+            // yay
+            &#eclHeader { background-image: url('/static/images/collections/ecl_off.png') }
+            &#gvgHeader { background-image: url('/static/images/collections/gvg_off.png') }
+            &#gvpHeader { background-image: url('/static/images/collections/gvp_off.png') }
+            &#hbcHeader { background-image: url('/static/images/collections/hbc_off.png') }
+            &#hfcHeader { background-image: url('/static/images/collections/hfc_off.png') }
+            &#hmdHeader { background-image: url('/static/images/collections/hmd_off.png') }
+            &#jsrHeader { background-image: url('/static/images/collections/jsr_off.png') }
+            &#nasHeader { background-image: url('/static/images/collections/nas_off.png') }
+            &#perHeader { background-image: url('/static/images/collections/per_off.png') }
+            &#wmhHeader { background-image: url('/static/images/collections/wmh_off.png') }
+            &:hover, &.selected {
+                color: @white;
+                text-decoration: none;
+                background-color: #711127;
+                &#eclHeader { background-image: url('/static/images/collections/ecl_on.png') }
+                &#gvgHeader { background-image: url('/static/images/collections/gvg_on.png') }
+                &#gvpHeader { background-image: url('/static/images/collections/gvp_on.png') }
+                &#hbcHeader { background-image: url('/static/images/collections/hbc_on.png') }
+                &#hfcHeader { background-image: url('/static/images/collections/hfc_on.png') }
+                &#hmdHeader { background-image: url('/static/images/collections/hmd_on.png') }
+                &#jsrHeader { background-image: url('/static/images/collections/jsr_on.png') }
+                &#nasHeader { background-image: url('/static/images/collections/nas_on.png') }
+                &#perHeader { background-image: url('/static/images/collections/per_on.png') }
+                &#wmhHeader { background-image: url('/static/images/collections/wmh_on.png') }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .collections {
+        min-height: 399px;
+        .collections-info {
+            .collections-content {
+                .collections-description {
+                    min-height: 352px;
+                }
+            }
+        }
+    }
+}
+
+/* Push footer */
+
+footer {
+    ul {
+        li {
+            list-style-type: none;
+        }
+    }
+
+    .title {
+        font-size: @baseFontSize + 5px;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .footer-top {
+        background-color: white;
+        padding-top: @baseLineHeight / 2;
+        .box-shadow(0 -10px 10px 2px #ddd);
+    }
+
+    .footer-bottom {
+        #gradient > .vertical(#444, #222);
+        color: @lightColor;
+        p {
+            margin-bottom: 0;
+            line-height: @baseLineHeight * 2;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    footer .footer-top {
+        height: 160px;
+    }
+}

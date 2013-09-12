@@ -1,0 +1,80 @@
+@import "../cap.less";
+
+@footerHeight: @baseLineHeight * 3 + 10px;
+@narrowFooterHeight: @baseLineHeight * 4 + 10px;
+
+@mainColor: #233a74;
+@altColor: lighten(@mainColor, 10%);
+@accentColor: #fdb813;
+@lightColor: #ddd;
+@bgColor: #fff;
+
+@linkColor: @mainColor;
+@linkColorHover: @altColor;
+
+@baseFontFamily: Georgia, sans-serif;
+
+header {
+    #gradient > .vertical(#222, #444);
+    color: darken(@lightColor, 10%);
+    margin-bottom: 0;
+
+    h1 {
+        float: left;
+        color: @lightColor;
+        font-variant: small-caps;
+        font-size: 20pt;
+        padding-top: @baseLineHeight / 2;
+        .lighten-links;
+        a:hover {
+            text-decoration: none;
+        }
+    }
+
+    .nav-right > li {
+        .lighten-links;
+    }
+}
+
+.banner {
+    height: 210px;
+    margin-bottom: @baseLineHeight / 2;
+    background-image: url('/static/images/parl_banner_bg.png');
+    background-repeat: repeat-x;
+    .banner-image {
+        background-image: url('/static/images/parl_banner_724.png');
+        height: 210px;
+    }
+}
+
+@media (min-width: 980px) {
+    .banner .banner-image { background-image: url('/static/images/parl_banner_940.png'); }
+}
+
+h2 {
+    color: @mainColor;
+    font-variant: small-caps;
+}
+
+/* Push footer */
+
+footer {
+    background-color: @mainColor;
+    color: @lightColor;
+    .lighten-links;
+    text-align: center;
+    p {
+        margin-top: @baseLineHeight / 2;
+        padding-top: @baseLineHeight / 2;
+    }
+}
+
+.table.calendar {
+    tbody tr td.has-date { background-color: lighten(@mainColor, 65%); }
+    tbody tr:hover td.has-date { background-color: lighten(@mainColor, 65%); }
+    tbody tr td.has-date:hover { background-color: lighten(@mainColor, 60%); }
+    tbody tr:hover td,
+    tbody tr:hover th {
+        background-color: inherit;
+    } 
+}

@@ -1,0 +1,3 @@
+[% WRAPPER layout/collapse_pane.tt name=name title=title open=0 %]
+<pre>[% Dumper.dump($obj) | html %]</pre>
+[% END %]

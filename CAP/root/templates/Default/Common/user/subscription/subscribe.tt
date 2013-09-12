@@ -1,0 +1,80 @@
+[% MACRO format_money(amount) INCLUDE macro/format_money.tt %]
+[% title = c.loc("Review Subscription") %]
+
+<h2>[% c.loc("Review Subscription") %]</h2>
+
+<p>[% c.loc("Please review your subscription details. If you have a discount code to redeem, enter it where indicated below. When you are ready to subscribe, click the Checkout button to be taken to PayPal to complete your payment.") %]</p>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td>[% c.loc("Portal") %]</td>
+            <td>[% entity.portal.title(lang) %]</td>
+        </tr>
+        <tr>
+            <td>[% c.loc("Type") %]</td>
+            <td>
+            [% IF entity.product.level == 1;
+                c.loc("Regular subscription");
+               ELSIF entity.product.level == 2;
+                c.loc("Premium subscription");
+               ELSE;
+                c.loc("Level [_1] subscription");
+            END %]
+            </td>
+        </tr>
+        <tr>
+            <td>[% c.loc("Subscription Price") %]</td>
+            <td>[% format_money(entity.product.price) %]</td>
+        </tr>
+        [% IF entity.discount %]
+        <tr>
+            <td>[% c.loc("Discount Code Applied") %]</td>
+            <td>[% entity.discount.code %]</td>
+        </tr>
+        <tr>
+            <td>[% c.loc("Discount") %]</td>
+            <td>[% format_money(entity.discount_amount) %]</td>
+        </tr>
+        [% END %]
+        <tr>
+            <td>[% c.loc("Amount Payable") %]</td>
+            <td>[% format_money(entity.payable) %]</td>
+        </tr>
+        <tr>
+            <td>[% c.loc("Subscription Period") %]</td>
+            <td>[% c.loc("[_1] days", entity.product.duration) %]</td>
+        </tr>
+        <tr>
+            <td>[% c.loc("Your existing subscription will expire") %]</td>
+            <td>[% IF entity.subscription.active; format_date(entity.subscription.expires); END %]</td>
+        </tr>
+        <tr>
+            <td>[% c.loc("Your new subscription will expire") %]</td>
+            <td>[% format_date(entity.expiry) %]</td>
+        </tr>
+    </tbody>
+</table>
+
+<form class="form-inline" method="POST" action="[% c.uri_for_action('/user/subscription/subscribe', [entity.portal.id, entity.product.id]) %]">
+    <div>
+        [% c.loc("Enter discount code") %]
+        <input type="text" id="code" name="code"[% IF entity.discount %]value="[%  entity.discount.code %]"[% END %] />
+        <button class="btn btn-primary" type="submit" name="submit" value="discount">[% c.loc("Use Code") %]</button>
+    </div>
+    <div>
+    <label class="checkbox padded">
+        <input type="checkbox" name="terms">
+        [% c.loc("I have read and agree to the Canadiana [_1]", "<a href=\"" _ c.uri_for_action("support", "terms") _ "\" target=\"_blank\">" _ c.loc("Terms of Service") _ "</a>") %]
+    </label>
+    </div>
+    <div>
+    <button type="submit" data-blockterms="blockterms" class="btn btn-primary" name="submit" value="checkout">[% c.loc("Checkout") %]</button>
+    </div>
+</form>
+
+<hr />
+<p>
+    <a class="btn" href="[% c.uri_for_action('/user/profile') %]">[% c.loc("Your Profile") %]</a>
+    <a class="btn" href="[% c.uri_for_action('/user/subscription/index', [entity.portal.id]) %]">[% c.loc("Subscription Overview") %]</a>
+</p>

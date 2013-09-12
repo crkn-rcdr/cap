@@ -1,0 +1,94 @@
+[% PERL -%]
+    use Calendar::Simple;
+
+    $context->define_vmethod(
+        scalar => parse_date => sub {
+            my @date = split('T', shift);
+            return split('-', $date[0]);
+        }
+    );
+
+    $context->define_vmethod(
+        scalar => to_s => sub {
+            my $val = shift;
+            my $str = "$val";
+            if (length($str) == 1) {
+                $str = "0" . $str;
+            }
+            return $str;
+        }
+    );
+
+    $context->define_vmethod(
+        list => calendar => sub {
+            my $list = shift;
+            return calendar($list->[1], $list->[0]);
+        }
+    );
+[% END -%]
+
+[%
+    USE date; 
+    manip = date.manip;
+
+    SWITCH c.stash.lang;
+    CASE 'en';
+        error = manip.Date_Init("Language=English","DateFormat=non-US");
+    CASE 'fr';
+        error = manip.Date_Init("Language=French","DateFormat=non-US");
+    END;
+
+    sorted_issues = {};
+    misc_issues = {};
+    FOREACH issue IN issues.docs;
+        IF issue.record.defined('pubmin');
+            sorted_issues.${issue.record.pubmin.split('T').0} = c.uri_for_action('view/key', issue.key).as_string;
+        ELSE;
+            misc_issues.${issue.key} = { label => issue.record.label, url => c.uri_for_action('view/key', issue.key).as_string };
+        END;
+    END;
+
+    pubmin = doc.record.pubmin.parse_date;
+    pubmax = doc.record.pubmax.parse_date;
+%]
+
+[% IF misc_issues.size %]
+<p>
+    [% FOREACH i IN misc_issues %]
+        <a href="[% i.value.url %]">[% i.value.label %]</a>[% UNLESS loop.last %] |[% END %]
+    [% END %]
+</p>
+[% END %]
+<div class="row">
+    [% FOREACH year IN [ pubmin.0 .. pubmax.0 ] %]
+        [% first_month = (year == pubmin.0) ? pubmin.1 : 1 -%]
+        [% last_month = (year == pubmax.0) ? pubmax.1 : 12 -%]
+        [% FOREACH month IN [ first_month .. last_month ] %]
+            [% list = [year, month]; cal = list.calendar(); %]
+            <div class="span4[% IF loop.even %] offset1[% ELSE %] clearBoth[% END %]">
+                <table class="table calendar">
+                    <thead>
+                        <tr>
+                            <th colspan="7">
+                                [% manip.UnixDate("${year}-${month}-1", "%B") %] [% year %]
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    [% FOREACH week IN cal %]
+                        <tr>
+                        [% FOREACH day IN week; key = year _ '-' _ month.to_s _ '-' _ day.to_s %]
+                            [% IF sorted_issues.defined(key) %]
+                            <td class="has-date"><a href="[% sorted_issues.$key %]">[% day %]</a></td>
+                            [% ELSE %]
+                            <td>[% day %]</td>
+                            [% END %]
+                        [% END %]
+                        </tr>
+                    [% END %]
+                    </tbody>
+                </table>
+            </div>
+        [% END %]
+    [% END %]
+</div>

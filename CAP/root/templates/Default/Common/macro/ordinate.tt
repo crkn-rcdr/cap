@@ -1,0 +1,24 @@
+[%-
+  # Provide the ordinal representation of a given integer.
+-%]
+[%- PERL -%]
+    my $num = [% number %];
+    my $gender = "[% gender %]";
+    my $lang = "[% c.stash.lang %]";
+
+    #format only if it's a valid decimal number
+    if ($num =~ /^\d+$/) {  
+        if ($lang eq 'fr') {
+            if ($num == 1) {
+                print ($gender eq 'f' ? '1re' : '1er');
+            } else {
+                print $num . 'e';
+            } 
+        } else {
+            $num =~ s/1?\d$/$& . ((0,'st','nd','rd')[$&] || 'th')/e;
+            print $num;
+        }
+    } else {
+        print $num;
+    }
+[%- END -%]

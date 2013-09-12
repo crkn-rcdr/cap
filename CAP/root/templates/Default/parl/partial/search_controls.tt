@@ -1,0 +1,92 @@
+﻿[%- BLOCK refine_link %]
+[% DEFAULT active = "" %]
+[% IF value == active %]
+    <strong>[% content %]</strong>
+[% ELSE %]
+    <a href="[% c.uri_for_action('search/index', c.req.mangle_params({ $field => value })) %]">[% content %]</a>
+[% END %]
+[% END -%]
+
+[%- BLOCK refine_date_link %]<a href="[% c.uri_for_action('search/index', c.req.mangle_params({ df => date_from, dt => date_to })) %]">[% content %]</a>[% END %]
+
+[%- BLOCK facet_pane %]
+    [% IF selected || (facets.size > 1) %]
+        [% WRAPPER layout/collapse_pane.tt name=name title=title open=selected %]
+            <nav>
+                [% IF selected %]
+                    <input type="hidden" name="[% name %]" value="[% c.req.query_params.defined(name) ? c.req.query_params.$name : "" %]" />
+                    <p>[% IF labels.defined(selected); labels.${selected}; ELSE; selected; END %] [% WRAPPER refine_link field=name value="" active=selected %]<b class="close">&times;</b>[% END %]</p>
+                [% ELSE %]
+                    <ul>
+                        [% FOREACH facet IN facets %]
+                            [% IF labels.defined(facet.name) %]
+                            <li>[% WRAPPER refine_link field=name value=facet.name %][% labels.${facet.name} %][% END %] ([% format_number(facet.count) %])</li>
+                            [% END %]
+                        [% END %]
+                    </ul>
+                [% END %]
+            </nav>
+        [% END %]
+    [% END %]
+[% END %]
+
+[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
+<aside class="search-controls">
+    <form method="GET" action="[% c.uri_for_action("/search/index") %]">
+        [% IF pkey %]<input type="hidden" name="pkey" value="[% pkey %]" />[% END -%]
+        <p>[% c.loc("Refine your search:") %]</p>
+        <input class="span3" type="text" name="q" value="[% c.req.query_params.defined("q") ? c.req.query_params.q : "" | html %]" />
+        [% UNLESS pkey %]
+            [% identifier = c.req.query_params.defined("identifier") ? c.req.query_params.identifier : [] -%]
+            <label for="houseSelect">[% c.loc("Chamber") %]</label>
+            <select id="houseSelect" name="identifier" class="span3">
+                <option value="">[% c.loc("Both Chambers") %]</option>
+                <option value="S"[% IF identifier.grep('S').size %] selected[% END %]>[% c.loc("Senate") %]</option>
+                <option value="C"[% IF identifier.grep('C').size %] selected[% END %]>[% c.loc("House of Commons") %]</option>
+            </select>
+            <label for="parlSelect">[% c.loc("Parliament") %]</label>
+            <select id="parlSelect" name="identifier" class="span3">
+                <option value="">[% c.loc("All") %]</option>
+                [% FOREACH p IN [1,2,3,4,5,6,7,8,9,34,35] -%]
+                <option value="P[% p %]"[% IF identifier.grep('^P' _ p _ '$').size %] selected[% END %]>[% ordinate(p, 'f') %]</option> 
+                [% END -%]
+            </select>
+        [% END %]
+        [% IF hits > 0;
+           WRAPPER layout/collapse_pane.tt name="sort" title=c.loc("Sort Order") open=1 %]
+            [% IF sort %]<input type="hidden" name="so" value="[% sort %]" />[% END %]
+            <nav>
+                <ul>
+                    <li>[% WRAPPER refine_link field="so" value="score" active=sort %][% c.loc("relevance") %][% END %]</li>
+                    <li>[% WRAPPER refine_link field="so" value="newest" active=sort %][% c.loc("newest") %][% END %]</li>
+                    <li>[% WRAPPER refine_link field="so" value="oldest" active=sort %][% c.loc("oldest") %][% END %]</li>
+                    [% IF pkey %]<li>[% WRAPPER refine_link field="so" value="seq" active=sort %][% c.loc("sequence") %][% END %]</li>[% END %]
+                </ul>
+            </nav>
+        [% END; END %]
+        [% IF (c.stash.defined("pubmin") && c.stash.defined("pubmax") && pubmin != pubmax) || date_from || date_to;
+           WRAPPER layout/collapse_pane.tt name="daterange" title=c.loc("Date Range") open=(date_from || date_to) %]
+            [% IF date_from %]<input type="hidden" name="df" value="[% date_from %]" />[% END %]
+            [% IF date_to %]<input type="hidden" name="dt" value="[% date_to %]" />[% END %]
+            [% IF date_from && date_to %]
+                <p>[% c.loc("Results from [_1] to [_2].", date_from, date_to) %] [% WRAPPER refine_date_link date_from="" date_to="" %]<b class="close">&times;</b>[% END %]</p>
+            [% ELSIF date_from %]
+                <p>[% c.loc("Results from [_1] onward.", date_from) %] [% WRAPPER refine_date_link date_from="" date_to="" %]<b class="close">&times;</b>[% END %]</p>
+            [% ELSIF date_to %]
+                <p>[% c.loc("Results up to [_1].", date_to) %] [% WRAPPER refine_date_link date_from="" date_to="" %]<b class="close">&times;</b>[% END %]</p>
+            [% ELSE %]
+                <p>
+                    [% c.loc("Between") %]
+                    <input type="text" name="df" maxlength="4" placeholder="[% pubmin %]" value="" class="input-mini" />
+                    [% c.loc("and") %]
+                    <input type="text" name="dt" maxlength="4" placeholder="[% pubmax %]" value="" class="input-mini" />
+                </p>
+            [% END %]
+        [% END; END %]
+        [% INCLUDE facet_pane name="lang" title=c.loc("Language") selected=searchLang facets=resultset.facets.lang labels=c.stash.languages %]
+        <p>
+            <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
+            <a class="btn btn-large refine-search" href="[% c.uri_for_action("support", "search") %]">[% c.loc("Help") %]</a>
+        </p>
+    </form>
+</aside>

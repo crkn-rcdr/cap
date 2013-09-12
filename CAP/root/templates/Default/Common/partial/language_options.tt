@@ -1,0 +1,6 @@
+[%-
+# Generate a set of <option> elements for supported languages
+# USAGE: INCLUDE partial/language_options.tt
+%]
+<option value="en">[% c.loc("English") %]</option>
+<option value="fr">[% c.loc("French") %]</option>

@@ -1,0 +1,9 @@
+[% title = c.loc("Welcome") -%]
+
+<div class="row">
+    <div class="span12 blurb">
+[% INCLUDE "content/index_text_${lang}.tt" | indent(8) -%]
+        <div class="logo"></div>
+    </div>
+</div>
+

@@ -1,0 +1,11 @@
+[%-
+# Convert an ISO 839-2 language code into a text label
+# Usage: INCLUDE partial/language_name.tt lang=$var 
+%]
+[% IF lang == 'en';
+    c.loc("English");
+   ELSIF lang == 'fr';
+    c.loc("French");
+   ELSE;
+    lang;
+END %]

@@ -1,0 +1,2013 @@
+﻿[% IF c.stash.lang == "fr" %]
+<h2>La Heir and Devisee Commission, 1777-1854</h2>
+<div class="well">
+    <ol>
+        <li><a href="#a_propos">À propos des documents </a></li>
+        <li><a href="#ordre">Ordre des documents sur les bobines de microfilm </a></li>
+        <li><a href="#contenu">Liste du contenu sur microfilm</a></li>
+        <li><a href="#ressources">Autres ressources</a></li>
+    </ol>
+</div>
+
+<h3 id="a_propos">À propos des documents </h3>
+<p>La Heir and Devisee Commission a été créée en 1797 par une loi provinciale dans le but de clarifier les titres de propriété des terres du Haut-Canada ayant été concédées avant qu’une disposition n’ait été prise en 1795 pour l’émission de lettres patentes relatives aux terres de la Couronne. Une loi adoptée en 1805 a modifié considérablement la composition, les pouvoirs et les responsabilités de la Commission. La Commission établie en vertu de la loi de 1805 a poursuivi ses travaux jusqu’en 1896 et ne fut formellement abolie qu’en 1911.</p>
+<p>La Commission, qui comprend deux périodes distinctes d’activité (l’une de 1797 à 1805, et l’autre à partir de 1805) désignées comme la « première » et la « deuxième » Heir and Devisee Commission.</p>
+<p>En vertu de la loi de 1797 et de ses amendements, les membres de la Heir and Devisee Commission étaient nommés pour entendre et décider des réclamations présentées dans les différents districts de la province par les personnes désignées à l’origine par la Couronne, leurs héritiers, légataires ou cessionnaires. Chaque commission était composée de trois personnes ou plus, étant attendu que l’un de ces membres devait être le juge en chef ou l’un des juges de la Cour du banc du roi. Les décisions des commissaires pouvaient faire l’objet d’un recours devant le Conseil exécutif.</p>
+<p>La loi de 1805 a entraîné la centralisation des travaux de la commission. Par après, une seule commission se réunissait à York et était composée de quelques membres du Conseil exécutif, du juge en chef et de juges de la Cour du banc du roi. Le travail de la deuxième commission était limité aux réclamations de terres présentées par des héritiers, des légataires ou des cessionnaires, et non plus par les personnes désignées par la Couronne. </p>
+<p>Bibliothèque et Archives Canada conserve la plupart des documents de la première Heir and Devisee Commission (1797-1804) (RG 1 L5) et quelques documents de la deuxième Commission (1805-1911). La plupart des documents postérieurs à 1805 sont maintenant conservés par les Archives de l’Ontario.</p>
+<p>Les documents peuvent comprendre :</p>
+<ul>
+    <li>des affidavits</li>
+    <li>des cautionnements</li>
+    <li>des certificats de localisation</li>
+    <li>des procurations</li>
+    <li>des arrêtés en conseil</li>
+    <li>des copies de testaments</li>
+    <li>des emprunts hypothécaires</li>
+    <li>des contrats de vente</li>
+    <li>et des lettres de témoignages</li>
+</ul>
+<p>Pour plus d’information, veuillez consulter la <a href="http://collectionscanada.gc.ca/pam_archives/index.php?fuseaction=genitem.displayItem&lang=eng&rec_nbr=205142&rec_nbr_list=460040,3582727,1094213,205142,209570,209569,209568,209567,209566,209565" target="_blank">description des documents par Bibliothèque et Archives Canada.</a></p>
+
+<h3 id="ordre">Ordre des documents sur les bobines de microfilm</h3>
+<p>Les bobines de microfilms ont été numérisées et les images apparaissent dans le même ordre que sur les bobines. Il n’y a pas d’index par nom. Les documents sont classés par district, puis par type de document, en enfin par ordre chronologique, alphabétique ou numérique. Les rapports des commissaires de 1808 à 1854 sont regroupés dans les volumes 100-104. Quelques-uns des volumes de pièces justificatives contiennent des listes sommaires du contenu, ajoutant ainsi un complément au classement par date, par nom ou par numéro de réclamation. </p>
+
+<h3 id="contenu">Liste du contenu sur microfilm</h3>
+<table class="table">
+    [% INCLUDE partial/table_header.tt columns=["Microfilm", "Volume", "Pages", "District", "Titre ou descriptions des documents", "Date"] %]
+    <tbody>
+        <tr>
+            <td>H-1133</td>
+            <td>1</td>
+            <td>1-46</td>
+            <td></td>
+            <td>Index of location certificates issued by the Land Boards</td>
+            <td>s.d. (avant 1804)</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>2</td>
+            <td>1-110b</td>
+            <td>Eastern</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports and some Orders-in-Council</td>
+            <td>1803-1804</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>3</td>
+            <td>5-28</td>
+            <td>Eastern</td>
+            <td>Report of the Commissioners </td>
+            <td>s.d. (1803?)</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>4</td>
+            <td>1-185</td>
+            <td>Eastern</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports</td>
+            <td>1797-1802</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>5</td>
+            <td>1-107b</td>
+            <td>Eastern</td>
+            <td>Notices of claims, received but disallowed or unresolved, arranged alphabetically </td>
+            <td>ca. 1809-1841</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>6</td>
+            <td>1-32a</td>
+            <td>Eastern</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames A-B</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1134</td>
+            <td>6</td>
+            <td>33-133a</td>
+            <td>Eastern</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames C-K</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1134</td>
+            <td>7</td>
+            <td>134-280c</td>
+            <td>Eastern</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames L-T</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1134</td>
+            <td>8</td>
+            <td>281-325b</td>
+            <td>Eastern</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames U-Z</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>9</td>
+            <td>326-391a</td>
+            <td>Eastern</td>
+            <td>Second series of certificates, arranged alphabetically</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>10</td>
+            <td>392-452a</td>
+            <td>Eastern</td>
+            <td>Third series of certificates, arranged alphabetically</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>11</td>
+            <td>1-190a</td>
+            <td>Eastern</td>
+            <td>Contemporary copies of location certificates (Edwardsburg, Augusta, Matilda)</td>
+            <td>s.d. (1789)</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>12</td>
+            <td>1-123</td>
+            <td>Johnstown</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports</td>
+            <td>1800-1803</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>13</td>
+            <td>1-225a</td>
+            <td>Johnstown</td>
+            <td>Notices of claims</td>
+            <td>s.d. (1800-1803)</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>14</td>
+            <td>1-47</td>
+            <td>Johnstown</td>
+            <td>Orders-in-Council </td>
+            <td>1801-1804</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>15</td>
+            <td>1-83a</td>
+            <td>Johnstown</td>
+            <td>Notices of claims</td>
+            <td>1804-1840?</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>16</td>
+            <td>1-128</td>
+            <td>Johnstown</td>
+            <td>Notices of claims</td>
+            <td>1804-1840?</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>17</td>
+            <td>1-107a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames A-D</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>18</td>
+            <td>108-213</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames E-F</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>19</td>
+            <td>214-323a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames G-H</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>20</td>
+            <td>324-418a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames K-M</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>20</td>
+            <td>419-480a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames M-P</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>21</td>
+            <td>481-567b</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames Q-R</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>22</td>
+            <td>568-663b</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames S-S</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>23</td>
+            <td>664-694a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames T-Y</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>24</td>
+            <td>1-400</td>
+            <td>Midland</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports</td>
+            <td>1797-1803 </td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>24</td>
+            <td>401-524</td>
+            <td>Midland</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports </td>
+            <td>1797-1803 </td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>25</td>
+            <td>1-103</td>
+            <td>Midland</td>
+            <td>Index of claimants</td>
+            <td>1790s</td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>25</td>
+            <td>1-67a</td>
+            <td>Midland</td>
+            <td>Orders-in-Council </td>
+            <td>1797-1803</td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>26</td>
+            <td>1-178</td>
+            <td>Midland</td>
+            <td>Notices of claims with some reports of the Surveyor General and Provincial Secretary </td>
+            <td>1797-1804</td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>27</td>
+            <td>1-99a </td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames A and B</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>28</td>
+            <td>100-154a</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames C </td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>28</td>
+            <td>155-193a</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames D and E</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>29</td>
+            <td>194-277b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames F and G </td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>30</td>
+            <td>278-347b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames H-K </td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>31</td>
+            <td>348-376b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames L </td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>32</td>
+            <td>377-441a</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames M and N</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>33</td>
+            <td>442-523b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames P-R </td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>34</td>
+            <td>524-620a</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames S-V </td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>35</td>
+            <td>621-667b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames W-Y</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>36</td>
+            <td>1-70a</td>
+            <td>Midland</td>
+            <td>Orders-in-Council </td>
+            <td>1801-1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>37</td>
+            <td>1-62a</td>
+            <td>Home</td>
+            <td>Reports of the Commissioners</td>
+            <td>1802-1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>37</td>
+            <td>63-68a</td>
+            <td>Home</td>
+            <td>Reports of the Commissioners</td>
+            <td>1802-1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>38</td>
+            <td>69-110a</td>
+            <td>Home</td>
+            <td>Reports of the Commissioners</td>
+            <td>1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>39</td>
+            <td>1-29a</td>
+            <td>Home</td>
+            <td>Copy of the Commission of 1816, notices of claims and a list of claimants, 1821-1823</td>
+            <td>ca. 1804-1823</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>40</td>
+            <td>1-15a</td>
+            <td>Home</td>
+            <td>Orders-in-Council </td>
+            <td>1791-1802</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>41</td>
+            <td>16-70a</td>
+            <td>Home</td>
+            <td>Location certificates submitted in support of claims</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>42</td>
+            <td>1-208a</td>
+            <td>Home</td>
+            <td>Notices of claims</td>
+            <td>1803-1837</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>43</td>
+            <td>1-93d</td>
+            <td>Western</td>
+            <td>Reports of the Commissioners, with some Orders-in-Council for the issuance of Surveyor General's descriptions for land claims recommended (see also reports in volumes 95-96)</td>
+            <td>1798-1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>43</td>
+            <td>1-54</td>
+            <td>Western</td>
+            <td>Rough minutes of meetings, 1799</td>
+            <td>1798-1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>44</td>
+            <td>1-49a</td>
+            <td>Western</td>
+            <td>Notices of claims, received but disallowed or unresolved, arranged alphabetically</td>
+            <td>1798-1840</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>45</td>
+            <td>50-187a</td>
+            <td>Western</td>
+            <td>Notices of claims</td>
+            <td>1803</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>46</td>
+            <td>1-95b</td>
+            <td>Western</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>47</td>
+            <td>1-33a</td>
+            <td>London</td>
+            <td>Notices of claims</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>47</td>
+            <td>34-41b</td>
+            <td>London</td>
+            <td>Orders-in-Council </td>
+            <td>1803-1804</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>47</td>
+            <td>42-59b</td>
+            <td>London</td>
+            <td>Notices of claims, received but disallowed or unresolved</td>
+            <td>1818-l841</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>48</td>
+            <td>1-41</td>
+            <td>Niagara</td>
+            <td>Reports of the Commissioners</td>
+            <td>1802-1804</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>49</td>
+            <td>1-44a</td>
+            <td>Niagara</td>
+            <td>Notices of claims, received but disallowed or unresolved</td>
+            <td>1803-1819</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>49</td>
+            <td>45-75a</td>
+            <td>Niagara</td>
+            <td>Notices claims allowed</td>
+            <td>1803-1819</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>50</td>
+            <td>1-23a</td>
+            <td>Gore</td>
+            <td>Notices of claims, received but disallowed or unresolved</td>
+            <td>1815-1824</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>51</td>
+            <td>1-66e</td>
+            <td>Newcastle</td>
+            <td>Reports and Orders-in-Council and notices of claims, received but disallowed or unresolved </td>
+            <td>1798-1835 </td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>51</td>
+            <td>67-123a</td>
+            <td>Newcastle</td>
+            <td>Notices of claims allowed </td>
+            <td>1798-1835 </td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>51</td>
+            <td>1-5</td>
+            <td>Bathurst</td>
+            <td>Notice of a claim</td>
+            <td>1841</td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>52</td>
+            <td>1-92</td>
+            <td></td>
+            <td>Surveyor General's descriptions of lands allotted in response-claims</td>
+            <td>1841</td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>53</td>
+            <td>93-203</td>
+            <td></td>
+            <td>Surveyor General's descriptions of lands allotted in response-claims</td>
+            <td>1842</td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>54</td>
+            <td>204-708</td>
+            <td></td>
+            <td>Surveyor General's descriptions, with annotation of Attorney General's fiats </td>
+            <td>1848-1850</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>54</td>
+            <td>708a-1415</td>
+            <td></td>
+            <td>Surveyor General's descriptions, with annotation of Attorney General's fiats</td>
+            <td>1851-1854</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>55</td>
+            <td>1-59</td>
+            <td></td>
+            <td>Supporting documents for claims in Ancaster township</td>
+            <td>1794-1799</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>56</td>
+            <td>60-132</td>
+            <td></td>
+            <td>Supporting documents for claims in Blenheim township</td>
+            <td>1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>57</td>
+            <td>133-156</td>
+            <td></td>
+            <td>Supporting documents for claims in Beverley township</td>
+            <td>1796-1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>58</td>
+            <td>157-211</td>
+            <td></td>
+            <td>Supporting documents for claims in Burford township</td>
+            <td>1796-1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>59</td>
+            <td>212-221</td>
+            <td></td>
+            <td>Supporting documents for claims in Charlotteville</td>
+            <td>1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>60</td>
+            <td>222-227</td>
+            <td></td>
+            <td>Supporting documents for claims in Crowland township</td>
+            <td>1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>61</td>
+            <td>228-229</td>
+            <td></td>
+            <td>Supporting documents for claims in Ernestown mills, bond for a lease</td>
+            <td>1812</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>62</td>
+            <td>230-280</td>
+            <td></td>
+            <td>Supporting documents for claims in Etobicoke township, Gainsborough township and Grand River (see also volume 75)</td>
+            <td>1794-1797, 1828</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>63</td>
+            <td>281-316</td>
+            <td></td>
+            <td>Supporting documents for claims in Grimsby, and Humberton, Las.d.wn, Loughborough and Markham townships</td>
+            <td>1794-1798</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>64</td>
+            <td>317-399</td>
+            <td></td>
+            <td>Supporting documents for claims in Oxford-on-Thames township</td>
+            <td>1796-1799</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>65</td>
+            <td>400-436</td>
+            <td></td>
+            <td>Supporting documents for claims in Pelham, Rainham, Saltfleet, Southwold and Thorold townships</td>
+            <td>1795-1799</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>66</td>
+            <td>437-491</td>
+            <td></td>
+            <td>Supporting documents for claims in Townsend, Vaughan, Wainfleet and Wolford townships</td>
+            <td>1797-1801</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>67</td>
+            <td>492-503</td>
+            <td></td>
+            <td>Supporting documents for claims in Yonge Street and York</td>
+            <td>1789, 1802-1803</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>68</td>
+            <td>0-152a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, surnames A-F</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>69</td>
+            <td>152b-295a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, surnames G-Robertson</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>70</td>
+            <td>295b-449a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, surnames Robinson-W</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>72</td>
+            <td>449b-475a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, second series, arranged by township</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>71</td>
+            <td>0-44a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, third series, arranged alphabetically</td>
+            <td>à 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>73</td>
+            <td>0-28a</td>
+            <td></td>
+            <td>Certificates attesting-good character of claimants</td>
+            <td>1781-1817</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>74</td>
+            <td>1-370</td>
+            <td></td>
+            <td>Certificates of Loyalist claimants, arranged alphabetically</td>
+            <td>1777-1816</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>75</td>
+            <td>1-68</td>
+            <td></td>
+            <td>Certificates and depositions regarding exchanges and surrenders</td>
+            <td>1788-1804, 1820, 1856</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>76</td>
+            <td>1-265</td>
+            <td>Niagara/Home</td>
+            <td>Certificates and Orders from the Land Boards and other authorities giving entitlement-lands, arranged alphabetically for each district</td>
+            <td>1789-1801</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>77</td>
+            <td>1-31</td>
+            <td>Home</td>
+            <td>Assignments of title-lands by certificate or deposition</td>
+            <td>1800-1804</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>78</td>
+            <td>1-127</td>
+            <td></td>
+            <td>Assignment of title-lands by agreement, bond, deed of sale, mortgage or other conveyance</td>
+            <td>1788-1835</td>
+        </tr>
+        <tr>
+            <td>H-1147</td>
+            <td>78</td>
+            <td>128-258</td>
+            <td></td>
+            <td>Assignment of title-lands by agreement, bond, deed of sale, mortgage or other conveyance</td>
+            <td>1788-1835</td>
+        </tr>
+        <tr>
+            <td>H-1147</td>
+            <td>79</td>
+            <td>259-348</td>
+            <td></td>
+            <td>Receipts acknowledging sales of lands and titles thereto</td>
+            <td>1798-1815</td>
+        </tr>
+        <tr>
+            <td>H-1147</td>
+            <td>79A</td>
+            <td>349-716</td>
+            <td></td>
+            <td>Orders-in-Council </td>
+            <td>1803-1804</td>
+        </tr>
+        <tr>
+            <td>H-1147</td>
+            <td>80</td>
+            <td>1-400</td>
+            <td></td>
+            <td>Register A: entrybook of Commissioners Reports, with an index</td>
+            <td>1797-1802</td>
+        </tr>
+        <tr>
+            <td>H-1148</td>
+            <td>81</td>
+            <td>1-275</td>
+            <td></td>
+            <td>Register B: entrybook of Commissioners' Reports, with an index</td>
+            <td>1802-1803</td>
+        </tr>
+        <tr>
+            <td>H-1148</td>
+            <td>82</td>
+            <td>1-159</td>
+            <td></td>
+            <td>Register C: entrybook of Commissioners' Reports, with an index</td>
+            <td>1803-1804</td>
+        </tr>
+        <tr>
+            <td>H-1148</td>
+            <td>83</td>
+            <td>1-133</td>
+            <td></td>
+            <td>Register D: entrybook of Commissioners' Reports, including the Surveyor General's reports</td>
+            <td>1805-1822</td>
+        </tr>
+        <tr>
+            <td>H-1149</td>
+            <td>84</td>
+            <td>1-273</td>
+            <td></td>
+            <td>Register E: entrybook of Commissioners' Reports</td>
+            <td>1823-1835 </td>
+        </tr>
+        <tr>
+            <td>H-1149</td>
+            <td>85</td>
+            <td>1-74</td>
+            <td></td>
+            <td>Index-Register E</td>
+            <td>1823-1835 </td>
+        </tr>
+        <tr>
+            <td>H-1149</td>
+            <td>86</td>
+            <td>1-315</td>
+            <td></td>
+            <td>Register F: entrybook of Commissioners' Reports, with an index</td>
+            <td>1836-1845</td>
+        </tr>
+        <tr>
+            <td>H-1150</td>
+            <td>87</td>
+            <td>1-177</td>
+            <td></td>
+            <td>Register G: entrybook of Commissioners' Reports</td>
+            <td>1836-1845</td>
+        </tr>
+        <tr>
+            <td>H-1150</td>
+            <td>88</td>
+            <td>1-85</td>
+            <td></td>
+            <td>Register of Notices of Claims, arranged alphabetically (see also volume 99)</td>
+            <td>1826-1828</td>
+        </tr>
+        <tr>
+            <td>H-1150</td>
+            <td>89</td>
+            <td>1-228</td>
+            <td></td>
+            <td>Minute Book of the Commissioners, with an index</td>
+            <td>1837-1847</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>90</td>
+            <td>1-184</td>
+            <td></td>
+            <td>Register of claims allowed, “A”, entered chronologically, by district</td>
+            <td>1797-1804</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>91</td>
+            <td>1-116</td>
+            <td></td>
+            <td>Index of claimants in Registers A-B-C (see volumes 90 & 93)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>92</td>
+            <td>1-133</td>
+            <td></td>
+            <td>Index of original nominees in Registers A-B (see volumes 90 & 93)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>93</td>
+            <td>1-41</td>
+            <td></td>
+            <td>Register of claims allowed “B”</td>
+            <td>1805-1823</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>94</td>
+            <td>1-400</td>
+            <td></td>
+            <td>Index of original nominees in Register C (Register of claims allowed C not found)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>95</td>
+            <td></td>
+            <td>Western</td>
+            <td>Report of the Commissioners</td>
+            <td>1803</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>96</td>
+            <td></td>
+            <td>Western</td>
+            <td>Report of the Commissioners</td>
+            <td>1799</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>97</td>
+            <td>4 parchemins</td>
+            <td></td>
+            <td>Commissions appointing members of the Heir and Devisee Commission</td>
+            <td>1805, 1812, 1818</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>98</td>
+            <td>1-120</td>
+            <td></td>
+            <td>Reports of the Commissioners, submitted-the Executive Council</td>
+            <td>1805-1808</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>99</td>
+            <td>1-53</td>
+            <td></td>
+            <td>Schedule of claims</td>
+            <td>1816-1823, ca. 1830</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>100</td>
+            <td>54-62</td>
+            <td></td>
+            <td>Register of disposition of claims </td>
+            <td>1833-1836</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>101</td>
+            <td>1-192</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1808-1829</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>102</td>
+            <td>193-388</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1830-1840</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>103</td>
+            <td>389-536</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1841-1850</td>
+        </tr>
+        <tr>
+            <td>H-1153</td>
+            <td>103</td>
+            <td>537-638</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1841-1850</td>
+        </tr>
+        <tr>
+            <td>H-1153</td>
+            <td>104</td>
+            <td>639-821</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1851-1854</td>
+        </tr>
+
+    </tbody>
+</table>
+
+<h3 id="ressources">Autres ressources</h3>
+<p>Merriman, Brenda Dougall.  Genealogy in Ontario: Searching the records, 4th ed.  Toronto:  Ontario Genealogical Society, 2008. </p>
+<p>Moorman, David. <a href="http://collectionscanada.gc.ca/obj/s4/f2/dsk2/tape17/PQDD_0014/NQ28362.pdf" target="_blank"><i>The first business of government: the land granting administration of Upper Canada</i></a> [PDF 19,827 KB].</p>
+<p>Murphy, Sharon L.  Researching Canadian Land Records, Heritage Book Series: Book HC22.  Toronto: Heritage Productions, 2001.</p>
+
+[% ELSE %]
+<h2>Heir and Devisee Commission, 1777-1854</h2>
+<div class="well">
+    <ol>
+        <li><a href="#about">About the Records</a></li>
+        <li><a href="#arranged">How the Records Are Arranged on the Microfilm Reels</a></li>
+        <li><a href="#content_list">List of Content of Microfilms</a></li>
+        <li><a href="#other">Other Resources</a></li>
+    </ol>
+</div>
+
+<h3 id="about">About the Records</h3>
+<p>The Heir and Devisee Commission was established by provincial statute in 1797 to clarify the titles to lands in Upper Canada which had been granted before the provision was made, in 1795, for the issuance of patent deeds on Crown Grants.  Legislation passed in 1805 changed the composition, powers, and duties of the Commission considerably. The Commission established under the 1805 legislation continued in operation until 1896 and was formally abolished only in 1911.</p>
+<p>The two distinct periods of Commission activity (1797-1805 and 1805 onward) are characterized as the "First" and "Second" Heir and Devisee Commissions.</p>
+<p>Under the 1797 legislation and its amendments, Heir and Devisee Commissioners were appointed to hear and rule upon claims within the various districts of the Province brought forward by the original nominees of the Crown, their heirs, devisees, or assignees. Each commission consisted of three or more persons, with the stipulation that one member be the Chief Justice or one of the justices of the Court of King's Bench. Decisions of the Commissioners could be appealed to the Executive Council.</p>
+<p>The 1805 legislation resulted in a centralization of the Commission work. Thereafter, a single Commission met at York, its membership made up of members of the Executive Council, the Chief Justice, and justices of the Court of King's Bench. The work of the second Commission was restricted to claims to land made by heirs, devisees or assignees, not by the original nominees themselves.</p>
+<p>Library and Archives Canada holds most of the records of the first Heir and Devisee Commission (1797-1804) (RG 1 L5) and some of the records of the second Commission (1805-1911). Most of the post-1805 records are now with the Archives of Ontario.</p>
+<p>Records can include:</p>
+<ul>
+    <li>affidavits;</li>
+    <li>bonds;</li>
+    <li>location certificates;</li>
+    <li>powers of attorney;</li>
+    <li>orders-in-council;</li>
+    <li>copies of wills;</li>
+    <li>mortgages;</li>
+    <li>deeds of sale; and</li>
+    <li>testimonial letters.</li>
+</ul>
+<p>For more information, consult <a href="http://collectionscanada.gc.ca/pam_archives/index.php?fuseaction=genitem.displayItem&lang=eng&rec_nbr=205142&rec_nbr_list=460040,3582727,1094213,205142,209570,209569,209568,209567,209566,209565" target="_blank">Library and Archive Canada’s description of the records</a>.</p>
+
+<h3 id="arranged">How the Records Are Arranged on the Microfilm Reels</h3>
+<p>The microfilm reels have been digitized and the images appear in the same order as on the microfilm reels.  There is no index by name. The records are arranged by district, then by type of document, then in chronological, alphabetical or numerical order. The Reports of the Commissioners, 1808-1854, are arranged together in vols. 100-104. Some of the volumes of supporting documents contain rough lists of contents, supplementing the arrangement by date, personal name or claim number.</p>
+
+<h3 id="content_list">List of Content of Microfilms</h3>
+<table class="table">
+    [% INCLUDE partial/table_header.tt columns=["Microfilm", "Volume", "Pages", "District", "Title or description of records", "Date"] %]
+    <tbody>
+        <tr>
+            <td>H-1133</td>
+            <td>1</td>
+            <td>1-46</td>
+            <td></td>
+            <td>Index of location certificates issued by the Land Boards</td>
+            <td>n.d. (pre-1804)</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>2</td>
+            <td>1-110b</td>
+            <td>Eastern</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports and some Orders-in-Council</td>
+            <td>1803-1804</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>3</td>
+            <td>5-28</td>
+            <td>Eastern</td>
+            <td>Report of the Commissioners </td>
+            <td>n.d. (1803?)</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>4</td>
+            <td>1-185</td>
+            <td>Eastern</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports</td>
+            <td>1797-1802</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>5</td>
+            <td>1-107b</td>
+            <td>Eastern</td>
+            <td>Notices of claims, received but disallowed or unresolved, arranged alphabetically </td>
+            <td>ca. 1809-1841</td>
+        </tr>
+        <tr>
+            <td>H-1133</td>
+            <td>6</td>
+            <td>1-32a</td>
+            <td>Eastern</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames A-B</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1134</td>
+            <td>6</td>
+            <td>33-133a</td>
+            <td>Eastern</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames C-K</td>
+            <td>to1804</td>
+        </tr>
+        <tr>
+            <td>H-1134</td>
+            <td>7</td>
+            <td>134-280c</td>
+            <td>Eastern</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames L-T</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1134</td>
+            <td>8</td>
+            <td>281-325b</td>
+            <td>Eastern</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames U-Z</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>9</td>
+            <td>326-391a</td>
+            <td>Eastern</td>
+            <td>Second series of certificates, arranged alphabetically</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>10</td>
+            <td>392-452a</td>
+            <td>Eastern</td>
+            <td>Third series of certificates, arranged alphabetically</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>11</td>
+            <td>1-190a</td>
+            <td>Eastern</td>
+            <td>Contemporary copies of location certificates (Edwardsburg, Augusta, Matilda)</td>
+            <td>n.d. (1789)</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>12</td>
+            <td>1-123</td>
+            <td>Johnstown</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports</td>
+            <td>1800-1803</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>13</td>
+            <td>1-225a</td>
+            <td>Johnstown</td>
+            <td>Notices of claims</td>
+            <td>n.d. (1800-1803)</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>14</td>
+            <td>1-47</td>
+            <td>Johnstown</td>
+            <td>Orders-in-Council </td>
+            <td>1801-1804</td>
+        </tr>
+        <tr>
+            <td>H-1135</td>
+            <td>15</td>
+            <td>1-83a</td>
+            <td>Johnstown</td>
+            <td>Notices of claims</td>
+            <td>1804-1840?</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>16</td>
+            <td>1-128</td>
+            <td>Johnstown</td>
+            <td>Notices of claims</td>
+            <td>1804-1840?</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>17</td>
+            <td>1-107a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames A-D</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>18</td>
+            <td>108-213</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames E-F</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>19</td>
+            <td>214-323a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames G-H</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1136</td>
+            <td>20</td>
+            <td>324-418a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames K-M</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>20</td>
+            <td>419-480a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames M-P</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>21</td>
+            <td>481-567b</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames Q-R</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>22</td>
+            <td>568-663b</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames S-S</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>23</td>
+            <td>664-694a</td>
+            <td>Johnstown</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically, surnames T-Y</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1137</td>
+            <td>24</td>
+            <td>1-400</td>
+            <td>Midland</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports</td>
+            <td>1797-1803 </td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>24</td>
+            <td>401-524</td>
+            <td>Midland</td>
+            <td>Reports of the Commissioners, with the Surveyor General's reports </td>
+            <td>1797-1803 </td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>25</td>
+            <td>1-103</td>
+            <td>Midland</td>
+            <td>Index of claimants</td>
+            <td>1790s</td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>25</td>
+            <td>1-67a</td>
+            <td>Midland</td>
+            <td>Orders-in-Council </td>
+            <td>1797-1803</td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>26</td>
+            <td>1-178</td>
+            <td>Midland</td>
+            <td>Notices of claims with some reports of the Surveyor General and Provincial Secretary </td>
+            <td>1797-1804</td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>27</td>
+            <td>1-99a </td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames A and B</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1138</td>
+            <td>28</td>
+            <td>100-154a</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames C </td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>28</td>
+            <td>155-193a</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames D and E</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>29</td>
+            <td>194-277b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames F and G </td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>30</td>
+            <td>278-347b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames H-K </td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>31</td>
+            <td>348-376b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames L </td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1139</td>
+            <td>32</td>
+            <td>377-441a</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames M and N</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>33</td>
+            <td>442-523b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames P-R </td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>34</td>
+            <td>524-620a</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames S-V </td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>35</td>
+            <td>621-667b</td>
+            <td>Midland</td>
+            <td>Location certificates submitted in support of claims, surnames W-Y</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>36</td>
+            <td>1-70a</td>
+            <td>Midland</td>
+            <td>Orders-in-Council </td>
+            <td>1801-1804</td>
+        </tr>
+        <tr>
+            <td>H-1140</td>
+            <td>37</td>
+            <td>1-62a</td>
+            <td>Home</td>
+            <td>Reports of the Commissioners</td>
+            <td>1802-1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>37</td>
+            <td>63-68a</td>
+            <td>Home</td>
+            <td>Reports of the Commissioners</td>
+            <td>1802-1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>38</td>
+            <td>69-110a</td>
+            <td>Home</td>
+            <td>Reports of the Commissioners</td>
+            <td>1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>39</td>
+            <td>1-29a</td>
+            <td>Home</td>
+            <td>Copy of the Commission of 1816, notices of claims and a list of claimants, 1821-1823</td>
+            <td>ca. 1804-1823</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>40</td>
+            <td>1-15a</td>
+            <td>Home</td>
+            <td>Orders-in-Council </td>
+            <td>1791-1802</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>41</td>
+            <td>16-70a</td>
+            <td>Home</td>
+            <td>Location certificates submitted in support of claims</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>42</td>
+            <td>1-208a</td>
+            <td>Home</td>
+            <td>Notices of claims</td>
+            <td>1803-1837</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>43</td>
+            <td>1-93d</td>
+            <td>Western</td>
+            <td>Reports of the Commissioners, with some Orders-in-Council for the issuance of Surveyor General's descriptions for land claims recommended (see also reports in volumes 95-96)</td>
+            <td>1798-1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>43</td>
+            <td>1-54</td>
+            <td>Western</td>
+            <td>Rough minutes of meetings, 1799</td>
+            <td>1798-1804</td>
+        </tr>
+        <tr>
+            <td>H-1141</td>
+            <td>44</td>
+            <td>1-49a</td>
+            <td>Western</td>
+            <td>Notices of claims, received but disallowed or unresolved, arranged alphabetically</td>
+            <td>1798-1840</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>45</td>
+            <td>50-187a</td>
+            <td>Western</td>
+            <td>Notices of claims</td>
+            <td>1803</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>46</td>
+            <td>1-95b</td>
+            <td>Western</td>
+            <td>Location certificates submitted in support of claims, arranged alphabetically</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>47</td>
+            <td>1-33a</td>
+            <td>London</td>
+            <td>Notices of claims</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>47</td>
+            <td>34-41b</td>
+            <td>London</td>
+            <td>Orders-in-Council </td>
+            <td>1803-1804</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>47</td>
+            <td>42-59b</td>
+            <td>London</td>
+            <td>Notices of claims, received but disallowed or unresolved</td>
+            <td>1818-l841</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>48</td>
+            <td>1-41</td>
+            <td>Niagara</td>
+            <td>Reports of the Commissioners</td>
+            <td>1802-1804</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>49</td>
+            <td>1-44a</td>
+            <td>Niagara</td>
+            <td>Notices of claims, received but disallowed or unresolved</td>
+            <td>1803-1819</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>49</td>
+            <td>45-75a</td>
+            <td>Niagara</td>
+            <td>Notices claims allowed</td>
+            <td>1803-1819</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>50</td>
+            <td>1-23a</td>
+            <td>Gore</td>
+            <td>Notices of claims, received but disallowed or unresolved</td>
+            <td>1815-1824</td>
+        </tr>
+        <tr>
+            <td>H-1142</td>
+            <td>51</td>
+            <td>1-66e</td>
+            <td>Newcastle</td>
+            <td>Reports and Orders-in-Council and notices of claims, received but disallowed or unresolved </td>
+            <td>1798-1835 </td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>51</td>
+            <td>67-123a</td>
+            <td>Newcastle</td>
+            <td>Notices of claims allowed </td>
+            <td>1798-1835 </td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>51</td>
+            <td>1-5</td>
+            <td>Bathurst</td>
+            <td>Notice of a claim</td>
+            <td>1841</td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>52</td>
+            <td>1-92</td>
+            <td></td>
+            <td>Surveyor General's descriptions of lands allotted in response-claims</td>
+            <td>1841</td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>53</td>
+            <td>93-203</td>
+            <td></td>
+            <td>Surveyor General's descriptions of lands allotted in response-claims</td>
+            <td>1842</td>
+        </tr>
+        <tr>
+            <td>H-1143</td>
+            <td>54</td>
+            <td>204-708</td>
+            <td></td>
+            <td>Surveyor General's descriptions, with annotation of Attorney General's fiats </td>
+            <td>1848-1850</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>54</td>
+            <td>708a-1415</td>
+            <td></td>
+            <td>Surveyor General's descriptions, with annotation of Attorney General's fiats</td>
+            <td>1851-1854</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>55</td>
+            <td>1-59</td>
+            <td></td>
+            <td>Supporting documents for claims in Ancaster township</td>
+            <td>1794-1799</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>56</td>
+            <td>60-132</td>
+            <td></td>
+            <td>Supporting documents for claims in Blenheim township</td>
+            <td>1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>57</td>
+            <td>133-156</td>
+            <td></td>
+            <td>Supporting documents for claims in Beverley township</td>
+            <td>1796-1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>58</td>
+            <td>157-211</td>
+            <td></td>
+            <td>Supporting documents for claims in Burford township</td>
+            <td>1796-1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>59</td>
+            <td>212-221</td>
+            <td></td>
+            <td>Supporting documents for claims in Charlotteville</td>
+            <td>1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>60</td>
+            <td>222-227</td>
+            <td></td>
+            <td>Supporting documents for claims in Crowland township</td>
+            <td>1797</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>61</td>
+            <td>228-229</td>
+            <td></td>
+            <td>Supporting documents for claims in Ernestown mills, bond for a lease</td>
+            <td>1812</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>62</td>
+            <td>230-280</td>
+            <td></td>
+            <td>Supporting documents for claims in Etobicoke township, Gainsborough township and Grand River (see also volume 75)</td>
+            <td>1794-1797, 1828</td>
+        </tr>
+        <tr>
+            <td>H-1144</td>
+            <td>63</td>
+            <td>281-316</td>
+            <td></td>
+            <td>Supporting documents for claims in Grimsby, and Humberton, Lansdown, Loughborough and Markham townships</td>
+            <td>1794-1798</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>64</td>
+            <td>317-399</td>
+            <td></td>
+            <td>Supporting documents for claims in Oxford-on-Thames township</td>
+            <td>1796-1799</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>65</td>
+            <td>400-436</td>
+            <td></td>
+            <td>Supporting documents for claims in Pelham, Rainham, Saltfleet, Southwold and Thorold townships</td>
+            <td>1795-1799</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>66</td>
+            <td>437-491</td>
+            <td></td>
+            <td>Supporting documents for claims in Townsend, Vaughan, Wainfleet and Wolford townships</td>
+            <td>1797-1801</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>67</td>
+            <td>492-503</td>
+            <td></td>
+            <td>Supporting documents for claims in Yonge Street and York</td>
+            <td>1789, 1802-1803</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>68</td>
+            <td>0-152a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, surnames A-F</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>69</td>
+            <td>152b-295a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, surnames G-Robertson</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>70</td>
+            <td>295b-449a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, surnames Robinson-W</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>72</td>
+            <td>449b-475a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, second series, arranged by township</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>71</td>
+            <td>0-44a</td>
+            <td></td>
+            <td>Certificates regarding the performance of settlement duties, third series, arranged alphabetically</td>
+            <td>to 1804</td>
+        </tr>
+        <tr>
+            <td>H-1145</td>
+            <td>73</td>
+            <td>0-28a</td>
+            <td></td>
+            <td>Certificates attesting-good character of claimants</td>
+            <td>1781-1817</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>74</td>
+            <td>1-370</td>
+            <td></td>
+            <td>Certificates of Loyalist claimants, arranged alphabetically</td>
+            <td>1777-1816</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>75</td>
+            <td>1-68</td>
+            <td></td>
+            <td>Certificates and depositions regarding exchanges and surrenders</td>
+            <td>1788-1804, 1820, 1856</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>76</td>
+            <td>1-265</td>
+            <td>Niagara/Home</td>
+            <td>Certificates and Orders from the Land Boards and other authorities giving entitlement-lands, arranged alphabetically for each district</td>
+            <td>1789-1801</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>77</td>
+            <td>1-31</td>
+            <td>Home</td>
+            <td>Assignments of title-lands by certificate or deposition</td>
+            <td>1800-1804</td>
+        </tr>
+        <tr>
+            <td>H-1146</td>
+            <td>78</td>
+            <td>1-127</td>
+            <td></td>
+            <td>Assignment of title-lands by agreement, bond, deed of sale, mortgage or other conveyance</td>
+            <td>1788-1835</td>
+        </tr>
+        <tr>
+            <td>H-1147</td>
+            <td>78</td>
+            <td>128-258</td>
+            <td></td>
+            <td>Assignment of title-lands by agreement, bond, deed of sale, mortgage or other conveyance</td>
+            <td>1788-1835</td>
+        </tr>
+        <tr>
+            <td>H-1147</td>
+            <td>79</td>
+            <td>259-348</td>
+            <td></td>
+            <td>Receipts acknowledging sales of lands and titles thereto</td>
+            <td>1798-1815</td>
+        </tr>
+        <tr>
+            <td>H-1147</td>
+            <td>79A</td>
+            <td>349-716</td>
+            <td></td>
+            <td>Orders-in-Council </td>
+            <td>1803-1804</td>
+        </tr>
+        <tr>
+            <td>H-1147</td>
+            <td>80</td>
+            <td>1-400</td>
+            <td></td>
+            <td>Register A: entrybook of Commissioners Reports, with an index</td>
+            <td>1797-1802</td>
+        </tr>
+        <tr>
+            <td>H-1148</td>
+            <td>81</td>
+            <td>1-275</td>
+            <td></td>
+            <td>Register B: entrybook of Commissioners' Reports, with an index</td>
+            <td>1802-1803</td>
+        </tr>
+        <tr>
+            <td>H-1148</td>
+            <td>82</td>
+            <td>1-159</td>
+            <td></td>
+            <td>Register C: entrybook of Commissioners' Reports, with an index</td>
+            <td>1803-1804</td>
+        </tr>
+        <tr>
+            <td>H-1148</td>
+            <td>83</td>
+            <td>1-133</td>
+            <td></td>
+            <td>Register D: entrybook of Commissioners' Reports, including the Surveyor General's reports</td>
+            <td>1805-1822</td>
+        </tr>
+        <tr>
+            <td>H-1149</td>
+            <td>84</td>
+            <td>1-273</td>
+            <td></td>
+            <td>Register E: entrybook of Commissioners' Reports</td>
+            <td>1823-1835 </td>
+        </tr>
+        <tr>
+            <td>H-1149</td>
+            <td>85</td>
+            <td>1-74</td>
+            <td></td>
+            <td>Index-Register E</td>
+            <td>1823-1835 </td>
+        </tr>
+        <tr>
+            <td>H-1149</td>
+            <td>86</td>
+            <td>1-315</td>
+            <td></td>
+            <td>Register F: entrybook of Commissioners' Reports, with an index</td>
+            <td>1836-1845</td>
+        </tr>
+        <tr>
+            <td>H-1150</td>
+            <td>87</td>
+            <td>1-177</td>
+            <td></td>
+            <td>Register G: entrybook of Commissioners' Reports</td>
+            <td>1836-1845</td>
+        </tr>
+        <tr>
+            <td>H-1150</td>
+            <td>88</td>
+            <td>1-85</td>
+            <td></td>
+            <td>Register of Notices of Claims, arranged alphabetically (see also volume 99)</td>
+            <td>1826-1828</td>
+        </tr>
+        <tr>
+            <td>H-1150</td>
+            <td>89</td>
+            <td>1-228</td>
+            <td></td>
+            <td>Minute Book of the Commissioners, with an index</td>
+            <td>1837-1847</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>90</td>
+            <td>1-184</td>
+            <td></td>
+            <td>Register of claims allowed, “A”, entered chronologically, by district</td>
+            <td>1797-1804</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>91</td>
+            <td>1-116</td>
+            <td></td>
+            <td>Index of claimants in Registers A-B-C (see volumes 90 & 93)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>92</td>
+            <td>1-133</td>
+            <td></td>
+            <td>Index of original nominees in Registers A-B (see volumes 90 & 93)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>93</td>
+            <td>1-41</td>
+            <td></td>
+            <td>Register of claims allowed “B”</td>
+            <td>1805-1823</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>94</td>
+            <td>1-400</td>
+            <td></td>
+            <td>Index of original nominees in Register C (Register of claims allowed C not found)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>95</td>
+            <td></td>
+            <td>Western</td>
+            <td>Report of the Commissioners</td>
+            <td>1803</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>96</td>
+            <td></td>
+            <td>Western</td>
+            <td>Report of the Commissioners</td>
+            <td>1799</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>97</td>
+            <td>4 parchments</td>
+            <td></td>
+            <td>Commissions appointing members of the Heir and Devisee Commission</td>
+            <td>1805, 1812, 1818</td>
+        </tr>
+        <tr>
+            <td>H-1151</td>
+            <td>98</td>
+            <td>1-120</td>
+            <td></td>
+            <td>Reports of the Commissioners, submitted-the Executive Council</td>
+            <td>1805-1808</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>99</td>
+            <td>1-53</td>
+            <td></td>
+            <td>Schedule of claims</td>
+            <td>1816-1823, ca. 1830</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>100</td>
+            <td>54-62</td>
+            <td></td>
+            <td>Register of disposition of claims </td>
+            <td>1833-1836</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>101</td>
+            <td>1-192</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1808-1829</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>102</td>
+            <td>193-388</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1830-1840</td>
+        </tr>
+        <tr>
+            <td>H-1152</td>
+            <td>103</td>
+            <td>389-536</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1841-1850</td>
+        </tr>
+        <tr>
+            <td>H-1153</td>
+            <td>103</td>
+            <td>537-638</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1841-1850</td>
+        </tr>
+        <tr>
+            <td>H-1153</td>
+            <td>104</td>
+            <td>639-821</td>
+            <td></td>
+            <td>Reports of the Commissioners</td>
+            <td>1851-1854</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="other">Other Resources</h3>
+<p>Merriman, Brenda Dougall.  Genealogy in Ontario: Searching the records, 4th ed.  Toronto:  Ontario Genealogical Society, 2008. </p>
+<p>Moorman, David. <a href="http://collectionscanada.gc.ca/obj/s4/f2/dsk2/tape17/PQDD_0014/NQ28362.pdf" target="_blank"><i>The first business of government: the land granting administration of Upper Canada</i></a> [PDF 19,827 KB].</p>
+<p>Murphy, Sharon L.  Researching Canadian Land Records, Heritage Book Series: Book HC22.  Toronto: Heritage Productions, 2001.</p>
+[% END %]

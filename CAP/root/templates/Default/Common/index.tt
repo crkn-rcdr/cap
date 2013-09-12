@@ -1,0 +1,11 @@
+[% title = c.loc("Welcome") -%]
+
+<div class="row">
+    <div class="span8 offset2">
+[% INCLUDE partial/search_form.tt | indent(8) %]
+    </div>
+</div>
+[% INCLUDE "content/index_text_${lang}.tt" -%]
+[% IF c.portal.has_feature('collections');
+   INCLUDE partial/collection_list.tt;
+   END %]

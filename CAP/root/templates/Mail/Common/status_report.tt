@@ -1,0 +1,74 @@
+<!doctype html>
+<html id="html" lang="en">
+
+<head>
+    <title>System Status Report</title>
+</head>
+
+<body>
+
+<h1>System Status Report</h1>
+
+<table>
+    <caption>Statistics by Portal - Previous Month</caption>
+    <thead>
+        <tr>
+            <th>Portal</th>
+            <th>Sessions</th>
+            <th>Searches</th>
+            <th>Page Views</th>
+            <th>Requests</th>
+        </tr>
+    </thead>
+    <tbody>
+    [% FOREACH i IN mail_data.portal_stats_previous %]
+        <tr>
+            <td>[% i.portal_id.title('en') %]</td>
+            <td>[% i.sessions %]</td>
+            <td>[% i.searches %]</td>
+            <td>[% i.page_views %]</td>
+            <td>[% i.requests %]</td>
+        </tr>
+    </tbody>
+    [% END %]
+</table>
+
+<table>
+    <caption>Statistics by Portal - Month to Date</caption>
+    <thead>
+        <tr>
+            <th>Portal</th>
+            <th>Sessions</th>
+            <th>Searches</th>
+            <th>Page Views</th>
+            <th>Requests</th>
+        </tr>
+    </thead>
+    <tbody>
+    [% FOREACH i IN mail_data.portal_stats_current %]
+        <tr>
+            <td>[% i.portal_id.title('en') %]</td>
+            <td>[% i.sessions %]</td>
+            <td>[% i.searches %]</td>
+            <td>[% i.page_views %]</td>
+            <td>[% i.requests %]</td>
+        </tr>
+    </tbody>
+    [% END %]
+</table>
+
+<table>
+    <caption>Active Subscriptions</caption>
+    [% INCLUDE partial/table_header.tt columns=["Portal", "Subscribers"] %]
+    <tbody>
+    [% FOREACH i IN mail_data.user_subscriptions %]
+        <tr>
+            <td>[% i.portal_id.title('en') %]</td>
+            <td>[% i.get_column('user_count') %]</td>
+        </tr>
+    [% END %]
+    </tbody>
+</table>
+
+</body>
+</html>

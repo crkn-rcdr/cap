@@ -1,0 +1,14 @@
+[% title = c.loc("Welcome") -%]
+
+<h1>[% portal_name %]</h1>
+<div class="row">
+    <div class="span4">
+        <img class="logo" src="/static/images/logo_square_[% c.stash.lang %].png" alt="[% c.loc("Canadiana logo") %]" />
+    </div>
+    <div class="span8">
+[% INCLUDE partial/search_form.tt | indent(8) %]
+    </div>
+</div>
+[% INCLUDE "content/index_text_${lang}.tt" -%]
+
+[% INCLUDE partial/slideshow.tt shadow=0 %]

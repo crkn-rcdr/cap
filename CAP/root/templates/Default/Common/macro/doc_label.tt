@@ -1,0 +1,9 @@
+[%-
+  doc_label_ = [];
+  FOR part IN parts;
+    IF part;
+      doc_label_.push(part);
+    END;
+  END;
+  doc_label_.join(', ') | xhtml;
+-%]

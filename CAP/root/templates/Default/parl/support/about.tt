@@ -1,0 +1,97 @@
+﻿[% IF lang == 'fr' %]
+<h2>À propos / Aide</h2>
+
+<h3>Introduction</h3>
+<p>Le portail des <strong><i>Débats historiques du Parlement du Canada</i></strong> offre une façon simple et centralisée d’accéder aux débats historiques du Sénat et de la Chambre des communes, dans les deux langues officielles.</p>
+<p>Les débats du Sénat et de la Chambre des communes, appelé couramment les <i>Débats</i>, ou Hansard, contiennent les délibérations transcrites, éditées et corrigées des deux Chambres du Parlement.</p>
+<p>Depuis l’adoption des comptes-rendus officiels (en 1871 pour le Sénat et en 1880 pour la Chambre des communes), les éditions quotidiennes du Hansard sont disponibles en volumes reliés et indexés.  Ce portail a été produit à partir de ces volumes qui ont été numérisés et qui sont disponibles sous leur législature et session respective et accessible au moyen de la fonction Parcourir de ce portail.</p>
+<p>Le portail comprend des débats reconstitués.  Ceux-ci représentent les débats qui ont eu lieu avant l’adoption des comptes rendus officiels.  Ces débats reconstitués sont une version non-officielle des débats, tirés des journaux de l’époque.  En dernier lieu, les débats traduits du Sénat du Canada sont également inclus, le Sénat ayant commencé son compte-rendu officiel en anglais seulement.  Les débats reconstitués et le matériel traduit sont identifiés comme tel dans le portail.</p>
+<p>En 1994, la Chambre a commencé  a distribué ses publications de façon électronique en rendant celles-ci disponibles globalement sur le site Web du Parlement du Canada.  Le Sénat a fait de même en 1996.  Pour accéder à ces débats, veuillez visiter <a href="http://parl.gc.ca/" target="_blank">parl.gc.ca</a>, sous l’onglet Travaux parlementaires.</p>
+
+<h3>Parcourir / Recherche</h3>
+<p>La <strong>fonction Parcourir</strong> du côté gauche de la page principale permet à l’usager de trouver un volume spécifique dans une législature et session précise.  Une fois le volume sélectionné, il peut être visionné et fouillé davantage.</p>
+<p>Aussi, la fonction Parcourir permet à l’usager de faire une <strong>recherche par mot-clé</strong> dans la session ou le volume choisi, en utilisant le champ de recherche situé au-dessus du visionneur, du côté gauche.  Ces résultats peuvent être restreints de nouveau en utilisant les restrictions situées à gauche de l’écran.</p>
+<p>Le <strong>formulaire de Recherche</strong> simple situé du côté droit de la page principale permet de faire une recherche dans tout le contenu des débats du portail.  Pour raffiner ses recherches, l’usager peut appliquer des restrictions (Chambre, législature, langue et date).</p>
+<p>Les options suivantes peuvent être utilisées préciser la recherche:</p>
+<ul>
+    <li>
+        <h3>Phrases : ""</h3>
+        <p>Pour rechercher une phrase exacte,  mettez tous les mots entre guillemets. <em>Vous ne pouvez pas utiliser des caractères de remplacement à l’intérieur d’une phrase.</em> Par exemple, pour trouver des documents qui contiennent l’expression «&nbsp;ville de Québec&nbsp;» et non pas seulement les termes individuels «&nbsp;Québec&nbsp;» et «&nbsp;ville&nbsp;» : <code><a href="[% c.uri_for_action('search/index', { q => '"ville de quebec"' }) %]">"ville de quebec"</a></code></p>
+    </li>
+    <li>
+        <h3>Caractères de remplacement : ? et *</h3>
+        <p>Utiliser ? à l’intérieur ou à la fin d’un mot pour remplacer n’importe quel caractère. Utiliser * pour remplacer n’importe quel nombre de caractères (dont le zéro). Par exemple, pour trouver soit «&nbsp;gouvernante «&nbsp; ou «&nbsp;gouvernance&nbsp;» : <code><a href="[% c.uri_for_action('search/index', { q => 'gouvernan?e' }) | xhtml %]">gouvernan?e</a></code>. Pour trouver soit «&nbsp;défense&nbsp;» ou «&nbsp;défenseur&nbsp;» : <code><a href="[% c.uri_for_action('search/index', { q => 'défense*' }) | xhtml %]">défense*</a></code></p>
+    </li>
+    <li>
+        <h3>Mot à exclure : -</h3>
+        <p>Utilisez - devant un mot ou une phrase pour indiquer que ce terme ne doit pas apparaître dans le document. Par exemple, pour trouver des documents qui contiennent le mot «&nbsp;Paris&nbsp;» mais pas «&nbsp;France&nbsp;» : <code><a href="[% c.uri_for_action('search/index', { q => 'paris -france' }) %]">paris -france</a></code></p>
+    </li>
+    <li>
+        <h3>Termes alternatifs : |</h3>
+        <p>Pour trouver un terme correspondant à n’importe quel des termes alternatifs saisis, placez un | entre chaque terme. Par exemple, pour trouver «&nbsp;ontario&nbsp;» avec soit «&nbsp;york&nbsp;», soit «&nbsp;toronto&nbsp;» : <code><a href="[% c.uri_for_action('search/index', { q => 'ontario york | toronto' }) | xhtml %]">ontario york | toronto</a></code></p>
+    </li>
+    <li>
+    	<h3>Accents</h3>
+    	<p>Les termes recherchés ne sont pas sensibles à la casse et peuvent être entrés avec ou sans accents : « Français » et « francais » donneront les mêmes résultats.</p>
+    </li>
+</ul>
+
+<h3>Page des résultats de recherche</h3>
+<p>Par défaut, les résultats de recherche sont présentés par ordre de pertinence.  L’usager peut également trier les résultats par date croissante et décroissante.</p>
+
+<h3>Visionneur</h3>
+<p>Le visionneur permet à l’usager de minimiser ou maximiser le texte, de choisir un numéro de page spécifique, et de naviguer dans le contenu du volume.  Pour imprimer une page, il suffit de cliquer sur la page désirée avec le bouton de droite et de choisir l’option “Imprimer l’image”.</p>
+
+<h3>Lien à vos résultats</h3>
+<p>Chaque volume a un lien URL permanent, au cas où  l’usager souhaite en faire un Favori ou l’envoyer à quelqu’un.  Ce lien permanent se trouve sous l’onglet <strong>À propos</strong> dans le haut du visionneur.</p>
+<p>La liste des résultats de recherche peut aussi être partagée en copiant le lien dans la barre d’adresse.</p>
+
+[% ELSE %]
+<h2>About / Help</h2>
+
+<h3>Introduction</h3>
+<p>The <strong><i>Historical Debates of the Parliament of Canada</i></strong> portal provides a centralized, streamlined means of accessing historical debates of the Senate and House of Commons, in both official languages.</p>
+<p>The Senate and House of Commons Debates, commonly known as the <i>Debates</i>, or Hansard, contain the transcribed, edited and corrected record of full deliberations of both Houses of Parliament.</p>
+<p>Since the adoption of official reporting (in 1871 for the Senate and 1880 for the House of Commons), the daily editions of the Hansard were issued in bound, well-indexed volumes. This site has been produced from digitized editions of these volumes, all available under their corresponding Parliament and Session, in the Browse function of this portal.</p>
+<p>This portal includes reconstituted debates, which represent debates for the years prior to the adoption of official reporting.  These reconstituted debates are an unofficial version of the debates, drawn from newspaper reports of the day.  Finally, the portal also includes translated debates for the Senate of Canada, which began its official report in English only.  All of the reconstituted and translated content can be identified in the records.</p>
+<p>In 1994, the House began to distribute its publications electronically by making its publications accessible worldwide through the Parliament of Canada Web site. The Senate followed suit in 1996. To access debates from these dates and later, please visit <a href="http://parl.gc.ca/" target="_blank">parl.gc.ca</a>, under Parliamentary Business.</p>
+
+<h3>Browsing and Searching</h3>
+<p>The <strong>Browse function</strong> on the left-hand side of the home page allows the user to track down a specific volume in a given Parliament and Session.  Once a volume is selected, it can be viewed and further searched.</p>
+<p>Also, the Browse function allows users to perform a <strong>Keyword search</strong> within a selected session, using the search box located in the top left side of the viewer.  Those results can then be narrowed down using the different restrictions located to the left of the screen.</p>
+<p>The simple <strong>Search form</strong> on the right-hand side of the home page allows for searching the full text content of the Debates. For finer control, the user can narrow his search by Chamber, Parliament, Language and Date.</p>
+<p>The following features can be used to refine searches:</p>
+<ul>
+    <li>
+        <h4>Phrases: ""</h4>
+        <p>To search for an exact phrase, enclose all of the words in double quotes. <em>You cannot use wildcards within a phrase.</em> For example, to find documents that contain the phrase "quebec city" and not just the individual terms "quebec" and "city": <code><a href="[% c.uri_for_action('search/index', { q => '"quebec city"' }) %]">"quebec city"</a></code></p>
+    </li>
+    <li>
+        <h4>Wildcards: ? and *</h4>
+        <p>Use ? in the middle or at the end of a word to match any one character. Use * to match any number of characters (including zero). For example, to find either "defence" or "defense": <code><a href="[% c.uri_for_action('search/index', { q => 'defen?e' }) %]">defen?e</a></code> To find either "labour" or "labor": <code><a href="[% c.uri_for_action('search/index', { q => 'labo*r' }) %]">labo*r</a></code></p>
+    </li>
+    <li>
+        <h4>Excluded term: -</h4>
+        <p>Use - in front of a word or phrase to indicate that the term must not appear in the record. For example, to find documents that contain "paris" but not "france": <code><a href="[% c.uri_for_action('search/index', { q => 'paris -france' }) %]">paris -france</a></code></p>
+    </li>
+    <li>
+        <h4>Alternate terms: |</h4>
+        <p>To match any one of a number of alternative terms, put a | between them. For example, to find "ontario" and either "york" or "toronto": <code><a href="[% c.uri_for_action('search/index', { q => 'canada york | toronto' }) | xhtml %]">ontario york | toronto</a></code></p>
+    </li>
+    <li>
+    	<h4>Accents</h4>
+    	<p>Search terms are not case or accent-sensitive: "Français" and "francais" will produce the same result.</p>
+    </li>
+</ul>
+
+<h3>Search results page</h3>
+<p>By default, search results are presented in order of relevance.  Users can change the sort order by “newest” or “oldest”.</p>
+
+<h3>Page viewer</h3>
+<p>Use the functions of the page viewer to zoom in on the digitized page image, to select a specific page number, and to otherwise move through the volume.  Right-click on the page image and use the “Print picture” function to print the page showing in the viewer.</p>
+
+<h3>Linking to your results</h3>
+<p>Each volume has a permanent URL if you wish to bookmark it, or send the link to someone.  This link can be found in the metadata, under the <strong>About</strong> tab at the top of the page viewer.</p>
+<p>Your search result list can also be shared by copying the link in the address bar from the results page.</p>
+
+[% END %]

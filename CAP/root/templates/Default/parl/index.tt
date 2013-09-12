@@ -1,0 +1,16 @@
+﻿[% title = c.loc("Welcome") -%]
+
+<div class="row">
+    <div class="span6">
+        <h2>[% c.loc("Browse") %]</h2>
+[% INCLUDE "partial/browse_top_level.tt" browse=browse terms=[] | indent(12) %]
+    </div>
+    <div class="span6 search">
+[% INCLUDE partial/search_form.tt | indent(8) %]
+    </div>
+</div>
+<div class="row">
+    <div class="span12">
+[% INCLUDE "content/index_text_${lang}.tt" | indent(8) -%]
+    </div>
+</div>

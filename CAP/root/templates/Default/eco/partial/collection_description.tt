@@ -1,0 +1,75 @@
+﻿[% SWITCH key %]
+    [% CASE "cgj" %]
+        [% IF c.stash.lang == "en" %]
+            This collection largely consists of the pre-1867 Journals and Appendices of the elected houses and assemblies of the colonies that make up present day Canada.
+        [% ELSIF c.stash.lang == "fr" %]
+            Cette collection est constituée essentiellement de journaux et d’appendices des Chambres et des Assemblées élues avant 1867 dans les colonies qui sont à l’origine de la nation canadienne d’aujourd’hui.
+        [% END %]
+    [% CASE "ecl" %]
+        [% IF c.stash.lang == "en" %]
+            This collection of 875 works includes fiction, drama, songs, and poetry, as well as biography, travel literature and exploration accounts. It is comprised of books published from 1697 to 1900, and from a variety of countries (Canada, United Kingdom, United States, Switzerland). 
+        [% ELSIF c.stash.lang == "fr" %]
+            Cette collection comprend 875 ouvrages de fiction, de théâtre, de chansons et de poésie, ainsi que des biographies, et des récits de voyage et d’exploration. La collection contient des publications datant de 1697 à 1900 et provenant de divers pays (Canada, Royaume-Uni, États-Unis, Suisse).
+        [% END %]
+    [% CASE "gvg" %]
+        [% IF c.stash.lang == "en" %]
+            This online collection consists of 60 publications focused on the lives of the early Governors General of Canada.
+        [% ELSIF c.stash.lang == "fr" %]
+            Cette collection en ligne comprend 60 publications qui portent essentiellement sur la vie des anciens gouverneurs généraux du Canada.
+        [% END %]
+    [% CASE "gvp" %]
+        [% IF c.stash.lang == "en" %]
+            The Early Official Publications collection includes over 1.5 million digitized pages of historical pre-1901 colonial and federal government documents. This collection includes government acts, bills, committee reports, court rules, debates, journals, ordinances, a selection of official publications from France and Great Britain, sessional papers, regulations, royal commission reports, and treaties.
+        [% ELSIF c.stash.lang == "fr" %]
+            Les anciennes publications officielles (également appelées publications gouvernementales) comprennent 8,124 (1,5 million de pages) documents historiques produits avant 1901 par le gouvernement tant colonial que fédéral. Cette collection comprend des lois, des projets de loi, des rapports de comités, des règles de pratique des cours de justice, des débats, des journaux, des ordonnances, une sélection de publications officielles de la France et de la Grande-Bretagne, des documents de session, des règlements, des rapports de commissions royales et des traités.
+        [% END %]
+    [% CASE "hbc" %]
+        [% IF c.stash.lang == "en" %]
+            The Hudson's Bay Company (HBC) collection consists of 160 titles (20,000 pages) that detail the rich history of one of the oldest and still active companies in the world. 
+        [% ELSIF c.stash.lang == "fr" %]
+            La collection de la Compagnie de la Baie d’Hudson (CBH) est composée de 160 titres (20,000 pages) qui racontent en détail la riche histoire de l’une des plus anciennes compagnies encore en activité dans le monde.
+        [% END %]
+    [% CASE "hfc" %]
+        [% IF c.stash.lang == "en" %]
+            The 732 French language books in this collection relate to the history of French settlement and French culture in Canada. In the collection are books published from 1575 to the early 20th century, and from a variety of countries (Canada, France, United Kingdom, Netherlands). Topics covered include: the discovery and exploration of Canada; religious works, including those of the Jesuits; history of Acadia; First Nations settlements; scholarly writings on the French language; French Canadian songs and poems; education; biographies; geography; politics; law; social life and customs; commerce, and natural resources.
+        [% ELSIF c.stash.lang == "fr" %]
+            Les 732 livres de langue française dans cette collection relatent l’histoire de la colonisation et de la culture françaises au Canada. Dans cette collection se trouvent des livres publiés dans divers pays (Canada, France, Royaume-Uni, Pays-Bas) entre 1575 et le début du XXe siècle. Vous y trouverez entre autres des ouvrages sur la découverte et l’exploration du Canada, des titres religieux dont ceux des Jésuites, d’autres sur l’histoire de l’Acadie et des peuplements des Premières nations, des écrits scientifiques traitant de la langue française, des chansons et des poèmes du Canada français, des biographies, ainsi que des titres sur l’éducation, la géographie, la politique, le droit, la vie sociale et les coutumes, le commerce et les ressources naturelles. 
+        [% END %]
+    [% CASE "hmd" %]
+        [% IF c.stash.lang == "en" %]
+            This collection of periodicals and books relates to the field of health and medicine and covers almost 100 years of medical thought, news, practice and research in Canada. Here you will find writings on: public health, human anatomy, promotion of health, pharmacology, diet, physical fitness, dentistry, surgery, obstetrics, childbirth, pediatrics, etc.
+        [% ELSIF c.stash.lang == "fr" %]
+            Cette collection de périodiques et de livres se rapporte aux domaines de la santé et de la médecine et couvre près de 100 ans de réflexions, de nouvelles, de pratique et de recherche médicales au Canada. Vous y trouverez des écrits sur la santé publique, l’anatomie humaine, la promotion de la santé, la pharmacologie, les régimes alimentaires, la condition physique, la dentisterie, la chirurgie, l’obstétrique, les accouchements, la pédiatrie, etc.
+        [% END %]
+    [% CASE "jsr" %]
+        [% IF c.stash.lang == "en" %]
+            The <i>Jesuit Relations</i> is a 73-volume set of books (22,500 pages) in the original Italian, Latin and French with commentary and translation into English by Reuben Thwaites (1853-1913). Most of the <i>Relations</i> are annual missionary reports written between 1632 and 1678 by the Jesuits in New France for their superiors in France. Through their <i>Relations</i>, the Jesuits provide details of colonial life during the French regime in Canada. 
+        [% ELSIF c.stash.lang == "fr" %]
+            Les <i>Relations des Jésuites</i> forment une collection de 73 volumes (22,500 pages) publiés dans leur version originale italienne, latine et française avec des commentaires et une traduction anglaise par Reuben Twaites (1853-1913). La plupart des <i>Relations</i> sont des rapports annuels rédigés entre 1632 et 1678 par des missionnaires jésuites en Nouvelle-France à l’intention de leurs supérieurs en France. À travers leurs <i>Relations</i>, les Jésuites du Canada décrivent méticuleusement la vie dans la colonie durant le Régime français.
+        [% END %]
+    [% CASE "nas" %]
+        [% IF c.stash.lang == "en" %]
+            This collection of 900 titles relating to Canada’s early First Nations Peoples was published from 1558 to 1900 in a variety of countries (Canada, Germany, Switzerland, United Kingdom, United States) and in a variety of languages (e.g. Micmac, Iroquois, Mohawk, Chipewyan, Nootka, Chinook, Ojibwa). Here you will find writings on: customs, folklore, spirituality, history, languages, treaties, battles, biographies, relations with the government, cultural assimilation, education, etc.
+        [% ELSIF c.stash.lang == "fr" %]
+            Les 900 titres de cette collection relatant l’histoire des Premières nations du Canada furent publiés entre 1558 et 1900 dans plusieurs pays (Canada, Allemagne, Suisse, Royaume-Uni, États-Unis) et dans plusieurs langues (micmac, iroquois, mohawk, chipewyan, nootka, chinook, ojibwa et autres). Vous y trouverez des biographies et des ouvrages sur les coutumes, le folklore, la spiritualité, l’histoire, les langues, les traités, les conflits, les relations avec le gouvernement, l’assimilations culturelle, l’éducation, etc.
+        [% END %]
+    [% CASE "per" %]
+        [% IF c.stash.lang == "en" %]
+            The Early Canadian Periodicals collection includes over 1,000 magazines, totaling over 65,000 issues. It covers a wide range of topics such as political satire, agriculture, religion, medicine and health, as well as many men’s, women’s and children’s popular magazines. This collection even includes the first magazine ever published in Canada, <i>The Nova Scotia Magazine</i> (1789-1792). It offers a remarkable record of the development of thought and opinion on diverse issues of the nation in its formative years. Many of Canada's initial prominent poets, novelists, scientists and great minds were first known through their works published in these magazines. They give an entertaining window into society and individual lives of the early Canadians with their stories, articles, advertisements, cartoons, drawings and photographs.  
+        [% ELSIF c.stash.lang == "fr" %]
+            La collection des anciens périodiques canadiens comprend plus de 1,000 revues pour un total de plus de 65,000 numéros. Elle couvre tout un éventail de sujets tels que la satire politique, l’agriculture, la religion, la médecine et la santé, ainsi que de nombreuses revues populaires destinées aux hommes, aux femmes et aux enfants. Cette collection contient même la première revue jamais publiée au Canada, <i>The Nova Scotia Magazine</i> (1789-1792). Elle offre une ressource inestimable pour suivre le développement des idéologies et des opinions sur une foule de questions liées à notre nation en devenir. Nombreux sont les premiers grands poètes, romanciers, scientifiques et esprits éminents du Canada qui se sont d’abord fait connaître en publiant leurs œuvres dans ces revues. Elles ouvrent une fenêtre divertissante sur la société canadienne et la vie des gens d’autrefois avec leurs histoires, articles, publicité, bandes dessinées, gravures et  photographies.
+        [% END %]
+    [% CASE "rds" %]
+        [% IF c.stash.lang == "en" %]
+            The early Debates of the Parliament of Canada, which were never officially published, only appeared in newspapers such as the Toronto <i>Globe</i> and the Ottawa <i>Times</i>. This online collection includes 2 titles edited from original sources by the Library of Parliament: the <i>Reconstituted Debates of the House of Commons</i> (1867-1870) and <i>Reconstituted Debates of the Senate</i> (1867-1871).
+        [% ELSIF c.stash.lang == "fr" %]
+            Les premiers débats du Parlement canadien, qui n’ont jamais été publiés officiellement, ne furent reproduits que dans les journaux tels que le <i>Globe</i> de Toronto et le <i>Times</i> d’Ottawa. Cette collection en ligne comprend 2 titres publiés par la Bibliothèque du Parlement à partir des sources originales : les <i>Débats reconstitués de la Chambre des communes</i> (1867-1870) et les <i>Débats reconstitués du Sénat</i> (1867-1871).
+        [% END %]
+    [% CASE "wmh" %]
+        [% IF c.stash.lang == "en" %]
+            This collection of 683 titles consists of the early published writings of Canadian women authors, as well as Canadian publications written about women or "women's issues". The collection covers many genres, including memoirs, diaries and collected letters, drama, exploration and travelers' accounts, printed ephemera, political pamphlets, and much more. Comprised of books published from 1677 to 1900, and from a variety of countries (Canada, France, United Kingdom, United States). 
+        [% ELSIF c.stash.lang == "fr" %]
+            Cette collection de 683 titres est composée des premiers écrits publiés par des auteurs féminins du Canada, ainsi que des publications canadiennes concernant les femmes ou des « sujets reliés aux femmes ». La collection couvre plusieurs genres tels que des mémoires, des journaux intimes et des recueils de correspondance, des pièces de théâtre, des récits d’exploration et de voyage, des imprimés éphémères, des brochures politiques, et beaucoup plus encore. Cette collection comprend des titres publiés dans divers pays (Canada, France, Royaume-Uni, États-Unis) entre 1677 et 1900.
+        [% END %]
+    [% CASE DEFAULT %]
+[% END %]

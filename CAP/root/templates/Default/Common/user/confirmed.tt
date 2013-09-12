@@ -1,0 +1,20 @@
+﻿<h2>Welcome to Canadiana</h2>
+
+<p>Your Canadiana account has been confirmed. You can review and update
+<a href="[% c.uri_for_action('/user/profile') %]">your profile</a> at any
+time.</p>
+
+<p>Canadiana offers several digital collections through a variety of
+library portals. <a href="[% c.uri_for_action('/index') %]">View the entire list here</a>.</p>
+
+<p>Most of these portals are free, but access to Early Canadiana Online
+requires a paid subscription. Canadiana is a nonprofit organization.
+Subscriptions to Early Canadiana Online help fund our operations so that
+we can continue to digitize Canada's printed heritage and provide access
+to it.</p>
+
+<p><a href="[% c.uri_for_action('/user/subscription/index', [ 'eco' ])
+%]">Subscribe to Early Canadiana</a> to gain full access to over four
+million pages of Canadian history and to support the mission of
+Canadiana.</p>
+

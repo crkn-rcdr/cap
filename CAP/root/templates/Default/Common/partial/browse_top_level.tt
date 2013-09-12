@@ -1,0 +1,16 @@
+[% FOREACH t IN top_level_terms -%]
+<div class="browse-top" [% IF terms.size %]data-terms="[% terms.join(',') %]"[% END %]>
+    <h3>[% t.term %]</h3>
+    <ul class="browse" data-id="[% t.id %]" id="browse[% t.id %]">
+    </ul>
+</div>
+[% END -%]
+
+[% FOREACH node IN browse; term = node.getNodeValue %]
+    <h3>[% term.term %]</h3>
+    <ul>
+    [% FOREACH child IN node.getAllChildren; child_term = child.getNodeValue %]
+        <li><a href="[% c.uri_for_action("/browse/index", { show => child_term.id }) %]">[% child_term.term %]</a></li>
+    [% END %]
+    </ul>
+[% END %]

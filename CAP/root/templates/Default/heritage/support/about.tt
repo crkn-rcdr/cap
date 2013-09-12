@@ -1,0 +1,45 @@
+﻿<div class="support">
+    [% IF c.stash.lang == "fr" %]
+    <h2>À propos</h2>
+    <p>Le projet Héritage numérisera et offrira l’accès à certains fonds d’archives canadiennes parmi les plus populaires, lesquels comptent quelque 60 millions de pages de documents sources primaires. Cette collection, qui raconte l’histoire de la nation et de sa population depuis les années 1600 jusqu’au milieu des années 1900, représente une ressource inestimable et unique pour les historiens, les étudiants et les généalogistes du Canada.</p>
+
+    <h3>Une ressource incontournable</h3>
+    <p>Héritage comprend une grande diversité d’archives uniques qui sont présentement numérisés à partir des fonds précieux conservés à Bibliothèque et Archives Canada. Il en résultera un important corpus de documents patrimoniaux couvrant trois siècles. Pour en faciliter l’exploitation, la collection a été divisée en cinq volets principaux :</p>
+    <ul>
+        <li>Un vaste éventail de documents <a href="[% c.uri_for_action("/support", "catalogue") %]#genealogy">généalogiques</a> comprenant, entre autres, des dossiers d’immigration, des registres paroissiaux, des registres fonciers, des histoires et des papiers de familles, des listes d’électeurs, etc.</li>
+        <li>Une importante quantité de documents relatifs aux <a href="[% c.uri_for_action("/support", "catalogue") %]#aboriginal">peuples autochtones</a> du Canada – Premières nations, Métis et Inuits</li>
+        <li>D’anciens documents clés issus des principaux <a href="[% c.uri_for_action("/support", "catalogue") %]#government">ministères gouvernementaux</a> dont ceux des Affaires indiennes, de l’Immigration, de la Santé, de l’Agriculture, des Chemins de fer et des Canaux, des Pêches et des Ressources naturelles</li>
+        <li>Une forte composante <a href="[% c.uri_for_action("/support", "catalogue") %]#military">d’histoire militaire</a> relatant la participation du Canada à plusieurs guerres (la guerre de 1812, la Première et la Seconde Guerre mondiale), ainsi que l’administration militaire en temps de paix</li>
+        <li>Des <a href="[% c.uri_for_action("/support", "catalogue") %]#papers">papiers</a> de Canadiens célèbres dont des premiers ministres du Canada, des gouverneurs généraux, des premiers ministres provinciaux, des ministres, des explorateurs, des scientifiques, des chefs d’entreprises, des écrivains et des artistes </li>
+    </ul>
+
+    <h3>Comment utiliser ce site</h3>
+    <p>Pour commencer, choisissez la <a href="[% c.uri_for_action("/index") %]#collections">collection</a> qui reflète le mieux votre domaine d’intérêt. Chaque page de la collection est équipée d’un moteur de recherche de base pour vous guider dans votre recherche et offre des conseils sur la manière de naviguer à travers les bobines de microfilm numérisées. Ces informations proviennent de <a href="http://www.collectionscanada.gc.ca/lac-bac/recherche/arch">MIKAN</a>, le catalogue des fonds d’archives de Bibliothèque et Archives Canada. Ce dernier a eu la générosité de partager ces informations avec vous pour en faciliter l’accès.</p>
+    <p>La <a href="[% c.uri_for_action("/index") %]">recherche de base</a> peut servir à vous guider vers une collection qui correspond aux mots clés choisis. Là où elle est disponible, la recherche de base est une méthode simple de scruter les collections afin d’y détecter tant les informations descriptives que les métadonnées, telles que les mots d’un titre, les noms d’auteurs ou de créateurs, les sujets, ainsi que le contenu textuel des documents.</p>
+
+    <h3>La recherche plein texte est-elle possible?</h3>
+    <p>Très peu de textes archivistiques sont présentement visibles pour nos outils de recherche. La transcription de ces documents dans le but de produire des textes interrogeables constitue l’une des priorités du projet, mais elle exigera du temps et des ressources. Les prochaines versions d’Héritage offriront des capacités de recherche plein texte pour les documents alors transcrits, mettant ainsi en valeur une quantité massive d’informations pleinement intégrées dans le portail pour la recherche et l’exploitation. De plus, Dans les années qui suivent, Canadiana et ses partenaires achèveront des outils de recherche ainsi que de l’infrastructure permettant la création de liens et de métadonnées avancées.</p>
+    
+    [% ELSE %]
+    <h2>About</h2>
+    <p>The Héritage project will digitize and make available some of Canada’s most popular archival collections encompassing approximately 60 million pages of primary-source documents. Chronicling the country and its people from the 1600s to the mid-1900s, this collection represents a vast and unique resource for Canadian historians, students, and genealogists.</p>
+
+    <h3>An Essential Resource</h3>
+    <p>Héritage consists of a wide variety of unique records now being digitized from the treasured holdings of Library and Archives Canada. The end result will be a significant corpus of documentary heritage spanning three centuries. For ease of navigation, the collection has been divided into five core subject areas:</p>
+    <ul>
+        <li>An impressive array of <a href="[% c.uri_for_action("/support", "catalogue") %]#genealogy">genealogy materials</a>, including immigration records, church records, land records, family histories and papers, voters’ lists, etc.</li>
+        <li>A large volume of documents relating to Canada’s <a href="[% c.uri_for_action("/support", "catalogue") %]#aboriginal">aboriginal peoples</a> – First Nations, Métis and Inuit</li>
+        <li>Key early documents from core <a href="[% c.uri_for_action("/support", "catalogue") %]#government">government departments</a>, including Indian Affairs, Immigration, Health, Agriculture, Railways and Canals, Fisheries and Natural Resources</li>
+        <li>A rich <a href="[% c.uri_for_action("/support", "catalogue") %]#military">military history</a> component documenting Canada’s participation in several wars, (War of 1812, First World War, World War II), as well as the administration of the military during times of peace</li>
+        <li><a href="[% c.uri_for_action("/support", "catalogue") %]#papers">Papers</a> from prominent Canadians, such as Prime Ministers, Governors General, premiers, cabinet ministers, explorers, scientists, entrepreneurs, writers and artists</li>
+    </ul>
+
+    <h3>How to Use This Site</h3>
+    <p>To get started, choose the <a href="[% c.uri_for_action("/index") %]#collections">collection</a> which best reflects your research interest. Each collection page includes basic finding aids to guide your search, as well as tips on how to navigate the digitized microfilm rolls. This information, drawn from Library and Archives Canada’s <a href="http://www.collectionscanada.gc.ca/lac-bac/search/arch">MIKAN archival catalogue</a>, was generously shared to help ease of access.</p>
+    <p>The basic <a href="[% c.uri_for_action("/index") %]">Search</a> can help guide you to a collection which matches your chosen keywords. The Search is a simple form which scans collections for both descriptive information and metadata, such as title words, author/creator names, subjects, as well as the text content of documents, where available.</p>
+
+    <h3>Can I search the full text?</h3>
+    <p>Very little archival text is currently visible to our search tools. Transcribing these records to produce the searchable text will take time and resources and is a major objective of the project. Future versions of Héritage will support full-text searching of documents as they are transcribed, bringing out massive amounts of information fully integrated into the portal for search and discovery. Over the coming years, additional research tools and infrastructure for enhanced metadata creation and linking will be developed by Canadiana and its Héritage partners.</p>
+
+    [% END %]
+</div>

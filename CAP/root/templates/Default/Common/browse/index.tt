@@ -1,0 +1,6 @@
+[% title = c.loc("Browse") -%]
+
+<h2>[% c.loc("Browse") %]</h2>
+
+[% terms = c.req.params.defined("show") ? [c.req.params.show] : [] -%]
+[% INCLUDE partial/browse.tt browse=browse terms=terms %]

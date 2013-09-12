@@ -1,0 +1,37 @@
+@import "heritagecommon.less";
+
+.banner .banner-image-absolute { background-image: url('/static/images/heritage_banner.png'); }
+.banner { margin-bottom: @baseLineHeight / 2; }
+
+.collections {
+    .collections-list {
+        .collections-header {
+            // yay
+            &#heirHeader { background-image: url('/static/images/heritage_collections/heir_off.png') }
+            &#landHeader { background-image: url('/static/images/heritage_collections/land_off.png') }
+            &#sundriesHeader { background-image: url('/static/images/heritage_collections/sundries_off.png') }
+            &:hover, &.selected {
+                color: @white;
+                text-decoration: none;
+                background-color: #711127;
+                &#heirHeader { background-image: url('/static/images/heritage_collections/heir_on.png') }
+                &#landHeader { background-image: url('/static/images/heritage_collections/land_on.png') }
+                &#sundriesHeader { background-image: url('/static/images/heritage_collections/sundries_on.png') }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .collections {
+        min-height: 169px;
+        .collections-info {
+            .collections-content {
+                .collections-description {
+                	p { margin-bottom: @baseLineHeight / 2; }
+                    min-height: 132px;
+                }
+            }
+        }
+    }
+}

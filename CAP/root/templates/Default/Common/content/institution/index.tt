@@ -1,0 +1,174 @@
+[% title = c.loc("Manage Content: [_1]", entity.name) %]
+
+<h2>[% title %]</h2>
+
+<p>
+    [% c.loc("Return to:") %]
+    <a href="[% c.uri_for_action('/content/index') %]">[% c.loc("Manage Content") %]</a>
+</p>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#summary" data-toggle="tab">[% c.loc("Summary") %]</a></li>
+    <li><a href="#byPortal" data-toggle="tab">[% c.loc("Portals") %]</a></li>
+    <li><a href="#batch" data-toggle="tab">[% c.loc("Batch") %]</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="summary">
+        <form class="form-horizontal" method="POST" action="[% c.uri_for_action('/content/institution/titles', [ entity.id ]) %]">
+            <fieldset>
+                <legend>[% c.loc("Find Titles ([_1] total)", titles) %]</legend>
+                <div class="control-group">
+                    <label class="control-label" for="search_identifier">[% c.loc("Identifier") %]</label>
+                    <div class="controls">
+                        <input id="search_identifier" name="identifier"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="search_label">[% c.loc("Label") %]</label>
+                    <div class="controls">
+                        <input id="search_label" name="label"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="search_portal">[% c.loc("Portal") %]</label>
+                    <div class="controls">
+                        <select id="search_portal" name="portal">
+                            <option value="">[% c.loc("All Portals") %]</option>
+                            <option value="!">[% c.loc("Unassigned") %]</option>
+                            [% FOREACH p IN portal_counts %]
+                                [% IF p.indexed != 0 %]
+                                    <option value="[% p.portal.id %]">[% p.portal.title(lang) %]</option>
+                                [% END %]
+                            [% END %]
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="search_hosted">[% c.loc("Title Status") %]</label>
+                    <div class="controls">
+                        <select id="search_hosted" name="hosted">
+                            <option value="">[% c.loc("Any") %]</option>
+                            <option value="hosted">[% c.loc("Hosted") %]</option>
+                            <option value="indexed">[% c.loc("Indexed Only") %]</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" value="search">[% c.loc("Search") %]</button>
+            </div>
+        </form>
+
+        <form class="form-horizontal" method="POST" action="[% c.uri_for_action('/content/institution/assign', [ entity.id ]) %]">
+            <fieldset>
+                <legend>[% c.loc("Assign Titles") %]</legend>
+                <div class="control-group">
+                    <label class="control-label" for="titles">[% c.loc("Add") %]</label>
+                    <div class="controls">
+                        <select id="titles" name="titles">
+                            <option value="all" selected="selected">[% c.loc("All titles ([_1])", titles) %]</option>
+                        [% IF unassigned != 0 %]
+                            <option value="unassigned">[% c.loc("All unassigned titles ([_1])", unassigned) %]</option>
+                        [% END %]
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="portal">[% c.loc("To portal") %]</label>
+                    <div class="controls">
+                        <select id="portal" name="portal">
+                          [% FOREACH p IN portal_list %]
+                            <option value="[% p.id %]">[% p.title(lang) %]</option>
+                          [% END %]
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="hosted">[% c.loc("Hosted") %]</label>
+                    <div class="controls">
+                        <input id="hosted" name="hosted" type="checkbox" checked="checked"/>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" value="assign">[% c.loc("Add to Portal") %]</button>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane" id="byPortal">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>[% c.loc("Portal") %]</th>
+                    <th>[% c.loc("Titles") %]</th>
+                    <th>[% c.loc("Indexed + Hosted") %]</th>
+                    <th>[% c.loc("Indexed Only") %]</th>
+                </tr>
+            </thead>
+            <tbody>
+                [% FOREACH p IN portal_counts %]
+                  <tr>
+                    <td><a href="[% c.uri_for_action('content/portal/index', [p.portal.id]) %]">[% p.portal.title(lang) %]</a></td>
+                    <td>
+                    [% IF p.indexed != 0 %]
+                        <a href="[% c.uri_for_action('content/institution/titles', [ entity.id ], { portal => p.portal.id }) %]">[% p.indexed %]</a>
+                    [% ELSE %]
+                        --
+                    [% END %]
+                    </td>
+                    <td>
+                    [% IF p.hosted != 0 %]
+                        <a href="[% c.uri_for_action('content/institution/titles', [ entity.id ], { portal => p.portal.id, hosted => 'hosted' }) %]">[% p.hosted %]</a>
+                    [% ELSE %]
+                        --
+                    [% END %]
+                    </td>
+                    <td>
+                    [% IF p.not_hosted != 0 %]
+                        <a href="[% c.uri_for_action('content/institution/titles', [ entity.id ], { portal => p.portal.id, hosted => 'indexed' }) %]">[% p.not_hosted %]</a>
+                    [% ELSE %]
+                        --
+                    [% END %]
+                    </td>
+                  </tr>
+                [% END %]
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="batch">
+        <form class="form-horizontal" method="POST" action="[% c.uri_for_action('/content/institution/assign', [ entity.id ]) %]">
+            </fieldset>
+            <fieldset>
+                <legend>[% c.loc("Batch Add Titles") %]</legend>
+                <div class="control-group">
+                    <label class="control-label" for="batch">[% c.loc("Identifiers") %]</label>
+                    <div class="controls">
+                        <textarea id="batch" name="batch"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="batch_portal">[% c.loc("Add to portal") %]</label>
+                    <div class="controls">
+                        <select id="batch_portal" name="portal">
+                          [% FOREACH p IN portal_list %]
+                            <option value="[% p.id %]">[% p.title(lang) %]</option>
+                          [% END %]
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="batch_hosted">[% c.loc("Hosted") %]</label>
+                    <div class="controls">
+                        <input id="batch_hosted" name="hosted" type="checkbox" checked="checked"/>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" value="assign">[% c.loc("Add to Portal") %]</button>
+            </div>
+        </form>
+    </div>
+</div>

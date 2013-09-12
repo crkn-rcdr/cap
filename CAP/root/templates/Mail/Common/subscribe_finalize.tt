@@ -1,0 +1,10 @@
+
+User [% c.user.name %] ([% c.user.id %])
+
+Success: [% subscribe_success %]
+Old Expire:  [% subscribe_oldexpire %]
+New Expire:  [% subscribe_newexpire %]
+
+JSON encoded message:
+[% subscribe_message %]
+

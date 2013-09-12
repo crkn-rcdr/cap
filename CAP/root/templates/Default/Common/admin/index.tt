@@ -1,0 +1,119 @@
+[% title = c.loc("CAP Administration") %]
+
+<h2>[% c.loc("CAP Administration") %]</h2>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#tab_institutions" data-toggle="tab">[% c.loc("Institution") %]</a></li>
+    <li><a href="#tab_portals" data-toggle="tab">[% c.loc("Portals") %]</a></li>
+    <li><a href="#tab_users" data-toggle="tab">[% c.loc("Users") %]</a></li>
+    <li><a href="#tab_discount_codes" data-toggle="tab">[% c.loc("Discount Codes") %]</a></li>
+    <li><a href="#tab_other" data-toggle="tab">[% c.loc("Other") %]</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="tab_institutions">
+        <p><a href="[% c.uri_for_action('/admin/institution/create') %]">[% c.loc("New Institution") %]</a></p>
+        <table class="table">
+            [% INCLUDE partial/table_header.tt columns=["Institution", "Code", "Action"] %]
+            <tbody>
+            [% FOREACH i IN entity.institutions %]
+                <tr>
+                    <td>[% i.name %]</td>
+                    <td>[% i.code %]</td>
+                    <td><a href="[% c.uri_for_action('/admin/institution/index', [i.id]) %]">[% c.loc("Manage") %]</a></td>
+                </tr>
+            [% END %]
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="tab_portals">
+        <p><a href="[% c.uri_for_action('/admin/portal/create') %]">[% c.loc("New Portal") %]</a></p>
+        <table class="table">
+            [% INCLUDE partial/table_header.tt columns=["Portal", "Title", "Action"] %]
+            <tbody>
+            [% FOREACH i IN entity.portals %]
+                <tr>
+                    <td>[% i.id %]</td>
+                    <td>[% i.title(lang) %]</td>
+                    <td><a href="[% c.uri_for_action('/admin/portal/index', [i.id]) %]">[% c.loc("Manage") %]</a></td>
+                </tr>
+            [% END %]
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="tab_users">
+        <p><a href="[% c.uri_for_action('/admin/user/create') %]">[% c.loc("New User") %]</a></p>
+        <table class="table">
+            <caption>[% c.loc("Displaying [_1] users matching your criteria out of [_1] total users", entity.users.size, entity.user_count) %]</caption>
+            [% INCLUDE partial/table_header.tt columns=["ID", "Username", "Email", "Name", "Action"] %]
+            <tbody>
+            [% FOREACH i IN entity.users %]
+                <tr>
+                    <td>[% i.id %]</td>
+                    <td>[% i.username | html %]</td>
+                    <td>[% i.email | html  %]</td>
+                    <td>[% i.name | html %]</td>
+                    <td><a href="[% c.uri_for_action('/admin/user/index', [i.id]) %]">[% c.loc("Manage") %]</a></td>
+                </tr>
+            [% END %]
+            </tbody>
+        </table>
+
+        <h3>[% c.loc("Filter Users") %]</h3>
+
+        <form class="form-horizontal" method="POST" action="[% c.uri_for_action("/admin/index") %]#tab_users">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label">[% c.loc("Email address contains") %]</label>
+                    <div class="controls">
+                        <input type="text" name="email" value="[% IF c.req.params.email; c.req.params.email; END %]"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">[% c.loc("User name contains") %]</label>
+                    <div class="controls">
+                        <input type="text" name="name" value="[% IF c.req.params.name; c.req.params.name; END %]"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">[% c.loc("Limit") %]</label>
+                    <div class="controls">
+                        <select name="limit">
+                            <option value="10"[% IF c.req.params.limit && c.req.params.limit == 10 %]selected="selected"[% END %]>10</option>
+                            <option value="25"[% IF c.req.params.limit && c.req.params.limit == 25 %]selected="selected"[% END %]>25</option>
+                            <option value="50"[% IF c.req.params.limit && c.req.params.limit == 50 %]selected="selected"[% END %]>50</option>
+                            <option value="100"[% IF c.req.params.limit && c.req.params.limit == 100 %]selected="selected"[% END %]>100</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" type="submit" name="submit" value="users">[% c.loc("Search") %]</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="tab-pane" id="tab_discount_codes">
+        <p><a href="[% c.uri_for_action('/admin/discount/create') %]">[% c.loc("New Code") %]</a></p>
+        <table class="table">
+            [% INCLUDE partial/table_header.tt columns=["Code", "Portal", "Amount", "Expires", "Action"] %]
+            <tbody>
+            [% FOREACH i IN entity.discounts %]
+            <tr>
+                <td>[% i.code %]</td>
+                <td>[% i.portal_id.title(lang) %]</td>
+                <td>[% c.loc("[_1]%", i.percentage) %]</td>
+                <td>[% format_date(i.expires) %]</td>
+                <td><a href="[% c.uri_for_action('/admin/discount/edit', [ i.id ]) %]">[% c.loc("Edit") %]</a></td>
+            </tr>
+            [% END %]
+        </table>
+    </div>
+    <div class="tab-pane" id="tab_other">
+
+        <h3>[% c.loc("Options") %]</h3>
+        <ul>
+            <li><a href="[% c.uri_for_action("/admin/slideshow/index") %]">[% c.loc("Manage Slideshows") %]</a></li>
+        </ul>
+
+    </div>
+</div>

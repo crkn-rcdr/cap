@@ -1,0 +1,50 @@
+[%- MACRO format_money(amount) INCLUDE macro/format_money.tt -%]
+<!doctype html>
+<html id="html" lang="[% lang %]">
+
+<head>
+    <title>[% c.loc("Subscription Confirmation") %]</title>
+</head>
+
+<body>
+
+<p>[% c.loc("Thank you for subscribing to [_1].  Below is your receipt and transaction confirmation.", subscription.portal_id.title(lang) ) %]</p>
+
+<table>
+    <tr>
+        <td>[% c.loc("Transaction Date") %]</td>
+        <td>[% subscription.updated.ymd %]</td>
+    </tr>
+    <tr>
+        <td>[% c.loc("Transaction ID") %]</td>
+        <td>[% subscription.id %]</td>
+    </tr>
+    <tr>
+        <td>[% c.loc("Portal") %]</td>
+        <td>[% subscription.portal_id.title(lang) %]</td>
+    </tr>
+    <tr>
+        <td>[% c.loc("Subscription Type") %]</td>
+        <td>
+        [% IF subscription.new_level == 1;
+            c.loc("Regular Subscription");
+        ELSIF subscription.new_level == 2;
+            c.loc("Premium Subscription");
+        ELSE;
+            c.loc("Level [_1] Subscription", subscription.new_level);
+        END %]
+        </td>
+    </tr>
+    <tr>
+        <td>[% c.loc("Amount Paid") %]</td>
+        <td>[% format_money(subscription.payment_id.amount) %]</td>
+    </tr>
+    <tr>
+        <td>[% c.loc("Expiry Date") %]</td>
+        <td>[% subscription.new_expire.ymd %]</td>
+    </tr>
+</table>
+
+</body>
+
+</html>

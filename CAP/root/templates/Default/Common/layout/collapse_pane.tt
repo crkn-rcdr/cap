@@ -1,0 +1,6 @@
+<section class="collapse-pane">
+    <div class="collapse-pane-header" data-toggle="collapse" data-target="#cp_[% name %]">[% title %] <b class="caret"></b></div>
+    <div class="collapse-pane-content collapse[% IF open %] in[% END %]" id="cp_[% name %]">
+[% content %]
+    </div>
+</section>

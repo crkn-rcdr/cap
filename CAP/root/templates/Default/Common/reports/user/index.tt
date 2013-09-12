@@ -1,0 +1,40 @@
+[% title = c.loc("Reports: User Events") %]
+
+<h2>[% c.loc("User Activity") %]</h2>
+
+[% INCLUDE "reports/widget_period.tt" %]
+
+<h3>[% c.loc("Events") %]</h3>
+
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Count</th>
+  </tr>
+[% FOREACH item IN events_report.all %]
+  <tr>
+    <td><a href="[% c.uri_for_action('reports/user/event', item.event, { 'period' => period }) %]">[% item.event %]</a></td>
+    <td>[% item.get_column('event_count') %]</td>
+  </tr>
+[% END %]
+</table>
+
+<h3>[% c.loc("User Activity") %]</h3>
+
+
+<table>
+    <tr>
+        <th>User</th>
+        <th>Name</th>
+        <th>Count</th>
+    </tr>
+[% FOREACH item IN user_report.all %]
+    <tr>
+        <td><a href="[% c.uri_for_action('reports/user/log', item.user_id.id, { 'period' => period } ) %]">[% item.user_id.username %]</a></td>
+        <td>[% item.user_id.name %]</td>
+        <td>[% item.get_column('user_count') %]</td>
+    </tr>
+[% END %]
+</table>
+
+<p><a class="btn" href="[% c.uri_for_action('reports/index') %]">[% c.loc("Reports menu") %]</a></p>

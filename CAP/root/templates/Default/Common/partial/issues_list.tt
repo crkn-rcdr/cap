@@ -1,0 +1,20 @@
+[% INCLUDE partial/paginator.tt current_page=issues.page total_pages=issues.pages page_action="hash" hash_key="page" %]
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>[% c.loc("Published") %]</th>
+            <th>[% c.loc("Issue Title") %]</th>
+        </tr>
+    </thead>
+    <tbody>
+        [% FOREACH issue IN issues.docs %]
+        <tr>
+            <td>[% IF issue.record.defined("pubmin"); issue.record.pubmin.substr(0,4); END %]</td>
+            <td><a href="[% c.uri_for_action("view/key", issue.key) %]">[% issue.record.label %]</a></td>
+        </tr>
+        [% END %]
+    </tbody>
+</table>
+
+[% INCLUDE partial/paginator.tt current_page=issues.page total_pages=issues.pages page_action="hash" hash_key="page" %]

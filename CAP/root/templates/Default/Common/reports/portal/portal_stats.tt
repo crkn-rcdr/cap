@@ -1,0 +1,4 @@
+[% title = c.loc("Portal Stats") %]
+
+<h2>[% c.loc("Hello World") %]</h2>
+
