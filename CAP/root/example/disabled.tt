@@ -1,3 +1,0 @@
-<h1>[% c.loc("Unavailable") %]</h1>
-
-<p>[% c.loc("Portal is unavailable at this time") %]</p>
