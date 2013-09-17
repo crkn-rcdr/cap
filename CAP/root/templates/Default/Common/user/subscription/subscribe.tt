@@ -72,9 +72,3 @@
     <button type="submit" data-blockterms="blockterms" class="btn btn-primary" name="submit" value="checkout">[% c.loc("Checkout") %]</button>
     </div>
 </form>
-
-<hr />
-<p>
-    <a class="btn" href="[% c.uri_for_action('/user/profile') %]">[% c.loc("Your Profile") %]</a>
-    <a class="btn" href="[% c.uri_for_action('/user/subscription/index', [entity.portal.id]) %]">[% c.loc("Subscription Overview") %]</a>
-</p>
