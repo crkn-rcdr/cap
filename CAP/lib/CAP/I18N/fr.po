@@ -76,7 +76,7 @@ msgstr "%1 excède la longueur maximum de %2 caractères"
 #. (c.portal.title(c.stash.lang)
 #: ../../../root/templates/Default/Common/partial/page_viewer.tt:12
 msgid "%1 is funded by its users through subscriptions. Become a subscriber today to access all of the site's content and features."
-msgstr ""
+msgstr "%1 est financé par les utilisateurs abonnés. Abonnez-vous aujourd'hui pour avoir accès au contenu complet du site et à toutes ses fonctions."
 
 #. (msg.params.0, msg.params.1)
 #: ../../../root/templates/Default/Common/partial/messages.tt:19
@@ -1691,7 +1691,7 @@ msgstr "Dernière visite"
 
 #: ../../../root/templates/Default/Common/partial/page_viewer.tt:13
 msgid "Learn more"
-msgstr ""
+msgstr "En apprendre plus"
 
 #: ../../../root/templates/Default/Common/admin/user/index.tt:85
 msgid "Leave blank to keep the same password"
@@ -3189,7 +3189,7 @@ msgstr "Coût de l’abonnement"
 
 #: ../../../root/templates/Default/Common/partial/page_viewer.tt:11
 msgid "Subscription Required"
-msgstr ""
+msgstr "Abonnement requis"
 
 #: ../../../root/templates/Mail/Common/subscription_confirmation.tt:27
 msgid "Subscription Type"
