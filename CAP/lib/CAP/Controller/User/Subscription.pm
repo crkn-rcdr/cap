@@ -30,13 +30,17 @@ sub base : Chained('/') PathPart('user/subscription') CaptureArgs(1) {
         $c->detach();
     }
 
-    # Get the user's existing subscription. Permanent subscriptions cannot be modified by the user.
-    my $subscription = $c->user->subscription($portal);
-    if ($subscription && $subscription->permanent) {
-        $c->message({ type => "error", message => "bad_request" });
-        $self->status_bad_request($c, message => "User request to modify a permanent subscription");
-        $c->res->redirect($c->uri_for_action("/index"));
-        $c->detach();
+    # If the user exists, get their current subscription. Permanent
+    # subscriptions cannot be modified by the user.
+    my $subscription;
+    if ($c->user_exists) {
+        $subscription = $c->user->subscription($portal);
+        if ($subscription && $subscription->permanent) {
+            $c->message({ type => "error", message => "bad_request" });
+            $self->status_bad_request($c, message => "User request to modify a permanent subscription");
+            $c->res->redirect($c->uri_for_action("/index"));
+            $c->detach();
+        }
     }
 
     $c->stash(

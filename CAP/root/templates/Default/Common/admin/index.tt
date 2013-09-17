@@ -72,7 +72,34 @@
                 <div class="control-group">
                     <label class="control-label">[% c.loc("User name contains") %]</label>
                     <div class="controls">
+                        <input type="text" name="username" value="[% IF c.req.params.username; c.req.params.username; END %]"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">[% c.loc("Name contains") %]</label>
+                    <div class="controls">
                         <input type="text" name="name" value="[% IF c.req.params.name; c.req.params.name; END %]"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">[% c.loc("Confirmation Status") %]</label>
+                    <div class="controls">
+                        <select name="confirmation">
+                            <option value="">[% c.loc("All") %]</option>
+                            <option value="confirmed"[% IF c.req.params.confirmation && c.req.params.confirmation == 'confirmed' %]selected="selected"[% END %]>[% c.loc("Confirmed") %]</option>
+                            <option value="unconfirmed"[% IF c.req.params.confirmation && c.req.params.confirmation == 'unconfirmed' %]selected="selected"[% END %]>[% c.loc("Unconfirmed") %]</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">[% c.loc("Sort") %]</label>
+                    <div class="controls">
+                        <select name="sort">
+                            <option value="">[% c.loc("Default") %]</option>
+                            <option value="updated"[% IF c.req.params.sort && c.req.params.sort == 'updated' %]selected="selected"[% END %]>[% c.loc("Most recently updated") %]</option>
+                            <option value="created"[% IF c.req.params.sort && c.req.params.sort == 'created' %]selected="selected"[% END %]>[% c.loc("Most recently created") %]</option>
+                            <option value="login"[% IF c.req.params.sort && c.req.params.sort == 'login' %]selected="selected"[% END %]>[% c.loc("Most recently logged in") %]</option>
+                        </select>
                     </div>
                 </div>
                 <div class="control-group">

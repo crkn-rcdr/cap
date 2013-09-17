@@ -1,7 +1,7 @@
-﻿[% title = c.loc("[_1]'s Profile", c.user.name)  %]
+﻿[% title = c.loc("[_1]'s Profile", c.user.name) | html  %]
 [% MACRO format_money(amount) INCLUDE macro/format_money.tt -%]
 
-<h2>[% c.loc("[_1]'s Profile", c.user.name) %]</h2>
+<h2>[% title %]</h2>
 
 <ul class="nav nav-tabs">
     <li class="active">
@@ -121,7 +121,7 @@
     <div class="tab-pane" id="tab_history">
         [% IF entity.history.size %]
         <table class="table">
-            [% INCLUDE partial/table_header.tt columns=["Date", "Portal", "Previous Expiry", "New Expiry", "Paid"] %]
+            [% INCLUDE partial/table_header.tt columns=[c.loc("Date"), c.loc("Portal"), c.loc("Previous Expiry"), c.loc("New Expiry"), c.loc("Paid")] %]
             <tbody>
             [% FOREACH i IN entity.history %]
                 <tr>
@@ -153,27 +153,24 @@
     </div>
     <div class="tab-pane" id="tab_admin">
         <table class="table">
-            [% INCLUDE partial/table_header.tt columns=["Role", "Description", "Action"] %]
+            [% INCLUDE partial/table_header.tt columns=["Role", "Description" ] %]
             <tbody>
             [% IF c.has_role('administrator') %]
                 <tr>
-                    <td>[% c.loc("Administrator") %]</td>
-                    <td>[% c.loc("Create and manage users, institutions and portals") %]</td>
-                    <td><a href="[% c.uri_for_action("/admin/index") %]">[% c.loc("Manage") %]</a></td>
+                    <td><a href="[% c.uri_for_action("/admin/index") %]">[% c.loc("Administrator") %]</a></td>
+                    <td><a href="[% c.uri_for_action("/admin/index") %]">[% c.loc("Create and manage users, institutions and portals") %]</a></td>
                 </tr>
             [% END %]
             [% IF c.has_role('content') %]
                 <tr>
-                    <td>[% c.loc("Content Manager") %]</td>
-                    <td>[% c.loc("Add titles to portals, manage content") %]</td>
-                    <td><a href="[% c.uri_for_action("/content/index") %]">[% c.loc("Manage") %]</a></td>
+                    <td><a href="[% c.uri_for_action("/content/index") %]">[% c.loc("Content Manager") %]</a></td>
+                    <td><a href="[% c.uri_for_action("/content/index") %]">[% c.loc("Add titles to portals, manage content") %]</a></td>
                 </tr>
             [% END %]
             [% IF c.has_role('reports') %]
                 <tr>
-                    <td>[% c.loc("Reports") %]</td>
-                    <td>[% c.loc("View system reports and usage statistics") %]</td>
-                    <td><a href="[% c.uri_for_action("/reports/index") %]">[% c.loc("View") %]</a></td>
+                    <td><a href="[% c.uri_for_action("/reports/index") %]">[% c.loc("Reports") %]</a></td>
+                    <td><a href="[% c.uri_for_action("/reports/index") %]">[% c.loc("View system reports and usage statistics") %]</a></td>
                 </tr>
             [% END %]
             </tbody>

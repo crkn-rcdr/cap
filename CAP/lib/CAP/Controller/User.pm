@@ -6,9 +6,12 @@ use Date::Manip::Date;
 use Date::Manip::Delta;
 use Text::Trim qw/trim/;
 
-# If an action path is in this list, it can only be accessed by anonymous
+# If an action path is in ANONYMOUS_ACTIONS, it can only be accessed by anonymous
 # (not logged in) users. Otherwise,  the reverse is true: only logged in
-# users can access the function. All other requests are redirected to /user/login.
+# users can access the function. All other requests are redirected to
+# /user/login. The exception is the actions in UNIVERSAL_ACTIONS, which
+# are accessible to all.
+use constant UNIVERSAL_ACTIONS => qw{ user/subscription/index };
 use constant ANONYMOUS_ACTIONS => qw{ user/create user/confirm user/confirmation_required user/login user/reconfirm user/reset user/reset_password };
 
 __PACKAGE__->config( default => 'text/html', map => { 'text/html' => [ 'View', 'Default' ] });
@@ -20,10 +23,14 @@ BEGIN { extends 'Catalyst::Controller::REST'; }
 sub auto :Private {
     my($self, $c) = @_;
 
+    my $action = $c->action;
+    # The subscriptio page is viewable by everyone.
+    if (grep(/$action/, UNIVERSAL_ACTIONS)) {
+        ;
+    }
     # Actions relating to creating a new account, logging in, or
     # recovering a lost password are only available to anonymous users.
-    my $action = $c->action;
-    if (grep(/$action/, ANONYMOUS_ACTIONS)) {
+    elsif (grep(/$action/, ANONYMOUS_ACTIONS)) {
         if ($c->user_exists) {
             $c->response->redirect($c->uri_for_action('/index'));
             return 0;

@@ -14,7 +14,7 @@ if [ -d $caproot ]; then
         exit $?
     fi
 
-    (find ../.. -name '*.pm'; find ../../../../../cap-root -name '*.tt') | \
+    (find ../.. -name '*.pm'; find ../../../root -name '*.tt') | \
     xargs xgettext.pl -o $pofile
 else
     echo "Usage $0 PATH_TO_CAP_ROOT"

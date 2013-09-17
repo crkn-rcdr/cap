@@ -7,6 +7,10 @@
         <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
     </section>
     <p id="pvLoading" class="loading hidden">[% c.loc("Loading...") %]</p>
-    <p id="pvSubscribe"[% IF doc.auth.page(page.seq) %] class="hidden"[% END %]>[% c.loc("This page is not included in this document's free preview, but subscribers receive full access.") %] <a href="[% c.uri_for_action("user/subscription/index", [ c.portal.id ]) %]">[% c.loc("Subscribe today!") %]</a></p>
+    <div id="pvSubscribe"[% IF doc.auth.page(page.seq) %] class="hidden"[% END %]>
+        <h2>[% c.loc("Subscription Required") %]</h2>
+        <p>[% c.loc("[_1] is funded by its users through subscriptions. Become a subscriber today to access all of the site's content and features.", c.portal.title(c.stash.lang)) %]</p>
+                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/index", ['eco']) %]">[% c.loc("Learn more") %]</a></p>
+    </div>
     <p id="pvError" class="hidden">[% c.loc("There was an error retrieving this page.") %]</p>
 </section>

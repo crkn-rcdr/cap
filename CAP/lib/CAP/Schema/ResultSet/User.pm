@@ -33,13 +33,26 @@ sub filter {
     my $query = {};
     my $options = { rows => 10, page => 1 };
     my $limit = $params->{limit} || undef;
-    my $username = $params->{email} || undef;
+    my $email = $params->{email} || undef;
+    my $username = $params->{username} || undef;
     my $name = $params->{name} || undef;
+    my $sort = $params->{sort} || "";
+    my $confirmation = $params->{confirmation} || "";
 
     # Add all defined search limiters
+    $query->{email} = { -like => "%$email%" } if ($email);
     $query->{username} = { -like => "%$username%" } if ($username);
     $query->{name} = { -like => "%$name%" } if ($name);
     $options->{rows} = $limit if ($limit);
+
+    # Confirmation status
+    if ($confirmation eq 'confirmed') { $query->{confirmed} = 1 }
+    elsif ($confirmation eq 'unconfirmed') { $query->{confirmed} = 0 }
+
+    # Sort options
+    if ($sort eq 'updated') { $options->{order_by} = [ 'updated DESC' ]; }
+    elsif ($sort eq 'created') { $options->{order_by} = [ 'created DESC' ]; }
+    elsif ($sort eq 'login') { $options->{order_by} = [ 'last_login DESC' ]; }
 
     my @result = $self->search($query, $options)->all;
     return @result if (wantarray);

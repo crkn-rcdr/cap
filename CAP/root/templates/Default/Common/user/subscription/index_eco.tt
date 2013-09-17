@@ -8,12 +8,12 @@
             <div class="subbox">
                 <p class="subbox-duration">1 mois</p>
                 <p class="subbox-price">10,00 $</p>
-                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", ['eco', 'eco30']) %]">S’abonner</a></p>
+                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", ['eco', 'eco30']) %]">[% subscribe_text %]</a></p>
             </div>
             <div class="subbox">
                 <p class="subbox-duration">1 an</p>
                 <p class="subbox-price">100,00 $</p>
-                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", ['eco', 'eco365']) %]#">S’abonner</a></p>
+                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", ['eco', 'eco365']) %]#">[% subscribe_text %]</a></p>
             </div>
         </div>
         <p class="clearBoth"><a id="feesTrigger" data-toggle="popover" title="Pourquoi ces frais ?" data-content="En tant qu’organisme sans but lucratif et caritatif, Canadana.org compte sur ses supporteurs – qu’il s’agisse de particuliers ou de grands centres de recherche – pour l’aider à développer cette collection et le matériel nécessaire à sa préservation. Notre but ultime est l’accès ouvert et pérenne au patrimoine canadien. Pour en savoir plus">Pourquoi ces frais ?</a></p>
@@ -39,12 +39,12 @@
             <div class="subbox">
                 <p class="subbox-duration">One Month</p>
                 <p class="subbox-price">$10.00</p>
-                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", ['eco', 'eco30']) %]">Subscribe</a></p>
+                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", ['eco', 'eco30']) %]">[% subscribe_text %]</a></p>
             </div>
             <div class="subbox">
                 <p class="subbox-duration">One Year</p>
                 <p class="subbox-price">$100.00</p>
-                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", ['eco', 'eco365']) %]#">Subscribe</a></p>
+                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", ['eco', 'eco365']) %]#">[% subscribe_text %]</a></p>
             </div>
         </div>
         <p class="clearBoth"><a id="feesTrigger" data-toggle="popover" title="Why these fees?" data-content="As a non-profit and charitable organization, Canadiana.org relies on its supporters – whether individuals or major research centres – to help build this collection and the hardware that preserves it. Our ultimate goal is open and sustainable access to Canadian heritage.">Why these fees?</a></p>
