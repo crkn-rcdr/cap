@@ -48,13 +48,11 @@ __PACKAGE__->table("requests");
 =head2 user_id
 
   data_type: 'integer'
-  is_foreign_key: 1
   is_nullable: 1
 
 =head2 institution_id
 
   data_type: 'integer'
-  is_foreign_key: 1
   is_nullable: 1
 
 =head2 time
@@ -104,9 +102,9 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "user_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  { data_type => "integer", is_nullable => 1 },
   "institution_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  { data_type => "integer", is_nullable => 1 },
   "time",
   {
     data_type => "datetime",
@@ -140,8 +138,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:S0A1CYsC7HRG+H3tnv7X1w
+# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-09-18 09:57:40
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QUkv1FYuMctzgFFBCFMkNA
 
 
 # We need to tell CAP that this table is not in the cap database.
