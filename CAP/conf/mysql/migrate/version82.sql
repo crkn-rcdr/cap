@@ -26,11 +26,16 @@ BEGIN
 
         UPDATE info SET value = @dbversion WHERE name = 'version';
 
+    ELSEIF @current_version >= @dbversion THEN
+
+        SELECT CONCAT('Database already at version ', @dbversion, ' so skipping this update.')
+            AS 'SKIPPING UPDATE:';
+
     ELSE
         select CONCAT(
             'This script migrates from CAP database version ', @dbversion - 1,
             '. Your database version is ', @current_version, '.'
-        ) AS 'UPGRADE FAILED:';
+        ) AS 'UPDATE FAILED:';
     END IF;
 END //
 DELIMITER ;
