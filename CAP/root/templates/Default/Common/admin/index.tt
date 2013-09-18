@@ -45,15 +45,17 @@
         <p><a href="[% c.uri_for_action('/admin/user/create') %]">[% c.loc("New User") %]</a></p>
         <table class="table">
             <caption>[% c.loc("Displaying [_1] users matching your criteria out of [_1] total users", entity.users.size, entity.user_count) %]</caption>
-            [% INCLUDE partial/table_header.tt columns=["ID", "Username", "Email", "Name", "Action"] %]
+            [% INCLUDE partial/table_header.tt columns=["ID", "Username", "Email", "Name", "Created", "Confirmed", "Last Login" ] %]
             <tbody>
             [% FOREACH i IN entity.users %]
                 <tr>
-                    <td>[% i.id %]</td>
-                    <td>[% i.username | html %]</td>
-                    <td>[% i.email | html  %]</td>
-                    <td>[% i.name | html %]</td>
-                    <td><a href="[% c.uri_for_action('/admin/user/index', [i.id]) %]">[% c.loc("Manage") %]</a></td>
+                    <td><a href="[% c.uri_for_action('/admin/user/index', [i.id]) %]">[% i.id %]</a></td>
+                    <td><a href="[% c.uri_for_action('/admin/user/index', [i.id]) %]">[% i.username | html %]</a></td>
+                    <td><a href="[% c.uri_for_action('/admin/user/index', [i.id]) %]">[% i.email | html %]</a></td>
+                    <td><a href="[% c.uri_for_action('/admin/user/index', [i.id]) %]">[% i.name | html %]</a></td>
+                    <td>[% i.created.ymd | html %]</td>
+                    <td>[% IF i.confirmed; c.loc("Yes"); ELSE; c.loc("No"); END %]</td>
+                    <td>[% i.last_login.ymd | html %]</td>
                 </tr>
             [% END %]
             </tbody>
