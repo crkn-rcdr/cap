@@ -38,9 +38,7 @@ CREATE TABLE `requests` (
   KEY `institution_id` (`institution_id`),
   KEY `time_index` (`time`),
   KEY `session_index` (`session`),
-  KEY `action_index` (`action`),
-  CONSTRAINT `requests_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `cap`.`user` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `requests_ibfk_2` FOREIGN KEY (`institution_id`) REFERENCES `cap`.`institution` (`id`) ON UPDATE CASCADE
+  KEY `action_index` (`action`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -154,4 +152,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-26 13:56:28
+-- Dump completed on 2013-09-18  9:29:53
