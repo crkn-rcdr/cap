@@ -47,7 +47,7 @@
             <label for="parlSelect">[% c.loc("Parliament") %]</label>
             <select id="parlSelect" name="identifier" class="span3">
                 <option value="">[% c.loc("All") %]</option>
-                [% FOREACH p IN [1,2,3,4,5,6,7,8,9,34,35] -%]
+                [% FOREACH p IN [1 .. 35] -%]
                 <option value="P[% p %]"[% IF identifier.grep('^P' _ p _ '$').size %] selected[% END %]>[% ordinate(p, 'f') %]</option> 
                 [% END -%]
             </select>
