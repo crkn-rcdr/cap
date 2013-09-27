@@ -80,7 +80,7 @@ sub expiring_subscription_reminder {
    
     $c->model('DB::CronLog')->create({
                action       => 'crondaily->expiring_subscription_reminder',
-               ok               => 0,
+               ok               => 1,
                message => "running expiring_trial_reminder"
     }); 
    
@@ -170,7 +170,7 @@ sub remove_unconfirmed {
    
     $c->model('DB::CronLog')->create({
                action       => 'crondaily->remove_unconfirmed',
-               ok               => 0,
+               ok               => 1,
                message => "running remove_unconfirmed"
     }); 
     
@@ -199,7 +199,7 @@ sub session {
     my $c = shift();
     $c->model('DB::CronLog')->create({
                action  => 'crondaily->session',
-               ok      => 0,
+               ok      => 1,
                message => "running session"
     }); 
     my $expired = $c->model('DB::Sessions')->remove_expired();
@@ -216,6 +216,11 @@ sub session {
 sub log_expired_accounts {
    
    my $c = shift();
+   $c->model('DB::CronLog')->create({
+               action  => 'crondaily->log_expired_accounts',
+               ok      => 1,
+               message => "running log_expired_accounts"
+    }); 
    my $log_expired = $c->model('DB::UserSubscription')->log_expired_subscriptions($c);
 
  }
