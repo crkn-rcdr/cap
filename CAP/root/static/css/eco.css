@@ -6907,6 +6907,9 @@ h2 {
 .collections .collections-list .collections-header#eclHeader {
   background-image: url('/static/images/collections/ecl_off.png');
 }
+.collections .collections-list .collections-header#glhHeader {
+  background-image: url('/static/images/collections/glh_off.png');
+}
 .collections .collections-list .collections-header#gvgHeader {
   background-image: url('/static/images/collections/gvg_off.png');
 }
@@ -6943,6 +6946,10 @@ h2 {
 .collections .collections-list .collections-header:hover#eclHeader,
 .collections .collections-list .collections-header.selected#eclHeader {
   background-image: url('/static/images/collections/ecl_on.png');
+}
+.collections .collections-list .collections-header:hover#glhHeader,
+.collections .collections-list .collections-header.selected#glhHeader {
+  background-image: url('/static/images/collections/glh_on.png');
 }
 .collections .collections-list .collections-header:hover#gvgHeader,
 .collections .collections-list .collections-header.selected#gvgHeader {
@@ -6982,10 +6989,10 @@ h2 {
 }
 @media (min-width: 768px) {
   .collections {
-    min-height: 399px;
+    min-height: 439px;
   }
   .collections .collections-info .collections-content .collections-description {
-    min-height: 352px;
+    min-height: 392px;
   }
 }
 /* Push footer */

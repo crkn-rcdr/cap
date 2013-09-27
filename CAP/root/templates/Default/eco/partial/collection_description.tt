@@ -1,4 +1,9 @@
 ﻿[% SWITCH key %]
+    [% CASE "glh" %]
+        [% IF c.stash.lang == "en" %]
+            Local and family histories chronicle the rich historical world of pioneering, settlement, and local government in early Canada. Their focus on individuals and communities make them the ideal genealogical resource, helping people explore the experiences of previous generations and leaving clues about their wider social and cultural background. Related documents include: voter’s lists, eulogies, directories and gazettes, biographies, civil service lists, published diaries, church magazines and pamphlets, militia lists, publications from professional and trade societies, school publications, and more.
+        [% ELSIF c.stash.lang == "fr" %]
+            L’histoire locale et familiale relate la riche histoire de la colonisation, de la vie culturelle et de l’administration locale à l’époque coloniale et au Canada à ses débuts. Ressource généalogique idéal grâce à leur ancrage dans le monde des individus et des communautés, ces documents parviennent à illustrer le vécu des générations précédentes ainsi que leur environnement socio-culturel. On y retrouve : des listes électorales, éloges funèbres, répertoires de membres, biographies, listes de la fonction publique, journaux intimes, publications et pamphlets de paroisse, listes de service militaire, publications de sociétés professionnelles et de métiers, entre autres.        [% END %]
     [% CASE "cgj" %]
         [% IF c.stash.lang == "en" %]
             This collection largely consists of the pre-1867 Journals and Appendices of the elected houses and assemblies of the colonies that make up present day Canada.

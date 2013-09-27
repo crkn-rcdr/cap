@@ -12,14 +12,18 @@
                 <img class="collections-image" src="[% c.uri_for("/static/images/collections/${key}200x200.jpg") %]" />
                 <p>
                     [% INCLUDE partial/collection_description.tt %]
+                    [% UNLESS key == 'glh' %]
                     <a href="[% c.uri_for_action("search/index", { q => '', collection => key, so => 'oldest', t => 'browsable' }) %]">[% c.loc("Browse this collection") %]&nbsp;&raquo;</a>
+                    [% END %]
                 </p>
             </div>
+            [% UNLESS key == 'glh' %]
             <form method="GET" class="collections-form form-inline" action="[% c.uri_for_action("/search/index") %]">
                 <input type="hidden" name="collection" value="[% key %]" />
                 <input type="text" class="whf-search-bar" placeholder="[% c.loc("Search this collection") %]" name="q">
                 <button class="btn btn-primary btn-large" type="submit">[% c.loc("Search") %]</button>
             </form>
+            [% END %]
         </div>
         [% END -%]
     </div>
