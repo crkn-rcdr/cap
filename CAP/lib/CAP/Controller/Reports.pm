@@ -8,10 +8,16 @@ BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 sub auto :Private {
     my($self, $c) = @_;
 
+     # The report type is the second argument in the path 
+    my  @args = split (/\//,$c->request->path);
+    my $report_type = $args[1];    
+    $c->log->error("Reports.pm:  report type is $report_type\n");
+
+
     # Users with the admin or reports role may access these functions. Everyone
     # else gets 404ed or redirected to the login page.
-    unless ($c->has_role('administrator', 'reports')) {
-        #$c->session->{login_redirect} = $c->req->uri;
+    # Authorization for institution stats is done further down the food chain
+    unless ( ($c->has_role('administrator', 'reports')) || ($report_type eq 'institution') ) {
         $c->response->redirect($c->uri_for('/user', 'login'));
         return 0;
     }
@@ -21,15 +27,16 @@ sub auto :Private {
     my $end;
     my $portal;
     my $page = 1;
-
+    
+ 
     # Set the reporting period. The default end date is now and the
     # default start date is 30 days before the end date.
     if ($data->{end}) {
         my($year, $month, $day) = split(/-/, $data->{end});
         my $params = {};
-        $params->{year} = $year if ($year && $year =~ /^\d{4}$/);
-        $params->{month} = $month if ($params->{year} && $month && $month =~ /^\d{2}$/);
-        $params->{day} = $day if ($params->{month} && $day && $day =~ /^\d{2}$/);
+        $params->{year}      =   $year    if ( ( $year ) && ( $year =~ /^\d{4}$/ ) );
+        $params->{month} = $month if ( ( $params->{year} )    && ( $month ) && ( $month =~ /^\d{2}$/ ) );
+        $params->{day}        =    $day    if ( ($params->{month} ) &&    ( $day )    &&    ( $day =~ /^\d{2}$/ ) );
         $end = DateTime->new($params);
     }
     else {

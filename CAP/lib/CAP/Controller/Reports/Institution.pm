@@ -43,10 +43,10 @@ sub institution : Chained("/") : PathPart("reports/institution") : CaptureArgs(1
     }
 
      my $user = $c->user->id;
-    $c->log->debug("$user is not administrator\n")              unless $c->has_role('administrator');
-    $c->log->debug("$user is not institution manager\n") unless $c->model('DB::InstitutionMgmt')->is_inst_manager($user, $inst);
+    $c->log->debug("user $user has neither admin nor reports role\n")              unless $c->has_role('administrator, reports');
+    $c->log->debug("user $user is not institution manager\n") unless $c->model('DB::InstitutionMgmt')->is_inst_manager($user, $inst);
 
-    unless ( $c->has_role('administrator') || $c->model('DB::InstitutionMgmt')->is_inst_manager($user, $inst) )  {
+    unless ( $c->has_role('administrator, reports') || $c->model('DB::InstitutionMgmt')->is_inst_manager($user, $inst) )  {
          redirect_user($c);
     }     
  
