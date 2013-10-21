@@ -6846,6 +6846,12 @@ header .nav-right > li a {
 header .nav-right > li a:hover {
   color: #f7f7f7;
 }
+.navbar .brand {
+  text-decoration: underline;
+}
+.navbar .brand:hover {
+  text-decoration: underline;
+}
 .banner {
   height: 210px;
   margin-bottom: 9px;
