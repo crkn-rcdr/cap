@@ -1,0 +1,70 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use CAP;
+
+
+=head1 new-cmrs
+
+A test script to find records modified since a listed mtime
+
+=cut
+
+my $c = CAP->new();
+my $updated_time = DateTime->now();
+my $lastupdate = $c->model('DB::Info')->find('new-cmr');
+my $mtime = 0;
+if ($lastupdate) {
+    $mtime = $lastupdate->time->clone();
+    $mtime->subtract_duration(DateTime::Duration->new(hours => 24));
+    warn("Last updated on " . $lastupdate->time . "\n");
+    warn("Updating records changed since " . $mtime . "\n");
+}
+else {
+    die("Can't get last updated time for new-cmr");
+}
+my $root = shift(@ARGV);
+my @cmr_list = ();
+find_cmr($root, \@cmr_list);
+foreach my $cmr (@cmr_list) {
+    my @cmr_stat = stat($cmr) or die("Cannot stat $cmr: $!");
+    if ($cmr_stat[9] > $mtime->epoch()) {
+        print("$cmr\n");
+    }
+}
+
+warn("Seting last updated time to " . $updated_time . "\n");
+$c->model('DB::Info')->update_or_create({
+    name => 'new-cmr',
+    time => $updated_time,
+});
+
+# Find CMR records at or below the specified root $dir.
+sub find_cmr {
+    my($dir, $cmr_list) = @_;
+    die("$dir is not a directory") unless (-d $dir);
+
+    my $bagit_file = join('/', $dir, 'bagit.txt');
+    my $cmr_file = join('/', $dir, 'data', 'cmr.xml');
+
+    if (-f $bagit_file) {
+        if (-f $cmr_file) {
+            push(@{$cmr_list}, $cmr_file);
+        }
+    }
+
+    else {
+        opendir(my $dh, $dir) or die("Cannot read directory $dir: $!");
+        while (my $dirent = readdir($dh)) {
+            next if ($dirent eq '.' || $dirent eq '..');
+            my $path = join('/', $dir, $dirent);
+            if (-d $path) {
+                find_cmr($path, $cmr_list);
+            }
+        }
+        closedir($dh);
+    }
+
+}

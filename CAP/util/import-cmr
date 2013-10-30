@@ -99,6 +99,7 @@ printf("Record(s) from %d files were not processed\n", int(@NEXT_QUEUE)) if (@NE
 
 # If we are doing a timestamp-based update, set the updated time.
 if ($root) {
+    print("Seting last updated time to " . $updated_time . "\n");
     $c->model('DB::Info')->update_or_create({
         name => 'import-cmr',
         time => $updated_time,
