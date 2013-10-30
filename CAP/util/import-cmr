@@ -18,7 +18,12 @@ use CAP;
 
 my $c = CAP->new();
 my $portals = [];
-GetOptions('portals=s@' => \$portals) or die("\n");
+my $root;
+my $updated_time = DateTime->now();
+GetOptions(
+    'portals=s@' => \$portals,
+    'root=s' => \$root
+) or die("\n");
 
 
 my %CONTRIBUTORS = ();
@@ -26,7 +31,28 @@ my @NEXT_QUEUE = ();
 my @QUEUE = ();
 
 # Build the initial queue of files to process from the command line or stdin.
-if (@ARGV) {
+if ($root) {
+    my $lastupdate = $c->model('DB::Info')->find('import-cmr');
+    my $mtime = 0;
+    if ($lastupdate && $lastupdate->time) {
+        $mtime = $lastupdate->time->clone();
+        $mtime->subtract_duration(DateTime::Duration->new(hours => 24));
+        print("Last updated on " . $lastupdate->time . "\n");
+        print("Updating records changed since " . $mtime . "\n");
+    }
+    else {
+        print("Can't find lastmod time\n");
+    }
+    my @cmr_list = ();
+    find_cmr($root, \@cmr_list);
+    foreach my $cmr (@cmr_list) {
+        my @cmr_stat = stat($cmr) or die("Cannot stat $cmr: $!");
+        if ($cmr_stat[9] > $mtime->epoch()) {
+            push(@NEXT_QUEUE, $cmr);
+        }
+    }
+}
+elsif (@ARGV) {
     print "ARGV\n";
     @NEXT_QUEUE = @ARGV;
 }
@@ -70,6 +96,14 @@ foreach my $file (@NEXT_QUEUE) {
     print("Failed to process all records in $file\n");
 }
 printf("Record(s) from %d files were not processed\n", int(@NEXT_QUEUE)) if (@NEXT_QUEUE);
+
+# If we are doing a timestamp-based update, set the updated time.
+if ($root) {
+    $c->model('DB::Info')->update_or_create({
+        name => 'import-cmr',
+        time => $updated_time,
+    });
+}
 exit(0);
 
 
@@ -233,4 +267,32 @@ sub add_title {
     }
 
     return $title;
+}
+
+# Find CMR records at or below the specified root $dir.
+sub find_cmr {
+    my($dir, $cmr_list) = @_;
+    die("$dir is not a directory") unless (-d $dir);
+
+    my $bagit_file = join('/', $dir, 'bagit.txt');
+    my $cmr_file = join('/', $dir, 'data', 'cmr.xml');
+
+    if (-f $bagit_file) {
+        if (-f $cmr_file) {
+            push(@{$cmr_list}, $cmr_file);
+        }
+    }
+
+    else {
+        opendir(my $dh, $dir) or die("Cannot read directory $dir: $!");
+        while (my $dirent = readdir($dh)) {
+            next if ($dirent eq '.' || $dirent eq '..');
+            my $path = join('/', $dir, $dirent);
+            if (-d $path) {
+                find_cmr($path, $cmr_list);
+            }
+        }
+        closedir($dh);
+    }
+
 }
