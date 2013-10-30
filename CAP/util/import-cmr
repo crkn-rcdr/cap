@@ -73,6 +73,7 @@ for (my $pass = 1; $pass <= $passes; ++$pass) {
     # If there are no files left to process, 
     if (@QUEUE == 0) {
         printf("Finished on pass %d\n", $pass - 1);
+        update_timestamp() if ($root);
         exit 0;
     }
 
@@ -97,15 +98,19 @@ foreach my $file (@NEXT_QUEUE) {
 }
 printf("Record(s) from %d files were not processed\n", int(@NEXT_QUEUE)) if (@NEXT_QUEUE);
 
-# If we are doing a timestamp-based update, set the updated time.
-if ($root) {
-    print("Seting last updated time to " . $updated_time . "\n");
-    $c->model('DB::Info')->update_or_create({
-        name => 'import-cmr',
-        time => $updated_time,
-    });
-}
+update_timestamp() if ($root);
 exit(0);
+
+# If we are doing a timestamp-based update, set the updated time.
+sub update_timestamp {
+    if ($root) {
+        print("Seting last updated time to " . $updated_time . "\n");
+        $c->model('DB::Info')->update_or_create({
+            name => 'import-cmr',
+            time => $updated_time,
+        });
+    }
+}
 
 
 sub process {
