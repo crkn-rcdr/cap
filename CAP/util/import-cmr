@@ -280,6 +280,9 @@ sub find_cmr {
     my($dir, $cmr_list) = @_;
     die("$dir is not a directory") unless (-d $dir);
 
+    # Ignore staging/backup directories
+    return if ($dir =~ /\.staging$/ || $dir =~ /\.backup$/);
+
     my $bagit_file = join('/', $dir, 'bagit.txt');
     my $cmr_file = join('/', $dir, 'data', 'cmr.xml');
 
