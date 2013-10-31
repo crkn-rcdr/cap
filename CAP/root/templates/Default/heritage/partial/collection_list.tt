@@ -1,4 +1,4 @@
-<h2 id="collections">[% c.loc("Collections") %]</h2>
+<h2 id="collections">[% c.loc("Featured Collections") %]</h2>
 
 [% IF c.stash.lang == "fr" %]
 [% collections = {heir => "La Heir and Devisee Commission", land => "Les Upper Canada Land Books", sundries => "Les Upper Canada Sundries"} %]
