@@ -129,7 +129,7 @@ msgid "%1 total results."
 msgstr "%1 résultats au total."
 
 #. (i.percentage)
-#: ../../../root/templates/Default/Common/admin/index.tt:131
+#: ../../../root/templates/Default/Common/admin/index.tt:133
 msgid "%1%"
 msgstr "%1%"
 
@@ -410,7 +410,7 @@ msgid "Aliases"
 msgstr "Alias"
 
 #: ../../../root/templates/Default/1812/partial/search_form.tt:19
-#: ../../../root/templates/Default/Common/admin/index.tt:88
+#: ../../../root/templates/Default/Common/admin/index.tt:90
 #: ../../../root/templates/Default/Common/partial/search_form.tt:25
 #: ../../../root/templates/Default/canadiana/partial/search_form.tt:19
 #: ../../../root/templates/Default/dfait/partial/search_form.tt:19
@@ -613,6 +613,9 @@ msgid "Browse Titles"
 msgstr "Parcourir la liste des titres"
 
 #: ../../../root/templates/Default/heritage/index.tt:9
+msgid "Browse all collections"
+msgstr "Parcourir toutes les collections"
+
 msgid "Browse all titles"
 msgstr "Parcourir tous les titres"
 
@@ -624,7 +627,7 @@ msgid "Browse the Collection"
 msgstr "Parcourir la collection"
 
 #: ../../../root/templates/Default/canadiana/partial/collection_list.tt:15
-#: ../../../root/templates/Default/eco/partial/collection_list.tt:15
+#: ../../../root/templates/Default/eco/partial/collection_list.tt:16
 #: ../../../root/templates/Default/heritage/partial/collection_description.tt:18
 #: ../../../root/templates/Default/heritage/partial/collection_description.tt:26
 #: ../../../root/templates/Default/heritage/partial/collection_description.tt:9
@@ -771,7 +774,6 @@ msgstr "Label de la collection"
 msgid "Collection:"
 msgstr "Collection :"
 
-#: ../../../root/templates/Default/heritage/partial/collection_list.tt:1
 msgid "Collections"
 msgstr "Collections"
 
@@ -785,11 +787,11 @@ msgstr "Configurer"
 msgid "Confirm Account"
 msgstr "Confirmation du compte"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:85
+#: ../../../root/templates/Default/Common/admin/index.tt:87
 msgid "Confirmation Status"
 msgstr ""
 
-#: ../../../root/templates/Default/Common/admin/index.tt:89
+#: ../../../root/templates/Default/Common/admin/index.tt:91
 #: ../../../root/templates/Default/Common/admin/user/index.tt:41
 msgid "Confirmed"
 msgstr "Confirmé"
@@ -965,7 +967,7 @@ msgstr "Année(s)"
 msgid "Date range:"
 msgstr "Plage de dates :"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:98
+#: ../../../root/templates/Default/Common/admin/index.tt:100
 #: ../../../root/templates/Default/Common/admin/portal/index.tt:154
 #: ../../../root/templates/Default/Common/admin/portal/index.tt:182
 msgid "Default"
@@ -1161,7 +1163,7 @@ msgstr "Collections sur Notre mémoire en ligne"
 msgid "Early Canadiana Online (ECO) is the first large-scale online collection of early Canadian print heritage. ECO contains a digitized selection of the content from the microfiche held by the Canadian Institute for Historical Microreproductions. ECO currently offers twelve online collections totaling over three million pages and is continually expanding its content. The collections include material published from the time of the first European settlers to the first two decades of the 20th Century."
 msgstr "Notre mémoire en ligne (NML) est la première collection de grande envergure donnant accès aux anciens imprimés du patrimoine canadien. NML contient une sélection numérique effectuée à partir du contenu des microfiches détenues par l’Institut canadien de microreproductions historiques. NML offre présentement douze collections en ligne, soit plus de trois millions de pages, et ce contenu s’accroît sans cesse. Ces collections comprennent des documents datant de l’époque des premiers colons jusqu’aux deux premières décennies du XXe siècle."
 
-#: ../../../root/templates/Default/Common/admin/index.tt:133
+#: ../../../root/templates/Default/Common/admin/index.tt:135
 #: ../../../root/templates/Default/Common/admin/slideshow/index.tt:19
 #: ../../../root/templates/Default/Common/admin/slideshow/show.tt:42
 msgid "Edit"
@@ -1210,7 +1212,7 @@ msgstr "Adresse courriel"
 msgid "Email address"
 msgstr "Adresse courriel"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:67
+#: ../../../root/templates/Default/Common/admin/index.tt:69
 msgid "Email address contains"
 msgstr "L’adresse courriel contient"
 
@@ -1345,6 +1347,10 @@ msgstr "Description"
 msgid "Feature"
 msgstr "Fonction"
 
+#: ../../../root/templates/Default/heritage/partial/collection_list.tt:1
+msgid "Featured Collections"
+msgstr "Collections vedettes"
+
 #: ../../../root/templates/Default/Common/admin/portal/index.tt:116
 #: ../../../root/templates/Default/Common/admin/portal/index.tt:27
 msgid "Features"
@@ -1354,7 +1360,7 @@ msgstr "Fonctions"
 msgid "Feedback"
 msgstr "Commentaires"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:62
+#: ../../../root/templates/Default/Common/admin/index.tt:64
 msgid "Filter Users"
 msgstr "Filtrer les utilisateurs"
 
@@ -1740,7 +1746,7 @@ msgstr "Aimez-nous sur Facebook"
 msgid "Like us on Facebook!"
 msgstr "Aimez-nous sur Facebook!"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:106
+#: ../../../root/templates/Default/Common/admin/index.tt:108
 msgid "Limit"
 msgstr "Limite"
 
@@ -1872,7 +1878,6 @@ msgstr "Rechercher..."
 
 #: ../../../root/templates/Default/Common/admin/index.tt:23
 #: ../../../root/templates/Default/Common/admin/index.tt:38
-#: ../../../root/templates/Default/Common/admin/index.tt:56
 #: ../../../root/templates/Default/Common/content/institution/titles.tt:16
 msgid "Manage"
 msgstr "Gérer"
@@ -1915,7 +1920,7 @@ msgstr "Gérer le portail : %1"
 msgid "Manage Slideshow: %1, %2"
 msgstr "Gérer le diaporama : %1, %2"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:142
+#: ../../../root/templates/Default/Common/admin/index.tt:144
 #: ../../../root/templates/Default/Common/admin/slideshow/index.tt:1
 #: ../../../root/templates/Default/Common/admin/slideshow/index.tt:2
 msgid "Manage Slideshows"
@@ -1980,15 +1985,15 @@ msgstr "Description longue"
 msgid "More options"
 msgstr "Autres options"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:100
+#: ../../../root/templates/Default/Common/admin/index.tt:102
 msgid "Most recently created"
 msgstr ""
 
-#: ../../../root/templates/Default/Common/admin/index.tt:101
+#: ../../../root/templates/Default/Common/admin/index.tt:103
 msgid "Most recently logged in"
 msgstr ""
 
-#: ../../../root/templates/Default/Common/admin/index.tt:99
+#: ../../../root/templates/Default/Common/admin/index.tt:101
 msgid "Most recently updated"
 msgstr ""
 
@@ -2002,7 +2007,7 @@ msgstr ""
 msgid "Name"
 msgstr "Nom"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:79
+#: ../../../root/templates/Default/Common/admin/index.tt:81
 msgid "Name contains"
 msgstr "Le nom contient"
 
@@ -2021,7 +2026,7 @@ msgstr "Nouveau-Brunswick"
 msgid "New Brunswick (NB)"
 msgstr "Nouveau-Brunswick (NB)"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:123
+#: ../../../root/templates/Default/Common/admin/index.tt:125
 msgid "New Code"
 msgstr " Nouveau code"
 
@@ -2101,6 +2106,7 @@ msgstr "suivante"
 msgid "Next Page"
 msgstr "Page suivante"
 
+#: ../../../root/templates/Default/Common/admin/index.tt:57
 #: ../../../root/templates/Default/Common/content/title/index.tt:110
 #: ../../../root/templates/Default/Common/macro/format_boolean.tt:1
 msgid "No"
@@ -2183,7 +2189,7 @@ msgstr "Ontario (ON)"
 msgid "Open Content"
 msgstr "Contenu libre"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:140
+#: ../../../root/templates/Default/Common/admin/index.tt:142
 msgid "Options"
 msgstr "Options"
 
@@ -2781,7 +2787,7 @@ msgid "Save Changes"
 msgstr "Sauvegarder les modifications"
 
 #: ../../../root/templates/Default/1812/partial/search_form.tt:33
-#: ../../../root/templates/Default/Common/admin/index.tt:116
+#: ../../../root/templates/Default/Common/admin/index.tt:118
 #: ../../../root/templates/Default/Common/content/institution/index.tt:59
 #: ../../../root/templates/Default/Common/content/institution/titles.tt:13
 #: ../../../root/templates/Default/Common/partial/keyword_search.tt:22
@@ -2790,7 +2796,7 @@ msgstr "Sauvegarder les modifications"
 #: ../../../root/templates/Default/canadiana/partial/collection_list.tt:21
 #: ../../../root/templates/Default/canadiana/partial/search_form.tt:33
 #: ../../../root/templates/Default/dfait/partial/search_form.tt:33
-#: ../../../root/templates/Default/eco/partial/collection_list.tt:21
+#: ../../../root/templates/Default/eco/partial/collection_list.tt:24
 #: ../../../root/templates/Default/eco/partial/search_form.tt:33
 #: ../../../root/templates/Default/heritage/partial/keyword_search.tt:22
 #: ../../../root/templates/Default/heritage/partial/search_form.tt:4
@@ -2835,7 +2841,7 @@ msgid "Search the collection"
 msgstr "Recherche dans la collection"
 
 #: ../../../root/templates/Default/canadiana/partial/collection_list.tt:20
-#: ../../../root/templates/Default/eco/partial/collection_list.tt:20
+#: ../../../root/templates/Default/eco/partial/collection_list.tt:23
 msgid "Search this collection"
 msgstr "Recherche dans cette collection"
 
@@ -3025,7 +3031,7 @@ msgstr "Réduire"
 msgid "Sometimes, automated confirmation messages get marked as junk, so be sure to check in your junk or spam folder if you don't see the message in your inbox."
 msgstr "Il arrive que des messages automatiques de confirmation soient identifiés comme du pourriel. Il est donc important de vérifier votre boîte de pourriels si vous ne retrouvez pas le message dans votre boîte de réception."
 
-#: ../../../root/templates/Default/Common/admin/index.tt:95
+#: ../../../root/templates/Default/Common/admin/index.tt:97
 msgid "Sort"
 msgstr "Trier par"
 
@@ -3174,10 +3180,6 @@ msgstr "Historique de l’abonnement"
 
 msgid "Subscription IP Blocks"
 msgstr "Plages IP pour les abonnements"
-
-#: ../../../root/templates/Default/Common/user/subscription/subscribe.tt:79
-msgid "Subscription Overview"
-msgstr ""
 
 #: ../../../root/templates/Default/Common/user/subscription/subscribe.tt:45
 msgid "Subscription Period"
@@ -3528,7 +3530,7 @@ msgstr "URL"
 msgid "Unassigned"
 msgstr "Non-assigné"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:90
+#: ../../../root/templates/Default/Common/admin/index.tt:92
 msgid "Unconfirmed"
 msgstr "Non-confirmé"
 
@@ -3653,7 +3655,7 @@ msgstr "Journal de l’utilisateur %1 (%2)"
 msgid "User feedback"
 msgstr "Rétroactions des utilisateurs"
 
-#: ../../../root/templates/Default/Common/admin/index.tt:73
+#: ../../../root/templates/Default/Common/admin/index.tt:75
 msgid "User name contains"
 msgstr "Le nom d’utilisateur contient"
 
@@ -3815,6 +3817,7 @@ msgstr "AAAA"
 msgid "Years"
 msgstr "Années"
 
+#: ../../../root/templates/Default/Common/admin/index.tt:57
 #: ../../../root/templates/Default/Common/content/title/index.tt:108
 #: ../../../root/templates/Default/Common/macro/format_boolean.tt:1
 msgid "Yes"
@@ -3917,7 +3920,6 @@ msgid "Your ECO subscription expired on %1. Renew it to regain access to the com
 msgstr "Votre abonnement à NML expire le %1. Renouvelez-le pour conserver un accès à toute la collection NML."
 
 #: ../../../root/templates/Default/Common/user/subscription/index.tt:16
-#: ../../../root/templates/Default/Common/user/subscription/subscribe.tt:78
 #: ../../../root/templates/Default/canadiana/content/footer.tt:14
 #: ../../../root/templates/Default/eco/content/footer.tt:14
 msgid "Your Profile"
