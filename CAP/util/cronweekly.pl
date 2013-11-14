@@ -174,11 +174,14 @@ sub compile_portal_stats {
 sub compile_institution_stats {
 
     my $c = shift();
+    
+    my $last_update;
 
-    my $last_update = $c->model('DB::StatsUsageInstitution')->last_update()
+    eval { $last_update = $c->model('DB::StatsUsageInstitution')->last_update()
                                                                            ||
                                               $c->model('DB::Requests')->get_start();
-
+    };
+    die $@ if $@;
     my $row;
     my $error;
 
@@ -254,7 +257,8 @@ sub compile_institution_stats {
                     # update or insert as required
                     $monthly_stats->{'institution_id'} = $institution;
                     $monthly_stats->{'month_starting'} = $first_of_month;
-                    $c->model('DB::StatsUsageInstitution')->update_monthly_stats($monthly_stats);
+                    eval { $c->model('DB::StatsUsageInstitution')->update_monthly_stats($monthly_stats); };
+                    die $@ if $@;
     
                 }
     

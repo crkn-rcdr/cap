@@ -11,22 +11,27 @@ sub update_monthly_stats {
 
     
     # first check to see if there is an existing row with up-to-date data
-    my $search = $self->search(
-       {%$stats}
-    );
-
+    my $search;
+    eval { $search = $self->search(
+         {%$stats}
+      );
+    };
+    die $@ if $@;
+    
     unless ( $search->count ) {
 
         # we want to reset the timestamp
         $stats->{'last_updated'} = undef;
         
         # insert or update monthly stats depending on whether the row exists
-        my $err = $self->update_or_create(
+       eval { $self->update_or_create(
     
            {%$stats},
            {key => 'primary'}
     
-       );
+         ); 
+       };
+      die  $@ if $@;
 
     }
 
@@ -36,11 +41,17 @@ sub update_monthly_stats {
 
 
 sub last_update {
+    
     my $self = shift();
-    my $row = $self->search( {}, { order_by => { -desc => 'last_updated' } } )->first;
+    my $row;
+    my $last_update;
+    
+    eval {  $row = $self->search( {}, { order_by => { -desc => 'last_updated' } } )->first;
+                  # return 0 if the database is empty;
+                  $last_update = defined($row) ? $row->last_updated : 0;
+    };
+    return $@ if $@;
 
-    # return 0 if the database is empty;
-    my $last_update = defined($row) ? $row->last_updated : 0;
     return $last_update;
 
 }

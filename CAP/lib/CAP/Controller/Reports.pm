@@ -46,9 +46,9 @@ sub auto :Private {
     if ($data->{start}) {
         my($year, $month, $day) = split(/-/, $data->{start});
         my $params = {};
-        $params->{year} = $year if ($year && $year =~ /^\d{4}$/);
-        $params->{month} = $month if ($params->{year} && $month && $month =~ /^\d{2}$/);
-        $params->{day} = $day if ($params->{month} && $day && $day =~ /^\d{2}$/);
+        $params->{year}       = $year      if ( ( $year ) && ( $year =~ /^\d{4}$/ ) );
+        $params->{month}  = $month if ($params->{year} && $month && $month =~ /^\d{2}$/);
+        $params->{day}        = $day         if ($params->{month} && $day && $day =~ /^\d{2}$/);
         $start = DateTime->new($params);
     }
     else {
