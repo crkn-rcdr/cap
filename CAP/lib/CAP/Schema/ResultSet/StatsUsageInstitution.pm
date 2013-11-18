@@ -6,9 +6,8 @@ use base 'DBIx::Class::ResultSet';
 
 sub update_monthly_stats {
 
-    
     my ( $self, $stats ) = @_;
-
+    # warn "error_message_test";
     
     # first check to see if there is an existing row with up-to-date data
     my $search;
@@ -16,12 +15,15 @@ sub update_monthly_stats {
          {%$stats}
       );
     };
-    die $@ if $@;
+    warn "cannot execute search: $@" if $@;
     
     unless ( $search->count ) {
 
         # we want to reset the timestamp
         $stats->{'last_updated'} = undef;
+        
+        # set the default portal
+        $stats->{'portal_id'} = defined ($stats->{'portal_id'} ) ?    $stats->{'portal_id'} : 'eco';
         
         # insert or update monthly stats depending on whether the row exists
        eval { $self->update_or_create(
@@ -31,7 +33,10 @@ sub update_monthly_stats {
     
          ); 
        };
-      die  $@ if $@;
+       if ($@ ) {
+          warn "cannot update database $@";
+          die $@;
+       };
 
     }
 

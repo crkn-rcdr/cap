@@ -250,16 +250,32 @@ sub compile_institution_stats {
                     );
     
                     $current_date = new Date::Manip::Date;
-                    $err          = $current_date->parse($current_date_string);
-                    say $err if $err;
+                    eval { $current_date->parse($current_date_string); };
+                    die $@ if $@;
                     $first_of_month = $current_date->printf("%Y-%m-01");
     
                     # update or insert as required
                     $monthly_stats->{'institution_id'} = $institution;
                     $monthly_stats->{'month_starting'} = $first_of_month;
                     eval { $c->model('DB::StatsUsageInstitution')->update_monthly_stats($monthly_stats); };
-                    die $@ if $@;
-    
+                    if ($@ ) {
+                        $c->model('DB::CronLog')->create(
+                            {
+                                action => 'cronweekly->compile_institution_stats',
+                                ok     => 1,
+                                message => "received error message $@"
+                            }
+                        );
+                       die $@;
+                   };
+                   
+                   $c->model('DB::CronLog')->create(
+                        {
+                            action => 'cronweekly->compile_institution_stats',
+                            ok     => 1,
+                            message => "done inserting stats for institution $institution, month starting $current_date_string"
+                        }
+                   );   
                 }
     
             }
