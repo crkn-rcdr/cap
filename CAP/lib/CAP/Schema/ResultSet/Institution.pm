@@ -16,6 +16,20 @@ sub list {
     return \@institutions;
 }
 
+sub list_ids {
+
+    my($self) = @_;
+    my $institutions =[];
+    my $row;
+    my $search = $self->search({});
+    while ($row = $search->next) {
+        push (@$institutions, $row->id);
+    }
+    
+    return $institutions;
+    
+}
+
 
 # TODO: methods below here should be checked, documented and/or removed if
 # not needed.

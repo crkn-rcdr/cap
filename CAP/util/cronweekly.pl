@@ -200,8 +200,9 @@ sub compile_institution_stats {
     my $first_of_month_st = join( '-', ( $start_year, $start_month, '1' ) );
 
     # Get a list of distinct institutions from the institutions table
-    my $institutions = $c->model('DB::Requests')->get_institutions($c);
-    my $portals = $c->model('DB::Portal')->list_portals();
+    my $institutions = $c->model('DB::Institution')->list_ids();
+   #     my $institutions = $c->model('DB::Requests')->get_institutions($c);
+    my $portals = $c->model('DB::Portal')->list_inst_portals();
     my $portal;
     my $month;
     my $first_of_month;
@@ -255,7 +256,8 @@ sub compile_institution_stats {
                     $first_of_month = $current_date->printf("%Y-%m-01");
     
                     # update or insert as required
-                    $monthly_stats->{'institution_id'} = $institution;
+                    $monthly_stats->{'institution_id'}      = $institution;
+                    $monthly_stats->{'portal_id'}               = $portal;
                     $monthly_stats->{'month_starting'} = $first_of_month;
                     eval { $c->model('DB::StatsUsageInstitution')->update_monthly_stats($monthly_stats); };
                     if ($@ ) {

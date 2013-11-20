@@ -235,4 +235,19 @@ sub get_portals {
   
 }
 
+sub inst_active {
+
+    my ($self, $inst) = @_;
+    
+    my $search_logs = $self->search(
+ 
+        {'institution_id' => $inst}
+ 
+    );
+
+   return  $search_logs->count;
+    
+}
+
+
 1;

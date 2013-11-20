@@ -68,6 +68,20 @@ sub list_portals {
     return $portals;
 }
 
+sub list_inst_portals {
+    my ($self) = shift();
+    my $get_portals = $self->search(
+        {'supports_institutions' => '1'}
+    );
+    my $row;
+    my $portal_id;
+    my $portals = [];    
+    while ($row = $get_portals->next) {
+       push (@$portals, $row->id);
+    }
+    return $portals;
+}
+
 =head2 hosts_for($title)
 
 Returns a list of all portals along with flags indicating whether this document is indexed and hosted.
