@@ -1,6 +1,8 @@
 ﻿[% IF lang == 'fr' %]
 <h2>À propos / Aide</h2>
 
+<h3><a href="http://www.parl.gc.ca/Content/LOP/About/Parliament/HistoricalDebates/KnownIssuesCanadiana-f.htm" target="_blank">Problèmes connus du portail</a></h3>
+
 <h3>Introduction</h3>
 <p>Le portail des <strong><i>Débats historiques du Parlement du Canada</i></strong> offre une façon simple et centralisée d’accéder aux débats historiques du Sénat et de la Chambre des communes, dans les deux langues officielles.</p>
 <p>Les débats du Sénat et de la Chambre des communes, appelé couramment les <i>Débats</i>, ou Hansard, contiennent les délibérations transcrites, éditées et corrigées des deux Chambres du Parlement.</p>
@@ -46,8 +48,19 @@
 <p>Chaque volume a un lien URL permanent, au cas où  l’usager souhaite en faire un Favori ou l’envoyer à quelqu’un.  Ce lien permanent se trouve sous l’onglet <strong>À propos</strong> dans le haut du visionneur.</p>
 <p>La liste des résultats de recherche peut aussi être partagée en copiant le lien dans la barre d’adresse.</p>
 
+<h3>Nous joindre</h3>
+<p>
+    Votre contribution à l’amélioration de la qualité des Débats historiques du Parlement du Canada nous est très précieuse. Veuillez nous faire part de vos questions et de vos commentaires ici. 
+    <a href="https://twitter.com/LoPInformation" class="twitter-follow-button" data-show-count="false">Follow @LoPInformation</a>
+    <script>
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    </script>
+</p>
+
 [% ELSE %]
 <h2>About / Help</h2>
+
+<h3><a href="http://www.parl.gc.ca/Content/LOP/About/Parliament/HistoricalDebates/KnownIssuesCanadiana-e.htm" target="_blank">Portal Known Issues</a></h3>
 
 <h3>Introduction</h3>
 <p>The <strong><i>Historical Debates of the Parliament of Canada</i></strong> portal provides a centralized, streamlined means of accessing historical debates of the Senate and House of Commons, in both official languages.</p>
@@ -94,4 +107,10 @@
 <p>Each volume has a permanent URL if you wish to bookmark it, or send the link to someone.  This link can be found in the metadata, under the <strong>About</strong> tab at the top of the page viewer.</p>
 <p>Your search result list can also be shared by copying the link in the address bar from the results page.</p>
 
+<h3>Contact Us</h3>
+<p>
+    Users are welcome to report any difficulties they are experiencing with the portal. Your help in improving the quality of the Historical Debates of the Parliament of Canada portal is invaluable to us. Please direct any questions or comment here.
+    <a href="https://twitter.com/LoPInformation" class="twitter-follow-button" data-show-count="false">Follow @LoPInformation</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</p>
 [% END %]
