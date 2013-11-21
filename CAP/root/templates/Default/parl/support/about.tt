@@ -50,7 +50,7 @@
 
 <h3>Nous joindre</h3>
 <p>
-    Votre contribution à l’amélioration de la qualité des Débats historiques du Parlement du Canada nous est très précieuse. Veuillez nous faire part de vos questions et de vos commentaires ici. 
+    Votre contribution à l’amélioration de la qualité des Débats historiques du Parlement du Canada nous est très précieuse. Veuillez nous faire part de vos questions et de vos commentaires <a href="mailto:info@parl.gc.ca">ici</a>. 
     <a href="https://twitter.com/LoPInformation" class="twitter-follow-button" data-show-count="false">Follow @LoPInformation</a>
     <script>
     !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
@@ -109,7 +109,7 @@
 
 <h3>Contact Us</h3>
 <p>
-    Users are welcome to report any difficulties they are experiencing with the portal. Your help in improving the quality of the Historical Debates of the Parliament of Canada portal is invaluable to us. Please direct any questions or comment here.
+    Users are welcome to report any difficulties they are experiencing with the portal. Your help in improving the quality of the Historical Debates of the Parliament of Canada portal is invaluable to us. Please direct any questions or comment <a href="mailto:info@parl.gc.ca">here</a>.
     <a href="https://twitter.com/LoPInformation" class="twitter-follow-button" data-show-count="false">Follow @LoPInformation</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </p>
