@@ -1,0 +1,94 @@
+﻿<h2>[% c.loc("Featured Collections") %]</h2>
+<div class="heritage-collections">
+	<div class="row">
+		<div class="collection span6 genealogy">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Genealogy" }) %]">
+				<h3>[% IF c.stash.lang == 'fr' %]Généalogie[% ELSE %]Genealogy[% END %]</h3>
+			</a>
+			<div class="collection-info">
+				<p>
+					[% IF c.stash.lang == 'fr' %]
+					Dossiers détaillés, index et autres documents relatant la riche texture de la colonisation, de la propriété foncière, de l’histoire des familles et de la vie communautaire au Canada à ses débuts.
+					[% ELSE %]
+					Detailed files, indexes, and other records chronicling the rich texture of settlement, land ownership, family history, and community life in early Canada.
+					[% END %]
+				</p>
+				<p>
+					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Genealogy" }) %]">[% c.loc("Browse this collection") %]</a>
+				</p>
+			</div>
+		</div>
+		<div class="collection span6 aboriginal-history">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Aboriginal" }) %]">
+				<h3>[% IF c.stash.lang == 'fr' %]Histoire autochtone[% ELSE %]Aboriginal History[% END %]</h3>
+			</a>
+			<div class="collection-info">
+				<p>
+					[% IF c.stash.lang == 'fr' %]
+					La gestion gouvernementale des affaires autochtones depuis la du fin XVIIIe siècle jusqu’au milieu du XXe siècle, laquelle se rapporte à des questions de propriété foncière, d’éducation, de droit, de finances, de santé et de développement communautaire.
+					[% ELSE %]
+					Documenting the government’s management of aboriginal affairs from the late 1700s to the mid 1900s, exploring issues of land ownership, education, law, finances, health, and community development.
+					[% END %]
+				</p>
+				<p>
+					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Aboriginal" }) %]">[% c.loc("Browse this collection") %]</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="collection span6 government-documents">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Government" }) %]">
+				<h3>[% IF c.stash.lang == 'fr' %]Documents gouvernementaux[% ELSE %]Government Documents[% END %]</h3>
+			</a>
+			<div class="collection-info">
+				<p>
+					[% IF c.stash.lang == 'fr' %]
+					Dossiers provenant des ministères du gouvernement canadien, des organismes et sociétés d’État, créés durant les périodes de profonds changements politiques, sociaux et industriels et qui constituent une ressource inestimable pour la recherche dans une vaste gamme de disciplines.
+					[% ELSE %]
+					Records from Canada's departments, crown corporations, and government agencies, created during times of intense industrial, political and social change and invaluable for research across a broad range of disciplines.
+					[% END %]
+				</p>
+				<p>
+					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Government" }) %]">[% c.loc("Browse this collection") %]</a>
+				</p>
+			</div>
+		</div>
+		<div class="collection span6 military-history">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Military" }) %]">
+				<h3>[% IF c.stash.lang == 'fr' %]Histoire militaire[% ELSE %]Military History[% END %]</h3>
+			</a>
+			<div class="collection-info">
+				<p>
+					[% IF c.stash.lang == 'fr' %]
+					Documentation relative aux émeutes, aux rébellions et aux guerres dans l’histoire du Canada, ainsi que des dossiers administratifs et de service militaire provenant d’institutions militaires en temps de paix.
+					[% ELSE %]
+					Documenting the riots, rebellions, and wars in Canadian history, as well as the administrative and service records of military institutions in times of peace.
+					[% END %]
+				</p>
+				<p>
+					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Military" }) %]">[% c.loc("Browse this collection") %]</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="collection span12 landmark-papers">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Papers" }) %]">
+				<h3>[% IF c.stash.lang == 'fr' %]Documents clés[% ELSE %]Landmark Papers[% END %]</h3>
+			</a>
+			<div class="collection-info">
+				<p>
+					[% IF c.stash.lang == 'fr' %]
+					Papiers privés provenant d’individus et d’organisations qui ont façonné l’histoire du Canada. La politique, les arts et la littérature, le travail, la justice sociale et l’histoire des femmes constituent les points forts de cette collection.
+					[% ELSE %]
+					Private papers from the individuals and organizations that have shaped Canada's history. Politics, arts and literature, labour, social justice and women's history are particular areas of strength.
+					[% END %]
+				</p>
+				<p>
+					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Papers" }) %]">[% c.loc("Browse this collection") %]</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
