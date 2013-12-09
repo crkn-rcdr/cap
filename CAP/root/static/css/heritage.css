@@ -6947,7 +6947,6 @@ footer .footer-bottom p {
   height: 100px;
   width: 250px;
   position: relative;
-  float: left;
   margin-right: 10px;
 }
 .heritage-collections .collection .collection-title h3 {
@@ -6961,7 +6960,6 @@ footer .footer-bottom p {
 }
 .heritage-collections .collection .collection-info {
   padding: 9px 10px 0 10px;
-  margin-left: 250px;
 }
 .heritage-collections .genealogy {
   background-color: #bd9c7b;
@@ -6997,4 +6995,25 @@ footer .footer-bottom p {
 }
 .heritage-collections .landmark-papers .collection-title {
   background-image: url('/static/images/heritage_collections/landmark_papers.png');
+}
+@media (max-width: 767px) {
+  .heritage-collections .collection .collection-info {
+    padding-bottom: 1px;
+  }
+}
+@media (min-width: 768px) {
+  .heritage-collections .collection.span12 .collection-title {
+    float: left;
+  }
+  .heritage-collections .collection.span12 .collection-info {
+    margin-left: 250px;
+  }
+}
+@media (min-width: 1200px) {
+  .heritage-collections .collection.span6 .collection-title {
+    float: left;
+  }
+  .heritage-collections .collection.span6 .collection-info {
+    margin-left: 250px;
+  }
 }
