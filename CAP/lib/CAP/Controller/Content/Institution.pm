@@ -167,7 +167,7 @@ sub assign : Chained('base') :Path('assign') :Args(0) {
                 hosted => $hosted
             });
         }
-        $c->message({ type => "success", message => "added_titles", params => [ $title_count, $portal->name($c->stash->{lang}) ] });
+        $c->message({ type => "success", message => "added_titles", params => [ $title_count, $portal->title($c->stash->{lang}) ] });
     }
     elsif ($titles eq 'unassigned') {
         $title_list = $c->model('DB::Titles')->titles_for_institution($institution, unassigned => 1);
