@@ -33,7 +33,7 @@ method BUILD {
         'fl'             => 'key,type,contributor,label,pkey,plabel,seq,pubmin,pubmax,lang,media,set,collection,pg_label,ti,au,su,pu,no,de,ab,' .
                             'canonicalUri,canonicalMaster,canonicalMasterSize,canonicalMasterMime,canonicalMasterMD5,canonicalDownload,' .
                             'canonicalDownloadSize,canonicalDownloadMime,canonicalDownloadMD5,identifier,no_continued,no_continues,' .
-                            'no_extent,no_frequency,no_missing,no_rights,no_source,term,portal,cap_id,cap_title_id',
+                            'no_extent,no_frequency,no_missing,no_rights,no_source,term,portal,cap_id,cap_title_id,timestamp',
         'rows'           => 10,
         'sort'           => 'score desc',
         'start'          => 0,
