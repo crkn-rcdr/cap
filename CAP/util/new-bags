@@ -11,6 +11,12 @@ use CAP;
 
 Compile a list of titles that are new (are not part of any collection).
 
+=head2 Examples
+
+Index new or updated CMRs into Solr:
+
+find tdr-root -mindepth 3 -maxdepth 3 | new-bags solr | /opt/cmr/current/tools/solr-ingest -live -v
+
 =cut
 
 my $c = new CAP;
@@ -22,6 +28,9 @@ while (my $path = <STDIN>) {
     chomp($path);
     my $cmr = join('/', $path, 'data', 'cmr.xml');
     my($contributor, $identifier) = split(/\./, basename($path), 2);
+
+    # Skip deleted atchives (ones with no CMR file)
+    next unless (-f $cmr);
 
     # Look up and cache the institution id if we don't already know it.
     if (! $institutions{$contributor}) {
@@ -42,23 +51,22 @@ while (my $path = <STDIN>) {
         { join => 'title_id' }
     );
 
-    # Check whether a title of thei name exists (if it is not a document).
+    # Check whether a title exists (if it is not a document).
     my $title = $c->model('DB::Titles')->find({ institution_id => $institution, identifier => $identifier });
-
-    # Skip deleted atchives (ones with no CMR file)
-    next unless (-f $cmr);
 
 
     # Look up  the item in Solr
     my $solr;
-    my $solr_status = 'missing';
+    my $solr_status = 'null'; # Status is null (no such title), missing (not indexed at all), stale (Solr record older than CMR) or ok (Solr record newer than CMR)
     if ($document) {
         my $key = sprintf("%s.%s", $contributor, $document->identifier);
         $solr = $c->model('Solr')->document($key);
+        $solr_status = 'missing';
     }
     elsif ($title) {
         my $key = sprintf("%s.%s", $contributor, $title->identifier);
         $solr = $c->model('Solr')->document($key);
+        $solr_status = 'missing';
     }
 
     if ($solr && $solr->found) {
@@ -75,15 +83,18 @@ while (my $path = <STDIN>) {
         }
     }
 
+    # Print stuff according to the command line action
 
     # Print CMR records that aren't in the CAP database.
     if ($action eq 'cmr') {
         print("$cmr\n") unless ($document || $title);
     }
+
     # Print CMR records that are not up to date in Solr
     elsif ($action eq 'solr') {
-        print("$cmr\n") unless ($solr_status eq 'ok');
+        print("$cmr\n") unless ($solr_status eq 'ok' || $solr_status eq 'null');
     }
+
     # Default: print AIPs that aren't in the CAP database.
     else {
         print("$path\n") unless ($document || $title);
