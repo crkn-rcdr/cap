@@ -17,8 +17,7 @@ progress. Both should be considered experimental.</p>
 <h3>Synopsis</h3>
 
 <p>Any search query can be turned into a Web service request by appending
-the parameter <code>fmt=rdf</code> or <code>fmt=json</code> to retrieve an
-RDF document or JSON object, respectively.</p>
+the parameter <code>fmt=json</code> to retrieve a JSON object.</p>
 
 <ul>
   <li><a href="[% c.uri_for_action('search/index', { q => 'railroads' }) | xhtml %]">search?q=railroads</a></li>
@@ -125,9 +124,6 @@ desired.</p>
 
 <ul>
   <li><a href="[% c.uri_for_action('support', 'api_search_json') %]">Search query: JSON</a></li>
-  <li><a href="[% c.uri_for_action('support', 'api_search_rdf') %]">Search query: RDF</a></li>
-  <li><a href="[% c.uri_for_action('support', 'api_document_json') %]">Document record: JSON</a></li>
-  <li><a href="[% c.uri_for_action('support', 'api_document_rdf') %]">Document record: RDF</a></li>
 </ul>
 
 
