@@ -60,7 +60,7 @@ while (my $path = <STDIN>) {
     my $solr_status = 'null'; # Status is null (no such title), missing (not indexed at all), stale (Solr record older than CMR) or ok (Solr record newer than CMR)
 
     # Only do this lookup if needed:
-    if ($action eq 'solr') {
+    if ($action eq 'solr' || $action eq 'solr-status') {
         if ($document) {
             my $key = sprintf("%s.%s", $contributor, $document->identifier);
             $solr = $c->model('Solr')->document($key);
@@ -99,6 +99,10 @@ while (my $path = <STDIN>) {
     # Print CMR records that are not up to date in Solr
     elsif ($action eq 'solr') {
         print("$cmr\n") unless ($solr_status eq 'ok' || $solr_status eq 'null');
+    }
+
+    elsif ($action eq 'solr-status') {
+        printf("%-70s  %s\n", $cmr, $solr_status);
     }
 
     # Default: print AIPs that aren't in the CAP database.
