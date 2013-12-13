@@ -21,7 +21,7 @@ the parameter <code>fmt=json</code> to retrieve a JSON object.</p>
 
 <ul>
   <li><a href="[% c.uri_for_action('search/index', { q => 'railroads' }) | xhtml %]">search?q=railroads</a></li>
-  <li><a href="[% c.uri_for_action('search/index', { q => 'railroads', fmt => 'xml' }) | xhtml %]">search?q=railroads&amp;fmt=xml</a></li>
+  <li><a href="[% c.uri_for_action('search/index', { q => 'railroads', fmt => 'json' }) | xhtml %]">search?q=railroads&amp;fmt=json</a></li>
   <li><a href="[% c.uri_for_action('search/index', { q => 'railroads', fmt => 'json' }) | xhtml %]">search?q=railroads&amp;fmt=json</a></li>
 </ul>
 
