@@ -63,7 +63,7 @@ else {
     }
 }
 
-my $passes = 3; # We may need up to 3 passes to get the dependencies correct
+my $passes = 4; # We may need up to 4 passes to get the dependencies correct, but should only need 2.
 for (my $pass = 1; $pass <= $passes; ++$pass) {
 
     # Prepare the queue for this pass
@@ -87,7 +87,11 @@ for (my $pass = 1; $pass <= $passes; ++$pass) {
     while(my $file = shift(@QUEUE)) {
         die("No such file: $file\n") unless (-f $file);
         printf("Pass: %d of %d; file: %d of %d (%d deferred)\r", $pass, $passes, ++$count, $queue_size, int(@NEXT_QUEUE));
-        if (! process($c, $file, $portals)) {
+
+        # Quick: ignore pages on the first run if a document is not found.
+        my $quick = 0;
+        $quick = 1 if ($pass == 1);
+        if (! process($c, $file, $portals, $quick)) {
             push(@NEXT_QUEUE, $file);
         }
     }
@@ -114,7 +118,7 @@ sub update_timestamp {
 
 
 sub process {
-    my($c, $file, $portals) = @_;
+    my($c, $file, $portals, $quick) = @_;
     my $deferred_newline = 0;
     my $all_ok = 1;
 
@@ -190,8 +194,16 @@ sub process {
                     });
                 }
                 else {
-                    print("No parent series $pkey yet for $key\n");
+                    print("No parent series $pkey yet for $key");
                     $all_ok = 0;
+                    # Short circuit if we are in quick mode (don't look at
+                    # any other records because they are probably child
+                    # pages of this document).
+                    if ($quick) {
+                        print(" (skipping the rest of this file on this pass)\n");
+                        return 0;
+                    }
+                    print("\n");
                 }
             }
             

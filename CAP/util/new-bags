@@ -58,32 +58,38 @@ while (my $path = <STDIN>) {
     # Look up  the item in Solr
     my $solr;
     my $solr_status = 'null'; # Status is null (no such title), missing (not indexed at all), stale (Solr record older than CMR) or ok (Solr record newer than CMR)
-    if ($document) {
-        my $key = sprintf("%s.%s", $contributor, $document->identifier);
-        $solr = $c->model('Solr')->document($key);
-        $solr_status = 'missing';
-    }
-    elsif ($title) {
-        my $key = sprintf("%s.%s", $contributor, $title->identifier);
-        $solr = $c->model('Solr')->document($key);
-        $solr_status = 'missing';
+
+    # Only do this lookup if needed:
+    if ($action eq 'solr') {
+        if ($document) {
+            my $key = sprintf("%s.%s", $contributor, $document->identifier);
+            $solr = $c->model('Solr')->document($key);
+            $solr_status = 'missing';
+        }
+        elsif ($title) {
+            my $key = sprintf("%s.%s", $contributor, $title->identifier);
+            $solr = $c->model('Solr')->document($key);
+            $solr_status = 'missing';
+        }
+
+        if ($solr && $solr->found) {
+            $solr->record->timestamp =~ /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/;
+            my $solr_mtime = DateTime->new({year => $1, month => $2, day => $3, hour => $4, minute => $5, second => $6, time_zone => '+0000'});
+            my @stat = stat($cmr);
+            my $cmr_mtime = DateTime->from_epoch(epoch => $stat[9]);
+            my $comp = DateTime->compare($cmr_mtime, $solr_mtime);
+            if ($comp >= 0) {
+                $solr_status = 'stale';
+            }
+            else {
+                $solr_status = 'ok';
+            }
+        }
     }
 
-    if ($solr && $solr->found) {
-        $solr->record->timestamp =~ /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/;
-        my $solr_mtime = DateTime->new({year => $1, month => $2, day => $3, hour => $4, minute => $5, second => $6, time_zone => '+0000'});
-        my @stat = stat($cmr);
-        my $cmr_mtime = DateTime->from_epoch(epoch => $stat[9]);
-        my $comp = DateTime->compare($cmr_mtime, $solr_mtime);
-        if ($comp >= 0) {
-            $solr_status = 'stale';
-        }
-        else {
-            $solr_status = 'ok';
-        }
-    }
-
+    #
     # Print stuff according to the command line action
+    #
 
     # Print CMR records that aren't in the CAP database.
     if ($action eq 'cmr') {
