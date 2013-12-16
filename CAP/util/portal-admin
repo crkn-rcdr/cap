@@ -56,23 +56,37 @@ while (my $path = <STDIN>) {
 
     # Add this title to the requestede collections
     foreach my $portal (@portals) {
-        my $hosted = 0;
-        if (substr($portal, 0, 1) eq '+') {
-            $hosted = 1;
-            $portal = substr($portal, 1)
-        };
-        print("Adding $cmr to $portal. Hosted: $hosted\n");
-        my $record;
-        eval {
-            $record = $c->model('DB::PortalsTitles')->update_or_create({
-                portal_id => $portal,
-                title_id => $title->id,
-                hosted => $hosted
-            });
-        };
-        if ($@) {
-            die("Update failed: $@\n");
+        my $action = substr($portal, 0, 1);
+        if ($action eq '+') {
+            print("Adding $cmr to $portal (hosted)\n");
+            eval {
+                my $record = $c->model('DB::PortalsTitles')->update_or_create({
+                    portal_id => substr($portal, 1),
+                    title_id => $title->id,
+                    hosted => 1
+                });
+            };
+            if ($@) {
+                die("Update failed: $@\n");
+            }
+        }
+        elsif ($action eq '-') {
+            print("Removing $cmr from $portal\n");
+            my $record = $c->model('DB::PortalsTitles')->find({ portal_id => substr($portal, 1), title_id => $title->id});
+            $record->delete() if ($record);
+        }
+        else {
+            print("Adding $cmr to $portal (indexed)\n");
+            eval {
+                my $record = $c->model('DB::PortalsTitles')->update_or_create({
+                    portal_id => $portal,
+                    title_id => $title->id,
+                    hosted => 0
+                });
+            };
+            if ($@) {
+                die("Update failed: $@\n");
+            }
         }
     }
-
 }
