@@ -1,1 +1,0 @@
-<h1><a href="[% c.uri_for_action("index") %]">[% portal_name %]</a></h1>
