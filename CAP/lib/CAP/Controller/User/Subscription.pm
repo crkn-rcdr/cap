@@ -2,7 +2,7 @@ package CAP::Controller::User::Subscription;
 use Moose;
 use namespace::autoclean;
 
-__PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ] } );
+__PACKAGE__->config( default => 'text/html', map => { 'text/html' => [ 'View', 'Default' ] });
 
 BEGIN { extends 'Catalyst::Controller::REST'; }
 
