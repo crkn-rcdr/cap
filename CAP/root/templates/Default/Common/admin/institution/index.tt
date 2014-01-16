@@ -1,4 +1,10 @@
 [% MACRO format_boolean(bool) INCLUDE macro/format_boolean.tt -%]
+[% MACRO first_ip(range) PERL %]
+    print new Net::IP($stash->get('range'))->ip();
+[% END -%]
+[% MACRO last_ip(range) PERL %]
+    print new Net::IP($stash->get('range'))->last_ip();
+[% END -%]
 [% title = c.loc("Manage Institution: [_1]", entity.institution.name) %]
 
 <p>
@@ -101,11 +107,13 @@
     </div>
     <div class="tab-pane" id="tab_ipaddresses">
         <table class="table">
-            [% INCLUDE partial/table_header.tt columns=["Range", "Action"] %]
+            [% INCLUDE partial/table_header.tt columns=["Range", "Start", "End", "Action"] %]
             <tbody>
             [% FOREACH i IN entity.ipaddresses %]
                 <tr>
                     <td>[% i.cidr %]</td>
+                    <td>[% first_ip(i.cidr) %]</td>
+                    <td>[% last_ip(i.cidr) %]</td>
                     <td><a href="[% c.uri_for_action('/admin/institution/ipaddress_delete', [ entity.institution.id, i.start ]) %]">[% c.loc("Remove") %]</a></td>
                 </tr>
             [% END %]
