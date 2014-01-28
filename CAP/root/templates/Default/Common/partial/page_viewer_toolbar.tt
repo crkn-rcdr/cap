@@ -1,4 +1,4 @@
-<nav id="pvToolbar" class="btn-toolbar" data-seq="[% page.seq %]" data-total="[% doc.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="5" data-pkey="[% page.pkey %]" data-resize="[% doc.auth.resize %]" data-portal-name="[% portal_name %]" data-document-label="[% doc.canonical_label | truncate(50) %]">
+<nav id="pvToolbar" class="btn-toolbar" data-seq="[% page.seq %]" data-total="[% doc.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="6" data-pkey="[% page.pkey %]" data-resize="[% doc.auth.resize %]" data-portal-name="[% portal_name %]" data-document-label="[% doc.canonical_label | truncate(50) %]">
         <select id="pvPageSelect" name="seq">
             [% FOREACH name IN doc.record.pg_label %]
                 [% curr_seq = loop.count %]
