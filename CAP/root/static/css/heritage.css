@@ -6812,19 +6812,19 @@ table.calendar a {
   border: 1px solid #eee;
 }
 .banner {
-  height: 210px;
+  height: 120px;
 }
 .banner .banner-left-bg {
   background-image: url('/static/images/heritage_banner_left.png');
-  height: 210px;
+  height: 120px;
 }
 .banner .banner-right-bg {
   background-image: url('/static/images/heritage_banner_right.png');
-  height: 210px;
+  height: 120px;
 }
 .banner .banner-image-absolute {
   background-image: url('/static/images/heritage_banner.png');
-  height: 210px;
+  height: 120px;
 }
 h2 {
   color: #5b0718;

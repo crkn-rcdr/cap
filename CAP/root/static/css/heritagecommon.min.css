@@ -962,9 +962,9 @@ table.calendar a{text-decoration:underline;font-weight:bold;display:block;}
 .subscriptions .subbox .subbox-price{font-size:20pt;margin-bottom:18px;}
 .popover-title{border-bottom-width:0;}
 .popover-content{border:1px solid #eee;}
-.banner{height:210px;}.banner .banner-left-bg{background-image:url('/static/images/heritage_banner_left.png');height:210px;}
-.banner .banner-right-bg{background-image:url('/static/images/heritage_banner_right.png');height:210px;}
-.banner .banner-image-absolute{background-image:url('/static/images/heritage_banner.png');height:210px;}
+.banner{height:120px;}.banner .banner-left-bg{background-image:url('/static/images/heritage_banner_left.png');height:120px;}
+.banner .banner-right-bg{background-image:url('/static/images/heritage_banner_right.png');height:120px;}
+.banner .banner-image-absolute{background-image:url('/static/images/heritage_banner.png');height:120px;}
 h2{color:#5b0718;font-variant:small-caps;}
 .search-item h2{font-variant:normal;}
 .whf-search-bar{font-size:15px;font-weight:bold;padding:9px 4px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;line-height:normal;}
