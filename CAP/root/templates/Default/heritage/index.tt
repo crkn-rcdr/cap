@@ -1,20 +1,6 @@
 [% title = c.loc("Welcome") -%]
 
 <div class="row">
-	<div class="span6 offset3">
-
-		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-		<!-- Heritage front page top -->
-		<ins class="adsbygoogle"
-		     style="display:block"
-		     data-ad-client="ca-pub-6324450004834471"
-		     data-ad-slot="3200192746"
-		     data-ad-format="auto"></ins>
-		<script>
-		(adsbygoogle = window.adsbygoogle || []).push({});
-		</script>
-
-	</div>
 	<div class="span6 blurb">
 [% INCLUDE "content/index_text_${lang}.tt" | indent(8) -%]
     </div>
@@ -33,20 +19,3 @@
 	<a href="http://crkn.ca/"><img src="/static/images/crkn_logo.jpg" alt="CRKN / RCDR" /></a>
 	<a href="http://www.collectionscanada.gc.ca/index-[% c.stash.lang == "fr" ? "f" : "e" %].html"><img src="/static/images/lac_logo_[% c.stash.lang %].png" alt="Library and Archives Canada / Bibliothèque et Archives Canada" />
 </p>
-
-<div class="row">
-	<div class="span6 offset3">
-
-		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-		<!-- Heritage front page bottom -->
-		<ins class="adsbygoogle"
-		     style="display:block"
-		     data-ad-client="ca-pub-6324450004834471"
-		     data-ad-slot="1583858744"
-		     data-ad-format="auto"></ins>
-		<script>
-		(adsbygoogle = window.adsbygoogle || []).push({});
-		</script>
-
-	</div>
-</div>
