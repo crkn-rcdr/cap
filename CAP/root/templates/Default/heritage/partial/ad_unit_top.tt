@@ -1,0 +1,8 @@
+[% action = c.action _ "" %]
+[% IF action == "index" %]
+	[% INCLUDE partial/google_ad_unit.tt slot="3200192746" %]
+[% ELSIF action.match('search\/.*') %]
+	[% INCLUDE partial/google_ad_unit.tt slot="3847177544" %]
+[% ELSIF action.match('view\/.*') %]
+	[% INCLUDE partial/google_ad_unit.tt slot="6800643947" %]
+[% END %]
