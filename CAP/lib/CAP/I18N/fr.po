@@ -528,7 +528,7 @@ msgstr "Numéros disponibles : %1"
 #: ../../../root/templates/Default/heritage/view_series.tt:13
 #: ../../../root/templates/Default/heritagepremium/view_series.tt:13
 msgid "Available reels: %1"
-msgstr "bobines disponibles : 1%"
+msgstr "bobines disponibles : %1"
 
 #: ../../../root/templates/Default/Common/reports/user/subscriptions.tt:48
 msgid "Average Revenue Per Month (approximate)"
