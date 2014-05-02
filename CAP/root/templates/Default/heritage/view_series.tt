@@ -21,7 +21,11 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="issuesList">
+        [% IF doc.child_count > 0 %]
         [% INCLUDE partial/issues_list.tt %]
+        [% ELSE %]
+        <p>[% c.loc("There is no content yet for this title. Please check again later.") %]</p>
+        [% END %]   
     </div>
     <div class="tab-pane" id="documentRecord">
         [% INCLUDE partial/document_record.tt record=doc.record %]
