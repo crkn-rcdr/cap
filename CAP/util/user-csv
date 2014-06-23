@@ -1,0 +1,21 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use utf8;
+
+# Grab CAP user info for the nefarious purposes of populating a mailing list
+
+use Class::CSV;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use CAP;
+
+my $c = CAP->new();
+my $csv = Class::CSV->new( fields => [qw/id name email/] );
+my $users = $c->model("DB::User")->search({ active => 1, confirmed => 1 });
+
+while (my $user = $users->next) {
+	$csv->add_line({ id => $user->id, name => $user->name, email => $user->email });
+}
+
+$csv->print();
