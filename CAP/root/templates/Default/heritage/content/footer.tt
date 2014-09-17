@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <ul class="span6 left">
-                <li><img src="[% c.uri_for("/static/images/logo_" _ c.stash.lang _ ".png") %]" alt="Canadiana" /></li>
+                <li><a href="[% c.loc("http://www.canadiana.ca/en/home") %]" target="_blank"><img src="[% c.uri_for("/static/images/logo_" _ c.stash.lang _ ".png") %]" alt="Canadiana" /></a></li>
             </ul>
             <ul class="span3 text-centered centre">
                 <li class="title"><a href="[% c.loc("http://www.canadiana.ca/en/home") %]" target="_blank">[% c.loc("About Canadiana") %]</a></li>
