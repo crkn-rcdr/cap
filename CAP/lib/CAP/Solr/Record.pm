@@ -7,7 +7,7 @@ use MooseX::Method::Signatures;
 use List::MoreUtils qw(firstidx);
 use namespace::autoclean;
 
-enum 'RecordType' => qw( page document series );
+enum 'RecordType' => [qw( page document series )];
 
 has 'key'         => (is => 'ro', isa => 'Str', required => 1);
 has 'type'        => (is => 'ro', isa => 'RecordType', required => 1);
