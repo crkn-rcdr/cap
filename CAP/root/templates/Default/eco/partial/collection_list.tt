@@ -1,4 +1,4 @@
-<h2>[% c.loc("Early Canadiana Collections") %]</h2>
+﻿<h2>[% c.loc("Early Canadiana Collections") %]</h2>
 
 <div class="collections">
     <div class="collections-list" id="collectionsParent">
@@ -16,6 +16,16 @@
                     <a href="[% c.uri_for_action("search/index", { q => '', collection => key, so => 'oldest', t => 'browsable' }) %]">[% c.loc("Browse this collection") %]&nbsp;&raquo;</a>
                     [% END %]
                 </p>
+                [% IF key == 'glh' %]
+                <br />
+                <p>
+                    [% IF c.stash.lang == 'fr' %]
+                    Le contenu de généalogie est accessible à travers l’outil de recherche standard. Recherches recommandées : nom de ville ou de région (Montréal, Côte de Beaupré), nom de famille, profession, associations, éducation (McGill).  Mots clés : souvenir, paroisse, famille, seigneurie, biographie, notice, notes historiques.
+                    [% ELSE %]
+                    Genealogy content can be accessed through the Basic Search. Suggested searches: city or county name (Montreal, Essex County), family name, profession (civil service), association, education (McGill), or keywords: voters, family, directory, annals, register, parish, list.
+                    [% END %]
+                </p>
+                [% END %]
             </div>
             [% UNLESS key == 'glh' %]
             <form method="GET" class="collections-form form-inline" action="[% c.uri_for_action("/search/index") %]">

@@ -18,7 +18,7 @@
             <select id="collectionSelect" class="span3" name="collection">
                 <option value="">[% c.loc("All") %]</option>
             [% FOREACH key IN label.collection.sort -%]
-                <option value="[% key %]">[% label.collection.$key %]</option>
+                [% UNLESS key == "glh" %]<option value="[% key %]">[% label.collection.$key %]</option>[% END %]
             [% END -%]
             </select>
         </div>
