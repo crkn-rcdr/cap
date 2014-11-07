@@ -53,7 +53,7 @@ if ($root) {
     }
 }
 elsif (@ARGV) {
-    print "ARGV\n";
+    print "@ARGV\n";
     @NEXT_QUEUE = @ARGV;
 }
 else {
