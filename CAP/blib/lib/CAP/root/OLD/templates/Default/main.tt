@@ -1,2 +1,0 @@
-[%- INCLUDE "${portal_dir}/main.tt" -%]
-

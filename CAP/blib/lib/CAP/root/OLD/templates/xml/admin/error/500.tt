@@ -1,3 +1,0 @@
-[% USE XML.Escape %]
-<status ok="0">[% status %]</status>
-<details>[% error_message | xml_escape %]</details>

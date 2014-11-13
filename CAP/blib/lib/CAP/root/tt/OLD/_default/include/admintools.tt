@@ -1,4 +1,0 @@
-<div>
-  <a href="[% c.uri_for(root)%]">Admin Screen</a>
-  <a href="[% c.uri_for(root, logout)%]">Log Out</a>
-<div>

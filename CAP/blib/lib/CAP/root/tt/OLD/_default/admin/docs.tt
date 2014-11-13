@@ -1,7 +1,0 @@
-<h1>Documentation Files</h1>
-
-<ul>
-[%- FOREACH file IN docfiles -%]
-  <li><a href="[% c.uri_for(root, 'docs', file) %]">[% file %]</a></li>
-[%- END -%]
-</ul>

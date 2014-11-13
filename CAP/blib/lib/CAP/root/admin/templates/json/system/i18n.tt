@@ -1,7 +1,0 @@
-[%-
-  USE JSON (pretty => 1, allow_blessed => 1);
--%]
-{
-  "ok" : true,
-  "req" : "[% c.request.uri %]"
-}

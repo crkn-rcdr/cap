@@ -1,7 +1,0 @@
-<h1>Commit Database Changes</h1>
-
-[%- IF ok -%]
-<p>Success</p>
-[%- ELSE -%]
-<p>Error: [% error_msg %]</p>
-[%- END -%]

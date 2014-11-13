@@ -1,8 +1,0 @@
-[%- BLOCK html_select -%]
-  <select name="[% name | html %]">
-  [% FOREACH opt IN options %]
-    <option value="[% opt.value %]"[% IF opt.value == selected %] selected="selected"[% END %]>[% opt.label | html %]</option>
-  [% END %]
-  </select>
-[%- END -%]
-

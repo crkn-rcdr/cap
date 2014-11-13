@@ -1,7 +1,0 @@
-<table class="bib_record">
-  [% IF doc.ti.size %]<tr> <td>[% c.loc("Title") %]</td> <td>[% doc.ti.join('<br/>') -%]</td> </tr>[% END %]
-  [% IF doc.au.size %]<tr> <td>[% c.loc("Author") %]</td> <td>[% doc.au.join('<br/>') -%]</td> </tr>[% END %]
-  [% IF doc.pubstmt %]<tr> <td>[% c.loc("Imprint") %]</td> <td>[% doc.pubstmt -%]</td> </tr>[% END %]
-  [% IF doc.su.size %]<tr> <td>[% c.loc("Subject") %]</td> <td>[% doc.su.join('<br/>') -%]</td> </tr>[% END %]
-</table>
-

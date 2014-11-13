@@ -1,9 +1,0 @@
-<h1>[% doc.label %]</h1>
-
-[% INCLUDE 'include/bibrecord.tt' -%]
-
-<div><a href="[% c.uri_for(root, 'file', "${doc.key}.pdf")%]">[% c.loc("Download PDF") %]</a></div>
-
-[% INCLUDE 'include/pagepreview.tt' -%]
-
-[% INCLUDE 'include/docsearch.tt' -%]

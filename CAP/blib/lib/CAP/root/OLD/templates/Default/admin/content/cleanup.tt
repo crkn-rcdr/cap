@@ -1,3 +1,0 @@
-<h2>[% c.loc("Cleanup Files") %]</h2>
-
-<p>[% c.loc("Removed uploaded files for contributor: [_1] ([_2]).", contributor, cc) %]</p>

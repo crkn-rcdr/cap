@@ -1,5 +1,0 @@
-[%- IF iface == 'xml' -%]
-    [%- PROCESS 'include/wrapper_xml.tt' -%]
-[%- ELSE -%]
-    [%- INCLUDE 'include/wrapper_html.tt' -%]
-[%- END -%]

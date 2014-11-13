@@ -1,1 +1,0 @@
-[% c.loc("[_1] active sessions", sessions) | html %]

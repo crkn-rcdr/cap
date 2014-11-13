@@ -1,3 +1,0 @@
-<h2>[% c.loc("Error") %]</h2>
-
-<p>[% error %]</p>
