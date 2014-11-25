@@ -27,7 +27,7 @@ GROUP=root
 #PIDSUFFIX=dev
 
 # local::lib path, if you want to use it.
-#LOCALLIB=/opt/cap-libs/perl
+LOCALLIB=/opt/c7a-perl/current/cmd/local
 
 if [ -f "/etc/default/"$UNIXNAME ]; then
 . "/etc/default/"$UNIXNAME
