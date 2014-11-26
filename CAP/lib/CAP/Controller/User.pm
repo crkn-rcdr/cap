@@ -45,6 +45,9 @@ sub auto :Private {
         }
     }
 
+    # stupid Catalyst::Controller::REST hack
+    $c->stash->{current_view} = undef;
+
     return 1;
 }
 
