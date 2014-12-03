@@ -38,8 +38,11 @@ my $job;
 # List of jobs to run. We can move this to the database or config file later.
 # To create a new job put it in a sub and add it to this list.
 # To disable a job just comment it out
+
+# Commenting out remove_transcription_locks because we aren't supporting
+# transcriptions and it generates warnings. See #4055.
 my %actions = (
-    remove_transcription_locks      =>  \&remove_transcription_locks
+    #remove_transcription_locks      =>  \&remove_transcription_locks
 );
 
 
