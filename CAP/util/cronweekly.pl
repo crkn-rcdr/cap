@@ -5,6 +5,7 @@ use strict;
 use warnings;
 use feature qw(switch say);
 
+use lib "/opt/c7a-perl/current/cmd/local/lib/perl5";
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 
