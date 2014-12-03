@@ -19,7 +19,6 @@ use Catalyst qw/
                 Static::Simple
                 StackTrace
                 I18N
-                Unicode::Encoding
 
                 Email
 

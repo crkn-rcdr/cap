@@ -14,7 +14,6 @@ __PACKAGE__->config(
     #INCLUDE_PATH => [CAP->path_to('root', 'templates', 'Default', 'Default')],
     RELATIVE => 1,
     WRAPPER => 'main.tt',
-    binmode => ':utf8',
     FILTERS => {
         escape_js => sub { $_[0] =~ s/["\\]/\\$1/g; return $_[0]; },
 
