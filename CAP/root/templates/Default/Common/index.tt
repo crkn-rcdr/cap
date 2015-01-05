@@ -6,6 +6,3 @@
     </div>
 </div>
 [% INCLUDE "content/index_text_${lang}.tt" -%]
-[% IF c.portal.has_feature('collections');
-   INCLUDE partial/collection_list.tt;
-   END %]

@@ -967,7 +967,7 @@ body{background-image:url('/static/images/whf_bg.png');}
 @media (min-width:980px){.banner .banner-image{background-image:url('/static/images/eco_banner_940.png');}}@media (min-width:1200px){.banner .banner-image{background-image:url('/static/images/eco_banner_1170.png');}}h2{color:#610618;font-variant:small-caps;text-rendering:auto;}
 .search-item h2{font-variant:normal;}
 .whf-search-bar{font-size:15px;font-weight:bold;padding:9px 4px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;line-height:normal;}
-.blurb{background-color:#dfcfb7;background-color:rgba(205, 178, 140, 0.5);overflow:hidden;position:relative;-webkit-box-shadow:4px 4px 2px 2px #dddddd;-moz-box-shadow:4px 4px 2px 2px #dddddd;box-shadow:4px 4px 2px 2px #dddddd;}.blurb>*{padding:0 5px;z-index:3;position:relative;}
+.blurb{background-color:#dfcfb7;background-color:rgba(205, 178, 140, 0.5);overflow:hidden;position:relative;-webkit-box-shadow:4px 4px 2px 2px #dddddd;-moz-box-shadow:4px 4px 2px 2px #dddddd;box-shadow:4px 4px 2px 2px #dddddd;margin-bottom:18px;}.blurb>*{padding:0 5px;z-index:3;position:relative;}
 .blurb>.logo{z-index:2;position:absolute;bottom:0px;right:-10px;width:307px;height:174px;background-image:url('/static/images/eco_logo.png');}
 .search{position:relative;}.search>*{z-index:3;position:relative;}
 .search>.bg-left{position:absolute;bottom:0;left:0;width:133px;height:85px;background-image:url('/static/images/eco_search_left.png');z-index:2;}

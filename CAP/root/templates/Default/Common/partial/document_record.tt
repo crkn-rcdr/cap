@@ -20,7 +20,6 @@
 [% INCLUDE entry field=(record.defined("no_rights") ? record.no_rights : "") name=c.loc("Rights") %]
 [% INCLUDE entry field=(record.defined("no_source") ? record.no_source : "") name=c.loc("Document source") %]
 [% INCLUDE entry field=(record.defined("no") ? record.no : "") name=c.loc("Notes") %]
-[% IF c.portal.has_feature('collections'); INCLUDE entry field=(record.defined("collection") ? record.collection : "") name=c.loc("Collection") labels=label.collection; END %]
 [% INCLUDE entry field=(record.defined("lang") ? record.lang : "") name=c.loc("Language") labels=c.stash.languages %]
 [% INCLUDE entry field=(record.defined("media") ? record.media : "") record.media name=c.loc("Media") labels=c.stash.media %]
 [% IF c.portal.has_feature('contributors'); INCLUDE entry field=(record.defined("contributor") ? record.contributor : "") name=c.loc("Contributor") labels=contributors.names; END %]

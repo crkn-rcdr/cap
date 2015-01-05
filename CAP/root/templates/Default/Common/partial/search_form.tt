@@ -17,19 +17,6 @@
                     </select>
                 </div>
             </div>
-        [% IF c.portal.has_feature('collections') -%]
-            <div class="control-group">
-                <label class="control-label" for="collectionSelect">[% c.loc("Collection") %]</label>
-                <div class="controls">
-                    <select id="collectionSelect" name="collection">
-                        <option value="">[% c.loc("All") %]</option>
-                    [% FOREACH key IN label.collection.sort -%]
-                        <option value="[% key %]">[% label.collection.$key %]</option>
-                    [% END -%]
-                    </select>
-                </div>
-            </div>
-        [% END -%]
             <div class="control-group">
                 <label class="control-label">[% c.loc("Date Range") %]</label>
                 <div class="controls">

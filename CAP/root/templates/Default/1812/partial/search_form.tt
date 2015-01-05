@@ -12,17 +12,6 @@
                 <option value="tx">[% c.loc("Text") %]</option>
             </select>
         </div>
-        [% IF c.portal.has_feature('collections') -%]
-        <div class="span3">
-            <label for="collectionSelect">[% c.loc("Collection") %]</label>
-            <select id="collectionSelect" name="collection">
-                <option value="">[% c.loc("All") %]</option>
-            [% FOREACH key IN label.collection.sort -%]
-                <option value="[% key %]">[% label.collection.$key %]</option>
-            [% END -%]
-            </select>
-        </div>
-        [% END -%]
         <div class="span3">
             <label>[% c.loc("Date Range") %]</label>
             <input type="text" name="df" maxlength="4" class="input-mini" placeholder="[% c.loc("YYYY") %]" />
