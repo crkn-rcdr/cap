@@ -49,37 +49,31 @@ __PACKAGE__->table("portal");
 =head2 enabled
 
   data_type: 'tinyint'
-  is_nullable: 0
-
-=head2 supports_users
-
-  data_type: 'tinyint'
   default_value: 0
   is_nullable: 0
 
-=head2 supports_subscriptions
+=head2 view_all
 
-  data_type: 'tinyint'
-  default_value: 0
+  data_type: 'integer'
+  default_value: 1
   is_nullable: 0
 
-=head2 supports_institutions
+=head2 view_limited
 
-  data_type: 'tinyint'
-  default_value: 0
+  data_type: 'integer'
+  default_value: 1
   is_nullable: 0
 
-=head2 supports_transcriptions
+=head2 resize
 
-  data_type: 'tinyint'
-  default_value: 0
+  data_type: 'integer'
+  default_value: 1
   is_nullable: 0
 
-=head2 updated
+=head2 download
 
-  data_type: 'timestamp'
-  datetime_undef_if_invalid: 1
-  default_value: current_timestamp
+  data_type: 'integer'
+  default_value: 1
   is_nullable: 0
 
 =cut
@@ -88,22 +82,15 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "varchar", default_value => "", is_nullable => 0, size => 64 },
   "enabled",
-  { data_type => "tinyint", is_nullable => 0 },
-  "supports_users",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "supports_subscriptions",
-  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "supports_institutions",
-  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "supports_transcriptions",
-  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "updated",
-  {
-    data_type => "timestamp",
-    datetime_undef_if_invalid => 1,
-    default_value => \"current_timestamp",
-    is_nullable => 0,
-  },
+  "view_all",
+  { data_type => "integer", default_value => 1, is_nullable => 0 },
+  "view_limited",
+  { data_type => "integer", default_value => 1, is_nullable => 0 },
+  "resize",
+  { data_type => "integer", default_value => 1, is_nullable => 0 },
+  "download",
+  { data_type => "integer", default_value => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -195,6 +182,21 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 portal_collections
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::PortalCollection>
+
+=cut
+
+__PACKAGE__->has_many(
+  "portal_collections",
+  "CAP::Schema::Result::PortalCollection",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
 =head2 portal_features
 
 Type: has_many
@@ -240,7 +242,37 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 portal_strings
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::PortalString>
+
+=cut
+
+__PACKAGE__->has_many(
+  "portal_strings",
+  "CAP::Schema::Result::PortalString",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
 =head2 portal_subscriptions
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::PortalSubscription>
+
+=cut
+
+__PACKAGE__->has_many(
+  "portal_subscriptions",
+  "CAP::Schema::Result::PortalSubscription",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
+=head2 portal_subscriptions_2s
 
 Type: has_many
 
@@ -249,8 +281,23 @@ Related object: L<CAP::Schema::Result::PortalSubscriptions>
 =cut
 
 __PACKAGE__->has_many(
-  "portal_subscriptions",
+  "portal_subscriptions_2s",
   "CAP::Schema::Result::PortalSubscriptions",
+  { "foreign.portal_id" => "self.id" },
+  undef,
+);
+
+=head2 portal_supports
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::PortalSupport>
+
+=cut
+
+__PACKAGE__->has_many(
+  "portal_supports",
+  "CAP::Schema::Result::PortalSupport",
   { "foreign.portal_id" => "self.id" },
   undef,
 );
@@ -266,21 +313,6 @@ Related object: L<CAP::Schema::Result::PortalsTitles>
 __PACKAGE__->has_many(
   "portals_titles",
   "CAP::Schema::Result::PortalsTitles",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 stats_usage_institutions
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::StatsUsageInstitution>
-
-=cut
-
-__PACKAGE__->has_many(
-  "stats_usage_institutions",
-  "CAP::Schema::Result::StatsUsageInstitution",
   { "foreign.portal_id" => "self.id" },
   undef,
 );
@@ -345,8 +377,8 @@ __PACKAGE__->many_to_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-08-16 14:02:10
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Z2iU+d05g/BJBx1OCpwbxQ
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 15:51:47
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0FXygPnRnf4WABT6BtVKbQ
 
 
 =head2 title($lang)

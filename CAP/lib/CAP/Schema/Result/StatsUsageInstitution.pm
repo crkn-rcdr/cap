@@ -78,14 +78,6 @@ __PACKAGE__->table("stats_usage_institution");
   data_type: 'integer'
   is_nullable: 1
 
-=head2 portal_id
-
-  data_type: 'varchar'
-  default_value: (empty string)
-  is_foreign_key: 1
-  is_nullable: 0
-  size: 64
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -108,14 +100,6 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 1 },
   "requests",
   { data_type => "integer", is_nullable => 1 },
-  "portal_id",
-  {
-    data_type => "varchar",
-    default_value => "",
-    is_foreign_key => 1,
-    is_nullable => 0,
-    size => 64,
-  },
 );
 
 =head1 PRIMARY KEY
@@ -126,13 +110,11 @@ __PACKAGE__->add_columns(
 
 =item * L</institution_id>
 
-=item * L</portal_id>
-
 =back
 
 =cut
 
-__PACKAGE__->set_primary_key("month_starting", "institution_id", "portal_id");
+__PACKAGE__->set_primary_key("month_starting", "institution_id");
 
 =head1 RELATIONS
 
@@ -150,23 +132,9 @@ __PACKAGE__->belongs_to(
   { id => "institution_id" },
 );
 
-=head2 portal_id
 
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::Portal>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "portal_id",
-  "CAP::Schema::Result::Portal",
-  { id => "portal_id" },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:XZBuyURxTkf5c+JsT72VeA
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 15:51:47
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0OvQ1QT0D5XAgZk/pRoDZw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
