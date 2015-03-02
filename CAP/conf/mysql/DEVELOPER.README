@@ -32,6 +32,7 @@ mysql console do a:
 
 mysql> CONNECT cap
 mysql> UPDATE info SET VALUE='82', time =now() WHERE name='version';
+mysql> DROP TABLE collection;
 mysql> CONNECT cap_info;
 mysql> ALTER TABLE portal_host ADD COLUMN canonical BOOLEAN AFTER portal_id;
 mysql> ALTER TABLE portal_host ADD CONSTRAINT UNIQUE INDEX canonical_host (id, canonical);
