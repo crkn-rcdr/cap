@@ -87,25 +87,9 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
-=head1 RELATIONS
 
-=head2 request_id
-
-Type: belongs_to
-
-Related object: L<CAP::Schema::Result::RequestLog>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "request_id",
-  "CAP::Schema::Result::RequestLog",
-  { id => "request_id" },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 15:51:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:D1xqv3y9oKw7HyBqGPtpTA
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 17:39:42
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hsuLm4c4LPYWptArIxhA1A
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

@@ -192,17 +192,17 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 request_logs
+=head2 requests
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::RequestLog>
+Related object: L<CAP::Schema::Result::Requests>
 
 =cut
 
 __PACKAGE__->has_many(
-  "request_logs",
-  "CAP::Schema::Result::RequestLog",
+  "requests",
+  "CAP::Schema::Result::Requests",
   { "foreign.institution_id" => "self.id" },
   undef,
 );
@@ -258,8 +258,8 @@ Composing rels: L</institution_mgmts> -> user_id
 __PACKAGE__->many_to_many("user_ids", "institution_mgmts", "user_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 15:51:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5KWADe6maowP8cJEWPWwGw
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 17:39:42
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cUxZljrSSRoEUaRS69prig
 
 
 =head2 update_if_valid ($data)

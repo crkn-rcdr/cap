@@ -263,6 +263,36 @@ __PACKAGE__->has_many(
   undef,
 );
 
+=head2 pages_review_user_ids
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Pages>
+
+=cut
+
+__PACKAGE__->has_many(
+  "pages_review_user_ids",
+  "CAP::Schema::Result::Pages",
+  { "foreign.review_user_id" => "self.id" },
+  undef,
+);
+
+=head2 pages_transcription_user_ids
+
+Type: has_many
+
+Related object: L<CAP::Schema::Result::Pages>
+
+=cut
+
+__PACKAGE__->has_many(
+  "pages_transcription_user_ids",
+  "CAP::Schema::Result::Pages",
+  { "foreign.transcription_user_id" => "self.id" },
+  undef,
+);
+
 =head2 payments
 
 Type: has_many
@@ -278,17 +308,17 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 request_logs
+=head2 requests
 
 Type: has_many
 
-Related object: L<CAP::Schema::Result::RequestLog>
+Related object: L<CAP::Schema::Result::Requests>
 
 =cut
 
 __PACKAGE__->has_many(
-  "request_logs",
-  "CAP::Schema::Result::RequestLog",
+  "requests",
+  "CAP::Schema::Result::Requests",
   { "foreign.user_id" => "self.id" },
   undef,
 );
@@ -379,8 +409,8 @@ Composing rels: L</institution_mgmts> -> institution_id
 __PACKAGE__->many_to_many("institution_ids", "institution_mgmts", "institution_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 15:51:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QPjtn1s5+rO2SWed6MkGhQ
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 17:39:42
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DP6o6crND3gdwaPUXK7Log
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

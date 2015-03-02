@@ -62,6 +62,25 @@ __PACKAGE__->table("titles");
   data_type: 'text'
   is_nullable: 0
 
+=head2 level
+
+  data_type: 'integer'
+  default_value: 0
+  is_nullable: 0
+
+=head2 transcribable
+
+  data_type: 'tinyint'
+  default_value: 0
+  is_nullable: 0
+
+=head2 updated
+
+  data_type: 'timestamp'
+  datetime_undef_if_invalid: 1
+  default_value: current_timestamp
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -73,6 +92,17 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 64 },
   "label",
   { data_type => "text", is_nullable => 0 },
+  "level",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "transcribable",
+  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
+  "updated",
+  {
+    data_type => "timestamp",
+    datetime_undef_if_invalid => 1,
+    default_value => \"current_timestamp",
+    is_nullable => 0,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -175,8 +205,8 @@ Composing rels: L</titles_terms> -> term_id
 __PACKAGE__->many_to_many("term_ids", "titles_terms", "term_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 15:51:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FlcRVhryudlc9+qMrAbWxg
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 17:39:42
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N1eNOUrJA/XUvrEYrx+wfA
 
 
 =head2 update_if_valid($data)

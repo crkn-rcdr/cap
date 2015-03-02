@@ -138,8 +138,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-09-18 09:57:40
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QUkv1FYuMctzgFFBCFMkNA
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 17:39:44
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OAZfv4ESGBlRY25ifHsfZA
 
 
 # We need to tell CAP that this table is not in the cap database.

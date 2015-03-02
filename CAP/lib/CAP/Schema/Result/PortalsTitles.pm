@@ -59,6 +59,13 @@ __PACKAGE__->table("portals_titles");
   data_type: 'tinyint'
   is_nullable: 1
 
+=head2 updated
+
+  data_type: 'timestamp'
+  datetime_undef_if_invalid: 1
+  default_value: current_timestamp
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -79,6 +86,13 @@ __PACKAGE__->add_columns(
   },
   "hosted",
   { data_type => "tinyint", is_nullable => 1 },
+  "updated",
+  {
+    data_type => "timestamp",
+    datetime_undef_if_invalid => 1,
+    default_value => \"current_timestamp",
+    is_nullable => 0,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -126,8 +140,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 15:51:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wWpKer53Dkwx2pUH7UqFzQ
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 17:39:42
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:h71WCoDe5O4pyOwUxBG/eA
 
 
 
