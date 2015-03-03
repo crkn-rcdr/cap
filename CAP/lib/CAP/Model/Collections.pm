@@ -20,7 +20,7 @@ has 'all' => (
 sub BUILD {
 	my ($self, $args) = @_;
 	my $filename = $self->path;
-	open (my $fh, '<', $filename) or die "Could not open $filename: $!";
+	open (my $fh, '<:encoding(UTF-8)', $filename) or die "Could not open $filename: $!";
 	my $collections = {};
 	while(my $line = <$fh>) {
 		trim $line;
@@ -37,6 +37,18 @@ sub BUILD {
 	}
 	close $fh;
 	$self->_set_collections($collections);
+}
+
+sub sorted_keys {
+	my ($self, $lang) = @_;
+	my %cs = %{ $self->all };
+	return sort { $cs{$a}->{$lang}->{title} cmp $cs{$b}->{$lang}->{title} } keys %cs;
+}
+
+sub as_labels {
+	my ($self, $lang) = @_;
+	my %cs = %{ $self->all };
+	return { map { $_ => $cs{$_}->{$lang}->{title} } keys %cs };
 }
 
 1;

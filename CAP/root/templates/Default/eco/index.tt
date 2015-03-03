@@ -11,6 +11,7 @@
         <div class="bg-right"></div>
     </div>
 </div>
-
+[% INCLUDE partial/collection_list.tt %]
+<div class="clearfix"></div>
 
 [% INCLUDE partial/slideshow.tt shadow=1 %]
