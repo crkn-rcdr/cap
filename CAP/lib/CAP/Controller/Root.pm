@@ -55,6 +55,7 @@ sub auto :Private
         httponly => 1
     }; 
     $c->stash(
+        collections  => $c->model('Collections')->all,
         label        => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
         contributors => $c->model('DB::Institution')->get_contributors($c->stash->{lang}, $c->portal),
         languages    => $c->model('DB::Language')->get_labels($c->stash->{lang}),
