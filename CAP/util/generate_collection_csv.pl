@@ -16,13 +16,13 @@ my %collection_codes = (
 	'Hudson\'s Bay' => 'hbc',
 	'History of French Canada' => 'hfc',
 	'Health and Medicine' => 'hmd',
-	'Jesuit Relations' => 'jsr',
+	'Jesuit relations' => 'jsr',
 	'Native Studies' => 'nas',
 	'Periodicals' => 'per',
 	'Canadian Women\'s History' => 'wmh',
 );
 
-my $out_filename = "$Bin/../conf/collection/all.csv";
+my $out_filename = "$Bin/../conf/collection/titles.csv";
 my $out_fh;
 unless (open($out_fh, '>>', $out_filename)) {
 	print STDERR "Cannot open $out_filename for appending: $!\n";
