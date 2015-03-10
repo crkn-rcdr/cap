@@ -20,7 +20,7 @@
 [% INCLUDE entry field=(record.defined("no_rights") ? record.no_rights : "") name=c.loc("Rights") %]
 [% INCLUDE entry field=(record.defined("no_source") ? record.no_source : "") name=c.loc("Document source") %]
 [% INCLUDE entry field=(record.defined("no") ? record.no : "") name=c.loc("Notes") %]
-[% IF c.portal.has_feature('collections'); INCLUDE entry field=(record.defined("collection") ? record.collection : "") name=c.loc("Collection") labels=c.model('Collections').as_labels(c.stash.lang); END %]
+[% IF c.portal.has_feature('collections'); INCLUDE entry field=(record.defined("collection") ? record.collection : "") name=c.loc("Collection") labels=c.model('Collections').as_labels(c.stash.lang) collection_field=1; END %]
 [% INCLUDE entry field=(record.defined("lang") ? record.lang : "") name=c.loc("Language") labels=c.stash.languages %]
 [% INCLUDE entry field=(record.defined("media") ? record.media : "") record.media name=c.loc("Media") labels=c.stash.media %]
 [% IF c.portal.has_feature('contributors'); INCLUDE entry field=(record.defined("contributor") ? record.contributor : "") name=c.loc("Contributor") labels=contributors.names; END %]
@@ -41,12 +41,15 @@
         <th>[% name %]</th>
         <td>
     [% FOREACH value IN field.unique %]
+        [% oldvalue = value %]
         [% IF labels;
               IF labels.defined(value); value = labels.$value; ELSE; value = ''; END;
            END %]
         [% IF value %]
             [% IF search_field && c.portal.has_feature('record_links') %]
                 <a href="[% c.uri_for_action("/search/index", { q => search_field _ ":\"" _ value _ "\"" }) %]">[% value | html %]</a>
+            [% ELSIF collection_field %]
+                <a href="[% c.uri_for_action("/search/index", { collection => oldvalue }) %]">[% value | html %]</a>
             [% ELSE %]
                 [% value | html %]
             [% END %]
