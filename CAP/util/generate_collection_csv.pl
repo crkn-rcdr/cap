@@ -9,8 +9,10 @@ use FindBin qw($Bin);
 use Text::Trim;
 
 my %collection_codes = (
+	'Aboriginal Studies' => 'nas',
 	'English Canadian Literature' => 'ecl',
 	'Genealogy' => 'glh',
+	'Genealogy and Local History' => 'glh',
 	'Early Governors General of Canada' => 'gvg',
 	'Early Official Publications' => 'gvp',
 	'Hudson\'s Bay' => 'hbc',
@@ -18,6 +20,8 @@ my %collection_codes = (
 	'Health and Medicine' => 'hmd',
 	'Jesuit relations' => 'jsr',
 	'Native Studies' => 'nas',
+	'Official publication' => 'gvp',
+	'Official Publication' => 'gvp',
 	'Periodicals' => 'per',
 	'Canadian Women\'s History' => 'wmh',
 );
@@ -44,7 +48,7 @@ while (<$Bin/../conf/collection/intake/*.csv>) {
 		$id = sprintf("%05s", $id) if (index($id, '_') == -1);
 		$id = "oocihm.$id";
 		my @line_codes = map {
-			exists $collection_codes{trim $_} ? $collection_codes{trim $_} : 'FIXME';
+			exists $collection_codes{trim $_} ? $collection_codes{trim $_} : ();
 		} split(/ *\| */, $collection_names);
 		foreach my $c (@line_codes) {
 			print $out_fh "$id,$c\n";
