@@ -1,7 +1,9 @@
 <li><a href="[% c.uri_for_action("/browse/index") %]">[% c.loc("Browse") %]</a></li>
 <li><a href="[% c.uri_for_action("/support", "about") %]">[% c.loc("About") %] / [% c.loc("Help") %]</a></li>
 [% IF lang == "fr" -%]
+<li><a href="[% c.uri_for_action("/support", "notices") %]">Avis importants</a><li>
 <li><a href="http://www.parl.gc.ca/ParlBusiness.aspx?Language=F" target="_blank">Travaux parlementaires</a></li>
 [% ELSE -%]
+<li><a href="[% c.uri_for_action("/support", "notices") %]">Important Notices</a><li>
 <li><a href="http://www.parl.gc.ca/ParlBusiness.aspx?Language=E" target="_blank">Parliamentary Business</a></li>
 [% END -%]

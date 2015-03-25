@@ -1,0 +1,35 @@
+﻿[% IF lang == 'fr' %]
+
+<h2>Avis importants</h2>
+
+<h3>Avis de non-responsabilité</h3>
+<p>L’information contenue dans ce portail n’est fournie qu’à des fins de recherche ou d'études privées; Tout usage à d'autres fins pourrait requérir l'autorisation du détenteur du droit d'auteur.</p>
+<p>Les versions numérisées des documents imprimés sont fournies par souci de commodité : en cas d’écart entre la version numérisée et la version imprimée, c’est cette dernière qui fait foi.</p>
+
+<h3>Avis de droit d'auteur</h3>
+<p>Ce portail permet utilisateurs d’accéder gratuitement aux informations et publications parlementaires historiques produites par le Parlement du Canada.</p>
+<p>Le contenu de ce portail est protégé par la <a href="http://laws-lois.justice.gc.ca/fra/lois/C-42/index.html" target="_blank">Loi sur le droit d’auteur</a> et ses règlements ainsi que par des conventions internationales. L’autorisation de reproduire ou d’utiliser, en tout ou en partie, le contenu de ce portail peut être demandée à l’autorité compétente.</p>
+<ul>
+	<li>Pour de l'information au sujet de la reproduction des délibérations du Sénat, veuillez consulter <a href="http://www.parl.gc.ca/ImportantNotices.aspx?Language=F&amp;view=S" target="_blank">La permission de reproduire</a>.</li>
+	<li>Pour de l'information au sujet de la reproduction des délibérations de la Chambre des communes, veuillez consulter <a href="http://www.parl.gc.ca/SpeakerPermission.aspx?Language=F" target="_blank">La permission du Président</a>.</li>
+	<li>Pour de l’information au sujet de la reproduction des débats reconstitués du Sénat (1867-1871) et de la Chambre des communes (1867-1874) par la Bibliothèque du Parlement, veuillez contacter la <a href="mailto:info@parl.gc.ca" target="_blank">Bibliothèque du Parlement</a>.</li>
+</ul>
+
+[% ELSE %]
+
+<h2>Important notices</h2>
+
+<h3>Disclaimer notice</h3>
+<p>The information included in this portal is provided for the purpose of research or private study; any other use may require the authorization of the copyright owner.</p>
+<p>The digital reproductions of print material are provided for convenience; in the case of any inconsistency between the digital version and the original print version, the original print version shall prevail.</p>
+
+<h3>Copyright notice</h3>
+<p>This portal has been produced for the purpose of providing users with free access to historical information and parliamentary publications produced by the Parliament of Canada.</p>
+<p>The content of this portal is covered by the provisions of the <a href="http://laws-lois.justice.gc.ca/eng/acts/C-42/index.html" target="_blank">Copyright Act</a> and related regulations and international agreements. Permission to reproduce in whole or in part or otherwise use content on this portal may be sought from the appropriate source.</p>
+<ul>
+	<li>For information regarding the reproduction of the publications of the Senate, please consult <a href="http://www.parl.gc.ca/ImportantNotices.aspx?Language=E&amp;view=S" target="_blank">Permission to Reproduce</a>.</li>
+	<li>For information regarding the reproduction of the publications of the House of Commons, please consult <a href="http://www.parl.gc.ca/SpeakerPermission.aspx?Language=E" target="_blank">Speaker's Permission</a>.</li>
+	<li>For information regarding the reproduction of the reconstituted debates of the Senate (1867-1871) and House of Commons (1867-1874) by the Library of Parliament, please contact the <a href="mailto:info@parl.gc.ca" target="_blank">Library of Parliament</a>.</li>
+</ul>
+
+[% END %]
