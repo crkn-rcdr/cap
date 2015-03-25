@@ -3881,3 +3881,16 @@ msgstr "à"
 #: ../../../root/templates/Default/Common/admin/user/create.tt:29 ../../../root/templates/Default/Common/user/login.tt:57
 msgid "what you would like us to call you"
 msgstr "Comment aimeriez-vous qu’on vous appelle?"
+
+# parl debates/journals choices
+msgid "Publication type"
+msgstr "Type de publication"
+
+msgid "Debates and Journals"
+msgstr "Débats et Journaux"
+
+msgid "Debates only"
+msgstr "Débats seulement"
+
+msgid "Journals only"
+msgstr "Journaux seulement"

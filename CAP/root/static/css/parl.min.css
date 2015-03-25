@@ -923,9 +923,9 @@ header{margin-bottom:18px;}
 .js .slideshow .slideshow-left-nav{left:0;}.js .slideshow .slideshow-left-nav .slideshow-nav-text{left:10px;}
 .js .slideshow .slideshow-right-nav{right:0;}.js .slideshow .slideshow-right-nav .slideshow-nav-text{right:10px;}
 html,body{height:100%;}
-#wrapper{min-height:100%;height:auto !important;height:100%;margin-bottom:-100px;}
-#push{clear:both;height:100px;}
-footer{clear:both;height:82px;margin-top:18px;}
+#wrapper{min-height:100%;height:auto !important;height:100%;margin-bottom:-118px;}
+#push{clear:both;height:118px;}
+footer{clear:both;height:100px;margin-top:18px;}
 @media (min-width:768px){#wrapper{margin-bottom:-82px;} #push{height:82px;} footer{height:64px;}}.form-actions,.well{background-color:#f2f2f2;}
 a{cursor:pointer;}
 #imageCache{position:absolute;top:-9999px;height:1px;overflow:hidden;}
@@ -970,7 +970,7 @@ header .nav-right>li a{color:#dddddd;}header .nav-right>li a:hover{color:#f7f7f7
 .banner{height:210px;margin-bottom:9px;background-image:url('/static/images/parl_banner_bg.png');background-repeat:repeat-x;}.banner .banner-image{background-image:url('/static/images/parl_banner_724.png');height:210px;}
 @media (min-width:980px){.banner .banner-image{background-image:url('/static/images/parl_banner_940.png');}}h2{color:#233a74;font-variant:small-caps;}
 footer{background-color:#233a74;color:#dddddd;text-align:center;}footer a{color:#dddddd;}footer a:hover{color:#f7f7f7;}
-footer p{margin-top:9px;padding-top:9px;}
+footer p{padding-top:9px;}
 .table.calendar tbody tr td.has-date{background-color:#eaeef9;}
 .table.calendar tbody tr:hover td.has-date{background-color:#eaeef9;}
 .table.calendar tbody tr td.has-date:hover{background-color:#d6def3;}

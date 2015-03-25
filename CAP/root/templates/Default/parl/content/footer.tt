@@ -1,4 +1,5 @@
-﻿<p>
+﻿<div class="container"><div class="row">
+<p class="span8 offset2">
     [% IF c.stash.lang == "fr" %]
         <a href="http://www.parl.gc.ca/ParlBusiness.aspx?Language=F" target="_blank">Contenu fourni par la Bibliothèque du Parlement</a><br />
         <a href="http://www.canadiana.org/fr/accueil" target="_blank">Réalisé par Canadiana.org</a>
@@ -7,3 +8,11 @@
         <a href="http://www.canadiana.org/en/home" target="_blank">Produced by Canadiana.org</a>
     [% END %]
 </p>
+<p class="span2">
+	[% IF c.stash.lang == "fr" %]
+        <a href="[% c.uri_for_action("/support", "notices") %]">Avis importants</a>
+    [% ELSE %]
+        <a href="[% c.uri_for_action("/support", "notices") %]">Important notices</a>
+	[% END %]    	
+</p>
+</div></div>

@@ -6597,15 +6597,15 @@ body {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin-bottom: -100px;
+  margin-bottom: -118px;
 }
 #push {
   clear: both;
-  height: 100px;
+  height: 118px;
 }
 footer {
   clear: both;
-  height: 82px;
+  height: 100px;
   margin-top: 18px;
 }
 @media (min-width: 768px) {
@@ -6884,7 +6884,6 @@ footer a:hover {
   color: #f7f7f7;
 }
 footer p {
-  margin-top: 9px;
   padding-top: 9px;
 }
 .table.calendar tbody tr td.has-date {

@@ -4,6 +4,14 @@
     <input type="text" class="whf-search-bar span6" name="q" placeholder="[% c.loc("Search the collection") %]" />
     <fieldset class="row">
         <div class="span3">
+            <label for="typeSelect">[% c.loc("Publication type") %]</label>
+            <select id="typeSelect" name="identifier" class="span3">
+                <option value="">[% c.loc("Debates and Journals") %]</option>
+                <option value="debat*">[% c.loc("Debates only") %]</option>
+                <option value="journ*">[% c.loc("Journals only") %]</option>
+            </select>
+        </div>
+        <div class="span3">
             <label for="houseSelect">[% c.loc("Chamber") %]</label>
             <select id="houseSelect" name="identifier" class="span3">
                 <option value="">[% c.loc("Both Chambers") %]</option>
