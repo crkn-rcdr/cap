@@ -17,7 +17,7 @@
 [% INCLUDE entry field=(record.defined("no_extent") ? record.no_extent : "") name=c.loc("Extent") %]
 [% INCLUDE entry field=(record.defined("no_frequency") ? record.no_frequency : "") name=c.loc("Frequency") %]
 [% INCLUDE entry field=(record.defined("no_missing") ? record.no_missing : "") name=c.loc("Missing issues") %]
-[% INCLUDE entry field=(record.defined("no_rights") ? record.no_rights : "") name=c.loc("Rights") %]
+[% UNLESS c.portal.id == 'parl' %][% INCLUDE entry field=(record.defined("no_rights") ? record.no_rights : "") name=c.loc("Rights") %][% END %]
 [% INCLUDE entry field=(record.defined("no_source") ? record.no_source : "") name=c.loc("Document source") %]
 [% INCLUDE entry field=(record.defined("no") ? record.no : "") name=c.loc("Notes") %]
 [% IF c.portal.has_feature('collections'); INCLUDE entry field=(record.defined("collection") ? record.collection : "") name=c.loc("Collection") labels=c.model('Collections').as_labels(c.stash.lang) collection_field=1; END %]
