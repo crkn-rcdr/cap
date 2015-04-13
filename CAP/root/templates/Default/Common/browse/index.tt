@@ -3,4 +3,11 @@
 <h2>[% c.loc("Browse") %]</h2>
 
 [% terms = c.req.params.defined("show") ? [c.req.params.show] : [] -%]
+
+[% IF c.portal.id == "parl" %]
+<div class="row"><div class="span6">
 [% INCLUDE partial/browse.tt browse=browse terms=terms %]
+</div><div class="span6">
+[% INCLUDE partial/browse_journals_bad.tt %]
+</div></div>
+[% END %]

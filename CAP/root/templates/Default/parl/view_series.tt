@@ -10,10 +10,14 @@
 
 <h2>[% doc.canonical_label %]</h2>
 <div class="row">
+    [% IF doc.record.defined('identifier') && doc.record.identifier.grep('^debat*') %]
     <div class="span4">
         [% INCLUDE partial/browse.tt browse=browse terms=doc.record.term %]
     </div>
     <div class="span8">
+    [% ELSE %]
+    <div class="span12">
+    [% END %]
         <ul class="nav nav-tabs">
             <li class="active"><a href="#issuesList" data-toggle="tab">[% c.loc("List") %]</a></li>
             <li><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>

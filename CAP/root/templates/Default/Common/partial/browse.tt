@@ -1,11 +1,12 @@
 [% PERL -%]
     use List::MoreUtils qw/firstidx/;
+    use Scalar::Util qw/looks_like_number/;
 
     $context->define_vmethod(
         list => index_of => sub {
             my $list = shift;
             my $check = shift;
-            return (firstidx { $_ eq $check || $_ == $check } @{$list});
+            return (firstidx { looks_like_number($_) ? $_ == $check : $_ eq $check } @{$list});
         }
     );
 [% END -%]
