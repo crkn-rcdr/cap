@@ -4,17 +4,20 @@
 <h3><a href="http://www.parl.gc.ca/Content/LOP/About/Parliament/HistoricalDebates/KnownIssuesCanadiana-f.htm" target="_blank">Problèmes connus du portail</a></h3>
 
 <h3>Introduction</h3>
-<p>Le portail des <strong><i>Débats historiques du Parlement du Canada</i></strong> offre une façon simple et centralisée d’accéder aux débats historiques du Sénat et de la Chambre des communes, dans les deux langues officielles.</p>
+<p>Le portail des <strong><i>Publications historiques du Parlement du Canada</i></strong> offre une façon simple et centralisée d’accéder aux débats et aux journaux historiques du Sénat et de la Chambre des communes, dans les deux langues officielles.</p>
 <p>Les débats du Sénat et de la Chambre des communes, appelé couramment les <i>Débats</i>, ou Hansard, contiennent les délibérations transcrites, éditées et corrigées des deux Chambres du Parlement.</p>
 <p>Depuis l’adoption des comptes-rendus officiels (en 1871 pour le Sénat et en 1880 pour la Chambre des communes), les éditions quotidiennes du Hansard sont disponibles en volumes reliés et indexés.  Ce portail a été produit à partir de ces volumes qui ont été numérisés et qui sont disponibles sous leur législature et session respective et accessible au moyen de la fonction Parcourir de ce portail.</p>
 <p>Le portail comprend des débats reconstitués.  Ceux-ci représentent les débats qui ont eu lieu avant l’adoption des comptes rendus officiels.  Ces débats reconstitués sont une version non-officielle des débats, tirés des journaux de l’époque.  En dernier lieu, les débats traduits du Sénat du Canada sont également inclus, le Sénat ayant commencé son compte-rendu officiel en anglais seulement.  Les débats reconstitués et le matériel traduit sont identifiés comme tel dans le portail.</p>
-<p>En 1994, la Chambre a commencé  a distribué ses publications de façon électronique en rendant celles-ci disponibles globalement sur le site Web du Parlement du Canada.  Le Sénat a fait de même en 1996.  Pour accéder à ces débats, veuillez visiter <a href="http://parl.gc.ca/" target="_blank">parl.gc.ca</a>, sous l’onglet Travaux parlementaires.</p>
+<p>Les Journaux du Sénat et de la Chambre des communes sont composés des notes prises par les greffiers au Bureau pendant les séances. Ils forment le compte-rendu officiel des décisions et des autres travaux (pétitions présentées, documents déposés, etc.) du Sénat et de la Chambre des communes.</p>
+<p>Les éditions quotidiennes des Journaux, qui remontent à 1867, étaient réunies dans des recueils reliés et indexés. Tous ces volumes, numérisés, peuvent être consultés, par législature et session, grâce à la fonction Parcourir du portail.</p>
+<p>En 1994, la Chambre a commencé a distribué ses publications de façon électronique en rendant celles-ci disponibles globalement sur le site Web du Parlement du Canada. Le Sénat a fait de même en 1996. Pour accéder à ces débats et journaux, veuillez visiter <a href="http://parl.gc.ca/" target="_blank">parl.gc.ca</a>, sous l’onglet Travaux parlementaires.</p>
 
 <h3>Parcourir / Recherche</h3>
 <p>La <strong>fonction Parcourir</strong> du côté gauche de la page principale permet à l’usager de trouver un volume spécifique dans une législature et session précise.  Une fois le volume sélectionné, il peut être visionné et fouillé davantage.</p>
 <p>Aussi, la fonction Parcourir permet à l’usager de faire une <strong>recherche par mot-clé</strong> dans la session ou le volume choisi, en utilisant le champ de recherche situé au-dessus du visionneur, du côté gauche.  Ces résultats peuvent être restreints de nouveau en utilisant les restrictions situées à gauche de l’écran.</p>
-<p>Le <strong>formulaire de Recherche</strong> simple situé du côté droit de la page principale permet de faire une recherche dans tout le contenu des débats du portail.  Pour raffiner ses recherches, l’usager peut appliquer des restrictions (Chambre, législature, langue et date).</p>
-<p>Les options suivantes peuvent être utilisées préciser la recherche:</p>
+<p>L’utilisateur remarquera que les fonctions de recherche ne sont pas les mêmes pour les Débats et les Journaux.  Une version uniformisée de la fonction Parcourir sera mise en ligne dans un avenir prochain.</p>
+<p>Les champs de <strong>Recherche simple</strong> du côté droit de la page d’accueil permettent de faire une recherche dans l’ensemble du contenu textuel du portail. L’utilisateur peut sélectionner l’une ou l’autre des publications, ou les deux simultanément. Il peut aussi circonscrire les résultats en fonction de la langue ou de la date.</p>
+<p>Les fonctions suivantes peuvent servir à préciser les recherches dans les deux publications :</p>
 <ul>
     <li>
         <h3>Phrases : ""</h3>
@@ -50,7 +53,7 @@
 
 <h3>Nous joindre</h3>
 <p>
-    Votre contribution à l’amélioration de la qualité des Débats historiques du Parlement du Canada nous est très précieuse. Veuillez nous faire part de vos questions et de vos commentaires <a href="mailto:info@parl.gc.ca">ici</a>. 
+    Votre contribution à l’amélioration de la qualité des <strong><em>Publications historiques du Parlement du Canada</em></strong> nous est très précieuse. Veuillez nous faire part de vos questions et de vos commentaires <a href="mailto:info@parl.gc.ca">ici</a>. 
     <a href="https://twitter.com/LoPInformation" class="twitter-follow-button" data-show-count="false">Follow @LoPInformation</a>
     <script>
     !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
@@ -63,16 +66,19 @@
 <h3><a href="http://www.parl.gc.ca/Content/LOP/About/Parliament/HistoricalDebates/KnownIssuesCanadiana-e.htm" target="_blank">Portal Known Issues</a></h3>
 
 <h3>Introduction</h3>
-<p>The <strong><i>Historical Debates of the Parliament of Canada</i></strong> portal provides a centralized, streamlined means of accessing historical debates of the Senate and House of Commons, in both official languages.</p>
+<p>The <strong><i>Historical Publications of the Parliament of Canada</i></strong> provides a centralized, streamlined means of accessing historical debates and journals of the Senate and House of Commons, in both official languages.</p>
 <p>The Senate and House of Commons Debates, commonly known as the <i>Debates</i>, or Hansard, contain the transcribed, edited and corrected record of full deliberations of both Houses of Parliament.</p>
 <p>Since the adoption of official reporting (in 1871 for the Senate and 1880 for the House of Commons), the daily editions of the Hansard were issued in bound, well-indexed volumes. This site has been produced from digitized editions of these volumes, all available under their corresponding Parliament and Session, in the Browse function of this portal.</p>
 <p>This portal includes reconstituted debates, which represent debates for the years prior to the adoption of official reporting.  These reconstituted debates are an unofficial version of the debates, drawn from newspaper reports of the day.  Finally, the portal also includes translated debates for the Senate of Canada, which began its official report in English only.  All of the reconstituted and translated content can be identified in the records.</p>
-<p>In 1994, the House began to distribute its publications electronically by making its publications accessible worldwide through the Parliament of Canada Web site. The Senate followed suit in 1996. To access debates from these dates and later, please visit <a href="http://parl.gc.ca/" target="_blank">parl.gc.ca</a>, under Parliamentary Business.</p>
+<p>The Senate and House of Commons Journals are the notes and records kept by the Clerks and other Table Officers during a sitting. They are the official record of Senate and House decisions and other transactions such as petitions presented, documents tabled, etc.</p>
+<p>The Journals were first published in 1867 and the daily editions were issued in bound, well-indexed volumes. This site has been produced from digitized editions of these volumes, all available under their corresponding Parliament and Session, in the Browse function of this portal.</p>
+<p>In 1994, the House began to distribute its publications electronically by making its publications accessible worldwide through the Parliament of Canada Web site. The Senate followed suit in 1996. To access debates and journals from these dates and later, please visit <a href="http://parl.gc.ca/" target="_blank">parl.gc.ca</a>, under Parliamentary Business.</p>
 
 <h3>Browsing and Searching</h3>
 <p>The <strong>Browse function</strong> on the left-hand side of the home page allows the user to track down a specific volume in a given Parliament and Session.  Once a volume is selected, it can be viewed and further searched.</p>
 <p>Also, the Browse function allows users to perform a <strong>Keyword search</strong> within a selected session, using the search box located in the top left side of the viewer.  Those results can then be narrowed down using the different restrictions located to the left of the screen.</p>
-<p>The simple <strong>Search form</strong> on the right-hand side of the home page allows for searching the full text content of the Debates. For finer control, the user can narrow his search by Chamber, Parliament, Language and Date.</p>
+<p>The user will notice a difference between the Browse function for the debates and for the journals.  The standardization of the Browse function is currently being developed.</p>
+<p>The simple <strong>Search form</strong> on the right-hand side of the home page allows for searching the full text content of the Portal.   The user can choose to search either publication or search both simultaneously. For finer control, the user can narrow his search by Chamber, Parliament, Language and Date.</p>
 <p>The following features can be used to refine searches:</p>
 <ul>
     <li>
@@ -109,7 +115,7 @@
 
 <h3>Contact Us</h3>
 <p>
-    Users are welcome to report any difficulties they are experiencing with the portal. Your help in improving the quality of the Historical Debates of the Parliament of Canada portal is invaluable to us. Please direct any questions or comment <a href="mailto:info@parl.gc.ca">here</a>.
+    Users are welcome to report any difficulties they are experiencing with the portal. Your help in improving the quality of the <strong><em>Historical Publications of the Parliament of Canada</em></strong> is invaluable to us. Please direct any questions or comment <a href="mailto:info@parl.gc.ca">here</a>.
     <a href="https://twitter.com/LoPInformation" class="twitter-follow-button" data-show-count="false">Follow @LoPInformation</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </p>
