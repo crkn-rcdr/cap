@@ -1386,7 +1386,7 @@
                                 <li>
                                     <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P09-S04", "journ*", "S", "P9"], lang => "fra"  }) %]">4e Session : 1904.03.10-1904.08.10</a><br />
                                     [% IF c.stash.lang == "fr" %]
-                                    n.b. TRANSLATE ME Appendix 1 for this session is only available <a href="[% c.uri_for_action("/search/index", { identifier => ["SOC-P09-S04", "journ*", "S", "P09"], lang => "eng"  }) %]">in English</a>.
+                                    n.b. L'appendice 1 pour cette session est seulement disponible <a href="[% c.uri_for_action("/search/index", { identifier => ["SOC-P09-S04", "journ*", "S", "P09"], lang => "eng"  }) %]">en anglais</a>.
                                     [% ELSE %]
                                     n.b. Appendix 1 for this session is only available <a href="[% c.uri_for_action("/search/index", { identifier => ["SOC-P09-S04", "journ*", "S", "P09"], lang => "eng"  }) %]">in English</a>.
                                     [% END %]
@@ -2052,7 +2052,7 @@
                                 <li>
                                     <a href="[% c.uri_for_action("/search/index", { identifier => ["CDC-P10-S01", "journ*", "C", "P10"], lang => "fra"  }) %]">1re Session : 1905.01.11-1905.07.20 (Laurier, Wilfrid)</a><br />
                                     [% IF c.stash.lang == "fr" %]
-                                    n.b. TRANSLATE ME Appendices 1 and 2 for this session are only available <a href="[% c.uri_for_action("/search/index", { identifier => ["HOC-P10-S01", "journ*", "C", "P10"], lang => "eng"  }) %]">in English</a>.
+                                    n.b. Les appendices 1 et 2 pour cette session sont seulement disponibles <a href="[% c.uri_for_action("/search/index", { identifier => ["HOC-P10-S01", "journ*", "C", "P10"], lang => "eng"  }) %]">en anglais</a>.
                                     [% ELSE %]
                                     n.b. Appendices 1 and 2 for this session are only available <a href="[% c.uri_for_action("/search/index", { identifier => ["HOC-P10-S01", "journ*", "C", "P10"], lang => "eng"  }) %]">in English</a>.
                                     [% END %]
