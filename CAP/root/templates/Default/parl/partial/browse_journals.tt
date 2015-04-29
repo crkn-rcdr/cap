@@ -1343,7 +1343,101 @@
                         <div class="collapse" id="browse65j">
                             <ul class="browse">
                                 <li>
-                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S01", "journ*", "S", "P3"], lang => "fra"  }) %]">1re Session : 1874.03.25-1874.05.26</a>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S01", "journ*", "S", "P3"], lang => "fra"  }) %]">1re Session : 1874.04.26-1874.05.26</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S02", "journ*", "S", "P2"], lang => "fra"  }) %]">2e Session : 1875.02.04-1875.04.08</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S03", "journ*", "S", "P3"], lang => "fra"  }) %]">3e Session : 1876.02.10-1876.04.12</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S04", "journ*", "S", "P3"], lang => "fra"  }) %]">4e Session : 1877.02.08-1877.04.28</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S05", "journ*", "S", "P3"], lang => "fra"  }) %]">5e Session : 1878.02.07-1878.05.10</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a data-toggle="collapse" data-parent="#browse2j" data-target="#browse77j">4e Législature</a>
+                        <div class="collapse" id="browse77j">
+                            <ul class="browse">
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P04-S01", "journ*", "S", "P4"], lang => "fra"  }) %]">1re Session : 1879.02.13-1879.05.15</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P04-S02", "journ*", "S", "P4"], lang => "fra"  }) %]">2e Session : 1880.02.12-1880.05.07</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P04-S03", "journ*", "S", "P4"], lang => "fra"  }) %]">3e Session : 1880.12.09-1881.03.21</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P04-S04", "journ*", "S", "P4"], lang => "fra"  }) %]">4e Session : 1882.02.09-1882.05.17</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a data-toggle="collapse" data-parent="#browse2j" data-target="#browse127j">5e Législature</a>
+                        <div class="collapse" id="browse127j">
+                            <ul class="browse">
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P05-S01", "journ*", "S", "P5"], lang => "fra"  }) %]">1re Session : 1883.02.08-1883.05.27</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P05-S02", "journ*", "S", "P5"], lang => "fra"  }) %]">2e Session : 1884.01.17-1884.04.19</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P05-S03", "journ*", "S", "P5"], lang => "fra"  }) %]">3e Session : 1885.01.29-1885.07.20</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P05-S04", "journ*", "S", "P5"], lang => "fra"  }) %]">4e Session : 1886.02.25-1886.06.02</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a data-toggle="collapse" data-parent="#browse2j" data-target="#browse47j">6e Législature</a>
+                        <div class="collapse" id="browse47j">
+                            <ul class="browse">
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P06-S01", "journ*", "S", "P6"], lang => "fra"  }) %]">1re Session : 1887.04.13-1887.06.23</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P06-S02", "journ*", "S", "P6"], lang => "fra"  }) %]">2e Session : 1888.02.23-1888.05.22</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P06-S03", "journ*", "S", "P6"], lang => "fra"  }) %]">3e Session : 1889.01.31-1889.05.02</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P06-S04", "journ*", "S", "P6"], lang => "fra"  }) %]">4e Session : 1890.01.16-1890.05.16</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a data-toggle="collapse" data-parent="#browse2j" data-target="#browse63j">7e Législature</a>
+                        <div class="collapse" id="browse63j">
+                            <ul class="browse">
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P07-S01", "journ*", "S", "P7"], lang => "fra"  }) %]">1re Session : 1891.04.29-1891.09.30</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P07-S02", "journ*", "S", "P7"], lang => "fra"  }) %]">2e Session : 1892.02.25-1892.07.09</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P07-S03", "journ*", "S", "P7"], lang => "fra"  }) %]">3e Session : 1893.01.26-1893.04.01</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P07-S04", "journ*", "S", "P7"], lang => "fra"  }) %]">4e Session : 1894.03.15-1894.07.23</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P07-S05", "journ*", "S", "P7"], lang => "fra"  }) %]">5e Session : 1895.04.18-1895.07.22</a>
+                                </li>
+                                <li>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P07-S06", "journ*", "S", "P7"], lang => "fra"  }) %]">6e Session : 1896.01.02-1896.04.23</a>
                                 </li>
                             </ul>
                         </div>
