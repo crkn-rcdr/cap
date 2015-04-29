@@ -2,17 +2,17 @@
 
 <h2>Avis importants</h2>
 
-<h3>Avis de non-responsabilité</h3>
-<p>L’information contenue dans ce portail n’est fournie qu’à des fins de recherche ou d'études privées; Tout usage à d'autres fins pourrait requérir l'autorisation du détenteur du droit d'auteur.</p>
-<p>Les versions numérisées des documents imprimés sont fournies par souci de commodité : en cas d’écart entre la version numérisée et la version imprimée, c’est cette dernière qui fait foi.</p>
+<h3>Avertissement</h3>
+<p>Les renseignements accessibles sur ce portail sont fournis aux fins de recherche ou d’étude privée; pour toute autre utilisation, l’autorisation du détenteur du droit d’auteur pourrait être nécessaire.</p>
+<p>Les reproductions numériques des documents imprimés sont fournies pour leur facilité d’utilisation; en cas de conflit entre la version numérique et l’original imprimé, c’est celui-ci qui l’emporte.</p>
 
 <h3>Avis de droit d'auteur</h3>
-<p>Ce portail permet utilisateurs d’accéder gratuitement aux informations et publications parlementaires historiques produites par le Parlement du Canada.</p>
-<p>Le contenu de ce portail est protégé par la <a href="http://laws-lois.justice.gc.ca/fra/lois/C-42/index.html" target="_blank">Loi sur le droit d’auteur</a> et ses règlements ainsi que par des conventions internationales. L’autorisation de reproduire ou d’utiliser, en tout ou en partie, le contenu de ce portail peut être demandée à l’autorité compétente.</p>
+<p>Ce portail a été mis en ligne pour offrir aux utilisateurs un accès gratuit aux publications historiques du Parlement du Canada.</p>
+<p>Le contenu de ce portail est protégé par les dispositions de la <a href="http://laws-lois.justice.gc.ca/fra/lois/C-42/index.html" target="_blank">Loi sur le droit d’auteur</a> des règlements connexes et des conventions internationales. La permission de reproduire en tout ou en partie le contenu de ce portail peut être demandée à qui de droit. </p>
 <ul>
-	<li>Pour de l'information au sujet de la reproduction des délibérations du Sénat, veuillez consulter <a href="http://www.parl.gc.ca/ImportantNotices.aspx?Language=F&amp;view=S" target="_blank">La permission de reproduire</a>.</li>
-	<li>Pour de l'information au sujet de la reproduction des délibérations de la Chambre des communes, veuillez consulter <a href="http://www.parl.gc.ca/SpeakerPermission.aspx?Language=F" target="_blank">La permission du Président</a>.</li>
-	<li>Pour de l’information au sujet de la reproduction des débats reconstitués du Sénat (1867-1871) et de la Chambre des communes (1867-1874) par la Bibliothèque du Parlement, veuillez contacter la <a href="mailto:info@parl.gc.ca" target="_blank">Bibliothèque du Parlement</a>.</li>
+	<li>Pour plus de renseignements sur la reproduction des publications du Sénat, veuillez consulter la page <a href="http://www.parl.gc.ca/ImportantNotices.aspx?Language=F&amp;view=S" target="_blank">Permission de reproduire</a>.</li>
+	<li>Pour plus de renseignements sur la reproduction des publications de la Chambre des communes, veuillez consulter la page <a href="http://www.parl.gc.ca/SpeakerPermission.aspx?Language=F" target="_blank">Permission du Président</a>.</li>
+	<li>Pour plus de renseignements sur la reproduction des débats reconstitués par la Bibliothèque du Parlement (Sénat 1867-1871; Chambre des communes 1867-1874), veuillez communiquer avec la <a href="mailto:info@parl.gc.ca" target="_blank">Bibliothèque du Parlement</a>.</li>
 </ul>
 
 [% ELSE %]
