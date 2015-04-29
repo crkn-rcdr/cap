@@ -8,6 +8,6 @@
 <div class="row"><div class="span6">
 [% INCLUDE partial/browse.tt browse=browse terms=terms %]
 </div><div class="span6">
-[% INCLUDE partial/browse_journals_bad.tt %]
+[% INCLUDE partial/browse_journals.tt %]
 </div></div>
 [% END %]
