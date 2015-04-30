@@ -3894,3 +3894,9 @@ msgstr "Débats seulement"
 
 msgid "Journals only"
 msgstr "Journaux seulement"
+
+msgid "Debates"
+msgstr "Débats"
+
+msgid "Journals"
+msgstr "Journaux"

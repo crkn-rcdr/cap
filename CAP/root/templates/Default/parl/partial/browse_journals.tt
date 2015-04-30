@@ -1,5 +1,5 @@
 ﻿[% temp_show = c.req.params.defined('show') ? c.req.params.show : '' %]
-<h3>English</h3>
+<h4>English</h4>
 <div class="collapse in" id="browse5j">
     <ul class="browse">
         <li>
@@ -1296,7 +1296,7 @@
         </li>
     </ul>
 </div>
-<h3>Français</h3>
+<h4>Français</h4>
 <div class="collapse in" id="browse1j">
     <ul class="browse">
         <li>

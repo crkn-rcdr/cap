@@ -6,8 +6,10 @@
 
 [% IF c.portal.id == "parl" %]
 <div class="row"><div class="span6">
+	<h3>[% c.loc("Debates") %]</h3>
 [% INCLUDE partial/browse.tt browse=browse terms=terms %]
 </div><div class="span6">
+	<h3>[% c.loc("Journals") %]</h3>
 [% INCLUDE partial/browse_journals.tt %]
 </div></div>
 [% END %]

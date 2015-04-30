@@ -36,7 +36,7 @@
 [% END %]
 
 [% FOREACH node IN browse; term = node.getNodeValue %]
-    <h3>[% term.term %]</h3>
+    <h4>[% term.term %]</h4>
     [% IF node.getChildCount %]
         [% INCLUDE nested_list list=node.getAllChildren id=term.id show=1 %]
     [% END %]
