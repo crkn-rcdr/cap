@@ -542,7 +542,7 @@
                         <div class="collapse" id="browse292j">
                             <ul class="browse">
                                 <li>
-                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SOC-P28-S01", "journ*", "S", "P28"], lang => "eng"  }) %]">1st Session: 1968.09.12-969.10.22</a>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SOC-P28-S01", "journ*", "S", "P28"], lang => "eng"  }) %]">1st Session: 1968.09.12-1969.10.22</a>
                                 </li>
                                 <li>
                                     <a href="[% c.uri_for_action("/search/index", { identifier => ["SOC-P28-S02", "journ*", "S", "P28"], lang => "eng"  }) %]">2nd Session: 1969.10.23-1970.10.07</a>
@@ -1193,7 +1193,7 @@
                         <div class="collapse" id="browse245j">
                             <ul class="browse">
                                 <li>
-                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["HOC-P28-S01", "journ*", "C", "P28"], lang => "eng"  }) %]">1st Session: 1968.09.12-969.10.22 (Trudeau, Pierre Elliott)</a>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["HOC-P28-S01", "journ*", "C", "P28"], lang => "eng"  }) %]">1st Session: 1968.09.12-1969.10.22 (Trudeau, Pierre Elliott)</a>
                                 </li>
                                 <li>
                                     <a href="[% c.uri_for_action("/search/index", { identifier => ["HOC-P28-S02", "journ*", "C", "P28"], lang => "eng"  }) %]">2nd Session: 1969.10.23-1970.10.07 (Trudeau, Pierre Elliott)</a>
@@ -1844,7 +1844,7 @@
                         <div class="collapse" id="browse269j">
                             <ul class="browse">
                                 <li>
-                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P28-S01", "journ*", "S", "P28"], lang => "fra"  }) %]">1re Session : 1968.09.12-969.10.22</a>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P28-S01", "journ*", "S", "P28"], lang => "fra"  }) %]">1re Session : 1968.09.12-1969.10.22</a>
                                 </li>
                                 <li>
                                     <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P28-S02", "journ*", "S", "P28"], lang => "fra"  }) %]">2e Session : 1969.10.23-1970.10.07</a>
@@ -2500,7 +2500,7 @@
                         <div class="collapse" id="browse380j">
                             <ul class="browse">
                                 <li>
-                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["CDC-P28-S01", "journ*", "C", "P28"], lang => "fra"  }) %]">1re Session : 1968.09.12-969.10.22 (Trudeau, Pierre Elliott)</a>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["CDC-P28-S01", "journ*", "C", "P28"], lang => "fra"  }) %]">1re Session : 1968.09.12-1969.10.22 (Trudeau, Pierre Elliott)</a>
                                 </li>
                                 <li>
                                     <a href="[% c.uri_for_action("/search/index", { identifier => ["CDC-P28-S02", "journ*", "C", "P28"], lang => "fra"  }) %]">2e Session : 1969.10.23-1970.10.07 (Trudeau, Pierre Elliott)</a>

@@ -47,8 +47,8 @@
             <label for="houseSelect">[% c.loc("Chamber") %]</label>
             <select id="houseSelect" name="identifier" class="span3">
                 <option value="">[% c.loc("Both Chambers") %]</option>
-                <option value="S"[% IF identifier.grep('S').size %] selected[% END %]>[% c.loc("Senate") %]</option>
-                <option value="C"[% IF identifier.grep('C').size %] selected[% END %]>[% c.loc("House of Commons") %]</option>
+                <option value="S"[% IF identifier.grep('^S$').size %] selected[% END %]>[% c.loc("Senate") %]</option>
+                <option value="C"[% IF identifier.grep('^C$').size %] selected[% END %]>[% c.loc("House of Commons") %]</option>
             </select>
             <label for="parlSelect">[% c.loc("Parliament") %]</label>
             <select id="parlSelect" name="identifier" class="span3">
