@@ -1,15 +1,6 @@
 ﻿[% title = c.loc("Welcome") -%]
 
 <div class="row">
-    <div class="span8 offset2">
-        <p style="color: #233a74; background: lightblue; padding: 5px"><strong>
-            [% IF c.stash.lang == "fr" %]
-            Travaux en cours: les Journaux du Parlement du Canada sont ajoutés graduellement au portail.  Veuillez patienter pendant que nous effectuons ce changement.
-            [% ELSE %]
-            Work in progress: the Journals of the Parliament of Canada are progressively being added to the Portal.  Please bear with us as we work to add this new content.
-            [% END %]
-        </strong></p>
-    </div>
     <div class="span6">
         <h2>[% c.loc("Browse") %]</h2>
         <div class="row">
