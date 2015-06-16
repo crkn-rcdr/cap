@@ -38,6 +38,7 @@
         <input class="span3" type="text" name="q" value="[% c.req.query_params.defined("q") ? c.req.query_params.q : "" | html %]" />
         [% UNLESS pkey %]
             [% identifier = c.req.query_params.defined("identifier") ? c.req.query_params.identifier : [] -%]
+            [% IF identifier.size == 1 && identifier.match(' '); identifier = identifier.split(' '); END -%]
             <label for="typeSelect">[% c.loc("Publication type") %]</label>
             <select id="typeSelect" name="identifier" class="span3">
                 <option value="">[% c.loc("Debates and Journals") %]</option>
