@@ -27,15 +27,9 @@ while (my $path = <STDIN>) {
     chomp($path);
     my($aip, @portals) = split(/\s+/, $path);
     my($contributor, $identifier) = split(/\./, basename($aip), 2);
-    my $cmr = join('/', $aip, 'data', 'cmr.xml');
 
     # Don't do anything if no portals are specified
     next unless (@portals);
-
-    if (! -f $cmr) {
-        warn("No CMR file for $aip\n");
-        next;
-    }
 
     # Look up and cache the institution id if we don't already know it.
     if (! $institutions{$contributor}) {
@@ -58,7 +52,7 @@ while (my $path = <STDIN>) {
     foreach my $portal (@portals) {
         my $action = substr($portal, 0, 1);
         if ($action eq '+') {
-            print("Adding $cmr to $portal (hosted)\n");
+            print("Adding $contributor.$identifier to $portal (hosted)\n");
             eval {
                 my $record = $c->model('DB::PortalsTitles')->update_or_create({
                     portal_id => substr($portal, 1),
@@ -71,12 +65,12 @@ while (my $path = <STDIN>) {
             }
         }
         elsif ($action eq '-') {
-            print("Removing $cmr from $portal\n");
+            print("Removing $contributor.$identifier from $portal\n");
             my $record = $c->model('DB::PortalsTitles')->find({ portal_id => substr($portal, 1), title_id => $title->id});
             $record->delete() if ($record);
         }
         else {
-            print("Adding $cmr to $portal (indexed)\n");
+            print("Adding $contributor.$identifier to $portal (indexed)\n");
             eval {
                 my $record = $c->model('DB::PortalsTitles')->update_or_create({
                     portal_id => $portal,
