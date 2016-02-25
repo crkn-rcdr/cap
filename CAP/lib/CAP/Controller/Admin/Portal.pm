@@ -3,6 +3,7 @@ use Moose;
 use namespace::autoclean;
 use Encode;
 use feature "switch";
+no warnings "experimental::smartmatch";
 
 __PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ] } );
 

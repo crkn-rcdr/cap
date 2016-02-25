@@ -3,6 +3,7 @@
 -%]
 [%- PERL -%]
     use feature qw(switch);
+    no warnings "experimental::smartmatch";
     use Number::Format qw(:subs :vars);
 
     my $num = [% number %];
