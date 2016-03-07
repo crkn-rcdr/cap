@@ -1,4 +1,110 @@
-@import "heritagecommon.less";
+@import "../cap.less";
+
+@footerHeight: 155px;
+@narrowFooterHeight: 290px;
+
+@mainColor: #5b0718;
+@lightColor: #ddd;
+@bgColor: #fff;
+
+@linkColor: @mainColor;
+@linkColorHover: lighten(@mainColor, 10%);
+
+@baseFontFamily: Georgia, serif;
+
+body {
+    //background-image: url('/static/images/whf_bg.png');
+}
+
+.banner {
+    height: 120px;
+    .banner-left-bg {
+        background-image: url('/static/images/heritage_banner_left.png');
+        height: 120px;
+    }
+    .banner-right-bg {
+        background-image: url('/static/images/heritage_banner_right.png');
+        height: 120px;
+    }
+    .banner-image-absolute {
+        background-image: url('/static/images/heritage_banner.png');
+        height: 120px;
+    }
+}
+
+h2 {
+    color: @mainColor;
+    font-variant: small-caps;
+}
+
+.search-item h2 {
+    font-variant: normal;
+}
+
+.whf-search-bar {
+    font-size: @baseFontSize + 2px;
+    font-weight: bold;
+    padding: 9px 4px;
+    .border-radius(5px);
+    line-height: normal;
+}
+
+.blurb {
+    //background-image: url('/static/images/whf_blurb_bg.png');
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+.search {
+    //background-image: url('/static/images/whf_search_bg.png');
+    background-position: bottom right;
+    background-repeat: no-repeat;
+}
+
+@media (min-width: 768px) {
+    .blurb, .search {
+        min-height: 300px;
+    }
+}
+
+/* Push footer */
+
+footer {
+    ul {
+        li {
+            list-style-type: none;
+        }
+    }
+
+    .title {
+        font-size: @baseFontSize + 5px;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .footer-top {
+        background-color: white;
+        padding-top: @baseLineHeight / 2;
+        .box-shadow(0 -10px 10px 2px #ddd);
+    }
+
+    .footer-bottom {
+        #gradient > .vertical(#444, #222);
+        color: @lightColor;
+        p {
+            margin-bottom: 0;
+            line-height: @baseLineHeight * 2;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    footer .footer-top {
+        height: 110px;
+    }
+}
+
 
 .banner .banner-image-absolute { background-image: url('/static/images/heritage_banner.png'); }
 .banner { margin-bottom: @baseLineHeight / 2; }
