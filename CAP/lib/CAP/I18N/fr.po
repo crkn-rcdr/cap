@@ -3900,3 +3900,25 @@ msgstr "Débats"
 
 msgid "Journals"
 msgstr "Journaux"
+
+# student voice stuff
+msgid "CARL Homepage"
+msgstr "Page d’accueil de l’ABRC"
+
+msgid "http://www.carl-abrc.ca/en.html"
+msgstr "http://www.carl-abrc.ca/"
+
+msgid "Library and Archives Canada"
+msgstr "Bibliothèque et Archives Canada"
+
+msgid "http://www.bac-lac.gc.ca/eng/Pages/home.aspx"
+msgstr "http://www.bac-lac.gc.ca/fra/Pages/accueil.aspx"
+
+msgid "Content provided by participating post-secondary institutions on behalf of their student bodies."
+msgstr "Contenu fourni par les établissements postsecondaires participants au nom de leurs étudiants."
+
+msgid "Funded by the Government of Canada."
+msgstr "Financé par le gouvernement du Canada."
+
+msgid "Copyright Notice"
+msgstr "Avis de droit d’auteur"
