@@ -8,5 +8,3 @@
 [% INCLUDE partial/search_form.tt | indent(8) %]
     </div>
 </div>
-
-[% INCLUDE partial/slideshow.tt shadow=1 %]

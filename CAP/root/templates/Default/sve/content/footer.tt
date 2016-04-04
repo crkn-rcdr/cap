@@ -1,0 +1,20 @@
+﻿<div class="container">
+	<div class="row">
+		<div class="span3">
+			<a class="carl-logo" alt="[% c.loc("CARL Homepage") %]" href="[% c.loc("http://www.carl-abrc.ca/en.html") %]"></a>
+		</div>
+		<div class="span6">
+			<p class="mid-content">
+				[% c.loc("Content provided by participating post-secondary institutions on behalf of their student bodies.") %]
+				<br />
+				[% c.loc("Funded by the Government of Canada.") %]
+			</p>
+			<p>
+				<a href="[% c.uri_for_action("/support", "copyright") %]">[% c.loc("Copyright Notice") %]</a>
+			</p>
+		</div>
+		<div class="span3">
+			<a class="canada-logo" alt="Canada" href="http://www.canada.ca/"></a>
+		</div>
+	</div>
+</div>
