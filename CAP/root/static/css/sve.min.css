@@ -923,9 +923,9 @@ header{margin-bottom:18px;}
 .js .slideshow .slideshow-left-nav{left:0;}.js .slideshow .slideshow-left-nav .slideshow-nav-text{left:10px;}
 .js .slideshow .slideshow-right-nav{right:0;}.js .slideshow .slideshow-right-nav .slideshow-nav-text{right:10px;}
 html,body{height:100%;}
-#wrapper{min-height:100%;height:auto !important;height:100%;margin-bottom:-298px;}
-#push{clear:both;height:298px;}
-footer{clear:both;height:280px;margin-top:18px;}
+#wrapper{min-height:100%;height:auto !important;height:100%;margin-bottom:-370px;}
+#push{clear:both;height:370px;}
+footer{clear:both;height:352px;margin-top:18px;}
 @media (min-width:768px){#wrapper{margin-bottom:-136px;} #push{height:136px;} footer{height:118px;}}.form-actions,.well{background-color:#f2f2f2;}
 a{cursor:pointer;}
 #imageCache{position:absolute;top:-9999px;height:1px;overflow:hidden;}
@@ -968,6 +968,6 @@ header{background-color:#002f86;margin:0;}header .banner{display:block;backgroun
 h2{color:#ff9e15;font-variant:small-caps;}
 footer{background-color:#002f86;background-repeat:repeat-y;background-position:top center;color:#dddddd;text-align:center;}footer a{color:#dddddd;}footer a:hover{color:#f7f7f7;}
 footer .mid-content{padding-top:18px;}
-footer .carl-logo,footer .canada-logo{display:block;width:inherit;height:80px;background-repeat:no-repeat;background-position:center;background-size:contain;}
+footer .carl-logo,footer .canada-logo{display:block;width:inherit;height:80px;margin:18px 0;background-repeat:no-repeat;background-position:center;background-size:contain;}
 footer .carl-logo{background-image:url('/static/images/sve_carl.png');}
 footer .canada-logo{background-image:url('/static/images/sve_can.png');}

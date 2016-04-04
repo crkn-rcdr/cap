@@ -6597,15 +6597,15 @@ body {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin-bottom: -298px;
+  margin-bottom: -370px;
 }
 #push {
   clear: both;
-  height: 298px;
+  height: 370px;
 }
 footer {
   clear: both;
-  height: 280px;
+  height: 352px;
   margin-top: 18px;
 }
 @media (min-width: 768px) {
@@ -6886,6 +6886,7 @@ footer .canada-logo {
   display: block;
   width: inherit;
   height: 80px;
+  margin: 18px 0;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
