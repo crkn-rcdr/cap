@@ -6,7 +6,7 @@ use Test::WWW::Mechanize::Catalyst;
 BEGIN { use_ok 'Catalyst::Test', 'CAP' }
 
 ok(my $mech = Test::WWW::Mechanize::Catalyst->new(catalyst_app => 'CAP'));
-$mech->get_ok("/");
+$mech->get_ok("http://eco.localhost/");
 
 
 #ok( request('/')->is_success, 'Request should succeed' );
