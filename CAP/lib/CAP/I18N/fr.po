@@ -3922,3 +3922,6 @@ msgstr "Financé par le gouvernement du Canada."
 
 msgid "Copyright Notice"
 msgstr "Avis de droit d’auteur"
+
+msgid "All Contributors"
+msgstr "Tous les collaborateurs"
