@@ -8,8 +8,8 @@
             <li class="span2"><a href="[% c.uri_for_action("/index") %]">[% c.loc("Home") %]</a></li>
             <li class="span2"><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
             <li class="span2"><a href="[% c.uri_for_action("/support", "search") %]">[% c.loc("Help") %]</a></li>
-            <li class="span3"><a href="[% c.loc("http://www.carl-abrc.ca/en.html") %]">[% c.loc("CARL Homepage") %]</a></li>
-            <li class="span3"><a href="[% c.loc("http://www.bac-lac.gc.ca/eng/Pages/home.aspx") %]">[% c.loc("Library and Archives Canada") %]</a></li>
+            <li class="span3"><a href="[% c.loc("http://www.carl-abrc.ca/") %]" target="_blank">[% c.loc("CARL Homepage") %]</a></li>
+            <li class="span3"><a href="[% c.loc("http://www.bac-lac.gc.ca/eng/Pages/home.aspx") %]" target="_blank">[% c.loc("Library and Archives Canada") %]</a></li>
         </ul>
     </div>
 </div>
