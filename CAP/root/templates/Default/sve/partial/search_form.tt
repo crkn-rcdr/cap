@@ -19,6 +19,15 @@
             </select>
         </div>
         <div class="span3">
+            <label for="collSelect">[% c.loc("Contributor") %]</label>
+            <select id="collSelect" name="collection" class="span3">
+                <option value="">[% c.loc("All Contributors") %]</option>
+                <option value="aeu">University of Alberta</option>
+                <option value="nbfu">University of New Brunswick</option>
+                <option value="oty">York University</option>
+            </select>
+        </div>
+        <div class="span3">
             <label>[% c.loc("Date Range") %]</label>
             <input type="text" name="df" maxlength="4" class="input-mini" placeholder="[% c.loc("YYYY") %]" />
             [% c.loc("to") %]
