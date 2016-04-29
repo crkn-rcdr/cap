@@ -48,6 +48,8 @@ method run (HashRef :$options = {}, Str :$page = 0, Str :$raw = 0) {
     # If a page number is specified, calculate the starting record based
     # on the page number and number of rows per page.
     $options->{start} = ($page - 1) * $options->{rows} if ($page);
+
+    print $self->query->to_string() . "\n";
     
     my $response = $self->solr->search($self->query->to_string(), $options);
 
