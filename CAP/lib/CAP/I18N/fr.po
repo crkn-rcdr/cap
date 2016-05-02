@@ -3905,8 +3905,8 @@ msgstr "Journaux"
 msgid "CARL Homepage"
 msgstr "Page d’accueil de l’ABRC"
 
-msgid "http://www.carl-abrc.ca/en.html"
-msgstr "http://www.carl-abrc.ca/"
+msgid "http://www.carl-abrc.ca/"
+msgstr "http://www.carl-abrc.ca/fr/"
 
 msgid "Library and Archives Canada"
 msgstr "Bibliothèque et Archives Canada"

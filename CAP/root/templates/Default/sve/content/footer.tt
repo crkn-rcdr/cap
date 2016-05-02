@@ -1,7 +1,7 @@
 ﻿<div class="container">
 	<div class="row">
 		<div class="span2">
-			<a class="carl-logo" alt="[% c.loc("CARL Homepage") %]" href="[% c.loc("http://www.carl-abrc.ca/en.html") %]"></a>
+			<a class="carl-logo" alt="[% c.loc("CARL Homepage") %]" href="[% c.loc("http://www.carl-abrc.ca/") %]" target="_blank"></a>
 		</div>
 		<div class="span8">
 			<p class="mid-content">
@@ -14,7 +14,7 @@
 			</p>
 		</div>
 		<div class="span2">
-			<a class="canada-logo" alt="Canada" href="http://www.canada.ca/"></a>
+			<a class="canada-logo" alt="Canada" href="http://www.canada.ca/" target="_blank"></a>
 		</div>
 	</div>
 </div>
