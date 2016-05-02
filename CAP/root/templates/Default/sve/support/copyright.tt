@@ -2,7 +2,7 @@
 
 <h2>Avis de droit d’auteur</h2>
 
-<p>Le Portail La voix étudiante a été créé pour préserver numériquement, réunir et à rendre accessibles les médias étudiants postsecondaires pour les étudiants, les professeurs, les anciens étudiants, tous les Canadiens et d’autres. La permission a été accordée, par l’intermédiaire des responsables du contenu, de numériser et de rendre accessible ce matériel à des fins d’enseignement, de recherche et d’étude privée. Si vous avez des préoccupations au sujet de la diffusion autorisée de ce contenu, veuillez communiquer avec <a href="mailto:sve.info@carl-abrc.ca">sve.info@carl-abrc.ca</a>.</p>
+<p>Le portail La voix étudiante a été créé pour préserver numériquement, réunir et rendre accessibles les médias étudiants postsecondaires pour les étudiants, les professeurs, les anciens étudiants, tous les Canadiens et d’autres. La permission a été accordée, par l’intermédiaire des responsables du contenu, de numériser et de rendre accessible ce matériel à des fins d’enseignement, de recherche et d’étude privée. Si vous avez des préoccupations au sujet de la diffusion autorisée de ce contenu, veuillez communiquer avec <a href="mailto:sve.info@carl-abrc.ca">sve.info@carl-abrc.ca</a>.</p>
 [% ELSE %]
 
 <h2>Copyright Notice</h2>
