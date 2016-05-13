@@ -47,10 +47,14 @@ is $client->_build_query_terms({
 	q0 => 'hi', q1 => '#$89', q2 => 'su:bye', q3 => 'au:'
 }), '(gq:hi OR tx:hi) (gq:#$89 OR tx:#$89) (su:bye)', 'discard garbage terms';
 
-# I can't know which order this comes in
+# I can't know which order these comes in
 cmp_deeply $client->_build_query_terms({
 	q0 => 'hi', df => '1850', collection => 'hfc'
 }), any('(gq:hi OR tx:hi) pubmax:[1850-01-01T00:00:00.000Z TO *] collection:hfc',
         '(gq:hi OR tx:hi) collection:hfc pubmax:[1850-01-01T00:00:00.000Z TO *]'), 'handle filters';
+cmp_deeply $client->_build_query_terms({
+	q0 => 'hi', collection => ['hfc', 'nas']
+}), any('(gq:hi OR tx:hi) collection:nas collection:hfc',
+        '(gq:hi OR tx:hi) collection:hfc collection:nas'), 'handle multi-valued filters';
 
 done_testing;
