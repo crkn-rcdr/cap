@@ -21,24 +21,26 @@ has 'schema' => (
 	}
 );
 
-has 'root_collection' => (
-	is => 'ro',
-	isa => Str,
-	required => 1
-);
+sub request {
+	my ($self, $handler, $options, $query_params) = @_;
 
+	my $data = {};
+	$data->{query} = $self->_build_query_terms($query_params) || '*:*';
 
+	if ($options->{root_collection}) {
+		$data->{filter} = 'collection:' . $options->{root_collection};
+	}
 
-# sorting parameter:
-# sort
+	my $so = $query_params->{so};
+	if (defined $so && exists $self->schema->sorting->{$so}) {
+		$data->{sort} = $self->schema->sorting->{$so};
+	}
 
-sub translate_query_to_solr {
-	my ($self, $query_params) = @_;
-	my $solr_params = { 'q.op' => 'AND' };
+	$data->{offset} = $options->{offset} || 0;	
+	$data->{limit} = $options->{limit} || 10;
+	$data->{params} = { echoParams => 'all' };
 
-	$solr_params->{q} = $self->_build_query_terms($query_params);
-
-	return $solr_params;
+	return $self->post($handler, $data)->data;
 }
 
 # Parameters:

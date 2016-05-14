@@ -43,25 +43,8 @@ has 'sorting' => (
 	isa => HashRef[Str],
 	default => sub {
 		return {
-			default => 'score desc',
 			oldest => 'pubmin asc',
-			newest => 'pubmax desc',
-			seq => 'pkey asc, seq asc'
-		};
-	}
-);
-
-has 'types' => (
-	is => 'ro',
-	isa => HashRef[Str],
-	default => sub {
-		return {
-			default => 'type:(series OR document)',
-			any => '',
-			page => 'type:page',
-			document => 'type:document',
-			series => 'type:series',
-			browsable => '(-pkey:*)'
+			newest => 'pubmax desc'
 		};
 	}
 );
