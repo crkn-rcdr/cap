@@ -37,8 +37,7 @@ sub request {
 	}
 
 	$data->{offset} = $options->{offset} || 0;	
-	$data->{limit} = $options->{limit} || 10;
-	$data->{params} = { echoParams => 'all' };
+	$data->{limit} = $options->{limit} if (defined $options->{limit});
 
 	return $self->post($handler, $data)->data;
 }
