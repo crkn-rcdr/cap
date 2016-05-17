@@ -49,4 +49,12 @@ has 'sorting' => (
 	}
 );
 
+has 'facets' => (
+	is => 'ro',
+	isa => ArrayRef[Str],
+	default => sub {
+		return [qw/lang depositor collection/];
+	}
+);
+
 1;

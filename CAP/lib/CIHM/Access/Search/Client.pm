@@ -39,6 +39,8 @@ sub request {
 	$data->{offset} = $options->{offset} || 0;	
 	$data->{limit} = $options->{limit} if (defined $options->{limit});
 
+	$data->{params} = { 'facet.field' => $self->schema->facets } if $options->{facet};
+
 	return $self->post($handler, $data)->data;
 }
 
