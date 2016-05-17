@@ -4,7 +4,7 @@ use utf8;
 use strictures 2;
 
 use Moo;
-use Types::Standard qw/HashRef ArrayRef Str/;
+use Types::Standard qw/HashRef ArrayRef CodeRef Str/;
 
 has 'fields' => (
 	is => 'ro',
@@ -40,11 +40,12 @@ has 'filters' => (
 
 has 'sorting' => (
 	is => 'ro',
-	isa => HashRef[Str],
+	isa => HashRef[Str|CodeRef],
 	default => sub {
 		return {
 			oldest => 'pubmin asc',
-			newest => 'pubmax desc'
+			newest => 'pubmax desc',
+			random => sub { my $now = time; return "random_$now asc"; }
 		};
 	}
 );

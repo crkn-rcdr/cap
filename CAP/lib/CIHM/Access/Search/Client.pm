@@ -31,10 +31,8 @@ sub request {
 		$data->{filter} = 'collection:' . $options->{root_collection};
 	}
 
-	my $so = $query_params->{so};
-	if (defined $so && exists $self->schema->sorting->{$so}) {
-		$data->{sort} = $self->schema->sorting->{$so};
-	}
+	my $sort = $self->_get_sort($query_params->{so});
+	$data->{sort} = $sort if ($sort);
 
 	$data->{offset} = $options->{offset} || 0;	
 	$data->{limit} = $options->{limit} if (defined $options->{limit});
@@ -42,6 +40,15 @@ sub request {
 	$data->{params} = { 'facet.field' => $self->schema->facets } if $options->{facet};
 
 	return $self->post($handler, $data)->data;
+}
+
+sub _get_sort {
+	my ($self, $so) = @_;
+	if (defined $so && exists $self->schema->sorting->{$so}) {
+		my $def = $self->schema->sorting->{$so};
+		return ref($def) eq 'CODE' ? &$def : $def;
+	}
+	return undef;
 }
 
 # Parameters:
