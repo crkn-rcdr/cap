@@ -8,17 +8,13 @@ use Types::Standard qw/Str/;
 use List::Util qw/reduce/;
 with 'Role::REST::Client';
 
-use CIHM::Access::Search::Schema;
-
 has '+type' => (
 	default => 'application/json'
 );
 
 has 'schema' => (
 	is => 'ro',
-	default => sub {
-		return CIHM::Access::Search::Schema->new();
-	}
+	required => 1
 );
 
 sub request {

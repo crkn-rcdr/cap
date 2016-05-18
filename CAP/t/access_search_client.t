@@ -5,9 +5,9 @@ use Test::Deep;
 
 BEGIN { use_ok 'CIHM::Access', 'CIHM::Access::Search::Client' }
 
-use CIHM::Access::Search::Client;
+use CIHM::Access::Search;
 
-my $client = CIHM::Access::Search::Client->new();
+my $client = CIHM::Access::Search->new({ server => 'http://localhost:8983/solr/cosearch' })->client;
 ok $client->schema, 'has schema';
 
 is $client->_analyze_term('hi'), "(gq:hi OR tx:hi)", 'default word analyzing';
