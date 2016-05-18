@@ -1,4 +1,0 @@
-﻿<div class="support">
-    <h2>[% c.loc("Contributors") %]</h2>
-[% INCLUDE partial/contributors.tt %]
-</div>
