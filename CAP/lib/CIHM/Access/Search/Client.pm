@@ -6,6 +6,7 @@ use strictures 2;
 use Moo;
 use Types::Standard qw/Str/;
 use List::Util qw/reduce/;
+use CIHM::Access::Search::ResultSet;
 with 'Role::REST::Client';
 
 has '+type' => (
@@ -35,7 +36,15 @@ sub request {
 
 	$data->{params} = { 'facet.field' => $self->schema->facets } if $options->{facet};
 
-	return $self->post($handler, $data)->data;
+	my $output = $self->post($handler, $data)->data;
+	if (exists $output->{responseHeader} &&
+		exists $output->{responseHeader}{status} &&
+		$output->{responseHeader}{status} == 0) {
+		return CIHM::Access::Search::ResultSet->new($output);
+	} else {
+		return $output;
+	}
+
 }
 
 sub _get_sort {

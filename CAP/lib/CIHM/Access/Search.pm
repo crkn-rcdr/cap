@@ -34,6 +34,20 @@ has 'client' => (
 	}
 );
 
+sub general {
+	my ($self, $root_collection, $offset, $params) = @_;
+
+	return $self->client->request(
+		'/search/general',
+		{
+			root_collection => $root_collection,
+			offset => $offset,
+			facet => 1
+		},
+		$params
+	);
+}
+
 # transforms a posted search into terms to redirect to
 sub transform_query {
 	my ($self, $post_params) = @_;
