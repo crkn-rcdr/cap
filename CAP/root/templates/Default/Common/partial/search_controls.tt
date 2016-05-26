@@ -34,7 +34,7 @@
     <form method="GET" action="[% c.uri_for_action("/search/index") %]">
         [% IF pkey %]<input type="hidden" name="pkey" value="[% pkey %]" />[% END -%]
         <p>[% c.loc("Refine your search:") %]</p>
-        <input class="span3" type="text" name="q" value="[% c.req.query_params.defined("q") ? c.req.query_params.q : "" | html %]" />
+        <input class="span3" type="text" name="q" value="[% keywords | html %]" />
         <label for="fieldSelect">[% c.loc("Search in") %]</label>
         [% field = c.req.query_params.defined("field") ? c.req.query_params.field : "" %]
         <select id="fieldSelect" class="span3" name="field">

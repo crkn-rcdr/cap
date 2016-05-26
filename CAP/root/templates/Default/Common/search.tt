@@ -4,7 +4,7 @@
     MACRO sort_order(code) INCLUDE macro/sort_order.tt;
     MACRO format_number(number) INCLUDE macro/format_number.tt;
     MACRO hash_to_hidden(hash) INCLUDE macro/hash_to_hidden.tt;
-    keywords = c.req.query_params.defined("q") ? c.req.query_params.q : "";
+    keywords = query.to_cap;
     pkey = c.req.query_params.defined("pkey") ? c.req.query_params.pkey : "";
     sort = c.req.query_params.defined("so") ? c.req.query_params.so : "score";
     searchLang = c.req.query_params.defined("lang") ? c.req.query_params.lang : "";

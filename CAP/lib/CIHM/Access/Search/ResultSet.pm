@@ -29,6 +29,11 @@ has 'facets' => (
 	isa => HashRef[ArrayRef]
 );
 
+has 'publication_range' => (
+	is => 'ro',
+	isa => HashRef
+);
+
 # expect a hashref that needs to be mangled
 around BUILDARGS => sub {
 	my ($orig, $class, @args) = @_;
@@ -46,6 +51,9 @@ around BUILDARGS => sub {
 
 		$new_args->{facet} = $solr_output->{facet_counts}{facet_fields}
 			if exists $solr_output->{facet_counts};
+
+		$new_args->{publication_range} = $solr_output->{publication_range}
+			if exists $solr_output->{publication_range};
 
 		return $class->$orig($new_args);
 	}

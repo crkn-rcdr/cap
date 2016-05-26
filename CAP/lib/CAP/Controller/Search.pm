@@ -46,16 +46,12 @@ sub result_page :Path('') :Args(1) {
 
     # Retrieve the first page of results unless otherwise requested.
     $page = 1 unless ($page > 1);
-
-    my $subset = $c->portal->subset;
-    my $searcher = $c->model('Solr')->search($c->req->params, $subset);
+    my $offset = ($page - 1) * 10;
 
     # Run the main search
-    my($resultset, $pubmin, $pubmax);
+    my $search;
     eval {
-        $resultset = $searcher->run(page => $page);
-        $pubmin = $searcher->pubmin || 0;
-        $pubmax = $searcher->pubmax || 0;
+        $search = $c->model('Access::Search')->general($c->portal->id, $offset, $c->req->params);
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
@@ -63,14 +59,14 @@ sub result_page :Path('') :Args(1) {
     $c->session->{$c->portal->id}->{search} = {
         start    => $page,
         params   => $c->req->params,
-        hits     => $resultset->hits,
+        hits     => $search->{resultset}->hits,
     };
 
     $c->stash(
-        pubmin     => int(substr($pubmin, 0, 4)),
-        pubmax     => int(substr($pubmax, 0, 4)),
-        resultset  => $resultset,
-        log_search => $resultset ? 1 : 0,
+        pubmin     => $search->{publication_range}->{pubmin},
+        pubmax     => $search->{publication_range}->{pubmax},
+        resultset  => $search->{resultset},
+        query      => $search->{query},
         template   => 'search.tt',
     );
 

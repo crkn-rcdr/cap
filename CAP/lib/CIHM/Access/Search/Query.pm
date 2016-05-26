@@ -1,60 +1,47 @@
-package CIHM::Access::Search::Client;
+package CIHM::Access::Search::Query;
 
 use utf8;
 use strictures 2;
 
 use Moo;
-use Types::Standard qw/Str/;
 use List::Util qw/reduce/;
-use CIHM::Access::Search::ResultSet;
-with 'Role::REST::Client';
-
-has '+type' => (
-	default => 'application/json'
-);
+use Types::Standard qw/HashRef ArrayRef Str/;
 
 has 'schema' => (
 	is => 'ro',
 	required => 1
 );
 
-sub request {
-	my ($self, $handler, $options, $query_params) = @_;
+has 'params' => (
+	is => 'ro',
+	isa => HashRef,
+	required => 1
+);
 
-	my $data = {};
-	$data->{query} = $self->_build_query_terms($query_params) || '*:*';
+has 'solr_query' => (
+	is => 'lazy',
+	isa => Str
+);
 
-	if ($options->{root_collection}) {
-		$data->{filter} = 'collection:' . $options->{root_collection};
-	}
-
-	my $sort = $self->_get_sort($query_params->{so});
-	$data->{sort} = $sort if ($sort);
-
-	$data->{offset} = $options->{offset} || 0;	
-	$data->{limit} = $options->{limit} if (defined $options->{limit});
-
-	$data->{params} = { 'facet.field' => $self->schema->facets } if $options->{facet};
-
-	my $output = $self->post($handler, $data)->data;
-	if (exists $output->{responseHeader} &&
-		exists $output->{responseHeader}{status} &&
-		$output->{responseHeader}{status} == 0) {
-		return CIHM::Access::Search::ResultSet->new($output);
-	} else {
-		return $output;
-	}
-
+sub to_solr {
+	my ($self) = @_;
+	return $self->solr_query;
 }
 
-sub _get_sort {
-	my ($self, $so) = @_;
-	if (defined $so && exists $self->schema->sorting->{$so}) {
-		my $def = $self->schema->sorting->{$so};
-		return ref($def) eq 'CODE' ? &$def : $def;
-	}
-	return undef;
+has 'cap_query' => (
+	is => 'lazy',
+	isa => Str
+);
+
+sub to_cap {
+	my ($self) = @_;
+	return $self->cap_query;
 }
+
+has 'query_terms' => (
+	is => 'lazy',
+	isa => ArrayRef
+);
 
 # Parameters:
 
@@ -67,20 +54,21 @@ sub _get_sort {
 # pkey
 # identifier
 # depositor
-sub _build_query_terms {
-	my ($self, $query_params) = @_;
+sub _build_solr_query {
+	my ($self) = @_;
+
 	my @terms = ();
-	foreach my $or_group ($self->_sorted_query_values($query_params)) {
-		my $joined_group = _skip_join(' OR ', @{$or_group});
+	foreach my $or_group (@{ $self->query_terms }) {
+		my $joined_group = _skip_join(' OR ', map { $self->_analyze_term($_) } @{$or_group});
 		$joined_group = "($joined_group)" if (@{$or_group} > 1);
 		push @terms, $joined_group;
 	}
 
 	foreach my $filter (keys %{$self->schema->filters}) {
-		push @terms, $self->_filter_query($filter, $query_params->{$filter});
+		push @terms, $self->_filter_query($filter, $self->params->{$filter});
 	}
 
-	return _skip_join(' ', @terms);
+	return _skip_join(' ', @terms) || '*:*';
 }
 
 sub _filter_query {
@@ -98,6 +86,18 @@ sub _filter_query {
 	return $template;
 }
 
+sub _build_cap_query {
+	my ($self) = @_;
+
+	my @terms = ();
+	foreach my $or_group (@{ $self->query_terms }) {
+		my $joined_group = _skip_join(' | ', @{$or_group});
+		push @terms, $joined_group;
+	}
+
+	return _skip_join(' ', @terms);
+}
+
 # join, but ignore empty strings
 sub _skip_join {
 	my ($separator, @list) = @_;
@@ -110,23 +110,23 @@ sub _skip_join {
 # query term keys are of two possible forms:
 # q$x if not part of an or group
 # q$x|$y if part of an or group
-sub _sorted_query_values {
-	my ($self, $query_params) = @_;
+sub _build_query_terms {
+	my ($self) = @_;
 	my $key_exp = qr/^q(\d+)(?:\|(\d+))?$/;
 	my @value_index = map {
 		$_ =~ /$key_exp/;
-		defined $1 ? [$1, $2, $query_params->{$_}] : ()
-	} keys $query_params;
+		defined $1 ? [$1, $2, $self->params->{$_}] : ()
+	} keys $self->params;
 
 	my @sort = ();
 	foreach (@value_index) {
 		my ($x, $y, $value) = @{$_};
 		$y ||= 0;
 		$sort[$x] = [] unless (defined $sort[$x]);
-		$sort[$x][$y] = $self->_analyze_term($value);
+		$sort[$x][$y] = $value;
 	}
 
-	return @sort;
+	return [@sort];
 }
 
 # term = ["-"], [field_modifier, ":"], word | phrase ;
@@ -185,6 +185,5 @@ sub _parse_token {
 
 	return $token;
 }
-
 
 1;
