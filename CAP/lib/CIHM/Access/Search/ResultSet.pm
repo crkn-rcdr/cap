@@ -4,7 +4,8 @@ use utf8;
 use strictures 2;
 
 use Moo;
-use Types::Standard qw/ArrayRef HashRef Int/;
+use Types::Standard qw/ArrayRef HashRef Int Str/;
+use List::Util qw/min/;
 
 has 'documents' => (
 	is => 'ro',
@@ -18,10 +19,16 @@ has 'hits' => (
 	required => 1
 );
 
-has 'offset' => (
+has 'first' => (
 	is => 'ro',
 	isa => Int,
 	required => 1
+);
+
+has 'last' => (
+	is => 'lazy',
+	isa => Int,
+	builder => sub { my $self = shift; $self->first + @{ $self->documents } - 1 }
 );
 
 has 'facets' => (
@@ -29,9 +36,14 @@ has 'facets' => (
 	isa => HashRef[ArrayRef]
 );
 
-has 'publication_range' => (
+has 'pubmin' => (
 	is => 'ro',
-	isa => HashRef
+	isa => Str
+);
+
+has 'pubmax' => (
+	is => 'ro',
+	isa => Str
 );
 
 # expect a hashref that needs to be mangled
@@ -46,14 +58,20 @@ around BUILDARGS => sub {
 		my $new_args = {
 			documents => $solr_output->{response}{docs},
 			hits => $solr_output->{response}{numFound},
-			offset => $solr_output->{response}{start}
+			first => $solr_output->{response}{start} + 1 # solr start is 0-based
 		};
 
 		$new_args->{facet} = $solr_output->{facet_counts}{facet_fields}
 			if exists $solr_output->{facet_counts};
 
-		$new_args->{publication_range} = $solr_output->{publication_range}
-			if exists $solr_output->{publication_range};
+		$new_args->{stats} = $solr_output->{stats}{stats_fields}
+			if exists $solr_output->{stats};
+
+		if (exists $solr_output->{stats} &&
+			exists $solr_output->{stats}{stats_fields}{pubmin}) {
+			$new_args->{pubmin} = substr($solr_output->{stats}{stats_fields}{pubmin}{min}, 0, 4);
+			$new_args->{pubmax} = substr($solr_output->{stats}{stats_fields}{pubmax}{max}, 0, 4);
+		}
 
 		return $class->$orig($new_args);
 	}

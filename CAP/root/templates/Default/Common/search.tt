@@ -14,8 +14,8 @@
     date_from = c.req.query_params.defined("df") ? c.req.query_params.df : "";
     date_to = c.req.query_params.defined("dt") ? c.req.query_params.dt : "";
     hits = resultset.hits;
-    hits_from = resultset.hits_from;
-    hits_to = resultset.hits_to;
+    hits_from = resultset.first;
+    hits_to = resultset.last;
     current_page = resultset.page;
     total_pages = resultset.pages;
 -%]

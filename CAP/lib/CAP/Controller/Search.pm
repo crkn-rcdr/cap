@@ -63,8 +63,6 @@ sub result_page :Path('') :Args(1) {
     };
 
     $c->stash(
-        pubmin     => $search->{publication_range}->{pubmin},
-        pubmax     => $search->{publication_range}->{pubmax},
         resultset  => $search->{resultset},
         query      => $search->{query},
         template   => 'search.tt',

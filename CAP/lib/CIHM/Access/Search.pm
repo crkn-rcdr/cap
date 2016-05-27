@@ -32,46 +32,15 @@ sub general {
 			sort => $params->{so},
 			offset => $offset,
 			facet => 1,
+			date_stats => 1
 		},
-		$query
-	);
-	my $publication_range = $self->_publication_range(
-		'/search/general',
-		$root_collection,
 		$query
 	);
 
 	return {
 		query => $query,
-		resultset => $resultset,
-		publication_range => $publication_range
+		resultset => $resultset
 	};
-}
-
-sub _publication_range {
-	my ($self, $handler, $root_collection, $query) = @_;
-	my $range = {};
-	my @bounds = (
-		{ field => 'pubmin', so => 'oldest' },
-		{ field => 'pubmax', so => 'newest' }
-	);
-	foreach my $bound (@bounds) {
-		my $resultset = $self->_request($handler, {
-			root_collection => $root_collection,
-			sort => $bound->{so},
-			fields => $bound->{field},
-			limit => 1,
-			offset => 0
-		}, $query);
-
-		if ($resultset->hits) {
-			$range->{$bound->{field}} = substr($resultset->documents->[0]{$bound->{field}}, 0, 4);
-		} else {
-			$range->{$bound->{field}} = '';
-		}
-	}
-
-	return $range;
 }
 
 sub _request {
@@ -91,7 +60,16 @@ sub _request {
 	$data->{limit} = $options->{limit} if (defined $options->{limit});
 	$data->{fields} = $options->{fields} if (defined $options->{fields});
 
-	$data->{params} = { 'facet.field' => $self->schema->facets } if $options->{facet};
+	$data->{params} = {};
+	$data->{params}{'facet.field'} = $self->schema->facets if $options->{facet};
+
+	if ($options->{date_stats}) {
+		$data->{params}{stats} = 'true';
+		$data->{params}{'stats.field'} = [
+			'{!min=true}pubmin',
+			'{!max=true}pubmax'
+		];
+	}
 
 	my $output = $self->post($handler, $data)->data;
 	if (exists $output->{responseHeader} &&
