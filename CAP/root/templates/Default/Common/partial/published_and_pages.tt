@@ -1,16 +1,15 @@
-[% list = record.defined("pu") ? record.pu.slice(0) : [];
-    size = item.child_count; 
-    IF item.type_is('series');
-        IF size == 1;
+[% list = result.defined("pu") ? result.pu.slice(0) : [];
+    IF result.type == 'series';
+        IF result.item_count == 1;
             CALL list.push(c.loc("1 issue"));
-        ELSIF size > 1;
-            CALL list.push(c.loc("[_1] issues", size));
+        ELSIF result.item_count > 1;
+            CALL list.push(c.loc("[_1] issues", result.item_count));
         END;
-    ELSIF item.type_is('document');
-        IF size == 1;
+    ELSIF result.type == 'document';
+        IF result.component_count == 1;
             CALL list.push(c.loc("1 page"));
-        ELSIF size > 1;
-            CALL list.push(c.loc("[_1] pages", size));
+        ELSIF result.component_count > 1;
+            CALL list.push(c.loc("[_1] pages", result.component_count));
         END;
     END; %]
 [% IF list.size %]

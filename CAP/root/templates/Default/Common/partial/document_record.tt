@@ -8,22 +8,16 @@
 <tbody>
 [% INCLUDE entry field=(record.defined("au") ? record.au : "") name=c.loc("Creator") search_field="au" %]
 [% INCLUDE entry field=(record.defined("ti") ? record.ti : "") name=c.loc("Title") %]
-[% INCLUDE entry field=(record.defined("pg_label") ? record.pg_label.size : "") name=c.loc("Pages") %]
+[% INCLUDE entry field=(record.defined("component_count") ? record.component_count : "") name=c.loc("Pages") %]
 [% INCLUDE entry field=(record.defined("pu") ? record.pu : "") name=c.loc("Published") %]
 [% INCLUDE entry field=(record.defined("identifier") ? record.identifier : "") name=c.loc("Identifier") %]
 [% INCLUDE entry field=(record.defined("su") ? record.su : "") name=c.loc("Subject") search_field="su" %]
-[% INCLUDE entry field=(record.defined("no_continues") ? record.no_continues : "") name=c.loc("Continues") %]
-[% INCLUDE entry field=(record.defined("no_continued") ? record.no_continued : "") name=c.loc("Continued by") %]
-[% INCLUDE entry field=(record.defined("no_extent") ? record.no_extent : "") name=c.loc("Extent") %]
-[% INCLUDE entry field=(record.defined("no_frequency") ? record.no_frequency : "") name=c.loc("Frequency") %]
-[% INCLUDE entry field=(record.defined("no_missing") ? record.no_missing : "") name=c.loc("Missing issues") %]
 [% UNLESS c.portal.id == 'parl' %][% INCLUDE entry field=(record.defined("no_rights") ? record.no_rights : "") name=c.loc("Rights") %][% END %]
 [% INCLUDE entry field=(record.defined("no_source") ? record.no_source : "") name=c.loc("Document source") %]
 [% INCLUDE entry field=(record.defined("no") ? record.no : "") name=c.loc("Notes") %]
 [% IF c.portal.has_feature('collections'); INCLUDE entry field=(record.defined("collection") ? record.collection : "") name=c.loc("Collection") labels=c.model('Collections').as_labels(c.stash.lang) collection_field=1; END %]
 [% INCLUDE entry field=(record.defined("lang") ? record.lang : "") name=c.loc("Language") labels=c.stash.languages %]
-[% INCLUDE entry field=(record.defined("media") ? record.media : "") record.media name=c.loc("Media") labels=c.stash.media %]
-[% IF c.portal.has_feature('contributors'); INCLUDE entry field=(record.defined("contributor") ? record.contributor : "") name=c.loc("Contributor") labels=contributors.names; END %]
+[% IF c.portal.has_feature('contributors'); INCLUDE entry field=(record.defined("depositor") ? record.depositor : "") name=c.loc("Contributor") labels=contributors.names; END %]
 [% INCLUDE entry field=(record.defined("ab") ? record.ab : "") name=c.loc("Description") labels='' %]
     <tr>
         <th>[% c.loc("Permanent Link") %]</th>
@@ -47,7 +41,7 @@
            END %]
         [% IF value %]
             [% IF search_field && c.portal.has_feature('record_links') %]
-                <a href="[% c.uri_for_action("/search/index", { q => search_field _ ":\"" _ value _ "\"" }) %]">[% value | html %]</a>
+                <a href="[% c.uri_for_action("/search/index", { 'q0|0' => search_field _ ":\"" _ value _ "\"" }) %]">[% value | html %]</a>
             [% ELSIF collection_field %]
                 <a href="[% c.uri_for_action("/search/index", { collection => oldvalue }) %]">[% value | html %]</a>
             [% ELSE %]
