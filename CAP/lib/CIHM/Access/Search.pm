@@ -23,27 +23,41 @@ has 'schema' => (
 );
 
 sub general {
-	my ($self, $root_collection, $offset, $params) = @_;
-	my $query = $self->query($params);
-	my $resultset = $self->_request(
-		'/search/general',
-		{
-			root_collection => $root_collection,
-			sort => $params->{so},
-			offset => $offset,
-			facet => 1,
-			date_stats => 1
-		},
-		$query
-	);
+	my ($self, $options, $params) = @_;
 
-	return {
-		query => $query,
-		resultset => $resultset
-	};
+	%$options = ( %$options,
+		facet => 1,
+		date_stats => 1,
+		sort => $params->{so} );
+
+	return $self->_request('/search/general', $options, $params);
 }
 
+# options can include:
+# root_collection: filter on a portal-esque collection
+# sort: sort order as defined by CIHM::Access::Search::Schema
+# offset: row to start search on (0-index)
+# limit: number of rows to return
+# facet: flag for turning on faceted results, with fields based on Schema
+# date_stats: flag for turning on pubmin/pubmax
 sub _request {
+	my ($self, $handler, $options, $params) = @_;
+
+	my $query = $self->query($params);
+	my $search = { query => $query };
+
+	my $resultset = $self->_resultset($handler, $options, $query);
+
+	if (ref $resultset eq 'CIHM::Access::Search::ResultSet') {
+		$search->{resultset} = $resultset;
+	} else {
+		$search->{error} = $resultset;
+	}
+
+	return $search;
+}
+
+sub _resultset {
 	my ($self, $handler, $options, $query) = @_;
 
 	my $data = {};

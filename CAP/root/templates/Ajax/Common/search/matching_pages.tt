@@ -1,0 +1,8 @@
+[% IF page_search.keys.size -%]
+    [% c.loc("Matching pages:") %]
+	[% FOR page IN page_search.docs -%]
+	<a class="matching-page" data-seq="[% page.seq %]" href="[% c.uri_for_action("view/key_seq", doc.key, page.seq).path %]">[% page.label | html %]</a>[% UNLESS loop.last %] | [% END %]
+	[% END %]
+[% ELSE -%]
+    [% c.loc("No matching pages found.") %]
+[% END -%]

@@ -51,7 +51,10 @@ sub result_page :Path('') :Args(1) {
     # Run the main search
     my $search;
     eval {
-        $search = $c->model('Access::Search')->general($c->portal->id, $offset, $c->req->params);
+        $search = $c->model('Access::Search')->general({
+            root_collection => $c->portal->id,
+            offset => $offset
+        }, $c->req->params);
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
@@ -71,19 +74,7 @@ sub result_page :Path('') :Args(1) {
     return 1;
 }
 
-sub matching_pages_initial :Path('matching_pages_initial') :Args(1) {
-    my($self, $c, $key) = @_;
-    $c->detach('matching_pages', [$key, 10, 0]);
-    return 1;
-}
-
-sub matching_pages_remaining :Path('matching_pages_remaining') :Args(1) {
-    my($self, $c, $key) = @_;
-    $c->detach('matching_pages', [$key, $c->req->params->{rows}, 10]);
-    return 1;
-}
-
-sub matching_pages :Private {
+sub matching_pages :Path('matching_pages') {
     my($self, $c, $key, $rows, $start) = @_;
     $c->detach('/error', [404, "Can only be called through fmt=ajax"]) unless $c->stash->{current_view} eq 'Ajax';
     my $subset = $c->portal->subset;
