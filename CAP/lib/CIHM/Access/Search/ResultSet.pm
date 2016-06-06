@@ -6,6 +6,7 @@ use strictures 2;
 use Moo;
 use Types::Standard qw/ArrayRef HashRef Int Str/;
 use List::Util qw/min/;
+use POSIX qw/ceil/;
 
 has 'documents' => (
 	is => 'ro',
@@ -14,6 +15,12 @@ has 'documents' => (
 );
 
 has 'hits' => (
+	is => 'ro',
+	isa => Int,
+	required => 1
+);
+
+has 'hits_per_page' => (
 	is => 'ro',
 	isa => Int,
 	required => 1
@@ -29,6 +36,25 @@ has 'last' => (
 	is => 'lazy',
 	isa => Int,
 	builder => sub { my $self = shift; $self->first + @{ $self->documents } - 1 }
+);
+
+has 'page' => (
+	is => 'lazy',
+	isa => Int,
+	builder => sub { my $self = shift; int($self->first / $self->hits_per_page) + 1 }
+);
+
+has 'pages' => (
+	is => 'lazy',
+	isa => Int,
+	builder => sub {
+		my $self = shift;
+		if ($self->hits_per_page) {
+			ceil($self->hits / $self->hits_per_page);
+		} else {		
+			0
+		}
+	}
 );
 
 has 'facets' => (
@@ -58,6 +84,7 @@ around BUILDARGS => sub {
 		my $new_args = {
 			documents => $solr_output->{response}{docs},
 			hits => $solr_output->{response}{numFound},
+			hits_per_page => $solr_output->{responseHeader}{params}{rows} // 10, # TODO: fix this magic number
 			first => $solr_output->{response}{start} + 1 # solr start is 0-based
 		};
 
@@ -67,7 +94,8 @@ around BUILDARGS => sub {
 		$new_args->{stats} = $solr_output->{stats}{stats_fields}
 			if exists $solr_output->{stats};
 
-		if (exists $solr_output->{stats} &&
+		if ($solr_output->{response}{numFound} &&
+			exists $solr_output->{stats} &&
 			exists $solr_output->{stats}{stats_fields}{pubmin}) {
 			$new_args->{pubmin} = substr($solr_output->{stats}{stats_fields}{pubmin}{min}, 0, 4);
 			$new_args->{pubmax} = substr($solr_output->{stats}{stats_fields}{pubmax}{max}, 0, 4);
