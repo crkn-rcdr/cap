@@ -6,6 +6,7 @@ use warnings;
 use Moose;
 use namespace::autoclean;
 use parent qw/Catalyst::Controller::ActionRole/;
+use Scalar::Util qw/looks_like_number/;
 
 BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 
@@ -36,13 +37,12 @@ sub auto :Private {
     return 1;
 }
 
-sub index :Path('') :Args(0) {
-    my($self, $c) = @_;
-    $c->detach('result_page', [1]);
-}
+sub index :Path('') {
+    my($self, $c, $handler, $page) = @_;
+    $page = $page && looks_like_number($page) ? $page    :
+                  looks_like_number($handler) ? $handler : 1;
 
-sub result_page :Path('') :Args(1) {
-    my($self, $c, $page) = @_;
+    $handler = $handler && !looks_like_number($handler) ? $handler : 'general';
 
     # Retrieve the first page of results unless otherwise requested.
     $page = 1 unless ($page > 1);
@@ -51,7 +51,7 @@ sub result_page :Path('') :Args(1) {
     # Run the main search
     my $search;
     eval {
-        $search = $c->model('Access::Search')->general({
+        $search = $c->model('Access::Search')->dispatch($handler, {
             root_collection => $c->portal->id,
             offset => $offset
         }, $c->req->params);

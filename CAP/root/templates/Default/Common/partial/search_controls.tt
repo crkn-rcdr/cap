@@ -31,7 +31,7 @@
 [% END %]
 
 <aside class="search-controls">
-    <form method="GET" action="[% c.uri_for_action("/search/index") %]">
+    <form method="GET" action="[% c.uri_for_action("search/index") %]">
         [% IF pkey %]<input type="hidden" name="pkey" value="[% pkey %]" />[% END -%]
         <p>[% c.loc("Refine your search:") %]</p>
         <input class="span3" type="text" name="q" value="[% keywords | html %]" />

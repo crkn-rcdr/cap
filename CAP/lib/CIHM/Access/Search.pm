@@ -22,6 +22,17 @@ has 'schema' => (
 	}
 );
 
+# is your handler a string? you're in luck
+sub dispatch {
+	my ($self, $handler, $options, $params) = @_;
+	if (my $func = $self->can($handler)) {
+		return $func->($self, $options, $params);
+	} else {
+		die "Unknown handler: $handler";
+	}
+}
+
+# HANDLERS
 sub general {
 	my ($self, $options, $params) = @_;
 
@@ -31,6 +42,12 @@ sub general {
 		sort => $params->{so} );
 
 	return $self->_request('/search/general', $options, $params);
+}
+
+sub page {
+	my ($self, $options, $params) = @_;
+	
+	return $self->_request('/search/page', $options, $params);
 }
 
 # options can include:

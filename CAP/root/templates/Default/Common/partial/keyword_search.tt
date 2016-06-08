@@ -6,7 +6,7 @@
     <div class="span12">
         <form class="form-inline" id="keywordSearch" method="GET" action="[% c.uri_for_action("/search/index") %]">
         [% IF c.session.$portal.defined("search") %]
-            <a class="form-align" href="[% c.uri_for_action("search/result_page", c.session.$portal.search.start, c.session.$portal.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
+            <a class="form-align" href="[% c.uri_for_action("search/index", c.session.$portal.search.start, c.session.$portal.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
             [% IF is_hosted_document || doc.has_parent %]<span class="divider"></span>[% END %]
         [% END %]
         [% IF doc.has_parent %]
