@@ -46,6 +46,12 @@ sub general {
 
 sub page {
 	my ($self, $options, $params) = @_;
+	die "Params did not contain pkey" unless defined $params->{pkey};
+	foreach my $filter (keys $self->schema->filters) {
+		delete $params->{$filter} unless $filter eq 'pkey';
+	}
+
+	%$options = ( %$options, text_only => 1 );
 	
 	return $self->_request('/search/page', $options, $params);
 }
@@ -57,10 +63,12 @@ sub page {
 # limit: number of rows to return
 # facet: flag for turning on faceted results, with fields based on Schema
 # date_stats: flag for turning on pubmin/pubmax
+# text_only: search text fields only
 sub _request {
 	my ($self, $handler, $options, $params) = @_;
 
-	my $query = $self->query($params);
+	my $field_key = $options->{text_only} ? 'text' : 'general';
+	my $query = $self->query($params, $field_key);
 	my $search = { query => $query };
 
 	my $resultset = $self->_resultset($handler, $options, $query);
@@ -123,8 +131,10 @@ sub _get_sort {
 
 # builds a CIHM::Access::Search::Query using the local schema
 sub query {
-	my ($self, $params) = @_;
-	return CIHM::Access::Search::Query->new({ schema => $self->schema, params => $params });
+	my ($self, $params, $field_key) = @_;
+	my $args = { schema => $self->schema, params => $params };
+	$args->{field_key} = $field_key if $field_key;
+	return CIHM::Access::Search::Query->new($args);
 }
 
 # transforms a posted search into terms to redirect to

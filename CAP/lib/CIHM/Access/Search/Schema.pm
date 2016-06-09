@@ -8,16 +8,21 @@ use Types::Standard qw/HashRef ArrayRef CodeRef Str/;
 
 has 'fields' => (
 	is => 'ro',
-	isa => HashRef[ArrayRef[Str]],
+	isa => HashRef[HashRef[ArrayRef[Str]]],
 	default => sub {
 		return {
-			default => [qw/gq tx/],
-			ti => [qw/ti/],
-			au => [qw/au/],
-			pu => [qw/pu/],
-			su => [qw/su/],
-			tx => [qw/tx/],
-			no => [qw/ab no no_rights no_source/]
+			general => {
+				default => [qw/gq tx/],
+				ti => [qw/ti/],
+				au => [qw/au/],
+				pu => [qw/pu/],
+				su => [qw/su/],
+				tx => [qw/tx/],
+				no => [qw/ab no no_rights no_source/]
+			}, text => {
+				default => [qw/tx/],
+				tx => [qw/tx/]
+			}
 		};
 	}
 );

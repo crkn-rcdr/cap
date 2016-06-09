@@ -37,11 +37,9 @@
     </h2>
 
     [% INCLUDE partial/published_and_pages.tt result=result %]
-    [% IF result.type == "document" && result.component_count > 0 -%]
-        <p>figure out matching pages</p>
-        [% paramsQ = c.req.params.defined("q") ? c.req.params.q : "" -%]
-        [% paramsTx = c.req.params.defined("tx") ? c.req.params.tx : "" -%]
-        [% INCLUDE partial/matching_pages.tt key=record.key q=paramsQ tx=paramsTx %]
+    [% IF result.type == "document" && result.component_count > 0 && query.has_text_terms -%]
+        [% limit = result.component_count %]
+        [% INCLUDE partial/matching_pages.tt pkey=result.key limit=limit %]
     [% END -%]
     <div class="collapse" id="dr_[% loop.count %]">
         [% INCLUDE partial/document_record.tt record=result %]

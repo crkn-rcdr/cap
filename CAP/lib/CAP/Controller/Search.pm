@@ -43,6 +43,7 @@ sub index :Path('') {
                   looks_like_number($handler) ? $handler : 1;
 
     $handler = $handler && !looks_like_number($handler) ? $handler : 'general';
+    $c->detach('matching_pages') if ($handler eq 'page');
 
     # Retrieve the first page of results unless otherwise requested.
     $page = 1 unless ($page > 1);
@@ -74,13 +75,29 @@ sub index :Path('') {
     return 1;
 }
 
-sub matching_pages :Path('matching_pages') {
-    my($self, $c, $key, $rows, $start) = @_;
-    $c->detach('/error', [404, "Can only be called through fmt=ajax"]) unless $c->stash->{current_view} eq 'Ajax';
-    my $subset = $c->portal->subset;
-    my $doc = $c->model('Solr')->document($key, subset => $subset);
-    $c->stash( doc => $doc, page_search => $c->model('Solr')->search_document_pages($doc, $c->req->params, $subset, $rows, $start));
+sub matching_pages :Private {
+    my ($self, $c) = @_;
+
+    my $search;
+    eval {
+        $search = $c->model('Access::Search')->dispatch('page', {}, $c->req->params);
+    };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
+
+    $c->stash(
+        resultset  => $search->{resultset},
+        query      => $search->{query},
+        template   => 'search.tt',
+    );
+
     return 1;
+}
+
+sub post :Local {
+    my ($self, $c) = @_;
+    my $get_params = $c->model('Access::Search')->transform_query($c->req->params);
+    $c->response->redirect($c->uri_for_action('/search/index', $get_params));
+    $c->detach();
 }
 
 __PACKAGE__->meta->make_immutable;

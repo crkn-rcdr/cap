@@ -31,7 +31,7 @@
 [% END %]
 
 <aside class="search-controls">
-    <form method="GET" action="[% c.uri_for_action("/search/index") %]">
+    <form method="POST" action="[% c.uri_for_action("/search/post") %]">
         [% IF pkey %]<input type="hidden" name="pkey" value="[% pkey %]" />[% END -%]
         <p>[% c.loc("Refine your search:") %]</p>
         <input class="span3" type="text" name="q" value="[% c.req.query_params.defined("q") ? c.req.query_params.q : "" | html %]" />

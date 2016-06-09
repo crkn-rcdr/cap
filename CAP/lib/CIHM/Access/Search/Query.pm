@@ -5,11 +5,17 @@ use strictures 2;
 
 use Moo;
 use List::Util qw/reduce/;
-use Types::Standard qw/HashRef ArrayRef Str/;
+use Types::Standard qw/HashRef ArrayRef Str Bool/;
 
 has 'schema' => (
 	is => 'ro',
 	required => 1
+);
+
+has 'field_key' => (
+	is => 'ro',
+	isa => Str,
+	default => 'general'
 );
 
 has 'params' => (
@@ -41,6 +47,12 @@ sub to_cap {
 has 'query_terms' => (
 	is => 'lazy',
 	isa => ArrayRef
+);
+
+has 'has_text_terms' => (
+	is => 'rwp',
+	isa => Bool,
+	default => 0
 );
 
 # Parameters:
@@ -153,7 +165,9 @@ sub _analyze_term {
 	$field_modifier = 'default' unless ($field_modifier);
 
 	return '' unless ($token && $token ne ':');
-	return '' if ($field_modifier && !exists $self->schema->fields->{$field_modifier});
+	return '' if ($field_modifier && !exists $self->schema->fields->{$self->field_key}{$field_modifier});
+
+	$self->_set_has_text_terms(1) if grep(/$field_modifier/, keys $self->schema->fields->{text});
 
 	$token = $self->_parse_token($token);
 	my @result;
@@ -162,7 +176,7 @@ sub _analyze_term {
 	push @result,
 		reduce { $a . ' OR ' . $b }
 		map { "$_:$token" }
-		@{$self->schema->fields->{$field_modifier}};
+		@{$self->schema->fields->{$self->field_key}{$field_modifier}};
 	push @result, ')';
 
 	return join '', @result;
