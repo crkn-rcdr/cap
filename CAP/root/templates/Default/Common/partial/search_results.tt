@@ -24,7 +24,7 @@
     [% END -%]
 </section>
 
-[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" %]
+[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" init_arg=search_handler %]
 
 [% FOREACH result IN resultset.documents %]
 
@@ -48,4 +48,4 @@
 [% UNLESS loop.last %]<hr />[% END %]
 [% END %]
 
-[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" %]
+[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" init_arg=search_handler %]

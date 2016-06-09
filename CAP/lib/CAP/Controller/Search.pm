@@ -67,9 +67,10 @@ sub index :Path('') {
     };
 
     $c->stash(
-        resultset  => $search->{resultset},
-        query      => $search->{query},
-        template   => 'search.tt',
+        resultset      => $search->{resultset},
+        query          => $search->{query},
+        search_handler => $handler ne 'general' ? $handler : '',
+        template       => 'search.tt',
     );
 
     return 1;
