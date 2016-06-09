@@ -35,7 +35,7 @@
     <form method="POST" action="[% c.uri_for_action("/search/post") %]">
         [% IF pkey %]<input type="hidden" name="pkey" value="[% pkey %]" />[% END -%]
         <p>[% c.loc("Refine your search:") %]</p>
-        <input class="span3" type="text" name="q" value="[% c.req.query_params.defined("q") ? c.req.query_params.q : "" | html %]" />
+        <input class="span3" type="text" name="q" value="[% keywords | html %]" />
         [% UNLESS pkey %]
             [% identifier = c.req.query_params.defined("identifier") ? c.req.query_params.identifier : [] -%]
             [% IF identifier.size == 1 && identifier.match(' '); identifier = identifier.split(' '); END -%]

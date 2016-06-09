@@ -34,7 +34,7 @@
     <form method="POST" action="[% c.uri_for_action("/search/post") %]">
         [% IF pkey %]<input type="hidden" name="pkey" value="[% pkey %]" />[% END -%]
         <p>[% c.loc("Refine your search:") %]</p>
-        <input class="span3" type="text" name="q" value="[% c.req.query_params.defined("q") ? c.req.query_params.q : "" | html %]" />
+        <input class="span3" type="text" name="q" value="[% keywords | html %]" />
         <p>
             <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
             <a class="btn btn-large refine-search" href="[% c.uri_for_action("support", "search") %]">[% c.loc("Help") %]</a>
