@@ -209,7 +209,7 @@ sub transform_query {
 
 sub _term_key {
 	my ($x, $y) = @_;
-	return "q$x|$y";
+	return "q$x.$y";
 }
 
 1;
