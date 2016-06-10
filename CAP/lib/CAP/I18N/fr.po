@@ -3925,3 +3925,7 @@ msgstr "Avis de droit d’auteur"
 
 msgid "All Contributors"
 msgstr "Tous les collaborateurs"
+
+# how did we miss this
+msgid "Search results for %1"
+msgstr "Résultats pour %1"

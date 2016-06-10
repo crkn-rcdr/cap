@@ -1,4 +1,4 @@
-﻿[% title = "Search results for " _ c.req.query_params.q -%]
+﻿[% title = c.loc("Search results for [_1]", query.to_cap) -%]
 
 [%-
     MACRO sort_order(code) INCLUDE macro/sort_order.tt;
