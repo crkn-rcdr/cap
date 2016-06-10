@@ -39,7 +39,7 @@ sub general {
 	%$options = ( %$options,
 		facet => 1,
 		date_stats => 1,
-		sort => $params->{so} );
+		so => $params->{so} );
 
 	return $self->_request('/search/general', $options, $params);
 }
@@ -62,9 +62,17 @@ sub browsable {
 	%$options = ( %$options,
 		facet => 1,
 		date_stats => 1,
-		sort => $params->{so} );
+		so => $params->{so} );
 
 	return $self->_request('/search/browsable', $options, $params);
+}
+
+sub random_document {
+	my ($self, $options) = @_;
+
+	%$options = ( %$options, so => 'random' );
+
+	return $self->_request('/search/randomDocument', $options, {});
 }
 
 # options can include:
