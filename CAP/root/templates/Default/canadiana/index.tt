@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="span12 blurb">
-[% INCLUDE "content/index_text_${lang}.tt" | indent(8) -%]
+    	<p></p>
         <div class="logo"></div>
     </div>
 </div>
