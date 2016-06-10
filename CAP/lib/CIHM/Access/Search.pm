@@ -56,6 +56,17 @@ sub page {
 	return $self->_request('/search/page', $options, $params);
 }
 
+sub browsable {
+	my ($self, $options, $params) = @_;
+
+	%$options = ( %$options,
+		facet => 1,
+		date_stats => 1,
+		sort => $params->{so} );
+
+	return $self->_request('/search/browsable', $options, $params);
+}
+
 # options can include:
 # root_collection: filter on a portal-esque collection
 # sort: sort order as defined by CIHM::Access::Search::Schema
