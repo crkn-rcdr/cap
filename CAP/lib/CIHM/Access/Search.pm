@@ -168,7 +168,7 @@ sub transform_query {
 
 	# "Search in:" parameter
 	my $base_field = $post_params->{field};
-	$base_field = '' unless ($base_field && exists $self->schema->fields->{$base_field});
+	$base_field = '' unless ($base_field && exists $self->schema->fields->{general}{$base_field});
 
 	my @pointer = (0,0);
 	my $or = 0;
