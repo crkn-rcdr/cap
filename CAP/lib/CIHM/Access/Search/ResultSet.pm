@@ -97,8 +97,7 @@ around BUILDARGS => sub {
 		if ($solr_output->{response}{numFound} &&
 			exists $solr_output->{stats} &&
 			exists $solr_output->{stats}{stats_fields}{pubmin}) {
-			$new_args->{pubmin} = substr($solr_output->{stats}{stats_fields}{pubmin}{min}, 0, 4);
-			$new_args->{pubmax} = substr($solr_output->{stats}{stats_fields}{pubmax}{max}, 0, 4);
+			%$new_args = ( %$new_args, %{_handle_stats($solr_output->{stats}{stats_fields}) } );
 		}
 
 		return $class->$orig($new_args);
@@ -106,5 +105,17 @@ around BUILDARGS => sub {
 
 	return $class->$orig(@args);
 };
+
+sub _handle_stats {
+	my $stats = shift;
+	my $args = {};
+	if (exists $stats->{pubmin}) {
+		$args->{pubmin} = substr($stats->{pubmin}{min} || '', 0, 4);
+	}
+	if (exists $stats->{pubmax}) {
+		$args->{pubmax} = substr($stats->{pubmax}{max} || '', 0, 4);
+	}
+	return $args;
+}
 
 1;
