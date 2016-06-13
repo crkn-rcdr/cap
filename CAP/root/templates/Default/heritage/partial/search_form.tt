@@ -1,9 +1,0 @@
-﻿<h2>[% IF c.stash.lang == "fr"; "Recherche"; ELSE; "Search"; END %]</h2>
-<form method="GET" action="[% c.uri_for_action("search/index") %]" class="">
-    <input type="text" class="whf-search-bar span6" name="q" placeholder="[% c.loc("Search the collection") %]" />
-    <button type="submit" class="btn btn-primary btn-large" value="submit">[% c.loc("Search") %]</button>
-    <a class="btn btn-large" href="[% c.uri_for_action("/support", "search") %]">[% c.loc("Help") %]</a>
-    [% IF c.portal.has_feature('random_doc') %]
-        <a class="btn btn-large" href="[% c.uri_for_action("/view/random") %]">[% c.loc("Random Document") %]</a>
-    [% END %]
-</form>

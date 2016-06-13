@@ -1,0 +1,10 @@
+<div class="span3">
+    <label for="fieldSelect">[% c.loc("Search in") %]</label>
+    <select id="fieldSelect" name="field" class="span3">
+        <option value="">[% c.loc("Everything") %]</option>
+        <option value="ti">[% c.loc("Titles") %]</option>
+        <option value="au">[% c.loc("Creator Names") %]</option>
+        <option value="su">[% c.loc("Subjects") %]</option>
+        <option value="tx">[% c.loc("Text") %]</option>
+    </select>
+</div>

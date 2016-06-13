@@ -1,0 +1,33 @@
+<div class="span3">
+    <label for="typeSelect">[% c.loc("Publication type") %]</label>
+    <select id="typeSelect" name="identifier" class="span3">
+        <option value="">[% c.loc("Debates and Journals") %]</option>
+        <option value="debat*">[% c.loc("Debates only") %]</option>
+        <option value="journ*">[% c.loc("Journals only") %]</option>
+    </select>
+</div>
+<div class="span3">
+    <label for="houseSelect">[% c.loc("Chamber") %]</label>
+    <select id="houseSelect" name="identifier" class="span3">
+        <option value="">[% c.loc("Both Chambers") %]</option>
+        <option value="S">[% c.loc("Senate") %]</option>
+        <option value="C">[% c.loc("House of Commons") %]</option>
+    </select>
+</div>
+<div class="span3">
+    <label for="parlSelect">[% c.loc("Parliament") %]</label>
+    <select id="parlSelect" name="identifier" class="span3">
+        <option value="">[% c.loc("All") %]</option>
+        [% FOREACH p IN [1 .. 35] -%]
+        <option value="P[% p %]"><sup>[% ordinate(p, 'f') %]</sup></option> 
+        [% END -%]
+    </select>
+</div>
+<div class="span3">
+    <label for="langSelect">[% c.loc("Language") %]</label>
+    <select id="langSelect" name="lang" class="span3">
+        <option value="">[% c.loc("Both Languages") %]</option>
+        <option value="eng">[% c.loc("English") %]</option>
+        <option value="fra">[% c.loc("French") %]</option>
+    </select>
+</div>

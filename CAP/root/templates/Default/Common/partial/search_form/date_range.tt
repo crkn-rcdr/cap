@@ -1,0 +1,6 @@
+<div class="span3">
+    <label>[% c.loc("Date Range") %]</label>
+    <input type="text" name="df" maxlength="4" class="input-mini" placeholder="[% c.loc("YYYY") %]" />
+    [% c.loc("to") %]
+    <input type="text" name="dt" maxlength="4" class="input-mini" placeholder="[% c.loc("YYYY") %]" />
+</div>
