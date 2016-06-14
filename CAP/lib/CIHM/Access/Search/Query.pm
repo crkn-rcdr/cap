@@ -126,8 +126,7 @@ sub _build_query_terms {
 	my ($self) = @_;
 	my $key_exp = qr/^q(\d+)(?:\.(\d+))?$/;
 	my @value_index = map {
-		$_ =~ /$key_exp/;
-		defined $1 ? [$1, $2, $self->params->{$_}] : ()
+		($_ =~ /$key_exp/) ? [$1, $2, $self->params->{$_}] : ()
 	} keys $self->params;
 
 	my @sort = ();
