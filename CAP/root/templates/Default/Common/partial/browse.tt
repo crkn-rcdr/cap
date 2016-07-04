@@ -20,7 +20,7 @@
                     [% IF terms.index_of(term.id) >= 0 %]
                     <strong>[% term.term %]</strong>
                     [% ELSE %]
-                    <a href="[% c.uri_for_action("view/key", id_prefix _ term.get_column("identifier")) %]">[% term.term %]</a>
+                    <a href="[% c.uri_for_action("view/index", id_prefix _ term.get_column("identifier")) %]">[% term.term %]</a>
                     [% END %]
                 [% ELSE %]
                     [% parent = term.parent.defined ? term.parent : 0 %]

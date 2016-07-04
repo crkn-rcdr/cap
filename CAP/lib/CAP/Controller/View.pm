@@ -71,25 +71,9 @@ sub view_item :Private {
 }
 
 sub view_series :Private {
-    my ($self, $c, $doc) = @_;
-
-    my $page = ($c->req->params->{page} && int($c->req->params->{page} > 0)) ? int($c->req->params->{page}) : 1;
-    my $search = $c->model('Solr')->search({ pkey => $doc->key, t => 'issue' }, $c->portal->subset);
-    # FIXME: Hardcoded portal ids are fun
-    my $rows = $c->portal->id eq 'parl' ? $search->count() : 20;
-
-    my $options = {
-        'sort' => 'seq asc',
-        'fl'   => 'key,pkey,label,pubmin,pubmax,type,contributor,canonicalUri',
-        'rows' => $rows,
-    };
-    my $issues;
-    eval { $issues = $search->run(options => $options, page => $page) };
-    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
-
+    my ($self, $c, $series) = @_;
     $c->stash(
-        doc => $doc,
-        issues => $issues,
+        series => $series,
         template => "view_series.tt"
     );
 
