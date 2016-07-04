@@ -4,6 +4,8 @@ use utf8;
 use strictures 2;
 
 use Moo;
+use Type::Utils qw/class_type/;
+use CIHM::Access::Presentation::Document;
 with 'Role::REST::Client';
 
 has '+type' => (
@@ -14,6 +16,14 @@ has '+persistent_headers' => (
 	default => sub { return { Accept => 'application/json'}; }
 );
 
+has 'content' => (
+	is => 'ro',
+	isa => sub {
+		die "$_[0] is not a CIHM::Access::Content" unless ref($_[0]) eq 'CIHM::Access::Content';
+	},
+	required => 1
+);
+
 sub fetch {
 	my ($self, $key) = @_;
 
@@ -22,29 +32,7 @@ sub fetch {
 		my $error = $response->error;
 		die "Presentation lookup of key $key failed: $error";
 	} else {
-		return $response->data;
-	}
-}
-
-sub fetch_parent {
-	my ($self, $key) = @_;
-
-	my $child = $self->fetch($key);
-	if ($child->{pkey}) {
-		return $self->fetch($child->{pkey});
-	} else {
-		die "$key does not have a parent";
-	}
-}
-
-sub fetch_child {
-	my ($self, $key, $seq) = @_;
-
-	my $parent = $self->fetch($key);
-	if ($parent->{order} && $parent->{order}[$seq - 1]) {
-		return $self->fetch($parent->{order}[$seq - 1]);
-	} else {
-		die "$key does not have a child with seq: $seq";
+		return CIHM::Access::Presentation::Document->new({ record => $response->data, content => $self->content });
 	}
 }
 

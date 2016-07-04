@@ -1,15 +1,17 @@
 [% list = result.defined("pu") ? result.pu.slice(0) : [];
     IF result.type == 'series';
-        IF result.item_count == 1;
+        count = result.item_count || result.order.size;
+        IF count == 1;
             CALL list.push(c.loc("1 reel"));
-        ELSIF result.item_count > 1;
-            CALL list.push(c.loc("[_1] reels", result.item_count));
+        ELSIF count > 1;
+            CALL list.push(c.loc("[_1] reels", count));
         END;
     ELSIF result.type == 'document';
-        IF result.component_count == 1;
+        count = result.component_count || result.order.size;
+        IF count == 1;
             CALL list.push(c.loc("1 page"));
-        ELSIF result.component_count > 1;
-            CALL list.push(c.loc("[_1] pages", result.component_count));
+        ELSIF count > 1;
+            CALL list.push(c.loc("[_1] pages", count));
         END;
     END; %]
 [% IF list.size %]

@@ -15,8 +15,6 @@
 <p>[% c.loc("View this series of documents at [_1]:", c.stash.contributors.names.${doc.contributor}) %] <a href="[% c.uri_for_action("link/index", doc.key) %]" target="_blank">[% doc.canonical_label %]</a></p>
 [% END %]
 
-[% INCLUDE partial/manage_title.tt %]
-
 <ul class="nav nav-tabs">
     <li class="active"><a href="#issuesList" data-toggle="tab">[% c.loc("List of Issues") %]</a></li>
     <li><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>

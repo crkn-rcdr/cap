@@ -64,6 +64,7 @@ sub index :Path('') {
         start    => $page,
         params   => $c->req->params,
         hits     => $search->{resultset}->hits,
+        handler  => $handler ne 'general' ? $handler : '',
     };
 
     $c->stash(

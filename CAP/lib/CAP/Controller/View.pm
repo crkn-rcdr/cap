@@ -14,83 +14,57 @@ CAP::Controller::View - Catalyst Controller
 
 =cut
 
-sub key :Path("") :Args(1) {
-    my($self, $c, $key) = @_;
-    $c->forward("view", [$key, undef]);
-    return 1;
-}
-
-sub key_seq :Path("") :Args(2) {
-    my($self, $c, $key, $seq) = @_;
-    $c->forward("view", [$key, $seq]);
-    return 1;
-}
-
-sub view :Private {
+sub index :Path('') {
     my($self, $c, $key, $seq) = @_;
 
-    # Should we include the document text with the result?
-    my $text = int($c->req->params->{api_text} || 0);
+    my $doc;
+    eval {
+        $doc = $c->model('Access::Presentation')->fetch($key);
+    };
+    $c->detach('/error', [404, "Presentation fetch failed on document $key: $@"]) if $@;
 
-    my $doc = $c->model("Solr")->document($key, text => $text, subset => $c->portal->subset);
-    $c->detach("/error", [404, "Record not found: $key"]) unless $doc && $doc->found;
-
-    # Put the document structure into the response object for use by the API.
-    $c->stash->{response}->{doc} = $doc->record->api;
-
-    given ($doc->record_type) {
-        when ('series') {
-            if ($seq) {
-                $c->detach("/error", [404, "Series does not contain issue $seq: $key"]) unless $doc->child($seq);
-                $c->response->redirect($c->uri_for_action("view/key", $doc->child($seq)->key));
-            }
-            $c->forward("view_series", [$doc]);
-        } when ('document') {
-            $c->auth->title_context($c->model('DB::Titles')->find($doc->record->cap_title_id));
-            $doc->authorize($c->auth);
-            $c->forward("view_doc", [$doc, $seq || $doc->record->first_page() ]);
-        } when ('page') {
-            $c->response->redirect($c->uri_for_action("view/key_seq", $doc->pkey, $doc->seq));
-        } default {
-            $c->detach("/error", [404, "Record has unsupported type $doc->type: $key"]);
-        }
+    if ($doc->is_type('series')) {
+        $c->detach('view_series', [$doc]);
+    } elsif ($doc->is_type('document')) {
+        $c->detach('view_item', [$doc, $seq]);
+    } elsif ($doc->is_type('page')) {
+        $c->response->redirect($c->uri_for_action('view', $doc->record->{pkey}, $doc->record->{seq}));
+        $c->detach();
+    } else {
+        $c->detach('/error', [404, "Presentation document has unsupported type $doc->record->{type}: $key"]);
     }
-
-    return 1;
 }
 
-sub view_doc :Private {
-    my ($self, $c, $doc, $seq) = @_;
+sub view_item :Private {
+    my ($self, $c, $item, $seq) = @_;
 
-    # Make sure we are asking for a valid page sequence.
-    $c->detach("/error", [404, "Invalid sequence: $seq"]) unless ($seq && $seq =~ /^\d+$/);
+    $seq = $item->first_component_seq unless ($seq && $seq =~ /^\d+$/);
 
-    if ($doc->child_count > 0) {
-        my $page = $doc->set_active_child($seq);
-
+    if ($item->has_children) {
         # Make sure the requested page exists.
-        $c->detach("/error", [404, "Page not found: $seq"]) unless $page;
+        $c->detach("/error", [404, "Page not found: $seq"]) unless $item->has_child($seq);
 
         # Set image size and rotation
         my $size = 1;
         my $rotate = 0;
-        if (defined($c->request->query_params->{s}) && defined($c->config->{derivative}->{size}->{$c->request->query_params->{s}})) {
+        if (defined($c->request->query_params->{s}) && defined($item->content->{derivative_config}->{size}->{$c->request->query_params->{s}})) {
             $size = int($c->request->query_params->{s});
         }
-        if (defined($c->request->query_params->{r}) && defined($c->config->{derivative}->{rotate}->{$c->request->query_params->{r}})) {
+        if (defined($c->request->query_params->{r}) && defined($item->content->{derivative_config}->{rotate}->{$c->request->query_params->{r}})) {
             $rotate = int($c->request->query_params->{r});
         }
 
         $c->stash(
-            doc => $doc,
+            item => $item,
+            seq => $seq,
             rotate => $rotate,
             size => $size,
-            template => "view_doc.tt",
+            template => "view_item.tt",
         );
-    } else { # we don't have a document with pages
+    } else { # we don't have a item with components
         $c->stash(
-            doc => $doc,
-            template => "view_doc.tt"
+            item => $item,
+            template => "view_item.tt"
         );
     }
     return 1;

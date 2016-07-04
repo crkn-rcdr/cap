@@ -1,10 +1,18 @@
-[% seriesText = c.portal.id == "parl" ? c.loc("Search within this session:") : c.loc("Search within this series:") %]
-[% documentText = c.portal.id == "parl" ? c.loc("Search within this volume:") : c.loc("Search within this document:") %]
+[% IF portal == 'parl' %]
+[% seriesText = c.loc("Search within this session:") %]
+[% documentText = c.loc("Search within this volume:") %]
+[% ELSIF portal == 'heritage' %]
+[% seriesText = c.loc("Search within this collection:") %]
+[% documentText = c.loc("Search within this reel:") %]
+[% ELSE %]
+[% seriesText = c.loc("Search within this series:") %]
+[% documentText = c.loc("Search within this document:") %]
+[% END %]
 [% sessionQ = c.session.$portal.defined("search") && c.session.$portal.search.params.defined("q") ? c.session.$portal.search.params.q : "" %]
 [% sessionTx = c.session.$portal.defined("search") && c.session.$portal.search.params.defined("tx") ? c.session.$portal.search.params.tx : "" %]
 <div class="row">
     <div class="span12">
-        <form class="form-inline" id="keywordSearch" method="GET" action="[% c.uri_for_action("/search/index") %]">
+        <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
         [% IF c.session.$portal.defined("search") %]
             <a class="form-align" href="[% c.uri_for_action("search/index", c.session.$portal.search.start, c.session.$portal.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
             [% IF is_hosted_document || doc.has_parent %]<span class="divider"></span>[% END %]

@@ -1,0 +1,29 @@
+[% item_title = item.canonical_label | truncate(50) %]
+[% title = item_title _ (c.stash.defined('component') ? " - " _ component.label : "") %]
+[% c.stash.nofollow = 1 %]
+[% c.stash.description = item.canonical_label;
+   IF item.record.defined("pu"); c.stash.description = c.stash.description _ " : " _ item.record.pu.join("; "); END;
+   IF item.record.defined("au"); c.stash.description = c.stash.description _ " : " _ item.record.au.join("; "); END %] 
+
+[% INCLUDE partial/keyword_search.tt label=doc.label key=doc.key t="page" so="seq" %]
+
+<h2>
+    [% IF item.has_parent -%]
+        <a href="[% c.uri_for_action("view/index", doc.record.pkey) %]">[% doc.record.plabel %]</a> :
+    [% END -%]
+    [% item.record.label %]
+</h2>
+[% INCLUDE partial/published_and_pages.tt result=item.record %]
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#pageViewer" data-toggle="tab">[% c.loc("View") %]</a></li>
+    <li><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="pageViewer">
+        [% INCLUDE partial/page_viewer.tt %]
+    </div>
+    <div class="tab-pane" id="documentRecord">
+        [% INCLUDE partial/document_record.tt record=item.record %]
+    </div>
+</div>

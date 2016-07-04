@@ -17,17 +17,15 @@ CAP::Controller::File - Catalyst Controller
 sub get_page_uri :Local :Args(2) {
     my($self, $c, $key, $seq) = @_;
 
-    my $doc = $c->model("Solr")->document($key);
-    my $result;
-    unless ($doc && $doc->found) {
-        $result = [404, "No document with key $key"];
-    } else {
-        $c->auth->title_context($c->model('DB::Titles')->find($doc->record->cap_title_id));
-        $doc->authorize($c->auth);
-        my $size = $c->req->params->{s} || "1";
-        my $rotate = $c->req->params->{r} || "0";
-        $result = $c->cap->derivative_request($doc, $seq, "file.jpg", $size, $rotate, "jpg");
-    }
+    my $doc;
+    eval {
+        $doc = $c->model('Access::Presentation')->fetch($key);
+    };
+    $c->detach('/error', [404, "Presentation fetch failed on document $key: $@"]) if $@;
+
+    my $size = $c->req->params->{s} || "1";
+    my $rotate = $c->req->params->{r} || "0";
+    my $result = $doc->validate_derivative($seq || $doc->first_component_seq, $size, $rotate);
 
     if ($c->req->params->{redirect}) {
         if ($result->[0] == 200) {
