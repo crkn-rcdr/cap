@@ -4,7 +4,7 @@
         <div class="container">
             <a class="brand" href="[% c.uri_for_action("/index") %]">[% portal_name %]</a>
             [% IF c.auth.can_use('searching') %]
-            <form class="navbar-form pull-left" method="GET" action="[% c.uri_for_action("search/index") %]">
+            <form class="navbar-form pull-left" method="POST" action="[% c.uri_for_action("search/post") %]">
                 <input type="text" class="span3" placeholder="[% c.loc("New Search") %]" name="q" />
             </form>
             [% END -%]
