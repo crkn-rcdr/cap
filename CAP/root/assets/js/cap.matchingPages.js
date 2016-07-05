@@ -14,11 +14,8 @@
             this.$results = $('.matching-pages-results', this.$element);
             this.callUrl = ['', 'search', 'page'].join('/');
 
-            // see https://css-tricks.com/snippets/jquery/get-query-params-object/
-            this.params = document.location.search.
-                replace(/(^\?)/,'').split("&").map(function(n){
-                    return n = n.split("="), this[n[0]] = decodeURIComponent(n[1]), this;
-                }.bind({}))[0];
+            // params come in as html-encoded JSON (which is hilarious) 
+            this.params = JSON.parse($('<div/>').html(this.$element.attr('data-params')).text());
             this.params.pkey = this.$element.attr('data-pkey');
             this.params.limit = this.$element.attr('data-limit');
             this.params.fmt = 'ajax';

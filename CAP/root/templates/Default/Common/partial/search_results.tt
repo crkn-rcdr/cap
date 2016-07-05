@@ -39,7 +39,7 @@
     [% INCLUDE partial/published_and_pages.tt result=result %]
     [% IF result.type == "document" && result.component_count > 0 && query.has_text_terms -%]
         [% limit = result.component_count %]
-        [% INCLUDE partial/matching_pages.tt pkey=result.key limit=limit %]
+        [% INCLUDE partial/matching_pages.tt params=query.json_params pkey=result.key limit=limit %]
     [% END -%]
     <div class="collapse" id="dr_[% loop.count %]">
         [% INCLUDE partial/document_record.tt record=result %]
