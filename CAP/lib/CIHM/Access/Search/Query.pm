@@ -4,7 +4,6 @@ use utf8;
 use strictures 2;
 
 use Moo;
-use JSON qw/encode_json/;
 use List::Util qw/reduce/;
 use Types::Standard qw/HashRef ArrayRef Str Bool/;
 
@@ -23,11 +22,6 @@ has 'params' => (
 	is => 'ro',
 	isa => HashRef,
 	required => 1
-);
-
-has 'json_params' => (
-	is => 'lazy',
-	isa => Str
 );
 
 has 'solr_query' => (
@@ -203,11 +197,6 @@ sub _parse_token {
 	}
 
 	return $token;
-}
-
-sub _build_json_params {
-	my ($self) = @_;
-	return encode_json($self->params);
 }
 
 1;

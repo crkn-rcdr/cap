@@ -5,6 +5,8 @@ use base 'Catalyst::View::TT';
 use Date::Format qw(time2str);
 use Date::Parse qw(str2time);
 use Scalar::Util qw(looks_like_number);
+use HTML::Entities;
+use JSON qw/encode_json/;
 
 
 __PACKAGE__->config(
@@ -50,6 +52,11 @@ __PACKAGE__->config(
             while (my($key, $value) = each(%{$hash})) { $joined->{$key} = $value; }
             foreach my $key (@keys) { delete($joined->{$key}) if (defined($joined->{$key})); }
             return $joined;
+        },
+
+        to_json_html => sub {
+            my ($hash) = @_;
+            return encode_entities(encode_json($hash));
         },
 
         format_date => sub {
