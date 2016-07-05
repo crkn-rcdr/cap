@@ -1,13 +1,13 @@
 [% list = result.defined("pu") ? result.pu.slice(0) : [];
     IF result.type == 'series';
-        count = result.item_count || result.order.size;
+        count = result.item_count || result.order.size || 0;
         IF count == 1;
             CALL list.push(c.loc("1 issue"));
         ELSIF count > 1;
             CALL list.push(c.loc("[_1] issues", count));
         END;
     ELSIF result.type == 'document';
-        count = result.component_count || result.order.size;
+        count = result.component_count || result.order.size || 0;
         IF count == 1;
             CALL list.push(c.loc("1 page"));
         ELSIF count > 1;
