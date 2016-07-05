@@ -5,7 +5,8 @@ use strictures 2;
 
 use Moo;
 use Types::Standard qw/HashRef/;
-use List::Util qw/any min/;
+use List::Util qw/min/;
+use List::MoreUtils qw/any/;
 
 has 'record' => (
 	is => 'ro',
