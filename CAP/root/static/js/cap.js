@@ -24255,7 +24255,9 @@ $.extend( $.fn.dataTableExt.oPagination, {
 
             // see https://css-tricks.com/snippets/jquery/get-query-params-object/
             this.params = document.location.search.
-                replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
+                replace(/(^\?)/,'').split("&").map(function(n){
+                    return n = n.split("="), this[n[0]] = decodeURIComponent(n[1]), this;
+                }.bind({}))[0];
             this.params.pkey = this.$element.attr('data-pkey');
             this.params.limit = this.$element.attr('data-limit');
             this.params.fmt = 'ajax';
