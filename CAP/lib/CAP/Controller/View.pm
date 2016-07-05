@@ -100,7 +100,7 @@ sub random : Path('/viewrandom') Args() {
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
-    $c->res->redirect($c->uri_for_action('view/key', $doc->{key}));
+    $c->res->redirect($c->uri_for_action('view/index', $doc->{key}));
     $c->detach();
 }
 
