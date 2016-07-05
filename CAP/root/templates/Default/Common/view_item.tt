@@ -9,7 +9,7 @@
 
 <h2>
     [% IF item.has_parent -%]
-        <a href="[% c.uri_for_action("view/index", doc.record.pkey) %]">[% doc.record.plabel %]</a> :
+        <a href="[% c.uri_for_action("view/index", item.record.pkey) %]">[% item.record.plabel %]</a> :
     [% END -%]
     [% item.record.label %]
 </h2>
