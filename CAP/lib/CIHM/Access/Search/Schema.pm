@@ -20,7 +20,7 @@ has 'fields' => (
 				tx => [qw/tx/],
 				no => [qw/ab no no_rights no_source/]
 			}, text => {
-				default => [qw/tx/],
+				default => [qw/gq tx/],
 				tx => [qw/tx/]
 			}
 		};
