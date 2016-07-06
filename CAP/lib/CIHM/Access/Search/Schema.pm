@@ -50,7 +50,8 @@ has 'sorting' => (
 		return {
 			oldest => 'pubmin asc',
 			newest => 'pubmax desc',
-			random => sub { my $now = time; return "random_$now asc"; }
+			random => sub { my $now = time; return "random_$now asc"; },
+			seq => 'seq asc'
 		};
 	}
 );

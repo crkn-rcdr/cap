@@ -16,7 +16,7 @@
     [% IF pkey && resultset.documents.size -%]
         <h3>
             <a href="[% c.uri_for_action("/search/index", c.req.mangle_params({ pkey => "" })) %]">[&times;]</a>
-            [% c.loc("Searching within") %] <a href="[% c.uri_for_action("view/key", pkey) %]"><i>[% resultset.docs.first.parent.label %]</i></a>.
+            [% c.loc("Searching within") %] <a href="[% c.uri_for_action("view/index", pkey) %]"><i>[% resultset.documents.0.plabel %]</i></a>.
         </h3>
     [% END -%]
     [% IF hits_from > 1 || hits_to < hits -%]

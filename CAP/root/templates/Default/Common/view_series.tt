@@ -5,7 +5,7 @@
    IF series.record.defined("pu"); c.stash.description = c.stash.description _ " : " _ series.record.pu.join("; "); END;
    IF series.record.defined("au"); c.stash.description = c.stash.description _ " : " _ series.record.au.join("; "); END %] 
 
-[% INCLUDE partial/keyword_search.tt label=series.canonical_label key=series.record.key %]
+[% INCLUDE partial/series_keyword_search.tt label=series.canonical_label key=series.record.key %]
 
 <h2>[% series.canonical_label %]</h2>
 [% INCLUDE partial/published_and_pages.tt record=series.record %]
