@@ -12,47 +12,49 @@
             this.$element = $(element);
             this.$searching = $('.matching-pages-searching', this.$element);
             this.$results = $('.matching-pages-results', this.$element);
-            this.callUrl = ['', 'search', 'page'].join('/');
+            this.callUrl = ['', 'search', 'post'].join('/');
 
-            // params come in as html-encoded JSON (which is hilarious) 
-            this.params = JSON.parse($('<div/>').html(this.$element.attr('data-params')).text());
-            this.params.pkey = this.$element.attr('data-pkey');
-            this.params.limit = this.$element.attr('data-limit');
-            this.params.fmt = 'ajax';
+            this.params = {
+                q: this.$element.attr('data-query'),
+                pkey: this.$element.attr('data-pkey'),
+                limit: this.$element.attr('data-limit'),
+                fmt: 'ajax',
+                handler: 'page'
+            }
 
             this.$searching.show();
             this.makeCall();
 
-            // var $keywordSearch = $('#keywordSearch');
-            // if ($keywordSearch.length) {
-            //     $keywordSearch.on('submit', $.proxy(this.submitSearch, this));
-            // }
+            var $keywordSearch = $('#keywordSearch');
+            if ($keywordSearch.length) {
+                $keywordSearch.on('submit', $.proxy(this.submitSearch, this));
+            }
 
-            // var $pvToolbar = $('#pvToolbar');
-            // if ($pvToolbar.length) {
-            //     var pageViewer = $pvToolbar.data().pageViewer;
-            //     this.$element.on('click', '.matching-page', function(e) {
-            //         e.preventDefault();
-            //         pageViewer.goToPage(parseInt($(this).attr('data-seq'), 10));
-            //     })
-            // }
+            var $pvToolbar = $('#pvToolbar');
+            if ($pvToolbar.length) {
+                var pageViewer = $pvToolbar.data().pageViewer;
+                this.$element.on('click', '.matching-page', function(e) {
+                    e.preventDefault();
+                    pageViewer.goToPage(parseInt($(this).attr('data-seq'), 10));
+                })
+            }
         },
 
-        // submitSearch: function(e) {
-        //     e.preventDefault();
-        //     this.params.q = $('input[name="q"]', $('#keywordSearch')).val();
-        //     this.params.tx = "";
-        //     if (!!this.params.q) {
-        //         this.$results.empty();
-        //         this.$searching.show();
-        //         this.initialCall();
-        //     }
-        // },
+        submitSearch: function(e) {
+            e.preventDefault();
+            this.params.q = $('input[name="q"]', $('#keywordSearch')).val();
+            if (!!this.params.q) {
+                this.$results.empty();
+                this.$searching.show();
+                this.makeCall();
+            }
+        },
 
         makeCall: function() {
             var that = this;
             $.ajax({
                 url: this.callUrl,
+                method: 'post',
                 dataType: 'html',
                 data: this.params,
                 success: $.proxy(this.success, this),

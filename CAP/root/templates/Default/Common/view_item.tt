@@ -5,7 +5,7 @@
    IF item.record.defined("pu"); c.stash.description = c.stash.description _ " : " _ item.record.pu.join("; "); END;
    IF item.record.defined("au"); c.stash.description = c.stash.description _ " : " _ item.record.au.join("; "); END %] 
 
-[% INCLUDE partial/item_keyword_search.tt label=doc.label key=doc.key t="page" so="seq" %]
+[% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=item.record.key %]
 
 <h2>
     [% IF item.has_parent -%]

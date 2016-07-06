@@ -1,37 +1,28 @@
 [% IF portal == 'parl' %]
-[% seriesText = c.loc("Search within this session:") %]
-[% documentText = c.loc("Search within this volume:") %]
+[% search_label = c.loc("Search within this volume:") %]
 [% ELSIF portal == 'heritage' %]
-[% seriesText = c.loc("Search within this collection:") %]
-[% documentText = c.loc("Search within this reel:") %]
+[% search_label = c.loc("Search within this reel:") %]
 [% ELSE %]
-[% seriesText = c.loc("Search within this series:") %]
-[% documentText = c.loc("Search within this document:") %]
+[% search_label = c.loc("Search within this document:") %]
 [% END %]
-[% sessionQ = c.session.$portal.defined("search") && c.session.$portal.search.params.defined("q") ? c.session.$portal.search.params.q : "" %]
-[% sessionTx = c.session.$portal.defined("search") && c.session.$portal.search.params.defined("tx") ? c.session.$portal.search.params.tx : "" %]
 <div class="row">
     <div class="span12">
         <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
         [% IF c.session.$portal.defined("search") %]
-            <a class="form-align" href="[% c.uri_for_action("search/index", c.session.$portal.search.start, c.session.$portal.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
-            [% IF is_hosted_document || doc.has_parent %]<span class="divider"></span>[% END %]
+            <a class="form-align" href="[% c.uri_for_action("search/index", c.session.$portal.search.handler, c.session.$portal.search.start, c.session.$portal.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
+            <span class="divider"></span>
         [% END %]
-        [% IF doc.has_parent %]
-            <a class="form-align" href="[% c.uri_for_action("view/key", doc.parent.key) %]">&laquo; [% doc.parent.label %]</a>
-            [% IF is_hosted_document %]<span class="divider"></span>[% END %]
+        [% IF item.has_parent %]
+            <a class="form-align" href="[% c.uri_for_action("view/index", item.record.pkey) %]">&laquo; [% item.record.plabel %]</a>
+            <span class="divider"></span>
         [% END %]
-        [% IF is_hosted_document %]
             <input type="hidden" name="pkey" value="[% key %]" />
-            <input type="hidden" name="t" value="any" />
+            <input type="hidden" name="handler" value="page" />
             <input type="hidden" name="so" value="seq" />
-            <label>[% doc.record_type == "series" ? seriesText : documentText %]</label>
-            <input type="text" name="q" placeholder="" value="[% sessionQ | html %]" />
+            <label>[% search_label %]</label>
+            <input type="text" name="q" placeholder="" value="[% c.session.$portal.search.query %]" />
             <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("Search") %]</button>
-            [% IF doc.record_type == "document" -%]
-            [% INCLUDE partial/matching_pages.tt key=key q=sessionQ tx=sessionTx %]
-            [% END -%]
-        [% END %]
+            [% INCLUDE partial/matching_pages.tt query=c.session.$portal.search.query pkey=item.record.key limit=item.record.order.size %]
         </form>
     </div>
 </div>

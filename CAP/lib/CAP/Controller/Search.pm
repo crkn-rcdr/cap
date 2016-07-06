@@ -64,6 +64,7 @@ sub index :Path('') {
         start    => $page,
         params   => $c->req->params,
         hits     => $search->{resultset}->hits,
+        query    => $search->{query}->cap_query,
         handler  => $handler ne 'general' ? $handler : '',
     };
 
@@ -98,7 +99,8 @@ sub matching_pages :Private {
 sub post :Local {
     my ($self, $c) = @_;
     my $get_params = $c->model('Access::Search')->transform_query($c->req->params);
-    $c->response->redirect($c->uri_for_action('/search/index', $get_params));
+    my $handler = delete $get_params->{handler};
+    $c->response->redirect($c->uri_for_action('/search/index', $handler, $get_params));
     $c->detach();
 }
 
