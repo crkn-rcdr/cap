@@ -6,7 +6,6 @@ use Moose;
 use MooseX::Method::Signatures;
 
 has 'subscription'    => (is => 'ro', isa => 'Maybe[CAP::Model::DB::UserSubscription]', default => undef, documentation => 'subscription row');
-has 'title_context'   => (is => 'rw', isa => 'Maybe[CAP::Model::DB::Titles]', default => undef, documentation => 'subscription row');
 has 'institution_sub' => (is => 'ro', isa => 'Int', default => 0, documentation => 'has an institutional subscription');
 
 has 'access'          => (is => 'ro', isa => 'HashRef', documentation => 'access matrix for the portal');
@@ -78,19 +77,7 @@ for content at $level. If $level is ommitted, the default title context is
 
 =cut
 method can_access (Str $feature, Int $level?) {
-
-    if (! defined($level)) {
-        if ($self->title_context) {
-            #warn "Getting level from title context";
-            $level = $self->title_context->level;
-        }
-        else {
-            #warn "Using default level 0";
-            $level = 0;
-        }
-    }
-
-    #warn "Level is $level";
+    $level ||= 0;
 
     my $min_level = $self->min_user_level($feature, $level);
 

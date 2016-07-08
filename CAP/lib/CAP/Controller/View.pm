@@ -38,6 +38,7 @@ sub index :Path('') {
 sub view_item :Private {
     my ($self, $c, $item, $seq) = @_;
 
+    $item->authorize_item($c->auth);
     $seq = $item->first_component_seq unless ($seq && $seq =~ /^\d+$/);
 
     if ($item->has_children) {
