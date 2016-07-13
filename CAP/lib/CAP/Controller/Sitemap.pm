@@ -48,7 +48,7 @@ sub index :Path('') Args(1) {
         my $url = $doc->createElement('url');
         my $loc = $doc->createElement('loc');
 
-        $loc->appendChild($doc->createTextNode($c->uri_for_action('view/key', [ $title->identifier ])));
+        $loc->appendChild($doc->createTextNode($c->uri_for_action('view/index', $title->identifier)));
         $url->appendChild($loc);
 
         # Add an update time if there is one
