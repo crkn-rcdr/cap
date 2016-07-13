@@ -22,8 +22,10 @@
                 handler: 'page'
             }
 
-            this.$searching.show();
-            this.makeCall();
+            if (!!this.params.q) {
+                this.$searching.show();
+                this.makeCall();
+            }
 
             var $keywordSearch = $('#keywordSearch');
             if ($keywordSearch.length) {
