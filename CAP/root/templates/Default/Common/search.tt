@@ -1,10 +1,10 @@
-﻿[% title = "Search results for " _ c.req.query_params.q -%]
+﻿[% title = c.loc("Search results for [_1]", query.to_cap) -%]
 
 [%-
     MACRO sort_order(code) INCLUDE macro/sort_order.tt;
     MACRO format_number(number) INCLUDE macro/format_number.tt;
     MACRO hash_to_hidden(hash) INCLUDE macro/hash_to_hidden.tt;
-    keywords = c.req.query_params.defined("q") ? c.req.query_params.q : "";
+    keywords = query.to_cap;
     pkey = c.req.query_params.defined("pkey") ? c.req.query_params.pkey : "";
     sort = c.req.query_params.defined("so") ? c.req.query_params.so : "score";
     searchLang = c.req.query_params.defined("lang") ? c.req.query_params.lang : "";
@@ -14,8 +14,8 @@
     date_from = c.req.query_params.defined("df") ? c.req.query_params.df : "";
     date_to = c.req.query_params.defined("dt") ? c.req.query_params.dt : "";
     hits = resultset.hits;
-    hits_from = resultset.hits_from;
-    hits_to = resultset.hits_to;
+    hits_from = resultset.first;
+    hits_to = resultset.last;
     current_page = resultset.page;
     total_pages = resultset.pages;
 -%]

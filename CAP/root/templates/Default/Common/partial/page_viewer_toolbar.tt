@@ -1,15 +1,16 @@
-<nav id="pvToolbar" class="btn-toolbar" data-seq="[% page.seq %]" data-total="[% doc.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="6" data-pkey="[% page.pkey %]" data-resize="[% doc.auth.resize %]" data-portal-name="[% portal_name %]" data-document-label="[% doc.canonical_label | truncate(50) %]">
+<nav id="pvToolbar" class="btn-toolbar" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="6" data-pkey="[% item.record.key %]" data-resize="[% item.auth.resize %]"  data-portal-name="[% portal_name %]" data-document-label="[% item.canonical_label | truncate(50) %]">
         <select id="pvPageSelect" name="seq">
-            [% FOREACH name IN doc.record.pg_label %]
+            [% FOREACH component_key IN item.record.order %]
+                [% child = item.record.components.$component_key %]
                 [% curr_seq = loop.count %]
-                <option id="seq[% curr_seq %]" data-access="[% doc.auth.page(curr_seq) %]" value="[% curr_seq %]"[% page.seq == curr_seq ? " selected" : "" %]>[% name %]</option>
+                <option id="seq[% curr_seq %]" data-access="[% child.access %]" data-master="[% child.canonicalMaster %]" value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
             [% END %]
         </select>
         <div class="btn-group">
-            [% INCLUDE change_page new_seq=(1) label=c.loc("First Page") disabled=(page.seq <= 1) id="pvFirst" icon_class="first" %]
-            [% INCLUDE change_page new_seq=(page.seq - 1) label=c.loc("Previous Page") disabled=(page.seq <= 1) id="pvPrevious" icon_class="previous" %]
-            [% INCLUDE change_page new_seq=(page.seq + 1) label=c.loc("Next Page") disabled=(page.seq >= doc.child_count) id="pvNext" icon_class="next" %]
-            [% INCLUDE change_page new_seq=(doc.child_count) label=c.loc("Last Page") disabled=(page.seq >= doc.child_count) id="pvLast" icon_class="last" %]
+            [% INCLUDE change_page new_seq=(1) label=c.loc("First Page") disabled=(seq <= 1) id="pvFirst" icon_class="first" %]
+            [% INCLUDE change_page new_seq=(seq - 1) label=c.loc("Previous Page") disabled=(seq <= 1) id="pvPrevious" icon_class="previous" %]
+            [% INCLUDE change_page new_seq=(seq + 1) label=c.loc("Next Page") disabled=(seq >= item.child_count) id="pvNext" icon_class="next" %]
+            [% INCLUDE change_page new_seq=(item.child_count) label=c.loc("Last Page") disabled=(seq >= item.child_count) id="pvLast" icon_class="last" %]
         </div>
         <div class="btn-group">
             [% INCLUDE rotate new_rotation=((rotate - 1) % 4) label=c.loc("Rotate Left") id="pvRotateLeft" icon_class="rotate-left" %]
@@ -17,25 +18,25 @@
         </div>
         [% IF c.auth.is_enabled('resize') %]
         <div class="btn-group">
-            [% INCLUDE resize new_size=(size - 1) label=(doc.auth.resize ? c.loc("Smaller") : c.loc("Resize feature available to subscribers")) id="pvSmaller" icon_class="smaller" %]
-            [% INCLUDE resize new_size=(size + 1) label=(doc.auth.resize ? c.loc("Bigger") : c.loc("Resize feature available to subscribers")) id="pvBigger" icon_class="bigger" %]
+            [% INCLUDE resize new_size=(size - 1) label=(item.auth.resize ? c.loc("Smaller") : c.loc("Resize feature available to subscribers")) id="pvSmaller" icon_class="smaller" %]
+            [% INCLUDE resize new_size=(size + 1) label=(item.auth.resize ? c.loc("Bigger") : c.loc("Resize feature available to subscribers")) id="pvBigger" icon_class="bigger" %]
         </div>
         [% END %]
         [% IF c.auth.is_enabled('download') %]
         <div class="btn-group">
-            [% INCLUDE download label=(doc.auth.download ? c.loc("Download PDF") : c.loc("Subscribers can download a copy of this document.")) id="pvDownload" icon_class="download" %]
+            [% INCLUDE download label=(item.auth.download ? c.loc("Download PDF") : c.loc("Subscribers can download a copy of this document.")) id="pvDownload" icon_class="download" %]
         </div>
         [% END %]
 </nav>
 
 [% BLOCK button %]<a id="[% id %]" class="btn pvbutton[% IF disabled %] disabled[% END %]"[% UNLESS disabled %] href="[% href %]"[% END %] title="[% label %]"><span class="pvicon pvicon-[% icon_class %]"></span></a>[% END %]
 
-[% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/key_seq", page.pkey, new_seq) disabled=disabled %][% END %]
-[% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/key_seq", page.pkey, page.seq, refine(c.req.params, { r => new_rotation })) disabled=(c.stash.rotate == new_rotation) %][% END %]
-[% BLOCK resize %][% INCLUDE button href=c.uri_for_action("view/key_seq", page.pkey, page.seq, refine(c.req.params, { s => new_size })) disabled=(!c.config.derivative.size.defined("$new_size") || !doc.auth.resize) %][% END %]
+[% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/index", page.pkey, new_seq) disabled=disabled %][% END %]
+[% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/index", item.record.key, seq, refine(c.req.params, { r => new_rotation })) disabled=(c.stash.rotate == new_rotation) %][% END %]
+[% BLOCK resize %][% INCLUDE button href=c.uri_for_action("view/index", item.record.key, seq, refine(c.req.params, { s => new_size })) disabled=(!item.content.derivative_config.size.defined("$new_size") || !item.auth.resize) %][% END %]
 [% BLOCK download %]
-    [% request = c.cap.download_request(doc) %]
+    [% request = item.validate_download %]
     [% IF request.0 != 400 # there is no download for this document %]
-        [% INCLUDE button href=request.1 disabled=!doc.auth.download %]
+        [% INCLUDE button href=request.1 disabled=!item.auth.download %]
     [% END %]
 [% END %]

@@ -24251,13 +24251,19 @@ $.extend( $.fn.dataTableExt.oPagination, {
             this.$element = $(element);
             this.$searching = $('.matching-pages-searching', this.$element);
             this.$results = $('.matching-pages-results', this.$element);
-            var key = this.$element.attr('data-key');
-            this.initialCallUrl = ['', 'search', 'matching_pages_initial', key].join('/');
-            this.remainingCallUrl = ['', 'search', 'matching_pages_remaining', key].join('/');
-            this.params = { q: this.$element.attr('data-q'), tx: this.$element.attr('data-tx'), fmt: 'ajax' };
-            if (!!this.params.q || !!this.params.tx) {
+            this.callUrl = ['', 'search', 'post'].join('/');
+
+            this.params = {
+                q: this.$element.attr('data-query'),
+                pkey: this.$element.attr('data-pkey'),
+                limit: this.$element.attr('data-limit'),
+                fmt: 'ajax',
+                handler: 'page'
+            }
+
+            if (!!this.params.q) {
                 this.$searching.show();
-                this.initialCall();
+                this.makeCall();
             }
 
             var $keywordSearch = $('#keywordSearch');
@@ -24278,21 +24284,21 @@ $.extend( $.fn.dataTableExt.oPagination, {
         submitSearch: function(e) {
             e.preventDefault();
             this.params.q = $('input[name="q"]', $('#keywordSearch')).val();
-            this.params.tx = "";
             if (!!this.params.q) {
                 this.$results.empty();
                 this.$searching.show();
-                this.initialCall();
+                this.makeCall();
             }
         },
 
-        initialCall: function() {
+        makeCall: function() {
             var that = this;
             $.ajax({
-                url: this.initialCallUrl,
+                url: this.callUrl,
+                method: 'post',
                 dataType: 'html',
                 data: this.params,
-                success: $.proxy(this.initialSuccess, this),
+                success: $.proxy(this.success, this),
                 error: function(data) {
                     that.$element.empty();
                     that.$element.html("Error &mdash; Erreur");
@@ -24300,36 +24306,9 @@ $.extend( $.fn.dataTableExt.oPagination, {
             });
         },
 
-        initialSuccess: function(data) {
+        success: function(data) {
             this.$searching.hide();
             this.$results.html(data);
-            this.$remLoading = $('.matching-pages-loading', this.$element);
-            this.$remLink = $('.matching-pages-remaining-link', this.$element);
-            this.$remLoading.hide();
-            this.$remLink.removeAttr('href');
-            this.$remLink.on('click', $.proxy(this.getRemaining, this));
-        },
-
-        getRemaining: function(e) {
-            e.preventDefault();
-            this.$remLink.hide();
-            this.$remLoading.show();
-            this.params.rows = parseInt(this.$remLink.attr('data-rows'), 10);
-            var that = this;
-            var $rem = $('.matching-pages-remaining', that.$element);
-            $.ajax({
-                url: this.remainingCallUrl,
-                dataType: 'html',
-                data: this.params,
-                success: function(data) {
-                    $rem.empty();
-                    $rem.html(data);
-                },
-                error: function(data) {
-                    $rem.empty();
-                    $rem.html("Error &mdash; Erreur");
-                }
-            }); 
         }
     };
 

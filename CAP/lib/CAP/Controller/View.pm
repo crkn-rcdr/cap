@@ -14,117 +14,67 @@ CAP::Controller::View - Catalyst Controller
 
 =cut
 
-sub key :Path("") :Args(1) {
-    my($self, $c, $key) = @_;
-    $c->forward("view", [$key, undef]);
-    return 1;
-}
-
-sub key_seq :Path("") :Args(2) {
-    my($self, $c, $key, $seq) = @_;
-    $c->forward("view", [$key, $seq]);
-    return 1;
-}
-
-sub view :Private {
+sub index :Path('') {
     my($self, $c, $key, $seq) = @_;
 
-    # Should we include the document text with the result?
-    my $text = int($c->req->params->{api_text} || 0);
+    my $doc;
+    eval {
+        $doc = $c->model('Access::Presentation')->fetch($key);
+    };
+    $c->detach('/error', [404, "Presentation fetch failed on document $key: $@"]) if $@;
 
-    my $doc = $c->model("Solr")->document($key, text => $text, subset => $c->portal->subset);
-    $c->detach("/error", [404, "Record not found: $key"]) unless $doc && $doc->found;
-
-    # Put the document structure into the response object for use by the API.
-    $c->stash->{response}->{doc} = $doc->record->api;
-
-    given ($doc->record_type) {
-        when ('series') {
-            if ($seq) {
-                $c->detach("/error", [404, "Series does not contain issue $seq: $key"]) unless $doc->child($seq);
-                $c->response->redirect($c->uri_for_action("view/key", $doc->child($seq)->key));
-            }
-            $c->forward("view_series", [$doc]);
-        } when ('document') {
-            $c->auth->title_context($c->model('DB::Titles')->find($doc->record->cap_title_id));
-            $doc->authorize($c->auth);
-            $c->forward("view_doc", [$doc, $seq || $doc->record->first_page() ]);
-        } when ('page') {
-            $c->response->redirect($c->uri_for_action("view/key_seq", $doc->pkey, $doc->seq));
-        } default {
-            $c->detach("/error", [404, "Record has unsupported type $doc->type: $key"]);
-        }
+    if ($doc->is_type('series')) {
+        $c->detach('view_series', [$doc]);
+    } elsif ($doc->is_type('document')) {
+        $c->detach('view_item', [$doc, $seq]);
+    } elsif ($doc->is_type('page')) {
+        $c->response->redirect($c->uri_for_action('view', $doc->record->{pkey}, $doc->record->{seq}));
+        $c->detach();
+    } else {
+        $c->detach('/error', [404, "Presentation document has unsupported type $doc->record->{type}: $key"]);
     }
-
-    # Log the document view
-    my $event = {};
-    $event->{title_id} = $doc->record->cap_title_id;
-    $event->{user_id} = $c->user->id if ($c->user_exists);
-    $event->{institution_id} = $c->institution->id if ($c->institution);
-    $event->{portal_id} = $c->portal->id;
-    $event->{session} = $c->sessionid;
-    $c->model('DB::TitleViews')->create($event);
-
-    return 1;
 }
 
-sub view_doc :Private {
-    my ($self, $c, $doc, $seq) = @_;
+sub view_item :Private {
+    my ($self, $c, $item, $seq) = @_;
 
-    # Make sure we are asking for a valid page sequence.
-    $c->detach("/error", [404, "Invalid sequence: $seq"]) unless ($seq && $seq =~ /^\d+$/);
+    $item->authorize_item($c->auth);
+    $seq = $item->first_component_seq unless ($seq && $seq =~ /^\d+$/);
 
-    if ($doc->child_count > 0) {
-        my $page = $doc->set_active_child($seq);
-
+    if ($item->has_children) {
         # Make sure the requested page exists.
-        $c->detach("/error", [404, "Page not found: $seq"]) unless $page;
+        $c->detach("/error", [404, "Page not found: $seq"]) unless $item->has_child($seq);
 
         # Set image size and rotation
         my $size = 1;
         my $rotate = 0;
-        if (defined($c->request->query_params->{s}) && defined($c->config->{derivative}->{size}->{$c->request->query_params->{s}})) {
+        if (defined($c->request->query_params->{s}) && defined($item->content->{derivative_config}->{size}->{$c->request->query_params->{s}})) {
             $size = int($c->request->query_params->{s});
         }
-        if (defined($c->request->query_params->{r}) && defined($c->config->{derivative}->{rotate}->{$c->request->query_params->{r}})) {
+        if (defined($c->request->query_params->{r}) && defined($item->content->{derivative_config}->{rotate}->{$c->request->query_params->{r}})) {
             $rotate = int($c->request->query_params->{r});
         }
 
         $c->stash(
-            doc => $doc,
+            item => $item,
+            seq => $seq,
             rotate => $rotate,
             size => $size,
-            template => "view_doc.tt",
+            template => "view_item.tt",
         );
-    } else { # we don't have a document with pages
+    } else { # we don't have a item with components
         $c->stash(
-            doc => $doc,
-            template => "view_doc.tt"
+            item => $item,
+            template => "view_item.tt"
         );
     }
     return 1;
 }
 
 sub view_series :Private {
-    my ($self, $c, $doc) = @_;
-
-    my $page = ($c->req->params->{page} && int($c->req->params->{page} > 0)) ? int($c->req->params->{page}) : 1;
-    my $search = $c->model('Solr')->search({ pkey => $doc->key, t => 'issue' }, $c->portal->subset);
-    # FIXME: Hardcoded portal ids are fun
-    my $rows = $c->portal->id eq 'parl' ? $search->count() : 20;
-
-    my $options = {
-        'sort' => 'seq asc',
-        'fl'   => 'key,pkey,label,pubmin,pubmax,type,contributor,canonicalUri',
-        'rows' => $rows,
-    };
-    my $issues;
-    eval { $issues = $search->run(options => $options, page => $page) };
-    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
-
+    my ($self, $c, $series) = @_;
     $c->stash(
-        doc => $doc,
-        issues => $issues,
+        series => $series,
         template => "view_series.tt"
     );
 
@@ -145,32 +95,14 @@ sub random : Path('/viewrandom') Args() {
 
     my $doc;
     eval {
-       $doc = $c->model('Solr')->random_document($c->portal->subset); 
+        $doc = $c->model('Access::Search')->random_document({
+            root_collection => $c->portal->id
+        })->{resultset}{documents}[0];
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
-    if ($doc) {
-        $c->res->redirect($c->uri_for_action('view/key', $doc->key));
-        $c->detach();
-    }
-    $c->detach('/error', [500, "Failed to retrieve document"]);
-}
-
-# Select a random page
-sub random_page : Path('/viewrandompage') Args() {
-    my($self, $c) = @_;
-
-    my $doc;
-    eval {
-       $doc = $c->model('Solr')->random_page($c->portal->subset); 
-    };
-    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
-
-    if ($doc) {
-        $c->res->redirect($c->uri_for_action('view/key', $doc->key));
-        $c->detach();
-    }
-    $c->detach('/error', [500, "Failed to retrieve document"]);
+    $c->res->redirect($c->uri_for_action('view/index', $doc->{key}));
+    $c->detach();
 }
 
 __PACKAGE__->meta->make_immutable;

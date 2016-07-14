@@ -13,10 +13,10 @@
             [% c.loc("for") %] <i>[% keywords %]</i>.
         [% END %]
     </h2>
-    [% IF pkey && resultset.docs.size -%]
+    [% IF pkey && resultset.documents.size -%]
         <h3>
             <a href="[% c.uri_for_action("/search/index", c.req.mangle_params({ pkey => "" })) %]">[&times;]</a>
-            [% c.loc("Searching within") %] <a href="[% c.uri_for_action("view/key", pkey) %]"><i>[% resultset.docs.first.parent.label %]</i></a>.
+            [% c.loc("Searching within") %] <a href="[% c.uri_for_action("view/index", pkey) %]"><i>[% resultset.documents.0.plabel %]</i></a>.
         </h3>
     [% END -%]
     [% IF hits_from > 1 || hits_to < hits -%]
@@ -24,47 +24,28 @@
     [% END -%]
 </section>
 
-[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/result_page" %]
+[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" init_arg=search_handler %]
 
-[% FOREACH item IN resultset.docs;
-    record = item.record;
-    media_size = record.defined("media") ? record.media.size : 0;
-    is_hosted_document = c.portal.hosts_doc(item);
-    SWITCH media_size;
-        CASE 0;
-            media_type = "unknown";
-        CASE 1;
-            media_type = record.media.first;
-        CASE;
-            media_type = "multiple";
-    END;
-%]
+[% FOREACH result IN resultset.documents %]
 
 <section class="search-item">
     <h2>
-        [% IF record.type != "page" -%]
+        [% IF result.type != "page" -%]
             <a class="btn btn-primary pull-right plus-minus" data-toggle="collapse" data-target="#dr_[% loop.count %]" title="[% c.loc("More about this item") %]">+</a>
         [% END -%]
-        [% IF c.portal.has_feature('media_icons') %]<span class="media-icon [% media_type %]">&nbsp;</span>[% END %]
-        <a href="[% is_hosted_document ? c.uri_for_action("view/key", record.key) : c.uri_for_action("link/index", record.key) %]" [% UNLESS is_hosted_document %]target="_blank"[% END %]>[% IF record.defined("pkey") && item.has_parent && !pkey; item.parent.label _ " : "; END %] [% record.label %]</a>
-        [% UNLESS is_hosted_document %]
-            <a class="new-window" href="[% c.uri_for_action("link/index", record.key) %]" target="_blank" title="[% c.loc("Link opens in a new window") %]"></a>
-        [% END %]
+        <a href="[% c.uri_for_action("view/index", result.key) %]">[% IF result.defined("plabel"); result.plabel _ " : "; END %] [% result.label %]</a>
     </h2>
-        [% INCLUDE partial/manage_title.tt %]
-    [% INCLUDE partial/published_and_pages.tt record=record %]
-    [% IF record.type == "document" && item.child_count > 0 -%]
-        [% paramsQ = c.req.params.defined("q") ? c.req.params.q : "" -%]
-        [% paramsTx = c.req.params.defined("tx") ? c.req.params.tx : "" -%]
-        [% INCLUDE partial/matching_pages.tt key=record.key q=paramsQ tx=paramsTx %]
+
+    [% INCLUDE partial/published_and_pages.tt result=result %]
+    [% IF result.type == "document" && result.component_count > 0 && query.has_text_terms -%]
+        [% limit = result.component_count %]
+        [% INCLUDE partial/matching_pages.tt query=query.cap_query pkey=result.key limit=limit %]
     [% END -%]
-    [% IF record.type != "page" -%]
     <div class="collapse" id="dr_[% loop.count %]">
-        [% INCLUDE partial/document_record.tt record=record %]
+        [% INCLUDE partial/document_record.tt record=result %]
     </div>
-    [% END -%]
 </section>
 [% UNLESS loop.last %]<hr />[% END %]
 [% END %]
 
-[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/result_page" %]
+[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" init_arg=search_handler %]

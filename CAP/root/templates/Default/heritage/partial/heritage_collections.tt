@@ -2,7 +2,7 @@
 <div class="heritage-collections">
 	<div class="row">
 		<div class="collection span6 genealogy">
-			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Genealogy" }) %]">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Genealogy" }) %]">
 				<h3>[% IF c.stash.lang == 'fr' %]Généalogie[% ELSE %]Genealogy[% END %]</h3>
 			</a>
 			<div class="collection-info">
@@ -14,12 +14,12 @@
 					[% END %]
 				</p>
 				<p>
-					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Genealogy" }) %]">[% c.loc("Browse this collection") %]</a>
+					<a class="btn" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Genealogy" }) %]">[% c.loc("Browse this collection") %]</a>
 				</p>
 			</div>
 		</div>
 		<div class="collection span6 aboriginal-history">
-			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Aboriginal" }) %]">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Aboriginal" }) %]">
 				<h3>[% IF c.stash.lang == 'fr' %]Histoire autochtone[% ELSE %]Aboriginal History[% END %]</h3>
 			</a>
 			<div class="collection-info">
@@ -31,14 +31,14 @@
 					[% END %]
 				</p>
 				<p>
-					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Aboriginal" }) %]">[% c.loc("Browse this collection") %]</a>
+					<a class="btn" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Aboriginal" }) %]">[% c.loc("Browse this collection") %]</a>
 				</p>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="collection span6 government-documents">
-			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Government" }) %]">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Government" }) %]">
 				<h3>[% IF c.stash.lang == 'fr' %]Documents gouvernementaux[% ELSE %]Government Documents[% END %]</h3>
 			</a>
 			<div class="collection-info">
@@ -50,12 +50,12 @@
 					[% END %]
 				</p>
 				<p>
-					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Government" }) %]">[% c.loc("Browse this collection") %]</a>
+					<a class="btn" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Government" }) %]">[% c.loc("Browse this collection") %]</a>
 				</p>
 			</div>
 		</div>
 		<div class="collection span6 military-history">
-			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Military" }) %]">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Military" }) %]">
 				<h3>[% IF c.stash.lang == 'fr' %]Histoire militaire[% ELSE %]Military History[% END %]</h3>
 			</a>
 			<div class="collection-info">
@@ -67,14 +67,14 @@
 					[% END %]
 				</p>
 				<p>
-					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Military" }) %]">[% c.loc("Browse this collection") %]</a>
+					<a class="btn" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Military" }) %]">[% c.loc("Browse this collection") %]</a>
 				</p>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="collection span12 landmark-papers">
-			<a class="collection-title" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Papers" }) %]">
+			<a class="collection-title" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Papers" }) %]">
 				<h3>[% IF c.stash.lang == 'fr' %]Documents clés[% ELSE %]Landmark Papers[% END %]</h3>
 			</a>
 			<div class="collection-info">
@@ -86,7 +86,7 @@
 					[% END %]
 				</p>
 				<p>
-					<a class="btn" href="[% c.uri_for_action("/search/index", { t => "series", identifier => "Papers" }) %]">[% c.loc("Browse this collection") %]</a>
+					<a class="btn" href="[% c.uri_for_action("/search/index", "browsable", { identifier => "Papers" }) %]">[% c.loc("Browse this collection") %]</a>
 				</p>
 			</div>
 		</div>

@@ -1,37 +1,12 @@
-﻿<form method="GET" action="[% c.uri_for_action("search/index") %]" class="search-form">
-    <div class="search-row">
-        <input type="text" class="search-bar" name="q" placeholder="[% c.loc("Search the collection") %]" />
-        <button type="submit" class="btn btn-large btn-primary search-button" value="submit">[% c.loc("Search") %]</button>
-    </div>
-    <div class="form-horizontal">
-        <fieldset>
-            <div class="control-group">
-                <label class="control-label" for="fieldSelect">[% c.loc("Search") %]</label>
-                <div class="controls">
-                    <select id="fieldSelect" name="field">
-                        <option value="">[% c.loc("Everything") %]</option>
-                        <option value="ti">[% c.loc("Titles") %]</option>
-                        <option value="au">[% c.loc("Creator Names") %]</option>
-                        <option value="su">[% c.loc("Subjects") %]</option>
-                        <option value="tx">[% c.loc("Text") %]</option>
-                    </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">[% c.loc("Date Range") %]</label>
-                <div class="controls">
-                    <span class="form-align">[% c.loc("Between") %]</span>
-                    <input type="text" name="df" maxlength="4" class="input-mini" placeholder="[% c.loc("YYYY") %]" />
-                    <span class="form-align">[% c.loc("and") %]</span>
-                    <input type="text" name="dt" maxlength="4" class="input-mini" placeholder="[% c.loc("YYYY") %]" />
-                </div>
-            </div>
-        </fieldset>
-        <div class="form-actions">
-            <a class="btn" href="[% c.uri_for_action("/support", "search") %]">[% c.loc("Help") %]</a>
-            [% IF c.portal.has_feature('random_doc') %]
-                <a class="btn" href="[% c.uri_for_action("/view/random") %]">[% c.loc("Random Document") %]</a>
-            [% END %]
-        </div>
-    </div>
+﻿<h2>[% IF c.stash.lang == "fr"; "Recherche"; ELSE; "Search"; END %]</h2>
+<form method="POST" action="[% c.uri_for_action("search/post") %]" class="">
+    <input type="text" class="whf-search-bar span6" name="q" placeholder="[% c.loc("Search the collection") %]" />
+    <fieldset class="row">
+[% INCLUDE partial/search_form/contents.tt %]
+    </fieldset>
+    <button type="submit" class="btn btn-primary btn-large" value="submit">[% c.loc("Search") %]</button>
+    <a class="btn btn-large" href="[% c.uri_for_action("/support", "search") %]">[% c.loc("Help") %]</a>
+    [% IF c.portal.has_feature('random_doc') %]
+        <a class="btn btn-large" href="[% c.uri_for_action("/view/random") %]">[% c.loc("Random Document") %]</a>
+    [% END %]
 </form>

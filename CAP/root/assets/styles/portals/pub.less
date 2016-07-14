@@ -64,8 +64,34 @@
 
 .media-icon { background-image: url('/static/icons/icons_co.png'); }
 
-.search-form { margin-top: 0; }
-.search-bar { padding: 9px 14px !important; }
+.search-row {
+    height: 40px + @baseLineHeight;
+}
+
+.search-bar {
+    .btn-large();
+    padding: 9px 14px !important;
+    float: left;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .search-bar { width: 476px - 155px; }
+}
+
+@media (min-width: 980px) {
+    .search-bar { width: 620px - 155px; }
+}
+
+@media (min-width: 1200px) {
+    .search-bar { width: 770px - 155px; }
+}
+
+.search-button {
+    width: 120px;
+    float: left;
+}
 
 /* Push footer */
 

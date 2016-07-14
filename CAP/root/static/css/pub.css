@@ -6057,42 +6057,6 @@ header {
   float: right;
 }
 /* /index */
-.search-form {
-  margin: 36px 0;
-}
-.search-row {
-  height: 58px;
-}
-.search-bar {
-  padding: 9px 14px;
-  font-size: 15px;
-  line-height: normal;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  float: left;
-  margin-right: 5px;
-  font-weight: bold;
-}
-@media (min-width: 768px) {
-  .search-bar {
-    width: 321px;
-  }
-}
-@media (min-width: 980px) {
-  .search-bar {
-    width: 465px;
-  }
-}
-@media (min-width: 1200px) {
-  .search-bar {
-    width: 615px;
-  }
-}
-.search-button {
-  width: 120px;
-  float: left;
-}
 /* collapse-pane */
 .collapse-pane {
   border: 1px #dddddd solid;
@@ -6863,11 +6827,39 @@ table.calendar a {
 .media-icon {
   background-image: url('/static/icons/icons_co.png');
 }
-.search-form {
-  margin-top: 0;
+.search-row {
+  height: 58px;
 }
 .search-bar {
+  padding: 9px 14px;
+  font-size: 15px;
+  line-height: normal;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
   padding: 9px 14px !important;
+  float: left;
+  margin-right: 5px;
+  font-weight: bold;
+}
+@media (min-width: 768px) {
+  .search-bar {
+    width: 321px;
+  }
+}
+@media (min-width: 980px) {
+  .search-bar {
+    width: 465px;
+  }
+}
+@media (min-width: 1200px) {
+  .search-bar {
+    width: 615px;
+  }
+}
+.search-button {
+  width: 120px;
+  float: left;
 }
 /* Push footer */
 footer {

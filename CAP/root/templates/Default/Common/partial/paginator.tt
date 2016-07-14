@@ -2,7 +2,11 @@
 [% IF page_action == "hash" %]
 <a href="[% c.req.uri_with({ $hash_key => page }) %]">[% text %]</a>
 [% ELSE %]
+[% IF init_arg %]
+<a href="[% c.uri_for_action(page_action, init_arg, page, c.req.query_params) %]">[% text %]</a>
+[% ELSE %]
 <a href="[% c.uri_for_action(page_action, page, c.req.query_params) %]">[% text %]</a>
+[% END %]
 [% END %]
 [% END %]
 

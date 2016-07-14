@@ -1,0 +1,2 @@
+[% INCLUDE partial/search_form/field_select.tt %]
+[% INCLUDE partial/search_form/date_range.tt %]

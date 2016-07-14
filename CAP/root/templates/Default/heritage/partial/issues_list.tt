@@ -1,5 +1,3 @@
-[% INCLUDE partial/paginator.tt current_page=issues.page total_pages=issues.pages page_action="hash" hash_key="page" %]
-
 <table class="table">
     <thead>
         <tr>
@@ -7,12 +5,11 @@
         </tr>
     </thead>
     <tbody>
-        [% FOREACH issue IN issues.docs %]
+        [% FOREACH issue_key IN series.record.order %]
+        [% issue = series.record.items.$issue_key %]
         <tr>
-            <td><a href="[% c.uri_for_action("view/key", issue.key) %]">[% issue.record.label %]</a></td>
+            <td><a href="[% c.uri_for_action("view/index", issue_key) %]">[% issue.label %]</a></td>
         </tr>
         [% END %]
     </tbody>
 </table>
-
-[% INCLUDE partial/paginator.tt current_page=issues.page total_pages=issues.pages page_action="hash" hash_key="page" %]

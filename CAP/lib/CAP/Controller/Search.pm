@@ -6,6 +6,7 @@ use warnings;
 use Moose;
 use namespace::autoclean;
 use parent qw/Catalyst::Controller::ActionRole/;
+use Scalar::Util qw/looks_like_number/;
 
 BEGIN {extends 'Catalyst::Controller::ActionRole'; }
 
@@ -36,26 +37,25 @@ sub auto :Private {
     return 1;
 }
 
-sub index :Path('') :Args(0) {
-    my($self, $c) = @_;
-    $c->detach('result_page', [1]);
-}
+sub index :Path('') {
+    my($self, $c, $handler, $page) = @_;
+    $page = $page && looks_like_number($page) ? $page    :
+                  looks_like_number($handler) ? $handler : 1;
 
-sub result_page :Path('') :Args(1) {
-    my($self, $c, $page) = @_;
+    $handler = $handler && !looks_like_number($handler) ? $handler : 'general';
+    $c->detach('matching_pages') if ($handler eq 'page');
 
     # Retrieve the first page of results unless otherwise requested.
     $page = 1 unless ($page > 1);
-
-    my $subset = $c->portal->subset;
-    my $searcher = $c->model('Solr')->search($c->req->params, $subset);
+    my $offset = ($page - 1) * 10;
 
     # Run the main search
-    my($resultset, $pubmin, $pubmax);
+    my $search;
     eval {
-        $resultset = $searcher->run(page => $page);
-        $pubmin = $searcher->pubmin || 0;
-        $pubmax = $searcher->pubmax || 0;
+        $search = $c->model('Access::Search')->dispatch($handler, {
+            root_collection => $c->portal->id,
+            offset => $offset
+        }, $c->req->params);
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
@@ -63,39 +63,45 @@ sub result_page :Path('') :Args(1) {
     $c->session->{$c->portal->id}->{search} = {
         start    => $page,
         params   => $c->req->params,
-        hits     => $resultset->hits,
+        hits     => $search->{resultset}->hits,
+        query    => $search->{query}->cap_query,
+        handler  => $handler ne 'general' ? $handler : '',
     };
 
     $c->stash(
-        pubmin     => int(substr($pubmin, 0, 4)),
-        pubmax     => int(substr($pubmax, 0, 4)),
-        resultset  => $resultset,
-        log_search => $resultset ? 1 : 0,
+        resultset      => $search->{resultset},
+        query          => $search->{query},
+        search_handler => $handler ne 'general' ? $handler : '',
+        template       => 'search.tt',
+    );
+
+    return 1;
+}
+
+sub matching_pages :Private {
+    my ($self, $c) = @_;
+
+    my $search;
+    eval {
+        $search = $c->model('Access::Search')->dispatch('page', {}, $c->req->params);
+    };
+    $c->detach('/error', [503, "Solr error: $@"]) if ($@);
+
+    $c->stash(
+        resultset  => $search->{resultset},
+        query      => $search->{query},
         template   => 'search.tt',
     );
 
     return 1;
 }
 
-sub matching_pages_initial :Path('matching_pages_initial') :Args(1) {
-    my($self, $c, $key) = @_;
-    $c->detach('matching_pages', [$key, 10, 0]);
-    return 1;
-}
-
-sub matching_pages_remaining :Path('matching_pages_remaining') :Args(1) {
-    my($self, $c, $key) = @_;
-    $c->detach('matching_pages', [$key, $c->req->params->{rows}, 10]);
-    return 1;
-}
-
-sub matching_pages :Private {
-    my($self, $c, $key, $rows, $start) = @_;
-    $c->detach('/error', [404, "Can only be called through fmt=ajax"]) unless $c->stash->{current_view} eq 'Ajax';
-    my $subset = $c->portal->subset;
-    my $doc = $c->model('Solr')->document($key, subset => $subset);
-    $c->stash( doc => $doc, page_search => $c->model('Solr')->search_document_pages($doc, $c->req->params, $subset, $rows, $start));
-    return 1;
+sub post :Local {
+    my ($self, $c) = @_;
+    my $get_params = $c->model('Access::Search')->transform_query($c->req->params);
+    my $handler = delete $get_params->{handler};
+    $c->response->redirect($c->uri_for_action('/search/index', $handler, $get_params));
+    $c->detach();
 }
 
 __PACKAGE__->meta->make_immutable;

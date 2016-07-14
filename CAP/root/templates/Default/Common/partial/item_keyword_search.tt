@@ -1,0 +1,28 @@
+[% IF portal == 'parl' %]
+[% search_label = c.loc("Search within this volume:") %]
+[% ELSIF portal == 'heritage' %]
+[% search_label = c.loc("Search within this reel:") %]
+[% ELSE %]
+[% search_label = c.loc("Search within this document:") %]
+[% END %]
+<div class="row">
+    <div class="span12">
+        <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
+        [% IF c.session.$portal.defined("search") %]
+            <a class="form-align" href="[% c.uri_for_action("search/index", c.session.$portal.search.handler, c.session.$portal.search.start, c.session.$portal.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
+            <span class="divider"></span>
+        [% END %]
+        [% IF item.has_parent %]
+            <a class="form-align" href="[% c.uri_for_action("view/index", item.record.pkey) %]">&laquo; [% item.record.plabel %]</a>
+            <span class="divider"></span>
+        [% END %]
+            <input type="hidden" name="pkey" value="[% key %]" />
+            <input type="hidden" name="handler" value="page" />
+            <input type="hidden" name="so" value="seq" />
+            <label>[% search_label %]</label>
+            <input type="text" name="q" placeholder="" value="[% c.session.$portal.search.query %]" />
+            <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("Search") %]</button>
+            [% INCLUDE partial/matching_pages.tt query=c.session.$portal.search.query pkey=item.record.key limit=item.record.order.size %]
+        </form>
+    </div>
+</div>
