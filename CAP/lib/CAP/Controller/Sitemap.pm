@@ -29,14 +29,14 @@ sub index :Path('') Args(1) {
     # Get the page number to generate from the file
     my($page, $suffix) = split(/\./, $file);
     unless ($page =~ /^\d+$/ && $page > 0 && $suffix eq 'xml') {
-        $c->detach('/error', [404]);
+        $c->detach('/error', [500]);
     }
 
-    my $page_size = $c->config->{sitemap}->{pages_per_file};
-    my $titles = $c->model('DB::PortalsTitles')->search(
-        { portal_id => $c->portal->id },
-        { page => $page, rows => $page_size }
-    );
+    my $titles;
+    eval {
+        $titles = $c->model('Access::Presentation')->title_list($c->portal->id, $page);
+    };
+    $c->detach('/error', [500, $@]) if $@;
 
     # Create the sitemap file
     my $doc = XML::LibXML::Document->new('1.0', 'UTF-8');
@@ -44,17 +44,17 @@ sub index :Path('') Args(1) {
     $root->setAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
     $doc->setDocumentElement($root);
 
-    while (my $title = $titles->next) {
+    foreach my $title (@$titles) {
         my $url = $doc->createElement('url');
         my $loc = $doc->createElement('loc');
 
-        $loc->appendChild($doc->createTextNode($c->uri_for_action('view/index', $title->identifier)));
+        $loc->appendChild($doc->createTextNode($c->uri_for_action('view/index', $title->{key})));
         $url->appendChild($loc);
 
         # Add an update time if there is one
-        if ($title->updated) {
+        if ($title->{updated}) {
             my $lastmod = $doc->createElement('lastmod');
-            $lastmod->appendChild($doc->createTextNode($title->updated->ymd()));
+            $lastmod->appendChild($doc->createTextNode($title->{updated}));
             $url->appendChild($lastmod);
         }
 
@@ -117,9 +117,14 @@ sub sitemapindex :Path('sitemap.xml') Args(0) {
     $root->appendChild($map);
 
     # Determine how many sitemap files we need
-    my $page_size = $c->config->{sitemap}->{pages_per_file};
-    my $title_count = $c->model('DB::PortalsTitles')->search({ portal_id => $c->portal->id })->count;
-    for (my $i = 0; $title_count > 0; $title_count -= $page_size) {
+    my $map_length = $c->model('Access::Presentation')->sitemap_node_limit;
+    my $title_count;
+    eval {
+        $title_count = $c->model('Access::Presentation')->title_count($c->portal->id);
+    };
+    $c->detach('/error', [500, $@]) if $@;
+
+    for (my $i = 0; $title_count > 0; $title_count -= $map_length) {
         $map = $doc->createElement('sitemap');
         $loc = $doc->createElement('loc');
         $loc->appendChild($doc->createTextNode($c->uri_for_action('sitemap/index', [ sprintf("%d.xml", ++$i) ])));
