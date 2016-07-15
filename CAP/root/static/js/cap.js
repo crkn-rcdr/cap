@@ -24254,7 +24254,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
             this.callUrl = ['', 'search', 'post'].join('/');
 
             this.params = {
-                q: this.$element.attr('data-query'),
+                q: $('<div/>').html(this.$element.attr('data-query')).text(),
                 pkey: this.$element.attr('data-pkey'),
                 limit: this.$element.attr('data-limit'),
                 fmt: 'ajax',
