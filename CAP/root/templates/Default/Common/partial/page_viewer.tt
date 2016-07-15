@@ -1,12 +1,12 @@
 [% INCLUDE partial/page_viewer_toolbar.tt %]
 <section id="pvPane">
-    <section id="pvImageContainer"[% UNLESS 'doc.auth.page(page.seq)' %] class="hidden"[% END %]>
-        <div><img id="pvImg" src="[% IF 'doc.auth.page(page.seq)'; item.validate_derivative(seq, size, rotate).1; END %]"></div>
+    <section id="pvImageContainer"[% UNLESS item.component(seq).access %] class="hidden"[% END %]>
+        <div><img id="pvImg" src="[% IF item.component(seq).access; item.validate_derivative(seq, size, rotate).1; END %]"></div>
         <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
         <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
     </section>
     <p id="pvLoading" class="loading hidden">[% c.loc("Loading...") %]</p>
-    <div id="pvSubscribe"[% IF 'doc.auth.page(page.seq)' %] class="hidden"[% END %]>
+    <div id="pvSubscribe"[% IF item.component(seq).access %] class="hidden"[% END %]>
         <h2>[% c.loc("Subscription Required") %]</h2>
         <p>[% c.loc("[_1] is funded by its users through subscriptions. Become a subscriber today to access all of the site's content and features.", c.portal.title(c.stash.lang)) %]</p>
                 <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/index", [portal]) %]">[% c.loc("Learn more") %]</a></p>
