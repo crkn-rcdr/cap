@@ -48,7 +48,7 @@ sub title_count {
 	my ($self, $collection) = @_;
 	my $response = $self->get("/_design/tdr/_view/coltitles", {
 		startkey => "[\"$collection\"]",
-		endkey => "[\"$collection \"]",
+		endkey => "[\"$collection\", {}]",
 		reduce => "true"
 	});
 	if ($response->failed) {
@@ -64,9 +64,11 @@ sub title_list {
 	my ($self, $collection, $page) = @_;
 
 	my $response = $self->get("/_design/tdr/_view/coltitles", {
-		startkey => "[\"$collection\"]",
-		endkey => "[\"$collection \"]",
-		reduce => "false",
+		startkey => "[\"$collection\", {}]",
+		endkey => "[\"$collection\"]",
+		reduce => 'false',
+		include_docs => 'false',
+		descending => 'true',
 		limit => $self->sitemap_node_limit,
 		skip => $self->sitemap_node_limit * ($page - 1)
 	});
