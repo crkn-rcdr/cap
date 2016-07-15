@@ -19,7 +19,7 @@ sub index :Path('') {
 
     my $doc;
     eval {
-        $doc = $c->model('Access::Presentation')->fetch($key);
+        $doc = $c->model('Access::Presentation')->fetch($key, $c->portal->id);
     };
     $c->detach('/error', [404, "Presentation fetch failed on document $key: $@"]) if $@;
 

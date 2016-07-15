@@ -4,6 +4,7 @@ use utf8;
 use strictures 2;
 
 use Moo;
+use List::MoreUtils qw/any/;
 use Types::Standard qw/Int/;
 use CIHM::Access::Presentation::Document;
 with 'Role::REST::Client';
@@ -30,16 +31,20 @@ has 'sitemap_node_limit' => (
 	required => 1
 );
 
-# fetch a copresentation document
+# fetch a copresentation document with key $key, which must be in collection $collection
 sub fetch {
-	my ($self, $key) = @_;
+	my ($self, $key, $collection) = @_;
 
 	my $response = $self->get("/$key");
 	if ($response->failed) {
 		my $error = $response->error;
 		die "Presentation lookup of key $key failed: $error";
 	} else {
-		return CIHM::Access::Presentation::Document->new({ record => $response->data, content => $self->content });
+		if (any { $_ eq $collection} @{ $response->data->{collection} }) {
+			return CIHM::Access::Presentation::Document->new({ record => $response->data, content => $self->content });
+		} else {
+			die "Document $key not found in $collection collection";
+		}
 	}
 }
 
