@@ -114,6 +114,15 @@ method is_enabled (Str $feature) {
     return 0;
 }
 
+=head2 is_subscriber
+
+Returns true if the user has subscribed to the portal (via individual or
+institutional subscription)
+
+=cut
+method is_subscriber () {
+    return $self->institution_sub || ($self->subscription && $self->subscription->active);
+}
 
 __PACKAGE__->meta->make_immutable;
 

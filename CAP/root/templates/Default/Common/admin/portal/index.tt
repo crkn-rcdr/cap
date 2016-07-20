@@ -4,7 +4,7 @@
 [% features = [ 
     [ 'preview', c.loc("Content previews") ],
     [ 'content', c.loc("Access content") ],
-    [ 'metadata', c.loc("Access enahnced metadata") ],
+    [ 'metadata', c.loc("Access enhanced metadata") ],
     [ 'resize', c.loc("Resize page images") ],
     [ 'download', c.loc("Download content") ],
     [ 'purchase', c.loc("Purchase content") ],

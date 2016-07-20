@@ -1,4 +1,6 @@
+[% IF c.auth.can_access('metadata') %]
 <p class="matching-pages" data-query="[% query | html %]" data-pkey="[% pkey %]" data-limit=[% limit %]>
     <span class="matching-pages-results"></span>
     <span class="matching-pages-searching" style="display: none;">[% c.loc("Searching for matching pages...") %] <img src="/static/images/loader.gif" class="loader" alt="" /></span>
 </p>
+[% END %]
