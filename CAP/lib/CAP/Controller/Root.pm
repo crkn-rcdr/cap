@@ -79,6 +79,11 @@ sub auto :Private
     # Create or update the session and increment the session counter
     $c->update_session();
 
+    # throw JSON requests to error page
+    if (exists $c->request->query_params->{fmt} && lc($c->request->query_params->{fmt}) eq 'json') {
+        $c->detach('/error', [404, 'API Unavailable']);
+    }
+
     # Route this request to/from the secure host if necessary
     $c->model('Secure')->routeRequest($c);
 
