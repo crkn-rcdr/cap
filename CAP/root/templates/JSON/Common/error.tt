@@ -1,4 +1,4 @@
-[%-
+﻿[%-
   USE JSON.Escape( pretty => 1);
 
   api = {};
@@ -7,6 +7,8 @@
   api.version       = "0.3";
   api.request       = "${c.req.uri}";
   api.error         = "${error}";
+  api.message_en    = "Due to changes required by platform migration, this API is no longer available for collections hosted on Canadiana portals. You can still use the API provided by the Canadiana Discovery Portal (http://search.canadiana.ca). For more information, contact info@canadiana.ca.";
+  api.message_fr    = "En raison des changements exigés par la migration de la plate-forme, l'interface de programmation applicative (API) n'est plus disponible pour les collections hébergées sur des portails de Canadiana. Vous pouvez toujours utiliser l'API fournie par le Portail de recherche de Canadiana (http://search.canadiana.ca). Pour plus d'informations, contactez info@canadiana.ca.";
 
   api.json;
 -%]

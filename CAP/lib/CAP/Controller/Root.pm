@@ -81,7 +81,7 @@ sub auto :Private
 
     # throw JSON requests to error page
     if (exists $c->request->query_params->{fmt} && lc($c->request->query_params->{fmt}) eq 'json') {
-        $c->detach('/error', [404, 'API Unavailable']);
+        $c->detach('/error', [404, 'API Unavailable -- API non disponible']);
     }
 
     # Route this request to/from the secure host if necessary
