@@ -8,8 +8,7 @@
     pkey = c.req.query_params.defined("pkey") ? c.req.query_params.pkey : "";
     sort = c.req.query_params.defined("so") ? c.req.query_params.so : "score";
     searchLang = c.req.query_params.defined("lang") ? c.req.query_params.lang : "";
-    media = c.req.query_params.defined("media") ? c.req.query_params.media : "";
-    contributor = c.req.query_params.defined("contributor") ? c.req.query_params.contributor : "";
+    contributor = c.req.query_params.defined("depositor") ? c.req.query_params.depositor : "";
     collection = c.req.query_params.defined("collection") ? c.req.query_params.collection : "";
     date_from = c.req.query_params.defined("df") ? c.req.query_params.df : "";
     date_to = c.req.query_params.defined("dt") ? c.req.query_params.dt : "";
