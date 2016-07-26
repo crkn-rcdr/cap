@@ -88,7 +88,7 @@ around BUILDARGS => sub {
 			first => $solr_output->{response}{start} + 1 # solr start is 0-based
 		};
 
-		$new_args->{facet} = $solr_output->{facet_counts}{facet_fields}
+		$new_args->{facets} = _handle_facets($solr_output->{facet_counts}{facet_fields})
 			if exists $solr_output->{facet_counts};
 
 		$new_args->{stats} = $solr_output->{stats}{stats_fields}
@@ -105,6 +105,19 @@ around BUILDARGS => sub {
 
 	return $class->$orig(@args);
 };
+
+sub _handle_facets {
+	my $facets = shift;
+	foreach my $field (keys %$facets) {
+		my @a = @{ $facets->{$field} };
+		my @b = ();
+		while (@a) {
+			push @b, { name => shift @a, count => shift @a };
+		}
+		$facets->{$field} = \@b;
+	}
+	return $facets;
+}
 
 sub _handle_stats {
 	my $stats = shift;
