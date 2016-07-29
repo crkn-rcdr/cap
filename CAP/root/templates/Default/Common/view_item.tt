@@ -19,7 +19,7 @@
     [% IF item.has_children %]
     <li class="active"><a href="#pageViewer" data-toggle="tab">[% c.loc("View") %]</a></li>
     [% END %]
-    <li[% UNLESS item.has_chilren %] class="active"[% END %]><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>
+    <li[% UNLESS item.has_children %] class="active"[% END %]><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>
 </ul>
 <div class="tab-content">
     [% IF item.has_children %]
