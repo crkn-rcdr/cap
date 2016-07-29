@@ -68,12 +68,6 @@
                         <input type="checkbox" id="institutions" name="supports_institutions"[% IF entity.portal.supports_institutions %] checked[% END %] />
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="transcriptions">[% c.loc("Transcriptions") %]</label>
-                    <div class="controls">
-                        <input type="checkbox" id="transcriptions" name="supports_transcriptions"[% IF entity.portal.supports_transcriptions %] checked[% END %] />
-                    </div>
-                </div>
             </fieldset>
             <div class="form-actions">
                 <button class="btn btn-primary" type="submit" name="update" value="config">[% c.loc("Update") %]</button>

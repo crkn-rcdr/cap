@@ -6711,17 +6711,6 @@ table.table thead .sorting_desc_disabled {
 table.dataTable th:active {
   outline: none;
 }
-table.contributors {
-  table-layout: fixed;
-}
-table.contributors th.name {
-  width: 150px;
-}
-@media (min-width: 768px) {
-  table.contributors th.name {
-    width: 300px;
-  }
-}
 #keywordSearch {
   margin-bottom: 9px;
 }

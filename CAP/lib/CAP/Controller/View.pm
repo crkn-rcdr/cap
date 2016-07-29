@@ -77,15 +77,7 @@ sub view_series :Private {
         series => $series,
         template => "view_series.tt"
     );
-
-    # TODO: figure out a better solution than hardcoding this
-    if ($c->portal->id eq 'parl') {
-        my @tree = $c->model('DB::Terms')->term_tree($c->portal);
-        $c->stash(
-            browse => \@tree,
-            id_prefix => "oop.",
-        );
-    }
+    
     return 1;
 }
 

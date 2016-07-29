@@ -48,7 +48,7 @@ sub index_GET {
         });
     }
 
-    $c->stash->{entity}->{roles} = [$c->model('DB::Roles')->list];
+    $c->stash->{entity}->{roles} = $c->config->{user_roles};
     $c->stash->{entity}->{subscriptions} = \@subscriptions;
     $c->stash->{entity}->{institutions} = [$c->model('DB::Institution')->list];
     $c->stash->{entity}->{managed_institutions} = [$user->managed_institutions];
@@ -72,7 +72,8 @@ sub index_POST {
         $c->detach('/admin/user/updated', ['tab_account']);
     }
     elsif ($action eq 'roles') {
-        $c->stash(update => $user->update_roles_if_valid($data));
+        my $valid_roles = $c->config->{user_roles};
+        $c->stash(update => $user->update_roles_if_valid($data, $valid_roles));
         $c->detach('/admin/user/updated', ['tab_roles']);
     }
     else {

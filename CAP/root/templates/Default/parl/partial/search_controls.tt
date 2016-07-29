@@ -90,7 +90,7 @@
                 </p>
             [% END %]
         [% END; END %]
-        [% INCLUDE facet_pane name="lang" title=c.loc("Language") selected=searchLang facets=resultset.facets.lang labels=c.stash.languages %]
+        [% INCLUDE facet_pane name="lang" title=c.loc("Language") selected=searchLang facets=resultset.facets.lang labels=label.lang %]
         <p>
             <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
             <a class="btn btn-large refine-search" href="[% c.uri_for_action("support", "search") %]">[% c.loc("Help") %]</a>

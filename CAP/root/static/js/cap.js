@@ -24391,22 +24391,12 @@ $(function () {
     var fragment = '#' + window.location.hash.replace('#','');
     $('.nav-tabs a[href="' + fragment + '"]').tab('show');
 
-    var lang = $('html').attr('lang');
-    $('table.table-data.contributors').dataTable({
-        "bPaginate": false,
-        "bLengthChange": false,
-        "bFilter": true,
-        "bSort": false,
-        "bInfo": false,
-        "bAutoWidth": false,
-        "oLanguage": (lang === 'fr' ? {
-            "sSearch": 'Rechercher&nbsp;:',
-            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
-            "sEmptyTable": "Aucune donnée disponible dans le tableau",
-        } : {
-            "sZeroRecords": "No matching records found",
-            "sEmptyTable": "No data available in table",
-            "sSearch": "Search:",
-        }),
-    });
+    // in a browse tree, replace any link to the current page's href with a strong non-link,
+    // and open all of the collapsed branches containing said link
+    var $browseContext = $('ul.browse');
+    if ($browseContext.length) {
+        var $link = $('[href="' + window.location.href + '"]', $browseContext);
+        $link.parents('.collapse').addClass('in');
+        $link.replaceWith('<strong>' + $link.text() + '</strong>');
+    }
 });

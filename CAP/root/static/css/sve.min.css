@@ -945,8 +945,7 @@ table.table thead .sorting_desc{background-image:url('/static/icons/datatables/s
 table.table thead .sorting_asc_disabled{background-image:url('/static/icons/datatables/sort_asc_disabled.png');}
 table.table thead .sorting_desc_disabled{background-image:url('/static/icons/datatables/sort_desc_disabled.png');}
 table.dataTable th:active{outline:none;}
-table.contributors{table-layout:fixed;}table.contributors th.name{width:150px;}
-@media (min-width:768px){table.contributors th.name{width:300px;}}#keywordSearch{margin-bottom:9px;}
+#keywordSearch{margin-bottom:9px;}
 .loader{vertical-align:top;}
 ul.browse{padding:0 0 0 25px;margin:0 0 9px 0;}
 ul.browse ul{margin:0;}

@@ -82,28 +82,4 @@ sub list_inst_portals {
     return $portals;
 }
 
-=head2 hosts_for($title)
-
-Returns a list of all portals along with flags indicating whether this document is indexed and hosted.
-
-=cut
-sub hosts_for {
-    my($self, $title) = @_;
-    my @portals;
-
-    my $result = $self->search({});
-
-    while (my $portal = $result->next) {
-        my $is_indexed = 0;
-        my $is_hosted  = 0;
-        my $hosted = $portal->search_related('portals_titles', { title_id => $title->id })->first;
-        if ($hosted) {
-            $is_indexed = 1;
-            $is_hosted = 1 if ($hosted->hosted);
-        }
-        push(@portals, { portal => $portal, indexed => $is_indexed, hosted => $is_hosted });
-    }
-    return \@portals;
-}
-
 1;

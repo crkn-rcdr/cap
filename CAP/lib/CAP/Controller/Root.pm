@@ -19,9 +19,6 @@ sub auto :Private
 {
     my($self, $c) = @_;
 
-    # Make sure the CAP database version agrees with the config file.
-    $c->model('DB::Info')->assert_version($c->config->{db_version});
-
     # Create a session if we don't already have one.
     $c->initialize_session;
 
@@ -57,9 +54,6 @@ sub auto :Private
     $c->stash(
         collections  => $c->model('Collections')->all,
         label        => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
-        contributors => $c->model('DB::Institution')->get_contributors($c->stash->{lang}, $c->portal),
-        languages    => $c->model('DB::Language')->get_labels($c->stash->{lang}),
-        media        => $c->model('DB::MediaType')->get_labels($c->stash->{lang}),
     );
 
     # If this is an anonymous request, check for a persistence token and,
@@ -165,17 +159,6 @@ sub error :Private
 sub index :Path('') Args(0)
 {
     my($self, $c) = @_;
-
-    # TODO: figure out a better solution than hardcoding this
-    # FIXME: we (soon) can use $c->portal->supports_browse to partially
-    # solve this.
-    if ($c->portal->id eq 'parl') {
-        my @tree = $c->model('DB::Terms')->term_tree($c->portal);
-        $c->stash(
-            browse => \@tree,
-            id_prefix => "oop.",
-        );
-    }
 
     # The secure portal has no index page: forward to the user's profile.
     if ($c->req->uri->host eq $c->config->{secure}->{host}) {

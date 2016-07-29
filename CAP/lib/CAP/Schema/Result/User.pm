@@ -99,30 +99,6 @@ __PACKAGE__->table("user");
   datetime_undef_if_invalid: 1
   is_nullable: 1
 
-=head2 credits
-
-  data_type: 'integer'
-  default_value: 0
-  is_nullable: 0
-
-=head2 can_transcribe
-
-  data_type: 'tinyint'
-  default_value: 1
-  is_nullable: 1
-
-=head2 can_review
-
-  data_type: 'tinyint'
-  default_value: 1
-  is_nullable: 1
-
-=head2 public_contributions
-
-  data_type: 'tinyint'
-  default_value: 0
-  is_nullable: 1
-
 =head2 updated
 
   data_type: 'timestamp'
@@ -161,14 +137,6 @@ __PACKAGE__->add_columns(
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
   },
-  "credits",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
-  "can_transcribe",
-  { data_type => "tinyint", default_value => 1, is_nullable => 1 },
-  "can_review",
-  { data_type => "tinyint", default_value => 1, is_nullable => 1 },
-  "public_contributions",
-  { data_type => "tinyint", default_value => 0, is_nullable => 1 },
   "updated",
   {
     data_type => "timestamp",
@@ -218,36 +186,6 @@ __PACKAGE__->add_unique_constraint("username_2", ["username"]);
 
 =head1 RELATIONS
 
-=head2 feedbacks
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Feedback>
-
-=cut
-
-__PACKAGE__->has_many(
-  "feedbacks",
-  "CAP::Schema::Result::Feedback",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
-=head2 images
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Images>
-
-=cut
-
-__PACKAGE__->has_many(
-  "images",
-  "CAP::Schema::Result::Images",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
 =head2 institution_mgmts
 
 Type: has_many
@@ -260,36 +198,6 @@ __PACKAGE__->has_many(
   "institution_mgmts",
   "CAP::Schema::Result::InstitutionMgmt",
   { "foreign.user_id" => "self.id" },
-  undef,
-);
-
-=head2 pages_review_user_ids
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Pages>
-
-=cut
-
-__PACKAGE__->has_many(
-  "pages_review_user_ids",
-  "CAP::Schema::Result::Pages",
-  { "foreign.review_user_id" => "self.id" },
-  undef,
-);
-
-=head2 pages_transcription_user_ids
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Pages>
-
-=cut
-
-__PACKAGE__->has_many(
-  "pages_transcription_user_ids",
-  "CAP::Schema::Result::Pages",
-  { "foreign.transcription_user_id" => "self.id" },
   undef,
 );
 
@@ -334,21 +242,6 @@ Related object: L<CAP::Schema::Result::Subscription>
 __PACKAGE__->has_many(
   "subscriptions",
   "CAP::Schema::Result::Subscription",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
-=head2 user_documents
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::UserDocument>
-
-=cut
-
-__PACKAGE__->has_many(
-  "user_documents",
-  "CAP::Schema::Result::UserDocument",
   { "foreign.user_id" => "self.id" },
   undef,
 );
@@ -457,8 +350,6 @@ sub update_if_valid {
     my $name = $data->{name} || "";
     my $confirmed = 0; $confirmed = 1 if ($data->{confirmed});
     my $active = 0; $active = 1 if ($data->{active});
-    my $can_transcribe = 0; $can_transcribe = 1 if ($data->{can_transcribe});
-    my $can_review = 0; $can_review = 1 if ($data->{can_review});
     my $password = $data->{password} || "";
     my $passwordCheck = $data->{password_check} || "";
     my $user_for_username = $self->result_source->schema->resultset('User')->find({ username => $username });
@@ -473,9 +364,7 @@ sub update_if_valid {
         email => $email,
         name => $name,
         confirmed => $confirmed,
-        active => $active,
-        can_transcribe => $can_transcribe,
-        can_review => $can_review
+        active => $active
     });
 
     $self->update({ password => $password }) if ($password);
@@ -485,13 +374,13 @@ sub update_if_valid {
 }
 
 
-=head2 update_roles_if_valid ($data)
+=head2 update_roles_if_valid ($data, $valid_roles)
 
 Updates the user's roles if the data is valid. Returns a validation hash.
 
 =cut
 sub update_roles_if_valid {
-    my($self, $data) = @_;
+    my($self, $data, $valid_roles) = @_;
     my @errors = ();
     my @roles = ();
 
@@ -506,7 +395,7 @@ sub update_roles_if_valid {
 
     # Each role must exist
     foreach my $role (@roles) {
-        unless ($self->result_source->schema->resultset('Roles')->find($role)) {
+        unless (grep(/$role/, keys %$valid_roles)) {
             push(@errors, { message => 'invalid_role', params => [ $role ] });
         }
     }

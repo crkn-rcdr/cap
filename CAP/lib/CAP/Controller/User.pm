@@ -113,9 +113,7 @@ sub profile_POST {
                 password => $data->{password},
                 password_check => $data->{password_check},
                 active => $c->user->active,
-                confirmed => $c->user->confirmed,
-                can_transcribe => $c->user->can_transcribe,
-                can_review => $c->user->can_review
+                confirmed => $c->user->confirmed
             },
         );
     }
@@ -461,64 +459,6 @@ sub reset_password_POST {
     }
 
     $c->stash(token => $token, user_id => $user_id);
-    return 1;
-}
-
-
-
-sub reset_old :Path('reset') :Args() {
-    my($self, $c, $key) = @_;
-    my $username = trim($c->request->params->{username})             || ""; # Username/email address
-    my $password  = trim($c->request->params->{password})            || ""; # Password
-    my $password_check = trim($c->request->params->{password_check}) || ""; # Password, re-entered
-
-    if ($c->request->params->{key}) {
-        $key = $c->req->params->{key};
-    }
-
-    if ($key) {
-        # Check whether the key is valid.
-        my $id = $c->model('DB::User')->validate_confirmation($key);
-        if (! $id) {
-            $c->response->redirect('/index');
-            return 0;
-        }
-        $c->stash->{key} = $key;
-
-        # Check for a new password.
-        if ($password) {
-            my $re_password = $c->config->{user}->{fields}->{password};
-            my @errors = $c->model("DB::User")->validate_password($password, $password_check, $re_password);
-
-            foreach my $error (@errors) {
-                $c->message({ type => 'error', message => $error });
-            }
-
-            unless (@errors) {
-                # Reset the user's password and log them in.
-                my $user_account = $c->find_user({ id => $id });
-                eval { $user_account->update({ password => $password }) };
-                $c->detach('/error', [500]) if ($@);
-                $c->set_authenticated($user_account);
-                $c->persist_user();
-                $c->user->log('PASSWORD_CHANGED', "from password reset");
-                $c->stash->{password_reset} = 1;
-            }
-        }
-    }
-    elsif ($username) {
-        my $user_for_username = $c->find_user({ username => $username });
-
-        if ($user_for_username) {
-            my $confirm_link = $c->uri_for_action('user/reset', $user_for_username->confirmation_token);
-            $c->forward('/mail/user_reset', [$username, $confirm_link]);
-            $c->stash->{mail_sent} = $username;
-            $user_for_username->log("RESET_REQUEST", sprintf("from %s", $c->req->address));
-        } else {
-            $c->message({ type => "error", message => "username_not_found" });
-        }
-    }
-
     return 1;
 }
 

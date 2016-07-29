@@ -119,7 +119,6 @@ sub edit_POST {
                 supports_users          => $data{supports_users} ? 1 : 0,
                 supports_subscriptions  => $data{supports_subscriptions} ? 1 : 0,
                 supports_institutions   => $data{supports_institutions} ? 1 : 0,
-                supports_transcriptions => $data{supports_transcriptions} ? 1 : 0,
             });
             $fragment = 'tab_configuration';
         }

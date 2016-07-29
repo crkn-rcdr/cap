@@ -161,12 +161,6 @@
                     <td><a href="[% c.uri_for_action("/admin/index") %]">[% c.loc("Create and manage users, institutions and portals") %]</a></td>
                 </tr>
             [% END %]
-            [% IF c.has_role('content') %]
-                <tr>
-                    <td><a href="[% c.uri_for_action("/content/index") %]">[% c.loc("Content Manager") %]</a></td>
-                    <td><a href="[% c.uri_for_action("/content/index") %]">[% c.loc("Add titles to portals, manage content") %]</a></td>
-                </tr>
-            [% END %]
             [% IF c.has_role('reports') %]
                 <tr>
                     <td><a href="[% c.uri_for_action("/reports/index") %]">[% c.loc("Reports") %]</a></td>

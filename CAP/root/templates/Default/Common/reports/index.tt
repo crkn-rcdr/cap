@@ -3,18 +3,13 @@
 <h2>[% c.loc("Statistics and Reports") %]</h2>
 
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#tab_general" data-toggle="tab">[% c.loc("General") %]</a></li>
-    <li><a href="#tab_portals" data-toggle="tab">[% c.loc("Portals") %]</a></li>
+    <li class="active"><a href="#tab_portals" data-toggle="tab">[% c.loc("Portals") %]</a></li>
     <li><a href="#tab_institutions" data-toggle="tab">[% c.loc("Institutions") %]</a></li>
     <li><a href="#tab_users" data-toggle="tab">[% c.loc("Users") %]</a></li>
-    <li><a href="#tab_content" data-toggle="tab">[% c.loc("Content") %]</a></li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane active" id="tab_general">
-        GENERAL TAB
-    </div>
-    <div class="tab-pane" id="tab_portals">
+    <div class="tab-pane active" id="tab_portals">
         <table class="table">
             [% INCLUDE partial/table_header.tt columns=["Portal", "Action"] %]
             <tbody>
@@ -30,7 +25,6 @@
         </table>
     </div>
     <div class="tab-pane" id="tab_institutions">
-        INSTITUTIONS TAB
         <table class="table">
             [% INCLUDE partial/table_header.tt columns=["Institution", "Action"] %]
             <tbody>
@@ -51,11 +45,5 @@
         <ul>
             <li><a href="[% c.uri_for_action('reports/user/subscriptions') %]">[% c.loc("Subscriptions") %]</a></li>
         </ul>
-    </div>
-    <div class="tab-pane" id="tab_content">
-        <dl>
-            <dt><a href="[% c.uri_for_action('reports/content/index') %]">[% c.loc("Titles by Access Frequency") %]</a></dt>
-            <dd>[% c.loc("Counts of the number of sessions in which each title was accessed (DEMO)") %]</dd>
-        </dl>
     </div>
 </div>

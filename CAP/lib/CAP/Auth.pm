@@ -72,8 +72,7 @@ method min_user_level (Str $feature, Int $level = 0) {
 =head2 can_access ($feature, $level)
 
 Returns true or false depending on whether the user can access $feature
-for content at $level. If $level is ommitted, the default title context is
-    used or, if that is undefined, 0.
+for content at $level. If $level is omitted, 0 is used.
 
 =cut
 method can_access (Str $feature, Int $level?) {

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base 'DBIx::Class::ResultSet';
 
-=head1 CAP::Schema::ResultSet::PortalsTitles
+=head1 CAP::Schema::ResultSet::PortalSubscriptions
 
 =head1 Methods
 

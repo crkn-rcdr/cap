@@ -23,7 +23,6 @@ use Catalyst qw/
                 Email
 
                 Authentication
-                Authorization::Roles
 
                 Session
                 Session::State::Cookie

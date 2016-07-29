@@ -11,7 +11,7 @@
 <div class="row">
     [% IF series.record.defined('identifier') && series.record.identifier.grep('^debat*') %]
     <div class="span4">
-        [% INCLUDE partial/browse.tt browse=browse terms=series.record.term %]
+        [% INCLUDE partial/browse_debates.tt %]
     </div>
     <div class="span8">
     [% ELSE %]

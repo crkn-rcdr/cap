@@ -1,10 +1,10 @@
-﻿[% temp_show = c.req.params.defined('show') ? c.req.params.show : '' %]
+﻿[% expand_tree = c.req.params.defined('show') ? c.req.params.show : '' %]
 <h4>English</h4>
 <div class="collapse in" id="browse5j">
     <ul class="browse">
         <li>
             <a data-toggle="collapse" data-parent="#browse5j" data-target="#browse6j">Senate</a>
-            <div class="collapse[% IF temp_show == '6j' %] in[% END %]" id="browse6j">
+            <div class="collapse[% IF expand_tree == '6j' %] in[% END %]" id="browse6j">
                 <ul class="browse">
                     <li>
                         <a data-toggle="collapse" data-parent="#browse6j" data-target="#browse7j">1st Parliament</a>
@@ -655,7 +655,7 @@
         </li>
         <li>
             <a data-toggle="collapse" data-parent="#browse5j" data-target="#browse12j">House of Commons</a>
-            <div class="collapse[% IF temp_show == '12j' %] in[% END %]" id="browse12j">
+            <div class="collapse[% IF expand_tree == '12j' %] in[% END %]" id="browse12j">
                 <ul class="browse">
                     <li>
                         <a data-toggle="collapse" data-parent="#browse12j" data-target="#browse51j">1st Parliament</a>
@@ -1301,7 +1301,7 @@
     <ul class="browse">
         <li>
             <a data-toggle="collapse" data-parent="#browse1j" data-target="#browse2j">Sénat</a>
-            <div class="collapse[% IF temp_show == '2j' %] in[% END %]" id="browse2j">
+            <div class="collapse[% IF expand_tree == '2j' %] in[% END %]" id="browse2j">
                 <ul class="browse">
                     <li>
                         <a data-toggle="collapse" data-parent="#browse2j" data-target="#browse60j">1re Législature</a>
@@ -1957,7 +1957,7 @@
         </li>
         <li>
             <a data-toggle="collapse" data-parent="#browse1j" data-target="#browse9j">Chambre des communes</a>
-            <div class="collapse[% IF temp_show == '9j' %] in[% END %]" id="browse9j">
+            <div class="collapse[% IF expand_tree == '9j' %] in[% END %]" id="browse9j">
                 <ul class="browse">
                     <li>
                         <a data-toggle="collapse" data-parent="#browse9j" data-target="#browse41j">1re Législature</a>

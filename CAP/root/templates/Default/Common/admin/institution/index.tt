@@ -20,7 +20,6 @@
     <li><a href="#tab_aliases" data-toggle="tab">[% c.loc("Aliases") %]</a></li>
     <li><a href="#tab_subscriptions" data-toggle="tab">[% c.loc("Subscriptions") %]</a></li>
     <li><a href="#tab_ipaddresses" data-toggle="tab">[% c.loc("IP Addresses") %]</a></li>
-    <li><a href="#tab_contributor" data-toggle="tab">[% c.loc("Contributor Info") %]</a></li>
 </ul>
 
 <div class="tab-content">
@@ -129,8 +128,5 @@
             </div>
             [% INCLUDE partial/form_submit.tt name="update" value="add" label="Add" delete={} %]
         </form>
-    </div>
-    <div class="tab-pane" id="tab_contributor">
-        CONTRIBUTOR INFO - COMING SOON (?)
     </div>
 </div>

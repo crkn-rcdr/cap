@@ -50,18 +50,6 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="canTranscribe">[% c.loc("Can Transcribe") %]</label>
-                    <div class="controls">
-                        <input type="checkbox" id="canTranscribe" name="can_transcribe"[% IF entity.user.can_transcribe %] checked[% END %] />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="canReview">[% c.loc("Can Review") %]</label>
-                    <div class="controls">
-                        <input type="checkbox" id="canReview" name="can_review"[% IF entity.user.can_review %] checked[% END %] />
-                    </div>
-                </div>
-                <div class="control-group">
                     <label class="control-label">[% c.loc("Last Login") %]</label>
                     <div class="controls">
                          <span class="uneditable-input">[% entity.user.last_login ? entity.user.last_login.datetime() : c.loc("Never") %]</span>
@@ -96,10 +84,10 @@
             <fieldset>
                 <legend>[% c.loc("Roles") %]</legend>
                 [% IF c.user.id == entity.user.id %]<input type="hidden" name="roles" value="administrator" />[% END %]
-                [% FOREACH i IN entity.roles -%]
+                [% FOREACH pair IN entity.roles.pairs -%]
                     <label class="checkbox padded">
-                        <input type="checkbox" name="roles" value="[% i.id %]"[% IF entity.user.has_role(i.id, 1)%] checked[% END %][% IF i.id == 'administrator' && c.user.id == entity.user.id %] disabled[% END %] />
-                        [% i.id %] - can [% i.description %]
+                        <input type="checkbox" name="roles" value="[% pair.key %]"[% IF entity.user.has_role(pair.key, 1)%] checked[% END %][% IF pair.key == 'administrator' && c.user.id == entity.user.id %] disabled[% END %] />
+                        [% pair.key %] - can [% pair.value %]
                     </label>
                 [% END -%]
             </fieldset>

@@ -70,12 +70,6 @@ __PACKAGE__->table("portal");
   default_value: 0
   is_nullable: 0
 
-=head2 supports_transcriptions
-
-  data_type: 'tinyint'
-  default_value: 0
-  is_nullable: 0
-
 =head2 updated
 
   data_type: 'timestamp'
@@ -95,8 +89,6 @@ __PACKAGE__->add_columns(
   "supports_subscriptions",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "supports_institutions",
-  { data_type => "tinyint", default_value => 0, is_nullable => 0 },
-  "supports_transcriptions",
   { data_type => "tinyint", default_value => 0, is_nullable => 0 },
   "updated",
   {
@@ -120,21 +112,6 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
-
-=head2 contributors
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Contributor>
-
-=cut
-
-__PACKAGE__->has_many(
-  "contributors",
-  "CAP::Schema::Result::Contributor",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
 
 =head2 discounts
 
@@ -162,21 +139,6 @@ Related object: L<CAP::Schema::Result::InstitutionSubscription>
 __PACKAGE__->has_many(
   "institution_subscriptions",
   "CAP::Schema::Result::InstitutionSubscription",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 outbound_links
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::OutboundLink>
-
-=cut
-
-__PACKAGE__->has_many(
-  "outbound_links",
-  "CAP::Schema::Result::OutboundLink",
   { "foreign.portal_id" => "self.id" },
   undef,
 );
@@ -252,21 +214,6 @@ Related object: L<CAP::Schema::Result::PortalSubscriptions>
 __PACKAGE__->has_many(
   "portal_subscriptions",
   "CAP::Schema::Result::PortalSubscriptions",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 portals_titles
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::PortalsTitles>
-
-=cut
-
-__PACKAGE__->has_many(
-  "portals_titles",
-  "CAP::Schema::Result::PortalsTitles",
   { "foreign.portal_id" => "self.id" },
   undef,
 );
@@ -620,32 +567,6 @@ sub langs {
         push(@{$langs}, $_->lang);
     }
     return $langs;
-}
-
-# Return true if at least one of the collection fields in $doc's record
-# matches a hosted collection for this portal.
-sub hosts_doc {
-    my($self, $doc) = @_;
-
-    # Look up the title in the portals_titles table to see if it is hosted.
-    my $title = $self->search_related('portals_titles', { title_id => $doc->record->cap_title_id })->first;
-    # TODO: later, we should log a warning here if $title is NULL (after
-    # collections is gone)
-    return 1 if ($title && $title->hosted);
-
-    #warn("Falling back on collections test");
-
-    # TODO: Collections are being deprecated; eventually, this will go
-    # away.
-    #foreach my $hosted ($self->search_related('portal_collections', { hosted => 1 })) {
-    #    foreach my $collection (@{$doc->record->collection}) {
-    #        if ($collection eq $hosted->collection_id->id) {
-    #            return 1;
-    #        }
-    #    }
-    #}
-
-    return 0;
 }
 
 # Return true if the portal has the named support page.

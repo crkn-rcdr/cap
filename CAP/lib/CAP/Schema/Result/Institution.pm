@@ -102,36 +102,6 @@ __PACKAGE__->add_unique_constraint("code", ["code"]);
 
 =head1 RELATIONS
 
-=head2 contributors
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Contributor>
-
-=cut
-
-__PACKAGE__->has_many(
-  "contributors",
-  "CAP::Schema::Result::Contributor",
-  { "foreign.institution_id" => "self.id" },
-  undef,
-);
-
-=head2 counter_logs
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::CounterLog>
-
-=cut
-
-__PACKAGE__->has_many(
-  "counter_logs",
-  "CAP::Schema::Result::CounterLog",
-  { "foreign.institution_id" => "self.id" },
-  undef,
-);
-
 =head2 institution_alias
 
 Type: has_many
@@ -218,21 +188,6 @@ Related object: L<CAP::Schema::Result::StatsUsageInstitution>
 __PACKAGE__->has_many(
   "stats_usage_institutions",
   "CAP::Schema::Result::StatsUsageInstitution",
-  { "foreign.institution_id" => "self.id" },
-  undef,
-);
-
-=head2 titles
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Titles>
-
-=cut
-
-__PACKAGE__->has_many(
-  "titles",
-  "CAP::Schema::Result::Titles",
   { "foreign.institution_id" => "self.id" },
   undef,
 );
@@ -519,17 +474,6 @@ sub set_alias {
     } else {
         $self->delete_related('institution_alias', { lang => $lang });
     }
-}
-
-sub portal_contributor {
-    my ($self, $portal) = @_;
-    my $entity = { id => $self->id, name => $self->name, portal => $portal };
-    foreach($self->search_related('contributors', { portal_id => $portal })) {
-        $entity->{logo} = $_->logo;
-        $entity->{logo_filename} = $_->logo_filename;
-        $entity->{$_->lang} = { url => $_->url, description => $_->description };
-    }
-    return $entity;
 }
 
 

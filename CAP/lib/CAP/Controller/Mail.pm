@@ -153,30 +153,6 @@ sub subscription_notice :Private {
     return 1;
 }
 
-sub feedback :Private {
-    my ($self, $c) = @_;
-
-    my $to = $c->config->{support_email};   
-    $c->stash->{sending_message} = 1;   
-    
-    $c->stash(recipient => $to,
-              real_name => 'user support'
-    );
-
-    my $from = $c->config->{email_from};
-    return unless ( $from );
-    my $header = [
-        'From'                                                 => $from,
-        'To'                                                        => $to,
-        'Subject'                                             => $c->loc('User feedback'),
-        'Content-Type'                                => 'text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding'  =>  '8bit'
-    ];
-
-    $self->sendmail($c, "feedback.tt", $header);
-    return 1;
-}
-
 sub subscription_reminder :Private {
     use feature 'switch';
     my ($self, $c, $exp_acct, $exp_date) = @_;
