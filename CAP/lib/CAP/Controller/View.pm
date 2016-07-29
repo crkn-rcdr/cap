@@ -39,9 +39,10 @@ sub view_item :Private {
     my ($self, $c, $item, $seq) = @_;
 
     $item->authorize_item($c->auth);
-    $seq = $item->first_component_seq unless ($seq && $seq =~ /^\d+$/);
 
     if ($item->has_children) {
+        $seq = $item->first_component_seq unless ($seq && $seq =~ /^\d+$/);
+        
         # Make sure the requested page exists.
         $c->detach("/error", [404, "Page not found: $seq"]) unless $item->has_child($seq);
 

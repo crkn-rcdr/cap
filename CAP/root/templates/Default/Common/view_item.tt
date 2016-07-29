@@ -16,14 +16,18 @@
 [% INCLUDE partial/published_and_pages.tt result=item.record %]
 
 <ul class="nav nav-tabs">
+    [% IF item.has_children %]
     <li class="active"><a href="#pageViewer" data-toggle="tab">[% c.loc("View") %]</a></li>
-    <li><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>
+    [% END %]
+    <li[% UNLESS item.has_chilren %] class="active"[% END %]><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>
 </ul>
 <div class="tab-content">
+    [% IF item.has_children %]
     <div class="tab-pane active" id="pageViewer">
         [% INCLUDE partial/page_viewer.tt %]
     </div>
-    <div class="tab-pane" id="documentRecord">
+    [% END %]
+    <div class="tab-pane[% UNLESS item.has_children %] active[% END %]" id="documentRecord">
         [% INCLUDE partial/document_record.tt record=item.record %]
     </div>
 </div>

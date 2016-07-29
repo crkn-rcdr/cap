@@ -39,22 +39,24 @@ sub authorize_item {
 		$self->auth->{$_} = $auth->can_access($_);
 	}
 
-	foreach my $seq (1 .. scalar @{$self->record->{order}}) {
-		my $key = $self->record->{order}[$seq-1];
-		my $component = $self->record->{components}{$key};
+	if ($self->has_children) {
+		foreach my $seq (1 .. scalar @{$self->record->{order}}) {
+			my $key = $self->record->{order}[$seq-1];
+			my $component = $self->record->{components}{$key};
 
-		my $page_access = $self->auth->{content} ||
-			# Preview access requires the following conditions:
-			$self->auth->{preview} && (
-				# The first page is always allowed (in case there is only one # page)
-				$seq == 1 ||
-				# If this is a series, the first 2 issues are open to all.
-				$self->has_parent && $self->record->{seq} <= 2 ||
-				# The first 20 pages or 50% (whichever is less) are accessible to all.
-				$seq < 20 && $seq <= int($self->child_count / 2)
-			);
-		
-		$component->{access} = $page_access ? 1 : 0;
+			my $page_access = $self->auth->{content} ||
+				# Preview access requires the following conditions:
+				$self->auth->{preview} && (
+					# The first page is always allowed (in case there is only one # page)
+					$seq == 1 ||
+					# If this is a series, the first 2 issues are open to all.
+					$self->has_parent && $self->record->{seq} <= 2 ||
+					# The first 20 pages or 50% (whichever is less) are accessible to all.
+					$seq < 20 && $seq <= int($self->child_count / 2)
+				);
+			
+			$component->{access} = $page_access ? 1 : 0;
+		}
 	}
 
 	return 1;
