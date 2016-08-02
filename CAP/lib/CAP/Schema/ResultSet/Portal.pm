@@ -31,13 +31,15 @@ sub list_subscribable {
 
 =head2 new_portal
 
-Creates a new portal with a dummy placeholder identifier
+Creates a new portal with correctly initialized portal_access records.
 
 =cut
 sub new_portal {
-    my($self) = @_;
-    my $id = 'portal_' . int(rand() * 100000);
-    my $portal = $self->find_or_create({ id => $id, enabled => 0 });
+    my($self, $id) = @_;
+    my $portal = $self->find_or_create({ id => $id });
+    $portal->add_to_portal_accesses({ level => 0, purchase => -1, browse => -1 });
+    $portal->add_to_portal_accesses({ level => 1, purchase => -1, browse => -1 });
+    $portal->add_to_portal_accesses({ level => 2, purchase => -1, browse => -1 });
     return $portal;
 }
 

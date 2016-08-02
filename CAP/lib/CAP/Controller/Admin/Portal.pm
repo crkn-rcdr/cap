@@ -82,13 +82,21 @@ sub canonical_host_GET {
 
 =head2 create
 
-Create a new portal with a random name (portal_###)
+Create new portal. Requires an id in the query parameters.
 
 =cut
 sub create :Path('create') {
     my($self, $c) = @_;
-    my $portal = $c->model("DB::Portal")->new_portal;
-    $c->res->redirect($c->uri_for_action('/admin/portal/index', [$portal->id]));
+    my $id = $c->req->params->{id};
+    if ($id) {
+        my $portal = $c->model("DB::Portal")->new_portal($id);
+        $c->res->redirect($c->uri_for_action('/admin/portal/index', [$id]));
+    } else {
+        $c->message({ type => "error", message => "portal_creation_requires_id" });
+        my $uri = $c->uri_for_action('/admin/index');
+        $uri->fragment('tab_portals');
+        $c->res->redirect($uri);
+    }
 }
 
 #

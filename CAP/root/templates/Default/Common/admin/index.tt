@@ -27,7 +27,10 @@
         </table>
     </div>
     <div class="tab-pane" id="tab_portals">
-        <p><a href="[% c.uri_for_action('/admin/portal/create') %]">[% c.loc("New Portal") %]</a></p>
+        <form method="POST" class="form-inline" action="[% c.uri_for_action("/admin/portal/create") %]">
+            <input type="text" placeholder="[% c.loc("Portal ID") %]" name="id">
+            <button class="btn btn-primary" type="submit">[% c.loc("New Portal") %]</button>
+        </form>
         <table class="table">
             [% INCLUDE partial/table_header.tt columns=["Portal", "Title", "Action"] %]
             <tbody>
