@@ -36,7 +36,8 @@ foreach (@actions) {
     if ($@) {
         print STDERR "could not perform $job:\n$@";
     } else {
-        print "performed $job\n";
+        # We should log this to a log4perl log, but otherwise stay silent when not debugging.
+        #print "performed $job\n";
     }
 }
 

@@ -30,7 +30,8 @@ foreach (@actions) {
     if ($@) {
         print STDERR "could not perform $job:\n$@";
     } else {
-        print "performed $job\n";
+        # In the future we should log this, but for now we should be silent when not debugging.
+        #print "performed $job\n";
     }
 }
 
