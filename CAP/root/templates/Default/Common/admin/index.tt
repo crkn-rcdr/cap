@@ -12,7 +12,10 @@
 
 <div class="tab-content">
     <div class="tab-pane active" id="tab_institutions">
-        <p><a href="[% c.uri_for_action('/admin/institution/create') %]">[% c.loc("New Institution") %]</a></p>
+        <form method="POST" class="form-inline" action="[% c.uri_for_action("/admin/institution/create") %]">
+            <input type="text" placeholder="[% c.loc("Institution name") %]" name="name">
+            <button class="btn btn-primary" type="submit">[% c.loc("New Institution") %]</button>
+        </form>
         <table class="table">
             [% INCLUDE partial/table_header.tt columns=["Institution", "Code", "Action"] %]
             <tbody>

@@ -236,10 +236,18 @@ sub create : Path('/institution/create') Args(0) ActionClass('REST') {
     my($self, $c) = @_;
 }
 
-sub create_GET {
+sub create_POST {
     my($self, $c) = @_;
-    my $institution = $c->model('DB::Institution')->create({});
-    $c->res->redirect($c->uri_for_action('/admin/institution/index', [$institution->id]));
+    my $name = $c->req->params->{name};
+    if ($name) {
+        my $institution = $c->model('DB::Institution')->create({ name => $name });
+        $c->res->redirect($c->uri_for_action('/admin/institution/index', [$institution->id]));
+    } else {
+        $c->message({ type => "error", message => "institution_creation_requires_name" });
+        my $uri = $c->uri_for_action('/admin/index');
+        $uri->fragment('tab_institutions');
+        $c->res->redirect($uri);
+    }
     $c->detach();
 }
 
