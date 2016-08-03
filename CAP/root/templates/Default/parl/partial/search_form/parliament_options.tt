@@ -1,3 +1,4 @@
+[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
 <div class="span3">
     <label for="typeSelect">[% c.loc("Publication type") %]</label>
     <select id="typeSelect" name="identifier" class="span3">
