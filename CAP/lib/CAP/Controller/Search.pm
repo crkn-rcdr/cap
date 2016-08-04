@@ -59,6 +59,16 @@ sub index :Path('') {
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
+    $c->detach('/error', [400, "Solr error: " . $search->{error}{msg}]) if $search->{error};
+
+    $c->stash(
+        error          => $search->{error},
+        resultset      => $search->{resultset},
+        query          => $search->{query},
+        search_handler => $handler ne 'general' ? $handler : '',
+        template       => 'search.tt',
+    );
+
     # Record the last search parameters
     $c->session->{$c->portal->id}->{search} = {
         start    => $page,
@@ -67,13 +77,6 @@ sub index :Path('') {
         query    => $search->{query}->cap_query,
         handler  => $handler ne 'general' ? $handler : '',
     };
-
-    $c->stash(
-        resultset      => $search->{resultset},
-        query          => $search->{query},
-        search_handler => $handler ne 'general' ? $handler : '',
-        template       => 'search.tt',
-    );
 
     return 1;
 }

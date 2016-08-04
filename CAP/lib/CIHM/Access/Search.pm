@@ -95,7 +95,7 @@ sub _request {
 	if (ref $resultset eq 'CIHM::Access::Search::ResultSet') {
 		$search->{resultset} = $resultset;
 	} else {
-		$search->{error} = $resultset;
+		$search->{error} = $resultset->{error};
 	}
 
 	return $search;
