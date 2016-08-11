@@ -40,7 +40,7 @@ sub fetch {
 		my $error = $response->error;
 		die "Presentation lookup of key $key failed: $error";
 	} else {
-		if (any { $_ eq $collection} @{ $response->data->{collection} }) {
+		if ($response->data->{type} eq 'page' || any { $_ eq $collection} @{ $response->data->{collection} }) {
 			return CIHM::Access::Presentation::Document->new({ record => $response->data, content => $self->content });
 		} else {
 			die "Document $key not found in $collection collection";

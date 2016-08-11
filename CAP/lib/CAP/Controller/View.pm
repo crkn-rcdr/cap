@@ -28,7 +28,7 @@ sub index :Path('') {
     } elsif ($doc->is_type('document')) {
         $c->detach('view_item', [$doc, $seq]);
     } elsif ($doc->is_type('page')) {
-        $c->response->redirect($c->uri_for_action('view', $doc->record->{pkey}, $doc->record->{seq}));
+        $c->response->redirect($c->uri_for_action('view/index', $doc->record->{pkey}, $doc->record->{seq}));
         $c->detach();
     } else {
         $c->detach('/error', [404, "Presentation document has unsupported type $doc->record->{type}: $key"]);
