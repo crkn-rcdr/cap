@@ -28,11 +28,26 @@ sub index :Path('') {
     } elsif ($doc->is_type('document')) {
         $c->detach('view_item', [$doc, $seq]);
     } elsif ($doc->is_type('page')) {
-        $c->response->redirect($c->uri_for_action('view/index', $doc->record->{pkey}, $doc->record->{seq}));
+        if (defined $c->request->query_params->{fmt} && $c->request->query_params->{fmt} eq 'ajax') {
+            $c->detach('view_component', [$doc]);
+        } else {
+            $c->response->redirect($c->uri_for_action('view/index', $doc->record->{pkey}, $doc->record->{seq}));
+        }
         $c->detach();
     } else {
         $c->detach('/error', [404, "Presentation document has unsupported type $doc->record->{type}: $key"]);
     }
+}
+
+sub view_component :Private {
+    my ($self, $c, $component) = @_;
+
+    $c->stash(
+        component => $component,
+        tag_types => [qw/tag tagPerson tagName tagPlace tagDate tagNotebook/],
+        description_types => [qw/tagDescription/],
+        template => "view_component.tt"
+    );
 }
 
 sub view_item :Private {

@@ -1,0 +1,18 @@
+[% record = c.stash.component.record %]
+<ul class="tags">
+[% FOREACH tag_type IN tag_types -%]
+[% IF record.defined(tag_type) -%]
+[% FOREACH tag IN record.$tag_type -%]
+	<li class="[% tag_type %]">[% tag_type == 'tagDate' ? format_date(tag) : tag %]</li>
+[% END -%]
+[% END -%]
+[% END -%]
+</ul>
+
+[% FOREACH description_type IN description_types -%]
+[% IF record.defined(description_type) -%]
+[% FOREACH description IN record.$description_type %]
+<p class="description [% description_type %]">[% description %]</p>
+[% END -%]
+[% END -%]
+[% END -%]
