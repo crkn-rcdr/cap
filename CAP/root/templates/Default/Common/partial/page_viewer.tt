@@ -4,6 +4,13 @@
         <div><img id="pvImg" src="[% IF item.component(seq).access; item.validate_derivative(seq, size, rotate).1; END %]"></div>
         <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
         <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
+        <aside id="pvComponent" class="hidden">
+            <div id="pvComponentLoading"><img src="/static/images/loader.gif" alt="[% c.loc('Loading') %]" /></div>
+            <div id="pvComponentContainer" class="hidden"></div>
+            <div id="pvComponentEmpty">
+                <p>[% c.loc("This page has no tags.") %]</p>
+            </div>
+        </aside>
     </section>
     <p id="pvLoading" class="loading hidden">[% c.loc("Loading...") %]</p>
     <div id="pvSubscribe"[% IF item.component(seq).access %] class="hidden"[% END %]>

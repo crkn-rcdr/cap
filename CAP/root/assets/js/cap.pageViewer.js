@@ -18,12 +18,14 @@
             this.setupControls();
 
             // image reference cache
-            this.cache = {};
+            this.imageCache = {};
+            // component metadata cache
+            this.componentCache = {};
 
             this.initState();
             this.updateUI();
             this.setBindings();
-            this.cache[this.cacheRef([this.state.seq, this.state.r, this.state.s])] = this.image.attr('src');
+            this.imageCache[this.imageCacheRef([this.state.seq, this.state.r, this.state.s])] = this.image.attr('src');
             this.preload(this.state.seq);
         },
 
@@ -41,7 +43,8 @@
                 maxSize: parseInt($e.attr('data-max-size'), 10),
                 canResize: !!parseInt($e.attr('data-resize'), 10),
                 portalName: $e.attr('data-portal-name'),
-                documentLabel: $e.attr('data-document-label')
+                documentLabel: $e.attr('data-document-label'),
+                hasTags: !!$e.attr('data-tags')
             };
         },
 
@@ -51,8 +54,10 @@
             // set up page viewer element objects
             var pve = function(selection) {
                 return {
+                    selector: selection,
                     show: function() { selection.removeClass('hidden'); },
-                    hide: function() { selection.addClass('hidden'); }
+                    hide: function() { selection.addClass('hidden'); },
+                    toggle: function() { selection.toggleClass('hidden'); }
                 };
             };
 
@@ -61,7 +66,13 @@
                 toolbar: pve($('#pvToolbar')),
                 loading: pve($('#pvLoading')),
                 error: pve($('#pvError')),
-                subscribe: pve($('#pvSubscribe'))
+                subscribe: pve($('#pvSubscribe')),
+                component: {
+                    frame: pve($('#pvComponent')),
+                    loading: pve($('#pvComponentLoading')),
+                    container: pve($('#pvComponentContainer')),
+                    empty: pve($('#pvComponentEmpty'))
+                }
             };
         },
 
@@ -76,6 +87,7 @@
             this.rotateRight = function() { this.updateState({ r: (this.state.r + 1) % 4 }); };
             this.smaller = function() { this.updateState({ s: this.state.s - 1 }); };
             this.bigger = function() { this.updateState({ s: this.state.s + 1 }); };
+            this.toggleTags = function() { this.display.component.frame.toggle(); this.controls.tagToggle.selector.toggleClass('active'); };
         },
 
         setupControls: function() {
@@ -109,7 +121,8 @@
                 rotateLeft: pvc({ selection: "#pvRotateLeft", eventName: "click", handler: this.rotateLeft }),
                 rotateRight: pvc({ selection: "#pvRotateRight", eventName: "click", handler: this.rotateRight }),
                 smaller: pvc({ selection: "#pvSmaller", eventName: "click", handler: this.smaller }),
-                bigger: pvc({ selection: "#pvBigger", eventName: "click", handler: this.bigger })
+                bigger: pvc({ selection: "#pvBigger", eventName: "click", handler: this.bigger }),
+                tagToggle: pvc({ selection: "#pvTagToggle", eventName: "click", handler: this.toggleTags })
             };
         },
 
@@ -142,11 +155,21 @@
         },
 
         hasPageAccess: function(seq) {
-            var item = this.controls.pageSelect.selector.find('#seq' + seq);
-            return !!parseInt(item.data('access'), 10);
+            var component = this.controls.pageSelect.selector.find('#seq' + seq);
+            return !!parseInt(component.data('access'), 10);
         },
 
-        cacheRef: function(seq, r, s) {
+        hasTags: function(seq) {
+            var component = this.controls.pageSelect.selector.find('#seq' + seq);
+            return !!parseInt(component.data('tags'), 10);
+        },
+
+        componentKey: function(seq) {
+            var component = this.controls.pageSelect.selector.find('#seq' + seq);
+            return component.data('key');
+        },
+
+        imageCacheRef: function(seq, r, s) {
             return [seq, r, s].join(',');
         },
 
@@ -154,12 +177,20 @@
             var hash = History.getHash();
             if (hash) $.extend(this.state, this.hashToState(hash));
             History.replaceState(this.sanitizeState(this.state), null, this.makePathFromState(this.state));
+
+            // seems like a good enough place to load component data (that I'm not bothering with server-side)
+            if (this.settings.hasTags) {
+                this.loadComponent(this.state.seq);
+            }
         },
 
         updateState: function(newState) {
             var st = $.extend({}, this.state, newState);
-            this.display.loading.show();
-            History.pushState(this.sanitizeState(st), null, this.makePathFromState(st));
+            // only update state if the state has changed
+            if (!(st.seq === this.state.seq && st.r === this.state.r && st.s === this.state.s)) {
+                this.display.loading.show();
+                History.pushState(this.sanitizeState(st), null, this.makePathFromState(st));
+            }
         },
 
         updateUI: function() {
@@ -186,6 +217,7 @@
             this.controls.pageSelect.selector.val(this.state.seq);
             this.controls.rotateLeft.enable();
             this.controls.rotateRight.enable();
+            this.controls.tagToggle.enable();
             (this.state.s <= this.settings.minSize || !this.settings.canResize) ? this.controls.smaller.disable("disabled") : this.controls.smaller.enable();
             (this.state.s >= this.settings.maxSize || !this.settings.canResize) ? this.controls.bigger.disable("disabled") : this.controls.bigger.enable();
 
@@ -196,7 +228,7 @@
         getUri: function(seq) {
             var args = { r: this.state.r, s: this.state.s, fmt: 'ajax' };
             var call = ['', 'file', 'get_page_uri', this.settings.pkey, seq].join('/');
-            var ref = this.cacheRef(seq, this.state.r, this.state.s);
+            var ref = this.imageCacheRef(seq, this.state.r, this.state.s);
             var pv = this;
             $.ajax({
                 url: call,
@@ -204,10 +236,10 @@
                 data: args,
                 success: function(data) {
                     if (data['status'] === 200) {
-                        pv.cache[ref] = data.uri;
+                        pv.imageCache[ref] = data.uri;
                         $.preloadImages([data.uri]);
                     } else {
-                        pv.cache[ref] = 'error';
+                        pv.imageCache[ref] = 'error';
                     }
                 },
                 error: function() {
@@ -219,19 +251,19 @@
         preload: function(seq) {
             var pv = this;
             $.each([seq, seq - 1, seq + 1, seq + 2, seq + 3], function(index, newSeq) {
-                var ref = pv.cacheRef(newSeq, pv.state.r, pv.state.s);
+                var ref = pv.imageCacheRef(newSeq, pv.state.r, pv.state.s);
                 if (newSeq >= 1 &&
                     newSeq <= pv.settings.total &&
                     pv.hasPageAccess(newSeq) &&
                     (pv.state.s === pv.settings.minSize || pv.settings.canResize) &&
-                    !pv.cache[ref]) {
+                    !pv.imageCache[ref]) {
                     pv.getUri(newSeq);
                 }
             });
         },
 
         requestImage: function() {
-            var uri = this.cache[this.cacheRef(this.state.seq, this.state.r, this.state.s)];
+            var uri = this.imageCache[this.imageCacheRef(this.state.seq, this.state.r, this.state.s)];
             if (uri && uri !== 'error') {
                 this.image.attr('src', uri);
                 this.display.subscribe.hide();
@@ -252,7 +284,48 @@
                 this.display.loading.hide();
                 this.display.subscribe.show();
             }
+
+            if (this.settings.hasTags) {
+                this.loadComponent(this.state.seq);
+            }
+
             this.updateUI();
+        },
+
+        loadComponent: function(seq) {
+            this.display.component.container.selector.html('');
+            if (this.hasTags(seq)) {
+                this.display.component.container.hide();
+                this.display.component.empty.hide();
+                this.display.component.loading.show();
+                if (this.componentCache[seq]) {
+                    this.display.component.loading.hide();
+                    this.display.component.container.selector.html(this.componentCache[seq]);
+                    this.display.component.container.show();
+                } else {
+                    var call = ['', 'view', this.componentKey(seq)].join('/');
+                    var pv = this;
+                    $.ajax({
+                        url: call,
+                        dataType: 'html',
+                        data: { fmt: 'ajax' },
+                        success: function(snippet) {
+                            pv.componentCache[seq] = snippet;
+                            pv.display.component.loading.hide();
+                            pv.display.component.container.selector.html(snippet);
+                            pv.display.component.container.show();
+                        },
+                        error: function() {
+                            pv.display.component.loading.hide();
+                            pv.display.component.empty.show();
+                        }
+                    });
+                }
+            } else {
+                this.display.component.loading.hide();
+                this.display.component.container.hide();
+                this.display.component.empty.show();
+            }
         },
 
         imageLoaded: function() {

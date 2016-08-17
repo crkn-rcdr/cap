@@ -1,9 +1,9 @@
-<nav id="pvToolbar" class="btn-toolbar" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="6" data-pkey="[% item.record.key %]" data-resize="[% item.auth.resize %]"  data-portal-name="[% portal_name %]" data-document-label="[% item.canonical_label | truncate(50) %]">
+<nav id="pvToolbar" class="btn-toolbar" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="6" data-pkey="[% item.record.key %]" data-resize="[% item.auth.resize %]"  data-portal-name="[% portal_name %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF item.record.hasTags %] data-tags="1"[% END %]>
         <select id="pvPageSelect" name="seq">
             [% FOREACH component_key IN item.record.order %]
                 [% child = item.record.components.$component_key %]
                 [% curr_seq = loop.count %]
-                <option id="seq[% curr_seq %]" data-access="[% child.access %]" data-master="[% child.canonicalMaster %]" value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
+                <option id="seq[% curr_seq %]" data-key="[% component_key %]" data-access="[% child.access %]" data-master="[% child.canonicalMaster %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
             [% END %]
         </select>
         <div class="btn-group">
@@ -27,9 +27,14 @@
             [% INCLUDE download label=(item.auth.download ? c.loc("Download PDF") : c.loc("Subscribers can download a copy of this document.")) id="pvDownload" icon_class="download" %]
         </div>
         [% END %]
+        [% IF c.auth.can_access('metadata') && item.record.defined('hasTags') && item.record.hasTags %]
+        <div class="btn-group pull-right">
+            [% INCLUDE tag_toggle label=c.loc("Toggle Tags") id="pvTagToggle" icon_class="tag" %]
+        </div>
+        [% END %]
 </nav>
 
-[% BLOCK button %]<a id="[% id %]" class="btn pvbutton[% IF disabled %] disabled[% END %]"[% UNLESS disabled %] href="[% href %]"[% END %] title="[% label %]"><span class="pvicon pvicon-[% icon_class %]"></span></a>[% END %]
+[% BLOCK button %]<a id="[% id %]" class="btn pvbutton[% IF disabled %] disabled[% END; IF hidden %] hidden[% END %]"[% UNLESS (disabled || hidden) %] href="[% href %]"[% END %] title="[% label %]"><span class="pvicon pvicon-[% icon_class %]"></span></a>[% END %]
 
 [% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/index", page.pkey, new_seq) disabled=disabled %][% END %]
 [% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/index", item.record.key, seq, refine(c.req.params, { r => new_rotation })) disabled=(c.stash.rotate == new_rotation) %][% END %]
@@ -40,3 +45,4 @@
         [% INCLUDE button href=request.1 disabled=!item.auth.download %]
     [% END %]
 [% END %]
+[% BLOCK tag_toggle %][% INCLUDE button hidden=0 %][% END %]
