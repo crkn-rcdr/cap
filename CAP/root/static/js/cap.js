@@ -24074,6 +24074,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
         loadComponent: function(seq) {
             this.display.component.container.selector.html('');
             if (this.hasTags(seq)) {
+                this.controls.tagToggle.selector.addClass('btn-info');
                 this.display.component.container.hide();
                 this.display.component.empty.hide();
                 this.display.component.loading.show();
@@ -24101,6 +24102,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
                     });
                 }
             } else {
+                this.controls.tagToggle.selector.removeClass('btn-info');
                 this.display.component.loading.hide();
                 this.display.component.container.hide();
                 this.display.component.empty.show();

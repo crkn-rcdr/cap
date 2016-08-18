@@ -29,12 +29,12 @@
         [% END %]
         [% IF c.auth.can_access('metadata') && item.record.defined('hasTags') && item.record.hasTags %]
         <div class="btn-group pull-right">
-            [% INCLUDE tag_toggle label=c.loc("Toggle Tags") id="pvTagToggle" icon_class="tag" %]
+            [% INCLUDE tag_toggle label=c.loc("Toggle Tags") id="pvTagToggle" icon_class="tag" active=item.component(seq).hasTags %]
         </div>
         [% END %]
 </nav>
 
-[% BLOCK button %]<a id="[% id %]" class="btn pvbutton[% IF disabled %] disabled[% END; IF hidden %] hidden[% END %]"[% UNLESS (disabled || hidden) %] href="[% href %]"[% END %] title="[% label %]"><span class="pvicon pvicon-[% icon_class %]"></span></a>[% END %]
+[% BLOCK button %]<a id="[% id %]" class="btn pvbutton[% IF disabled %] disabled[% END; IF hidden %] hidden[% END; IF active %] active[% END %]"[% UNLESS (disabled || hidden) %] href="[% href %]"[% END %] title="[% label %]"><span class="pvicon pvicon-[% icon_class %]"></span></a>[% END %]
 
 [% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/index", page.pkey, new_seq) disabled=disabled %][% END %]
 [% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/index", item.record.key, seq, refine(c.req.params, { r => new_rotation })) disabled=(c.stash.rotate == new_rotation) %][% END %]
