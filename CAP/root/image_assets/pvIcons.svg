@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="197.18594"
-     inkscape:cy="-5.8856561"
+     inkscape:zoom="22.627417"
+     inkscape:cx="233.74913"
+     inkscape:cy="14.771769"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -153,20 +153,14 @@
        transform="translate(0,1028.3622)" />
     <path
        style="fill:#303030;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 216,1038.3622 10,-10 8,0 0,8 -10,10 -8,-8"
-       id="path4222"
-       inkscape:connector-curvature="0" />
+       d="M 226 0 L 216 10 L 224 18 L 234 8 L 234 0 L 226 0 z M 231 1 A 2 2 0 0 1 233 3 A 2 2 0 0 1 231 5 A 2 2 0 0 1 229 3 A 2 2 0 0 1 231 1 z "
+       transform="translate(0,1028.3622)"
+       id="path4222" />
     <circle
        style="fill:#ffffff;fill-opacity:0;stroke:none"
        id="path4224"
        cx="231.5"
        cy="1030.8622"
        r="1.5" />
-    <circle
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       id="path4230"
-       cx="231"
-       cy="1031.3622"
-       r="2" />
   </g>
 </svg>
