@@ -3,4 +3,4 @@
 <p>
 	<a href="[% c.uri_for_action("/support", "about") %]"><strong>Pour en savoir plus</strong></a>
 </p>
-<p>D’autres collections seront accessibles sur ce portail au fur et à mesure qu’elles seront numérisées. Visitez régulièrement notre site pour découvrir les nouveautés ou consultez notre catalogue pour un avant-goût de <a href="[% c.uri_for_action("/support", "catalogue") %]"><strong>ce qui est à venir</strong></a>.</p>
+<p>D’autres collections seront accessibles sur ce portail au fur et à mesure qu’elles seront numérisées. Visitez régulièrement notre site pour découvrir les nouveautés ou consultez notre catalogue pour un avant-goût de <a href="http://cdn.canadiana.ca/heritage/catalogue_fr.pdf" target="_blank"><strong>ce qui est à venir</strong></a>.</p>

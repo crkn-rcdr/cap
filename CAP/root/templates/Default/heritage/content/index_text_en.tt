@@ -3,4 +3,4 @@
 <p>
 	<a href="[% c.uri_for_action("/support", "about") %]"><strong>Learn more</strong></a>
 </p>
-<p>More collections will appear on this portal as they are digitized. Come back often to see what’s new, or get a taste of <a href="[% c.uri_for_action("/support", "catalogue") %]"><strong>what’s coming in our catalogue</strong></a>.</p>
+<p>More collections will appear on this portal as they are digitized. Come back often to see what’s new, or get a taste of <a href="http://cdn.canadiana.ca/heritage/catalogue_en.pdf" target="_blank"><strong>what’s coming in our catalogue</strong></a>.</p>
