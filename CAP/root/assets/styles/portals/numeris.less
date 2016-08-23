@@ -1,0 +1,95 @@
+@import "../cap.less";
+
+@footerHeight: @baseLineHeight * 3 + 10px;
+@narrowFooterHeight: @baseLineHeight * 4 + 10px;
+
+@mainColor: #1b3668;
+@secondColor: #62a744;
+@lightColor: lighten(@secondColor, 30%);
+@bgColor: #fff;
+
+@linkColor: @mainColor;
+@linkColorHover: lighten(@mainColor, 10%);
+
+@baseFontFamily: Helvetica, Arial, sans-serif;
+
+header {
+    background-color: @secondColor;
+    margin-bottom: @baseLineHeight / 2;
+    height: 191px;
+    position: relative;
+    .banner {
+        display: block;
+        background-color: @mainColor;
+        height: 184px;
+        .logo {
+        	position: absolute;
+        	width: 277px;
+        	height: 61px;
+        	left: 50px;
+        	top: 60px;
+        	background-image: url('/static/images/numeris_banner_logo.png');
+        }
+        .illustration {
+        	position: absolute;
+        	width: 437px;
+        	height: 178px;
+        	right: 68px;
+        	bottom: 0px;
+        	background-image: url('/static/images/numeris_banner_illustration.png');
+        	display: none;
+        }
+    }
+    .lang {
+    	position: absolute;
+    	right: 9px;
+    	top: 5px;
+    	color: @lightColor;
+    	&:hover {
+    		color: @lightColor;
+    	}
+    }
+}
+
+@media (min-width: 768px) {
+    header .banner .illustration {
+    	display: block;
+    }
+}
+
+h2 {
+    color: @mainColor;
+    font-variant: small-caps;
+    text-rendering: auto;
+}
+
+.search-item h2 {
+    font-variant: normal;
+}
+
+.whf-search-bar {
+    font-size: @baseFontSize + 2px;
+    font-weight: bold;
+    padding: 9px 4px;
+    .border-radius(5px);
+    line-height: normal;
+}
+
+@media (min-width: 768px) {
+    .blurb, .search {
+        min-height: 250px;
+    }
+}
+
+/* Push footer */
+
+footer {
+    background-color: @mainColor;
+    color: @lightColor;
+    .lighten-links;
+    text-align: center;
+    p {
+        margin-top: @baseLineHeight / 2;
+        padding-top: @baseLineHeight / 2;
+    }
+}
