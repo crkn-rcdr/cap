@@ -6386,7 +6386,7 @@ header {
 #pvPane .loading.active {
   background-color: #e18400 \9;
 }
-#pvImageContainer div {
+#pvImageInner {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   background-color: #eee;
@@ -6467,15 +6467,24 @@ header {
 .pvicon-tag {
   background-position: -216px 0px;
 }
+@media (min-width: 768px) {
+  .right-med {
+    float: right;
+  }
+}
 #pvComponent {
   position: absolute;
   top: 0px;
   right: -1px;
   max-height: 210px;
+  padding-bottom: 9px;
   overflow-y: scroll;
-  width: 400px;
+  width: 372px;
   background-color: rgba(255, 255, 255, 0.95);
   border: 2px solid #ff9e15;
+}
+#pvComponent .tags {
+  margin-bottom: 0;
 }
 #pvComponent .tags li {
   display: inline-block;
@@ -6484,16 +6493,19 @@ header {
 }
 #pvComponentNav {
   list-style: none;
-  margin: 0 5px;
+  margin: 0;
 }
 #pvComponentPrevious {
   float: left;
+  margin: 9px 20px 0 5px;
 }
 #pvComponentNext {
   float: right;
+  margin: 9px 5px 0 20px;
 }
 #pvComponentContainer,
 #pvComponentLoading {
+  padding-top: 9px;
   clear: both;
 }
 .slideshow {

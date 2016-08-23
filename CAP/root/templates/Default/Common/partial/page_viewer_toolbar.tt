@@ -28,7 +28,7 @@
         </div>
         [% END %]
         [% IF c.auth.can_access('metadata') && item.record.defined('hasTags') && item.record.hasTags %]
-        <div class="btn-group pull-right">
+        <div class="btn-group right-med">
             [% INCLUDE tag_toggle label=c.loc("Toggle Tags") id="pvTagToggle" icon_class="tag" active=item.component(seq).hasTags %]
         </div>
         [% END %]

@@ -891,7 +891,7 @@ header{margin-bottom:18px;}
 #pvPane .loading:active,#pvPane .loading.active{background-color:#e18400 \9;}
 #pvPane .loading:hover,#pvPane .loading:active,#pvPane .loading.active,#pvPane .loading.disabled,#pvPane .loading[disabled]{background-color:#ff9e15;*background-color:#fb9300;}
 #pvPane .loading:active,#pvPane .loading.active{background-color:#e18400 \9;}
-#pvImageContainer div{overflow:auto;-webkit-overflow-scrolling:touch;background-color:#eee;}
+#pvImageInner{overflow:auto;-webkit-overflow-scrolling:touch;background-color:#eee;}
 #pvImg{max-width:none;display:block;margin:0 auto;}
 .pv-imagelink{position:absolute;width:80px;top:0px;height:100%;display:block;background-color:rgba(85, 85, 85, 0.5);color:#dddddd;font-size:39px;}.pv-imagelink:hover{color:#dddddd;text-decoration:none;}
 .pv-imagelink .pv-imagelink-text{position:absolute;top:50%;display:block;margin:0 auto;}
@@ -909,11 +909,11 @@ header{margin-bottom:18px;}
 .pvicon-bigger{background-position:-168px 0px;}
 .pvicon-download{background-position:-192px 0px;}
 .pvicon-tag{background-position:-216px 0px;}
-#pvComponent{position:absolute;top:0px;right:-1px;max-height:210px;overflow-y:scroll;width:400px;background-color:rgba(255, 255, 255, 0.95);border:2px solid #ff9e15;}#pvComponent .tags li{display:inline-block;padding-left:5px;padding-right:5px;}
-#pvComponentNav{list-style:none;margin:0 5px;}
-#pvComponentPrevious{float:left;}
-#pvComponentNext{float:right;}
-#pvComponentContainer,#pvComponentLoading{clear:both;}
+@media (min-width:768px){.right-med{float:right;}}#pvComponent{position:absolute;top:0px;right:-1px;max-height:210px;padding-bottom:9px;overflow-y:scroll;width:372px;background-color:rgba(255, 255, 255, 0.95);border:2px solid #ff9e15;}#pvComponent .tags{margin-bottom:0;}#pvComponent .tags li{display:inline-block;padding-left:5px;padding-right:5px;}
+#pvComponentNav{list-style:none;margin:0;}
+#pvComponentPrevious{float:left;margin:9px 20px 0 5px;}
+#pvComponentNext{float:right;margin:9px 5px 0 20px;}
+#pvComponentContainer,#pvComponentLoading{padding-top:9px;clear:both;}
 .slideshow{margin:36px 0;}.slideshow .slideshow-gallery{list-style-type:none;}.slideshow .slideshow-gallery>li{float:left;margin-right:60px;}.slideshow .slideshow-gallery>li.last{margin-right:0;}
 .slideshow .slideshow-gallery>li>figure{margin:0;text-align:center;}.slideshow .slideshow-gallery>li>figure img{display:block;margin:0 auto 9px;}
 .slideshow.shadow .slideshow-gallery>li>figure img{-webkit-box-shadow:2px 2px 2px 0 #888888;-moz-box-shadow:2px 2px 2px 0 #888888;box-shadow:2px 2px 2px 0 #888888;}
