@@ -5,11 +5,16 @@
         <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
         <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
         <aside id="pvComponent"[% UNLESS item.component(seq).hasTags %] class="hidden"[% END %]>
+            <ul id="pvComponentNav">
+                <li id="pvComponentPrevious">
+                    <a id="pvComponentPreviousLink" href="#">&laquo; [% c.loc('Previous tagged page') %] (<span id="pvComponentPreviousSeq"></span>)</a>
+                </li>
+                <li id="pvComponentNext">
+                    <a id="pvComponentNextLink" href="#">[% c.loc('Next tagged page') %] (<span id="pvComponentNextSeq"></span>) &raquo;</a>
+                </li>
+            </ul>
             <div id="pvComponentLoading"><img src="/static/images/loader.gif" alt="[% c.loc('Loading') %]" /></div>
             <div id="pvComponentContainer" class="hidden"></div>
-            <div id="pvComponentEmpty">
-                <p>[% c.loc("This page has no tags.") %]</p>
-            </div>
         </aside>
     </section>
     <p id="pvLoading" class="loading hidden">[% c.loc("Loading...") %]</p>

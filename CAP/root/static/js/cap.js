@@ -23792,14 +23792,13 @@ $.extend( $.fn.dataTableExt.oPagination, {
             this.$element = $(element);
 
             this.loadData();
+            this.loadComponents();
             this.setupDisplay();
             this.setupHandlers();
             this.setupControls();
 
             // image reference cache
             this.imageCache = {};
-            // component metadata cache
-            this.componentCache = {};
 
             this.initState();
             this.updateUI();
@@ -23849,8 +23848,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
                 component: {
                     frame: pve($('#pvComponent')),
                     loading: pve($('#pvComponentLoading')),
-                    container: pve($('#pvComponentContainer')),
-                    empty: pve($('#pvComponentEmpty'))
+                    container: pve($('#pvComponentContainer'))
                 }
             };
         },
@@ -23867,6 +23865,8 @@ $.extend( $.fn.dataTableExt.oPagination, {
             this.smaller = function() { this.updateState({ s: this.state.s - 1 }); };
             this.bigger = function() { this.updateState({ s: this.state.s + 1 }); };
             this.toggleTags = function() { this.display.component.frame.toggle(); this.controls.tagToggle.selector.toggleClass('active'); };
+            this.previousTaggedPage = function() { this.updateState({ seq: this.components[this.state.seq].previousTags || this.state.seq }); };
+            this.nextTaggedPage = function() { this.updateState({ seq: this.components[this.state.seq].nextTags || this.state.seq }); };
         },
 
         setupControls: function() {
@@ -23901,13 +23901,64 @@ $.extend( $.fn.dataTableExt.oPagination, {
                 rotateRight: pvc({ selection: "#pvRotateRight", eventName: "click", handler: this.rotateRight }),
                 smaller: pvc({ selection: "#pvSmaller", eventName: "click", handler: this.smaller }),
                 bigger: pvc({ selection: "#pvBigger", eventName: "click", handler: this.bigger }),
-                tagToggle: pvc({ selection: "#pvTagToggle", eventName: "click", handler: this.toggleTags })
+                tagToggle: pvc({ selection: "#pvTagToggle", eventName: "click", handler: this.toggleTags }),
+                previousTags: pvc({ selection: "#pvComponentPreviousLink", eventName: "click", handler: this.previousTaggedPage }),
+                nextTags: pvc({ selection: "#pvComponentNextLink", eventName: "click", handler: this.nextTaggedPage })
             };
         },
 
         makePathFromState: function(st) {
             var isPkeyOutFront = window.location.pathname.split('/').pop() === this.settings.pkey;
             return "" + (isPkeyOutFront ? this.settings.pkey + "/" : "") + st.seq + "?r=" + st.r + "&s=" + st.s;
+        },
+
+        loadComponents: function() {
+            var pv = this;
+            pv.components = {};
+
+            // first pass: load data
+            $('#pvPageSelect option').each(function(index, element) {
+                pv.components[this.value] = {
+                    key: this.getAttribute('data-key'),
+                    hasAccess: !!parseInt(this.getAttribute('data-access'), 10),
+                    master: this.getAttribute('data-master'),
+                    label: this.innerHTML
+                };
+
+                if (pv.settings.hasTags) {
+                    pv.components[this.value].hasTags = !!parseInt(this.getAttribute('data-tags'), 10);
+                }
+            });
+
+            // second pass: determine previous/next tags
+            if (pv.settings.hasTags) {
+                var previousTagMarker = 0;
+                var nextTagMarker = 1;
+
+                for (var i = 1; i <= this.settings.total; i++) {
+                    pv.components[i].previousTags = previousTagMarker;
+
+                    if (nextTagMarker === i) {
+                        var j = i + 1;
+                        while (j <= this.settings.total) {
+                            if (pv.components[j].hasTags) {
+                                nextTagMarker = j;
+                                break;
+                            }
+                            j++;
+                        }
+
+                        if (nextTagMarker === i) {
+                            nextTagMarker = Infinity;
+                        }
+                    }
+                    pv.components[i].nextTags = nextTagMarker;
+
+                    if (pv.components[i].hasTags) {
+                        previousTagMarker = i;
+                    }
+                }
+            }
         },
 
         hashToState: function(hash) {
@@ -23933,21 +23984,6 @@ $.extend( $.fn.dataTableExt.oPagination, {
             return st;
         },
 
-        hasPageAccess: function(seq) {
-            var component = this.controls.pageSelect.selector.find('#seq' + seq);
-            return !!parseInt(component.data('access'), 10);
-        },
-
-        hasTags: function(seq) {
-            var component = this.controls.pageSelect.selector.find('#seq' + seq);
-            return !!parseInt(component.data('tags'), 10);
-        },
-
-        componentKey: function(seq) {
-            var component = this.controls.pageSelect.selector.find('#seq' + seq);
-            return component.data('key');
-        },
-
         imageCacheRef: function(seq, r, s) {
             return [seq, r, s].join(',');
         },
@@ -23959,7 +23995,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
 
             // seems like a good enough place to load component data (that I'm not bothering with server-side)
             if (this.settings.hasTags) {
-                this.loadComponent(this.state.seq);
+                this.fetchComponentData(this.state.seq);
             }
         },
 
@@ -23996,12 +24032,27 @@ $.extend( $.fn.dataTableExt.oPagination, {
             this.controls.pageSelect.selector.val(this.state.seq);
             this.controls.rotateLeft.enable();
             this.controls.rotateRight.enable();
-            this.controls.tagToggle.enable();
             (this.state.s <= this.settings.minSize || !this.settings.canResize) ? this.controls.smaller.disable("disabled") : this.controls.smaller.enable();
             (this.state.s >= this.settings.maxSize || !this.settings.canResize) ? this.controls.bigger.disable("disabled") : this.controls.bigger.enable();
 
             var itemName = this.controls.pageSelect.selector.find('#seq' + this.state.seq).html();
             document.title = this.settings.documentLabel + " - " + itemName + " - " + this.settings.portalName;
+
+            if (this.settings.hasTags) {
+                this.controls.tagToggle.enable();
+                if (this.components[this.state.seq].previousTags > 0) {
+                    $('#pvComponentPreviousSeq').text(this.components[this.components[this.state.seq].previousTags].label);
+                    this.controls.previousTags.enable();
+                } else {
+                    this.controls.previousTags.disable('hidden');
+                }
+                if (this.components[this.state.seq].nextTags < this.settings.total) {
+                    $('#pvComponentNextSeq').text(this.components[this.components[this.state.seq].nextTags].label);
+                    this.controls.nextTags.enable();
+                } else {
+                    this.controls.nextTags.disable('hidden');
+                }
+            }
         },
 
         getUri: function(seq) {
@@ -24033,7 +24084,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
                 var ref = pv.imageCacheRef(newSeq, pv.state.r, pv.state.s);
                 if (newSeq >= 1 &&
                     newSeq <= pv.settings.total &&
-                    pv.hasPageAccess(newSeq) &&
+                    pv.components[newSeq].hasAccess &&
                     (pv.state.s === pv.settings.minSize || pv.settings.canResize) &&
                     !pv.imageCache[ref]) {
                     pv.getUri(newSeq);
@@ -24056,7 +24107,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
         stateChanged: function() {
             this.state = this.sanitizeState(History.getState().data);
             this.preload(this.state.seq);
-            if (this.hasPageAccess(this.state.seq) && (this.state.s == this.settings.minSize || this.settings.canResize)) {
+            if (this.components[this.state.seq].hasAccess && (this.state.s == this.settings.minSize || this.settings.canResize)) {
                 this.requestImage();
             } else {
                 this.display.container.hide();
@@ -24065,39 +24116,37 @@ $.extend( $.fn.dataTableExt.oPagination, {
             }
 
             if (this.settings.hasTags) {
-                this.loadComponent(this.state.seq);
+                this.fetchComponentData(this.state.seq);
             }
 
             this.updateUI();
         },
 
-        loadComponent: function(seq) {
+        fetchComponentData: function(seq) {
             this.display.component.container.selector.html('');
-            if (this.hasTags(seq)) {
+            if (this.components[seq].hasTags) {
                 this.controls.tagToggle.selector.addClass('btn-info');
                 this.display.component.container.hide();
-                this.display.component.empty.hide();
                 this.display.component.loading.show();
-                if (this.componentCache[seq]) {
+                if (this.components[seq].tags) {
                     this.display.component.loading.hide();
-                    this.display.component.container.selector.html(this.componentCache[seq]);
+                    this.display.component.container.selector.html(this.components[seq].tags);
                     this.display.component.container.show();
                 } else {
-                    var call = ['', 'view', this.componentKey(seq)].join('/');
+                    var call = ['', 'view', this.components[seq].key].join('/');
                     var pv = this;
                     $.ajax({
                         url: call,
                         dataType: 'html',
                         data: { fmt: 'ajax' },
                         success: function(snippet) {
-                            pv.componentCache[seq] = snippet;
+                            pv.components[seq].tags = snippet;
                             pv.display.component.loading.hide();
                             pv.display.component.container.selector.html(snippet);
                             pv.display.component.container.show();
                         },
                         error: function() {
                             pv.display.component.loading.hide();
-                            pv.display.component.empty.show();
                         }
                     });
                 }
@@ -24105,7 +24154,6 @@ $.extend( $.fn.dataTableExt.oPagination, {
                 this.controls.tagToggle.selector.removeClass('btn-info');
                 this.display.component.loading.hide();
                 this.display.component.container.hide();
-                this.display.component.empty.show();
             }
         },
 

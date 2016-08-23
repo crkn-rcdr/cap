@@ -9,8 +9,8 @@
         [% IF c.stash.defined("description") && c.stash.description %]<meta name="description" content="[% c.stash.description %]" />[% END %]
         <meta name="author" content="Canadiana" />
 
-        <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ portal _ '.min.css', { cssr => 3 }) %]" />
-        <!--[if lt IE 8]><link rel="stylesheet" href="[% c.uri_for('/static/css/ie7.min.css', { cssr => 3 }) %]" /><![endif]-->
+        <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ portal _ '.min.css', { cssr => 4 }) %]" />
+        <!--[if lt IE 8]><link rel="stylesheet" href="[% c.uri_for('/static/css/ie7.min.css', { cssr => 4 }) %]" /><![endif]-->
         <script src="[% c.uri_for('/static/js/modernizr.custom.js') %]"></script>
         <script src="[% c.uri_for('/static/js/respond.min.js') %]"></script>
     </head>
@@ -40,7 +40,7 @@
         </footer>
 
         <!-- Load JavaScript at the end for quickness -->
-        <script src="[% c.uri_for('/static/js/cap.min.js', { r => 8 }) %]" type="text/javascript"></script>
+        <script src="[% c.uri_for('/static/js/cap.min.js', { r => 9 }) %]" type="text/javascript"></script>
         <script type="text/javascript">
               var _gaq = _gaq || [];
               _gaq.push(['_setAccount', 'UA-18296086-4']);
