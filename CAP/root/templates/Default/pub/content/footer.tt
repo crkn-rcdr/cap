@@ -1,9 +1,7 @@
 ﻿<div class="container">
     <div class="row">
         <ul class="span4">
-            <li class="title"><a href="[% c.loc("http://www.canadiana.ca/en/cdp") %]" target="_blank">[% c.loc("About this site") %]</a></li>
-            <li><a href="[% c.loc("http://www.canadiana.ca/en/home") %]" target="_blank">[% c.loc("Canadiana") %]</a></li>
-            <li><a href="[% c.loc("http://www.canadiana.ca/en/blog") %]" target="_blank">[% c.loc("Blog") %]</a></li>
+            <li class="title"><a href="[% c.loc("http://www.canadiana.ca/en/home") %]" target="_blank">[% c.loc("Canadiana") %]</a></li>
             <li><a href="[% c.loc("http://www.canadiana.ca/en/legal") %]" target="_blank">[% c.loc("Privacy &amp; Legal") %]</a></li>
         </ul>
         <ul class="span4 offset4 text-right-aligned">
