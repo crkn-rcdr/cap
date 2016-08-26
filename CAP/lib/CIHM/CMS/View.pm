@@ -1,5 +1,6 @@
 package CIHM::CMS::View;
 
+use utf8;
 use strictures 2;
 use Moo;
 use Types::Standard qw/Str/;
