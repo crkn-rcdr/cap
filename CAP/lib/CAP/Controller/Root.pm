@@ -108,9 +108,9 @@ sub access_denied :Private {
     $c->detach('error', [403, "NOACCESS"]);
 }
 
-=head2 favico()
+=head2 favicon()
 
-Handle requests for /favicon.ico by redirecting them to /statit/favicon.ico
+Handle requests for /favicon.ico by redirecting them to /static/favicon.ico
 
 =cut
 sub favicon :Path('favicon.ico') {
@@ -119,11 +119,31 @@ sub favicon :Path('favicon.ico') {
     $c->detach();
 }
 
-# The default action is to redirect back to the main page.
+# If we don't match anything, we're trying to access a CMS node (or 404)
 sub default :Path {
-    my($self, $c) = @_;
-    $c->res->redirect($c->uri_for_action('index'));
-    $c->detach();
+    my($self, $c, @path) = @_;
+
+    my $path = join '/', @path;
+    my $lookup = $c->model('CMS')->view({
+        portal => $c->portal->id,
+        lang => $c->stash->{lang},
+        path => $path,
+        base_url => $c->uri_for('/')
+    });
+
+    $c->detach('error', [404, "No CMS node for $path"]) unless ($lookup);
+
+    if ((ref $lookup) =~ /URI/) {
+        $c->response->redirect($lookup);
+        $c->detach();
+    }
+
+    use Data::Dumper;
+    $c->stash(
+        node_title => $lookup->{title},
+        body => $lookup->{body},
+        template => "node.tt"
+    );
 }
 
 sub end : ActionClass('RenderView')

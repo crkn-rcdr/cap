@@ -1,0 +1,9 @@
+[% title = node_title -%]
+
+<div class="row">
+    <article class="span12">
+    	<h1>[% node_title %]</h1>
+    	[% body %]
+    </article>
+</div>
+
