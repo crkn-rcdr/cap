@@ -35,13 +35,17 @@ sub view {
 		{ key => encode_json [$args->{portal}, _strip($args->{path})] },
 	)->data->{rows}[0];
 
-	return undef unless $entry;
+	return "No CMS entry for $args->{path}" unless $entry;
 
 	my $value = $entry->{value}->{$args->{lang}};
+
+	return "Document at $args->{path} does not contain information in language $args->{lang}" unless $value;
+
 	if (_strip($args->{path}) eq _strip($value)) {
 		my $key = $entry->{id};
 		my $doc = $self->get("/$key")->data;
-		my $body = $self->get("/$key/" . $args->{lang} . '.html')->response->content;
+		return "Document at $args->{path} has not been marked as published." unless $doc->{publish};
+		my $body = $self->get("/$key/$args->{lang}.html")->response->content || '';
 		return CIHM::CMS::View->new($doc, $body, $args->{lang});
 	} else {
 		return URI->new_abs($value, $args->{base_url});

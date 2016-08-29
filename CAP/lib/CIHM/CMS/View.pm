@@ -20,8 +20,6 @@ has 'body' => (
 around BUILDARGS => sub {
 	my ($orig, $class, $doc, $body, $lang) = @_;
 
-	return undef unless ($body && $doc->{publish});
-
 	return $class->$orig({
 		title => $doc->{$lang}{title},
 		body => $body

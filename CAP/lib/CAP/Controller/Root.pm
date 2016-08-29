@@ -131,7 +131,8 @@ sub default :Path {
         base_url => $c->uri_for('/')
     });
 
-    $c->detach('error', [404, "No CMS node for $path"]) unless ($lookup);
+    $c->detach('error', [404, "Failed lookup for $path"]) unless $lookup;
+    $c->detach('error', [404, $lookup]) unless ref $lookup;
 
     if ((ref $lookup) =~ /URI/) {
         $c->response->redirect($lookup);
