@@ -1,4 +1,3 @@
 <a href="http://www.facebook.com/pages/Canadiana/115437585187018" target="_blank"><img src="/static/icons/facebook.png" alt="[% c.loc("Like us on Facebook") %]" title="[% c.loc("Like us on Facebook") %]" /></a>
 <a href="http://twitter.com/CanadianaCA" target="_blank"><img src="/static/icons/twitter.png" alt="[% c.loc("Follow us on Twitter") %]" title="[% c.loc("Follow us on Twitter") %]" /></a>
-<a href="http://www.flickr.com/photos/canadiana_org"><img src="/static/icons/flickr.png" alt="[% c.loc("Canadiana's Flickr photostream") %]" title="[% c.loc("Canadiana's Flickr photostream") %]" /></a>
 <a href="http://www.youtube.com/user/CanadianaCA" target="_blank"><img src="/static/icons/youtube.png" alt="[% c.loc("Videos on YouTube") %]" title="[% c.loc("Videos on YouTube") %]" /></a>
