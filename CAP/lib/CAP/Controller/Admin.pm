@@ -1,8 +1,6 @@
 package CAP::Controller::Admin;
 use Moose;
 use namespace::autoclean;
-use Net::IP;
-use feature "switch";
 use parent qw/Catalyst::Controller::ActionRole/;
 
 __PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ], },);
