@@ -3,7 +3,7 @@ package CIHM::CMS;
 use utf8;
 use strictures 2;
 use Moo;
-#use Text::Undiacritic qw/undiacritic/;
+use Text::Undiacritic qw/undiacritic/;
 use JSON qw/encode_json/;
 use URI;
 use CIHM::CMS::View;
@@ -32,7 +32,7 @@ sub view {
 	my ($self, $args) = @_;
 
 	my $entry = $self->get('/_design/tdr/_view/aliases',
-		{ key => encode_json [$args->{portal}, _strip($args->{path})] },
+		{ key => encode_json [$args->{portal}, _strip_path($args->{path})] },
 	)->data->{rows}[0];
 
 	return "No CMS entry for $args->{path}" unless $entry;
@@ -41,7 +41,7 @@ sub view {
 
 	return "Document at $args->{path} does not contain information in language $args->{lang}" unless $value;
 
-	if (_strip($args->{path}) eq _strip($value)) {
+	if (_strip_path($args->{path}) eq _strip_path($value)) {
 		my $key = $entry->{id};
 		my $doc = $self->get("/$key")->data;
 		return "Document at $args->{path} has not been marked as published." unless $doc->{publish};
@@ -52,19 +52,8 @@ sub view {
 	}
 }
 
-sub _strip {
-	my ($token) = @_;
-	$token =~ tr/ÀàÁáÂâÄäÃãÅå/a/;
-	$token =~ tr/ÈèÉéÊêËë/e/;
-	$token =~ tr/ÌìÍíÎîÏï/i/;
-	$token =~ tr/ÒòÓóÔôÖöÕõØo/o/;
-	$token =~ tr/ÙùÚúÛûÜü/u/;
-	$token =~ tr/Çç/c/;
-	$token =~ tr/Ññ/n/;
-	$token =~ s/[Œœ]/oe/g;
-	$token =~ s/[Ææ]/ae/g;
-	$token = lc($token);
-	return $token;
+sub _strip_path {
+	return undiacritic(lc(shift));
 }
 
 # fetch a doc for editing
