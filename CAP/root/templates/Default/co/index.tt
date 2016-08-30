@@ -1,8 +1,14 @@
 [% title = c.loc("Welcome") -%]
 
 <div class="row">
-    <div class="span12 blurb">
-    	<p>I am what is known as an index</p>
+    <div class="span4">
+    	<p>I am the first block</p>
+    </div>
+    <div class="span4">
+    	<p>I am the second block</p>
+    </div>
+    <div class="span4">
+    	<p>I am the third block</p>
     </div>
 </div>
 
