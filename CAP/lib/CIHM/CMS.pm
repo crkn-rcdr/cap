@@ -67,4 +67,20 @@ sub _strip {
 	return $token;
 }
 
+# fetch a doc for editing
+
+sub edit {
+	my ($self, $id) = @_;
+
+	my $doc = $self->get("/$id")->data;
+
+	if ($doc->{error}) {
+		return "cms database error: $doc->{error}";
+	} else {
+		$doc->{id} = delete $doc->{_id};
+		return $doc;
+		#return CIHM::CMS::Edit->new($doc);
+	}
+}
+
 1;

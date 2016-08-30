@@ -1,0 +1,3 @@
+[% title = "Editing " _ doc.id %]
+
+<h1>[% title %]</h1>

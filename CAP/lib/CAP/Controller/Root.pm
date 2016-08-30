@@ -141,8 +141,7 @@ sub default :Path {
 
     use Data::Dumper;
     $c->stash(
-        node_title => $lookup->{title},
-        body => $lookup->{body},
+        node => $lookup,
         template => "node.tt"
     );
 }

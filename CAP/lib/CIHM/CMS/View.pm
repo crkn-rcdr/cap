@@ -5,6 +5,12 @@ use strictures 2;
 use Moo;
 use Types::Standard qw/Str/;
 
+has 'id' => (
+	is => 'ro',
+	isa => Str,
+	required => 1
+);
+
 has 'title' => (
 	is => 'ro',
 	isa => Str,
@@ -21,6 +27,7 @@ around BUILDARGS => sub {
 	my ($orig, $class, $doc, $body, $lang) = @_;
 
 	return $class->$orig({
+		id => $doc->{_id},
 		title => $doc->{$lang}{title},
 		body => $body
 	});
