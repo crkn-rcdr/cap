@@ -34,8 +34,8 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
-@footerHeight: 205px;
-@narrowFooterHeight: 385px;
+@footerHeight: 136px;
+@narrowFooterHeight: 225px;
 
 @mainColor: #951931;
 @secondColor: #5ca8b6;
@@ -84,27 +84,72 @@ header.navbar {
     }
 }
 
-h2 {
-    color: @mainColor;
-    font-variant: small-caps;
-    text-rendering: auto;
-}
+.index {
+    > * {
+        margin-bottom: @baseLineHeight;
+    }
 
-.search-item h2 {
-    font-variant: normal;
-}
+    .hero {
+        background-color: @secondColor;
+        h2 {
+            margin: 5% 10%;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 1% 2%;
+            text-align: center;
+        }
+    }
 
-.whf-search-bar {
-    font-size: @baseFontSize + 2px;
-    font-weight: bold;
-    padding: 9px 4px;
-    .border-radius(5px);
-    line-height: normal;
-}
+    .linkBlock {
+        &:hover {
+            text-decoration: none;
+        }
+        > .title {
+            background-color: @mainColor;
+            color: white;
+            line-height: @baseLineHeight * 1.5;
+            padding-left: @baseLineHeight / 2;
+        }
+        > .illustration {
+            background-color: @secondColor;
+            min-height: 120px;
+        }
+    }
 
-@media (min-width: 768px) {
-    .blurb, .search {
-        min-height: 250px;
+    .linkList {
+        list-style-type: none;
+        margin: 0;
+        > li {
+            margin-bottom: @baseLineHeight / 2;
+            line-height: @baseLineHeight * 2;
+            text-align: right;
+            font-weight: bold;
+            > a {
+                display: block;
+                &:hover {
+                    text-decoration: none;
+                }
+                > span {
+                    padding: 4px 5px;
+                }
+            }
+        }
+    }
+
+    .moreLinkWrapper {
+        text-align: right;
+        > .moreLink {
+            padding: 4px 5px;
+            .border-radius(2px);
+            background-color: @grayDark;
+            color: white;
+            font-weight: bold;
+            &:hover {
+                color: white;
+            }
+            &::after {
+                content: " »";
+            }
+        }
     }
 }
 
@@ -137,11 +182,5 @@ footer {
             margin-bottom: 0;
             line-height: @baseLineHeight * 2;
         }
-    }
-}
-
-@media (min-width: 768px) {
-    footer .footer-top {
-        height: 160px;
     }
 }

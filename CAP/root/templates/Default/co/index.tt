@@ -1,14 +1,54 @@
 [% title = c.loc("Welcome") -%]
 
-<div class="row">
-    <div class="span4">
-    	<p>I am the first block</p>
-    </div>
-    <div class="span4">
-    	<p>I am the second block</p>
-    </div>
-    <div class="span4">
-    	<p>I am the third block</p>
-    </div>
+<div class="row index">
+	<div class="span12 hero">
+		<h2>Ut convallis vel augue a ultricies.<br />Etiam sit amet quam eget risus tempus ornare.</h2>
+	</div>
+	<div class="span8">
+		<h3>Featured collections</h3>
+		<div class="row">
+			<a class="linkBlock span4" href="http://eco.canadiana.ca/">
+				<h4 class="title">
+					Early Canadiana Online
+				</h4>
+				<div class="illustration"></div>
+			</a>
+			<a class="linkBlock span4" href="http://heritage.canadiana.ca/">
+				<h4 class="title">
+					Heritage
+				</h4>
+				<div class="illustration"></div>
+			</a>
+		</div>
+	</div>
+	<div class="span4">
+		<h3>Our other projects</h3>
+		<ul class="linkList">
+			<li style="background-color: orange">
+				<a href="#"><span style="background-color: darkblue; color: white">Something</span></a>
+			</li>
+			<li style="background-color: orange">
+				<a href="#"><span style="background-color: darkgreen; color: white">Something else</span></a>
+			</li>
+			<li style="background-color: orange">
+				<a href="#"><span style="background-color: darkred; color: white">A third thing</span></a>
+			</li>
+		</ul>
+		<div class="moreLinkWrapper"><a href="/collections" class="moreLink">More collections</a></div>
+	</div>
+	<div class="span4">
+		<h3>About Canadiana</h3>
+		<p>Nulla ullamcorper orci ut dignissim elementum. Nam commodo, tellus ac porttitor scelerisque, risus dui tempus tortor, vitae vulputate mi metus et leo. Curabitur fermentum neque sed nunc pretium consectetur. Proin commodo magna quis metus rutrum, non commodo ante cursus.</p>
+		<div class="moreLinkWrapper"><a href="/about" class="moreLink">Learn more</a></div>
+	</div>
+	<div class="span4">
+		<h3>Recent updates</h3>
+	</div>
+	<div class="span4">
+		<h3><a href="https://www.canadahelps.org/services/wa/dnm/en/#/page/4964">Donate</a></h3>
+		<a class="linkBlock" href="https://www.canadahelps.org/services/wa/dnm/en/#/page/4964">
+			<div class="illustration"></div>
+		</a>
+	</div>
 </div>
 

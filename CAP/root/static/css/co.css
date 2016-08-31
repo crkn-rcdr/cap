@@ -6605,26 +6605,26 @@ body {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin-bottom: -403px;
+  margin-bottom: -243px;
 }
 #push {
   clear: both;
-  height: 403px;
+  height: 243px;
 }
 footer {
   clear: both;
-  height: 385px;
+  height: 225px;
   margin-top: 18px;
 }
 @media (min-width: 768px) {
   #wrapper {
-    margin-bottom: -223px;
+    margin-bottom: -154px;
   }
   #push {
-    height: 223px;
+    height: 154px;
   }
   footer {
-    height: 205px;
+    height: 136px;
   }
 }
 /* RANDOM STUFF */
@@ -6880,28 +6880,67 @@ header.navbar .nav > li > a {
 header.navbar .nav > li > a:hover {
   color: #f7f7f7;
 }
-h2 {
-  color: #951931;
-  font-variant: small-caps;
-  text-rendering: auto;
+.index > * {
+  margin-bottom: 18px;
 }
-.search-item h2 {
-  font-variant: normal;
+.index .hero {
+  background-color: #5ca8b6;
 }
-.whf-search-bar {
-  font-size: 15px;
+.index .hero h2 {
+  margin: 5% 10%;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 1% 2%;
+  text-align: center;
+}
+.index .linkBlock:hover {
+  text-decoration: none;
+}
+.index .linkBlock > .title {
+  background-color: #951931;
+  color: white;
+  line-height: 27px;
+  padding-left: 9px;
+}
+.index .linkBlock > .illustration {
+  background-color: #5ca8b6;
+  min-height: 120px;
+}
+.index .linkList {
+  list-style-type: none;
+  margin: 0;
+}
+.index .linkList > li {
+  margin-bottom: 9px;
+  line-height: 36px;
+  text-align: right;
   font-weight: bold;
-  padding: 9px 4px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  line-height: normal;
 }
-@media (min-width: 768px) {
-  .blurb,
-  .search {
-    min-height: 250px;
-  }
+.index .linkList > li > a {
+  display: block;
+}
+.index .linkList > li > a:hover {
+  text-decoration: none;
+}
+.index .linkList > li > a > span {
+  padding: 4px 5px;
+}
+.index .moreLinkWrapper {
+  text-align: right;
+}
+.index .moreLinkWrapper > .moreLink {
+  padding: 4px 5px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background-color: #333333;
+  color: white;
+  font-weight: bold;
+}
+.index .moreLinkWrapper > .moreLink:hover {
+  color: white;
+}
+.index .moreLinkWrapper > .moreLink::after {
+  content: " »";
 }
 /* Push footer */
 footer ul li {
@@ -6935,9 +6974,4 @@ footer .footer-bottom {
 footer .footer-bottom p {
   margin-bottom: 0;
   line-height: 36px;
-}
-@media (min-width: 768px) {
-  footer .footer-top {
-    height: 160px;
-  }
 }
