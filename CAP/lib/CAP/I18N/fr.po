@@ -3929,3 +3929,12 @@ msgstr "Tous les collaborateurs"
 # how did we miss this
 msgid "Search results for %1"
 msgstr "Résultats pour %1"
+
+msgid "Toggle Tags"
+msgstr "Basculer les étiquettes"
+
+msgid "Previous tagged page"
+msgstr "Page étiquetée précédente"
+
+msgid "Next tagged page"
+msgstr "Prochaine page étiquetée"
