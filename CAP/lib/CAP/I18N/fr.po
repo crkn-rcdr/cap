@@ -4010,3 +4010,9 @@ msgstr "Numérisation de masse"
 
 msgid "Costs &amp; Specifications"
 msgstr "Exigences et spécifications"
+
+msgid "Aboriginal Veterans"
+msgstr "Soldats autochtones"
+
+msgid "Trustworthy Digital Repository"
+msgstr "Dépôt numérique fiable"

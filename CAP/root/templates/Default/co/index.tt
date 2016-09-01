@@ -31,13 +31,13 @@
 		<h3>[% c.loc("Our Other Projects") %]</h3>
 		<ul class="linkList">
 			<li style="background-color: orange">
-				<a href="#"><span style="background-color: darkblue; color: white">Something</span></a>
+				<a href="http://av.canadiana.ca/" target="_blank"><span style="background-color: darkblue; color: white">[% c.loc("Aboriginal Veterans") %]</span></a>
 			</li>
 			<li style="background-color: orange">
-				<a href="#"><span style="background-color: darkgreen; color: white">Something else</span></a>
+				<a href="/trustworthy-digital-repository"><span style="background-color: darkgreen; color: white">[% c.loc("Trustworthy Digital Repository") %]</span></a>
 			</li>
 			<li style="background-color: orange">
-				<a href="#"><span style="background-color: darkred; color: white">A third thing</span></a>
+				<a href="http://pub.canadiana.ca/" target="_blank"><span style="background-color: darkred; color: white">[% c.loc("Public Collections") %]</span></a>
 			</li>
 		</ul>
 	</div>
