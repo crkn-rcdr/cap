@@ -3938,3 +3938,19 @@ msgstr "Page étiquetée précédente"
 
 msgid "Next tagged page"
 msgstr "Prochaine page étiquetée"
+
+# NEW FRONTPAGE STUFF
+msgid "Early Canadiana Online"
+msgstr "Notre mémoire en ligne"
+
+msgid "Héritage"
+msgstr "Héritage"
+
+msgid "Our Other Projects"
+msgstr "Nos autres projets"
+
+msgid "Donate"
+msgstr "Faire un don"
+
+msgid "Recent Updates"
+msgstr "Mises à jour récentes"
