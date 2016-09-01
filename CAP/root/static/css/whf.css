@@ -6204,6 +6204,14 @@ header {
     visibility: hidden;
   }
 }
+/* updates */
+.updateList {
+  list-style-type: none;
+  margin: 0;
+}
+.updateList > li {
+  margin: 0 0 9px 0;
+}
 /* search page */
 .refine-search {
   margin-top: 9px;

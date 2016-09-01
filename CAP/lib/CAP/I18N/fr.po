@@ -3952,5 +3952,14 @@ msgstr "Nos autres projets"
 msgid "Donate"
 msgstr "Faire un don"
 
+msgid "Updates"
+msgstr "Mises à jour"
+
 msgid "Recent Updates"
 msgstr "Mises à jour récentes"
+
+msgid "View more"
+msgstr "En voir plus"
+
+msgid "There are no updates to view."
+msgstr "Il n’y a encore aucune mise à jour."

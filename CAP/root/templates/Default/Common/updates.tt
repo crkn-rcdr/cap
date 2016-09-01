@@ -1,0 +1,4 @@
+﻿[% title = c.loc("Updates") %]
+
+<h1>[% c.loc("Updates") %]</h1>
+[% INCLUDE partial/update_list.tt updates=updates %]

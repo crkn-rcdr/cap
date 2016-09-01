@@ -44,6 +44,8 @@
 	</div>
 	<div class="span4">
 		<h3>[% c.loc("Recent Updates") %]</h3>
+		[% INCLUDE partial/update_list.tt updates=updates %]
+		<div class="moreLinkWrapper"><a href="/updates" class="moreLink">[% c.loc("View more") %]</a></div>
 	</div>
 	<div class="span4">
 		<h3><a href="https://www.canadahelps.org/services/wa/dnm/en/#/page/4964">[% c.loc("Donate") %]</a></h3>

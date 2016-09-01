@@ -6204,6 +6204,14 @@ header {
     visibility: hidden;
   }
 }
+/* updates */
+.updateList {
+  list-style-type: none;
+  margin: 0;
+}
+.updateList > li {
+  margin: 0 0 9px 0;
+}
 /* search page */
 .refine-search {
   margin-top: 9px;
@@ -6907,7 +6915,7 @@ header.navbar .nav > li > a:hover {
 }
 .index .linkList {
   list-style-type: none;
-  margin: 0;
+  margin: 0 0 18px 0;
 }
 .index .linkList > li {
   margin-bottom: 9px;

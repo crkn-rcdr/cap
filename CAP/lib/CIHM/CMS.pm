@@ -5,6 +5,7 @@ use strictures 2;
 use Moo;
 use Text::Undiacritic qw/undiacritic/;
 use JSON qw/encode_json/;
+use Scalar::Util qw/looks_like_number/;
 use URI;
 use CIHM::CMS::View;
 
@@ -70,6 +71,32 @@ sub edit {
 		return $doc;
 		#return CIHM::CMS::Edit->new($doc);
 	}
+}
+
+# $args:
+# portal: current portal id
+# lang: current set language
+# limit: number of updates (will fetch all if undefined)
+sub updates {
+	my ($self, $args) = @_;
+
+	my $call_args = {
+		descending => 'true',
+		startkey => encode_json [$args->{portal}, "$args->{lang}\x{FF}"],
+		endkey => encode_json [$args->{portal}, "$args->{lang}"]
+	};
+
+	my $limit = $args->{limit};
+	$call_args->{limit} = int $limit if (defined $limit && looks_like_number $limit);
+	my $rows = $self->get('/_design/tdr/_view/updates', $call_args)->data->{rows};
+
+	return [ map {
+		{
+			path => $_->{value}{path},
+			title => $_->{value}{title},
+			date => $_->{key}[1]
+		}
+	} @$rows ];
 }
 
 1;

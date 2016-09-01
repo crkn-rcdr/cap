@@ -190,6 +190,20 @@ sub index :Path('') Args(0)
     $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->portal->id, "frontpage");
     $c->stash->{template} = "index.tt";
     $c->stash->{portals} = [$c->model("DB::Portal")->list];
+    $c->stash->{updates} = $c->model("CMS")->updates({
+        portal => $c->portal->id,
+        lang => $c->stash->{lang},
+        limit => 3
+    });
+}
+
+# list of CMS nodes marked isUpdate
+sub updates :Local {
+    my ($self, $c) = @_;
+    $c->stash->{updates} = $c->model("CMS")->updates({
+        portal => $c->portal->id,
+        lang => $c->stash->{lang}
+    });
 }
 
 sub support :Path('support') :Args() {
