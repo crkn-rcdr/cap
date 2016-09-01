@@ -3986,3 +3986,27 @@ msgstr "Collections publiques"
 
 msgid "Student Voice"
 msgstr "Voix étudiante"
+
+msgid "Advisory Committees"
+msgstr "Comités consultatif"
+
+msgid "Licensing &amp; Subscriptions"
+msgstr "Abonnements institutionnels"
+
+msgid "News"
+msgstr "Nouvelles"
+
+msgid "Email Bulletin"
+msgstr "Bulletin courriel"
+
+msgid "Digitization &amp; Preservation"
+msgstr "Numérisation et préservation"
+
+msgid "Learn About Our Services"
+msgstr "Connaître nos services"
+
+msgid "Our Mass Digitization Approach"
+msgstr "Numérisation de masse"
+
+msgid "Costs &amp; Specifications"
+msgstr "Exigences et spécifications"
