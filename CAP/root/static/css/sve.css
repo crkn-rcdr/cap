@@ -6845,10 +6845,10 @@ header .banner {
   -moz-box-shadow: 0 4px 4px 0px #888888;
   box-shadow: 0 4px 4px 0px #888888;
 }
-.sve_bar > a {
+.sve_bar a {
   color: #dddddd;
 }
-.sve_bar > a:hover {
+.sve_bar a:hover {
   color: #f7f7f7;
 }
 .sve_bar ul {

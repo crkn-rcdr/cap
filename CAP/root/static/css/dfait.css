@@ -6826,6 +6826,7 @@ header .banner {
   background-repeat: no-repeat;
   background-position: top center;
   height: 82px;
+  margin: 0;
 }
 .dfait_bar {
   background-color: black;
@@ -6834,10 +6835,10 @@ header .banner {
   -moz-box-shadow: 0 4px 4px 0px #888888;
   box-shadow: 0 4px 4px 0px #888888;
 }
-.dfait_bar > a {
+.dfait_bar a {
   color: #dddddd;
 }
-.dfait_bar > a:hover {
+.dfait_bar a:hover {
   color: #f7f7f7;
 }
 .dfait_bar ul {

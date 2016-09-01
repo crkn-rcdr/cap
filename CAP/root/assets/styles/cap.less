@@ -608,6 +608,15 @@ a {
     }
 }
 
+.lighten-links-all () {
+    a {
+        color: @lightColor;
+        &:hover {
+            color: lighten(@lightColor, 10%);
+        }
+    }
+}
+
 input.placeholder, textarea.placeholder {
     color: @grayLight;
 }
