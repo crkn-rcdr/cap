@@ -6900,6 +6900,10 @@ header.navbar .nav > li > a:hover {
   padding: 1% 2%;
   text-align: center;
 }
+.index .linkBlock {
+  max-width: 370px;
+  display: block;
+}
 .index .linkBlock:hover {
   text-decoration: none;
 }
@@ -6918,8 +6922,9 @@ header.navbar .nav > li > a:hover {
   margin: 0 0 18px 0;
 }
 .index .linkList > li {
+  max-width: 370px;
   margin-bottom: 9px;
-  line-height: 36px;
+  line-height: 72px;
   text-align: right;
   font-weight: bold;
 }

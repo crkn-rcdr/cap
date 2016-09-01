@@ -971,10 +971,10 @@ header.navbar h1 a:hover{text-decoration:none;}
 header.navbar .nav>li>a{color:#dddddd;}header.navbar .nav>li>a:hover{color:#f7f7f7;}
 .index>*{margin-bottom:18px;}
 .index .hero{background-color:#5ca8b6;}.index .hero h2{margin:5% 10%;background-color:rgba(255, 255, 255, 0.5);padding:1% 2%;text-align:center;}
-.index .linkBlock:hover{text-decoration:none;}
+.index .linkBlock{max-width:370px;display:block;}.index .linkBlock:hover{text-decoration:none;}
 .index .linkBlock>.title{background-color:#951931;color:white;line-height:27px;padding-left:9px;}
 .index .linkBlock>.illustration{background-color:#5ca8b6;min-height:120px;}
-.index .linkList{list-style-type:none;margin:0 0 18px 0;}.index .linkList>li{margin-bottom:9px;line-height:36px;text-align:right;font-weight:bold;}.index .linkList>li>a{display:block;}.index .linkList>li>a:hover{text-decoration:none;}
+.index .linkList{list-style-type:none;margin:0 0 18px 0;}.index .linkList>li{max-width:370px;margin-bottom:9px;line-height:72px;text-align:right;font-weight:bold;}.index .linkList>li>a{display:block;}.index .linkList>li>a:hover{text-decoration:none;}
 .index .linkList>li>a>span{padding:4px 5px;}
 .index .moreLinkWrapper{text-align:right;}.index .moreLinkWrapper>.moreLink{padding:4px 5px;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;background-color:#333333;color:white;font-weight:bold;}.index .moreLinkWrapper>.moreLink:hover{color:white;}
 .index .moreLinkWrapper>.moreLink::after{content:" »";}

@@ -38,7 +38,7 @@
 </div>
 <div class="row index">
 	<div class="span4">
-		<h3>[% c.loc("About Canadiana") %]</h3>
+		<h3><a href="/about">[% c.loc("About Canadiana") %]</a></h3>
 		<p>Nulla ullamcorper orci ut dignissim elementum. Nam commodo, tellus ac porttitor scelerisque, risus dui tempus tortor, vitae vulputate mi metus et leo. Curabitur fermentum neque sed nunc pretium consectetur. Proin commodo magna quis metus rutrum, non commodo ante cursus.</p>
 		<div class="moreLinkWrapper"><a href="/about" class="moreLink">[% c.loc("Learn more") %]</a></div>
 	</div>

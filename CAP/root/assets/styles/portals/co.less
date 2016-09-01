@@ -100,6 +100,8 @@ header.navbar {
     }
 
     .linkBlock {
+        max-width: 370px;
+        display: block;
         &:hover {
             text-decoration: none;
         }
@@ -119,8 +121,9 @@ header.navbar {
         list-style-type: none;
         margin: 0 0 @baseLineHeight 0;
         > li {
+            max-width: 370px;
             margin-bottom: @baseLineHeight / 2;
-            line-height: @baseLineHeight * 2;
+            line-height: @baseLineHeight * 4;
             text-align: right;
             font-weight: bold;
             > a {
