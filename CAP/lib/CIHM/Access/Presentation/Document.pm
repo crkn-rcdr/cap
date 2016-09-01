@@ -33,6 +33,33 @@ has 'auth' => (
 	}; }
 );
 
+sub BUILD {
+	my ($self, $args) = @_;
+
+	# handle date tags correctly
+    my $dates = $args->{record}{tagDate};
+    if (defined $dates) {
+    	my @date_tags = ();
+        foreach my $date_str (@$dates) {
+        	my $tag = '';
+        	if ($date_str =~ /\[(.+) TO (.+)\]/) {
+        		my ($date1, $date2) = (_format_date($1), _format_date($2));
+        		$tag = $date1 && $date2 ? "$date1 – $date2" : '';
+        	} else {
+        		$tag = _format_date($date_str);
+        	}
+        	push(@date_tags, $tag) if $tag;
+        }
+        $args->{record}{tagDate} = \@date_tags;
+    }
+}
+
+sub _format_date {
+    my ($date) = (@_);
+    $date =~ /^(\d{4})-(\d{2})-(\d{2}).+/;
+    return $2 == 1 && $3 == 1 || $2 == 12 && $3 == 31 ? $1 : "$1-$2-$3";
+}
+
 sub authorize_item {
 	my ($self, $auth) = @_;
 	foreach (qw/content download preview resize/) {

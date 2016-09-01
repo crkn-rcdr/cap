@@ -11,14 +11,7 @@ use base 'Catalyst::View::TT';
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
     STRICT => 1,
-    render_die => 1,
-    VARIABLES => {
-        format_date => sub {
-            my $date = shift(@_);
-            $date = str2time($date) unless looks_like_number($date);
-            return $date ? time2str("%Y-%m-%d", $date) : "";
-        },
-    }
+    render_die => 1
 );
 
 =head1 NAME

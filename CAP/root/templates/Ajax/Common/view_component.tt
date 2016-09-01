@@ -3,7 +3,7 @@
 [% FOREACH tag_type IN tag_types -%]
 [% IF record.defined(tag_type) -%]
 [% FOREACH tag IN record.$tag_type -%]
-	<li class="[% tag_type %]"><span class="label">[% tag_type == 'tagDate' ? format_date(tag) : tag %]</span></li>
+	<li class="[% tag_type %]"><span class="label">[% tag %]</span></li>
 [% END -%]
 [% END -%]
 [% END -%]
