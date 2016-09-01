@@ -9,7 +9,7 @@
         [% IF c.stash.defined("description") && c.stash.description %]<meta name="description" content="[% c.stash.description %]" />[% END %]
         <meta name="author" content="Canadiana" />
 
-        <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ portal _ '.min.css', { cssr => 4 }) %]" />
+        <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ portal _ '.css', { cssr => 4 }) %]" />
         <!--[if lt IE 8]><link rel="stylesheet" href="[% c.uri_for('/static/css/ie7.min.css', { cssr => 4 }) %]" /><![endif]-->
         <script src="[% c.uri_for('/static/js/modernizr.custom.js') %]"></script>
         <script src="[% c.uri_for('/static/js/respond.min.js') %]"></script>

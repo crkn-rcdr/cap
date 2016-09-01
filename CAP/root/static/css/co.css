@@ -6849,7 +6849,7 @@ table.calendar a {
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 header.navbar {
-  margin-bottom: 18px;
+  margin-bottom: 0;
   background-color: #951931;
   color: #c4c4c4;
 }
@@ -6888,6 +6888,15 @@ header.navbar .nav > li > a {
 header.navbar .nav > li > a:hover {
   color: #f7f7f7;
 }
+.navLinks.navbar {
+  margin-bottom: 18px;
+}
+.navLinks.navbar .nav > li > a {
+  color: #dddddd;
+}
+.navLinks.navbar .nav > li > a:hover {
+  color: #f7f7f7;
+}
 .index > * {
   margin-bottom: 18px;
 }
@@ -6895,9 +6904,9 @@ header.navbar .nav > li > a:hover {
   background-color: #5ca8b6;
 }
 .index .hero h2 {
-  margin: 5% 10%;
+  margin: 36px 10%;
   background-color: rgba(255, 255, 255, 0.5);
-  padding: 1% 2%;
+  padding: 9px 2%;
   text-align: center;
 }
 .index .linkBlock {

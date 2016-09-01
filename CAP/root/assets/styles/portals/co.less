@@ -48,7 +48,7 @@
 @baseFontFamily: Raleway, Helvetica, Arial, sans-serif;
 
 header.navbar {
-    margin-bottom: @baseLineHeight;
+    margin-bottom: 0;
     background-color: @mainColor;
     color: darken(@lightColor, 10%);
 
@@ -84,6 +84,13 @@ header.navbar {
     }
 }
 
+.navLinks.navbar {
+    margin-bottom: @baseLineHeight;
+    .nav > li {
+        .lighten-links;
+    }
+}
+
 .index {
     > * {
         margin-bottom: @baseLineHeight;
@@ -92,9 +99,9 @@ header.navbar {
     .hero {
         background-color: @secondColor;
         h2 {
-            margin: 5% 10%;
+            margin: 36px 10%;
             background-color: rgba(255, 255, 255, 0.5);
-            padding: 1% 2%;
+            padding: 9px 2%;
             text-align: center;
         }
     }

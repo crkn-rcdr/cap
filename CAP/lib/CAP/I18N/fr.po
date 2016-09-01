@@ -3963,3 +3963,26 @@ msgstr "En voir plus"
 
 msgid "There are no updates to view."
 msgstr "Il n’y a encore aucune mise à jour."
+
+# FRONTPAGE NAV
+
+msgid "Governance &amp; Structure"
+msgstr "Gouvernance et structure"
+
+msgid "Membership"
+msgstr "Adhésion"
+
+msgid "Projects"
+msgstr "Projets"
+
+msgid "Tools &amp; Resources"
+msgstr "Outils et ressources"
+
+msgid "History"
+msgstr "Histoire"
+
+msgid "Public Collections"
+msgstr "Collections publiques"
+
+msgid "Student Voice"
+msgstr "Voix étudiante"

@@ -26,3 +26,64 @@
         </div>
     </div>
 </header> 
+
+<div class="navbar navLinks">
+    <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav">
+                <li><a href="/">[% c.loc("Home") %]</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        [% c.loc("About") %]
+                        <b class="caret"></b>
+                    </a> 
+                    <ul class="dropdown-menu">
+                        <li><a href="/about">[% c.loc("About Canadiana") %]</a></li>
+                        <li><a href="/governance-structure">[% c.loc("Governance &amp; Structure") %]</a></li>
+                        <li><a href="/membership">[% c.loc("Membership") %]</a></li>
+                        <li class="divider">
+                        <li><a href="/projects">[% c.loc("Projects") %]</a></li>
+                        <li><a href="/tools">[% c.loc("Tools &amp; Resources") %]</a></li>
+                        <li><a href="/history-of-canadiana">[% c.loc("History") %]</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        [% c.loc("Collections") %]
+                        <b class="caret"></b>
+                    </a> 
+                    <ul class="dropdown-menu">
+                        <li><a href="http://eco.canadiana.ca/" target="_blank">[% c.loc("Early Canadiana Online") %]</a></li>
+                        <li><a href="http://heritage.canadiana.ca/" target="_blank">[% c.loc("Héritage") %]</a></li>
+                        <li><a href="http://pub.canadiana.ca/" target="_blank">[% c.loc("Public Collections") %]</a></li>
+                        <li><a href="http://sve.canadiana.ca/" target="_blank">[% c.loc("Student Voice") %]</a></li>
+                        <li class="divider">
+                        <li><a href="/eco_advisory">[% c.loc("Advisory Committees") %]</a></li>
+                        <li><a href="/ecobuy">[% c.loc("Licensing &amp; Subscriptions") %]</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        [% c.loc("News") %]
+                        <b class="caret"></b>
+                    </a> 
+                    <ul class="dropdown-menu">
+                        <li><a href="/updates">[% c.loc("Recent Updates") %]</a></li>
+                        <li><a href="/publications">[% c.loc("Email Bulletin") %]</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        [% c.loc("Digitization and Preservation") %]
+                        <b class="caret"></b>
+                    </a> 
+                    <ul class="dropdown-menu">
+                        <li><a href="/digitization-services">[% c.loc("Learn About Our Services") %]</a></li>
+                        <li><a href="/digitization-options">[% c.loc("Our Mass Digitization Approach") %]</a></li>
+                        <li><a href="/mass-digitization-requirements-specifications">[% c.loc("Costs &amp; Specifications") %]</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
