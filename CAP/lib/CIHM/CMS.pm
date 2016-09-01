@@ -46,9 +46,6 @@ sub view {
 		my $doc = $self->get("/$key")->data;
 		return "Document at $args->{path} has not been marked as published." unless $doc->{publish};
 		my $body = $self->get("/$key/$args->{lang}.html")->response->content || '';
-		# temporary MS smart quote fix
-		$body =~ s/\x{91}/&lsquo;/g;
-		$body =~ s/\x{92}/&rsquo;/g;
 		return CIHM::CMS::View->new($doc, $body, $args->{lang});
 	} else {
 		return URI->new_abs($value, $args->{base_url});
