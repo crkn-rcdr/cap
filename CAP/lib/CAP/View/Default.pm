@@ -70,6 +70,11 @@ __PACKAGE__->config(
 
         current_year => sub {
             return time2str("%Y", time);
+        },
+
+        cdn_uri => sub {
+            my ($doc, $file) = (@_);
+            return "http://cdn.canadiana.ca/$doc/$file";
         }
     }
 );
