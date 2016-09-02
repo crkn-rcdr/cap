@@ -1,11 +1,5 @@
 <div class="access">
-[% IF c.portal.id == 'canadiana' -%]
-    [% IF c.stash.defined("origin") %]
-        <div><a href="[% origin.uri %]"><strong>[% c.loc("Return to [_1]", origin.portal.title(c.stash.lang)) %] &raquo;</strong></a></div>
-    [% ELSE %]
-        <div><a href="[% c.uri_for_portal_action("eco", "/index") %]"><strong>[% c.loc("Visit Early Canadiana Online") %] &raquo;</strong></a></div>
-    [% END %]
-[% ELSE -%]
+[% UNLESS c.portal.id == 'canadiana' -%]
     [% IF c.auth.institution_sub %]
         <div><strong>[% c.loc("Welcome, [_1]", c.institution.alias(c.stash.lang)) %]</strong></div>
     [% ELSIF c.auth.subscription && c.auth.subscription.active %]

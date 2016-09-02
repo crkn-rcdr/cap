@@ -33,16 +33,16 @@ method build_entity ($object) {
 }
 
 
-=head2 uri_for_portal ($portal_id, @args)
+=head2 uri_for_portal ($portal_id, $path)
 
-Calls uri_for_action(@args) and then changes the hostname part of the URL
+Calls uri_for($path) and then changes the hostname part of the URL
 to the canonical hostname for $portal_id. Returns a URI for the current
 portal if the requested portal_id cannot be found. Always sets the
 protocol to http.
 
 =cut
-method uri_for_portal(Str $portal_id, Item @args) {
-    my $uri = $self->c->uri_for_action(@args);
+method uri_for_portal(Str $portal_id, Str $path) {
+    my $uri = $self->c->uri_for($path);
     my $current_hostname = $uri->host;
     $uri->scheme('http');
     my $portal = $self->c->model('DB::Portal')->find({id => $portal_id});
