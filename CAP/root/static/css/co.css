@@ -6986,6 +6986,7 @@ footer .title {
 footer .footer-top {
   background-color: white;
   padding-top: 9px;
+  min-height: 91px;
   -webkit-box-shadow: 0 -10px 10px 2px #dddddd;
   -moz-box-shadow: 0 -10px 10px 2px #dddddd;
   box-shadow: 0 -10px 10px 2px #dddddd;
