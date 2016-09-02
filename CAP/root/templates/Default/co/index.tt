@@ -13,13 +13,13 @@
 	<div class="span8">
 		<h3>[% c.loc("Featured Collections") %]</h3>
 		<div class="row">
-			<a class="linkBlock span4" href="http://eco.canadiana.ca/">
+			<a class="linkBlock span4" href="http://eco.canadiana.ca/" target="_blank">
 				<h4 class="title">
 					[% c.loc("Early Canadiana Online") %]
 				</h4>
 				<div class="illustration" style="background-image: url('[% cdn_uri('co', 'eco-block.jpg') %]'); height: 180px;"></div>
 			</a>
-			<a class="linkBlock span4" href="http://heritage.canadiana.ca/">
+			<a class="linkBlock span4" href="http://heritage.canadiana.ca/" target="_blank">
 				<h4 class="title">
 					[% c.loc("Héritage") %]
 				</h4>
