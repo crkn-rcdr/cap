@@ -6901,11 +6901,11 @@ header.navbar .nav > li > a:hover {
   margin-bottom: 18px;
 }
 .index .hero {
-  background-color: #5ca8b6;
+  background-color: #951931;
 }
 .index .hero h2 {
-  margin: 36px 10%;
-  background-color: rgba(255, 255, 255, 0.5);
+  margin: 0 10%;
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 9px 2%;
   text-align: center;
 }
@@ -6923,8 +6923,7 @@ header.navbar .nav > li > a:hover {
   padding-left: 9px;
 }
 .index .linkBlock > .illustration {
-  background-color: #5ca8b6;
-  min-height: 120px;
+  background-position: 50% 0%;
 }
 .index .linkList {
   list-style-type: none;
@@ -6936,6 +6935,7 @@ header.navbar .nav > li > a:hover {
   line-height: 72px;
   text-align: right;
   font-weight: bold;
+  background-position: 50% 0%;
 }
 .index .linkList > li > a {
   display: block;
@@ -6963,6 +6963,15 @@ header.navbar .nav > li > a:hover {
 }
 .index .moreLinkWrapper > .moreLink::after {
   content: " »";
+}
+@media (min-width: 768px) {
+  .index .hero {
+    background-image: url('http://cdn.canadiana.ca/co/hero-background.jpg');
+    background-position: center;
+  }
+  .index .hero h2 {
+    margin: 36px 10%;
+  }
 }
 /* Push footer */
 footer ul li {

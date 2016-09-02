@@ -17,27 +17,27 @@
 				<h4 class="title">
 					[% c.loc("Early Canadiana Online") %]
 				</h4>
-				<div class="illustration"></div>
+				<div class="illustration" style="background-image: url('[% cdn_uri('co', 'eco-block.jpg') %]'); height: 180px;"></div>
 			</a>
 			<a class="linkBlock span4" href="http://heritage.canadiana.ca/">
 				<h4 class="title">
 					[% c.loc("Héritage") %]
 				</h4>
-				<div class="illustration"></div>
+				<div class="illustration" style="background-image: url('[% cdn_uri('co', 'heritage-block.jpg') %]'); height: 180px;"></div>
 			</a>
 		</div>
 	</div>
 	<div class="span4">
 		<h3>[% c.loc("Our Other Projects") %]</h3>
 		<ul class="linkList">
-			<li style="background-color: orange">
-				<a href="http://av.canadiana.ca/" target="_blank"><span style="background-color: darkblue; color: white">[% c.loc("Aboriginal Veterans") %]</span></a>
+			<li style="background-image: url('[% cdn_uri('co', 'av-link.png') %]')">
+				<a href="http://av.canadiana.ca/" target="_blank"><span style="background-color: #492005; color: white">[% c.loc("Aboriginal Veterans") %]</span></a>
 			</li>
-			<li style="background-color: orange">
-				<a href="/trustworthy-digital-repository"><span style="background-color: darkgreen; color: white">[% c.loc("Trustworthy Digital Repository") %]</span></a>
+			<li style="background-image: url('[% cdn_uri('co', 'tdr-link.png') %]')">
+				<a href="/trustworthy-digital-repository"><span style="background-color: #4b92db; color: white">[% c.loc("Trustworthy Digital Repository") %]</span></a>
 			</li>
-			<li style="background-color: orange">
-				<a href="http://pub.canadiana.ca/" target="_blank"><span style="background-color: darkred; color: white">[% c.loc("Public Collections") %]</span></a>
+			<li style="background-image: url('[% cdn_uri('co', 'pub-link.png') %]')">
+				<a href="http://pub.canadiana.ca/" target="_blank"><span style="background-color: #951931; color: white">[% c.loc("Public Collections") %]</span></a>
 			</li>
 		</ul>
 	</div>
@@ -60,7 +60,7 @@
 	<div class="span4">
 		<h3><a href="https://www.canadahelps.org/services/wa/dnm/en/#/page/4964">[% c.loc("Donate") %]</a></h3>
 		<a class="linkBlock" href="https://www.canadahelps.org/services/wa/dnm/[% c.stash.lang %]/#/page/4964" target="_blank">
-			<div class="illustration"></div>
+			<div class="illustration" style="background-image: url('[% cdn_uri('co', 'donate-block.jpg') %]'); height: 180px;"></div>
 		</a>
 	</div>
 </div>

@@ -97,10 +97,10 @@ header.navbar {
     }
 
     .hero {
-        background-color: @secondColor;
+        background-color: @mainColor;
         h2 {
-            margin: 36px 10%;
-            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 10%;
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 9px 2%;
             text-align: center;
         }
@@ -119,8 +119,7 @@ header.navbar {
             padding-left: @baseLineHeight / 2;
         }
         > .illustration {
-            background-color: @secondColor;
-            min-height: 120px;
+            background-position: 50% 0%;
         }
     }
 
@@ -133,6 +132,7 @@ header.navbar {
             line-height: @baseLineHeight * 4;
             text-align: right;
             font-weight: bold;
+            background-position: 50% 0%;
             > a {
                 display: block;
                 &:hover {
@@ -159,6 +159,16 @@ header.navbar {
             &::after {
                 content: " »";
             }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .index .hero {
+        background-image: url('http://cdn.canadiana.ca/co/hero-background.jpg');
+        background-position: center;
+        h2 {
+            margin: 36px 10%;
         }
     }
 }
