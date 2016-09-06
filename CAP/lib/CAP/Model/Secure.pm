@@ -48,9 +48,10 @@ method routeRequest ($c) {
             # case, we must remember the portal name and URL.
             if ($my_domain eq $ref_domain) {
                 #warn("The domains are the same, so we check the portal name");
-                if ($c->model('DB::PortalHost')->find($ref_host)) {
+                my $portal = $c->model('DB::PortalHost')->get_portal($ref_host);
+                if ($portal) {
                     #warn("Found a portal for $ref_host so we remember the referer");
-                    $c->session('origin' => { portal => $ref_host, uri => $c->req->referer || undef } );
+                    $c->session('origin' => { portal => $portal->id, uri => $c->req->referer || undef } );
                 }
             }
         }

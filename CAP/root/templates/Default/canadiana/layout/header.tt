@@ -26,3 +26,5 @@
         </div>
     </div>
 </header> 
+
+[% INCLUDE partial/access_status.tt %]

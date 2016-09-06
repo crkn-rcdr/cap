@@ -6817,7 +6817,6 @@ table.calendar a {
   border: 1px solid #eee;
 }
 header.navbar {
-  margin-bottom: 18px;
   background-color: #951931;
   color: #c4c4c4;
 }
@@ -6855,6 +6854,9 @@ header.navbar .nav > li > a {
 }
 header.navbar .nav > li > a:hover {
   color: #f7f7f7;
+}
+.access {
+  margin-bottom: 18px;
 }
 /* Push footer */
 footer ul li {

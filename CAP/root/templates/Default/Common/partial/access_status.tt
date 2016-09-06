@@ -1,15 +1,13 @@
 <div class="access">
-[% UNLESS c.portal.id == 'canadiana' -%]
-    [% IF c.auth.institution_sub %]
-        <div><strong>[% c.loc("Welcome, [_1]", c.institution.alias(c.stash.lang)) %]</strong></div>
-    [% ELSIF c.auth.subscription && c.auth.subscription.active %]
-        <div><strong>[% c.loc("Subscriber") %]</strong></div>
-    [% ELSIF c.portal.supports_users && c.portal.supports_subscriptions %]
-        <div>
-            <a href="[% c.uri_for_action('user/subscription/index', [ c.portal.id ]) %]">
-                <strong>[% c.loc("Subscribe to [_1]", c.portal.title(c.stash.lang)) %]</strong>
-            </a>
-        </div>
-    [% END %]
-[% END -%]
+[% IF c.auth.institution_sub %]
+    <div><strong>[% c.loc("Welcome, [_1]", c.institution.alias(c.stash.lang)) %]</strong></div>
+[% ELSIF c.auth.subscription && c.auth.subscription.active %]
+    <div><strong>[% c.loc("Subscriber") %]</strong></div>
+[% ELSIF c.portal.supports_users && c.portal.supports_subscriptions %]
+    <div>
+        <a href="[% c.uri_for_action('user/subscription/index', [ c.portal.id ]) %]">
+            <strong>[% c.loc("Subscribe to [_1]", c.portal.title(c.stash.lang)) %]</strong>
+        </a>
+    </div>
+[% END %]
 </div>
