@@ -108,6 +108,7 @@
                     </td>
                     <td>
                         [% IF i.institutional; %][%# No action for institutional subscriptions %]
+                        [% ELSIF ! i.portal.supports_users %][%# No action for institution-only subscriptions %]
                         [% ELSIF ! i.subscription %]<a href="[% c.uri_for_action('/user/subscription/index', [i.portal.id]) %]">[% c.loc("Subscribe") %]</a>
                         [% ELSIF ! i.active %]<a href="[% c.uri_for_action('/user/subscription/index', [i.portal.id]) %]">[% c.loc("Renew") %]</a>
                         [% ELSIF ! i.subscription.permanent %]<a href="[% c.uri_for_action('/user/subscription/index', [i.portal.id]) %]">[% c.loc("Extend") %]</a>
