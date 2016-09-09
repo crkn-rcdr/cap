@@ -1,3 +1,19 @@
-[% title = "Editing " _ doc.id %]
+﻿[% title = doc.id ? "Editing " _ doc.id : "New document" %]
 
-<h1>[% title %]</h1>
+<h1>[% title %][% IF doc.records.en.path %] <a href="[% c.cap.uri_for_portal(doc.portal.0, '/' _ doc.records.en.path) %]">(View on [% doc.portal.0 %])</a>[% END %]</h1>
+<form method="POST" action=[% c.uri_for_action("cms/submit") %]>
+	[% IF doc.id %]<input type="hidden" name="id" value="[% doc.id %]" />[% END %]
+	[% IF doc.rev %]<input type="hidden" name="rev" value="[% doc.rev %]" />[% END %]
+	<fieldset class="row">
+		<div class="span6">
+			<h2>English</h2>
+<textarea name="en.md" class="input-block-level" rows="30">[% doc.records.en.markdown ? doc.records.en.markdown : doc.records.en.html | replace('(\r\n|\n)', '&#x000A;') %]</textarea>
+		</div>
+		<div class="span6">
+			<h2>Français</h2>
+<textarea name="fr.md" class="input-block-level" rows="30">[% doc.records.fr.markdown ? doc.records.fr.markdown : doc.records.fr.html %]</textarea>
+		</div>
+	</fieldset>
+	<button class="btn btn-primary" type="submit" name="update_edit">Update and continue editing</button>
+	[% IF doc.records.en.path && doc.portal.0 %]<button class="btn btn-primary" type="submit" name="update_view" value="[% c.cap.uri_for_portal(doc.portal.0, '/' _ doc.records.en.path) %]">Update and view</button>[% END %]
+</form>

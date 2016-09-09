@@ -3,20 +3,29 @@ package CIHM::CMS;
 use utf8;
 use strictures 2;
 use Moo;
+use Types::Standard qw/HashRef Str Enum/;
 use Text::Undiacritic qw/undiacritic/;
 use JSON qw/encode_json/;
 use Scalar::Util qw/looks_like_number/;
 use URI;
 use CIHM::CMS::View;
+use CIHM::CMS::Edit;
 
 with 'Role::REST::Client';
 
 has '+type' => (
-	default => 'application/json'
+	isa => Enum[qw{application/json text/html text/plain application/x-www-form-urlencoded}],
+	default => sub { 'application/json' }
 );
 
 has '+persistent_headers' => (
 	default => sub { return { Accept => 'application/json' }; }
+);
+
+has 'languages' => (
+	is => 'ro',
+	isa => HashRef[Str],
+	required => 1
 );
 
 # args:
@@ -57,19 +66,45 @@ sub _strip_path {
 	return undiacritic(lc(shift));
 }
 
+# fetch a fresh new doc
+
+sub empty_document {
+	my ($self) = @_;
+	return CIHM::CMS::Edit->new({}, $self->languages);
+}
+
 # fetch a doc for editing
 
 sub edit {
 	my ($self, $id) = @_;
 
-	my $doc = $self->get("/$id")->data;
+	my $doc = $self->get("/$id", { attachments => 'true' })->data;
 
 	if ($doc->{error}) {
 		return "cms database error: $doc->{error}";
 	} else {
-		$doc->{id} = delete $doc->{_id};
-		return $doc;
-		#return CIHM::CMS::Edit->new($doc);
+		return CIHM::CMS::Edit->new($doc, $self->languages);
+	}
+}
+
+# $args:
+# id: document id
+# rev: document revision
+# content_type
+# filename
+# data
+sub submit_attachment {
+	my ($self, $args) = @_;
+
+	$self->type($args->{content_type});
+	$self->set_header('If-Match' => $args->{rev});
+	my $response = $self->put("/$args->{id}/$args->{filename}", $args->{data})->data;
+	$self->type('application/json');
+
+	if ($response->{error}) {
+		return "cms database error: $response->{error} while submitting $args->{filename}";
+	} else {
+		return $response;
 	}
 }
 
