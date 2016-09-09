@@ -134,4 +134,36 @@ sub updates {
 	} @$rows ];
 }
 
+# $args:
+# portal: current portal id
+# lang: current set language
+# limit: number of updates (will fetch all if undefined)
+# skip: number of updates to skip (use these for pagination)
+sub list_by_portal {
+	my ($self, $args) = @_;
+
+	my $call_args = {
+		descending => 'true',
+		startkey => encode_json ["$args->{portal}\x{FF}"],
+		endkey => encode_json [$args->{portal}],
+		include_docs => 'true'
+	};
+
+	my $limit = $args->{limit};
+	$call_args->{limit} = int $limit if (defined $limit && looks_like_number $limit);
+	my $skip = $args->{skip};
+	$call_args->{skip} = int $skip if (defined $skip && looks_like_number $skip);
+	my $rows = $self->get('/_design/tdr/_view/byportal', $call_args)->data->{rows};
+
+	return [ map {
+		{
+			id => $_->{id},
+			path => $_->{doc}{$args->{lang}}{path},
+			title => $_->{doc}{$args->{lang}}{title},
+			date => $_->{key}[1],
+			portal => $_->{doc}{portal}
+		}
+	} @$rows ];
+}
+
 1;

@@ -1,0 +1,9 @@
+[% title = 'CMS' %]
+
+<h1>[% title %]</h1>
+<h2>Portals</h2>
+<ul>
+[% FOREACH p IN portals %]
+	<li><a href="[% c.uri_for_action('cms/portal', p.id) %]">[% p.title(c.stash.lang) %] ([% p.id %])</a></li>
+[% END %]
+</ul>

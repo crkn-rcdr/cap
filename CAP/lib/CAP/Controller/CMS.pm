@@ -19,7 +19,27 @@ sub auto :Private {
 }
 
 sub index :Path('') {
+    my ($self, $c) = @_;
 
+    $c->stash(
+        portals => [$c->model('DB::Portal')->list]
+    );
+}
+
+sub portal :Local :Args(1) {
+    my ($self, $c, $portal_id) = @_;
+
+    my $portal = $c->model("DB::Portal")->find($portal_id);
+
+    $c->detach('/error', [404], "no portal: $portal_id") unless $portal;
+
+    $c->stash(
+        portal_row => $portal,
+        lookup => $c->model('CMS')->list_by_portal({
+            portal => $portal_id,
+            lang => $c->stash->{lang},
+        })
+    );
 }
 
 sub create :Local {

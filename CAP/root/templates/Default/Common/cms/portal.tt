@@ -1,0 +1,21 @@
+[% title = "CMS entries for " _ portal_row.title(c.stash.lang) _ " (" _ portal_row.id _ ")" %]
+
+<h1>[% title %]</h1>
+<p>[% lookup.size %] total entries</p>
+<table class="table">
+    [% INCLUDE partial/table_header.tt columns=["Entry", "Last Updated", "Actions"] %]
+    <tbody>
+    [% FOREACH i IN lookup %]
+        <tr>
+            <td>[% i.title %]</td>
+            <td>[% i.date %]</td>
+            <td>
+            	[% IF i.portal.size %]<a href="[% c.cap.uri_for_portal(i.portal.0, '/' _ i.path) %]">[% c.loc("View") %]</a> |[% END %]
+            	<a href="[% c.uri_for_action('cms/edit', [i.id]) %]">[% c.loc("Edit") %]</a>
+        	</td>
+        </tr>
+    [% END %]
+    </tbody>
+</table>
+
+<p><a href="[% c.uri_for_action('cms/index') %]">Back to portal list</a></p>

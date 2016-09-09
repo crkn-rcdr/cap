@@ -14,6 +14,7 @@
                         <li><a href="[% c.uri_for_action("/user/profile") %]">[% c.loc("Profile") %]</a></li>
                         [% IF c.portal.supports_subscriptions %]<li><a href="[% c.uri_for_action("/user/subscription/index", [c.portal.id]) %]">[% c.loc("Subscribe") %]</a></li>[% END %]
                         [% IF c.user.has_role('administrator') %]<li><a href="[% c.uri_for_action("admin/index") %]"><em>[% c.loc("Admin") %]</em></a></li>[% END %]
+                        [% IF c.user.has_role('administrator') %]<li><a href="[% c.uri_for_action("cms/index") %]"><em>[% c.loc("CMS") %]</em></a></li>[% END %]
                         [% IF c.user.has_role('reports') %]<li><a href="[% c.uri_for_action("reports/index") %]"><em>[% c.loc("Reports") %]</a></em></li>[% END %]
                         <li><a href="[% c.uri_for_action("/user/logout") %]">[% c.loc("Logout") %]</a></li>
                     </ul>
