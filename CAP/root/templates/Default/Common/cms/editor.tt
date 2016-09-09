@@ -11,9 +11,11 @@
 		</div>
 		<div class="span6">
 			<h2>Français</h2>
-<textarea name="fr.md" class="input-block-level" rows="30">[% doc.records.fr.markdown ? doc.records.fr.markdown : doc.records.fr.html %]</textarea>
+<textarea name="fr.md" class="input-block-level" rows="30">[% doc.records.fr.markdown ? doc.records.fr.markdown : doc.records.fr.html | replace('(\r\n|\n)', '&#x000A;') %]</textarea>
 		</div>
 	</fieldset>
 	<button class="btn btn-primary" type="submit" name="update_edit">Update and continue editing</button>
 	[% IF doc.records.en.path && doc.portal.0 %]<button class="btn btn-primary" type="submit" name="update_view" value="[% c.cap.uri_for_portal(doc.portal.0, '/' _ doc.records.en.path) %]">Update and view</button>[% END %]
 </form>
+
+<p><small><a href="https://rawgit.com/fletcher/human-markdown-reference/master/index.html" target="_blank">MultiMarkdown reference</a></small></p>
