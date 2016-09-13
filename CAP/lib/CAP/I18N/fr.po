@@ -2264,14 +2264,6 @@ msgstr "Île-du-Prince-Édouard (PE)"
 msgid "Priority"
 msgstr "Priority"
 
-#: ../../../root/templates/Default/1812/content/footer.tt:11 ../../../root/templates/Default/canadiana/content/footer.tt:10 ../../../root/templates/Default/co/content/footer.tt:8 ../../../root/templates/Default/eco/content/footer.tt:10 ../../../root/templates/Default/heritage/content/footer.tt:10 ../../../root/templates/Default/heritagepremium/content/footer.tt:10 ../../../root/templates/Default/whf/content/footer.tt:10
-msgid "Privacy &amp; Legal"
-msgstr "Confidentialité et avis juridiques"
-
-#:
-msgid "Privacy Policy and Legal"
-msgstr "Politique sur la vie privée et avis juridiques"
-
 #:
 msgid "Produced by Canadiana.org"
 msgstr "Réalisée par Canadiana.org"
