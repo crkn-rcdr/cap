@@ -99,7 +99,6 @@
                 [% CASE "city_required"; c.loc("You must enter a city to generate a tax receipt."); %]
                 [% CASE "province_required"; c.loc("You must select a province or territory to generate a tax receipt."); %]
                 [% CASE "verify_postal_code"; c.loc("Please ensure that your postal code is valid."); %]
-                [% CASE "terms_required"; c.loc("You must agree to the Early Canadiana Online Terms of Service to proceed."); %]
                 [% CASE "captcha"; c.loc("Please enter the words displayed in the anti-spam window."); %]
                 [% CASE "user_confirm_success"; c.loc("You have successfully confirmed and activated your account. Welcome!"); %]
                 [% CASE "user_not_found"; c.loc("User not found") ; %]

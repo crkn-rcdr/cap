@@ -78,7 +78,7 @@
                     <div class="controls">
                         <label class="checkbox">
                             <input type="checkbox" name="terms">
-                            [% c.loc("I agree to the Early Canadiana Online [_1]", "<a href=\"" _ c.uri_for_action("support", "terms") _ "\" target=\"_blank\">" _ c.loc("Terms of Service") _ "</a>") %]
+                            [% c.loc("I agree to the Canadiana Online [_1]", "<a href=\"" _ c.uri_for("/terms") _ "\" target=\"_blank\">" _ c.loc("Terms of Service") _ "</a>") %]
                         </label>
                     </div>
                 </div>

@@ -1,8 +1,5 @@
 @import "../cap.less";
 
-@footerHeight: 155px;
-@narrowFooterHeight: 290px;
-
 @mainColor: #630a10;
 @lightColor: #ddd;
 @bgColor: #fff;
@@ -89,53 +86,5 @@ h2 {
 @media (min-width: 768px) {
     .blurb, .search {
         min-height: 300px;
-    }
-}
-
-/* Push footer */
-
-footer {
-    ul {
-        li {
-            list-style-type: none;
-        }
-    }
-
-    .title {
-        font-size: @baseFontSize + 5px;
-        font-weight: bold;
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-
-    .footer-top {
-        background-color: white;
-        padding-top: @baseLineHeight / 2;
-
-        position: relative;
-        .footer-banner {
-            position: absolute;
-            z-index: -1;
-            top: -542px;
-            height: 542px;
-            width: 100%;
-            background-image: url('/static/images/1812_bg.png');
-            background-position: center bottom;
-        }
-    }
-
-    .footer-bottom {
-        #gradient > .vertical(#444, #222);
-        color: @lightColor;
-        p {
-            margin-bottom: 0;
-            line-height: @baseLineHeight * 2;
-        }
-    }
-}
-
-@media (min-width: 768px) {
-    footer .footer-top {
-        height: 110px;
     }
 }

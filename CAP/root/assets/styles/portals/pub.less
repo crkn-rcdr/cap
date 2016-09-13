@@ -1,8 +1,5 @@
 @import "../cap.less";
 
-@footerHeight: 130px;
-@narrowFooterHeight: 200px;
-
 @mainColor: #971131;
 @lightColor: #f7f8f8;
 @bgColor: #f7f8f8;
@@ -36,7 +33,7 @@
     > .bg {
         position: absolute;
         top: 40px;
-        bottom: @narrowFooterHeight;
+        bottom: 0;
         left: 0;
         right: 0;
         z-index: -1;
@@ -91,25 +88,4 @@
 .search-button {
     width: 120px;
     float: left;
-}
-
-/* Push footer */
-
-footer {
-    #gradient > .vertical(lighten(@mainColor, 10%), @mainColor);
-    color: @lightColor;
-    position: relative;
-    z-index: 2;
-
-    ul > li {
-        list-style-type: none;
-        .lighten-links;
-    }
-
-    .title {
-        font-size: @baseFontSize + 5px;
-        font-weight: bold;
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
 }

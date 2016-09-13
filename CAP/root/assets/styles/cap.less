@@ -497,32 +497,65 @@ header {
 }
 
 /* push footer */
+/* now with generic Canadiana styles */
+@footerHeight: 108px + 36px;
+
 html, body {
     height: 100%;
 }
 
-#wrapper {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin-bottom: -1 * (@narrowFooterHeight + @baseLineHeight);
-}
-
 #push {
     clear: both;
-    height: @narrowFooterHeight + @baseLineHeight;
 }
 
 footer {
     clear: both;
-    height: @narrowFooterHeight;
     margin-top: @baseLineHeight;
+
+    ul {
+        li {
+            list-style-type: none;
+        }
+    }
+
+    .title {
+        font-size: @baseFontSize + 5px;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .footer-top {
+        background-color: white;
+        padding-top: @baseLineHeight / 2;
+        .box-shadow(0 -10px 10px 2px #ddd);
+    }
+
+    .footer-bottom {
+        #gradient > .vertical(#444, #222);
+        color: @lightColor;
+        p {
+            margin-bottom: 0;
+            line-height: @baseLineHeight * 2;
+        }
+    }
 }
 
 @media (min-width: 768px) {
-    #wrapper { margin-bottom: -1 * (@footerHeight + @baseLineHeight); }
-    #push { height: @footerHeight + @baseLineHeight; }
-    footer { height: @footerHeight; }
+    #wrapper {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%; 
+        margin-bottom: -1 * (@footerHeight + @baseLineHeight);
+    }
+
+    #push {
+        height: @footerHeight + @baseLineHeight;
+    }
+
+    footer {
+        height: @footerHeight;
+    }
 }
 
 /* RANDOM STUFF */

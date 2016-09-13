@@ -1389,13 +1389,8 @@ msgstr "Chambre des communes"
 
 #. ("<a href=\"" _ c.uri_for_action("support", "terms")
 #: ../../../root/templates/Default/Common/user/login.tt:81 ../../../root/templates/Default/Common/user/subscribe.tt:53
-msgid "I agree to the Early Canadiana Online %1"
-msgstr "J'accepte les %1 de Notre mémoire en ligne"
-
-#. ("<a href=\"" _ c.uri_for_action("support", "terms")
-#: ../../../root/templates/Default/Common/user/subscription/subscribe.tt:68
-msgid "I have read and agree to the Canadiana %1"
-msgstr "J’ai lu et j’accepte les %1 de Canadiana"
+msgid "I agree to the Canadiana Online %1"
+msgstr "J'accepte les %1 de Canadiana"
 
 #:
 msgid "I would like a Canadian official receipt for income tax purposes."
@@ -3601,10 +3596,6 @@ msgstr "Vous avez confirmé et activé votre compte avec succès. Bienvenu!"
 msgid "You have successfully logged out."
 msgstr "Fermeture de session réussie."
 
-#: ../../../root/templates/Default/Common/partial/messages.tt:102
-msgid "You must agree to the Early Canadiana Online Terms of Service to proceed."
-msgstr "Pour continuer, vous devez accepter les conditions de service de Notre mémoire en ligne."
-
 #: ../../../root/templates/Default/Common/error.tt:15
 msgid "You must be logged in to view this page."
 msgstr " Vous devez ouvrir une session pour visionner cette page."
@@ -3841,10 +3832,6 @@ msgstr "http://www.canadiana.ca/heritage-foq"
 #: ../../../root/templates/Default/1812/content/footer.tt:9 ../../../root/templates/Default/canadiana/content/footer.tt:8 ../../../root/templates/Default/co/content/footer.tt:5 ../../../root/templates/Default/eco/content/footer.tt:8 ../../../root/templates/Default/heritage/content/footer.tt:8 ../../../root/templates/Default/heritagepremium/content/footer.tt:8 ../../../root/templates/Default/whf/content/footer.tt:8
 msgid "http://www.canadiana.ca/en/home"
 msgstr "http://www.canadiana.ca/accueil"
-
-#: ../../../root/templates/Default/1812/content/footer.tt:11 ../../../root/templates/Default/canadiana/content/footer.tt:10 ../../../root/templates/Default/co/content/footer.tt:8 ../../../root/templates/Default/eco/content/footer.tt:10 ../../../root/templates/Default/heritage/content/footer.tt:10 ../../../root/templates/Default/heritagepremium/content/footer.tt:10 ../../../root/templates/Default/whf/content/footer.tt:10
-msgid "http://www.canadiana.ca/en/legal"
-msgstr "http://www.canadiana.ca/politique"
 
 #: ../../../root/templates/Default/dfait/layout/header.tt:12
 msgid "http://www.international.gc.ca/international/index.aspx?lang=eng"

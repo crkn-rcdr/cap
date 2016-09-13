@@ -37,7 +37,7 @@
             <div id="push"></div>
         </div>
         <footer>
-[% INCLUDE content/footer.tt | indent(12) -%]
+[% INCLUDE layout/footer.tt | indent(12) -%]
         </footer>
 
         <!-- Load JavaScript at the end for quickness -->
