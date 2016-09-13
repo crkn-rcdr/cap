@@ -98,13 +98,14 @@ sub submit_attachment {
 
 	$self->type($args->{content_type});
 	$self->set_header('If-Match' => $args->{rev});
-	my $response = $self->put("/$args->{id}/$args->{filename}", $args->{data})->data;
+	my $response = $self->put("/$args->{id}/$args->{filename}", $args->{data});
 	$self->type('application/json');
 
-	if ($response->{error}) {
-		return "cms database error: $response->{error} while submitting $args->{filename}";
+	if ($response->error) {
+		use Data::Dumper; my $error = Dumper $response;
+		return "cms database error: $error while submitting $args->{filename}";
 	} else {
-		return $response;
+		return $response->data;
 	}
 }
 

@@ -3,6 +3,7 @@ package CAP::Controller::CMS;
 use strictures 2;
 use base qw/Catalyst::Controller/;
 use Text::MultiMarkdown qw/markdown/;
+use HTML::Entities qw/encode_entities/;
 
 sub auto :Private {
     my($self, $c) = @_;
@@ -74,6 +75,7 @@ sub submit :Local {
     my ($l, $ext);
     foreach my $md_file (grep /.+\.md/, keys %$data) {
         ($l) = ($md_file =~ /(.+)\.md/);
+        $data->{$md_file} = encode_entities($data->{$md_file});
         $data->{"$l.html"} = markdown($data->{$md_file});
     }
 
