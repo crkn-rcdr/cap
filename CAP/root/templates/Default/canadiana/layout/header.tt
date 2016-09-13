@@ -2,7 +2,7 @@
 <header class="navbar navbar-static-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="logo" href="[% c.cap.uri_for_portal("co", "/") %]"></a>
+            <a class="logo" href="[% c.uri_for_portal("co", "/") %]"></a>
             <ul class="nav pull-right">
                 [% IF c.user_exists && c.portal.supports_users -%]
                 <li class="dropdown">

@@ -10,7 +10,7 @@
             <td>[% i.title %]</td>
             <td>[% i.date %]</td>
             <td>
-            	[% IF i.portal.size %]<a href="[% c.cap.uri_for_portal(i.portal.0, '/' _ i.path) %]">[% c.loc("View") %]</a> |[% END %]
+            	[% IF i.portal.size %]<a href="[% c.uri_for_portal(i.portal.0, '/' _ i.path) %]">[% c.loc("View") %]</a> |[% END %]
             	<a href="[% c.uri_for_action('cms/edit', [i.id]) %]">[% c.loc("Edit") %]</a>
         	</td>
         </tr>

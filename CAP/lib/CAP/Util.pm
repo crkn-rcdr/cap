@@ -32,42 +32,6 @@ method build_entity ($object) {
     return $entity;
 }
 
-
-=head2 uri_for_portal ($portal_id, $path)
-
-Calls uri_for($path) and then changes the hostname part of the URL
-to the canonical hostname for $portal_id. Returns a URI for the current
-portal if the requested portal_id cannot be found. Always sets the
-protocol to http.
-
-=cut
-method uri_for_portal(Str $portal_id, Str $path) {
-    my $uri = $self->c->uri_for($path);
-    my $current_hostname = $uri->host;
-    $uri->scheme('http');
-    my $portal = $self->c->model('DB::Portal')->find({id => $portal_id});
-    return $uri if (! $portal);
-    my $hostname = $portal->canonical_hostname;
-    return $uri if (! $hostname);
-    $uri->host($hostname . substr($current_hostname, index($current_hostname, '.')));
-    return $uri;
-}
-
-
-=head2 uri_for_secure (@args)
-
-Calls uri_for_action(@args) and then changes the hostname to the secure
-portal. Note that protocol is not forced to secure: this should be taken
-care of in Model/Secure.pm
-
-=cut
-method uri_for_secure(Item @args) {
-    my $uri = $self->c->uri_for_action(@args);
-    my $host = $self->c->config->{secure}->{host};
-    $uri->host($host);
-    return $uri;
-}
-
 =head2 generate_captcha
 
 Generate captcha HTML code and analyse the result for errors.

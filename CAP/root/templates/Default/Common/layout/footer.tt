@@ -2,10 +2,10 @@
     <div class="container">
         <div class="row">
             <ul class="span5 left">
-                <li><a href="[% c.cap.uri_for_portal("co", "/") %]" target="_blank"><img src="[% c.uri_for("/static/images/logo_" _ c.stash.lang _ ".png") %]" alt="Canadiana" /></a></li>
+                <li><a href="[% c.uri_for_portal("co", "/") %]" target="_blank"><img src="[% c.uri_for("/static/images/logo_" _ c.stash.lang _ ".png") %]" alt="Canadiana" /></a></li>
             </ul>
             <ul class="[% c.portal.supports_users ? 'span2' : 'span4' %] text-centered">
-                <li class="title"><a href="[% c.cap.uri_for_portal("co", "/about") %]" target="_blank">[% c.loc("About Canadiana") %]</a></li>
+                <li class="title"><a href="[% c.uri_for_portal("co", "/about") %]" target="_blank">[% c.loc("About Canadiana") %]</a></li>
                 <li><a href="[% c.uri_for("/terms") %]" target="_blank">[% c.loc("Terms of Service") %]</a></li>
                 <li>&nbsp;</li>
             </ul>
@@ -23,12 +23,12 @@
             [% ELSE %]
                 <li class="title"><a href="[% c.uri_for_portal_action("secure", "/user/login") %]">[% c.loc("Sign up") %]</a></li>
                 <li><a href="[% c.uri_for_portal_action("secure", "/user/login") %]">[% c.loc("Login") %]</a></li>
-                <li><a href="[% c.uri_for_action("/user/reset") %]">[% c.loc("Reset Password") %]</a></li>
+                <li><a href="[% c.uri_for_portal_action("secure", "/user/reset") %]">[% c.loc("Reset Password") %]</a></li>
             [% END %]
             </ul>
             [% END %]
             <ul class="span3 text-centered">
-                <li class="title"><a href="[% c.cap.uri_for_portal("co", "/contact") %]" target="_blank">[% c.loc("Contact us") %]</a></li>
+                <li class="title"><a href="[% c.uri_for_portal("co", "/contact") %]" target="_blank">[% c.loc("Contact us") %]</a></li>
                 <li>
 [% INCLUDE partial/social_media_links.tt | indent(20) %]
                 </li>
