@@ -10,6 +10,7 @@ use Scalar::Util qw/looks_like_number/;
 use URI;
 use CIHM::CMS::View;
 use CIHM::CMS::Edit;
+use CIHM::CMS::Block;
 
 with 'Role::REST::Client';
 
@@ -109,6 +110,19 @@ sub submit_attachment {
 	}
 }
 
+sub new_block {
+	my ($self, $params) = @_;
+	my $block = CIHM::CMS::Block->new($params);
+	my $response = $self->post("/", $block->to_hash);
+
+	if ($response->error) {
+		use Data::Dumper; my $error = Dumper $response;
+		return "cms database error: $error while submitting new block";
+	} else {
+		return $response->data;
+	}
+}
+
 # $args:
 # portal: current portal id
 # lang: current set language
@@ -140,7 +154,7 @@ sub updates {
 # lang: current set language
 # limit: number of updates (will fetch all if undefined)
 # skip: number of updates to skip (use these for pagination)
-sub list_by_portal {
+sub nodes {
 	my ($self, $args) = @_;
 
 	my $call_args = {
@@ -165,6 +179,47 @@ sub list_by_portal {
 			portal => $_->{doc}{portal}
 		}
 	} @$rows ];
+}
+
+# $args:
+# portal: current portal id
+# lang: current set language
+# action: current $c->action->private_path
+sub blocks {
+	my ($self, $args) = @_;
+
+	my $startkey = $args->{action} ? [$args->{portal}, $args->{action}] : [$args->{portal}];
+	my $endkey = $args->{action} ? [$args->{portal}, "$args->{action}\x{FF}"] : ["$args->{portal}\x{FF}"];
+	my $call_args = {
+		startkey => encode_json $startkey,
+		endkey => encode_json $endkey,
+		include_docs => 'true'
+	};
+
+	my $response = $self->get('/_design/tdr/_view/blocks', $call_args);
+	return [] unless $response->data && $response->data->{rows};
+	my $rows = $response->data->{rows};
+
+	if ($args->{action} && $args->{lang}) {
+		foreach my $row (@$rows) {
+			$row->{content} = $self->get("/$row->{id}/$args->{lang}.html")->response->content || '';
+		}
+	}
+
+	my $list = [ map {
+		{
+			id => $_->{id},
+			actions => $_->{doc}{block}{actions},
+			label => $_->{key}[2],
+			content => $_->{content},
+			portal => $_->{doc}{portal}
+		}
+	} @$rows ];
+
+	# return the list if you're looking by portal, or a hash with label as key if you're looking by action
+	return $args->{action} ? { map {
+		(delete $_->{label} => $_)
+	} @$list } : $list;
 }
 
 1;

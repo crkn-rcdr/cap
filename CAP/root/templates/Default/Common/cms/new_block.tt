@@ -1,0 +1,25 @@
+[% title = "New block for " _ portal_row.id %]
+
+<h1>[% title %]</h1>
+<form class="form-horizontal" method="POST" action=[% c.uri_for_action("cms/submit_new_block") %]>
+	<fieldset>
+		<input type="hidden" name="portal_id" value="[% portal_row.id %]" />
+		<div class="control-group">
+			<label class="control-label" for="inputAction">Action</label>
+			<div class="controls">
+				<input type="text" id="inputAction" name="action" placeholder="Action" required/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputLabel">Label</label>
+			<div class="controls">
+				<input type="text" id="inputLabel" name="label" placeholder="Label" required />
+			</div>
+		</div>
+	</fieldset>
+	<div class="control-group">
+		<div class="controls">
+			<button class="btn btn-primary" type="submit" name="submit">Submit</button>
+		</div>
+	</div>
+</form>

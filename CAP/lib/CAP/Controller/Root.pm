@@ -52,8 +52,13 @@ sub auto :Private
         httponly => 1
     }; 
     $c->stash(
-        collections  => $c->model('Collections')->all,
-        label        => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
+        collections    => $c->model('Collections')->all,
+        label          => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
+        content_blocks => $c->model('CMS')->blocks({
+            portal => $c->portal->id,
+            lang   => $c->stash->{lang},
+            action => $c->action->private_path
+        })
     );
 
     # If this is an anonymous request, check for a persistence token and,

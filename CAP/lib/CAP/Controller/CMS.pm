@@ -36,11 +36,33 @@ sub portal :Local :Args(1) {
 
     $c->stash(
         portal_row => $portal,
-        lookup => $c->model('CMS')->list_by_portal({
+        nodes => $c->model('CMS')->nodes({
             portal => $portal_id,
             lang => $c->stash->{lang},
+        }),
+        blocks => $c->model('CMS')->blocks({
+            portal => $portal_id
         })
     );
+}
+
+sub new_block :Local :Args(1) {
+    my ($self, $c, $portal_id) = @_;
+
+    my $portal = $c->model("DB::Portal")->find($portal_id);
+
+    $c->detach('/error', [404], "no portal: $portal_id") unless $portal;
+
+    $c->stash(portal_row => $portal);
+}
+
+sub submit_new_block :Local {
+    my ($self, $c) = @_;
+
+    my $block = $c->model('CMS')->new_block($c->req->body_parameters);
+    $c->detach('/error', [500, $block]) unless ref $block;
+
+    $c->response->redirect($c->uri_for_action('cms/edit', [$block->{id}]));
 }
 
 sub create :Local {

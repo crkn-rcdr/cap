@@ -21,7 +21,7 @@ has 'rev' => (
 	default => sub { '' }
 );
 
-has 'records' => (
+has [qw/block records/] => (
 	is => 'ro',
 	isa => HashRef,
 	default => sub { {} }

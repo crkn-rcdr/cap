@@ -1,21 +1,52 @@
 [% title = "CMS entries for " _ portal_row.title(c.stash.lang) _ " (" _ portal_row.id _ ")" %]
 
 <h1>[% title %]</h1>
-<p>[% lookup.size %] total entries</p>
-<table class="table">
-    [% INCLUDE partial/table_header.tt columns=["Entry", "Last Updated", "Actions"] %]
-    <tbody>
-    [% FOREACH i IN lookup %]
-        <tr>
-            <td>[% i.title %]</td>
-            <td>[% i.date %]</td>
-            <td>
-            	[% IF i.portal.size %]<a href="[% c.uri_for_portal(i.portal.0, '/' _ i.path) %]">[% c.loc("View") %]</a> |[% END %]
-            	<a href="[% c.uri_for_action('cms/edit', [i.id]) %]">[% c.loc("Edit") %]</a>
-        	</td>
-        </tr>
-    [% END %]
-    </tbody>
-</table>
 
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#tab_nodes" data-toggle="tab">Nodes</a></li>
+    <li><a href="#tab_blocks" data-toggle="tab">Blocks</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="tab_nodes">
+        <h2>Nodes</h2>
+        <p>[% nodes.size %] total nodes</p>
+        <table class="table">
+            [% INCLUDE partial/table_header.tt columns=["Nodes", "Last Updated", "Actions"] %]
+            <tbody>
+                [% FOREACH i IN nodes %]
+                <tr>
+                    <td>[% i.title %]</td>
+                    <td>[% i.date %]</td>
+                    <td>
+                       [% IF i.portal.size %]<a href="[% c.uri_for_portal(i.portal.0, '/' _ i.path) %]">[% c.loc("View") %]</a> |[% END %]
+                       <a href="[% c.uri_for_action('cms/edit', [i.id]) %]">[% c.loc("Edit") %]</a>
+                   </td>
+               </tr>
+               [% END %]
+           </tbody>
+       </table>
+   </div>
+   <div class="tab-pane" id="tab_blocks">
+        <h2>Blocks</h2>
+        <p>[% blocks.size %] total blocks</p>
+        <table class="table">
+            [% INCLUDE partial/table_header.tt columns=["Actions", "Label", "Edit"] %]
+            <tbody>
+                [% FOREACH i IN blocks %]
+                <tr>
+                    <td>[% FOREACH action IN i.actions; action; ', ' UNLESS loop.last; END %]</td>
+                    <td>[% i.label %]</td>
+                    <td>
+                       <a href="[% c.uri_for_action('cms/edit', [i.id]) %]">[% c.loc("Edit") %]</a>
+                   </td>
+                </tr>
+                [% END %]
+            </tbody>
+        </table>
+        <p><a href="[% c.uri_for_action('cms/new_block', [portal_row.id]) %]">New block</a></p>
+    </div>
+</div>
+
+<hr />
 <p><a href="[% c.uri_for_action('cms/index') %]">Back to portal list</a></p>

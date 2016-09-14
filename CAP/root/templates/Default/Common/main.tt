@@ -25,6 +25,7 @@
 [% INCLUDE partial/ad_unit_bottom.tt | indent(16) %]
 [% IF c.debug -%]
                 <div id="debug">
+[% INCLUDE partial/debug_panel.tt name="action" title="Action" obj="c.action" %]
 [% INCLUDE partial/debug_panel.tt name="config" title="Config" obj="c.config" %]
 [% INCLUDE partial/debug_panel.tt name="flash" title="Flash" obj="c.flash" %]
 [% INCLUDE partial/debug_panel.tt name="portal" title="Portal" obj="c.portal" %]
