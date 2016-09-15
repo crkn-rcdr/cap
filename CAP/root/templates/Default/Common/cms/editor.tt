@@ -18,4 +18,6 @@
 	[% IF doc.records.en.path && doc.portal.0 %]<button class="btn btn-primary" type="submit" name="update_view" value="[% c.uri_for_portal(doc.portal.0, '/' _ doc.records.en.path) %]">Update and view</button>[% END %]
 </form>
 
+<p><a class="btn btn-primary" href="[% c.uri_for_action('cms/portal', [doc.portal.0]) %]">Return to CMS content for [% doc.portal.0 %]</a></p>
+
 <p><small><a href="https://rawgit.com/fletcher/human-markdown-reference/master/index.html" target="_blank">MultiMarkdown reference</a></small></p>

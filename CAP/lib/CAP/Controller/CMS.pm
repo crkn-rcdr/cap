@@ -97,7 +97,9 @@ sub submit :Local {
     my ($l, $ext);
     foreach my $md_file (grep /.+\.md/, keys %$data) {
         ($l) = ($md_file =~ /(.+)\.md/);
-        $data->{$md_file} = encode_entities($data->{$md_file});
+
+        # Encode entities for weird characters, but leave newlines, brackets, etc. alone
+        $data->{$md_file} = encode_entities($data->{$md_file}, '^\r\n\x20-\x7e');
         $data->{"$l.html"} = markdown($data->{$md_file});
     }
 

@@ -218,7 +218,7 @@ sub blocks {
 
 	# return the list if you're looking by portal, or a hash with label as key if you're looking by action
 	return $args->{action} ? { map {
-		(delete $_->{label} => $_)
+		($_->{label} => $_->{content})
 	} @$list } : $list;
 }
 
