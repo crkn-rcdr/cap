@@ -54,7 +54,7 @@ sub auto :Private
     $c->stash(
         collections    => $c->model('Collections')->all,
         label          => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
-        content_blocks => $c->model('CMS')->blocks({
+        content_blocks => $c->model('CMS')->cached_blocks({
             portal => $c->portal->id,
             lang   => $c->stash->{lang},
             action => $c->action->private_path
@@ -195,7 +195,7 @@ sub index :Path('') Args(0)
     $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->portal->id, "frontpage");
     $c->stash->{template} = "index.tt";
     $c->stash->{portals} = [$c->model("DB::Portal")->list];
-    $c->stash->{updates} = $c->model("CMS")->updates({
+    $c->stash->{updates} = $c->model("CMS")->cached_updates({
         portal => $c->portal->id,
         lang => $c->stash->{lang},
         limit => 3

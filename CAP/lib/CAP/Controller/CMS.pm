@@ -94,6 +94,16 @@ sub submit :Local {
     my ($self, $c) = @_;
     my $data = $c->req->body_parameters;
 
+    # invalidate the block cache if you are submitting a block
+    if ($data->{is_block}) {
+        $c->model('CMS')->invalidate_block_cache();
+    }
+
+    # do the same with updates
+    if ($data->{is_update}) {
+        $c->model('CMS')->invalidate_update_cache();
+    }
+
     my ($l, $ext);
     foreach my $md_file (grep /.+\.md/, keys %$data) {
         ($l) = ($md_file =~ /(.+)\.md/);

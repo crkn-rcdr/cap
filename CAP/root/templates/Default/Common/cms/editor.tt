@@ -4,6 +4,8 @@
 <form method="POST" action=[% c.uri_for_action("cms/submit") %]>
 	[% IF doc.id %]<input type="hidden" name="id" value="[% doc.id %]" />[% END %]
 	[% IF doc.rev %]<input type="hidden" name="rev" value="[% doc.rev %]" />[% END %]
+	[% IF doc.is_block %]<input type="hidden" name="is_block" value="[% doc.is_block %]" />[% END %]
+	[% IF doc.is_update %]<input type="hidden" name="is_update" value="[% doc.is_update %]" />[% END %]
 	<fieldset class="row">
 		<div class="span6">
 			<h2>English</h2>

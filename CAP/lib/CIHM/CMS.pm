@@ -29,6 +29,18 @@ has 'languages' => (
 	required => 1
 );
 
+has '_block_cache' => (
+	is => 'rwp',
+	isa => HashRef,
+	default => sub { {} }
+);
+
+has '_update_cache' => (
+	is => 'rwp',
+	isa => HashRef,
+	default => sub { {} }
+);
+
 # args:
 # portal: current portal id
 # path: desired page path
@@ -149,6 +161,28 @@ sub updates {
 	} @$rows ];
 }
 
+# keys are of the form $lang#$portal
+sub cached_updates {
+	my ($self, $args) = @_;
+
+	my $key = $self->_update_cache_key($args);
+
+	# in case you forget, //= is defined ? thing : new thing
+	$self->_update_cache->{$key} //= $self->updates($args);
+	return $self->_update_cache->{$key};
+}
+
+sub _update_cache_key {
+	my ($self, $args) = @_;
+	return "$args->{lang}#$args->{portal}";
+}
+
+sub invalidate_update_cache {
+	my ($self) = @_;
+	$self->_set__update_cache({});
+	return 0;
+}
+
 # $args:
 # portal: current portal id
 # lang: current set language
@@ -197,7 +231,7 @@ sub blocks {
 	};
 
 	my $response = $self->get('/_design/tdr/_view/blocks', $call_args);
-	return [] unless $response->data && $response->data->{rows};
+	return ($args->{action} ? undef : []) unless $response->data && $response->data->{rows};
 	my $rows = $response->data->{rows};
 
 	if ($args->{action} && $args->{lang}) {
@@ -220,6 +254,28 @@ sub blocks {
 	return $args->{action} ? { map {
 		($_->{label} => $_->{content})
 	} @$list } : $list;
+}
+
+# keys are of the form $lang#$portal#$action
+sub cached_blocks {
+	my ($self, $args) = @_;
+
+	my $key = $self->_block_cache_key($args);
+
+	# in case you forget, //= is defined ? thing : new thing
+	$self->_block_cache->{$key} //= $self->blocks($args);
+	return $self->_block_cache->{$key};
+}
+
+sub _block_cache_key {
+	my ($self, $args) = @_;
+	return "$args->{lang}#$args->{portal}#$args->{action}";
+}
+
+sub invalidate_block_cache {
+	my ($self) = @_;
+	$self->_set__block_cache({});
+	return 0;
 }
 
 1;

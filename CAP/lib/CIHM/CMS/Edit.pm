@@ -50,6 +50,18 @@ has 'aliases' => (
 	default => sub { [] }
 );
 
+has 'is_block' => (
+	is => 'ro',
+	isa => Bool,
+	required => 1
+);
+
+has 'is_update' => (
+	is => 'ro',
+	isa => Bool,
+	required => 1
+);
+
 around BUILDARGS => sub {
 	my ($orig, $class, $doc, $languages) = @_;
 
@@ -63,6 +75,8 @@ around BUILDARGS => sub {
 	return $class->$orig({
 		id => delete $doc->{_id} || '',
 		rev => delete $doc->{_rev} || '',
+		is_block => exists $doc->{block},
+		is_update => $doc->{isUpdate},
 		records => $records,
 		%$doc,
 	});
