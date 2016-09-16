@@ -28,7 +28,7 @@
             </div>
         </fieldset>
         <div class="form-actions">
-            <a class="btn" href="[% c.uri_for_action("/support", "search") %]">[% c.loc("Help") %]</a>
+            <a class="btn" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
             [% IF c.portal.has_feature('random_doc') %]
                 <a class="btn" href="[% c.uri_for_action("/view/random") %]">[% c.loc("Random Document") %]</a>
             [% END %]

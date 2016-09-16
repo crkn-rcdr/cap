@@ -10,6 +10,6 @@
 </div>
 <div class="row">
     <div class="span12">
-[% INCLUDE "content/index_text_${lang}.tt" | indent(8) -%]
+    [% content_blocks.blurb %]
     </div>
 </div>

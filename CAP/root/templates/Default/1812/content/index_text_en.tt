@@ -1,5 +1,0 @@
-<h2>War of 1812 Digital Collection</h2>
-<p>The War of 1812 Digital Collection is a search portal containing historical documents and artifacts related to the war, including rare or unique books, maps, memoirs, military correspondence, and physical objects. This open-access resource features War of 1812 material drawn from our sister site, <a href="http://eco.canadiana.ca" target="_blank">Early Canadiana Online</a>, as well as items generously contributed by our partners &mdash; museums, archives, all levels of government, and the wider heritage community.</p>
-<h3>Featured Contributor</h3>
-<p>Parks Canada has donated <a href="[% c.uri_for_action("/search/index", { q => "", contributor => "oopac" }) %]">41 digital artefacts</a>.<br />
-Discover how you and your organization can <a href="[% c.uri_for_action("/support", "contributors") %]">submit items</a> and show your support.</p>

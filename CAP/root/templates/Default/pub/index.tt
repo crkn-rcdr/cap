@@ -9,4 +9,4 @@
 [% INCLUDE partial/search_form.tt | indent(8) %]
     </div>
 </div>
-[% INCLUDE "content/index_text_${lang}.tt" -%]
+[% content_blocks.blurb %]

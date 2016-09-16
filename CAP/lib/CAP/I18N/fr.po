@@ -3995,3 +3995,34 @@ msgstr "Soldats autochtones"
 
 msgid "Trustworthy Digital Repository"
 msgstr "Dépôt numérique fiable"
+
+msgid "Important notices"
+msgstr "Avis importants"
+
+# PROXY PAGE STUFF
+
+msgid "Proxy Configuration"
+msgstr "Configuration du proxy"
+
+msgid "Request IP address"
+msgstr "Adresse IP de la requête"
+
+msgid "Authenticated"
+msgstr "Autorisée"
+
+# HERITAGE COLLECTION NAMES (can't wait to move this)
+
+msgid "Genealogy"
+msgstr "Généalogie"
+
+msgid "Aboriginal History"
+msgstr "Histoire autochtone"
+
+msgid "Government Documents"
+msgstr "Documents gouvernementaux"
+
+msgid "Military History"
+msgstr "Histoire militaire"
+
+msgid "Landmark Papers"
+msgstr "Documents clés"

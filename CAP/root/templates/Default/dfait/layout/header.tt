@@ -8,7 +8,7 @@
             <li class="span2"><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
             <li class="span2"><a href="[% c.uri_for_action("/index") %]">[% c.loc("Home") %]</a></li>
             <li class="span2"><a href="[% c.loc("http://www.international.gc.ca/library-bibliotheque/index.aspx?lang=eng") %]">[% c.loc("DFATD Library") %]</a></li>
-            <li class="span2"><a href="[% c.uri_for_action("/support", "search") %]">[% c.loc("Help") %]</a></li>
+            <li class="span2"><a href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a></li>
             <li class="span2"><a href="[% c.loc("http://www.international.gc.ca/international/index.aspx?lang=eng") %]">[% c.loc("DFATD") %]</a></li>
             <li class="span2"><a href="[% c.loc("http://www.canada.gc.ca/home.html") %]">Canada.gc.ca</a></li>
         </ul>

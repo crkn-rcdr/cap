@@ -1,6 +1,0 @@
-﻿<h2>Héritage</h2>
-<p>The Héritage project is a 10-year initiative to digitize and make accessible online some of Canada’s most popular archival collections encompassing roughly 40 million pages of primary-source documents. Chronicling the country and its people from the 1600s to the mid-1900s, this collection represents a vast and unique resource for Canadian historians, students, and genealogists.</p>
-<p>
-	<a href="[% c.uri_for_action("/support", "about") %]"><strong>Learn more</strong></a>
-</p>
-<p>More collections will appear on this portal as they are digitized. Come back often to see what’s new, or get a taste of <a href="[% cdn_uri('heritage', 'catalogue_en.pdf') %]" target="_blank"><strong>what’s coming in our catalogue</strong></a>.</p>

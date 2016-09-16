@@ -2,13 +2,7 @@
 
 <div class="row index">
 	<div class="span12 hero">
-		<h2>
-		[% IF c.stash.lang == "fr" -%]
-		Canadiana.org est une association qui travaille à rendre le patrimoine culturel du Canada facilement accessible en ligne.
-		[% ELSE -%]
-		Canadiana.org is an alliance dedicated to making Canada’s cultural heritage conveniently accessible online. 
-		[% END -%]
-		</h2>
+		[% content_blocks.hero %]
 	</div>
 	<div class="span8">
 		<h3>[% c.loc("Featured Collections") %]</h3>
@@ -45,11 +39,7 @@
 <div class="row index">
 	<div class="span4">
 		<h3><a href="/about">[% c.loc("About Canadiana") %]</a></h3>
-		[% IF c.stash.lang == 'fr' -%]
-		<p>Canadiana.org est un organisme à but non lucratif et caritatif fondé en 1978 pour préserver le patrimoine du Canada et le rendre accessible pour les générations futures. Canadiana compte parmi ses membres des bibliothèques, des archives et des universités dans tout le Canada. Nous avons créé 40 millions de pages de contenu numérisé, accessible à travers des portails en ligne et préservées dans un Dépôt numérique certifié fiable.</p>
-		[% ELSE %]
-		<p>Canadiana.org is a non-profit and charitable organisation founded in 1978 to preserve Canada's heritage and make it accessible for future generations. Canadiana’s membership includes libraries, archives and universities from across Canada. We have created 40 million pages of digitized content, made available through various online portals and preserved in a certified Trustworthy Digital Repository.</p>
-		[% END %]
+		[% content_blocks.about %]	
 		<div class="moreLinkWrapper"><a href="/about" class="moreLink">[% c.loc("Learn more") %]</a></div>
 	</div>
 	<div class="span4">
@@ -58,8 +48,8 @@
 		<div class="moreLinkWrapper"><a href="/updates" class="moreLink">[% c.loc("View more") %]</a></div>
 	</div>
 	<div class="span4">
-		<h3><a href="https://www.canadahelps.org/services/wa/dnm/en/#/page/4964">[% c.loc("Donate") %]</a></h3>
-		<a class="linkBlock" href="https://www.canadahelps.org/services/wa/dnm/[% c.stash.lang %]/#/page/4964" target="_blank">
+		<h3><a href="/donate" target="_blank">[% c.loc("Donate") %]</a></h3>
+		<a class="linkBlock" href="/donate" target="_blank">
 			<div class="illustration" style="background-image: url('[% cdn_uri('co', 'donate-block.jpg') %]'); height: 180px;"></div>
 		</a>
 	</div>

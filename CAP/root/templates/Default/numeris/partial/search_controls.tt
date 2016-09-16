@@ -81,7 +81,7 @@
         [% END %]
         <p>
             <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
-            <a class="btn btn-large refine-search" href="[% c.uri_for_action("support", "search") %]">[% c.loc("Help") %]</a>
+            <a class="btn btn-large refine-search" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
         </p>
     </form>
 </aside>

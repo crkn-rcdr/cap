@@ -1,6 +1,0 @@
-﻿<h2>Héritage</h2>
-<p>Le projet Héritage, qui s’étale sur 10 ans, vise la numérisation et l’accès en ligne de certains fonds d’archives du Canada parmi les plus consultés. Comptant environ 40 millions de pages de documents sources primaires, ces collections racontent l’histoire de la nation et de sa population depuis les années 1600 jusqu’au milieu des années 1900. Aussi représentent-elles une ressource importante et unique pour les historiens, les étudiants et les généalogistes du Canada.</p>
-<p>
-	<a href="[% c.uri_for_action("/support", "about") %]"><strong>Pour en savoir plus</strong></a>
-</p>
-<p>D’autres collections seront accessibles sur ce portail au fur et à mesure qu’elles seront numérisées. Visitez régulièrement notre site pour découvrir les nouveautés ou consultez notre catalogue pour un avant-goût de <a href="[% cdn_uri('heritage', 'catalogue_fr.pdf') %]" target="_blank"><strong>ce qui est à venir</strong></a>.</p>

@@ -1,0 +1,21 @@
+﻿[% title = c.loc("Proxy Configuration") %]
+
+<h1>[% title %]</h1>
+[% content_blocks.instructions %]
+
+<table class="table">
+  <tr>
+    <th>[% c.loc("Request IP address") %]</th>
+    <td>[% c.req.address %]</td>
+  </tr>
+  <tr>
+    <th>[% c.loc("Authenticated") %]</th>
+    <td>
+       [% IF c.session.$portal.defined("subscribing_institution") %]
+        [% c.loc("Yes") %]: [% c.session.$portal.subscribing_institution.name %]
+       [% ELSE %]
+        [% c.loc("No") %]
+       [% END %]
+    </td>
+  </tr>
+</table>

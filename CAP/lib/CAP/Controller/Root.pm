@@ -211,11 +211,11 @@ sub updates :Local {
     });
 }
 
-sub support :Path('support') :Args() {
-    my ($self, $c, $page) = @_;
-    $c->stash->{support_resource} = $page;
-    $c->stash->{template} = 'support.tt';
-    return 1;
+# check for insitutional subscription
+sub proxy :Local {
+    my ($self, $c) = @_;
+    $c->detach('error', [404, "Not supported for non-subscription portals"])
+        unless ($c->portal->supports_institutions && $c->portal->supports_subscriptions);
 }
 
 sub test_error :Path('error') Args(1)

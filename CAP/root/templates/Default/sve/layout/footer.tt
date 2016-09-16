@@ -10,7 +10,7 @@
 				[% c.loc("Funded by the Government of Canada.") %]
 			</p>
 			<p>
-				<a href="[% c.uri_for_action("/support", "copyright") %]">[% c.loc("Copyright Notice") %]</a>
+				<a href="[% c.uri_for("/copyright") %]">[% c.loc("Copyright Notice") %]</a>
 			</p>
 		</div>
 		<div class="span2">
