@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /search
-Disallow: /file
-Sitemap: /sitemap/sitemap.xml
