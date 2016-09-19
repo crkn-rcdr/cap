@@ -218,6 +218,20 @@ sub proxy :Local {
         unless ($c->portal->supports_institutions && $c->portal->supports_subscriptions);
 }
 
+sub robots :Path('robots.txt') {
+    my ($self, $c) = @_;
+    $c->res->header('Content-Type', 'text/plain');
+    my $sitemap_uri = $c->uri_for('/sitemap/sitemap.xml');
+    my $body = <<"EOF";
+User-agent: *
+Disallow: /search
+Disallow: /file
+Sitemap: $sitemap_uri
+EOF
+    $c->res->body($body);
+    return 1;
+}
+
 sub test_error :Path('error') Args(1)
 {
     my($self, $c, $error) = @_;
