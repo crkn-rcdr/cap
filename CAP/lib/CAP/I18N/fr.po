@@ -4026,3 +4026,12 @@ msgstr "Histoire militaire"
 
 msgid "Landmark Papers"
 msgstr "Documents clés"
+
+msgid "Canadiana.org is a non-profit and charitable organization. All prices are in Canadian dollars."
+msgstr "Canadiana.org est un organisme sans but lucrative et caritatif. Tous les prix indiqués sont en dollars canadiens."
+
+msgid "One Month"
+msgstr "1 mois"
+
+msgid "One Year"
+msgstr "1 an"

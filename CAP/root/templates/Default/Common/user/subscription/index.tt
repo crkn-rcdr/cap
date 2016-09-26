@@ -9,7 +9,27 @@
 
 <h2>[% c.loc("Subscribe to [_1]", entity.portal.title(lang)) %]</h2>
 
-[% INCLUDE "user/subscription/index_${entity.portal.id}.tt" %]
+<div class="row">
+    <div class="span8">
+    	[% content_main = "${entity.portal.id}_main"; content_blocks.$content_main %]
+        <div class="subscriptions">
+            <div class="subbox">
+                <p class="subbox-duration">[% c.loc("One Month") %]</p>
+                <p class="subbox-price">[% format_money(10) %]</p>
+                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", [entity.portal.id, "${entity.portal.id}30"]) %]">[% subscribe_text %]</a></p>
+            </div>
+            <div class="subbox">
+                <p class="subbox-duration">[% c.loc("One Year") %]</p>
+                <p class="subbox-price">[% format_money(100) %]</p>
+                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", [entity.portal.id, "${entity.portal.id}365"]) %]">[% subscribe_text %]</a></p>
+            </div>
+        </div>
+        <p class="clearBoth">[% c.loc("Canadiana.org is a non-profit and charitable organization. All prices are in Canadian dollars.") %]</p>
+    </div>
+    <div class="span4">
+    	[% content_side = "${entity.portal.id}_side"; content_blocks.$content_side %]
+    </div>
+</div>
 
 [% IF c.user_exists %]
     <hr />
