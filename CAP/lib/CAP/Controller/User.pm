@@ -475,13 +475,6 @@ sub subscribe_finalize : Private
         $c->detach();
     }
 
-    # Send an email notification to administrators
-    if (exists($c->config->{subscription_admins})) {
-        $c->forward("/mail/subscription_notice",
-            [$c->config->{subscription_admins}, $success, $subscription->old_expire, $subscription->new_expire, $payment->message]
-        );
-    }
-
     if (! $success) {
         $c->user->close_subscription($payment);
         $c->message({ type => "error", message => "payment_failed" });

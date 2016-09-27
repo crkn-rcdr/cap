@@ -130,29 +130,6 @@ sub user_activate :Private {
     return 1;
 }
 
-sub subscription_notice :Private {
-    my ($self, $c, $admins, $success, $oldexpire, $newexpire, $message) = @_;
-    $c->stash(subscribe_success => $success,
-        subscribe_oldexpire => $oldexpire,
-        subscribe_newexpire => $newexpire,
-        subscribe_message => $message
-    );
-
-    my $from = $c->config->{email_from};
-    return unless ( $from );
-    
-    my $header = [
-        'From'                                                  => $from,
-        'To'                                                         => $admins,
-        'Subject'                                             => $c->loc('ECO Subscription Finalized'),
-        'Content-Type'                                => 'text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding'  =>  '8bit'
-    ];
-
-    $self->sendmail($c, "subscribe_finalize.tt", $header);
-    return 1;
-}
-
 sub subscription_reminder :Private {
     use feature 'switch';
     my ($self, $c, $exp_acct, $exp_date) = @_;
