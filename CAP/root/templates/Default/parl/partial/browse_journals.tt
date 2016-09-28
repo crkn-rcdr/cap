@@ -1346,7 +1346,7 @@
                                     <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S01", "journ*", "S", "P3"], lang => "fra"  }) %]">1re Session : 1874.03.26-1874.05.26</a>
                                 </li>
                                 <li>
-                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S02", "journ*", "S", "P2"], lang => "fra"  }) %]">2e Session : 1875.02.04-1875.04.08</a>
+                                    <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S02", "journ*", "S", "P3"], lang => "fra"  }) %]">2e Session : 1875.02.04-1875.04.08</a>
                                 </li>
                                 <li>
                                     <a href="[% c.uri_for_action("/search/index", { identifier => ["SDC-P03-S03", "journ*", "S", "P3"], lang => "fra"  }) %]">3e Session : 1876.02.10-1876.04.12</a>
