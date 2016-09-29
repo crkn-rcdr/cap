@@ -40,6 +40,10 @@ sub portal :Local :Args(1) {
             portal => $portal_id,
             lang => $c->stash->{lang},
         }),
+        redirects => $c->model('CMS')->redirects({
+            portal => $portal_id,
+            lang => $c->stash->{lang}
+        }),
         blocks => $c->model('CMS')->blocks({
             portal => $portal_id
         })

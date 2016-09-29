@@ -60,7 +60,7 @@ sub title_count {
 		my $error = $response->error;
 		die "Could not get title_count for $collection: $error";
 	} else {
-		return $response->data->{rows}[0]{value};
+		return $response->data->{rows}[0]{value} || 0;
 	}
 }
 

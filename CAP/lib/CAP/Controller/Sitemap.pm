@@ -79,6 +79,7 @@ sub static :Path('static.xml') Args(0) {
     my $doc = XML::LibXML::Document->new('1.0', 'UTF-8');
     my $root = $doc->createElement('urlset');
     $root->setAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+    $root->setAttribute('xmlns:xhtml', 'http://www.w3.org/1999/xhtml');
     $doc->setDocumentElement($root);
 
     my $url = $doc->createElement('url');
@@ -86,6 +87,22 @@ sub static :Path('static.xml') Args(0) {
     $loc->appendChild($doc->createTextNode($c->uri_for_action('index')));
     $url->appendChild($loc);
     $root->appendChild($url);
+
+    my $nodes = $c->model('CMS')->sitemap($c->portal->id);
+    foreach my $path (keys %$nodes) {
+        $url = $doc->createElement('url');
+        $loc = $doc->createElement('loc');
+        $loc->appendChild($doc->createTextNode($c->uri_for("/$path")));
+        $url->appendChild($loc);
+        foreach my $alternate (@{ $nodes->{$path} }) {
+            my $link = $doc->createElement('xhtml:link');
+            $link->setAttribute('rel', 'alternate');
+            $link->setAttribute('hreflang', $alternate->[0]);
+            $link->setAttribute('href', $c->uri_for("/$alternate->[1]"));
+            $url->appendChild($link);
+        }
+        $root->appendChild($url);
+    }
 
     $c->res->header('Content-Type', 'application/xml');
     $c->res->body($doc->toString(1));

@@ -4,6 +4,7 @@
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tab_nodes" data-toggle="tab">Nodes</a></li>
+    <li><a href="#tab_redirects" data-toggle="tab">Redirects</a></li>
     <li><a href="#tab_blocks" data-toggle="tab">Blocks</a></li>
 </ul>
 
@@ -27,6 +28,20 @@
            </tbody>
        </table>
    </div>
+   <div class="tab-pane" id="tab_redirects">
+        <h2>Redirects</h2>
+        <p>[% redirects.size %] total redirects</p>
+        <table class="table">
+            [% INCLUDE partial/table_header.tt columns=["Path"] %]
+            <tbody>
+                [% FOREACH i IN redirects %]
+                <tr>
+                    <td>[% i.path %]</td>
+                </tr>
+                [% END %]
+            </tbody>
+        </table>
+    </div>
    <div class="tab-pane" id="tab_blocks">
         <h2>Blocks</h2>
         <p>[% blocks.size %] total blocks</p>

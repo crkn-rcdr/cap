@@ -218,6 +218,38 @@ sub nodes {
 # $args:
 # portal: current portal id
 # lang: current set language
+# limit: number of updates (will fetch all if undefined)
+# skip: number of updates to skip (use these for pagination)
+sub redirects {
+	my ($self, $args) = @_;
+
+	my $call_args = {
+		descending => 'true',
+		startkey => encode_json ["$args->{portal}\x{FF}"],
+		endkey => encode_json [$args->{portal}],
+		include_docs => 'true'
+	};
+
+	my $limit = $args->{limit};
+	$call_args->{limit} = int $limit if (defined $limit && looks_like_number $limit);
+	my $skip = $args->{skip};
+	$call_args->{skip} = int $skip if (defined $skip && looks_like_number $skip);
+	my $rows = $self->get('/_design/tdr/_view/redirects', $call_args)->data->{rows};
+
+	return [ map {
+		{
+			id => $_->{id},
+			path => $_->{doc}{$args->{lang}}{path},
+			date => $_->{key}[1],
+			portal => $_->{doc}{portal}
+		}
+	} @$rows ];
+}
+
+
+# $args:
+# portal: current portal id
+# lang: current set language
 # action: current $c->action->private_path
 sub blocks {
 	my ($self, $args) = @_;
@@ -276,6 +308,21 @@ sub invalidate_block_cache {
 	my ($self) = @_;
 	$self->_set__block_cache({});
 	return 0;
+}
+
+sub sitemap {
+	my ($self, $portal) = @_;
+
+	my $call_args = {
+		startkey => encode_json [$portal],
+		endkey => encode_json ["$portal\x{FF}"],
+	};
+
+	my $rows = $self->get('/_design/tdr/_view/sitemap', $call_args)->data->{rows};
+
+	return { map {
+		($_->{key}[1] => $_->{value})
+	} @$rows };
 }
 
 1;
