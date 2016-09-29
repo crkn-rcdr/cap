@@ -131,7 +131,6 @@ sub user_activate :Private {
 }
 
 sub subscription_reminder :Private {
-    use feature 'switch';
     my ($self, $c, $exp_acct, $exp_date) = @_;
     
     my $recipient  =  $exp_acct->email;
@@ -150,11 +149,11 @@ sub subscription_reminder :Private {
     return unless ( $from );
 
     my $header = [
-        'From'                                                 => $from,
-        'To'                                                        =>   $recipient,
-        'Subject'                                             => "Your Canadiana.org subscription / Votre abonnement Canadiana.org",
-        'Content-Type'                                => 'text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding'  =>  '8bit'
+        'From'                      => $from,
+        'To'                        => $recipient,
+        'Subject'                   => "Your Canadiana.org subscription / Votre abonnement Canadiana.org",
+        'Content-Type'              => 'text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding' => '8bit'
     ];
 
     my $template = "subscription_reminder.tt";
