@@ -89,7 +89,7 @@ sub static :Path('static.xml') Args(0) {
     $root->appendChild($url);
 
     my $nodes = $c->model('CMS')->sitemap($c->portal->id);
-    foreach my $path (keys %$nodes) {
+    foreach my $path (sort keys %$nodes) {
         $url = $doc->createElement('url');
         $loc = $doc->createElement('loc');
         $loc->appendChild($doc->createTextNode($c->uri_for("/$path")));
