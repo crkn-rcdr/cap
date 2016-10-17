@@ -697,7 +697,7 @@
                         <div class="collapse" id="browse13">
                             <ul class="browse">
                                 <li>
-                                    <a href="[% c.uri_for_action("view/index", "oop.debates_HOC0301") %]">1st Session: 1875.04.26-1875.05.26 (Mackenzie, Alexander)</a>
+                                    <a href="[% c.uri_for_action("view/index", "oop.debates_HOC0301") %]">1st Session: 1874.03.26-1874.05.26 (Mackenzie, Alexander)</a>
                                 </li>
                                 <li>
                                     <a href="[% c.uri_for_action("view/index", "oop.debates_HOC0302") %]">2nd Session: 1875.02.04-1875.04.08 (Mackenzie, Alexander)</a>
@@ -1353,7 +1353,7 @@
                         <div class="collapse" id="browse65">
                             <ul class="browse">
                                 <li>
-                                    <a href="[% c.uri_for_action("view/index", "oop.debates_SDC0301") %]">1re Session : 1874.03.25-1874.05.26</a>
+                                    <a href="[% c.uri_for_action("view/index", "oop.debates_SDC0301") %]">1re Session : 1874.03.26-1874.05.26</a>
                                 </li>
                             </ul>
                         </div>
@@ -1910,7 +1910,7 @@
                         <div class="collapse" id="browse10">
                             <ul class="browse">
                                 <li>
-                                    <a href="[% c.uri_for_action("view/index", "oop.debates_CDC0301") %]">1re Session : 1874.04.26-1874.05.26 (Mackenzie, Alexander)</a>
+                                    <a href="[% c.uri_for_action("view/index", "oop.debates_CDC0301") %]">1re Session : 1874.03.26-1874.05.26 (Mackenzie, Alexander)</a>
                                 </li>
                                 <li>
                                     <a href="[% c.uri_for_action("view/index", "oop.debates_CDC0302") %]">2e Session : 1875.02.04-1875.04.08 (Mackenzie, Alexander)</a>
