@@ -154,7 +154,7 @@ sub validate_derivative {
     my $component = $self->component($seq);
     my $default_size = $self->content->derivative_config->{default_size};
     return [400, $self->key . " does not have page at seq $seq."] unless $component;
-    return [400, $component->key . " does not have a canonical master."] unless $component->{canonicalMaster};
+    return [400, $component->{key} . " does not have a canonical master."] unless $component->{canonicalMaster};
     return [200, $self->content->derivative($component->{canonicalMaster}, $size, $rotate)];
 }
 
