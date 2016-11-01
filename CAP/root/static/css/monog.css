@@ -6853,31 +6853,6 @@ header.navbar .navbar-inner {
   background-color: inherit;
   background-image: none;
 }
-header.navbar .logo {
-  display: block;
-  float: left;
-  margin: 10px;
-  height: 60px;
-  width: 294px;
-  background-image: url(/static/images/co_logo.png);
-}
-header.navbar h1 {
-  float: left;
-  color: #dddddd;
-  font-variant: small-caps;
-  font-family: serif;
-  font-size: 36pt;
-  padding-top: 9px;
-}
-header.navbar h1 > a {
-  color: #dddddd;
-}
-header.navbar h1 > a:hover {
-  color: #f7f7f7;
-}
-header.navbar h1 a:hover {
-  text-decoration: none;
-}
 header.navbar .nav > li > a {
   color: #dddddd;
 }
@@ -6892,4 +6867,23 @@ header.navbar .nav > li > a:hover {
 }
 .navLinks.navbar .nav > li > a:hover {
   color: #f7f7f7;
+}
+.banner {
+  height: 160px;
+  background: #e0e0e0;
+  background: rgba(128, 128, 128, 0.2);
+}
+.banner .banner-image {
+  background-image: url('/static/images/monog_banner_724.jpg');
+  height: 160px;
+}
+@media (min-width: 980px) {
+  .banner .banner-image {
+    background-image: url('/static/images/monog_banner_940.jpg');
+  }
+}
+@media (min-width: 1200px) {
+  .banner .banner-image {
+    background-image: url('/static/images/monog_banner_1170.jpg');
+  }
 }

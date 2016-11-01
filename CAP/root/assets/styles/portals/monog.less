@@ -20,28 +20,6 @@ header.navbar {
         background-image: none;
     }
 
-    .logo {
-        display: block;
-        float: left;
-        margin: 10px;
-        height: 60px;
-        width: 294px;
-        background-image: url(/static/images/co_logo.png);
-    }
-
-    h1 {
-        float: left;
-        color: @lightColor;
-        font-variant: small-caps;
-        font-family: serif;
-        font-size: 36pt;
-        padding-top: @baseLineHeight / 2;
-        .lighten-links;
-        a:hover {
-            text-decoration: none;
-        }
-    }
-
     .nav > li {
         .lighten-links;
     }
@@ -52,4 +30,22 @@ header.navbar {
     .nav > li {
         .lighten-links;
     }
+}
+
+.banner {
+    height: 160px;
+    background: rgb(224, 224, 224);
+    background: rgba(128, 128, 128, 0.2);
+    .banner-image {
+        background-image: url('/static/images/monog_banner_724.jpg');
+        height: 160px;
+    }
+}
+
+@media (min-width: 980px) {
+    .banner .banner-image { background-image: url('/static/images/monog_banner_940.jpg'); }
+}
+
+@media (min-width: 1200px) {
+    .banner .banner-image { background-image: url('/static/images/monog_banner_1170.jpg'); }
 }

@@ -1,25 +1,10 @@
 <div class="span3">
-    <label for="fieldSelect">[% c.loc("Search in") %]</label>
-    <select id="fieldSelect" name="field" class="span3">
-        <option value="">[% c.loc("Everything") %]</option>
-        <option value="ti">[% c.loc("Titles") %]</option>
-        <option value="tx">[% c.loc("Text") %]</option>
-    </select>
-</div>
-<div class="span3">
-    <label for="langSelect">[% c.loc("Language") %]</label>
-    <select id="langSelect" name="lang" class="span3">
-        <option value="">[% c.loc("Both Languages") %]</option>
-        <option value="eng">[% c.loc("English") %]</option>
-        <option value="fra">[% c.loc("French") %]</option>
-    </select>
-</div>
-<div class="span3">
-    <label for="collSelect">[% c.loc("Contributor") %]</label>
-    <select id="collSelect" name="collection" class="span3">
+    <label for="seriesSelect">[% c.loc("Contributor") %]</label>
+    <select id="seriesSelect" name="pkey" class="span3">
         <option value="">[% c.loc("All Contributors") %]</option>
-        <option value="aeu">University of Alberta</option>
-        <option value="nbfu">University of New Brunswick</option>
-        <option value="oty">York University</option>
+        <option value="carl.AEUseries">The Gateway (University of Alberta)</option>
+        <option value="carl.NBFUseries">The Brunswickan (University of New Brunswick)</option>
+        <option value="carl.OTYseries">Excalibur (York University)</option>
+        <option value="carl.NSHDseries">Dalhousie Gazette (Dalhousie University)</option>
     </select>
 </div>
