@@ -42,7 +42,7 @@
         </footer>
 
         <!-- Load JavaScript at the end for quickness -->
-        <script src="[% c.uri_for('/static/js/cap.min.js', { r => 9 }) %]" type="text/javascript"></script>
+        <script src="[% c.uri_for('/static/js/cap.min.js', { r => 10 }) %]" type="text/javascript"></script>
         <script type="text/javascript">
               var _gaq = _gaq || [];
               _gaq.push(['_setAccount', 'UA-18296086-4']);
