@@ -1,7 +1,23 @@
+[% BLOCK matching_page %]
+<a class="matching-page" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq) %]">[% label | html %]</a>
+[% UNLESS loop.last %] | [% END %]
+[% END %]
+
 [% IF resultset.documents.size -%]
     [% c.loc("Matching pages:") %]
-	[% FOR page IN resultset.documents -%]
-	<a class="matching-page" data-seq="[% page.seq %]" href="[% c.uri_for_action("view/index", c.req.params.pkey, page.seq).path %]">[% page.label | html %]</a>[% UNLESS loop.last %] | [% END %]
+	[% FOR page IN resultset.documents.slice(0,9) -%]
+	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop -%]
+	[% END %]
+	[% IF resultset.documents.size > 10 %]
+	| <a class="matching-pages-more-link">[% c.loc("Show all [_1] matches", resultset.hits) %]</a>
+	<span class="matching-pages-more hidden">
+		[% FOR page IN resultset.documents.slice(10) -%]
+		[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop -%]
+		[% END %]
+		[% IF resultset.documents.size < resultset.hits %]
+		| [% c.loc("and [_1] more", resultset.hits - resultset.documents.size) %]
+		[% END %]
+	</span>
 	[% END %]
 [% ELSE -%]
     [% c.loc("No matching pages found.") %]

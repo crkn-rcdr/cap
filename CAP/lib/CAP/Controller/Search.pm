@@ -86,7 +86,7 @@ sub matching_pages :Private {
 
     my $search;
     eval {
-        $search = $c->model('Access::Search')->dispatch('page', {}, $c->req->params);
+        $search = $c->model('Access::Search')->dispatch('page', { limit => 100 }, $c->req->params);
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 

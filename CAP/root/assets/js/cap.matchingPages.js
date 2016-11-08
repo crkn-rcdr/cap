@@ -38,7 +38,7 @@
                 this.$element.on('click', '.matching-page', function(e) {
                     e.preventDefault();
                     pageViewer.goToPage(parseInt($(this).attr('data-seq'), 10));
-                })
+                });
             }
         },
 
@@ -70,6 +70,16 @@
         success: function(data) {
             this.$searching.hide();
             this.$results.html(data);
+
+            var $moreLink = $('.matching-pages-more-link', this.$element);
+            var $more = $('.matching-pages-more', this.$element);
+            if ($moreLink.length) {
+                $moreLink.on('click', function(e) {
+                    e.preventDefault();
+                    $moreLink.addClass('hidden');
+                    $more.removeClass('hidden');
+                });
+            }
         }
     };
 

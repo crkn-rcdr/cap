@@ -2748,6 +2748,9 @@ msgstr "Afficher tous les médias"
 msgid "Show all %1 matches"
 msgstr "Afficher chacune des %1 pages correspondantes"
 
+msgid "and %1 more"
+msgstr "et %1 autres"
+
 #:
 msgid "Show all issues"
 msgstr "Afficher tous les numéros"
