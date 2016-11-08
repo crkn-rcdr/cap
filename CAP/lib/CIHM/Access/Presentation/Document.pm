@@ -152,10 +152,24 @@ sub validate_download {
 sub validate_derivative {
 	my ($self, $seq, $size, $rotate) = @_;
     my $component = $self->component($seq);
-    my $default_size = $self->content->derivative_config->{default_size};
     return [400, $self->key . " does not have page at seq $seq."] unless $component;
-    return [400, $component->{key} . " does not have a canonical master."] unless $component->{canonicalMaster};
-    return [200, $self->content->derivative($component->{canonicalMaster}, $size, $rotate)];
+    if ($component->{canonicalMaster}) {
+	    return [200, $self->content->derivative({
+	    	master => $component->{canonicalMaster},
+	    	size => $size,
+	    	rotate => $rotate
+	    })];
+    } elsif ($self->record->{canonicalDownloadMime} eq 'application/pdf') {
+    	return [200, $self->content->derivative({
+    		from_pdf => 1,
+    		download => $self->record->{canonicalDownload},
+    		page => $seq,
+    		size => $size,
+    		rotate => $rotate
+    	})];
+    } else {
+	    return [400, $component->{key} . " does not have a canonical master."] unless $component->{canonicalMaster};
+    }
 }
 
 1;

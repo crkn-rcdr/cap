@@ -58,19 +58,24 @@ sub download {
     return _request_uri($self->server, $data->{file}, \%query_params);
 }
 
+# params:
+# master - component master
+# rotate - CAP rotate number
+# size - CAP size number
+# from_pdf - switch to PDF mode
+# download - item canonical download
+# page - page/seq number
 sub derivative {
-	my ($self, $master, $size, $rotate) = @_;
-	my $size_str = $self->derivative_config->{size}{$size} || $self->derivative_config->{default_size};
-	my $rotate_angle = $self->derivative_config->{rotate}{$rotate} || 0;
+	my ($self, $params) = @_;
 	my $data = {
 		expires => _request_expiration(),
 		file => $self->filename,
 		key => $self->key,
 		password => $self->password,
-		from => $master,
+		from => $params->{from_pdf} ? ".pdf/$params->{download}/$params->{page}.pdf" : $params->{master},
 		format => $self->format,
-		size => $size_str,
-		rotate => $rotate_angle
+		size => $self->derivative_config->{size}{$params->{size}} || $self->derivative_config->{default_size},
+		rotate => $self->derivative_config->{rotate}{$params->{rotate}} || 0
 	};
 	$data->{signature} = _request_signature($data);
 	my %query_params = slice_def($data, qw/expires signature key from format size rotate portalid userid institutionid sessionid sessioncount/);
