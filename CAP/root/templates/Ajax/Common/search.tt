@@ -5,7 +5,8 @@
 
 [% IF resultset.documents.size -%]
     [% c.loc("Matching pages:") %]
-	[% FOR page IN resultset.documents.slice(0,9) -%]
+    [% initial_documents = resultset.documents.size > 10 ? resultset.documents.slice(0,9) : resultset.documents %]
+	[% FOR page IN initial_documents -%]
 	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop -%]
 	[% END %]
 	[% IF resultset.documents.size > 10 %]
