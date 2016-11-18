@@ -11,7 +11,6 @@ sub auto :Private {
      # The report type is the second argument in the path 
     my  @args = split (/\//,$c->request->path);
     my $report_type = $args[1];    
-    $c->log->error("Reports.pm:  report type is $report_type\n");
 
 
     # Users with the admin or reports role may access these functions. Everyone

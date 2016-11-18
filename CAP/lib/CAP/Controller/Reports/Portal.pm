@@ -31,7 +31,6 @@ sub index :Path :Args(2) {
     my $action = $c->request->arguments->[1];
     my $portal = $c->request->arguments->[0];
     $c->stash->{current_portal} = $portal;
-    $c->log->error("action is $action : $!\n");
     
 
     if ( $action eq 'stats' ) {

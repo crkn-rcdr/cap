@@ -50,7 +50,6 @@ sub sendmail {
 	    $attachbody = <FILE>;
 	    close FILE;
 	} else {
-	    $c->log->error("Can't open attachment $attach : $!\n");
         $c->stash(additional_template_paths => $old_template_paths);
 	    return 1;
 	}
