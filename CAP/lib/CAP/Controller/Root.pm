@@ -101,6 +101,7 @@ sub auto :Private
     # something, so increment the request counter and log the request
     ++$c->session->{count};
     $c->model('DB::Requests')->log($c);
+    $c->forward('CAP::Controller::RequestLogger');
 
     return 1;
 }

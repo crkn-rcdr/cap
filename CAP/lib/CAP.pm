@@ -77,6 +77,13 @@ __PACKAGE__->config(
 
 );
 
+use Log::Log4perl::Catalyst;
+if (-e 'log4perl.conf') {
+    __PACKAGE__->log(Log::Log4perl::Catalyst->new('log4perl.conf'));
+} else {
+    __PACKAGE__->log(Log::Log4perl::Catalyst->new());
+}
+
 # Start the application
 __PACKAGE__->setup();
 
