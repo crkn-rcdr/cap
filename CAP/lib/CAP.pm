@@ -4,6 +4,8 @@ use strict;
 use warnings;
 
 use Catalyst::Runtime '5.70';
+use FindBin;
+use Log::Log4perl::Catalyst;
 
 # Set flags and add plugins for the application
 #
@@ -77,9 +79,8 @@ __PACKAGE__->config(
 
 );
 
-use Log::Log4perl::Catalyst;
-if (-e 'log4perl.conf') {
-    __PACKAGE__->log(Log::Log4perl::Catalyst->new('log4perl.conf'));
+if (-e "$FindBin::Bin/../log4perl.conf") {
+    __PACKAGE__->log(Log::Log4perl::Catalyst->new("$FindBin::Bin/../log4perl.conf"));
 } else {
     __PACKAGE__->log(Log::Log4perl::Catalyst->new());
 }
