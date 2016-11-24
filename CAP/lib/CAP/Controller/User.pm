@@ -447,7 +447,7 @@ sub reset_password_POST {
             $c->persist_user();
             $user->update({ last_login => DateTime->now() });
             $user->log("RESET_REQUEST", sprintf("from %s", $c->req->address));
-            $c->res->redirect($c->uri_for_action('/user/profile', $c->user->id));
+            $c->res->redirect($c->uri_for_action('/user/profile'));
             $c->detach();
         }
         else {
