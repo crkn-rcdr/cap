@@ -4,8 +4,12 @@ use strict;
 use warnings;
 use utf8;
 
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use CIHM::UsageStats;
 use Getopt::Long;
-use JSON qw/decode_json/;
+use JSON qw/decode_json encode_json/;
 
 my $server = 'http://localhost:5984/';
 my $logpattern = '*.log';
@@ -36,36 +40,41 @@ unless (-d $dir) {
 	exit 1;
 }
 
-my $stats = {
-	user => {},
-	institution => {},
-	portal => {}
-};
+my $stats = {};
+my $stats_server = CIHM::UsageStats->new({ server => $server, statsdb => $statsdb, logfiledb => $logfiledb });
 
 sub increment {
-	my ($h, $year, $month, $data) = @_;
-	$$h->{$year}{$month}{sessions} += 1 if $data->{new_session};
-	$$h->{$year}{$month}{searches} += 1 if ($data->{action} eq 'search');
-	$$h->{$year}{$month}{views}    += 1 if ($data->{action} eq 'view' || $data->{action} eq 'file/get_page_uri');
-	$$h->{$year}{$month}{requests} += 1;
+	my ($hrefref, $data) = @_;
+	$$hrefref->{sessions} += 1 if $data->{new_session};
+	$$hrefref->{searches} += 1 if ($data->{action} eq 'search');
+	$$hrefref->{views}    += 1 if ($data->{action} eq 'view' || $data->{action} eq 'file/get_page_uri');
+	$$hrefref->{requests} += 1;
 }
 
 sub handle_line {
 	my ($stats, $year, $month, $data) = @_;
 	if (defined $data->{user}) {
-		increment(\$stats->{user}{$data->{user}}{$data->{portal}}, $year, $month, $data);
-		increment(\$stats->{user}{$data->{user}}{total}, $year, $month, $data);
+		increment(\$stats->{encode_json [$data->{portal}, $year, $month, 'user', $data->{user}]}, $data);
+		increment(\$stats->{encode_json ['total', $year, $month, 'user', $data->{user}]}, $data);
 	}
 	if (defined $data->{institution}) {
-		increment(\$stats->{institution}{$data->{institution}}{$data->{portal}}, $year, $month, $data);
-		increment(\$stats->{institution}{$data->{institution}}{total}, $year, $month, $data);
+		increment(\$stats->{encode_json [$data->{portal}, $year, $month, 'institution', $data->{institution}]}, $data);
+		increment(\$stats->{encode_json ['total', $year, $month, 'institution', $data->{institution}]}, $data);
 	}
-	increment(\$stats->{portal}{$data->{portal}}, $year, $month, $data);
+	increment(\$stats->{encode_json [$data->{portal}, $year, $month]}, $data);
+	increment(\$stats->{encode_json ['total', $year, $month]}, $data);
 }
 
 chdir $dir;
 foreach my $file (glob $logpattern) {
 	next if -d $file;
+
+	my $file_already_registered = $stats_server->register_logfile($file);
+	if ($file_already_registered) {
+		print "$file has already been processed.\n";
+		next;
+	}
+
 	open my $fh, '<', $file;
 	while (my $line = <$fh>) {
 		$line =~ /^(\d{4})-(\d{2}).+ (\{.*\})$/;
@@ -75,5 +84,6 @@ foreach my $file (glob $logpattern) {
 	close $fh;
 }
 
-#use Data::Dumper;
-#print Dumper($stats) . "\n";
+foreach my $key (keys %$stats) {
+	$stats_server->update_or_create($key, $stats->{$key});
+}
