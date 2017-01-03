@@ -5,6 +5,7 @@ use strictures 2;
 use Moo;
 use Types::Standard qw/Str Enum/;
 use JSON qw/decode_json/;
+use List::Util qw/reduce/;
 
 with 'Role::REST::Client';
 
@@ -25,10 +26,14 @@ sub BUILD {
 	$self->set_persistent_header(Accept => 'application/json');
 }
 
-# key is a JSON-encoded array
+sub create_databases {
+	my ($self) = @_;
+	$self->put($self->statsdb);
+	$self->put($self->logfiledb);
+}
+
 sub update_or_create {
-	my ($self, $encoded_key, $stats) = @_;
-	my ($key, $info) = $self->_decode_key($encoded_key); 
+	my ($self, $key, $stats) = @_;
 
 	my $url = join('/', $self->statsdb, $key);
 	my $lookup = $self->get($url);
@@ -39,48 +44,62 @@ sub update_or_create {
 		my $new_doc = $self->_add_stats($doc, $stats);
 		$self->put($url, $new_doc);
 	} else {
-		$self->put($url, {%$stats, %$info});
+		$self->put($url, $stats);
 	}
 }
 
-sub _decode_key {
-	my ($self, $encoded_key) = @_;
-	my ($portal, $year, $month, $type, $subtype) = @{ decode_json $encoded_key };
-	$type //= 'portal';
-	my $couch_key = "$portal-$year-$month-$type";
-	$couch_key .= "($subtype)" if $subtype;
-	my $info = {
-		portal => $portal,
-		year => $year,
-		month => $month,
-		type => $type
-	};
-	$info->{user} = $subtype if ($type eq 'user');
-	$info->{institution} = $subtype if ($type eq 'institution');
-	return ($couch_key, $info);
+sub _transform_row_for_bulk_update {
+	my ($row, $stats) = @_;
+	if ($row->{error}) { # going to assume this is not found
+		my $key = $row->{key};
+		return { '_id' => $key, %{$stats->{$key}} };
+	} else {
+		my $key = $row->{id};
+		return _add_stats($row->{doc}, $stats->{$key});
+	}
 }
 
 sub _add_stats {
-	my ($self, $doc, $stats) = @_;
+	my ($doc, $stats) = @_;
 	foreach (qw/sessions searches views requests/) {
-		$doc ->{$_} += $stats->{$_};
+		$doc->{$_} += $stats->{$_};
 	}
 	return $doc;
 }
 
-sub register_logfile {
-	my ($self, $logfile) = @_;
-	my $found = 0;
+sub update {
+	my ($self, $stats) = @_;
 
-	my $url = join('/', $self->logfiledb, $logfile);
-	my $lookup = $self->get($url);
-	if ($lookup->code eq '200') {
-		$found = 1;
-	} else {
-		$self->put($url, {});
-	}
+	# look up keys
+	my $key_struct = { keys => [keys %$stats] };
+	my $lookup_url = join('/', $self->statsdb, '_all_docs?include_docs=true');
+	my @rows = @{$self->post($lookup_url, $key_struct)->data->{rows}};
 
-	return $found;
+	# transform rows and add stats
+	my @transformed_rows = map { _transform_row_for_bulk_update($_, $stats) } @rows;
+
+	# bulk update docs
+	my $update_url = join('/', $self->statsdb, '_bulk_docs');
+	my $response = $self->post($update_url, { docs => \@transformed_rows })->data;
+
+	return scalar @$response;
+}
+
+sub key {
+	my ($self, $portal, $year, $month, $type, $subtype) = @_;
+	$type //= 'portal';
+	$subtype //= '';
+	my %codes = (portal => 'p', institution => 'i', user => 'u');
+	return "$codes{$type}$subtype-$portal-$year-$month";
+}
+
+sub register_logfiles {
+	my ($self, $logfiles) = @_;
+	my $docs = [map { {'_id' => $_ } } @$logfiles];
+	my $post_data = {docs => $docs};
+	my $url = join('/', $self->logfiledb, '_bulk_docs');
+	my @rows = @{$self->post($url, $post_data)->data};
+	return map { [$_->{id}, $_->{error} ? 1 : 0] } @rows;
 }
 
 

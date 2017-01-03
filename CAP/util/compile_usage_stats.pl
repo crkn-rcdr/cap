@@ -42,6 +42,7 @@ unless (-d $dir) {
 
 my $stats = {};
 my $stats_server = CIHM::UsageStats->new({ server => $server, statsdb => $statsdb, logfiledb => $logfiledb });
+$stats_server->create_databases();
 
 sub increment {
 	my ($hrefref, $data) = @_;
@@ -54,26 +55,25 @@ sub increment {
 sub handle_line {
 	my ($stats, $year, $month, $data) = @_;
 	if (defined $data->{user}) {
-		increment(\$stats->{encode_json [$data->{portal}, $year, $month, 'user', $data->{user}]}, $data);
-		increment(\$stats->{encode_json ['total', $year, $month, 'user', $data->{user}]}, $data);
+		increment(\$stats->{$stats_server->key($data->{portal}, $year, $month, 'user', $data->{user})}, $data);
+		increment(\$stats->{$stats_server->key('total', $year, $month, 'user', $data->{user})}, $data);
 	}
 	if (defined $data->{institution}) {
-		increment(\$stats->{encode_json [$data->{portal}, $year, $month, 'institution', $data->{institution}]}, $data);
-		increment(\$stats->{encode_json ['total', $year, $month, 'institution', $data->{institution}]}, $data);
+		increment(\$stats->{$stats_server->key($data->{portal}, $year, $month, 'institution', $data->{institution})}, $data);
+		increment(\$stats->{$stats_server->key('total', $year, $month, 'institution', $data->{institution})}, $data);
 	}
-	increment(\$stats->{encode_json [$data->{portal}, $year, $month]}, $data);
-	increment(\$stats->{encode_json ['total', $year, $month]}, $data);
+	increment(\$stats->{$stats_server->key($data->{portal}, $year, $month)}, $data);
+	increment(\$stats->{$stats_server->key('total', $year, $month)}, $data);
 }
 
 chdir $dir;
-foreach my $file (glob $logpattern) {
-	next if -d $file;
-
-	my $file_already_registered = $stats_server->register_logfile($file);
-	if ($file_already_registered) {
+foreach ($stats_server->register_logfiles([glob $logpattern])) {
+	my ($file, $already_registered) = @$_;
+	if ($already_registered) {
 		print "$file has already been processed.\n";
 		next;
 	}
+	next if -d $file;
 
 	open my $fh, '<', $file;
 	while (my $line = <$fh>) {
@@ -84,6 +84,5 @@ foreach my $file (glob $logpattern) {
 	close $fh;
 }
 
-foreach my $key (keys %$stats) {
-	$stats_server->update_or_create($key, $stats->{$key});
-}
+my $updated_docs = $stats_server->update($stats);
+print "$updated_docs doc(s) created or updated.\n";
