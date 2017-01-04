@@ -5,7 +5,6 @@ use strictures 2;
 use Moo;
 use Types::Standard qw/Str Enum/;
 use JSON qw/decode_json/;
-use List::Util qw/reduce/;
 
 with 'Role::REST::Client';
 
@@ -30,22 +29,6 @@ sub create_databases {
 	my ($self) = @_;
 	$self->put($self->statsdb);
 	$self->put($self->logfiledb);
-}
-
-sub update_or_create {
-	my ($self, $key, $stats) = @_;
-
-	my $url = join('/', $self->statsdb, $key);
-	my $lookup = $self->get($url);
-	if ($lookup->code eq '200') {
-		my $doc = $lookup->data;
-		delete $doc->{_id};
-		$self->set_header('If-Match' => delete $doc->{_rev});
-		my $new_doc = $self->_add_stats($doc, $stats);
-		$self->put($url, $new_doc);
-	} else {
-		$self->put($url, $stats);
-	}
 }
 
 sub _transform_row_for_bulk_update {
