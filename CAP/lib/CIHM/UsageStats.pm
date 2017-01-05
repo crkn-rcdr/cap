@@ -45,7 +45,7 @@ sub _transform_row_for_bulk_update {
 sub _add_stats {
 	my ($doc, $stats) = @_;
 	foreach (qw/sessions searches views requests/) {
-		$doc->{$_} += $stats->{$_};
+		$doc->{$_} += $stats->{$_} // 0;
 	}
 	return $doc;
 }
