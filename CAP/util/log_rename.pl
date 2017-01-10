@@ -32,7 +32,6 @@ foreach my $file (grep /$pattern/, readdir $dh) {
 
 	$file =~ /(.*)$pattern/;
 	my $new_file = "$date-$1";
-	print "Renaming $file to $new_file\n";
 	rename $file, $new_file;
 }
 closedir $dh;
