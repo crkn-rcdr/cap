@@ -3,6 +3,7 @@ package CIHM::UsageStats;
 use utf8;
 use strictures 2;
 use Moo;
+use File::Basename qw/fileparse/;
 use Types::Standard qw/Str Enum/;
 use JSON qw/decode_json/;
 
@@ -69,21 +70,57 @@ sub update {
 }
 
 sub key {
-	my ($self, $portal, $year, $month, $type, $subtype) = @_;
+	my ($self, $portal, $year, $month, $type, $id) = @_;
+	my $mask = $self->keymask($portal, $type, $id);
+	return "$mask-$year-$month";
+}
+
+sub keymask {
+	my ($self, $portal, $type, $id) = @_;
 	$type //= 'portal';
-	$subtype //= '';
+	$id //= '';
 	my %codes = (portal => 'p', institution => 'i', user => 'u');
-	return "$codes{$type}$subtype-$portal-$year-$month";
+	return "$codes{$type}$id-$portal";
 }
 
 sub register_logfiles {
-	my ($self, $logfiles) = @_;
-	my $docs = [map { {'_id' => $_ } } @$logfiles];
+	my ($self, @logfiles) = @_;
+	my $docs = [map { {'_id' => (fileparse($_))[0] } } @logfiles];
 	my $post_data = {docs => $docs};
 	my $url = join('/', $self->logfiledb, '_bulk_docs');
 	my @rows = @{$self->post($url, $post_data)->data};
 	return map { [$_->{id}, $_->{error} ? 1 : 0] } @rows;
 }
 
+sub _transform_doc_for_display {
+	my ($doc) = @_;
+	my $key = $doc->{_id};
+	my ($year, $month) = $key =~ /.+\-.+\-(\d{4})\-(\d{2})/;
+	return {
+		year => $year,
+		month => $month,
+		sessions => $doc->{sessions} // 0,
+		requests => $doc->{requests} // 0,
+		searches => $doc->{searches} // 0,
+		views => $doc->{views} // 0
+	};
+}
+
+sub retrieve {
+	my ($self, $portal, $type, $id) = @_;
+	my $mask = $self->keymask($portal, $type, $id);
+
+	my $call_args = {
+		descending => 'true',
+		startkey => "\"$mask.\"",
+		endkey => "\"$mask\"",
+		include_docs => 'true'
+	};
+
+	my $url = join('/', $self->statsdb, '_all_docs');
+	my $rows = $self->get($url, $call_args)->data->{rows};
+
+	return [map { _transform_doc_for_display($_->{doc}) } @$rows];
+}
 
 1;
