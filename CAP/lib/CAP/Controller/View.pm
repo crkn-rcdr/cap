@@ -63,7 +63,8 @@ sub view :Private {
     $event->{institution_id} = $c->institution->id if ($c->institution);
     $event->{portal_id} = $c->portal->id;
     $event->{session} = $c->sessionid;
-    $c->model('DB::TitleViews')->create($event);
+    # Don't log with the CDP http://redmine.c7a.ca/issues/5096
+    #$c->model('DB::TitleViews')->create($event);
 
     return 1;
 }

@@ -96,7 +96,8 @@ sub auto :Private
     # If we got to here, it means we will attempt to actually do
     # something, so increment the request counter and log the request
     ++$c->session->{count};
-    $c->model('DB::Requests')->log($c);
+    # Don't log requests for the CDP http://redmine.c7a.ca/issues/5096
+    #$c->model('DB::Requests')->log($c);
 
     return 1;
 }
