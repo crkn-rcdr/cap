@@ -71,7 +71,7 @@ foreach ($stats_server->register_logfiles(@ARGV)) {
 		next;
 	}
 
-	open my $fh, '<', $file;
+	open(my $fh, '<', $file) or die "Cannot open $file: $!";
 	while (my $line = <$fh>) {
 		$line =~ /^(\d{4})-(\d{2}).+ (\{.*\})$/;
 		next unless ($1 && $2 && $3);

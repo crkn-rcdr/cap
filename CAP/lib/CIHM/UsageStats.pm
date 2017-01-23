@@ -6,6 +6,38 @@ use Moo;
 use File::Basename qw/fileparse/;
 use Types::Standard qw/Str Enum/;
 use JSON qw/decode_json/;
+use List::Util qw/reduce/;
+
+use constant MONTHS => {
+	en => {
+		'01' => 'January',
+		'02' => 'February',
+		'03' => 'March',
+		'04' => 'April',
+		'05' => 'May',
+		'06' => 'June',
+		'07' => 'July',
+		'08' => 'August',
+		'09' => 'September',
+		'10' => 'October',
+		'11' => 'November',
+		'12' => 'December',
+	},
+	fr => {
+		'01' => 'janvier',
+		'02' => 'février',
+		'03' => 'mars',
+		'04' => 'avril',
+		'05' => 'mai',
+		'06' => 'juin',
+		'07' => 'juillet',
+		'08' => 'août',
+		'09' => 'septembre',
+		'10' => 'octobre',
+		'11' => 'novembre',
+		'12' => 'décembre',
+	}
+};
 
 with 'Role::REST::Client';
 
@@ -84,21 +116,22 @@ sub keymask {
 }
 
 sub register_logfiles {
-	my ($self, @logfiles) = @_;
-	my $docs = [map { {'_id' => (fileparse($_))[0] } } @logfiles];
-	my $post_data = {docs => $docs};
+	my ($self, @logpaths) = @_;
+	my %path_lookup = map { (fileparse($_))[0] => $_ } @logpaths;
+	my $post_data = { docs => [map { { '_id' => $_ } } keys %path_lookup] };
 	my $url = join('/', $self->logfiledb, '_bulk_docs');
 	my @rows = @{$self->post($url, $post_data)->data};
-	return map { [$_->{id}, $_->{error} ? 1 : 0] } @rows;
+	return map { [$path_lookup{$_->{id}}, $_->{error} ? 1 : 0] } @rows;
 }
 
 sub _transform_doc_for_display {
-	my ($doc) = @_;
+	my ($doc, $lang) = @_;
 	my $key = $doc->{_id};
 	my ($year, $month) = $key =~ /.+\-.+\-(\d{4})\-(\d{2})/;
+	my $month_list = MONTHS->{$lang} || MONTHS->{en};
 	return {
 		year => $year,
-		month => $month,
+		month => $month_list->{$month},
 		sessions => $doc->{sessions} // 0,
 		requests => $doc->{requests} // 0,
 		searches => $doc->{searches} // 0,
@@ -106,8 +139,16 @@ sub _transform_doc_for_display {
 	};
 }
 
+sub _total_stats_row {
+	my ($listing) = @_;
+	return reduce
+		{ _add_stats($a, $b) }
+		{ year => $listing->[0]{year}, month => 'Total' },
+		@$listing;
+}
+
 sub retrieve {
-	my ($self, $portal, $type, $id) = @_;
+	my ($self, $lang, $portal, $type, $id) = @_;
 	my $mask = $self->keymask($portal, $type, $id);
 
 	my $call_args = {
@@ -120,7 +161,16 @@ sub retrieve {
 	my $url = join('/', $self->statsdb, '_all_docs');
 	my $rows = $self->get($url, $call_args)->data->{rows};
 
-	return [map { _transform_doc_for_display($_->{doc}) } @$rows];
+	my $listing = {};
+	foreach (@$rows) {
+		my $row = _transform_doc_for_display($_->{doc}, $lang);
+		$listing->{$row->{year}} //= [];
+		push @{$listing->{$row->{year}}}, $row;
+	}
+
+	return [map {
+		{ year => $_, rows => [reverse _total_stats_row($listing->{$_}), @{$listing->{$_}}] }
+	} (reverse sort keys %$listing)];
 }
 
 1;
