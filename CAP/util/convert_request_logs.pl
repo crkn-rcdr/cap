@@ -18,6 +18,7 @@ my $password = '';
 my $start = '';
 my $end = '';
 my $logname = 'request.log';
+my $tablename = 'requests';
 my $quiet = '';
 
 GetOptions (
@@ -27,7 +28,8 @@ GetOptions (
 	'start=s' => \$start,
 	'end=s' => \$end,
 	'logname=s' => \$logname,
-        'quiet' => \$quiet
+	'tablename=s' => \$tablename,
+	'quiet' => \$quiet
 );
 
 my ($dir) = @ARGV;
@@ -43,7 +45,7 @@ my $date_ptr;
 if ($start) {
 	$date_ptr = DateTime::Format::ISO8601->parse_datetime($start);
 } else {
-	my $first_date_st = $dbh->prepare("select time from requests order by time asc limit 1");
+	my $first_date_st = $dbh->prepare("select time from $tablename order by time asc limit 1");
 	$first_date_st->execute();
 	$date_ptr = DateTime::Format::MySQL->parse_datetime($first_date_st->fetchrow);
 }
@@ -53,12 +55,12 @@ my $end_date;
 if ($end) {
 	$end_date = DateTime::Format::ISO8601->parse_datetime($end);
 } else {
-	my $last_date_st = $dbh->prepare("select time from requests order by time desc limit 1");
+	my $last_date_st = $dbh->prepare("select time from $tablename order by time desc limit 1");
 	$last_date_st->execute();
 	$end_date = DateTime::Format::MySQL->parse_datetime($last_date_st->fetchrow);
 }
 
-print "Converting logs from " . $date_ptr->date . " to " . $end_date->date . " (inclusive).\n" unless $quiet;
+print "Converting logs from " . $date_ptr->date . " to " . $end_date->date . " (inclusive).\nUsing table: $tablename\n" unless $quiet;
 $end_date->add({days => 1});
 
 # build logs
@@ -78,7 +80,7 @@ sub transform {
 	return "$time " . encode_json($data) . "\n";
 }
 
-my $logs_st = $dbh->prepare("select * from requests where time >= ? and time < ?");
+my $logs_st = $dbh->prepare("select * from $tablename where time >= ? and time < ?");
 
 while (DateTime->compare($date_ptr, $end_date) == -1) {
 	my $current_date = $date_ptr->date;
