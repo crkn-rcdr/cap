@@ -36,6 +36,7 @@ foreach my $file (grep /$pattern/, readdir $dh) {
 
 	$file =~ /(.*)$pattern/;
 	my $new_file = "$date-$1";
+	die "Attempting to rename to $new_file, which already exists" if -e $new_file;
 	rename $file, $new_file;
 }
 closedir $dh;
