@@ -1,11 +1,12 @@
-[% BLOCK matching_page %]
-<a class="matching-page" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq) %]">[% label | html %]</a>
-[% UNLESS loop.last %] | [% END %]
-[% END %]
+[% BLOCK matching_page -%]
+[%# uses .path to generate a relative URL so that clients using proxies don't get sent back to the mothership #5105 -%]
+<a class="matching-page" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq).path %]">[% label | html %]</a>
+[% UNLESS loop.last %] | [% END -%]
+[% END -%]
 
-[% IF resultset.documents.size -%]
+[%- IF resultset.documents.size -%]
     [% c.loc("Matching pages:") %]
-    [% initial_documents = resultset.documents.size > 10 ? resultset.documents.slice(0,9) : resultset.documents %]
+    [% initial_documents = resultset.documents.size > 10 ? resultset.documents.slice(0,9) : resultset.documents -%]
 	[% FOR page IN initial_documents -%]
 	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop -%]
 	[% END %]
