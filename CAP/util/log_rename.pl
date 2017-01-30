@@ -30,7 +30,7 @@ foreach my $file (grep /$pattern/, readdir $dh) {
 	my $line = $fh->readline;
 	$fh->close;
 
-	$line =~ /^(\d{4}-\d{2}-\d{2})/;
+	$line =~ /^(\d{4}-\d{2}-\d{2}T\d{2})/;
 	my $date = $1;
 	next unless $date;
 
