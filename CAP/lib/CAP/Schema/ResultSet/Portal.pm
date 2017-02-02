@@ -52,10 +52,14 @@ sub with_feature {
     return $self->search({ 'feature' => $feature }, { join => 'portal_features' });
 }
 
-sub with_names {
+sub with_titles {
     my ($self, $lang) = @_;
-    return $self->search({ 'lang' => $lang, 'label' => 'name' },
-        { join => 'portal_strings', '+select' => ['portal_strings.string'], '+as' => ['string'] });
+    my $rs = $self->search({ 'portal_langs.lang' => $lang },
+        { join => 'portal_langs', 'select' => ['me.id', 'portal_langs.title'], 'as' => ['id', 'title'] });
+
+    return { map {
+        ($_->get_column('id') => $_->get_column('title') || $_->get_column('id'))
+        } $rs->all() };
 }
 
 sub list_portals {

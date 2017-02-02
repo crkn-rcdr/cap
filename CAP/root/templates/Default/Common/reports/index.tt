@@ -17,10 +17,16 @@
                 <tr>
                     <td>[% i.title(lang) %]</td>
                     <td>
-                       <a href="[% c.uri_for("/reports/portal","${i.id}/stats") %]">  [% c.loc("Usage stats") %] </a><br>
+                       <a href="[% c.uri_for("/reports/portal","${i.id}") %]">  [% c.loc("Usage stats") %] </a>
                     </td>
                 </tr>
             [% END %]
+                <tr>
+                    <td>[% c.loc("All Portals") %]</td>
+                    <td>
+                        <a href="[% c.uri_for("/reports/portal/total") %]">[% c.loc("Usage stats") %]</a>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -34,7 +40,7 @@
                 <tr>
                     <td>[% i.alias(lang) %]</td>
                     <td>
-                       <a href="[% c.uri_for("/reports/institution","${i.id}/stats/all") %]">  [% c.loc("Usage stats") %] </a><br>
+                       <a href="[% c.uri_for("/reports/institution","${i.id}/stats/total") %]">  [% c.loc("Usage stats") %] </a><br>
                     </td>
                 </tr>
             [% END %]

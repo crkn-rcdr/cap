@@ -2,9 +2,66 @@ package CAP::Controller::Reports::User;
 use Moose;
 use namespace::autoclean;
 
+use DateTime::Format::ISO8601;
+
 BEGIN { extends 'Catalyst::Controller'; }
 
+sub auto :Private {
+    my ($self, $c) = @_;
 
+         # The report type is the second argument in the path 
+    my  @args = split (/\//,$c->request->path);
+    my $report_type = $args[1];    
+
+
+    # Users with the admin or reports role may access these functions. Everyone
+    # else gets 404ed or redirected to the login page.
+    # Authorization for institution stats is done further down the food chain
+    unless ( ($c->has_role('administrator', 'reports')) || ($report_type eq 'institution') ) {
+        $c->response->redirect($c->uri_for('/user', 'login'));
+        return 0;
+    }
+    
+    my $data = $c->req->params;
+    my $start;
+    my $end;
+    my $portal;
+    my $page = 1;
+    
+ 
+    # Set the reporting period. The default end date is now and the
+    # default start date is 30 days before the end date.
+    if ($data->{end}) {
+        $end = DateTime::Format::ISO8601->parse_datetime($data->{end});
+    }
+    else {
+        $end = DateTime->now();
+    }
+
+    if ($data->{start}) {
+        $start = DateTime::Format::ISO8601->parse_datetime($data->{start});
+    }
+    else {
+        $start = $end->clone->subtract(days => 30);
+    }
+
+    # Limit by portal, if one is defined
+    if ($data->{portal}) {
+        $portal = $c->model('DB::Portal')->find($data->{portal});
+    }
+
+    # If results are paged, get the page number
+    $page = $data->{page} if ($data->{page} && $data->{page} =~ /^\d+$/);
+
+    $c->stash(
+        start => $start,
+        end => $end,
+        limit_portal => $portal,
+        portals => [$c->model('DB::Portal')->list],
+        page => $page
+    );
+
+}
 
 
 =head2 subscriptions
@@ -16,7 +73,7 @@ Summarize all subscriptions over the reporting period
 sub subscriptions :Path('subscriptions') Args(0) {
     my ( $self, $c ) = @_;
     my $params = {};
-    $params->{completed} = { '<=' => $c->stash->{end}, '>=' => $c->stash->{start} };
+    $params->{completed} = { '<=' => $c->stash->{end}->date, '>=' => $c->stash->{start}->date };
     $params->{portal_id} = $c->stash->{limit_portal}->id if ($c->stash->{limit_portal});
 
     my $entity = $c->model('DB::Subscription')->search($params);

@@ -100,7 +100,6 @@ sub auto :Private
     # If we got to here, it means we will attempt to actually do
     # something, so increment the request counter and log the request
     ++$c->session->{count};
-    $c->model('DB::Requests')->log($c);
     $c->forward('CAP::Controller::RequestLogger');
 
     return 1;

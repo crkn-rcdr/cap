@@ -3361,6 +3361,9 @@ msgstr "Rapport d’utilisation"
 msgid "Usage report for %1"
 msgstr "Rapport d’utilisation pour %1"
 
+msgid "Usage report for %1: %2"
+msgstr "Rapport d'utilisation pour %1 : %2"
+
 #. (inst_name,report_portal)
 #: ../../../root/templates/Default/Common/institution.tt:16
 msgid "Usage report for %1 on portal %2"

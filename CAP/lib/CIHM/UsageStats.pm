@@ -5,7 +5,7 @@ use strictures 2;
 use Moo;
 use File::Basename qw/fileparse/;
 use Types::Standard qw/Str Enum/;
-use JSON qw/decode_json/;
+use JSON qw/decode_json encode_json/;
 use List::Util qw/reduce/;
 
 use constant MONTHS => {
@@ -171,6 +171,37 @@ sub retrieve {
 	return [map {
 		{ year => $_, rows => [reverse _total_stats_row($listing->{$_}), @{$listing->{$_}}] }
 	} (reverse sort keys %$listing)];
+}
+
+sub _transform_doc_for_report {
+	my ($doc, $keys_titles) = @_;
+	my $title = $keys_titles->{$doc->{_id}};
+	return {
+		title => $title,
+		sessions => $doc->{sessions} // 0,
+		requests => $doc->{requests} // 0,
+		searches => $doc->{searches} // 0,
+		views => $doc->{views} // 0
+	};
+}
+
+sub status_report {
+	my ($self, $portals, $date) = @_;
+
+	my $ym = $date->year . '-' . sprintf('%02d', $date->month);
+	my %keys_titles = map { ("p-$_-$ym" => $portals->{$_}) } (keys %$portals);
+
+	my $call_args = {
+		include_docs => 'true',
+		keys => encode_json [sort keys %keys_titles]
+	};
+
+	my $url = join('/', $self->statsdb, '_all_docs');
+	my $rows = $self->get($url, $call_args)->data->{rows};
+
+	return [map {
+		_transform_doc_for_report($_->{doc} || { _id => $_->{key} }, \%keys_titles)
+	} @$rows];
 }
 
 1;

@@ -23,7 +23,7 @@
     <tbody>
     [% FOREACH i IN mail_data.portal_stats_previous %]
         <tr>
-            <td>[% i.portal_id.title('en') %]</td>
+            <td>[% i.title %]</td>
             <td>[% i.sessions %]</td>
             <td>[% i.searches %]</td>
             <td>[% i.page_views %]</td>
@@ -47,7 +47,7 @@
     <tbody>
     [% FOREACH i IN mail_data.portal_stats_current %]
         <tr>
-            <td>[% i.portal_id.title('en') %]</td>
+            <td>[% i.title %]</td>
             <td>[% i.sessions %]</td>
             <td>[% i.searches %]</td>
             <td>[% i.page_views %]</td>
