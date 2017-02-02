@@ -26,7 +26,7 @@
             <td>[% i.title %]</td>
             <td>[% i.sessions %]</td>
             <td>[% i.searches %]</td>
-            <td>[% i.page_views %]</td>
+            <td>[% i.views %]</td>
             <td>[% i.requests %]</td>
         </tr>
     </tbody>
@@ -50,7 +50,7 @@
             <td>[% i.title %]</td>
             <td>[% i.sessions %]</td>
             <td>[% i.searches %]</td>
-            <td>[% i.page_views %]</td>
+            <td>[% i.views %]</td>
             <td>[% i.requests %]</td>
         </tr>
     </tbody>
