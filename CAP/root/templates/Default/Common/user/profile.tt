@@ -140,14 +140,15 @@
     <div class="tab-pane" id="tab_institutional">
         <h3>[% c.loc('Usage Statistics') %]</h3>
         <p>
+        [% sub_portals = c.model('DB::Portal').subscribable_with_titles(c.stash.lang) %]
         [% FOREACH available_institution IN entity.institutions %]
-          [% portal_list = c.model('DB::StatsUsageInstitution').get_portal_list("$available_institution.id") %]
-          [% IF portal_list.size > 1 %]
-            [% FOREACH available_portal IN portal_list %]
-               <a href="[% c.uri_for("/reports/institution","${available_institution.id}/stats/$available_portal.id") %]">  [% available_institution.name %] - [% available_portal.title(lang) %] </a><br>
+          [% portal_hash = c.model('UsageStats').institution_portals(available_institution.id, sub_portals) %]
+          [% IF portal_hash.size > 0 %]
+            [% FOREACH available_portal IN portal_hash.pairs %]
+               <a href="[% c.uri_for("/reports/institution","${available_institution.id}/stats/$available_portal.key") %]">[% available_institution.name %] - [% available_portal.value %] </a><br>
             [% END %]
           [% ELSE %]
-            <a href="[% c.uri_for("/reports/institution","${available_institution.id}/stats/all") %]">  [% available_institution.name %] </a><br>
+            <a href="[% c.uri_for("/reports/institution","${available_institution.id}/stats/total") %]">[% available_institution.name %]</a><br>
           [% END %]
         [% END %]
         <p>

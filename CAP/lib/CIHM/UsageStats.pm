@@ -204,4 +204,28 @@ sub status_report {
 	} @$rows];
 }
 
+# returns a subset of portals for which the institution has results
+sub institution_portals {
+	my ($self, $institution, $portals) = @_;
+
+	my %masks = map { ($_ => $self->keymask($_, 'institution', $institution)) } keys %$portals;
+	my $result = {};
+
+	foreach my $p (keys %$portals) {
+		my $mask = $masks{$p};
+		my $call_args = {
+			startkey => "\"$mask\"",
+			endkey => "\"$mask.\"",
+			limit => 1
+		};
+
+		my $url = join('/', $self->statsdb, '_all_docs');
+		my $rows = $self->get($url, $call_args)->data->{rows};
+
+		$result->{$p} = $portals->{$p} if (@$rows);
+	}
+
+	return $result;
+}
+
 1;

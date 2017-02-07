@@ -62,6 +62,16 @@ sub with_titles {
         } $rs->all() };
 }
 
+sub subscribable_with_titles {
+    my ($self, $lang) = @_;
+    my $rs = $self->search({ 'portal_langs.lang' => $lang, supports_subscriptions => 1 },
+        { join => 'portal_langs', 'select' => ['me.id', 'portal_langs.title'], 'as' => ['id', 'title'] });
+
+    return { map {
+        ($_->get_column('id') => $_->get_column('title') || $_->get_column('id'))
+        } $rs->all() };
+}
+
 sub list_portals {
     my ($self) = shift();
     my $get_portals = $self->search({});
