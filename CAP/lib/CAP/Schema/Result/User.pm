@@ -216,21 +216,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 requests
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Requests>
-
-=cut
-
-__PACKAGE__->has_many(
-  "requests",
-  "CAP::Schema::Result::Requests",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
 =head2 subscriptions
 
 Type: has_many

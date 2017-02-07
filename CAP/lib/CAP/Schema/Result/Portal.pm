@@ -218,36 +218,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 stats_usage_institutions
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::StatsUsageInstitution>
-
-=cut
-
-__PACKAGE__->has_many(
-  "stats_usage_institutions",
-  "CAP::Schema::Result::StatsUsageInstitution",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 stats_usage_portals
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::StatsUsagePortal>
-
-=cut
-
-__PACKAGE__->has_many(
-  "stats_usage_portals",
-  "CAP::Schema::Result::StatsUsagePortal",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
 =head2 subscriptions
 
 Type: has_many

@@ -162,36 +162,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 requests
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Requests>
-
-=cut
-
-__PACKAGE__->has_many(
-  "requests",
-  "CAP::Schema::Result::Requests",
-  { "foreign.institution_id" => "self.id" },
-  undef,
-);
-
-=head2 stats_usage_institutions
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::StatsUsageInstitution>
-
-=cut
-
-__PACKAGE__->has_many(
-  "stats_usage_institutions",
-  "CAP::Schema::Result::StatsUsageInstitution",
-  { "foreign.institution_id" => "self.id" },
-  undef,
-);
-
 =head2 portal_ids
 
 Type: many_to_many
