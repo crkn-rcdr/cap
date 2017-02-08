@@ -1,0 +1,33 @@
+@import "../cap.less";
+
+@mainColor: #951931;
+@secondColor: #5ca8b6;
+@lightColor: #ddd;
+@bgColor: #fff;
+
+@linkColor: @secondColor;
+@linkColorHover: darken(@secondColor, 10%);
+
+@baseFontFamily: Raleway, Helvetica, Arial, sans-serif;
+
+header.navbar {
+    margin-bottom: 0;
+    background-color: @mainColor;
+    color: darken(@lightColor, 10%);
+
+    .navbar-inner {
+        background-color: inherit;
+        background-image: none;
+    }
+
+    .nav > li {
+        .lighten-links;
+    }
+}
+
+.navLinks.navbar {
+    margin-bottom: @baseLineHeight;
+    .nav > li {
+        .lighten-links;
+    }
+}
