@@ -3,7 +3,7 @@ package CIHM::CMS;
 use utf8;
 use strictures 2;
 use Moo;
-use Types::Standard qw/HashRef Str Enum/;
+use Types::Standard qw/HashRef Str Enum InstanceOf/;
 use Text::Undiacritic qw/undiacritic/;
 use JSON qw/encode_json/;
 use Scalar::Util qw/looks_like_number/;
@@ -29,6 +29,12 @@ has 'languages' => (
 	required => 1
 );
 
+has 'cache' => (
+	is => 'ro',
+	isa => InstanceOf['CIHM::CouchCache'],
+	required => 1,
+);
+
 has '_block_cache' => (
 	is => 'rwp',
 	isa => HashRef,
@@ -40,6 +46,12 @@ has '_update_cache' => (
 	isa => HashRef,
 	default => sub { {} }
 );
+
+sub BUILD {
+	my ($self, $args) = @_;
+	$self->cache->register('cms_blocks');
+	$self->cache->register('cms_updates');
+}
 
 # args:
 # portal: current portal id
@@ -164,23 +176,8 @@ sub updates {
 # keys are of the form $lang#$portal
 sub cached_updates {
 	my ($self, $args) = @_;
-
-	my $key = $self->_update_cache_key($args);
-
-	# in case you forget, //= is defined ? thing : new thing
-	$self->_update_cache->{$key} //= $self->updates($args);
-	return $self->_update_cache->{$key};
-}
-
-sub _update_cache_key {
-	my ($self, $args) = @_;
-	return "$args->{lang}#$args->{portal}";
-}
-
-sub invalidate_update_cache {
-	my ($self) = @_;
-	$self->_set__update_cache({});
-	return 0;
+	my $key = "$args->{lang}#$args->{portal}";
+	return $self->cache->fetch('cms_updates', $key, sub { $self->updates($args) });
 }
 
 # $args:
@@ -291,23 +288,8 @@ sub blocks {
 # keys are of the form $lang#$portal#$action
 sub cached_blocks {
 	my ($self, $args) = @_;
-
-	my $key = $self->_block_cache_key($args);
-
-	# in case you forget, //= is defined ? thing : new thing
-	$self->_block_cache->{$key} //= $self->blocks($args);
-	return $self->_block_cache->{$key};
-}
-
-sub _block_cache_key {
-	my ($self, $args) = @_;
-	return "$args->{lang}#$args->{portal}#$args->{action}";
-}
-
-sub invalidate_block_cache {
-	my ($self) = @_;
-	$self->_set__block_cache({});
-	return 0;
+	my $key = "$args->{lang}#$args->{portal}#$args->{action}";
+	return $self->cache->fetch('cms_blocks', $key, sub { $self->blocks($args) });
 }
 
 sub sitemap {

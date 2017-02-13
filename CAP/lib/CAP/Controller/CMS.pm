@@ -100,12 +100,12 @@ sub submit :Local {
 
     # invalidate the block cache if you are submitting a block
     if ($data->{is_block}) {
-        $c->model('CMS')->invalidate_block_cache();
+        $c->model('CouchCache')->revalidate('cms_blocks');
     }
 
     # do the same with updates
     if ($data->{is_update}) {
-        $c->model('CMS')->invalidate_update_cache();
+        $c->model('CouchCache')->revalidate('cms_updates');
     }
 
     my ($l, $ext);

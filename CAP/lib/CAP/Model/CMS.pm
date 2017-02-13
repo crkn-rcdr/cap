@@ -10,6 +10,7 @@ sub prepare_arguments {
         %$arg,
     } : $arg;
     $parameters->{languages} = $app->config->{languages};
+    $parameters->{cache} = $app->model('CouchCache');
     return $parameters;
 }
 
