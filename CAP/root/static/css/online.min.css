@@ -967,7 +967,7 @@ table.calendar a{text-decoration:underline;font-weight:bold;display:block;}
 .popover-title{border-bottom-width:0;}
 .popover-content{border:1px solid #eee;}
 header.navbar{margin-bottom:0;background-color:#951931;color:#c4c4c4;}header.navbar .navbar-inner{background-color:inherit;background-image:none;}
-header.navbar .logo{display:block;float:left;margin:10px;height:60px;width:294px;background-image:url(/static/images/online_logo_fr.png);}
+header.navbar .logo{display:block;float:left;margin:10px;height:60px;width:294px;}
 header.navbar h1{float:left;color:#dddddd;font-variant:small-caps;font-family:serif;font-size:36pt;padding-top:9px;}header.navbar h1>a{color:#dddddd;}header.navbar h1>a:hover{color:#f7f7f7;}
 header.navbar h1 a:hover{text-decoration:none;}
 header.navbar .nav>li>a{color:#dddddd;}header.navbar .nav>li>a:hover{color:#f7f7f7;}
