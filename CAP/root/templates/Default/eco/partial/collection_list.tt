@@ -2,7 +2,7 @@
 
 <div class="collections">
     <div class="collections-list" id="collectionsParent">
-        [% FOREACH key IN c.model('Collections').sorted_keys(lang); -%]
+        [% FOREACH key IN c.model('Collections').sorted_keys(lang, c.portal.id); -%]
         <a class="collections-header" id="[% key %]Header" data-toggle="collapse" data-target="#[% key %]Content" data-parent="#collectionsParent">
             [% collections.$key.$lang.title %]
         </a>

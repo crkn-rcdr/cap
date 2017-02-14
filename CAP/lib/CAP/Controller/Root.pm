@@ -52,7 +52,7 @@ sub auto :Private
         httponly => 1
     }; 
     $c->stash(
-        collections    => $c->model('Collections')->all,
+        collections    => $c->model('Collections')->all->{$c->portal->id} || {},
         label          => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
         content_blocks => $c->model('CMS')->cached_blocks({
             portal => $c->portal->id,

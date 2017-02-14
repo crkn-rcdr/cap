@@ -78,7 +78,7 @@
         [% INCLUDE facet_pane name="lang" title=c.loc("Language") selected=searchLang facets=resultset.facets.lang labels=label.lang %]
         [% INCLUDE facet_pane name="depositor" title=c.loc("Contributor") selected=depositor facets=resultset.facets.depositor labels=contributors.names %]
         [% IF c.portal.has_feature('collections') %]
-            [% INCLUDE facet_pane name="collection" title=c.loc("Collection") selected=collection facets=resultset.facets.collection labels=label.collection %]
+            [% INCLUDE facet_pane name="collection" title=c.loc("Collection") selected=collection facets=resultset.facets.collection labels=c.model('Collections').as_labels(c.stash.lang, c.portal.id) %]
         [% END %]
         <p>
             <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>

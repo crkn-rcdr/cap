@@ -3,7 +3,8 @@ package CAP::Model::Collections;
 use Moose;
 use namespace::autoclean;
 use utf8;
-use Text::Trim;
+use JSON qw/decode_json/;
+use File::Slurp qw/read_file/;
 
 extends 'Catalyst::Model';
 
@@ -20,34 +21,19 @@ has 'all' => (
 sub BUILD {
 	my ($self, $args) = @_;
 	my $filename = $self->path;
-	open (my $fh, '<:encoding(UTF-8)', $filename) or die "Could not open $filename: $!";
-	my $collections = {};
-	while(my $line = <$fh>) {
-		trim $line;
-		my @data = split(/\|/, $line);
-		$collections->{$data[0]} = {
-			en => {
-				title => $data[1],
-				description => $data[3]
-			}, fr => {
-				title => $data[2],
-				description => $data[4]
-			}
-		};
-	}
-	close $fh;
-	$self->_set_collections($collections);
+	my $json = decode_json(read_file($filename));
+	$self->_set_collections($json);
 }
 
 sub sorted_keys {
-	my ($self, $lang) = @_;
-	my %cs = %{ $self->all };
+	my ($self, $lang, $portal) = @_;
+	my %cs = %{ $self->all->{$portal} };
 	return sort { $cs{$a}->{$lang}->{title} cmp $cs{$b}->{$lang}->{title} } keys %cs;
 }
 
 sub as_labels {
-	my ($self, $lang) = @_;
-	my %cs = %{ $self->all };
+	my ($self, $lang, $portal) = @_;
+	my %cs = %{ $self->all->{$portal} };
 	return { map { $_ => $cs{$_}->{$lang}->{title} } keys %cs };
 }
 
