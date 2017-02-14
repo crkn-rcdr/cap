@@ -149,7 +149,7 @@ sub edit_POST {
             }
         }
         when ('update_features') {
-            foreach my $feature (qw(contributors random_doc)) {
+            foreach my $feature (qw(contributors collections random_doc)) {
                 if ($data{"feature_$feature"}) {
                     $portal->add_feature($feature);
                 }

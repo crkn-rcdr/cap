@@ -115,6 +115,12 @@
                     </div>
                 </div>
                 <div class="control-group">
+                    <label class="control-label" for="feature_collections">[% c.loc("Collections") %]</label>
+                    <div class="controls">
+                        <input type="checkbox" id="feature_collections" name="feature_collections"[% IF entity.features.collections %] checked[% END %] />
+                    </div>
+                </div>
+                <div class="control-group">
                     <label class="control-label" for="feature_random_doc">[% c.loc("Random document link") %]</label>
                     <div class="controls">
                         <input type="checkbox" id="feature_random_doc" name="feature_random_doc"[% IF entity.features.random_doc %] checked[% END %] />
