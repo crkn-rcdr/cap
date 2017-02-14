@@ -6883,12 +6883,6 @@ header.navbar .nav > li > a {
 header.navbar .nav > li > a:hover {
   color: #f7f7f7;
 }
-.navLinks.navbar {
+.access {
   margin-bottom: 18px;
-}
-.navLinks.navbar .nav > li > a {
-  color: #dddddd;
-}
-.navLinks.navbar .nav > li > a:hover {
-  color: #f7f7f7;
 }
