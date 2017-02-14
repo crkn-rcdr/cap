@@ -6,6 +6,7 @@ use warnings;
 use Catalyst::Runtime '5.70';
 use FindBin;
 use Log::Log4perl::Catalyst;
+use Moose;
 
 # Set flags and add plugins for the application
 #
@@ -87,6 +88,9 @@ if (-e "$FindBin::Bin/../log4perl.conf") {
 
 # Start the application
 __PACKAGE__->setup();
+
+# see http://www.perlmonks.org/?node_id=915657
+__PACKAGE__->components->{'CAP::Model::CMS'}->initialize_after_setup(__PACKAGE__);
 
 
 =head2 has_role($role)

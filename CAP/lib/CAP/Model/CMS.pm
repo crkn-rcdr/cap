@@ -1,17 +1,40 @@
 package CAP::Model::CMS;
 
-use base 'Catalyst::Model::Adaptor';
-__PACKAGE__->config( class => 'CIHM::CMS' );
+use base 'Catalyst::Model';
+use CIHM::CMS;
+use Moose;
 
-sub prepare_arguments {
-    my ($self, $app, $arg) = @_;
-    my $parameters = exists $self->{args} ? {
-        %{$self->{args}},
-        %$arg,
-    } : $arg;
-    $parameters->{languages} = $app->config->{languages};
-    $parameters->{cache} = $app->model('CouchCache');
-    return $parameters;
+our $AUTOLOAD;
+
+has 'cms_instance' => (
+	is => 'rw',
+	isa => 'CIHM::CMS'
+);
+
+has 'server' => (
+	is => 'ro',
+	isa => 'Str',
+	required => 1
+);
+
+sub initialize_after_setup {
+	my ($self, $app) = @_;
+	$app->log->debug('Initializing CMS after app is fully loaded.');
+	$self->cms_instance(
+		CIHM::CMS->new({
+			server => $self->server,
+			languages => $app->config->{languages},
+			cache => $app->model('CouchCache')
+		})
+	);
+}
+
+# see http://www.perlmonks.org/?node_id=915657
+sub AUTOLOAD {
+	my $self = shift;
+	my $name = $AUTOLOAD;
+	$name =~ s/.*://;
+	$self->cms_instance->$name(@_);
 }
 
 1;
