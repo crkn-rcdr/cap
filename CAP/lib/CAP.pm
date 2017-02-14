@@ -6,7 +6,6 @@ use warnings;
 use Catalyst::Runtime '5.70';
 use FindBin;
 use Log::Log4perl::Catalyst;
-use Moose;
 
 # Set flags and add plugins for the application
 #
@@ -90,6 +89,7 @@ if (-e "$FindBin::Bin/../log4perl.conf") {
 __PACKAGE__->setup();
 
 # see http://www.perlmonks.org/?node_id=915657
+# calling this this way because using Moose-esque after declaration doesn't seem to work
 __PACKAGE__->components->{'CAP::Model::CMS'}->initialize_after_setup(__PACKAGE__);
 
 

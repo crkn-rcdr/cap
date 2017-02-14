@@ -17,9 +17,9 @@ has 'server' => (
 	required => 1
 );
 
+# see http://www.perlmonks.org/?node_id=915657
 sub initialize_after_setup {
 	my ($self, $app) = @_;
-	$app->log->debug('Initializing CMS after app is fully loaded.');
 	$self->cms_instance(
 		CIHM::CMS->new({
 			server => $self->server,
@@ -29,7 +29,6 @@ sub initialize_after_setup {
 	);
 }
 
-# see http://www.perlmonks.org/?node_id=915657
 sub AUTOLOAD {
 	my $self = shift;
 	my $name = $AUTOLOAD;
