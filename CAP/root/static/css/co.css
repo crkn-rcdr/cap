@@ -6342,8 +6342,9 @@ header {
   border-bottom: 1px solid #dddddd;
   position: relative;
 }
+#pvPane h3,
 #pvPane p {
-  padding: 9px 5px 0 5px;
+  padding: 0 9px;
 }
 #pvPane .loading {
   position: absolute;

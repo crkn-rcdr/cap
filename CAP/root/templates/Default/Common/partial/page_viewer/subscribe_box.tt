@@ -1,0 +1,3 @@
+<h3>[% c.loc("Subscription Required") %]</h3>
+<p>[% c.loc("[_1] is funded by its users through subscriptions. Become a subscriber today to access all of the site's content and features.", c.portal.title(c.stash.lang)) %]</p>
+<p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/index", [portal]) %]">[% c.loc("Learn more") %]</a></p>
