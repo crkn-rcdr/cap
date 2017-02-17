@@ -1,0 +1,48 @@
+﻿[% title = c.loc("Welcome") -%]
+
+[% BLOCK collrow %]
+<div class="row index">
+	<div class="linkBlock span4[% IF right %] right[% END %]">
+		<h4 class="title">
+			[% collections.$coll_id.${c.stash.lang}.title %]
+		</h4>
+		<div class="illustration" style="background-image: url('[% cdn_uri('co', 'eco-block.jpg') %]'); height: 180px;"></div>
+	</div>
+	<div class="span8">
+		<p>[% collections.$coll_id.${c.stash.lang}.description %] <a href="[% c.uri_for_action("search/index", 'browsable', { collection => coll_id, so => 'oldest' }) %]">[% c.loc("Browse this collection") %]&nbsp;&raquo;</a></p>
+        <form method="POST" class="collections-form form-inline" action="[% c.uri_for_action("/search/post") %]">
+            <input type="hidden" name="collection" value="[% coll_id %]" />
+            <input type="text" class="whf-search-bar" placeholder="[% c.loc("Search this collection") %]" name="q">
+            <button class="btn btn-primary" type="submit">[% c.loc("Search") %]</button>
+        </form>
+	</div>
+</div>
+[% END %]
+
+<div class="row">
+	<div class="span12">
+		<h2>Search Canadiana Online</h2>
+	</div>
+</div>
+<div class="row index">
+	<div class="span12 search">
+		<form method="POST" action="[% c.uri_for_action("search/post") %]">
+			<div class="searchContainer">
+		   		<input type="text" class="searchInput" name="q" placeholder="[% c.loc("Search our collections...") %]" /><button
+		   		 type="submit" class="searchSubmit" value="submit">[% c.loc("Search") %]</button><a
+		   		 class="searchHelp" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
+		    </div>
+		</form>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span12">
+		<h3>[% c.loc("Featured Collections") %]</h3>
+	</div>
+</div>
+[% INCLUDE collrow coll_id="monog" %]
+<hr />
+[% INCLUDE collrow coll_id="serials" right=1 %]
+<hr />
+[% INCLUDE collrow coll_id="govpubs" %]

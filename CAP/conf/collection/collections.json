@@ -115,31 +115,31 @@
 		"monog":{
 			"en":{
 				"title":"Monographs",
-				"description":""
+				"description":"For the first time ever, all monographs from Canadiana’s various collections of the past 38 years, are brought together in one location. Here, you will find the monographs that Canadiana (when it was known as the Canadian Institute for Historical Microreproductions (CIHM)) reproduced on microfiche in the 1970s through to the 90s, all monograph titles in Early Canadiana Online, CIHM fiche digitized by the University of Alberta for Internet Archives, as well as the thousands of monographs added to our collections since the 90s. The collection focuses on titles from the earliest published references to Canada in the mid-1500s up to to the early 1920s. An exhaustive range of subjects are covered: medicine, law, aboriginal culture, arts, multi-culturalism, women’s history, warfare, etc."
 			},
 			"fr":{
 				"title":"Monographies",
-				"description":""
+				"description":"For the first time ever, all monographs from Canadiana’s various collections of the past 38 years, are brought together in one location. Here, you will find the monographs that Canadiana (when it was known as the Canadian Institute for Historical Microreproductions (CIHM)) reproduced on microfiche in the 1970s through to the 90s, all monograph titles in Early Canadiana Online, CIHM fiche digitized by the University of Alberta for Internet Archives, as well as the thousands of monographs added to our collections since the 90s. The collection focuses on titles from the earliest published references to Canada in the mid-1500s up to to the early 1920s. An exhaustive range of subjects are covered: medicine, law, aboriginal culture, arts, multi-culturalism, women’s history, warfare, etc."
 			}
 		},
 		"serials":{
 			"en":{
 				"title":"Serials",
-				"description":""
+				"description":"The Serials collection includes local newspapers, city directories, annual reports from churches, schools, and corporations, trade journals, as well as many men’s, women’s and children’s popular magazines. With this collection, you can read about the issues and events of the day as recorded by contemporary writers. It offers a remarkable record of the development of thought and opinion on diverse issues of the nation in its formative years. They give an entertaining window into society and individual lives of the early Canadians with their stories, articles, advertisements, cartoons, drawings and photographs. The Serials collection will contain all of the periodicals and annuals microfilmed in the 1980s and 90s by Canadiana, all of the periodicals found on Early Canadiana Online, as well as thousands of new titles."
 			},
 			"fr":{
 				"title":"Publications périodiques",
-				"description":""
+				"description":"The Serials collection includes local newspapers, city directories, annual reports from churches, schools, and corporations, trade journals, as well as many men’s, women’s and children’s popular magazines. With this collection, you can read about the issues and events of the day as recorded by contemporary writers. It offers a remarkable record of the development of thought and opinion on diverse issues of the nation in its formative years. They give an entertaining window into society and individual lives of the early Canadians with their stories, articles, advertisements, cartoons, drawings and photographs. The Serials collection will contain all of the periodicals and annuals microfilmed in the 1980s and 90s by Canadiana, all of the periodicals found on Early Canadiana Online, as well as thousands of new titles."
 			}
 		},
 		"govpubs":{
 			"en":{
 				"title":"Government Publications",
-				"description":""
+				"description":"The Government Publications collection includes over 1.7 million digitized pages of historical pre-1920 colonial, municipal, provincial and federal government documents. This collection includes government acts, bills, committee reports, court rules, debates, journals, ordinances, a selection of official publications from France and Great Britain, sessional papers, regulations, royal commission reports, voter’s lists and treaties."
 			},
 			"fr":{
 				"title":"Publications gouvernementales",
-				"description":""
+				"description":"The Government Publications collection includes over 1.7 million digitized pages of historical pre-1920 colonial, municipal, provincial and federal government documents. This collection includes government acts, bills, committee reports, court rules, debates, journals, ordinances, a selection of official publications from France and Great Britain, sessional papers, regulations, royal commission reports, voter’s lists and treaties."
 			}
 		}
 	}
