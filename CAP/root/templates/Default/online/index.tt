@@ -6,7 +6,7 @@
 		<h4 class="title">
 			[% collections.$coll_id.${c.stash.lang}.title %]
 		</h4>
-		<div class="illustration" style="background-image: url('[% cdn_uri('co', 'eco-block.jpg') %]'); height: 180px;"></div>
+		<div class="illustration" style="background-image: url('[% cdn_uri('online', coll_id _ '-block.jpg') %]'); height: 180px;"></div>
 	</div>
 	<div class="span8">
 		<p>[% collections.$coll_id.${c.stash.lang}.description %] <a href="[% c.uri_for_action("search/index", 'browsable', { collection => coll_id, so => 'oldest' }) %]">[% c.loc("Browse this collection") %]&nbsp;&raquo;</a></p>
