@@ -21,14 +21,14 @@
 
 <div class="row">
 	<div class="span12">
-		<h2>Search Canadiana Online</h2>
+		<h2>[% c.loc("Search Canadiana Online") %]</h2>
 	</div>
 </div>
 <div class="row index">
 	<div class="span12 search">
 		<form method="POST" action="[% c.uri_for_action("search/post") %]">
 			<div class="searchContainer">
-		   		<input type="text" class="searchInput" name="q" placeholder="[% c.loc("Search our collections...") %]" /><button
+		   		<input type="text" class="searchInput" name="q" placeholder="[% c.loc("Search our collections&hellip;") %]" /><button
 		   		 type="submit" class="searchSubmit" value="submit">[% c.loc("Search") %]</button><a
 		   		 class="searchHelp" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
 		    </div>

@@ -2606,6 +2606,12 @@ msgstr "Options de recherche"
 msgid "Search results"
 msgstr "Liste des résultats"
 
+msgid "Search Canadiana Online"
+msgstr "Recherche dans Canadiana en ligne"
+
+msgid "Search our collections&hellip;"
+msgstr "Recherche dans nos collections&hellip;"
+
 #: ../../../root/templates/Default/1812/partial/search_form.tt:3 ../../../root/templates/Default/Common/partial/search_form.tt:3 ../../../root/templates/Default/canadiana/partial/search_form.tt:3 ../../../root/templates/Default/dfait/partial/search_form.tt:3 ../../../root/templates/Default/eco/partial/search_form.tt:3 ../../../root/templates/Default/heritage/partial/search_form.tt:3 ../../../root/templates/Default/heritagepremium/partial/search_form.tt:4 ../../../root/templates/Default/parl/partial/search_form.tt:4 ../../../root/templates/Default/whf/partial/search_form.tt:3
 msgid "Search the collection"
 msgstr "Recherche dans la collection"
