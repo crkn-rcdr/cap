@@ -7117,6 +7117,7 @@ header.navbar .nav > li > a:hover {
   color: white;
   line-height: 27px;
   padding-left: 9px;
+  padding-right: 9px;
 }
 .index .linkBlock > .illustration {
   background-position: 50% 0%;

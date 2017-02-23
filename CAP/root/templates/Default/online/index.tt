@@ -9,7 +9,12 @@
 		<div class="illustration" style="background-image: url('[% cdn_uri('online', coll_id _ '-block.jpg') %]'); height: 180px;"></div>
 	</div>
 	<div class="span8">
-		<p>[% collections.$coll_id.${c.stash.lang}.description %] <a href="[% c.uri_for_action("search/index", 'browsable', { collection => coll_id, so => 'oldest' }) %]">[% c.loc("Browse this collection") %]&nbsp;&raquo;</a></p>
+		<p>[% collections.$coll_id.${c.stash.lang}.description %]</p>
+		<p>
+			<a href="[% c.uri_for("/collection-$coll_id") %]">[% c.loc("Read more") %]</a>
+			|
+			<a href="[% c.uri_for_action("search/index", 'browsable', { collection => coll_id, so => 'oldest' }) %]">[% c.loc("Browse this collection") %]</a>
+		</p>
         <form method="POST" class="collections-form form-inline" action="[% c.uri_for_action("/search/post") %]">
             <input type="hidden" name="collection" value="[% coll_id %]" />
             <input type="text" class="whf-search-bar" placeholder="[% c.loc("Search this collection") %]" name="q">

@@ -2590,6 +2590,9 @@ msgstr "Rechercher"
 msgid "Search Document"
 msgstr "Rechercher dans le document"
 
+msgid "Read more"
+msgstr "Lire la suite"
+
 #:
 msgid "Search Tips"
 msgstr "Conseils de recherche"

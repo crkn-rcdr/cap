@@ -993,6 +993,6 @@ header.navbar .nav>li>a{color:#dddddd;}header.navbar .nav>li>a:hover{color:#f7f7
 .index .search .searchHelp:first-child{*margin-left:0;}
 .index .search .searchHelp:first-child{*margin-left:0;}
 .index .linkBlock{max-width:370px;display:block;}.index .linkBlock:hover{text-decoration:none;}
-.index .linkBlock>.title{background-color:#951931;color:white;line-height:27px;padding-left:9px;}
+.index .linkBlock>.title{background-color:#951931;color:white;line-height:27px;padding-left:9px;padding-right:9px;}
 .index .linkBlock>.illustration{background-position:50% 0%;}
 @media (min-width:768px){.index .search{background-image:url('http://cdn.canadiana.ca/co/hero-background.jpg');background-position:center;}.index .search form{width:80%;} .index .search .searchInput{width:calc(60% - 30px);border-radius:5px 0 0 5px;} .index .search .searchSubmit{width:20%;border-radius:0;} .index .search .searchHelp{width:calc(20% - 30px);border-radius:0 5px 5px 0;} .linkBlock.right{float:right !important;}}@media (min-width:980px){.index .search .searchInput{width:calc(70% - 30px);} .index .search .searchSubmit{width:15%;} .index .search .searchHelp{width:calc(15% - 30px);}}
