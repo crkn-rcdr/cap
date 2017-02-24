@@ -1,0 +1,34 @@
+package CAP::Model::Depositors;
+
+use Moose;
+use namespace::autoclean;
+use utf8;
+use JSON qw/decode_json/;
+use File::Slurp qw/read_file/;
+
+extends 'Catalyst::Model';
+
+has 'path' => (
+	is => 'ro',
+	isa => 'Str',
+	required => 1 );
+
+has 'all' => (
+	is => 'ro',
+	isa => 'HashRef',
+	writer => '_set_collections' );
+
+sub BUILD {
+	my ($self, $args) = @_;
+	my $filename = $self->path;
+	my $json = decode_json(read_file($filename));
+	$self->_set_collections($json);
+}
+
+sub as_labels {
+	my ($self, $lang) = @_;
+	my %cs = %{ $self->all };
+	return { map { $_ => $cs{$_}->{$lang} } keys %cs };
+}
+
+1;

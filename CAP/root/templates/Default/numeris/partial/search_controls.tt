@@ -75,7 +75,7 @@
             [% END %]
         [% END; END %]
         [% INCLUDE facet_pane name="lang" title=c.loc("Language") selected=searchLang facets=resultset.facets.lang labels=label.lang %]
-        [% INCLUDE facet_pane name="depositor" title=c.loc("Contributor") selected=depositor facets=resultset.facets.depositor labels=contributors.names %]
+        [% INCLUDE facet_pane name="depositor" title=c.loc("Contributor") selected=depositor facets=resultset.facets.depositor labels=c.model('Depositors').as_labels(c.stash.lang) %]
         [% IF c.portal.has_feature('collections') %]
             [% INCLUDE facet_pane name="collection" title=c.loc("Collection") selected=collection facets=resultset.facets.collection labels=label.collection %]
         [% END %]
