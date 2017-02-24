@@ -16,13 +16,13 @@ has 'path' => (
 has 'all' => (
 	is => 'ro',
 	isa => 'HashRef',
-	writer => '_set_collections' );
+	writer => '_set_depositors' );
 
 sub BUILD {
 	my ($self, $args) = @_;
 	my $filename = $self->path;
 	my $json = decode_json(read_file($filename));
-	$self->_set_collections($json);
+	$self->_set_depositors($json);
 }
 
 sub as_labels {
