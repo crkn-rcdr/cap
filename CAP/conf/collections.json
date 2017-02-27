@@ -119,17 +119,17 @@
 			},
 			"fr":{
 				"title":"Monographies",
-				"description":"The Monographs collection, spanning three and a half centuries of Canadian documentary history, holds rich primary materials exploring a wide range of subjects and disciplines. With a projected 84,000 titles by completion, this resource is the most comprehensive full-text searchable set of historical monographs currently available for the study of Canada. Topics range from major historical events to the development of institutions, laws and science; from Canadian literature to philosophical treatises; from agriculture to politics, trade and tariffs."
+				"description":"La collection des monographies, qui couvre trois siècles et demi d’histoire canadienne, s’avère une riche source de documentation primaire pour l’exploration d’un large éventail de sujets et de disciplines. Avec quelque 84,000 titres prévus au terme du projet, ces monographies historiques constitueront, pour les études canadiennes, la collection de documents interrogeables la plus complète qui soit. Les sujets traités vont des grands événements historiques au développement des institutions, des lois et de la science, de la littérature canadienne aux traités philosophiques, ainsi que de l’agriculture à la politique, au commerce et aux tarifs douaniers."
 			}
 		},
 		"serials":{
 			"en":{
 				"title":"Serials: Periodicals, Annuals and Newspapers",
-				"description":"The Serials collection includes a wide range of dailies, weeklies, specialized journals and mass-market magazines, as well as city directories and annual reports from churches, schools, and corporations. Specialized publications include trade or industry journals as well as many men’s, women’s, student’s and children’s popular magazines. Early periodicals are an invaluable source of information for researchers in all fields, as they offer a remarkable record of thought and opinion on diverse issues. Lavishly-illustrated journals open an captivating window onto early Canadian society and culture through their articles, advertisements, cartoons, drawings and photographs."
+				"description":"The Serials collection includes a wide range of dailies, weeklies, specialized journals and mass-market magazines, as well as city directories and annual reports from churches, schools, and corporations. Specialized publications include trade or industry journals as well as many men’s, women’s, student’s and children’s popular magazines. Early periodicals are an invaluable source of information for researchers in all fields, as they offer a remarkable record of thought and opinion on diverse issues. Lavishly-illustrated journals open a captivating window onto early Canadian society and culture through their articles, advertisements, cartoons, drawings and photographs."
 			},
 			"fr":{
-				"title":"Publications périodiques",
-				"description":"The Serials collection includes a wide range of dailies, weeklies, specialized journals and mass-market magazines, as well as city directories and annual reports from churches, schools, and corporations. Specialized publications include trade or industry journals as well as many men’s, women’s, student’s and children’s popular magazines. Early periodicals are an invaluable source of information for researchers in all fields, as they offer a remarkable record of thought and opinion on diverse issues. Lavishly-illustrated journals open an captivating window onto early Canadian society and culture through their articles, advertisements, cartoons, drawings and photographs."
+				"title":"Publications en série : périodiques, publications annuelles et journaux",
+				"description":"La collection des publications en série englobe un large éventail de quotidiens, d’hebdomadaires, de revues spécialisées et de magazines grand public, ainsi que des annuaires de villes et des rapports annuels d’églises, d’écoles et de sociétés. Les publications spécialisées comprennent des revues commerciales et industrielles, de même que de nombreux magazines populaires destinés aux hommes, aux femmes, aux étudiants et aux enfants. Ces anciens périodiques constituent une source d’information inestimable pour les chercheurs dans tous les domaines car ils permettent de suivre le développement des idéologies et des opinions sur une foule de questions. Les revues abondamment illustrées ouvrent une fenêtre captivante sur la vie socio-culturelle du Canada d’autrefois par l’entremise de leurs articles, leurs réclames, leurs bandes dessinées, leurs gravures et leurs photographies."
 			}
 		},
 		"govpubs":{
@@ -139,7 +139,7 @@
 			},
 			"fr":{
 				"title":"Publications gouvernementales",
-				"description":"The Government Publications collection includes over 1.7 million pages of historical pre-1920 colonial, municipal, provincial and federal government documents. This collection includes government acts, bills, committee reports, court rules, debates, journals, ordinances, a selection of official publications from France and Great Britain, sessional papers, regulations, royal commission reports, voter’s lists and treaties."
+				"description":"La collection des publications gouvernementales d’avant 1920 contient plus de 1,7 million de pages de documents officiels et historiques de l’époque coloniale, ainsi que des gouvernements municipaux, provinciaux et fédéral. Cette collection comprend des lois et des projets de loi, des rapports de comités, des règles de tribunaux, des débats, des journaux et des ordonnances, ainsi qu’une sélection de publications officielles publiées en France et en Grande-Bretagne, des documents de session, des règlements, des rapports de commissions royales, des listes électorales et des traités."
 			}
 		}
 	}
