@@ -135,11 +135,11 @@
 		"govpubs":{
 			"en":{
 				"title":"Government Publications",
-				"description":"The Government Publications collection includes over 1.7 million pages of historical pre-1920 colonial, municipal, provincial and federal government documents. This collection includes government acts, bills, committee reports, court rules, debates, journals, ordinances, a selection of official publications from France and Great Britain, sessional papers, regulations, royal commission reports, voter’s lists and treaties."
+				"description":"The Government Publications collection includes over 1.7 million pages of historical pre-1920 colonial, provincial and federal government documents. This collection includes government acts, bills, committee reports, court rules, debates, journals, ordinances, a selection of official publications from France and Great Britain, sessional papers, regulations, royal commission reports, voter’s lists and treaties."
 			},
 			"fr":{
 				"title":"Publications gouvernementales",
-				"description":"La collection des publications gouvernementales d’avant 1920 contient plus de 1,7 million de pages de documents officiels et historiques de l’époque coloniale, ainsi que des gouvernements municipaux, provinciaux et fédéral. Cette collection comprend des lois et des projets de loi, des rapports de comités, des règles de tribunaux, des débats, des journaux et des ordonnances, ainsi qu’une sélection de publications officielles publiées en France et en Grande-Bretagne, des documents de session, des règlements, des rapports de commissions royales, des listes électorales et des traités."
+				"description":"La collection des publications gouvernementales d’avant 1920 contient plus de 1,7 million de pages de documents officiels et historiques de l’époque coloniale, ainsi que des gouvernements provinciaux et fédéral. Cette collection comprend des lois et des projets de loi, des rapports de comités, des règles de tribunaux, des débats, des journaux et des ordonnances, ainsi qu’une sélection de publications officielles publiées en France et en Grande-Bretagne, des documents de session, des règlements, des rapports de commissions royales, des listes électorales et des traités."
 			}
 		}
 	}
