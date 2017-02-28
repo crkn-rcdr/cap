@@ -24,6 +24,11 @@
                 [% END %]
                 <li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
             </ul>
+            [% IF c.auth.can_use('searching') %]
+            <form class="navbar-form pull-right" method="POST" action="[% c.uri_for_action("search/post") %]">
+                <input type="text" class="span3" placeholder="[% c.loc("New Search") %]" name="q" />
+            </form>
+            [% END -%]
         </div>
     </div>
 </header> 
