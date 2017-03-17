@@ -13,16 +13,13 @@
     <div class="span8">
     	[% content_main = "${entity.portal.id}_main"; content_blocks.$content_main %]
         <div class="subscriptions">
+        [% FOREACH sub IN entity.products %]
             <div class="subbox">
-                <p class="subbox-duration">[% c.loc("One Month") %]</p>
-                <p class="subbox-price">[% format_money(10) %]</p>
-                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", [entity.portal.id, "${entity.portal.id}30"]) %]">[% subscribe_text %]</a></p>
+                <p class="subbox-duration">[% sub.duration <= 35 ? c.loc("One Month") : c.loc("One Year") %]</p>
+                <p class="subbox-price">[% format_money(sub.price) %]</p>
+                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", [entity.portal.id, sub.id]) %]">[% subscribe_text %]</a>
             </div>
-            <div class="subbox">
-                <p class="subbox-duration">[% c.loc("One Year") %]</p>
-                <p class="subbox-price">[% format_money(100) %]</p>
-                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", [entity.portal.id, "${entity.portal.id}365"]) %]">[% subscribe_text %]</a></p>
-            </div>
+        [% END %]
         </div>
         <p class="clearBoth">[% c.loc("Canadiana.org is a non-profit and charitable organization. All prices are in Canadian dollars.") %]</p>
     </div>

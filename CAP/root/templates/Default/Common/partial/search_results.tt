@@ -24,6 +24,10 @@
     [% END -%]
 </section>
 
+[% UNLESS c.auth.can_access('metadata') %]
+<p>[% c.loc("Subscribers get results for pages within documents that match their search terms.") %] <a href="[% c.uri_for_action("/user/subscription/index", [portal]) %]">[% c.loc("Learn more") %] &raquo;</a></p>
+[% END %]
+
 [% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" init_arg=search_handler %]
 
 [% FOREACH result IN resultset.documents %]

@@ -1,6 +1,0 @@
-<h3>[% c.loc("Subscription Required") %]</h3>
-[% IF c.stash.lang == 'fr' %]
-<p>Canadiana en ligne est entièrement financé par ces utilisateurs. <a href="/abonner">Abonnez-vous</a> pour avoir accès au contenu complet du site et à toutes ses fonctions.</p>
-[% ELSE %]
-<p>Canadiana Online is entirely funded by its users. <a href="/subscribe">Become a subscriber</a> to view the full content and access all the site's features.</p>
-[% END %]

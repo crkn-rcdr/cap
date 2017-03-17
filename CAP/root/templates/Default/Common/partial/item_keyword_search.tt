@@ -10,16 +10,14 @@
         <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
         [% IF c.session.$portal.defined("search") %]
             <a class="form-align" href="[% c.uri_for_action("search/index", c.session.$portal.search.handler, c.session.$portal.search.start, c.session.$portal.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
-            [% IF item.has_parent || c.auth.can_access('metadata') %]
+            [% IF item.has_parent %]
             <span class="divider"></span>
             [% END %]
         [% END %]
         [% IF item.has_parent %]
             <a class="form-align" href="[% c.uri_for_action("view/index", item.record.pkey) %]">&laquo; [% item.record.plabel %]</a>
-            [% IF c.auth.can_access('metadata') %]
-            <span class="divider"></span>
-            [% END %]
         [% END %]
+        <span class="divider"></span>
         [% IF c.auth.can_access('metadata') %]
             <input type="hidden" name="pkey" value="[% key %]" />
             <input type="hidden" name="handler" value="page" />
@@ -28,6 +26,9 @@
             <input type="text" name="q" placeholder="" value="[% c.session.$portal.search.query %]" />
             <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("Search") %]</button>
             [% INCLUDE partial/matching_pages.tt query=c.session.$portal.search.query pkey=item.record.key limit=item.record.order.size %]
+        [% ELSE %]
+            <span class="form-align">[% c.loc("Searching within a document's text is a feature available to subscribers.") %]</span>
+            <a class="form-align" href="[% c.uri_for_action("/user/subscription/index", [portal]) %]">[% c.loc("Learn more") %] &raquo;</a>
         [% END %]
         </form>
     </div>
