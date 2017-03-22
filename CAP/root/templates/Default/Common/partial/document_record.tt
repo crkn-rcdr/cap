@@ -40,7 +40,7 @@
            END %]
         [% IF value %]
             [% IF search_field && c.portal.has_feature('record_links') %]
-                <a href="[% c.uri_for_action("/search/index", { 'q0|0' => search_field _ ":\"" _ value _ "\"" }) %]">[% value | html %]</a>
+                <a href="[% c.uri_for_action("/search/index", { 'q0.0' => search_field _ ":\"" _ value _ "\"" }) %]">[% value | html %]</a>
             [% ELSIF collection_field %]
                 <a href="[% c.uri_for_action("/search/index", { collection => oldvalue }) %]">[% value | html %]</a>
             [% ELSE %]
