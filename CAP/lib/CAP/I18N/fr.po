@@ -1046,8 +1046,8 @@ msgid "Duration: %1 days"
 msgstr "Durée : %1 jours"
 
 #: ../../CAP/Controller/Mail.pm:126
-msgid "ECO Account Activation"
-msgstr "Activation de votre compte NM"
+msgid "Canadiana Account Activation"
+msgstr "Activation de votre compte Canadiana"
 
 #:
 msgid "ECO Free trial"

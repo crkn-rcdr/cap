@@ -122,7 +122,7 @@ sub user_activate :Private {
     my $header = [
         From => $from,
         To => $recipient,
-        Subject => $c->loc('ECO Account Activation')
+        Subject => $c->loc('Canadiana Account Activation')
     ];
 
     $self->sendmail($c, "activate.tt", $header);
