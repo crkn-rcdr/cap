@@ -4050,3 +4050,9 @@ msgstr "1 mois"
 
 msgid "One Year"
 msgstr "1 an"
+
+msgid "Subscribers can view which pages match their search terms."
+msgstr "Les abonnés peuvent voir quelles pages correspondent à leurs termes de recherche."
+
+msgid "Searching within a document is available to subscribers."
+msgstr "La fonction de recherche dans un document est disponible pour les abonnés."

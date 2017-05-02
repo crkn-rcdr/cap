@@ -21,7 +21,8 @@
             </div>
         [% END %]
         </div>
-        <p class="clearBoth">[% c.loc("Canadiana.org is a non-profit and charitable organization. All prices are in Canadian dollars.") %]</p>
+        <div class="clearBoth"></div>
+        [% content_lower = "${entity.portal.id}_lower"; content_blocks.$content_lower %]
     </div>
     <div class="span4">
     	[% content_side = "${entity.portal.id}_side"; content_blocks.$content_side %]

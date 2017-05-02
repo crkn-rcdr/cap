@@ -27,7 +27,7 @@
             <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("Search") %]</button>
             [% INCLUDE partial/matching_pages.tt query=c.session.$portal.search.query pkey=item.record.key limit=item.record.order.size %]
         [% ELSE %]
-            <span class="form-align">[% c.loc("Searching within a document's text is a feature available to subscribers.") %]</span>
+            <span class="form-align">[% c.loc("Searching within a document is available to subscribers.") %]</span>
             <a class="form-align" href="[% c.uri_for_action("/user/subscription/index", [portal]) %]">[% c.loc("Learn more") %] &raquo;</a>
         [% END %]
         </form>
