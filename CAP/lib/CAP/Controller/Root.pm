@@ -226,6 +226,9 @@ sub robots :Path('robots.txt') {
 User-agent: *
 Disallow: /search
 Disallow: /file
+Disallow: /hbc
+Disallow: /citm
+Disallow: /docs
 Sitemap: $sitemap_uri
 EOF
     $c->res->body($body);
