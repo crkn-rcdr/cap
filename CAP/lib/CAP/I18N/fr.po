@@ -3934,6 +3934,9 @@ msgid "Next tagged page"
 msgstr "Prochaine page étiquetée"
 
 # NEW FRONTPAGE STUFF
+msgid "Canadiana Online"
+msgstr "Canadiana en ligne"
+
 msgid "Early Canadiana Online"
 msgstr "Notre mémoire en ligne"
 

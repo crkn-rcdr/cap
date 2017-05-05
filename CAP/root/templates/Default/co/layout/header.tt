@@ -54,8 +54,9 @@
                         <b class="caret"></b>
                     </a> 
                     <ul class="dropdown-menu">
-                        <li><a href="http://eco.canadiana.ca/" target="_blank">[% c.loc("Early Canadiana Online") %]</a></li>
+                        <li><a href="http://online.canadiana.ca/" target="_blank">[% c.loc("Canadiana Online") %]</a></li>
                         <li><a href="http://heritage.canadiana.ca/" target="_blank">[% c.loc("Héritage") %]</a></li>
+                        <li><a href="http://eco.canadiana.ca/" target="_blank">[% c.loc("Early Canadiana Online") %]</a></li>
                         <li><a href="http://pub.canadiana.ca/" target="_blank">[% c.loc("Public Collections") %]</a></li>
                         <li><a href="http://sve.canadiana.ca/" target="_blank">[% c.loc("Student Voice") %]</a></li>
                         <li class="divider">
