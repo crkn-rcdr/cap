@@ -7,7 +7,7 @@
 	<div class="span8">
 		<h3>[% c.loc("Featured Collections") %]</h3>
 		<div class="row">
-			<a class="linkBlock span4" href="http://eco.canadiana.ca/" target="_blank">
+			<a class="linkBlock span4" href="http://online.canadiana.ca/" target="_blank">
 				<h4 class="title">
 					[% c.loc("Canadiana Online") %]
 				</h4>
