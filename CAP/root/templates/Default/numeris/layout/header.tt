@@ -6,3 +6,13 @@
     </a>
     <a class="lang" href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a>
 </header>
+<div class="sve_bar">
+    <div class="container">
+        <ul class="row">
+            <li class="span3"><a href="[% c.uri_for_action("/index") %]">[% c.loc("Home") %]</a></li>
+            <li class="span3"><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
+            <li class="span3"><a href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a></li>
+            <li class="span3"><a href="[% c.loc("http://www.numeris.ca") %]" target="_blank">numeris.ca</a></li>
+        </ul>
+    </div>
+</div>

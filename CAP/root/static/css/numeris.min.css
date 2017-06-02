@@ -966,10 +966,13 @@ table.calendar a{text-decoration:underline;font-weight:bold;display:block;}
 .subscriptions .subbox .subbox-price{font-size:20pt;margin-bottom:18px;}
 .popover-title{border-bottom-width:0;}
 .popover-content{border:1px solid #eee;}
-header{background-color:#62a744;margin-bottom:9px;height:191px;position:relative;}header .banner{display:block;background-color:#1b3668;height:184px;}header .banner .logo{position:absolute;width:277px;height:61px;left:50px;top:60px;background-image:url('/static/images/numeris_banner_logo.png');}
+header{background-color:#62a744;margin:0;height:191px;position:relative;}header .banner{display:block;background-color:#1b3668;height:184px;}header .banner .logo{position:absolute;width:277px;height:61px;left:50px;top:60px;background-image:url('/static/images/numeris_banner_logo.png');}
 header .banner .illustration{position:absolute;width:437px;height:178px;right:68px;bottom:0px;background-image:url('/static/images/numeris_banner_illustration.png');display:none;}
 header .lang{position:absolute;right:9px;top:5px;color:#b8dca8;}header .lang:hover{color:#b8dca8;}
-@media (min-width:768px){header .banner .illustration{display:block;}}h2{color:#1b3668;font-variant:small-caps;text-rendering:auto;}
+.sve_bar{background-color:black;margin-bottom:18px;-webkit-box-shadow:0 4px 4px 0px #888888;-moz-box-shadow:0 4px 4px 0px #888888;box-shadow:0 4px 4px 0px #888888;}.sve_bar a{color:#b8dca8;}.sve_bar a:hover{color:#d6eacd;}
+.sve_bar ul{list-style-type:none;margin-bottom:0;}.sve_bar ul li{display:block;font-weight:bold;padding-top:9px;padding-bottom:9px;}.sve_bar ul li a{display:block;text-align:center;}
+@media (min-width:768px){header .banner .illustration{display:block;}}p a{text-decoration:underline;}
+h2{color:#1b3668;font-variant:small-caps;text-rendering:auto;}
 .search-item h2{font-variant:normal;}
 .whf-search-bar{font-size:15px;font-weight:bold;padding:9px 4px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;line-height:normal;}
 @media (min-width:768px){.blurb,.search{min-height:250px;}}footer{background-color:#1b3668;color:#b8dca8;text-align:center;}footer a{color:#b8dca8;}footer a:hover{color:#d6eacd;}

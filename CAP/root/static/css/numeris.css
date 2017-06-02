@@ -6847,7 +6847,7 @@ table.calendar a {
 }
 header {
   background-color: #62a744;
-  margin-bottom: 9px;
+  margin: 0;
   height: 191px;
   position: relative;
 }
@@ -6882,10 +6882,40 @@ header .lang {
 header .lang:hover {
   color: #b8dca8;
 }
+.sve_bar {
+  background-color: black;
+  margin-bottom: 18px;
+  -webkit-box-shadow: 0 4px 4px 0px #888888;
+  -moz-box-shadow: 0 4px 4px 0px #888888;
+  box-shadow: 0 4px 4px 0px #888888;
+}
+.sve_bar a {
+  color: #b8dca8;
+}
+.sve_bar a:hover {
+  color: #d6eacd;
+}
+.sve_bar ul {
+  list-style-type: none;
+  margin-bottom: 0;
+}
+.sve_bar ul li {
+  display: block;
+  font-weight: bold;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+.sve_bar ul li a {
+  display: block;
+  text-align: center;
+}
 @media (min-width: 768px) {
   header .banner .illustration {
     display: block;
   }
+}
+p a {
+  text-decoration: underline;
 }
 h2 {
   color: #1b3668;

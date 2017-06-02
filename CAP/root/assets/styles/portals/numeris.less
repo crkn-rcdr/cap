@@ -15,7 +15,7 @@
 
 header {
     background-color: @secondColor;
-    margin-bottom: @baseLineHeight / 2;
+    margin: 0;
     height: 191px;
     position: relative;
     .banner {
@@ -51,10 +51,35 @@ header {
     }
 }
 
+.sve_bar {
+    background-color: black;
+    margin-bottom: @baseLineHeight;
+    .lighten-links-all;
+    .box-shadow(0 4px 4px 0px #888);
+    ul {
+        list-style-type: none;
+        margin-bottom: 0;
+        li {
+            display: block;
+            font-weight: bold;
+            padding-top: @baseLineHeight / 2;
+            padding-bottom: @baseLineHeight / 2;
+            a {
+                display: block;
+                text-align: center;
+            }
+        }
+    }
+}
+
 @media (min-width: 768px) {
     header .banner .illustration {
     	display: block;
     }
+}
+
+p a {
+    text-decoration: underline;
 }
 
 h2 {
