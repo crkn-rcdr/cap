@@ -43,7 +43,6 @@
                         <li><a href="/governance-structure">[% c.loc("Governance &amp; Structure") %]</a></li>
                         <li><a href="/membership">[% c.loc("Membership") %]</a></li>
                         <li class="divider">
-                        <li><a href="/projects">[% c.loc("Projects") %]</a></li>
                         <li><a href="/tools">[% c.loc("Tools &amp; Resources") %]</a></li>
                         <li><a href="/history-of-canadiana">[% c.loc("History") %]</a></li>
                     </ul>
