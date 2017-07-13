@@ -6085,7 +6085,7 @@ header {
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  color: #b8dca8;
+  color: #ffffff;
 }
 .collapse-pane-header:hover,
 .collapse-pane-header:active,
@@ -6112,7 +6112,7 @@ header {
   background-color: #102140 \9;
 }
 .collapse-pane-header:hover {
-  color: #b8dca8;
+  color: #ffffff;
   background-position: 0 -15px;
   -webkit-transition: background-position 0.1s linear;
   -moz-transition: background-position 0.1s linear;
@@ -6323,7 +6323,7 @@ header {
 #pvToolbar .pv-counter {
   vertical-align: middle;
   padding-right: 5px;
-  color: #b8dca8;
+  color: #ffffff;
   display: none;
   visibility: hidden;
 }
@@ -6368,7 +6368,7 @@ header {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  color: #b8dca8;
+  color: #ffffff;
   padding: 9px;
 }
 #pvPane .loading:hover,
@@ -6412,11 +6412,11 @@ header {
   height: 100%;
   display: block;
   background-color: rgba(85, 85, 85, 0.5);
-  color: #b8dca8;
+  color: #ffffff;
   font-size: 39px;
 }
 .pv-imagelink:hover {
-  color: #b8dca8;
+  color: #ffffff;
   text-decoration: none;
 }
 .pv-imagelink .pv-imagelink-text {
@@ -6578,12 +6578,12 @@ header {
 }
 .js .slideshow .slideshow-left-nav.disabled,
 .js .slideshow .slideshow-right-nav.disabled {
-  color: #b8dca8;
+  color: #ffffff;
   cursor: default;
 }
 .js .slideshow .slideshow-left-nav.disabled:hover,
 .js .slideshow .slideshow-right-nav.disabled:hover {
-  color: #b8dca8;
+  color: #ffffff;
 }
 .js .slideshow .slideshow-left-nav .slideshow-nav-text,
 .js .slideshow .slideshow-right-nav .slideshow-nav-text {
@@ -6644,7 +6644,7 @@ footer .footer-bottom {
   background-image: linear-gradient(to top, #444444, #222222);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#222222', GradientType=0);
-  color: #b8dca8;
+  color: #ffffff;
 }
 footer .footer-bottom p {
   margin-bottom: 0;
@@ -6846,7 +6846,7 @@ table.calendar a {
   border: 1px solid #eee;
 }
 header {
-  background-color: #62a744;
+  background-color: #acce83;
   margin: 0;
   height: 191px;
   position: relative;
@@ -6877,23 +6877,23 @@ header .lang {
   position: absolute;
   right: 9px;
   top: 5px;
-  color: #b8dca8;
+  color: #ffffff;
 }
 header .lang:hover {
-  color: #b8dca8;
+  color: #ffffff;
 }
 .sve_bar {
-  background-color: black;
+  background-color: #ffffff;
   margin-bottom: 18px;
   -webkit-box-shadow: 0 4px 4px 0px #888888;
   -moz-box-shadow: 0 4px 4px 0px #888888;
   box-shadow: 0 4px 4px 0px #888888;
 }
 .sve_bar a {
-  color: #b8dca8;
+  color: #ffffff;
 }
 .sve_bar a:hover {
-  color: #d6eacd;
+  color: #ffffff;
 }
 .sve_bar ul {
   list-style-type: none;
@@ -6908,6 +6908,10 @@ header .lang:hover {
 .sve_bar ul li a {
   display: block;
   text-align: center;
+  color: #1b3668;
+}
+.sve_bar ul li a:hover {
+  color: #1b3668;
 }
 @media (min-width: 768px) {
   header .banner .illustration {
@@ -6943,14 +6947,14 @@ h2 {
 /* Push footer */
 footer {
   background-color: #1b3668;
-  color: #b8dca8;
+  color: #ffffff;
   text-align: center;
 }
 footer a {
-  color: #b8dca8;
+  color: #ffffff;
 }
 footer a:hover {
-  color: #d6eacd;
+  color: #ffffff;
 }
 footer p {
   margin-top: 9px;

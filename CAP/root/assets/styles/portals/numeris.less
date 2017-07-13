@@ -4,8 +4,8 @@
 @narrowFooterHeight: @baseLineHeight * 4 + 10px;
 
 @mainColor: #1b3668;
-@secondColor: #62a744;
-@lightColor: lighten(@secondColor, 30%);
+@secondColor: #acce83;
+@lightColor: #fff;
 @bgColor: #fff;
 
 @linkColor: @mainColor;
@@ -52,7 +52,7 @@ header {
 }
 
 .sve_bar {
-    background-color: black;
+    background-color: @white;
     margin-bottom: @baseLineHeight;
     .lighten-links-all;
     .box-shadow(0 4px 4px 0px #888);
@@ -67,6 +67,10 @@ header {
             a {
                 display: block;
                 text-align: center;
+                color: @mainColor;
+                &:hover {
+                    color: @mainColor;
+                }
             }
         }
     }
