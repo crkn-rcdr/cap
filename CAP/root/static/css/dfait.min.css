@@ -969,6 +969,6 @@ table.calendar a{text-decoration:underline;font-weight:bold;display:block;}
 header{background-color:#232965;margin:0;}header .banner{display:block;background-image:url('/static/images/dfait_banner.png');background-repeat:no-repeat;background-position:top center;height:82px;margin:0;}
 .dfait_bar{background-color:black;margin-bottom:18px;-webkit-box-shadow:0 4px 4px 0px #888888;-moz-box-shadow:0 4px 4px 0px #888888;box-shadow:0 4px 4px 0px #888888;}.dfait_bar a{color:#dddddd;}.dfait_bar a:hover{color:#f7f7f7;}
 .dfait_bar ul{list-style-type:none;margin-bottom:0;}.dfait_bar ul li{display:block;font-weight:bold;padding-top:9px;padding-bottom:9px;}.dfait_bar ul li a{display:block;text-align:center;}
-h2{color:#232965;font-variant:small-caps;}
+h2{color:#232965;}
 footer{background-color:#232965;background-image:url('/static/images/dfait_footer.png');background-repeat:repeat-y;background-position:top center;color:#dddddd;text-align:center;}footer a{color:#dddddd;}footer a:hover{color:#f7f7f7;}
 footer p{margin-top:9px;padding-top:9px;margin-bottom:0;padding-bottom:9px;}

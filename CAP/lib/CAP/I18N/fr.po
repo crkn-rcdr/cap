@@ -873,12 +873,12 @@ msgid "Current password"
 msgstr "Mot de passe actuel"
 
 #: ../../../root/templates/Default/dfait/layout/header.tt:12
-msgid "DFATD"
-msgstr "MAECD"
+msgid "Global Affairs Canada"
+msgstr "Affaires mondiales Canada"
 
 #: ../../../root/templates/Default/dfait/layout/header.tt:10
-msgid "DFATD Library"
-msgstr "Bibliothèque MAECD"
+msgid "Jules Léger Library"
+msgstr "Bibliothèque Jules Léger"
 
 #: ../../../root/templates/Default/Common/content/title/index.tt:31
 msgid "Database ID"
@@ -3813,8 +3813,8 @@ msgid "for"
 msgstr "pour"
 
 #: ../../../root/templates/Default/dfait/layout/header.tt:13
-msgid "http://www.canada.gc.ca/home.html"
-msgstr "http://www.canada.gc.ca/accueil.html"
+msgid "https://www.canada.ca/en.html"
+msgstr "https://www.canada.ca/fr.html"
 
 #: ../../../root/templates/Default/1812/content/footer.tt:10 ../../../root/templates/Default/canadiana/content/footer.tt:9 ../../../root/templates/Default/co/content/footer.tt:6 ../../../root/templates/Default/eco/content/footer.tt:9 ../../../root/templates/Default/heritage/content/footer.tt:9 ../../../root/templates/Default/heritagepremium/content/footer.tt:9 ../../../root/templates/Default/whf/content/footer.tt:9
 msgid "http://www.canadiana.ca/en/blog"
