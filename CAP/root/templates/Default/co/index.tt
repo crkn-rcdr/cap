@@ -27,9 +27,6 @@
 			<li style="background-image: url('[% cdn_uri('co', 'eco-block.jpg') %]'); background-position: 0 -60px">
 				<a href="http://eco.canadiana.ca/" target="_blank"><span style="background-color: #be645b; color: white">[% c.loc("Early Canadiana Online") %]</span></a>
 			</li>
-			<li style="background-image: url('[% cdn_uri('co', 'av-link.png') %]')">
-				<a href="http://av.canadiana.ca/" target="_blank"><span style="background-color: #492005; color: white">[% c.loc("Aboriginal Veterans") %]</span></a>
-			</li>
 			<li style="background-image: url('[% cdn_uri('co', 'tdr-link.png') %]')">
 				<a href="/trustworthy-digital-repository"><span style="background-color: #4b92db; color: white">[% c.loc("Trustworthy Digital Repository") %]</span></a>
 			</li>
