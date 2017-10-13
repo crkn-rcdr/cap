@@ -1,14 +1,10 @@
 package CAP::Controller::Admin;
 use Moose;
 use namespace::autoclean;
-use parent qw/Catalyst::Controller::ActionRole/;
 
 __PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ], },);
 
-BEGIN {
-    extends 'Catalyst::Controller::ActionRole';
-    extends 'Catalyst::Controller::REST';
-}
+BEGIN { extends 'Catalyst::Controller::REST'; }
 
 sub auto :Private {
     my($self, $c) = @_;

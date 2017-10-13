@@ -4,8 +4,7 @@ use namespace::autoclean;
 
 __PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ], } );
 
-BEGIN {extends 'Catalyst::Controller::REST'; }
-
+BEGIN { extends 'Catalyst::Controller::REST'; }
 
 sub base : Chained('/') PathPart('admin/user') CaptureArgs(1) {
     my($self, $c, $user_id) = @_;

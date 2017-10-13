@@ -4,9 +4,8 @@ use namespace::autoclean;
 
 use strict;
 use warnings;
-use parent qw/Catalyst::Controller::ActionRole/;
 
-BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 =head1 NAME
 

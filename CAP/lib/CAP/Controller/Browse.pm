@@ -1,9 +1,8 @@
 package CAP::Controller::Browse;
 use Moose;
 use namespace::autoclean;
-use parent qw/Catalyst::Controller::ActionRole/;
 
-BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 sub index :Path :Args(0) {
     my($self, $c) = @_;

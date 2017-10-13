@@ -4,10 +4,8 @@ use namespace::autoclean;
 
 use File::MimeInfo;
 use File::Basename;
-use parent qw/Catalyst::Controller::ActionRole/;
 
-
-BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 =head1 NAME
 

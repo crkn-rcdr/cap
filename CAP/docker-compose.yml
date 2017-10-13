@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  capdb:
+    image: mariadb:5.5
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
+  cap:
+    build: .
+    image: cap:latest
+    depends_on:
+      - capdb
+    ports:
+      - "3000:3000"

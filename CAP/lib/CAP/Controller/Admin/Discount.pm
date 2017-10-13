@@ -9,7 +9,7 @@ __PACKAGE__->config(
     },
 );
 
-BEGIN {extends 'Catalyst::Controller::REST'; }
+BEGIN { extends 'Catalyst::Controller::REST'; }
 
 =head1 NAME
 

@@ -2,9 +2,8 @@ package CAP::Controller::Payment::PayPal;
 use Moose;
 use namespace::autoclean;
 use Business::PayPal::API::ExpressCheckout;
-use parent qw/Catalyst::Controller::ActionRole/;
 
-BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 sub auto :Private {
     my($self, $c) = @_;

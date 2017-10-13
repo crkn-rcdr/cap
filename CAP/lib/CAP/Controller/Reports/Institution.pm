@@ -2,7 +2,7 @@ package CAP::Controller::Reports::Institution;
 use Moose;
 use namespace::autoclean;
 
-BEGIN { extends 'Catalyst::Controller::ActionRole'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 
 =head1 NAME

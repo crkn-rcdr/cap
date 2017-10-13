@@ -21,7 +21,8 @@ has 'all' => (
 sub BUILD {
 	my ($self, $args) = @_;
 	my $filename = $self->path;
-	my $json = decode_json(read_file($filename));
+	my $file = read_file($filename);
+	my $json = decode_json($file);
 	$self->_set_collections($json);
 }
 

@@ -1,5 +1,5 @@
 ﻿[%-
-  USE JSON.Escape( pretty => 1);
+  USE JSON.Escape( pretty => 1 );
 
   api = {};
 

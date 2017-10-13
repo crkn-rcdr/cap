@@ -1,12 +1,8 @@
 package CAP::Controller::View;
 use Moose;
 use namespace::autoclean;
-use POSIX qw(strftime);
-use feature "switch";
-no warnings "experimental::smartmatch";
-use parent qw/Catalyst::Controller::ActionRole/;
 
-BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 =head1 NAME
 

@@ -1,14 +1,12 @@
 package CAP::Controller::Search;
 
 use strict;
-use feature qw(switch);
 use warnings;
 use Moose;
 use namespace::autoclean;
-use parent qw/Catalyst::Controller::ActionRole/;
 use Scalar::Util qw/looks_like_number/;
 
-BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 sub auto :Private {
     my($self, $c) = @_;

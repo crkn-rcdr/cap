@@ -4,7 +4,6 @@ use namespace::autoclean;
 
 use strict;
 use warnings;
-use parent qw/Catalyst::Controller::ActionRole/;
 use Config::General;
 use utf8;
 
@@ -12,7 +11,7 @@ use utf8;
 # so they function identically to actions created in MyApp.pm
 __PACKAGE__->config->{namespace} = '';
 
-BEGIN {extends 'Catalyst::Controller::ActionRole'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 
 sub auto :Private
