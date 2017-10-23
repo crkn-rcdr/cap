@@ -47,7 +47,7 @@ sub general {
 sub page {
 	my ($self, $options, $params) = @_;
 	die "Params did not contain pkey" unless defined $params->{pkey};
-	foreach my $filter (keys $self->schema->filters) {
+	foreach my $filter (keys %{ $self->schema->filters }) {
 		delete $params->{$filter} unless $filter eq 'pkey';
 	}
 
@@ -162,7 +162,7 @@ sub transform_query {
 	my $get_params = {};
 
 	# copy over filter parameters, search handler, and requested return format
-	for (keys $self->schema->filters, 'handler', 'fmt') {
+	for (keys %{ $self->schema->filters }, 'handler', 'fmt') {
 		$get_params->{$_} = $post_params->{$_} if exists $post_params->{$_};
 	}
 

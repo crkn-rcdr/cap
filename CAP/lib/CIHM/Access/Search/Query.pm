@@ -127,7 +127,7 @@ sub _build_query_terms {
 	my $key_exp = qr/^q(\d+)(?:\.(\d+))?$/;
 	my @value_index = map {
 		($_ =~ /$key_exp/) ? [$1, $2, $self->params->{$_}] : ()
-	} keys $self->params;
+	} keys %{ $self->params };
 
 	my @sort = ();
 	foreach (@value_index) {
@@ -166,7 +166,7 @@ sub _analyze_term {
 	return '' unless ($token && $token ne ':');
 	return '' if ($field_modifier && !exists $self->schema->fields->{$self->field_key}{$field_modifier});
 
-	$self->_set_has_text_terms(1) if grep(/$field_modifier/, keys $self->schema->fields->{text});
+	$self->_set_has_text_terms(1) if grep(/$field_modifier/, keys %{ $self->schema->fields->{text} });
 
 	$token = $self->_parse_token($token);
 	my @result;

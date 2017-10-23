@@ -12,3 +12,4 @@ services:
       - capdb
     ports:
       - "3000:3000"
+    command: ["starman", "cap.psgi", "-Ilib", "--port", "3000"]
