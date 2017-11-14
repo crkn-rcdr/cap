@@ -13,6 +13,8 @@ CAP::Controller::View - Catalyst Controller
 sub index :Path('') {
     my($self, $c, $key, $seq) = @_;
 
+    $c->detach('/error', [404, "Document key not provided"]) unless $key;
+
     my $doc;
     eval {
         $doc = $c->model('Access::Presentation')->fetch($key, $c->portal->id);
@@ -53,7 +55,7 @@ sub view_item :Private {
 
     if ($item->has_children) {
         $seq = $item->first_component_seq unless ($seq && $seq =~ /^\d+$/);
-        
+
         # Make sure the requested page exists.
         $c->detach("/error", [404, "Page not found: $seq"]) unless $item->has_child($seq);
 
@@ -89,7 +91,7 @@ sub view_series :Private {
         series => $series,
         template => "view_series.tt"
     );
-    
+
     return 1;
 }
 
@@ -110,4 +112,3 @@ sub random : Path('/viewrandom') Args() {
 }
 
 __PACKAGE__->meta->make_immutable;
-
