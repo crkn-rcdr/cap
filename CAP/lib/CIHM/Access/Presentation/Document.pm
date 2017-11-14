@@ -4,7 +4,7 @@ use utf8;
 use strictures 2;
 
 use Moo;
-use Types::Standard qw/HashRef/;
+use Types::Standard qw/HashRef Str/;
 use List::Util qw/min/;
 use List::MoreUtils qw/any/;
 
@@ -14,11 +14,25 @@ has 'record' => (
 	required => 1
 );
 
-has 'content' => (
+has 'derivative' => (
 	is => 'ro',
 	isa => sub {
-		die "$_[0] is not a CIHM::Access::Content" unless ref($_[0]) eq 'CIHM::Access::Content';
+		die "$_[0] is not a CIHM::Access::Derivative" unless ref($_[0]) eq 'CIHM::Access::Derivative';
 	},
+	required => 1
+);
+
+has 'download' => (
+	is => 'ro',
+	isa => sub {
+		die "$_[0] is not a CIHM::Access::Download" unless ref($_[0]) eq 'CIHM::Access::Download';
+	},
+	required => 1
+);
+
+has 'prezi_demo_endpoint' => (
+	is => 'ro',
+	isa => Str,
 	required => 1
 );
 
@@ -146,7 +160,7 @@ sub validate_download {
 	my $download = $self->record->{canonicalDownload};
     return [400, "Document " . $self->record->{key} . " does not have a canonical download."] unless $download;
     return [403, "Not allowed to download this resource."] unless $self->auth->{download};
-    return [200, $self->content->download($download)];
+    return [200, $self->download->uri($download)];
 }
 
 sub validate_derivative {
@@ -154,13 +168,13 @@ sub validate_derivative {
     my $component = $self->component($seq);
     return [400, $self->key . " does not have page at seq $seq."] unless $component;
     if ($component->{canonicalMaster}) {
-	    return [200, $self->content->derivative({
+	    return [200, $self->derivative->uri({
 	    	master => $component->{canonicalMaster},
 	    	size => $size,
 	    	rotate => $rotate
 	    })];
     } elsif ($self->record->{canonicalDownloadMime} eq 'application/pdf') {
-    	return [200, $self->content->derivative({
+    	return [200, $self->derivative->uri({
     		from_pdf => 1,
     		download => $self->record->{canonicalDownload},
     		page => $seq,
@@ -170,6 +184,17 @@ sub validate_derivative {
     } else {
 	    return [400, $component->{key} . " does not have a canonical master."] unless $component->{canonicalMaster};
     }
+}
+
+sub prezi_demo_uri {
+	my ($self) = @_;
+	if ($self->is_type('document')) {
+		return join '/', $self->prezi_demo_endpoint, $self->record->{key}, 'manifest';
+	} elsif ($self->is_type('series')) {
+		return join '/', $self->prezi_demo_endpoint, 'collection', $self->record->{key};
+	} else {
+		return '';
+	}
 }
 
 1;

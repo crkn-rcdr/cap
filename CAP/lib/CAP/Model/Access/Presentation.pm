@@ -9,7 +9,8 @@ sub prepare_arguments {
         %{$self->{args}},
         %$arg,
     } : $arg;
-    $parameters->{content} = $app->model('Access::Content');
+    $parameters->{derivative} = $app->model("Access::Derivative");
+    $parameters->{download} = $app->model('Access::Download');
     return $parameters;
 }
 1;

@@ -25,6 +25,11 @@
         <a href="#tab_admin" data-toggle="tab">[% c.loc("Admin") %]</a>
     </li>
     [% END %]
+    [% IF c.has_role('iiif_preview') %]
+    <li>
+        <a href="#tab_iiif" data-toggle="tab">[% c.loc("IIIF Preview") %]</a>
+    </li>
+    [% END %]
 </ul>
 
 
@@ -172,6 +177,11 @@
             </tbody>
         </table>
     </div>
+    [% IF c.has_role('iiif_preview') %]
+    <div class="tab-pane" id="tab_iiif">
+            <a id="iiifImageCookie" class="btn btn-primary" target="iiifImageAuth" href="[% c.model('Access::Derivative').cookie_auth_uri %]">Authenticate with IIIF image service</a>
+    </div>
+    [% END %]
 </div>
 
 

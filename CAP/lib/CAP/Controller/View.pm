@@ -60,10 +60,10 @@ sub view_item :Private {
         # Set image size and rotation
         my $size = 1;
         my $rotate = 0;
-        if (defined($c->request->query_params->{s}) && defined($item->content->{derivative_config}->{size}->{$c->request->query_params->{s}})) {
+        if (defined($c->request->query_params->{s}) && defined($item->derivative->{config}->{size}->{$c->request->query_params->{s}})) {
             $size = int($c->request->query_params->{s});
         }
-        if (defined($c->request->query_params->{r}) && defined($item->content->{derivative_config}->{rotate}->{$c->request->query_params->{r}})) {
+        if (defined($c->request->query_params->{r}) && defined($item->derivative->{config}->{rotate}->{$c->request->query_params->{r}})) {
             $rotate = int($c->request->query_params->{r});
         }
 

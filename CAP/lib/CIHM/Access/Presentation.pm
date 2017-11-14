@@ -5,7 +5,7 @@ use strictures 2;
 
 use Moo;
 use List::MoreUtils qw/any/;
-use Types::Standard qw/Int/;
+use Types::Standard qw/Int Str/;
 use CIHM::Access::Presentation::Document;
 with 'Role::REST::Client';
 
@@ -17,11 +17,25 @@ has '+persistent_headers' => (
 	default => sub { return { Accept => 'application/json'}; }
 );
 
-has 'content' => (
+has 'derivative' => (
 	is => 'ro',
 	isa => sub {
-		die "$_[0] is not a CIHM::Access::Content" unless ref($_[0]) eq 'CIHM::Access::Content';
+		die "$_[0] is not a CIHM::Access::Derivative" unless ref($_[0]) eq 'CIHM::Access::Derivative';
 	},
+	required => 1
+);
+
+has 'download' => (
+	is => 'ro',
+	isa => sub {
+		die "$_[0] is not a CIHM::Access::Download" unless ref($_[0]) eq 'CIHM::Access::Download';
+	},
+	required => 1
+);
+
+has 'prezi_demo_endpoint' => (
+	is => 'ro',
+	isa => Str,
 	required => 1
 );
 
@@ -41,7 +55,12 @@ sub fetch {
 		die "Presentation lookup of key $key failed: $error";
 	} else {
 		if ($response->data->{type} eq 'page' || any { $_ eq $collection} @{ $response->data->{collection} }) {
-			return CIHM::Access::Presentation::Document->new({ record => $response->data, content => $self->content });
+			return CIHM::Access::Presentation::Document->new({
+				record => $response->data,
+				derivative => $self->derivative,
+				download => $self->download,
+				prezi_demo_endpoint => $self->prezi_demo_endpoint
+			});
 		} else {
 			die "Document $key not found in $collection collection";
 		}

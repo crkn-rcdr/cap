@@ -18,6 +18,12 @@
 [% INCLUDE entry field=(record.defined("lang") ? record.lang : "") name=c.loc("Language") labels=c.stash.languages %]
 [% IF c.portal.has_feature('contributors'); INCLUDE entry field=(record.defined("depositor") ? record.depositor : "") name=c.loc("Contributor") labels=c.model('Depositors').as_labels(c.stash.lang); END %]
 [% INCLUDE entry field=(record.defined("ab") ? record.ab : "") name=c.loc("Description") labels='' %]
+[% IF prezi_demo_uri && c.user.has_role('iiif_preview') -%]
+    <tr>
+        <th>[% c.loc("IIIF Presentation Document") %]</th>
+        <td><a href="[% prezi_demo_uri %]" target="_blank">[% prezi_demo_uri %]</a></td>
+    </tr>
+[% END -%]
     <tr>
         <th>[% c.loc("Permanent Link") %]</th>
         <td><a href="[% c.uri_for_action("view/index", record.key) %]">[% c.uri_for_action("view/index", record.key) %]</a></td>
