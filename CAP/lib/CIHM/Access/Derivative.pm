@@ -49,6 +49,7 @@ has 'config' => (
 sub uri {
 	my ($self, $params) = @_;
 	my $identifier = $params->{from_pdf} ? $params->{download} : $params->{master};
+	$params->{size} ||= "";
 	my $bound = $self->config->{size}{$params->{size}} || $self->config->{default_size};
 	my $size = "!$bound,$bound";
 	my $rotate = $self->config->{rotate}{$params->{rotate}} || 0;
