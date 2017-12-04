@@ -22,8 +22,8 @@ sub get_page_uri :Local :Args(2) {
     };
     $c->detach('/error', [404, "Presentation fetch failed on document $key: $@"]) if $@;
 
-    my $size = $c->req->params->{s};
-    my $rotate = $c->req->params->{r};
+    my $size = $c->req->params->{s} || "1";
+    my $rotate = $c->req->params->{r} || "0";
     my $result = $doc->validate_derivative($seq || $doc->first_component_seq, $size, $rotate);
 
     if ($c->req->params->{redirect}) {
