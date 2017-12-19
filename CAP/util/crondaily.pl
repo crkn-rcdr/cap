@@ -1,11 +1,10 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use 5.010;
 use strict;
 use warnings;
 use feature qw(switch say);
 
-use lib "/opt/c7a-perl/current/cmd/local/lib/perl5";
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 
@@ -29,7 +28,7 @@ my @actions = (
     [session                        => \&session],
     [log_expired_accounts           => \&log_expired_accounts]
 );
-              
+
 foreach (@actions) {
     my ($job, $ref) = @$_;
     eval { $ref->($c) };
@@ -43,12 +42,12 @@ foreach (@actions) {
 
 sub expiring_subscription_reminder {
     my $c = shift;
-    
+
     # Generally we don't want to run this subroutine unless we're on a production server
     # or on the workstation of the maintainer
     return 1 unless ( $c->config->{productionflagfile} && -e $c->config->{productionflagfile} );
 
-    my $days = $c->config->{expiring_acct_reminder};  
+    my $days = $c->config->{expiring_acct_reminder};
     $c->stash->{expiring_in} = $days;
 
     # Get the cutoff date in a format the database understands
@@ -61,7 +60,7 @@ sub expiring_subscription_reminder {
     $datestr = "now";
     $err = $date->parse($datestr);
     my $now = $date->printf("%Y-%m-%d %T");
-    
+
     my $expiring = $c->model('DB::UserSubscription')->expiring_subscriptions($cutoff_date, $now);
 
     # To reduce the risk of sending multiple emails due to a race
@@ -91,8 +90,8 @@ sub expiring_subscription_reminder {
         # the current row from the database, but it is difficult to test
         # if this is actually the case.
         last unless ($user_sub->reminder_sent);
-        
-        # Get the expiry dates as strings       
+
+        # Get the expiry dates as strings
         my $exp_date = build_date_strings($user_sub->expires);
 
         # call the subscription method directly since we're not handling an http request
@@ -108,16 +107,15 @@ sub expiring_subscription_reminder {
 
 sub remove_unconfirmed {
     my $c = shift;
-    
-    my $days = $c->config->{confirm_grace_period};  
-    $c->stash->{remove_before} = $days;
+
+    my $days = $c->config->{confirm_grace_period};
 
     # Get the cutoff date in a format the database understands
     my $date = new Date::Manip::Date;
     my $datestr = $days . " days ago";
     my $err = $date->parse($datestr);
     my $cutoff_date = $date->printf("%Y-%m-%d %T");
-    
+
     my $num_removed = $c->model('DB::User')->delete_unconfirmed($cutoff_date);
 
     return 1;
@@ -143,15 +141,14 @@ sub build_date_strings {
     my $exp_date = {};
 
     my $date_eng = new Date::Manip::Date;
-    $date_eng->config("Language","English","DateFormat","US"); 
+    $date_eng->config("Language","English","DateFormat","US");
     my $err = $date_eng->parse($expires);
     $exp_date->{en} = $date_eng->printf("%A, %B %d, %Y");
 
     my $date_fre = new Date::Manip::Date;
-    $date_fre->config("Language","French","DateFormat","non-US"); 
+    $date_fre->config("Language","French","DateFormat","non-US");
     $err = $date_fre->parse($expires);
-    $exp_date->{fr} = $date_fre->printf("%A, le %d %B, %Y");	
+    $exp_date->{fr} = $date_fre->printf("%A, le %d %B, %Y");
 
     return $exp_date;
 }
-

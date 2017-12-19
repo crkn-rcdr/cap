@@ -1,11 +1,8 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
-use 5.010;
-use strict;
-use warnings;
-use feature qw(switch say);
+use strictures 2;
+use utf8;
 
-use lib "/opt/c7a-perl/current/cmd/local/lib/perl5";
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 
@@ -19,7 +16,7 @@ my $scriptname = 'cronweekly';
 my $c = CAP->new();
 
 my @actions = (
-    [status_report             => \&status_report]
+    [status_report => \&status_report]
 );
 
 foreach (@actions) {
@@ -37,11 +34,6 @@ foreach (@actions) {
 sub status_report {
     my $c = shift;
 
-    # We need something in the portal ID field so that Mail won't
-    # complain. FIXME: this is not a great solution.
-    $c->stash(portal => 'Default');
-
-
     # If there is no one to send a status report to, then don't bother
     # doing any work.
     my $recipients =$c->config->{mailinglist}->{status_report};
@@ -50,11 +42,11 @@ sub status_report {
     my $portals = $c->model('DB::Portal')->with_titles('en');
     my $now = DateTime->now();
 
-    $c->controller('Mail')->status_report($c, $recipients,
+    $c->model('Mailer')->status_report($c, $recipients, {
         portal_stats_current => $c->model('UsageStats')->status_report($portals, $now),
         portal_stats_previous => $c->model('UsageStats')->status_report($portals, $now->subtract(months => 1)),
         user_subscriptions => [$c->model('DB::UserSubscription')->active_by_portal()]
-    );
+    });
 
     return 1;
 }

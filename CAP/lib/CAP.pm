@@ -22,8 +22,6 @@ use Catalyst qw/
                 StackTrace
                 I18N
 
-                Email
-
                 Authentication
 
                 Session

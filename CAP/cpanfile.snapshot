@@ -370,17 +370,6 @@ DISTRIBUTIONS
       Path::Class 0
       Test::More 0
       perl 5.008
-  Catalyst-Plugin-Email-0.09
-    pathname: E/ET/ETHER/Catalyst-Plugin-Email-0.09.tar.gz
-    provides:
-      Catalyst::Plugin::Email 0.09
-    requirements:
-      Catalyst 2.99
-      Email::MIME 0
-      Email::MIME::Creator 0
-      Email::Send 0
-      ExtUtils::MakeMaker 0
-      perl 5.008
   Catalyst-Plugin-I18N-0.10
     pathname: B/BO/BOBTFISH/Catalyst-Plugin-I18N-0.10.tar.gz
     provides:
@@ -576,7 +565,6 @@ DISTRIBUTIONS
       MooseX::Emulate::Class::Accessor::Fast 0.00903
       MooseX::Getopt 0.48
       MooseX::MethodAttributes::Role::AttrContainer::Inheritable 0.24
-      MooseX::Role::WithOverloading 0.09
       Path::Class 0.09
       Plack 0.9991
       Plack::Middleware::Conditional 0
@@ -2965,10 +2953,10 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Email-Address-XS-1.00
-    pathname: P/PA/PALI/Email-Address-XS-1.00.tar.gz
+  Email-Address-XS-1.01
+    pathname: P/PA/PALI/Email-Address-XS-1.01.tar.gz
     provides:
-      Email::Address::XS 1.00
+      Email::Address::XS 1.01
     requirements:
       Carp 0
       Exporter 0
@@ -3049,29 +3037,61 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Email-Send-2.201
-    pathname: R/RJ/RJBS/Email-Send-2.201.tar.gz
+  Email-Sender-1.300031
+    pathname: R/RJ/RJBS/Email-Sender-1.300031.tar.gz
     provides:
-      Email::Send 2.201
-      Email::Send::NNTP 2.201
-      Email::Send::Qmail 2.201
-      Email::Send::SMTP 2.201
-      Email::Send::Sendmail 2.201
-      Email::Send::Test 2.201
+      Email::Sender 1.300031
+      Email::Sender::Failure 1.300031
+      Email::Sender::Failure::Multi 1.300031
+      Email::Sender::Failure::Permanent 1.300031
+      Email::Sender::Failure::Temporary 1.300031
+      Email::Sender::Manual 1.300031
+      Email::Sender::Manual::QuickStart 1.300031
+      Email::Sender::Role::CommonSending 1.300031
+      Email::Sender::Role::HasMessage 1.300031
+      Email::Sender::Simple 1.300031
+      Email::Sender::Success 1.300031
+      Email::Sender::Success::Partial 1.300031
+      Email::Sender::Transport 1.300031
+      Email::Sender::Transport::DevNull 1.300031
+      Email::Sender::Transport::Failable 1.300031
+      Email::Sender::Transport::Maildir 1.300031
+      Email::Sender::Transport::Mbox 1.300031
+      Email::Sender::Transport::Print 1.300031
+      Email::Sender::Transport::SMTP 1.300031
+      Email::Sender::Transport::SMTP::Persistent 1.300031
+      Email::Sender::Transport::Sendmail 1.300031
+      Email::Sender::Transport::Test 1.300031
+      Email::Sender::Transport::Wrapper 1.300031
+      Email::Sender::Util 1.300031
     requirements:
-      Email::Abstract 0
-      Email::Address 1.80
-      Email::Simple 1.92
+      Carp 0
+      Email::Abstract 3.006
+      Email::Address 0
+      Email::Simple 1.998
       ExtUtils::MakeMaker 0
+      Fcntl 0
+      File::Basename 0
+      File::Path 2.06
       File::Spec 0
-      Module::Pluggable 2.97
-      Net::SMTP 0
-      Return::Value 0
-      Scalar::Util 1.02
-      Symbol 0
-      perl 5.006
+      IO::File 1.11
+      IO::Handle 0
+      List::Util 1.45
+      Module::Runtime 0
+      Moo 2.000000
+      Moo::Role 0
+      MooX::Types::MooseLike 0.15
+      MooX::Types::MooseLike::Base 0
+      Net::SMTP 3.07
+      Scalar::Util 0
+      Sub::Exporter 0
+      Sub::Exporter::Util 0
+      Sys::Hostname 0
+      Throwable::Error 0.200003
+      Try::Tiny 0
       strict 0
-      vars 0
+      utf8 0
+      warnings 0
   Email-Simple-2.214
     pathname: R/RJ/RJBS/Email-Simple-2.214.tar.gz
     provides:
@@ -3083,6 +3103,23 @@ DISTRIBUTIONS
       Email::Date::Format 0
       ExtUtils::MakeMaker 0
       perl 5.008
+      strict 0
+      warnings 0
+  Email-Stuffer-0.016
+    pathname: R/RJ/RJBS/Email-Stuffer-0.016.tar.gz
+    provides:
+      Email::Stuffer 0.016
+    requirements:
+      Carp 0
+      Email::MIME 1.943
+      Email::MIME::Creator 0
+      Email::Sender::Simple 0
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      Module::Runtime 0
+      Params::Util 1.05
+      Scalar::Util 0
+      perl 5.005
       strict 0
       warnings 0
   Encode-2.93
@@ -4200,6 +4237,14 @@ DISTRIBUTIONS
       Module::Runtime 0
       Moo 1.003000
       Role::Tiny 0
+  MooX-Types-MooseLike-0.29
+    pathname: M/MA/MATEU/MooX-Types-MooseLike-0.29.tar.gz
+    provides:
+      MooX::Types::MooseLike 0.29
+      MooX::Types::MooseLike::Base 0.29
+    requirements:
+      ExtUtils::MakeMaker 0
+      Module::Runtime 0.014
   Moose-2.2006
     pathname: E/ET/ETHER/Moose-2.2006.tar.gz
     provides:
@@ -5491,17 +5536,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Return-Value-1.666005
-    pathname: R/RJ/RJBS/Return-Value-1.666005.tar.gz
-    provides:
-      Return::Value 1.666005
-    requirements:
-      Carp 0
-      Exporter 5.57
-      ExtUtils::MakeMaker 0
-      overload 0
-      strict 0
-      warnings 0
   Role-REST-Client-0.22
     pathname: K/KA/KAARE/Role-REST-Client-0.22.tar.gz
     provides:
@@ -6121,9 +6155,8 @@ DISTRIBUTIONS
     requirements:
       Capture::Tiny 0.24
       Data::Dumper 2.126
-      ExtUtils::MakeMaker 0
       Test::More 0.88
-      Text::Diff 1.43
+      Text::Diff 0.35
   Test-Exception-0.43
     pathname: E/EX/EXODIST/Test-Exception-0.43.tar.gz
     provides:
@@ -6361,6 +6394,22 @@ DISTRIBUTIONS
       Unicode::Normalize 0
       charnames 0
       perl 5.008005
+  Throwable-0.200013
+    pathname: R/RJ/RJBS/Throwable-0.200013.tar.gz
+    provides:
+      StackTrace::Auto 0.200013
+      Throwable 0.200013
+      Throwable::Error 0.200013
+    requirements:
+      Carp 0
+      Devel::StackTrace 1.32
+      ExtUtils::MakeMaker 0
+      Module::Runtime 0.002
+      Moo 1.000001
+      Moo::Role 0
+      Scalar::Util 0
+      Sub::Quote 0
+      overload 0
   Tie-IxHash-1.23
     pathname: C/CH/CHORNY/Tie-IxHash-1.23.tar.gz
     provides:
@@ -6865,6 +6914,50 @@ DISTRIBUTIONS
       XSLoader 0
       lib 0
       perl 5.008001
+  libnet-3.11
+    pathname: S/SH/SHAY/libnet-3.11.tar.gz
+    provides:
+      Net undef
+      Net::Cmd 3.11
+      Net::Config 3.11
+      Net::Domain 3.11
+      Net::FTP 3.11
+      Net::FTP::A 3.11
+      Net::FTP::E 3.11
+      Net::FTP::I 3.11
+      Net::FTP::L 3.11
+      Net::FTP::_SSL_SingleSessionCache 3.11
+      Net::FTP::dataconn 3.11
+      Net::NNTP 3.11
+      Net::NNTP::_SSL 3.11
+      Net::Netrc 3.11
+      Net::POP3 3.11
+      Net::POP3::_SSL 3.11
+      Net::SMTP 3.11
+      Net::SMTP::_SSL 3.11
+      Net::Time 3.11
+    requirements:
+      Carp 0
+      Errno 0
+      Exporter 0
+      ExtUtils::MakeMaker 6.64
+      Fcntl 0
+      File::Basename 0
+      FileHandle 0
+      Getopt::Std 0
+      IO::File 0
+      IO::Select 0
+      IO::Socket 1.05
+      POSIX 0
+      Socket 2.016
+      Symbol 0
+      Time::Local 0
+      constant 0
+      perl 5.008001
+      strict 0
+      utf8 0
+      vars 0
+      warnings 0
   libwww-perl-6.27
     pathname: O/OA/OALDERS/libwww-perl-6.27.tar.gz
     provides:

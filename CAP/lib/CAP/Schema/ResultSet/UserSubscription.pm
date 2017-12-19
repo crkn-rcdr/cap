@@ -12,8 +12,11 @@ Return the number of currently active subscriptions by portal
 =cut
 sub active_by_portal {
     my($self) = @_;
+
+    # See https://metacpan.org/pod/distribution/DBIx-Class/lib/DBIx/Class/Manual/FAQ.pod about formatting dates
+    my $dtf = $self->result_source->storage->datetime_parser;
     my @result = $self->search(
-        { expires => { '>=' => DateTime->now() }},
+        { expires => { '>=' => $dtf->format_datetime(DateTime->now()) }},
         {
             select => [ 'portal_id', { count => 'user_id', -as => 'user_count' } ],
             as     => [ 'portal_id', 'user_count' ],

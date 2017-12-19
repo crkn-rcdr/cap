@@ -236,7 +236,7 @@ sub create :Private {
 
         # Send the confirmation/activation email
         my $confirm_link = $c->uri_for_action('user/confirm', $created->{user}->confirmation_token);
-        $c->forward("/mail/user_activate", [$created->{user}->email, $created->{user}->name, $confirm_link]);
+        $c->model("Mailer")->user_activate($c, $created->{user}->email, $created->{user}->name, $confirm_link);
         $c->response->redirect($c->uri_for_action('/user/confirmation_required', [$created->{user}->email]));
         $c->detach();
     }
@@ -283,10 +283,10 @@ sub confirmation_required :Path('confirmation_required') :Args(1) {
 }
 
 sub reconfirm :Path('reconfirm') :Args(1) {
-    my($self, $c, $username) = @_;
+    my($self, $c, $email) = @_;
 
     # Retrieve the record for the user
-    my $new_user = $c->find_user({ username => $username, confirmed => 0 });
+    my $new_user = $c->find_user({ email => $email, confirmed => 0 });
 
     # Make sure the user is valid and not yet confirmed
     if (! $new_user) {
@@ -294,17 +294,15 @@ sub reconfirm :Path('reconfirm') :Args(1) {
     }
 
     $c->stash->{formdata} = {
-        username => $username,
+        username => $email,
         name     => $new_user->name,
     };
 
     # Resend an activation email
     my $confirm_link = $c->uri_for_action('user/confirm', $new_user->confirmation_token);
-    $c->forward("/mail/user_activate", [$username, $new_user->name, $confirm_link]);
+    $c->model("Mailer")->user_activate($c, $email, $new_user->name, $confirm_link);
 
-    $c->stash->{completed}  = 1;
-    $c->stash->{template} = 'user/create.tt';
-
+    $c->response->redirect($c->uri_for_action('/user/confirmation_required', [$email]));
     return 1;
 }
 
@@ -347,16 +345,10 @@ sub confirm :Path('confirm') :Args(1) {
         $c->persist_user();
         $c->user->update({ last_login => DateTime->now() });
         $c->user->log('CONFIRMED');
-        $c->response->redirect($c->uri_for_action("/user/confirmed"));
+        $c->response->redirect($c->uri_for_action("/user/profile"));
     } else {
         $c->response->redirect($c->uri_for_action('/index'));
     }
-    return 0;
-}
-
-sub confirmed :Path('confirmed') :Args(0) {
-    my($self, $c) = @_;
-    $c->stash->{portals} = [$c->model("DB::Portal")->list];
     return 0;
 }
 
@@ -389,7 +381,7 @@ sub reset_POST {
     }
     else {
         my $confirm_link = $c->uri_for_action('user/reset_password', $user->confirmation_token);
-        $c->forward('/mail/user_reset', [$user->email, $confirm_link]);
+        $c->model('Mailer')->user_reset($c, $user->email, $confirm_link);
         $user->log("RESET_REQUEST", sprintf("from %s", $c->req->address));
     }
 
@@ -492,7 +484,7 @@ sub subscribe_finalize : Private
         $subscription->portal_id->id, $subscription->new_level, $subscription->new_expire->ymd));
 
     # Notify the user via email of their new/updated subscription
-    $c->forward('/mail/subscription_confirmation', [ $subscription ]);
+    $c->model("Mailer")->subscription_confirmation($c, $c->user->email, $c->stash->{lang}, $subscription);
 
     # Send the user to a confirmation page/receipt
     $c->stash->{template} = 'user/subscribe_finalize.tt';
