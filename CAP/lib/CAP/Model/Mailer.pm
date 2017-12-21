@@ -54,7 +54,8 @@ sub _build_template {
 	my ($self) = @_;
 	return Template->new({
 		INCLUDE_PATH => $self->template_path,
-		INTERPOLATE => 1
+		INTERPOLATE => 1,
+		EVAL_PERL => 1
 	});
 }
 
@@ -69,8 +70,13 @@ sub _build_transport {
 sub send {
 	my ($self, $c, $args) = @_;
 	my $body = '';
-	$self->template->process($args->{template}, { c => $c, %{$args->{template_vars}} }, \$body) ||
-		(warn $self->template->error() && return);
+	my $template_success = $self->template->process($args->{template}, { c => $c, %{$args->{template_vars}} }, \$body);
+
+	unless ($template_success) {
+		warn "Email template error: " . $self->template->error();
+		return 1;
+	}
+
 	my $email = Email::Stuffer->new({
 		from => $self->from,
 		to => $args->{to},
@@ -79,8 +85,6 @@ sub send {
 		html_body => $args->{html} ? $body : undef,
 		transport => $self->transport
 	});
-
-	warn $email->as_string;
 
 	try {
 		$email->send_or_die;

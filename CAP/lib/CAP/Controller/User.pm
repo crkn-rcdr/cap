@@ -488,6 +488,7 @@ sub subscribe_finalize : Private
 
     # Send the user to a confirmation page/receipt
     $c->stash->{template} = 'user/subscribe_finalize.tt';
+    $c->stash->{subscription} = $subscription;
     return 1;
 }
 
