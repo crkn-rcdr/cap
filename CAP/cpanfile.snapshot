@@ -308,7 +308,6 @@ DISTRIBUTIONS
       DBD::SQLite 0
       DBIx::Class 0.08114
       ExtUtils::MakeMaker 6.59
-      Hash::Merge 0
       List::MoreUtils 0
       Module::Runtime 0.012
       Moose 1.12
@@ -459,6 +458,13 @@ DISTRIBUTIONS
       MRO::Compat 0
       Storable 0
       Test::More 0
+  Catalyst-Plugin-Session-Store-Redis-0.07
+    pathname: D/DO/DOMM/Catalyst-Plugin-Session-Store-Redis-0.07.tar.gz
+    provides:
+      Catalyst::Plugin::Session::Store::Redis 0.07
+    requirements:
+      Module::Build 0.28
+      Redis 0
   Catalyst-Plugin-StackTrace-0.12
     pathname: B/BO/BOBTFISH/Catalyst-Plugin-StackTrace-0.12.tar.gz
     provides:
@@ -817,7 +823,6 @@ DISTRIBUTIONS
       Config::Any::XML undef
       Config::Any::YAML undef
     requirements:
-      Config::General 2.47
       Module::Pluggable::Object 3.6
   Config-General-2.63
     pathname: T/TL/TLINDEN/Config-General-2.63.tar.gz
@@ -3740,6 +3745,21 @@ DISTRIBUTIONS
       Mozilla::CA 0
       Net::SSLeay 1.46
       Scalar::Util 0
+  IO-Socket-Timeout-0.32
+    pathname: D/DA/DAMS/IO-Socket-Timeout-0.32.tar.gz
+    provides:
+      IO::Socket::Timeout 0.32
+      IO::Socket::Timeout::Role::PerlIO 0.32
+      IO::Socket::Timeout::Role::SetSockOpt 0.32
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      IO::Handle 0
+      IPC::Open3 0
+      Module::Build::Tiny 0.039
+      PerlIO::via::Timeout 0.32
+      Test::More 0
+      Test::TCP 0
   IO-String-1.08
     pathname: G/GA/GAAS/IO-String-1.08.tar.gz
     provides:
@@ -5376,6 +5396,21 @@ DISTRIBUTIONS
       overload 0
       parent 0
       strict 0
+  PerlIO-via-Timeout-0.32
+    pathname: D/DA/DAMS/PerlIO-via-Timeout-0.32.tar.gz
+    provides:
+      PerlIO::via::Timeout 0.32
+    requirements:
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      IO::Handle 0
+      IPC::Open3 0
+      Module::Build::Tiny 0.039
+      PerlIO::via 0
+      Test::More 0
+      Test::TCP 0
+      Time::HiRes 0
   Plack-1.0044
     pathname: M/MI/MIYAGAWA/Plack-1.0044.tar.gz
     provides:
@@ -5536,6 +5571,19 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Redis-1.991
+    pathname: D/DA/DAMS/Redis-1.991.tar.gz
+    provides:
+      Redis 1.991
+      Redis::Hash 1.991
+      Redis::List 1.991
+      Redis::Sentinel 1.991
+    requirements:
+      ExtUtils::MakeMaker 6.63_03
+      IO::Socket::Timeout 0.29
+      Module::Build::Tiny 0.039
+      Try::Tiny 0
+      perl 5.006
   Role-REST-Client-0.22
     pathname: K/KA/KAARE/Role-REST-Client-0.22.tar.gz
     provides:
