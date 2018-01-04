@@ -25,8 +25,8 @@ use Catalyst qw/
                 Authentication
 
                 Session
+		Session::Store::Redis
                 Session::State::Cookie
-                Session::Store::DBI
 
                 MessageStack
 
@@ -70,8 +70,11 @@ __PACKAGE__->config(
     'Plugin::Session' => {
         cookie_expires => 0, # session cookie
         expires => 7200,     # 2 hours
-        dbi_dbh => 'DB',
-        dbi_table => 'sessions',
+        #dbi_dbh => 'DB',
+        #dbi_table => 'sessions',
+	redis_server => 'cap-redis:6379',
+	redis_debug => 0, # or 1!
+	redis_reconnect => 1, # or 0
         cookie_name => 'cap_session'
     },
 
