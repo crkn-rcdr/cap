@@ -25,6 +25,7 @@ requires 'Text::Undiacritic';
 requires 'JSON';
 requires 'DateTime';
 requires 'DateTime::Format::ISO8601';
+requires 'DateTime::Format::MySQL';
 requires 'Role::REST::Client';
 requires 'Catalyst::Model::Adaptor';
 requires 'File::Slurp';

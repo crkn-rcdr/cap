@@ -5,6 +5,8 @@ use warnings;
 use base 'DBIx::Class::ResultSet';
 use Digest::SHA qw(sha1_hex);
 use POSIX qw(strftime);
+use DateTime;
+use DateTime::Format::MySQL;
 
 =head2 find_user ($identifier)
 
@@ -256,7 +258,9 @@ sub unconfirmed_accounts {
 
 # Delete unconfirmed users
 sub delete_unconfirmed {
-    my ( $self, $created ) = @_;
+    my ( $self, $grace_days ) = @_;
+
+    my $created = DateTime::Format::MySQL->format_datetime(DateTime->now->subtract( days => $grace_days ));
     my $num_deleted = 0;
 
     my $unconfirmed = $self->search(

@@ -30,6 +30,11 @@ has 'from' => (
 	required => 1
 );
 
+has 'automated_email_redirect' => (
+	is => 'ro',
+	isa => 'Str'
+);
+
 has 'template_path' => (
 	is => 'ro',
 	isa => 'Str',
@@ -79,7 +84,7 @@ sub send {
 
 	my $email = Email::Stuffer->new({
 		from => $self->from,
-		to => $args->{to},
+		to => $args->{automated} ? ($self->automated_email_redirect || $args->{to}) : $args->{to},
 		subject => $args->{subject},
 		text_body => $args->{html} ? undef : $body,
 		html_body => $args->{html} ? $body : undef,

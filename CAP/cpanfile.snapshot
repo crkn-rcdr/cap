@@ -308,6 +308,7 @@ DISTRIBUTIONS
       DBD::SQLite 0
       DBIx::Class 0.08114
       ExtUtils::MakeMaker 6.59
+      Hash::Merge 0
       List::MoreUtils 0
       Module::Runtime 0.012
       Moose 1.12
@@ -823,6 +824,7 @@ DISTRIBUTIONS
       Config::Any::XML undef
       Config::Any::YAML undef
     requirements:
+      Config::General 2.47
       Module::Pluggable::Object 3.6
   Config-General-2.63
     pathname: T/TL/TLINDEN/Config-General-2.63.tar.gz

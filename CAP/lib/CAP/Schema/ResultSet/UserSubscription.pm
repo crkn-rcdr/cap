@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use Date::Manip::Date;
 use base 'DBIx::Class::ResultSet';
+use DateTime::Format::MySQL;
+use DateTime;
 
 =head2 active_by_portal
 
@@ -82,12 +84,15 @@ sub subscribe {
 }
 
 sub expiring_subscriptions {
-    my ( $self, $from_date, $now ) = @_;
+    my ( $self, $reminder_days ) = @_;
 
     my $expiring = $self->search(
         {
 
-            expires   => { '<=' => $from_date, '>=' => $now },
+            expires   => {
+                '<=' => DateTime::Format::MySQL->format_datetime(DateTime->now->add( days => $reminder_days )),
+                '>=' => Datetime::Format::MySQL->format_datetime(DateTime->now)
+            },
             permanent     => 0,
             reminder_sent => 0,
             level => { '>=' => 1 }
