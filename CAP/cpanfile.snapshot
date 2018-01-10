@@ -3342,6 +3342,12 @@ DISTRIBUTIONS
       File::DesktopEntry 0.04
       Pod::Usage 0
       perl 5.006001
+  File-ReadBackwards-1.05
+    pathname: U/UR/URI/File-ReadBackwards-1.05.tar.gz
+    provides:
+      File::ReadBackwards 1.05
+    requirements:
+      ExtUtils::MakeMaker 0
   File-Remove-1.57
     pathname: S/SH/SHLOMIF/File-Remove-1.57.tar.gz
     provides:
