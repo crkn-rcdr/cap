@@ -11,6 +11,8 @@ sub prepare_arguments {
     } : $arg;
     $parameters->{derivative} = $app->model("Access::Derivative");
     $parameters->{download} = $app->model('Access::Download');
+    $parameters->{server} = $app->config->{services}->{copresentation}->{endpoint};
+    $parameters->{prezi_demo_endpoint} = $app->config->{services}->{iiif_presentation}->{endpoint};
     return $parameters;
 }
 1;

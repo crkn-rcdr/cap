@@ -65,19 +65,6 @@ __PACKAGE__->config(
         },
     },
 
-    # This needs to be re-defined in cap.conf or cap_local.conf anyway, so
-    # maybe it can be removed from here at some point.
-    'Plugin::Session' => {
-        cookie_expires => 0, # session cookie
-        expires => 7200,     # 2 hours
-        #dbi_dbh => 'DB',
-        #dbi_table => 'sessions',
-	redis_server => 'cap-redis:6379',
-	redis_debug => 0, # or 1!
-	redis_reconnect => 1, # or 0
-        cookie_name => 'cap_session'
-    },
-
 );
 
 if (-e "$FindBin::Bin/../log4perl.conf") {

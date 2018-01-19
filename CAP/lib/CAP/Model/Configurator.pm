@@ -164,7 +164,7 @@ method setView($request, $config) {
     #}
     
     # In all other cases, use the default view.
-    return $config->{default_view} || 'Default';
+    return $config->{fmt}->{default}->{view};
 }
 
 

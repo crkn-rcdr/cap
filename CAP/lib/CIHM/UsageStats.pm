@@ -4,7 +4,6 @@ use utf8;
 use strictures 2;
 use Moo;
 use File::Basename qw/fileparse/;
-use Types::Standard qw/Str Enum/;
 use JSON qw/decode_json encode_json/;
 use List::Util qw/reduce/;
 
@@ -39,29 +38,45 @@ use constant MONTHS => {
 	}
 };
 
-with 'Role::REST::Client';
+{
+	package CIHM::UsageStats::Database;
 
-has '+type' => (
-    isa => Enum[qw{application/json}],
-    is  => 'ro',
-    default => sub { 'application/json' },
-);
+	use Moo;
+	use Types::Standard qw/Enum/;
+	with 'Role::REST::Client';
+
+	has '+type' => (
+	    isa => Enum[qw{application/json}],
+	    is  => 'ro',
+	    default => sub { 'application/json' },
+	);
+
+	sub BUILD {
+		my ($self, $args) = @_;
+		$self->set_persistent_header(Accept => 'application/json');
+	}
+}
 
 has [qw/statsdb logfiledb/] => (
 	is => 'ro',
-	isa => Str,
+	isa => sub {
+		die "$_[0] is not a CIHM::UsageStats::Database" unless ref($_[0]) eq 'CIHM::UsageStats::Database';
+	},
 	required => 1
 );
 
-sub BUILD {
-	my ($self, $args) = shift;
-	$self->set_persistent_header(Accept => 'application/json');
-}
+around BUILDARGS => sub {
+	my ($orig, $class, @args) = @_;
+	foreach (qw/statsdb logfiledb/) {
+		$args[0]->{$_} = CIHM::UsageStats::Database->new({ server => $args[0]->{$_} });
+	}
+	return $class->$orig(@args);
+};
 
 sub create_databases {
 	my ($self) = @_;
-	$self->put($self->statsdb);
-	$self->put($self->logfiledb);
+	$self->statsdb->put('/');
+	$self->logfiledb->put('/');
 }
 
 sub _transform_row_for_bulk_update {
@@ -88,15 +103,13 @@ sub update {
 
 	# look up keys
 	my $key_struct = { keys => [keys %$stats] };
-	my $lookup_url = join('/', $self->statsdb, '_all_docs?include_docs=true');
-	my @rows = @{$self->post($lookup_url, $key_struct)->data->{rows}};
+	my @rows = @{ $self->statsdb->post('/_all_docs?include_docs=true', $key_struct)->data->{rows} };
 
 	# transform rows and add stats
 	my @transformed_rows = map { _transform_row_for_bulk_update($_, $stats) } @rows;
 
 	# bulk update docs
-	my $update_url = join('/', $self->statsdb, '_bulk_docs');
-	my $response = $self->post($update_url, { docs => \@transformed_rows })->data;
+	my $response = $self->statsdb->post('/_bulk_docs', { docs => \@transformed_rows })->data;
 
 	return scalar @$response;
 }
@@ -119,8 +132,7 @@ sub register_logfiles {
 	my ($self, @logpaths) = @_;
 	my %path_lookup = map { (fileparse($_))[0] => $_ } @logpaths;
 	my $post_data = { docs => [map { { '_id' => $_ } } keys %path_lookup] };
-	my $url = join('/', $self->logfiledb, '_bulk_docs');
-	my @rows = @{$self->post($url, $post_data)->data};
+	my @rows = @{ $self->logfiledb->post('/_bulk_docs', $post_data)->data };
 	return map { [$path_lookup{$_->{id}}, $_->{error} ? 1 : 0] } @rows;
 }
 
@@ -158,8 +170,7 @@ sub retrieve {
 		include_docs => 'true'
 	};
 
-	my $url = join('/', $self->statsdb, '_all_docs');
-	my $rows = $self->get($url, $call_args)->data->{rows};
+	my $rows = $self->statsdb->get('/_all_docs', $call_args)->data->{rows};
 
 	my $listing = {};
 	foreach (@$rows) {
@@ -196,8 +207,7 @@ sub status_report {
 		keys => encode_json [sort keys %keys_titles]
 	};
 
-	my $url = join('/', $self->statsdb, '_all_docs');
-	my $rows = $self->get($url, $call_args)->data->{rows};
+	my $rows = $self->statsdb->get('/_all_docs', $call_args)->data->{rows};
 
 	return [map {
 		_transform_doc_for_report($_->{doc} || { _id => $_->{key} }, \%keys_titles)
@@ -219,8 +229,7 @@ sub institution_portals {
 			limit => 1
 		};
 
-		my $url = join('/', $self->statsdb, '_all_docs');
-		my $rows = $self->get($url, $call_args)->data->{rows};
+		my $rows = $self->statsdb->get('/_all_docs', $call_args)->data->{rows};
 
 		$result->{$p} = $portals->{$p} if (@$rows);
 	}

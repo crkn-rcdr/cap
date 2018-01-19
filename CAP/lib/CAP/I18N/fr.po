@@ -1288,11 +1288,6 @@ msgstr "Suivez nous sur Twitter"
 msgid "Follow us on Twitter!"
 msgstr "Suivez nous sur Twitter!"
 
-#. ('<a href="mailto:' _ c.config.support_email _ '">' _ c.config.support_email _ '</a>')
-#: ../../../root/templates/Default/Common/feedback.tt:9
-msgid "For technical support, please email %1."
-msgstr "Pour du soutien technique, veuillez envoyez un courriel à %1."
-
 # Contributor names - bilingual
 #:
 msgid "Foreign Affairs and International Trade"

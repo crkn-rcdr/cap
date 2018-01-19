@@ -11,18 +11,12 @@ has 'cms_instance' => (
 	isa => 'CIHM::CMS'
 );
 
-has 'server' => (
-	is => 'ro',
-	isa => 'Str',
-	required => 1
-);
-
 # see http://www.perlmonks.org/?node_id=915657
 sub initialize_after_setup {
 	my ($self, $app) = @_;
 	$self->cms_instance(
 		CIHM::CMS->new({
-			server => $self->server,
+			server => $app->config->{services}->{cms}->{endpoint},
 			languages => $app->config->{languages},
 			cache => $app->model('CouchCache')
 		})

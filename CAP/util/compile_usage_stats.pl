@@ -11,13 +11,11 @@ use CIHM::UsageStats;
 use Getopt::Long;
 use JSON qw/decode_json encode_json/;
 
-my $server = 'http://localhost:5984/';
-my $statsdb = 'cap_usage_stats';
-my $logfiledb = 'cap_logfile_registry';
+my $statsdb = 'http://localhost:5984/cap_usage_stats';
+my $logfiledb = 'http://localhost:5984/cap_logfile_registry';
 my $quiet = '';
 
 GetOptions (
-	'server=s' => \$server,
 	'statsdb=s' => \$statsdb,
 	'logfiledb=s' => \$logfiledb,
 	'quiet' => \$quiet
@@ -26,15 +24,14 @@ GetOptions (
 unless (scalar @ARGV) {
 	print "Usage: compile_usage_stats.pl <options?> <logfile(s)>\n\n";
 	print "Options include: \n";
-	print "--server: couch server stats are compiled to (default: http://localhost:5984/)\n";
-	print "--statsdb: database for compiled stats (default: cap_usage_stats)\n";
-	print "--logfiledb: database to register compiled logfiles (default: cap_logfile_registry)\n";
+	print "--statsdb: database for compiled stats (default: http://localhost:5984/cap_usage_stats)\n";
+	print "--logfiledb: database to register compiled logfiles (default: http://localhost:5984/cap_logfile_registry)\n";
 	print "--quiet: output nothing to stdout\n";
 	exit 1;
 }
 
 my $stats = {};
-my $stats_server = CIHM::UsageStats->new({ server => $server, statsdb => $statsdb, logfiledb => $logfiledb });
+my $stats_server = CIHM::UsageStats->new({ statsdb => $statsdb, logfiledb => $logfiledb });
 $stats_server->create_databases();
 
 sub increment {

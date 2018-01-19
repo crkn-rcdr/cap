@@ -72,6 +72,12 @@ sub _build_transport {
 	});
 }
 
+sub COMPONENT {
+	my ($class, $app, $args) = @_;
+	$args = $class->merge_config_hashes($app->config->{services}->{mail}, $args);
+	return $class->new($app, $args);
+}
+
 sub send {
 	my ($self, $c, $args) = @_;
 	my $body = '';
