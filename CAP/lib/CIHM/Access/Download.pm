@@ -8,7 +8,7 @@ use Types::Standard qw/Str/;
 use Crypt::JWT qw/encode_jwt/;
 use URI;
 
-has 'server' => (
+has 'endpoint' => (
 	is => 'ro',
 	isa => Str,
 	required => 1
@@ -36,7 +36,7 @@ sub uri {
 		auto_iat => 1,
 		relative_exp => 86400 # expires in a day
 	);
-	my $uri = URI->new(join('/', $self->server, $download));
+	my $uri = URI->new(join('/', $self->endpoint, $download));
 	$uri->query_form({ token => $token });
 	return $uri->as_string;
 }
