@@ -2,6 +2,8 @@ package CAP::Controller::Admin;
 use Moose;
 use namespace::autoclean;
 
+use JSON qw/encode_json/;
+
 __PACKAGE__->config( map => { 'text/html' => [ 'View', 'Default' ], },);
 
 BEGIN { extends 'Catalyst::Controller::REST'; }
@@ -48,6 +50,19 @@ sub index_POST {
     if ($submit eq 'users') {
         $c->stash->{entity}->{users} = $c->model('DB::User')->filter($c->req->body_parameters);
     }
+    return 1;
+}
+
+sub config_json :Path('config.json') {
+    my ($self, $c) = @_;
+    my $entity = {
+        depositors => $c->model('Depositors')->all,
+        services => $c->config->{services}
+    };
+
+    $c->res->header('Content-Type', 'application/json');
+    $c->res->body(encode_json $entity);
+
     return 1;
 }
 

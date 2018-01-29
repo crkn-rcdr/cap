@@ -34,5 +34,9 @@
 	"ooga": {
 		"en":"Canadian Hazards Information Service",
 		"fr":"Service d'information sur les dangers naturels au Canada"
+	},
+	"qmma": {
+		"en":"McGill University Archives",
+		"fr":"Les archives de l'Université McGill"
 	}
 }
