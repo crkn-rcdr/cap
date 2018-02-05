@@ -47,11 +47,5 @@
 		[% INCLUDE partial/update_list.tt updates=updates %]
 		<div class="moreLinkWrapper"><a href="/updates" class="moreLink">[% c.loc("View more") %]</a></div>
 	</div>
-	<div class="span4">
-		<h3><a href="/donate" target="_blank">[% c.loc("Donate") %]</a></h3>
-		<a class="linkBlock" href="/donate" target="_blank">
-			<div class="illustration" style="background-image: url('[% cdn_uri('co', 'donate-block.jpg') %]'); height: 180px;"></div>
-		</a>
-	</div>
 </div>
 
