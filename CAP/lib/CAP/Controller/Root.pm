@@ -7,6 +7,8 @@ use warnings;
 use Config::General;
 use utf8;
 
+use JSON qw/encode_json/;
+
 # Sets the actions in this controller to be registered with no prefix
 # so they function identically to actions created in MyApp.pm
 __PACKAGE__->config->{namespace} = '';
@@ -215,6 +217,21 @@ sub proxy :Local {
     my ($self, $c) = @_;
     $c->detach('error', [404, "Not supported for non-subscription portals"])
         unless ($c->portal->supports_institutions && $c->portal->supports_subscriptions);
+}
+
+sub access_json :Path('access.json') {
+    my ($self, $c) = @_;
+    my $ip = $c->request->query_params->{ip};
+    my $institution = $ip ? $c->model('DB::InstitutionIpaddr')->institution_for_ip($ip) : $c->institution;
+    my @subscriptions = $institution ? $institution->search_related('institution_subscriptions') : ();
+    my $entity = {
+        collections => [ map { $_->portal_id->id } @subscriptions ]
+    };
+
+    $c->res->header('Content-Type', 'application/json');
+    $c->res->body(encode_json $entity);
+
+    return 1;
 }
 
 sub robots :Path('robots.txt') {
