@@ -24,10 +24,6 @@
     [% END -%]
 </section>
 
-[% UNLESS c.auth.can_access('metadata') %]
-<p>[% c.loc("Subscribers can view which pages match their search terms.") %] <a href="[% c.uri_for_action("/user/subscription/index", [portal]) %]">[% c.loc("Learn more") %] &raquo;</a></p>
-[% END %]
-
 [% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" init_arg=search_handler %]
 
 [% FOREACH result IN resultset.documents %]
@@ -41,7 +37,7 @@
     </h2>
 
     [% INCLUDE partial/published_and_pages.tt result=result %]
-    [% IF result.type == "document" && result.component_count > 0 && query.has_text_terms -%]
+    [% IF result.type == "document" && result.component_count_fulltext && result.component_count_fulltext > 0 && query.has_text_terms -%]
         [% limit = result.component_count %]
         [% INCLUDE partial/matching_pages.tt query=query.cap_query pkey=result.key limit=limit %]
     [% END -%]

@@ -97,6 +97,15 @@ msgstr "%1 doit avoir une longueur de %2 caractères"
 msgid "%1 pages"
 msgstr "%1 pages"
 
+msgid "%1 pages with full-text search"
+msgstr "%1 pages avec recherche en texte intégral"
+
+msgid "%1 pages, %2 with full-text search"
+msgstr "%1 pages, %2 avec recherche en texte intégral"
+
+msgid "Canadiana uses OCR (optical character recognition) to provide full-text search for printed documents."
+msgstr "Canadiana utilise l'OCR (reconnaissance optique de caractères) pour fournir des recherches en texte intégral pour les documents imprimés."
+
 #. (size)
 #: ../../../root/templates/Default/heritage/partial/published_and_pages.tt:7 ../../../root/templates/Default/heritagepremium/partial/published_and_pages.tt:7
 msgid "%1 reels"
@@ -147,6 +156,9 @@ msgstr "1 numéro"
 #: ../../../root/templates/Default/Common/partial/published_and_pages.tt:11 ../../../root/templates/Default/heritage/partial/published_and_pages.tt:11 ../../../root/templates/Default/heritagepremium/partial/published_and_pages.tt:11
 msgid "1 page"
 msgstr "1 page"
+
+msgid "1 page with full-text search"
+msgstr "1 page avec recherche en texte intégral"
 
 #: ../../../root/templates/Default/heritage/partial/published_and_pages.tt:5 ../../../root/templates/Default/heritagepremium/partial/published_and_pages.tt:5
 msgid "1 reel"

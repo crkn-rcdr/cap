@@ -24492,9 +24492,8 @@ $(function () {
 
     $('.slideshow').slideshow();
     $('.collections').collections();
+    $('.fulltext-tooltip').tooltip();
     $('.matching-pages').matchingPages();
-
-    $('#feesTrigger').popover();
 
     $('.co #wrapper').append('<div class="bg"></div>');
 

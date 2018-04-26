@@ -1,19 +1,33 @@
+[% issue_name_sing = c.portal.id == 'heritage' ? 'reel' : 'issue' -%]
+[% issue_name_plur = c.portal.id == 'heritage' ? 'reels' : 'issues' -%]
 [% list = result.defined("pu") ? result.pu.slice(0) : [];
     IF result.type == 'series';
         count = result.item_count || result.order.size || 0;
         IF count == 1;
-            CALL list.push(c.loc("1 issue"));
+            CALL list.push(c.loc("1 " _ issue_name_sing));
         ELSIF count > 1;
-            CALL list.push(c.loc("[_1] issues", count));
+            CALL list.push(c.loc("[_1] "_ issue_name_plur, count));
         END;
     ELSIF result.type == 'document';
         count = result.component_count || result.order.size || 0;
-        IF count == 1;
+        fulltext = result.component_count_fulltext || 0;
+        IF count == 1 && fulltext == 0;
             CALL list.push(c.loc("1 page"));
-        ELSIF count > 1;
+        ELSIF count == 1 && fulltext == 1;
+            CALL list.push(c.loc("1 page with full-text search"));
+        ELSIF count > 1 && fulltext == 0;
             CALL list.push(c.loc("[_1] pages", count));
+        ELSIF count > 1 && fulltext == count;
+            CALL list.push(c.loc("[_1] pages with full-text search", count));
+        ELSIF count > 1 && fulltext < count;
+            CALL list.push(c.loc("[_1] pages, [_2] with full-text search", count, fulltext));
         END;
     END; %]
 [% IF list.size %]
-    <p>[% list.unique.join('; ') %]</p>
+    <p>
+        [% list.unique.join('; ') %]
+        [% IF result.component_count_fulltext -%]
+        <a class="fulltext-tooltip" data-toggle="tooltip" data-placement="right" title="[% c.loc("Canadiana uses OCR (optical character recognition) to provide full-text search for printed documents.") %]">[?]</a>
+        [% END -%]
+    </p>
 [% END %]
