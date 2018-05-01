@@ -4,6 +4,17 @@
 	<div class="span12 hero">
 		[% content_blocks.hero %]
 	</div>
+	<div class="span4">
+		<h3>[% c.loc("Digitization &amp; Preservation") %]</h3>
+		<div class="row">
+		<a class="linkBlock span4" href="/digitization-services">
+			<h4 class="title">
+				[% c.loc("Learn About Our Services") %]
+			</h4>
+			<div class="illustration" style="background-image: url('[% cdn_uri('co', 'cpu.jpg') %]'); background-position: bottom; height: 180px;"></div>
+		</a>
+		</div>
+	</div>
 	<div class="span8">
 		<h3>[% c.loc("Featured Collections") %]</h3>
 		<div class="row">
@@ -21,6 +32,8 @@
 			</a>
 		</div>
 	</div>
+</div>
+<div class="row index">
 	<div class="span4">
 		<h3>[% c.loc("Our Other Projects") %]</h3>
 		<ul class="linkList">
@@ -35,8 +48,6 @@
 			</li>
 		</ul>
 	</div>
-</div>
-<div class="row index">
 	<div class="span4">
 		<h3><a href="/about">[% c.loc("About Canadiana") %]</a></h3>
 		[% content_blocks.about %]	
