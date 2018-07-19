@@ -13,11 +13,11 @@ COPY *.conf cap.psgi /opt/cap/
 COPY conf /opt/cap/conf/
 COPY lib /opt/cap/lib/
 COPY root /opt/cap/root/
-copy util /opt/cap/util/
+COPY util /opt/cap/util/
 
 # Useful for determining what revision is running. Should we filter any keys?
 # See: http://www.canadiana.ca/static/capsvninfo.txt
-copy .svn/ /opt/cap/.svn/
+COPY .svn/ /opt/cap/.svn/
 RUN svn info /opt/cap/ > /opt/cap/root/static/capsvninfo.txt
 
 USER cihm
