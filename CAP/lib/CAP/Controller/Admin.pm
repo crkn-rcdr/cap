@@ -13,7 +13,7 @@ sub auto :Private {
 
     # Only allow administrators to access any of these functions. Everyone
     # else gets a 404.
-    unless ($c->has_role('administrator')) {
+    unless ($c->has_role('administrator') || $c->action eq 'admin/config_json') {
         #$c->session->{login_redirect} = $c->req->uri;
         $c->res->redirect($c->uri_for_action('user/login'));
         $c->detach();
@@ -55,13 +55,24 @@ sub index_POST {
 
 sub config_json :Path('config.json') {
     my ($self, $c) = @_;
-    my $entity = {
-        depositors => $c->model('Depositors')->all,
-        services => $c->config->{services}
-    };
 
-    $c->res->header('Content-Type', 'application/json');
-    $c->res->body(encode_json $entity);
+    if ($c->has_role('administrator')) {
+        my $entity = {
+            depositors => $c->model('Depositors')->all,
+            services => $c->config->{services}
+        };
+
+        $c->res->header('Content-Type', 'application/json');
+        $c->res->body(encode_json $entity);
+    } else {
+        my $entity = {
+            error => 'Access denied.'
+        };
+
+        $c->res->header('Content-Type', 'application/json');
+        $c->res->body(encode_json $entity);
+        $c->res->status(401);
+    }
 
     return 1;
 }
