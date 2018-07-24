@@ -10,21 +10,21 @@
 [%- BLOCK refine_date_link %]<a href="[% c.uri_for_action('search/index', c.req.mangle_params({ df => date_from, dt => date_to })) %]">[% content %]</a>[% END %]
 
 [%- BLOCK facet_pane %]
-    [% IF selected || (facets.size > 1) %]
-        [% WRAPPER layout/collapse_pane.tt name=name title=title open=selected %]
+    [% IF facets.size > 1 %]
+        [% WRAPPER layout/collapse_pane.tt name=name title=title open=1 %]
             <nav>
-                [% IF selected %]
-                    <input type="hidden" name="[% name %]" value="[% c.req.query_params.defined(name) ? c.req.query_params.$name : "" %]" />
-                    <p>[% IF labels.defined(selected); labels.${selected}; ELSE; selected; END %] [% WRAPPER refine_link field=name value="" active=selected %]<b class="close">&times;</b>[% END %]</p>
-                [% ELSE %]
-                    <ul>
-                        [% FOREACH facet IN facets %]
-                            [% IF labels.defined(facet.name) %]
-                            <li>[% WRAPPER refine_link field=name value=facet.name %][% labels.${facet.name} %][% END %] ([% format_number(facet.count) %])</li>
-                            [% END %]
+                <ul>
+                    [% FOREACH facet IN facets %]
+                        [% IF labels.defined(facet.name) %]
+                            <li>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="[% name %]" value="[% facet.name %]"[% IF p.grep(facet.name).size %] checked[% END %] />
+                                    [% labels.${facet.name} %] ([% facet.count %])
+                                </label>
+                            </li>
                         [% END %]
-                    </ul>
-                [% END %]
+                    [% END %]
+                </ul>
             </nav>
         [% END %]
     [% END %]
@@ -56,7 +56,7 @@
             </nav>
         [% END; END %]
         [% IF (resultset.defined("pubmin") && resultset.defined("pubmax") && resultset.pubmin != resultset.pubmax) || date_from || date_to;
-           WRAPPER layout/collapse_pane.tt name="daterange" title=c.loc("Date Range") open=(date_from || date_to) %]
+           WRAPPER layout/collapse_pane.tt name="daterange" title=c.loc("Date Range") open=1 %]
             [% IF date_from %]<input type="hidden" name="df" value="[% date_from %]" />[% END %]
             [% IF date_to %]<input type="hidden" name="dt" value="[% date_to %]" />[% END %]
             [% IF date_from && date_to %]
@@ -74,11 +74,7 @@
                 </p>
             [% END %]
         [% END; END %]
-        [% INCLUDE facet_pane name="lang" title=c.loc("Language") selected=searchLang facets=resultset.facets.lang labels=label.lang %]
-        [% INCLUDE facet_pane name="depositor" title=c.loc("Contributor") selected=depositor facets=resultset.facets.depositor labels=c.model('Depositors').as_labels(c.stash.lang) %]
-        [% IF c.portal.has_feature('collections') %]
-            [% INCLUDE facet_pane name="collection" title=c.loc("Collection") selected=collection facets=resultset.facets.collection labels=label.collection %]
-        [% END %]
+        [% INCLUDE facet_pane name="lang" title=c.loc("Language") p=searchLang facets=resultset.facets.lang labels=label.lang %]
         <p>
             <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
             <a class="btn btn-large refine-search" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>

@@ -26,7 +26,7 @@ has 'params' => (
 
 has 'solr_query' => (
 	is => 'lazy',
-	isa => Str
+	isa => HashRef
 );
 
 sub to_solr {
@@ -76,24 +76,36 @@ sub _build_solr_query {
 		push @terms, $joined_group;
 	}
 
+	my $filters = [];
 	foreach my $filter (keys %{$self->schema->filters}) {
-		push @terms, $self->_filter_query($filter, $self->params->{$filter});
+		if ($self->params->{$filter}) {
+			my $fq = $self->_filter_query($filter, $self->params->{$filter});
+			push @$filters, $fq if $fq;
+		}
 	}
 
-	return _skip_join(' ', @terms) || '*:*';
+	return {
+		q => (_skip_join(' ', @terms) || '*:*'),
+		fq => $filters
+	};
 }
 
 sub _filter_query {
 	my ($self, $filter, $param) = @_;
 
-	return '' unless ($param);
+	my $filter_opts = $self->schema->filters->{$filter};
 
 	if (ref($param) eq 'ARRAY') {
-		return map { $self->_filter_query($filter, $_) } @{$param};
+		if ($filter_opts->{multi_mode}) {
+			$param = _skip_join(" $filter_opts->{multi_mode} ", @$param);
+		} else {
+			$param = $param->[0];
+		}
 	}
 
-	my $filter_opts = $self->schema->filters->{$filter};
-	my $template = $filter_opts->{template} || "$filter:\$";
+	return '' unless $param;
+
+	my $template = $filter_opts->{template} || "{!tag=$filter}$filter:(\$)";
 	$template =~ s/\$/$param/g;
 	return $template;
 }

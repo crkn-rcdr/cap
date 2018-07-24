@@ -32,13 +32,13 @@ has 'filters' => (
 	isa => HashRef[HashRef],
 	default => sub {
 		return {
-			collection => {},
-			pkey => {},
-			df => { template => 'pubmax:[$-01-01T00:00:00.000Z TO *]', req => qr/^\d{4}$/ },
-			dt => { template => 'pubmin:[* TO $-12-31T23:59:59.999Z]', req => qr/^\d{4}$/ },
-			lang => {},
-			identifier => {},
-			depositor => {}
+			collection => { multi_mode => 'OR' },
+			pkey => { },
+			df => { template => '{!tag=pubmax}pubmax:[$-01-01T00:00:00.000Z TO *]', req => qr/^\d{4}$/ },
+			dt => { template => '{!tag=pubmin}pubmin:[* TO $-12-31T23:59:59.999Z]', req => qr/^\d{4}$/ },
+			lang => { multi_mode => 'OR' },
+			identifier => { multi_mode => 'AND' },
+			depositor => { multi_mode => 'OR' }
 		};
 	}
 );

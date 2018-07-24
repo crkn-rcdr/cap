@@ -105,10 +105,11 @@ sub _resultset {
 	my ($self, $handler, $options, $query) = @_;
 
 	my $data = {};
-	$data->{query} = $query->to_solr;
+	$data->{query} = $query->to_solr->{q};
+	$data->{filter} = $query->to_solr->{fq};
 
 	if ($options->{root_collection}) {
-		$data->{filter} = 'collection:' . $options->{root_collection};
+		push @{$data->{filter}}, 'collection:' . $options->{root_collection};
 	}
 
 	my $sort = $self->_get_sort($options->{so});
@@ -119,7 +120,7 @@ sub _resultset {
 	$data->{fields} = $options->{fields} if (defined $options->{fields});
 
 	$data->{params} = {};
-	$data->{params}{'facet.field'} = $self->schema->facets if $options->{facet};
+	$data->{params}{'facet.field'} = [ map { "{!ex=$_}$_" } @{$self->schema->facets} ] if $options->{facet};
 
 	if ($options->{date_stats}) {
 		$data->{params}{stats} = 'true';
