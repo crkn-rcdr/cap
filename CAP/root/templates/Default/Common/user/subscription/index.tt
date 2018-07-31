@@ -14,11 +14,13 @@
     	[% content_main = "${entity.portal.id}_main"; content_blocks.$content_main %]
         <div class="subscriptions">
         [% FOREACH sub IN entity.products %]
+            [% IF sub.duration < 35 %]
             <div class="subbox">
                 <p class="subbox-duration">[% sub.duration <= 35 ? c.loc("One Month") : c.loc("One Year") %]</p>
                 <p class="subbox-price">[% format_money(sub.price) %]</p>
                 <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", [entity.portal.id, sub.id]) %]">[% subscribe_text %]</a>
             </div>
+            [% END %]
         [% END %]
         </div>
         <div class="clearBoth"></div>
