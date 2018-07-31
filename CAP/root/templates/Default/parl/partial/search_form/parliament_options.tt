@@ -20,7 +20,7 @@
     <select id="parlSelect" name="identifier" class="span3">
         <option value="">[% c.loc("All") %]</option>
         [% FOREACH p IN [1 .. 35] -%]
-        <option value="P[% p %]"><sup>[% ordinate(p, 'f') %]</sup></option> 
+        <option value="P[% p %]">[% ordinate(p, 'f') %]</option> 
         [% END -%]
     </select>
 </div>
