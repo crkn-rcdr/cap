@@ -5,8 +5,16 @@ use warnings;
 use Moose;
 use namespace::autoclean;
 use Scalar::Util qw/looks_like_number/;
+use Types::Standard qw/Int/;
 
 BEGIN { extends 'Catalyst::Controller'; }
+
+# limit to matching page search return count
+has 'matching_page_limit' => (
+	is => 'ro',
+	isa => Int,
+	required => 1
+);
 
 sub auto :Private {
     my($self, $c) = @_;
@@ -84,7 +92,7 @@ sub matching_pages :Private {
 
     my $search;
     eval {
-        $search = $c->model('Access::Search')->dispatch('page', { limit => 100 }, $c->req->params);
+        $search = $c->model('Access::Search')->dispatch('page', { limit => $self->matching_page_limit }, $c->req->params);
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
