@@ -193,7 +193,6 @@ sub index :Path('') Args(0)
         $c->detach();
     }
 
-    $c->stash->{slides} = $c->model("DB::Slide")->get_slides($c->portal->id, "frontpage");
     $c->stash->{template} = "index.tt";
     $c->stash->{portals} = [$c->model("DB::Portal")->list];
     $c->stash->{updates} = $c->model("CMS")->cached_updates({

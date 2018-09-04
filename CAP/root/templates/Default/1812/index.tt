@@ -1,4 +1,4 @@
-[% title = c.loc("Welcome") -%]
+﻿[% title = c.loc("Welcome") -%]
 
 <div class="row">
     <div class="span6 blurb">
@@ -9,4 +9,61 @@
     </div>
 </div>
 
-[% INCLUDE partial/slideshow.tt shadow=1 %]
+<hr />
+
+<div class="slideshow shadow">
+    <a class="disabled slideshow-left-nav"><span class="slideshow-nav-text">&laquo;</span></a>
+    <div class="slideshow-window">
+        <ul class="slideshow-gallery">
+                    <li>
+                <figure>
+                    <a href="/view/oocihm.02229/1?r=0&s=1">
+                        <img src="http://www.canadiana.ca/sites/pub.canadiana.ca/files/13th-battalion.png" alt="Thumbnail: Official History of the 13th Battalion of Infantry" />
+                        <figcaption>Official History of the 13th Battalion of Infantry</figcaption>
+                    </a>
+                </figure>
+            </li>
+                    <li>
+                <figure>
+                    <a href="/view/oocihm.w1812_FX199995/1?r=0&s=1">
+                        <img src="http://www.canadiana.ca/sites/pub.canadiana.ca/files/Fort-George.png" alt="Thumbnail: Watercolour Map of Fort George" />
+                        <figcaption>Watercolour Map of Fort George</figcaption>
+                    </a>
+                </figure>
+            </li>
+                    <li>
+                <figure>
+                    <a href="/view/oocihm.61592/3?r=0&s=1">
+                        <img src="http://www.canadiana.ca/sites/pub.canadiana.ca/files/Ghent.png" alt="Thumbnail: Treaty of Ghent" />
+                        <figcaption>Treaty of Ghent</figcaption>
+                    </a>
+                </figure>
+            </li>
+                    <li>
+                <figure>
+                    <a href="/view/oocihm.w1812_X774782/1?r=0&s=1">
+                        <img src="http://www.canadiana.ca/sites/pub.canadiana.ca/files/Marines.png" alt="Thumbnail: Royal Marines Recruitment Poster" />
+                        <figcaption>Royal Marines Recruitment Poster</figcaption>
+                    </a>
+                </figure>
+            </li>
+                    <li>
+                <figure>
+                    <a href="/view/oocihm.02512/9?r=0&s=1">
+                        <img src="http://www.canadiana.ca/sites/pub.canadiana.ca/files/Salaberry.png" alt="Thumbnail: Le Colonel C.-M. de Salaberry " />
+                        <figcaption>Le Colonel C.-M. de Salaberry </figcaption>
+                    </a>
+                </figure>
+            </li>
+                    <li class="last">
+                <figure>
+                    <a href="/view/oocihm.w1812_FX2001314/1?r=0&s=1">
+                        <img src="http://www.canadiana.ca/sites/pub.canadiana.ca/files/Watteville-coat.png" alt="Thumbnail: Régiment de Watteville" />
+                        <figcaption>Régiment de Watteville</figcaption>
+                    </a>
+                </figure>
+            </li>
+        </ul>
+    </div>
+    <a class="disabled slideshow-right-nav"><span class="slideshow-nav-text">&raquo;</span></a>
+</div>

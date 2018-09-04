@@ -7,7 +7,6 @@
     <li><a href="#tab_portals" data-toggle="tab">[% c.loc("Portals") %]</a></li>
     <li><a href="#tab_users" data-toggle="tab">[% c.loc("Users") %]</a></li>
     <li><a href="#tab_discount_codes" data-toggle="tab">[% c.loc("Discount Codes") %]</a></li>
-    <li><a href="#tab_other" data-toggle="tab">[% c.loc("Other") %]</a></li>
 </ul>
 
 <div class="tab-content">
@@ -142,13 +141,5 @@
             </tr>
             [% END %]
         </table>
-    </div>
-    <div class="tab-pane" id="tab_other">
-
-        <h3>[% c.loc("Options") %]</h3>
-        <ul>
-            <li><a href="[% c.uri_for_action("/admin/slideshow/index") %]">[% c.loc("Manage Slideshows") %]</a></li>
-        </ul>
-
     </div>
 </div>

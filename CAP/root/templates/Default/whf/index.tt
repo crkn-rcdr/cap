@@ -1,4 +1,4 @@
-[% title = c.loc("Welcome") -%]
+﻿[% title = c.loc("Welcome") -%]
 
 <div class="row">
     <div class="span6 blurb">
@@ -9,4 +9,45 @@
     </div>
 </div>
 
-[% INCLUDE partial/slideshow.tt shadow=1 %]
+<hr />
+
+<div class="slideshow shadow">
+    <a class="disabled slideshow-left-nav"><span class="slideshow-nav-text">&laquo;</span></a>
+    <div class="slideshow-window">
+        <ul class="slideshow-gallery">
+                    <li>
+                <figure>
+                    <a href="/view/oocihm.8_04314">
+                        <img src="/static/images/whf_ladies_bazar.png" alt="Thumbnail: The Ladies Bazar" />
+                        <figcaption>The Ladies Bazar</figcaption>
+                    </a>
+                </figure>
+            </li>
+                    <li>
+                <figure>
+                    <a href="/view/oocihm.8_04228">
+                        <img src="/static/images/whf_delineator.png" alt="Thumbnail: The Delineator" />
+                        <figcaption>The Delineator</figcaption>
+                    </a>
+                </figure>
+            </li>
+                    <li>
+                <figure>
+                    <a href="/view/oocihm.8_06638">
+                        <img src="/static/images/whf_canadian_queen.png" alt="Thumbnail: The Canadian Queen" />
+                        <figcaption>The Canadian Queen</figcaption>
+                    </a>
+                </figure>
+            </li>
+                    <li class="last">
+                <figure>
+                    <a href="/view/oocihm.8_06735">
+                        <img src="/static/images/whf_canadian_home_journal.png" alt="Thumbnail: Canadian Home Journal" />
+                        <figcaption>Canadian Home Journal</figcaption>
+                    </a>
+                </figure>
+            </li>
+        </ul>
+    </div>
+    <a class="disabled slideshow-right-nav"><span class="slideshow-nav-text">&raquo;</span></a>
+</div>

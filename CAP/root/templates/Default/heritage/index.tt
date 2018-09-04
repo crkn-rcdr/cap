@@ -15,7 +15,6 @@
     </div>
 </div>
 
-[% INCLUDE partial/slideshow.tt shadow=1 %]
 [% INCLUDE partial/heritage_collections.tt %]
 
 <h2>[% c.loc("In partnership with") %]</h2>
