@@ -10,9 +10,6 @@
                 [% CASE "bad_request"; c.loc("We were unable to process your request") %]
 
                 [% # Responses to invalid user input. Should only ever be triggered as a result of user form input or GET params %]
-                [% CASE "invalid_discount_code"; c.loc("The discount code '[_1]' was not found", msg.params.0) %]
-                [% CASE "invalid_discount_expired"; c.loc("The discount code '[_1]' has expired", msg.params.0) %]
-                [% CASE "invalid_discount_reused"; c.loc("The discount code '[_1]' has already been redeemed", msg.params.0) %]
                 [% CASE "invalid_email"; c.loc("The email address <em>[_1]</em> is not valid", msg.params.0) %]
                 [% CASE "invalid_login"; c.loc("The username, email address or password you entered is incorrect") %]
                 [% CASE "invalid_maxlen"; c.loc("[_1] exceeds maximum length of [_2] characters", msg.params.0, msg.params.1) %]
@@ -92,8 +89,6 @@
                 [% CASE "password_match_failed"; c.loc("The passwords you entered do not match."); %]
                 [% CASE "password_invalid"; c.loc("Your password must be at least six characters long and may not contain spaces."); %]
                 [% CASE "profile_updated"; c.loc("Your profile has been updated successfully."); %]
-                [% CASE "promocode_expired"; c.loc("The promotion code you entered has expired."); %]
-                [% CASE "promocode_invalid"; c.loc("You have entered an invalid promotion code."); %]
                 [% CASE "donor_name_required"; c.loc("You must enter a donor name to generate a tax receipt."); %]
                 [% CASE "address_required"; c.loc("You must enter an address to generate a tax receipt."); %]
                 [% CASE "city_required"; c.loc("You must enter a city to generate a tax receipt."); %]

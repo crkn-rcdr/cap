@@ -6,7 +6,6 @@
     <li class="active"><a href="#tab_institutions" data-toggle="tab">[% c.loc("Institution") %]</a></li>
     <li><a href="#tab_portals" data-toggle="tab">[% c.loc("Portals") %]</a></li>
     <li><a href="#tab_users" data-toggle="tab">[% c.loc("Users") %]</a></li>
-    <li><a href="#tab_discount_codes" data-toggle="tab">[% c.loc("Discount Codes") %]</a></li>
 </ul>
 
 <div class="tab-content">
@@ -125,21 +124,5 @@
                 </div>
             </fieldset>
         </form>
-    </div>
-    <div class="tab-pane" id="tab_discount_codes">
-        <p><a href="[% c.uri_for_action('/admin/discount/create') %]">[% c.loc("New Code") %]</a></p>
-        <table class="table">
-            [% INCLUDE partial/table_header.tt columns=["Code", "Portal", "Amount", "Expires", "Action"] %]
-            <tbody>
-            [% FOREACH i IN entity.discounts %]
-            <tr>
-                <td>[% i.code %]</td>
-                <td>[% i.portal_id.title(lang) %]</td>
-                <td>[% c.loc("[_1]%", i.percentage) %]</td>
-                <td>[% format_date(i.expires) %]</td>
-                <td><a href="[% c.uri_for_action('/admin/discount/edit', [ i.id ]) %]">[% c.loc("Edit") %]</a></td>
-            </tr>
-            [% END %]
-        </table>
     </div>
 </div>

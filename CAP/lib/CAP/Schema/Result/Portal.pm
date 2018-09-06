@@ -113,21 +113,6 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 discounts
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Discounts>
-
-=cut
-
-__PACKAGE__->has_many(
-  "discounts",
-  "CAP::Schema::Result::Discounts",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
 =head2 institution_subscriptions
 
 Type: has_many
@@ -437,18 +422,6 @@ sub subscription {
     my($self, $subscription_id) = @_;
     return $self->find_related('portal_subscriptions', { id => $subscription_id });
 }
-
-
-=head2 discount ($code)
-
-Retrieves the requested discount
-
-=cut
-sub discount {
-    my($self, $code) = @_;
-    return $self->find_related('discounts', { code => $code });
-}
-
 
 =head2 canonical_hostname ($hostname)
 

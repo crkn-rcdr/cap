@@ -261,21 +261,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 users_discounts
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::UsersDiscounts>
-
-=cut
-
-__PACKAGE__->has_many(
-  "users_discounts",
-  "CAP::Schema::Result::UsersDiscounts",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
-
 =head2 institution_ids
 
 Type: many_to_many
@@ -304,14 +289,6 @@ __PACKAGE__->add_columns(
     } 
 );
 
-
-# This relationship does not get auto-generated, for some reason.
-__PACKAGE__->has_many(
-  "user_discounts",
-  "CAP::Schema::Result::UsersDiscounts",
-  { "foreign.user_id" => "self.id" },
-  undef,
-);
 
 # This relationship does not get auto-generated, for some reason.
 __PACKAGE__->has_many(
@@ -426,12 +403,10 @@ Creates a new subscription row, or updates an existing pending subscription.
 
 =cut
 sub open_subscription {
-    my($self, $product, $expiry, $discount, $discount_amount) = @_;
+    my($self, $product, $expiry) = @_;
     my $portal = $product->portal_id;
     my $old_expire = undef;
     my $old_level = undef;
-    my $discount_code;
-    $discount_code = $discount->code if ($discount);
 
     # If the user has an existing subscription to this portal, store the
     # current expiry date and level.
@@ -449,8 +424,6 @@ sub open_subscription {
     my $fields = {
         portal_id => $portal->id,
         product => $product->id,
-        discount_code => $discount_code,
-        discount_amount => $discount_amount,
         old_expire => $old_expire,
         new_expire => $expiry,
         old_level => $old_level,
@@ -513,8 +486,7 @@ sub retrieve_payment {
 =head2 set_subscription ($subscription)
 
 Set's a user's subscription in the user_subscriptions table to values from
-$subscription. Resets the reminder sent and expiry_logged flags. If a
-discount code was used, record the use.
+$subscription. Resets the reminder sent and expiry_logged flags.
 
 =cut
 sub set_subscription {
@@ -527,30 +499,8 @@ sub set_subscription {
         level => $subscription->new_level
     });
 
-    if ($subscription->discount_code) {
-        # Get the ID for the discount code
-        my $discount = $self->result_source->schema->resultset('Discounts')->find({ code => $subscription->discount_code });
-        if ($discount) {
-            $self->update_or_create_related('user_discounts', { discount_id => $discount->id, subscription_id => $subscription->id });
-        }
-    }
-
     return $user_subscription;
 }
-
-
-=head2 discount_used ($discount)
-
-If the user has previously used the specified discount, return the
-corresponding subscription row. Otherwise, return undef.
-
-=cut
-sub discount_used {
-    my($self, $discount) = @_;
-    my $subscription = $self->find_related('user_discounts', { discount_id => $discount->id });
-    return $subscription || undef;
-}
-
 
 =head2 subscription_history 
 

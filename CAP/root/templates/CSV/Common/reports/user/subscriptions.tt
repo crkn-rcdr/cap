@@ -1,7 +1,7 @@
 [%-
     csv = [];
     header = [ c.loc("Date"), c.loc("Portal"), c.loc("User"),
-    c.loc("Expires"), c.loc("Duration"), c.loc("Type"), c.loc("Discount Code"),
+    c.loc("Expires"), c.loc("Duration"), c.loc("Type"),
     c.loc("Payment") ];
 
     csv.push(header.join(','));
@@ -21,7 +21,7 @@
 
         row = [ i.completed.ymd(), i.portal_id.title(lang),
         i.user_id.username, i.new_expire.ymd(), oldexpire, type,
-        i.discount_code, i.payment_id.amount ];
+        i.payment_id.amount ];
         csv.push(row.join(','));
     END;
 

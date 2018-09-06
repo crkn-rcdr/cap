@@ -29,7 +29,6 @@ sub index :Path :Args(0) ActionClass('REST') {
     my($self, $c) = @_;
     $c->stash(
         entity => {
-            discounts => [$c->model('DB::Discounts')->list],
             institutions => [$c->model('DB::Institution')->list],
             portals => [$c->model('DB::Portal')->list],
             users => [$c->model('DB::User')->filter()],

@@ -82,18 +82,6 @@ __PACKAGE__->table("subscription");
   is_nullable: 1
   size: 32
 
-=head2 discount_code
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 16
-
-=head2 discount_amount
-
-  data_type: 'decimal'
-  is_nullable: 1
-  size: [10,2]
-
 =head2 old_expire
 
   data_type: 'datetime'
@@ -153,10 +141,6 @@ __PACKAGE__->add_columns(
   { data_type => "tinyint", is_nullable => 1 },
   "product",
   { data_type => "varchar", is_nullable => 1, size => 32 },
-  "discount_code",
-  { data_type => "varchar", is_nullable => 1, size => 16 },
-  "discount_amount",
-  { data_type => "decimal", is_nullable => 1, size => [10, 2] },
   "old_expire",
   {
     data_type => "datetime",
@@ -231,20 +215,6 @@ Related object: L<CAP::Schema::Result::User>
 
 __PACKAGE__->belongs_to("user_id", "CAP::Schema::Result::User", { id => "user_id" });
 
-=head2 users_discounts
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::UsersDiscounts>
-
-=cut
-
-__PACKAGE__->has_many(
-  "users_discounts",
-  "CAP::Schema::Result::UsersDiscounts",
-  { "foreign.subscription_id" => "self.id" },
-  undef,
-);
 
 
 # Created by DBIx::Class::Schema::Loader v0.07030 @ 2013-06-24 08:40:54

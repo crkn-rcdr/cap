@@ -50,8 +50,6 @@ sub base : Chained('/') PathPart('user/subscription') CaptureArgs(1) {
             products => [$portal->get_subscriptions]
         },
         data => $c->req->body_params,
-        discount => undef,
-        discount_amount => 0
     );
     return 1;
 }
@@ -120,44 +118,8 @@ sub subscribe_POST {
     my $submit = $data->{submit};
     my $tos_ok = $data->{terms};
 
-    # If a discount code is supplied, validate it.
-    if ($data->{code}) {
-        my $code = $data->{code};
-        my $discount = $portal->discount($code);
-        if (! $discount) {
-            $c->message({ type => "error", message => "invalid_discount_code", params => [ $code ] });
-            $self->status_bad_request($c, message => "Invalid discount code");
-            $c->res->redirect($c->uri_for_action("/user/subscription/subscribe", [$portal->id, $product->id]));
-            $c->detach();
-        }
-
-        # Check that the code is still valid
-        if (! $discount->active) {
-            $c->message({ type => "error", message => "invalid_discount_expired", params => [ $discount->code ]});
-            $self->status_bad_request($c, message => "Discount code expired");
-            $c->res->redirect($c->uri_for_action("/user/subscription/subscribe", [$portal->id, $product->id]));
-            $c->detach();
-        }
-
-        # Check that the user has not already redeemed the code
-        if ($c->user->discount_used($discount)) {
-            $c->message({ type => "error", message => "invalid_discount_reused", params => [ $discount->code ]});
-            $self->status_bad_request($c, message => "Discount code already used");
-            $c->res->redirect($c->uri_for_action("/user/subscription/subscribe", [$portal->id, $product->id]));
-            $c->detach();
-        }
-
-        # Calculate the amount of the discount
-        my $discount_amount = ($product->price * $discount->percentage) / 100;
-        $c->stash->{entity}->{discount} = $discount;
-        $c->stash->{entity}->{discount_amount} = $discount_amount;
-        $c->stash->{entity}->{payable} = $product->price - $discount_amount;
-    }
-
     # If this i
     if ($submit eq 'checkout') {
-        my $discount = $c->stash->{entity}->{discount};
-        my $discount_amount = $c->stash->{entity}->{discount_amount};
         my $payable = $c->stash->{entity}->{payable};
 
         if (! $tos_ok) {
@@ -167,7 +129,7 @@ sub subscribe_POST {
             $c->detach();
         }
 
-        my $subscription = $c->user->open_subscription($product, $expiry, $discount, $discount_amount);
+        my $subscription = $c->user->open_subscription($product, $expiry);
         my $description = sprintf(
             "%s. %s. %s. %s",
             $c->loc("Subscription to [_1]", $portal->title($c->stash->{lang})),

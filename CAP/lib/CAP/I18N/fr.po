@@ -322,10 +322,6 @@ msgstr "Ajouter une nouvelle collection"
 msgid "Add new institution"
 msgstr "Ajouter une nouvelle institution"
 
-#: ../../../root/templates/Default/Common/admin/promocodes.tt:28
-msgid "Add new promotional code"
-msgstr "Ajouter un nouveau code promotionnel"
-
 #:
 msgid "Add new user"
 msgstr "Ajouter un nouvel utilisateur"
@@ -966,35 +962,6 @@ msgstr "Vous avez oublié votre mot de passe?"
 msgid "Disabled"
 msgstr "Désactivé"
 
-#: ../../../root/templates/Default/Common/user/subscription/subscribe.tt:36
-msgid "Discount"
-msgstr "Remise"
-
-#: ../../../root/templates/Default/Common/admin/discount/create.tt:31 ../../../root/templates/Default/Common/admin/discount/edit.tt:26
-msgid "Discount (%)"
-msgstr "Remise (%)"
-
-#: ../../../root/templates/CSV/Common/reports/user/subscriptions.tt:4 ../../../root/templates/Default/Common/admin/discount/edit.tt:12 ../../../root/templates/Default/Common/reports/user/subscriptions.tt:73
-msgid "Discount Code"
-msgstr "Code promotionnel"
-
-#: ../../../root/templates/Default/Common/user/subscription/subscribe.tt:32
-msgid "Discount Code Applied"
-msgstr "Code promotionnel appliqué"
-
-#: ../../../root/templates/Default/Common/admin/discount/create.tt:4 ../../../root/templates/Default/Common/admin/discount/edit.tt:7 ../../../root/templates/Default/Common/admin/discount/index.tt:2 ../../../root/templates/Default/Common/admin/index.tt:9
-msgid "Discount Codes"
-msgstr "Codes promotionnels"
-
-#: ../../../root/templates/Default/Common/reports/user/subscriptions.tt:40
-msgid "Discount Codes Used"
-msgstr ""
-
-#. (promocode)
-#: ../../../root/templates/Default/Common/user/subscribe.tt:38
-msgid "Discount from promotion code \"%1\""
-msgstr "Remise pour le code promotionnel \"%1\""
-
 #: ../../../root/templates/Default/Common/admin/portal/index.tt:118
 msgid "Display contributors in bibliographic records"
 msgstr "Afficher les fournisseurs dans les notices bibliographiques"
@@ -1162,10 +1129,6 @@ msgstr "Expiration"
 #: ../../../root/templates/Default/Common/admin/portal/index.tt:144 ../../../root/templates/Default/Common/admin/portal/index.tt:173 ../../../root/templates/Default/Common/partial/language_name.tt:6 ../../../root/templates/Default/Common/partial/language_options.tt:5 ../../../root/templates/Default/parl/partial/search_form.tt:27
 msgid "English"
 msgstr "Anglais"
-
-#: ../../../root/templates/Default/Common/user/subscription/subscribe.tt:61
-msgid "Enter discount code"
-msgstr "Saisir le code promotionnel"
 
 #: ../../../root/templates/Default/Common/user/reset.tt:9
 msgid "Enter your Canadiana username or the email address you signed up with below to receive an email with instructions for resetting your password."
@@ -1431,10 +1394,6 @@ msgstr "Si vous n’avez pas sollicité un compte Canadiana, veuillez ignorer ce
 #: ../../../root/templates/Mail/Common/reset.tt:7
 msgid "If you did not request a password reset, do not worry: this message was sent to you and nobody else. If you do not want to change your password, simply delete this email."
 msgstr "Si vous n’avez pas demandé la réinitialisation de votre mot de passe, ne vous inquiétez pas : ce message a été envoyé à vous et à personne d’autre. Si vous ne voulez pas changer votre mot de passe, vous n’avez qu’à supprimer ce courriel."
-
-#: ../../../root/templates/Default/Common/user/subscribe.tt:20
-msgid "If you have a promotional code, enter it here."
-msgstr "Si vous avez un code promotionnel, le saisir ici."
 
 #: ../../../root/templates/Mail/Common/partial/boilerplate_footer.tt:1
 msgid "If you have any questions about this message, contact us at: info@canadiana.ca."
@@ -1889,10 +1848,6 @@ msgstr "Nouveau-Brunswick (NB)"
 msgid "New Code"
 msgstr " Nouveau code"
 
-#: ../../../root/templates/Default/Common/admin/discount/create.tt:1 ../../../root/templates/Default/Common/admin/discount/create.tt:13 ../../../root/templates/Default/Common/admin/discount/create.tt:7
-msgid "New Discount Code"
-msgstr " Nouveau code promotionnel"
-
 #: ../../../root/templates/Default/Common/user/profile.tt:124
 msgid "New Expiry"
 msgstr "Prochaine date d'expiration"
@@ -1924,10 +1879,6 @@ msgstr "Nouveau utilisateur"
 #: ../../../root/templates/Default/Common/admin/promocodes.tt:30
 msgid "New code"
 msgstr "Nouveau code"
-
-#: ../../../root/templates/Default/Common/admin/discount/index.tt:7
-msgid "New discount code"
-msgstr "Nouveau code promotionnel"
 
 #: ../../../root/templates/Default/Common/user/profile.tt:60 ../../../root/templates/Default/Common/user/reset_password.tt:8
 msgid "New password"
@@ -2179,8 +2130,8 @@ msgid "Please enter the words displayed in the anti-spam window."
 msgstr "Veuillez saisir les mots affichés dans la fenêtre antipourriel."
 
 #: ../../../root/templates/Default/Common/user/subscription/subscribe.tt:6
-msgid "Please review your subscription details. If you have a discount code to redeem, enter it where indicated below. When you are ready to subscribe, click the Checkout button to be taken to PayPal to complete your payment."
-msgstr "Veuillez vérifier les détails de votre abonnement. Si vous voulez utiliser votre code promotionnel, saisissez-le à l’endroit indiqué ci-dessous. Lorsque vous serez prêt(e) à vous abonner, cliquer sur le bouton « Paiement » qui vous permettra de compléter votre paiement sur PayPal"
+msgid "Please review your subscription details. When you are ready to subscribe, click the Checkout button to be taken to PayPal to complete your payment."
+msgstr "Veuillez vérifier les détails de votre abonnement. Lorsque vous serez prêt(e) à vous abonner, cliquer sur le bouton « Paiement » qui vous permettra de compléter votre paiement sur PayPal"
 
 #: ../../../root/templates/Default/Common/user/subscribe.tt:15
 msgid "Please verify the following information and click Subscribe to proceed to our payment processor. When you have completed your payment, you will automatically be returned here."
@@ -2278,26 +2229,6 @@ msgstr "Réalisée par Canadiana.org"
 #: ../../../root/templates/Default/Common/layout/header.tt:20
 msgid "Profile"
 msgstr "Profil"
-
-#: ../../../root/templates/Default/Common/user/subscribe.tt:18
-msgid "Promotion Code"
-msgstr "Code promotionnel"
-
-#: ../../../root/templates/Default/Common/user/subscribe.tt:24
-msgid "Promotion code expired."
-msgstr "Code promotionnel expiré."
-
-#: ../../../root/templates/Default/Common/user/subscribe.tt:23
-msgid "Promotion code invalid."
-msgstr "Code promotionnel non valide."
-
-#: ../../../root/templates/Default/Common/user/subscribe.tt:25
-msgid "Promotion code valid!"
-msgstr "Code promotionnel valide."
-
-#: ../../../root/templates/Default/Common/admin/promocodes.tt:2 ../../../root/templates/Default/Common/admin/promocodes.tt:4
-msgid "Promotional Codes"
-msgstr "Codes promotionnels"
 
 #:
 msgid "Province/Territory"
@@ -3076,21 +3007,6 @@ msgid "The current password you entered is incorrect"
 msgstr "Le mot de passe que vous avez saisi est incorrect"
 
 #. (msg.params.0)
-#: ../../../root/templates/Default/Common/partial/messages.tt:15
-msgid "The discount code '%1' has already been redeemed"
-msgstr "Le code promotionnel ‘%1’ a déjà été utilisé."
-
-#. (msg.params.0)
-#: ../../../root/templates/Default/Common/partial/messages.tt:14
-msgid "The discount code '%1' has expired"
-msgstr "Le code promotionnel ‘%1’ est expiré."
-
-#. (msg.params.0)
-#: ../../../root/templates/Default/Common/partial/messages.tt:13
-msgid "The discount code '%1' was not found"
-msgstr "Le code promotionnel ‘%1’ est introuvable."
-
-#. (msg.params.0)
 #: ../../../root/templates/Default/Common/partial/messages.tt:34
 msgid "The email address <em>%1</em> is already in use"
 msgstr "L’adresse courriel <em>%1</em> est déjà utilisée"
@@ -3124,10 +3040,6 @@ msgstr "Les mots de passe que vous avez saisis ne correspondent pas."
 #: ../../../root/templates/Default/Common/partial/messages.tt:27
 msgid "The portal id <em>%1</em> does not exist"
 msgstr "L’Id. <em>%1</em> n’existe pas pour ce portail"
-
-#: ../../../root/templates/Default/Common/partial/messages.tt:95
-msgid "The promotion code you entered has expired."
-msgstr "Le code promotionnel que vous avez saisi est expiré."
 
 #. (msg.params.0)
 #: ../../../root/templates/Default/Common/partial/messages.tt:53
@@ -3339,10 +3251,6 @@ msgstr "Mettre à jour les informations relatives au compte"
 msgid "Update Collections"
 msgstr "Mise à jour des collections"
 
-#: ../../../root/templates/Default/Common/admin/discount/edit.tt:1
-msgid "Update discount code"
-msgstr "Mettre à jour le code promotionnel"
-
 #:
 msgid "Update user"
 msgstr "Mettre à jour le profil de l’utilisateur"
@@ -3445,10 +3353,6 @@ msgstr "Nom d’utilisateur ou adresse courriel"
 #: ../../../root/templates/Default/Common/admin/discount/index.tt:3 ../../../root/templates/Default/Common/admin/index.tt:8 ../../../root/templates/Default/Common/admin/portal/index.tt:54 ../../../root/templates/Default/Common/admin/user/create.tt:5 ../../../root/templates/Default/Common/admin/user/index.tt:8 ../../../root/templates/Default/Common/reports/index.tt:9 ../../../root/templates/Default/Common/reports/user/subscriptions.tt:9
 msgid "Users"
 msgstr "Utilisateurs"
-
-#: ../../../root/templates/Default/Common/user/subscribe.tt:22
-msgid "Verify Promotion Code"
-msgstr "Vérifiez le code promotionnel"
 
 #: ../../../root/templates/Default/Common/partial/social_media_links.tt:5
 msgid "Videos on YouTube"
@@ -3585,10 +3489,6 @@ msgstr "Vous utilisez une version en accès public restreint de <em>%1</em>. Pou
 #: ../../../root/templates/Default/Common/error.tt:12
 msgid "You do not have sufficient privileges to view this page."
 msgstr "Vos privilèges sont insuffisants pour visionner cette page."
-
-#: ../../../root/templates/Default/Common/partial/messages.tt:96
-msgid "You have entered an invalid promotion code."
-msgstr "Le code promotionnel que vous avez saisi n’est pas valide."
 
 #:
 msgid "You have full subscriber access to this Canadiana collection because you are accessing it from %1"

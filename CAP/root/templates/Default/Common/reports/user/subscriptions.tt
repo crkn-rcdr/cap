@@ -37,10 +37,6 @@
         <td>[% metrics.renewal %]</td>
     </tr>
     <tr>
-        <th>[% c.loc("Discount Codes Used") %]</th>
-        <td>[% metrics.discount %]</td>
-    </tr>
-    <tr>
         <th>[% c.loc("Average Revenue Per Subscription") %]</th>
         <td>[% format_money(metrics.avg_revenue) %]</td>
     </tr>
@@ -70,7 +66,6 @@
         <th>[% c.loc("Expires") %]</th>
         <th>[% c.loc("Duration") %]</th>
         <th>[% c.loc("Type") %]</th>
-        <th>[% c.loc("Discount Code") %]</th>
         <th>[% c.loc("Payment") %]</th>
     </tr>
     [% FOREACH i IN entity %]
@@ -86,7 +81,6 @@
             END %]
         </td>
         <td>[% IF i.old_expire; c.loc("Renewal"); ELSE; c.loc("New"); END %]</td>
-        <td>[% i.discount_code %]</td>
         <td>[% format_money(i.payment_id.amount) %]</td>
     </tr>
     [% END %]

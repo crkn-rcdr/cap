@@ -15,17 +15,6 @@
 <p>[% c.loc("Please verify the following information and click Subscribe to proceed to our payment processor. When you have completed your payment, you will automatically be returned here.") %]</p>
 <form id="subscription_form" class="form-horizontal" method="POST" action="[% c.uri_for_action("/user/subscribe_process") %]">
     <fieldset>
-        <legend>[% c.loc("Promotion Code") %]</legend>
-        <div class="padded">
-            <p>[% c.loc("If you have a promotional code, enter it here.") %]</p>
-            <input type="text" id="promocode" class="input-small" name="promocode" value="[% promocode %]" placeholder="[% c.loc("Code") %]" />
-            <button type="submit" class="btn" name="submit" value="verify_code">[% c.loc("Verify Promotion Code") %]</button>
-            <span id="promo_invalid"[% UNLESS promo_message == "invalid" %] class="hidden"[% END %]>[% c.loc("Promotion code invalid.") %]</span>
-            <span id="promo_expired"[% UNLESS promo_message == "expired" %] class="hidden"[% END %]>[% c.loc("Promotion code expired.") %]</span>
-            <span id="promo_ok"[% UNLESS promo_message == "OK" %] class="hidden"[% END %]>[% c.loc("Promotion code valid!") %]</span>
-        </div>
-    </fieldset>
-    <fieldset>
         <legend>[% c.loc("Payment Information") %]</legend>
         <div class="control-group">
             <label class="control-label">[% c.loc("Subscription price") %]</label>
@@ -33,14 +22,6 @@
                 <span class="uneditable-input">[% format_money(subscription_price) %]</span>
             </div>
         </div>
-        [% IF promo_value > 0 %]
-        <div class="control-group">
-            <label class="control-label">[% c.loc("Discount from promotion code \"[_1]\"", promocode) %]</label>
-            <div class="controls">
-                <span class="uneditable-input">[% format_money(promo_value) %]</span>
-            </div>
-        </div>
-        [% END %]
         <div class="control-group">
             <label class="control-label">[% c.loc("Total payment") %]</label>
             <div class="controls">

@@ -7,7 +7,6 @@ use base 'DBIx::Class::ResultSet';
 
 sub is_inst_manager
 {
-    # returns the first active promo code
     my($self, $userid, $inst) = @_;
            
     my $mgr_check =  $self->search(
@@ -28,7 +27,6 @@ sub is_inst_manager
 
 sub list_inst_for_user
 {
-    # returns the first active promo code
     my($self, $userid) = @_;
            
     my $mgr_check =  $self->search(

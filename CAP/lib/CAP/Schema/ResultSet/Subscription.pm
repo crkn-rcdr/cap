@@ -25,7 +25,6 @@ sub metrics {
             $metrics->{revenue} += $row->payment_id->amount;
             $metrics->{avg_revenue} += $row->payment_id->amount;
         }
-        $metrics->{discount}++ if ($row->discount_code);
         if ($row->old_expire) {
             $metrics->{renewal}++;
         }

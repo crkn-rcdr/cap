@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Moose;
 use MRO::Compat;
+use CAP::Util;
 
 with 'MooseX::Emulate::Class::Accessor::Fast';
 
