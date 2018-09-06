@@ -22,7 +22,6 @@ my $job;
 # To create a new job put it in a sub and add it to this list.
 # To disable a job just comment it out
 my @actions = (
-    [remove_unconfirmed             => \&remove_unconfirmed],
     [log_expired_accounts           => \&log_expired_accounts]
 );
 
