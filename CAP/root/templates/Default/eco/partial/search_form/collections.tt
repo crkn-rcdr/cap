@@ -2,8 +2,8 @@
     <label for="collectionSelect">[% c.loc("Collection") %]</label>
     <select id="collectionSelect" class="span3" name="collection">
         <option value="">[% c.loc("All") %]</option>
-    [% FOREACH key IN c.model('Collections').sorted_keys(lang, c.portal.id) -%]
-        <option value="[% key %]">[% collections.$key.$lang.title %]</option>
+    [% FOREACH key IN sorted_collection_keys -%]
+        <option value="[% key %]">[% collections.$key.label.$lang.join(' ') %]</option>
     [% END -%]
     </select>
 </div>

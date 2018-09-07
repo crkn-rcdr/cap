@@ -53,7 +53,6 @@ sub auto :Private
         httponly => 1
     }; 
     $c->stash(
-        collections    => $c->model('Collections')->all->{$c->portal->id} || {},
         label          => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
         content_blocks => $c->model('CMS')->cached_blocks({
             portal => $c->portal->id,
@@ -61,6 +60,14 @@ sub auto :Private
             action => $c->action->private_path
         })
     );
+
+    if ($c->model('Collections')->has_subcollections($c->portal->id)) {
+        $c->stash(
+            collections            => $c->model('Collections')->of_portal($c->portal->id),
+            sorted_collection_keys => $c->model('Collections')->sorted_keys($c->stash->{lang}, $c->portal->id),
+            collection_labels      => $c->model('Collections')->as_labels($c->stash->{lang}, $c->portal->id)
+        );
+    }
 
     # If this is an anonymous request, check for a persistence token and,
     # if valid, automatically login the user.
