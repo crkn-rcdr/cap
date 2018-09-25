@@ -19,10 +19,8 @@
         <div id="wrapper">
 [% INCLUDE layout/header.tt | indent(12) -%]
             <div class="container">
-[% INCLUDE partial/ad_unit_top.tt | indent(16) %]
 [% INCLUDE partial/messages.tt | indent(16) -%]
 [% content | indent(16) -%]
-[% INCLUDE partial/ad_unit_bottom.tt | indent(16) %]
 [% IF c.debug -%]
                 <div id="debug">
 [% INCLUDE partial/debug_panel.tt name="action" title="Action" obj="c.action" %]
