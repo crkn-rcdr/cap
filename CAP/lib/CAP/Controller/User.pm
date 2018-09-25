@@ -1,7 +1,6 @@
 package CAP::Controller::User;
 use Moose;
 use namespace::autoclean;
-use Captcha::reCAPTCHA;
 use Date::Manip::Date;
 use Date::Manip::Delta;
 use Text::Trim qw/trim/;
@@ -169,9 +168,6 @@ sub do_login :Private {
     my $persistent  = $c->request->params->{persistent} || 0;
     my $user = $c->model('DB::User')->find_user($username);
 
-    my($captcha_success, $captcha_output) = $c->cap->generate_captcha();
-    $c->stash->{captcha} = $captcha_output;
-
 
     if (! $user) { # No account exists
         $c->message({ type => "error", message => "invalid_login" });
@@ -213,13 +209,6 @@ sub do_login :Private {
 sub create :Private {
     my($self, $c, $data) = @_;
     my @errors = ();
-
-    my($captcha_success, $captcha_output) = $c->cap->generate_captcha();
-
-
-    if (!$captcha_success) {
-        push @errors, 'captcha';
-    }
 
     my $created = $c->model('DB::User')->create_if_valid({
         username => $data->{username},

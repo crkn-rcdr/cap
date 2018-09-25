@@ -143,15 +143,6 @@ DISTRIBUTIONS
       Storable 0
       Test::Deep 0
       Test::More 0
-  Captcha-reCaptcha-0.99
-    pathname: S/SU/SUNNYP/Captcha-reCaptcha-0.99.tar.gz
-    provides:
-      Captcha::reCAPTCHA 0.99
-    requirements:
-      ExtUtils::MakeMaker 0
-      HTML::Tiny 0.904
-      LWP::UserAgent 0
-      Test::More 0
   Capture-Tiny-0.46
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.46.tar.gz
     provides:
@@ -572,6 +563,7 @@ DISTRIBUTIONS
       MooseX::Emulate::Class::Accessor::Fast 0.00903
       MooseX::Getopt 0.48
       MooseX::MethodAttributes::Role::AttrContainer::Inheritable 0.24
+      MooseX::Role::WithOverloading 0.09
       Path::Class 0.09
       Plack 0.9991
       Plack::Middleware::Conditional 0
@@ -824,7 +816,6 @@ DISTRIBUTIONS
       Config::Any::XML undef
       Config::Any::YAML undef
     requirements:
-      Config::General 2.47
       Module::Pluggable::Object 3.6
   Config-General-2.63
     pathname: T/TL/TLINDEN/Config-General-2.63.tar.gz
@@ -3473,13 +3464,6 @@ DISTRIBUTIONS
       HTML::Tagset 3.20
     requirements:
       ExtUtils::MakeMaker 0
-  HTML-Tiny-1.05
-    pathname: A/AN/ANDYA/HTML-Tiny-1.05.tar.gz
-    provides:
-      HTML::Tiny 1.05
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
   HTML-Tree-5.07
     pathname: K/KE/KENTNL/HTML-Tree-5.07.tar.gz
     provides:
@@ -6102,7 +6086,7 @@ DISTRIBUTIONS
       Template::Monad::Scalar 1
       Template::Namespace::Constants 1.27
       Template::Parser 2.89
-      Template::Perl 2.2
+      Template::Perl 2.87
       Template::Plugin 2.7
       Template::Plugin::Assert 1
       Template::Plugin::CGI 2.7

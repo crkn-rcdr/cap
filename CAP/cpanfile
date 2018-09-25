@@ -31,7 +31,6 @@ requires 'Catalyst::Model::Adaptor';
 requires 'File::Slurp';
 requires 'Catalyst::View::TT';
 requires 'Text::MultiMarkdown';
-requires 'Captcha::reCAPTCHA';
 requires 'Text::Trim';
 requires 'Catalyst::Controller::REST';
 requires 'Hash::MoreUtils';

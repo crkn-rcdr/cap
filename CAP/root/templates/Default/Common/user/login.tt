@@ -70,10 +70,6 @@
                         <input type="password" id="passwordCheck" name="password_check" required />
                     </div>
                 </div>
-                [% IF captcha %]
-                    <p>[% c.loc("We need to verify that you are a human being. Please enter the words in the image below.") %]</p>
-                    <p>[% captcha %]</p>
-                [% END %]
                 <div class="control-group">
                     <div class="controls">
                         <label class="checkbox">
