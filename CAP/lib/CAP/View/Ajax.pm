@@ -3,9 +3,6 @@ package CAP::View::Ajax;
 use strict;
 use warnings;
 
-use Date::Parse qw(str2time);
-use Date::Format qw(time2str);
-use Scalar::Util qw(looks_like_number);
 use base 'Catalyst::View::TT';
 
 __PACKAGE__->config(

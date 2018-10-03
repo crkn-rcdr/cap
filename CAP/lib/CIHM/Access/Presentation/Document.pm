@@ -36,17 +36,6 @@ has 'prezi_demo_endpoint' => (
 	required => 1
 );
 
-has 'auth' => (
-	is => 'ro',
-	isa => HashRef,
-	default => sub { return {
-		content => 0,
-		download => 0,
-		preview => 0,
-		resize => 0
-	}; }
-);
-
 sub BUILD {
 	my ($self, $args) = @_;
 
@@ -72,35 +61,6 @@ sub _format_date {
     my ($date) = (@_);
     $date =~ /^(\d{4})-(\d{2})-(\d{2}).+/;
     return $2 == 1 && $3 == 1 || $2 == 12 && $3 == 31 ? $1 : "$1-$2-$3";
-}
-
-sub authorize_item {
-	my ($self, $auth) = @_;
-	foreach (qw/content download preview resize/) {
-		$self->auth->{$_} = $auth->can_access($_);
-	}
-
-	if ($self->has_children) {
-		foreach my $seq (1 .. scalar @{$self->record->{order}}) {
-			my $key = $self->record->{order}[$seq-1];
-			my $component = $self->record->{components}{$key};
-
-			my $page_access = $self->auth->{content} ||
-				# Preview access requires the following conditions:
-				$self->auth->{preview} && (
-					# The first page is always allowed (in case there is only one # page)
-					$seq == 1 ||
-					# If this is a series, the first 2 issues are open to all.
-					$self->has_parent && $self->record->{seq} <= 2 ||
-					# The first 20 pages or 50% (whichever is less) are accessible to all.
-					$seq < 20 && $seq <= int($self->child_count / 2)
-				);
-			
-			$component->{access} = $page_access ? 1 : 0;
-		}
-	}
-
-	return 1;
 }
 
 sub is_type {
@@ -159,7 +119,6 @@ sub validate_download {
 	my ($self) = @_;
 	my $download = $self->record->{canonicalDownload};
     return [400, "Document " . $self->record->{key} . " does not have a canonical download."] unless $download;
-    return [403, "Not allowed to download this resource."] unless $self->auth->{download};
     return [200, $self->download->uri($download)];
 }
 

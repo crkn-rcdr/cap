@@ -128,21 +128,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 portal_accesses
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::PortalAccess>
-
-=cut
-
-__PACKAGE__->has_many(
-  "portal_accesses",
-  "CAP::Schema::Result::PortalAccess",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
 =head2 portal_features
 
 Type: has_many
@@ -188,65 +173,6 @@ __PACKAGE__->has_many(
   undef,
 );
 
-=head2 portal_subscriptions
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::PortalSubscriptions>
-
-=cut
-
-__PACKAGE__->has_many(
-  "portal_subscriptions",
-  "CAP::Schema::Result::PortalSubscriptions",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 subscriptions
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::Subscription>
-
-=cut
-
-__PACKAGE__->has_many(
-  "subscriptions",
-  "CAP::Schema::Result::Subscription",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 user_subscriptions
-
-Type: has_many
-
-Related object: L<CAP::Schema::Result::UserSubscription>
-
-=cut
-
-__PACKAGE__->has_many(
-  "user_subscriptions",
-  "CAP::Schema::Result::UserSubscription",
-  { "foreign.portal_id" => "self.id" },
-  undef,
-);
-
-=head2 institution_ids
-
-Type: many_to_many
-
-Composing rels: L</institution_subscriptions> -> institution_id
-
-=cut
-
-__PACKAGE__->many_to_many(
-  "institution_ids",
-  "institution_subscriptions",
-  "institution_id",
-);
-
 
 # Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-03-02 17:39:42
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZkQyvH7hRWOhLFC81bl7cA
@@ -279,62 +205,6 @@ sub description {
     return "";
 }
 
-=head2 access
-
-Builds an access permission table as a hashref in the form: { feature => {
-content_level => user_level } } Where feature is the name of the
-feature (content, preview, download, etc.), content_level is the
-access level of the title and user level is the minimum user access
-level required to access that feature for that level of content.
-
-=cut
-sub access {
-    my($self) = @_;
-    my $matrix = {
-        preview => {},
-        content => {},
-        metadata => {},
-        resize => {},
-        download => {},
-        purchase => {},
-        searching => {},
-        browse => {}
-    };
-
-    foreach my $access ($self->search_related('portal_accesses')) {
-        foreach my $feature (qw(preview content metadata resize download purchase searching browse)) {
-            $matrix->{$feature}->{$access->level} = $access->get_column($feature);
-        }
-    }
-
-    return $matrix;
-}
-
-=head2 update_access($level, $feature => $value, ...)
-
-Updates the selected features to their respective values for content level $level
-
-=cut
-sub update_access {
-    my($self, $level, %features) = @_;
-
-    my $access = $self->find_related('portal_accesses', { level => $level });
-    return 0 unless ($access);
-    $access->update({%features});
-    return 1;
-}
-
-=head2 get_subscriptions
-
-Returns all subscriptions defined for the portal, sorted by duration
-
-=cut
-sub get_subscriptions {
-    my($self) = @_;
-    return $self->search_related('portal_subscriptions', {}, { order_by => { -asc => 'duration' }})->all;
-}
-
-
 =head2 features
 
 Returns a set of hash keys (with values set to 1) for each feature in this portal
@@ -349,29 +219,6 @@ sub features {
     }
     return $features;
 }
-
-
-=head2 add_feature ($feature)
-
-Adds the portal feature $feature, if it does not already exist.
-
-=cut
-sub add_feature {
-    my($self, $feature) = @_;
-    my $result = $self->related_resultset('portal_features')->find_or_create({ feature => $feature });
-}
-
-=head2 remove_feature ($feature)
-
-Removes the portal feature $feature, if it exists.
-
-=cut
-sub remove_feature {
-    my($self, $feature) = @_;
-    my $result = $self->related_resultset('portal_features')->find({ feature => $feature });
-    $result->delete if ($result);
-}
-
 
 =head2
 
@@ -397,30 +244,6 @@ sub set_language {
         title       => $title,
         description => $description
     })
-}
-
-
-=head2 list_subscriptions
-
-Returns a list of subscriptions for this portal
-
-=cut
-sub list_subscriptions {
-    my($self) = @_;
-    my @subscriptions = $self->search_related('portal_subscriptions')->all;
-    return @subscriptions if (wantarray);
-    return \@subscriptions;
-}
-
-
-=head2 subscription($subscription_id)
-
-Retireves $subscription_id for the portal.
-
-=cut
-sub subscription {
-    my($self, $subscription_id) = @_;
-    return $self->find_related('portal_subscriptions', { id => $subscription_id });
 }
 
 =head2 canonical_hostname ($hostname)
@@ -464,21 +287,6 @@ sub hosts {
 }
 
 
-=head2 delete_host ($hostname)
-
-Disassociate $hostname from the portal
-
-=cut
-sub delete_host {
-    my($self, $hostname) = @_;
-    my $host = $self->find_related('portal_hosts', { id => $hostname });
-    $host->delete if ($host);
-    return 1;
-}
-
-
-
-
 # Get the default language for the portal, if none is specified. This is
 # based on the value of the priority column.
 sub default_lang {
@@ -510,30 +318,6 @@ sub langs {
         push(@{$langs}, $_->lang);
     }
     return $langs;
-}
-
-# Return true if the portal has the named support page.
-sub has_page {
-    my($self, $page) = @_;
-    my $result = $self->search_related('portal_supports', { page => $page });
-    #warn $result->count . " for " . $page;
-    return 1 if $result->count;
-    return 0;
-}
-
-sub subset {
-    my $self = shift;
-    #my @result = $self->search_related('portal_collections')->get_column('collection_id')->all;
-    my @subset = ();
-    #foreach my $collection (@result) {
-    #    push(@subset, "collection:$collection");
-    #}
-
-    # TODO: eventually, this will be the only thing we need to return.
-    push(@subset, "portal:" . $self->id);
-
-    return "" unless (@subset);
-    return "(" . join(" OR ", @subset) . ")";
 }
 
 1;

@@ -1,7 +1,7 @@
 [% INCLUDE partial/page_viewer/toolbar.tt %]
 <section id="pvPane">
-    <section id="pvImageContainer"[% UNLESS item.component(seq).access %] class="hidden"[% END %]>
-        <div id="pvImageInner"><img id="pvImg" src="[% IF item.component(seq).access; item.validate_derivative(seq, size, rotate).1; END %]"></div>
+    <section id="pvImageContainer">
+        <div id="pvImageInner"><img id="pvImg" src="[% item.validate_derivative(seq, size, rotate).1 %]"></div>
         <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
         <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
         <aside id="pvComponent"[% UNLESS item.component(seq).hasTags %] class="hidden"[% END %]>
@@ -18,8 +18,5 @@
         </aside>
     </section>
     <p id="pvLoading" class="loading hidden">[% c.loc("Loading...") %]</p>
-    <div id="pvSubscribe"[% IF item.component(seq).access %] class="hidden"[% END %]>
-[% INCLUDE partial/page_viewer/subscribe_box.tt %]
-    </div>
     <p id="pvError" class="hidden">[% c.loc("There was an error retrieving this page.") %]</p>
 </section>

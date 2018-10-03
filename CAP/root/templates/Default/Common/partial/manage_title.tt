@@ -1,2 +1,0 @@
-[% IF c.has_role('content') %]<a href="[% c.uri_for_action('content/title/index', [ item.record.cap_title_id ]) %]">** [% c.loc("Manage Title") %]</a>[% END %]
-

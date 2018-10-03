@@ -57,18 +57,5 @@
     [% END %]
 </table>
 
-<table>
-    <caption>Active Subscriptions</caption>
-    [% INCLUDE partial/table_header.tt columns=["Portal", "Subscribers"] %]
-    <tbody>
-    [% FOREACH i IN mail_data.user_subscriptions %]
-        <tr>
-            <td>[% i.portal_id.title('en') %]</td>
-            <td>[% i.get_column('user_count') %]</td>
-        </tr>
-    [% END %]
-    </tbody>
-</table>
-
 </body>
 </html>

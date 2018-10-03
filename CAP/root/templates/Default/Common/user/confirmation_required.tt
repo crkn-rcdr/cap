@@ -1,5 +1,0 @@
-[% title = c.loc("Confirm Account") %]
-
-<h2>[% c.loc("Confirm Account") %]</h2>
-<p>[% c.loc("Your Canadiana account needs to be confirmed. An email with instructions has been sent to [_1].", username) %]</p>
-<p><a href="[% c.uri_for_action("/user/reconfirm", username) %]">[% c.loc("Click here to resend instructions") %]</a></p>

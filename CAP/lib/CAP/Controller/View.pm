@@ -51,8 +51,6 @@ sub view_component :Private {
 sub view_item :Private {
     my ($self, $c, $item, $seq) = @_;
 
-    $item->authorize_item($c->auth);
-
     if ($item->has_children) {
         $seq = $item->first_component_seq unless ($seq && $seq =~ /^\d+$/);
 
@@ -112,3 +110,5 @@ sub random : Path('/viewrandom') Args() {
 }
 
 __PACKAGE__->meta->make_immutable;
+
+1;

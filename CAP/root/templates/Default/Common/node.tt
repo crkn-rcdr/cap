@@ -3,7 +3,6 @@
 <div class="row">
     <article class="span12 node">
     	<h1>[% node.title %]</h1>
-    	[% IF c.user.has_role('administrator') %]<p><a href="[% c.uri_for_action('cms/edit', node.id) %]" class="editLink">[% c.loc("Edit") %]</a></p>[% END %]
     	[% node.body %]
     </article>
 </div>

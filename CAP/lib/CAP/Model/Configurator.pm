@@ -104,23 +104,6 @@ method supportedLangs($portal) {
     return $portal->langs;
 }
 
-=head2 subscriptionPrice
-
-$subscription_price = subscriptionPrice($portal)
-
-=over 4
-
-Get the subscription price for the portal. This is a temporary function and returns a hard-coded value. It eventually needs to be replaced by something that can handle multiple portals and possibly multiple subscription periods.
-
-=back
-
-=cut
-method subscriptionPrice($portal) {
-    return 100 if ($portal->id eq 'eco');
-    return 0;
-}
-
-
 =head2 setView
 
 $current_view = setView($request);
@@ -232,7 +215,6 @@ method configAll ($portal, $request, $config) {
     $config{portal} = $self->portalId($portal);
     $config{portal_name} = $self->portalName($portal, $config{lang});
     $config{supported_langs} = $self->supportedLangs($portal);
-    $config{subscription_price} = $self->subscriptionPrice($portal);
     $config{current_view} = $self->setView($request, $config);
     $config{content_type} = $self->setContentType($request, $config);
     $config{cookie_domain} = $self->setCookieDomain($request, $config);

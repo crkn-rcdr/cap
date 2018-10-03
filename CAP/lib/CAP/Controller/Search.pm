@@ -16,33 +16,6 @@ has 'matching_page_limit' => (
 	required => 1
 );
 
-sub auto :Private {
-    my($self, $c) = @_;
-
-    my $search_enabled = $c->auth->is_enabled('searching');
-    my $can_search = $c->auth->can_use('searching');
-
-    # Check whether search is enabled and, if so, whether the user has
-    # sufficient privileges to access it.
-    if (! $search_enabled) {
-        $c->res->redirect($c->uri_for_action('/index'));
-        $c->detach();
-    }
-    elsif (! $can_search) {
-        warn("Insufficient access to search");
-        if ($c->user) {
-            $c->res->redirect($c->uri_for_action('/index'));
-        }
-        else {
-            #$c->session->{login_redirect} = $c->req->uri;
-            $c->response->redirect($c->uri_for_action('/user/login'));
-        }
-        $c->detach();
-    }
-
-    return 1;
-}
-
 sub index :Path('') {
     my($self, $c, $handler, $page) = @_;
     $page = $page && looks_like_number($page) ? $page    :

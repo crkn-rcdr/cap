@@ -23,14 +23,8 @@ sub auto :Private
     # Create a session if we don't already have one.
     $c->initialize_session;
 
-    # Initialize util class
-    $c->set_util;
-    
     # Determine which portal to use and configure it.
     $c->set_portal;
-
-    # Set the institution associated with this request.
-    $c->set_institution;
 
     # Set various per-request configuration variables.
     $c->stash($c->model('Configurator')->configAll($c->portal, $c->req, $c->config));
@@ -69,45 +63,13 @@ sub auto :Private
         );
     }
 
-    # If this is an anonymous request, check for a persistence token and,
-    # if valid, automatically login the user.
-    if (! $c->user_exists) {
-        if ($c->request->cookie($c->config->{cookies}->{persist})) {
-            my $id = $c->model('DB::User')->validate_token($c->request->cookie($c->config->{cookies}->{persist})->value);
-            if ($id) {
-                $c->set_authenticated($c->find_user({id => $id}));
-                $c->persist_user();
-                $c->user->update({ last_login => DateTime->now() });
-                $c->user->log('RESTORE_SESSION', sprintf("from %s", $c->req->address));
-            }
-        }
-    }
-
-    # Create or update the session and increment the session counter
-    $c->update_session();
-
     # throw JSON requests to error page
     if (exists $c->request->query_params->{fmt} && lc($c->request->query_params->{fmt}) eq 'json') {
         $c->detach('/error', [404, 'API Unavailable -- API non disponible']);
     }
 
-    # Route this request to/from the secure host if necessary
-    $c->model('Secure')->routeRequest($c);
-
-    # Get the return portal and return URI, if there is one.
-    if ($c->session->{origin}) {
-        $c->stash( 'origin' => {
-            portal => $c->model('DB::Portal')->find($c->session->{origin}->{portal}),
-            uri => $c->session->{origin}->{uri}
-        });
-    }
-
-    # Configure the user's permissions
-    $c->set_auth;
-
     # If we got to here, it means we will attempt to actually do
     # something, so increment the request counter and log the request
-    ++$c->session->{count};
     $c->forward('CAP::Controller::RequestLogger');
 
     return 1;
@@ -187,18 +149,9 @@ sub error :Private
 }
 
 
-# These are the basic actions we have to handle. 
-
 sub index :Path('') Args(0)
 {
     my($self, $c) = @_;
-
-    # The secure portal has no index page: forward to the user's profile.
-    if ($c->req->uri->host eq $c->config->{secure}->{host}) {
-        warn "##### Request for / on Secure goes to /user/profile" if ($c->debug);
-        $c->response->redirect($c->uri_for_action("/user/profile"));
-        $c->detach();
-    }
 
     $c->stash->{template} = "index.tt";
     $c->stash->{portals} = [$c->model("DB::Portal")->list];
@@ -216,28 +169,6 @@ sub updates :Local {
         portal => $c->portal->id,
         lang => $c->stash->{lang}
     });
-}
-
-# check for insitutional subscription
-sub proxy :Local {
-    my ($self, $c) = @_;
-    $c->detach('error', [404, "Not supported for non-subscription portals"])
-        unless ($c->portal->supports_institutions && $c->portal->supports_subscriptions);
-}
-
-sub access_json :Path('access.json') {
-    my ($self, $c) = @_;
-    my $ip = $c->request->query_params->{ip};
-    my $institution = $ip ? $c->model('DB::InstitutionIpaddr')->institution_for_ip($ip) : $c->institution;
-    my @subscriptions = $institution ? $institution->search_related('institution_subscriptions') : ();
-    my $entity = {
-        collections => [ map { $_->portal_id->id } @subscriptions ]
-    };
-
-    $c->res->header('Content-Type', 'application/json');
-    $c->res->body(encode_json $entity);
-
-    return 1;
 }
 
 sub robots :Path('robots.txt') {

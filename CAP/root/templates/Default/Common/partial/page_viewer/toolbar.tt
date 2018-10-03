@@ -1,9 +1,9 @@
-<nav id="pvToolbar" class="btn-toolbar" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="6" data-pkey="[% item.record.key %]" data-resize="[% item.auth.resize %]"  data-portal-name="[% portal_name %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF item.record.hasTags %] data-tags="1"[% END %]>
+<nav id="pvToolbar" class="btn-toolbar" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="6" data-pkey="[% item.record.key %]" data-resize="1"  data-portal-name="[% portal_name %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF item.record.hasTags %] data-tags="1"[% END %]>
         <select id="pvPageSelect" name="seq">
             [% FOREACH component_key IN item.record.order %]
                 [% child = item.record.components.$component_key %]
                 [% curr_seq = loop.count %]
-                <option id="seq[% curr_seq %]" data-key="[% component_key %]" data-access="[% child.access %]" data-master="[% child.canonicalMaster %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
+                <option id="seq[% curr_seq %]" data-key="[% component_key %]" data-access="1" data-master="[% child.canonicalMaster %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
             [% END %]
         </select>
         <div class="btn-group">
@@ -16,18 +16,14 @@
             [% INCLUDE rotate new_rotation=((rotate - 1) % 4) label=c.loc("Rotate Left") id="pvRotateLeft" icon_class="rotate-left" %]
             [% INCLUDE rotate new_rotation=((rotate + 1) % 4) label=c.loc("Rotate Right") id="pvRotateRight" icon_class="rotate-right" %]
         </div>
-        [% IF c.auth.is_enabled('resize') %]
         <div class="btn-group">
-            [% INCLUDE resize new_size=(size - 1) label=(item.auth.resize ? c.loc("Smaller") : c.loc("Resize feature available to subscribers")) id="pvSmaller" icon_class="smaller" %]
-            [% INCLUDE resize new_size=(size + 1) label=(item.auth.resize ? c.loc("Bigger") : c.loc("Resize feature available to subscribers")) id="pvBigger" icon_class="bigger" %]
+            [% INCLUDE resize new_size=(size - 1) label=c.loc("Smaller") id="pvSmaller" icon_class="smaller" %]
+            [% INCLUDE resize new_size=(size + 1) label=c.loc("Bigger") id="pvBigger" icon_class="bigger" %]
         </div>
-        [% END %]
-        [% IF c.auth.is_enabled('download') %]
         <div class="btn-group">
-            [% INCLUDE download label=(item.auth.download ? c.loc("Download PDF") : c.loc("Subscribers can download a copy of this document.")) id="pvDownload" icon_class="download" %]
+            [% INCLUDE download label=c.loc("Download PDF") id="pvDownload" icon_class="download" %]
         </div>
-        [% END %]
-        [% IF c.auth.can_access('metadata') && item.record.defined('hasTags') && item.record.hasTags %]
+        [% IF item.record.defined('hasTags') && item.record.hasTags %]
         <div class="btn-group right-med">
             [% INCLUDE tag_toggle label=c.loc("Toggle Tags") id="pvTagToggle" icon_class="tag" active=item.component(seq).hasTags %]
         </div>
@@ -38,11 +34,11 @@
 
 [% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/index", page.pkey, new_seq) disabled=disabled %][% END %]
 [% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/index", item.record.key, seq, refine(c.req.params, { r => new_rotation })) disabled=(c.stash.rotate == new_rotation) %][% END %]
-[% BLOCK resize %][% INCLUDE button href=c.uri_for_action("view/index", item.record.key, seq, refine(c.req.params, { s => new_size })) disabled=(!item.content.derivative_config.size.defined("$new_size") || !item.auth.resize) %][% END %]
+[% BLOCK resize %][% INCLUDE button href=c.uri_for_action("view/index", item.record.key, seq, refine(c.req.params, { s => new_size })) disabled=!item.content.derivative_config.size.defined("$new_size") %][% END %]
 [% BLOCK download %]
     [% request = item.validate_download %]
-    [% IF request.0 != 400 # there is no download for this document %]
-        [% INCLUDE button href=request.1 disabled=!item.auth.download %]
+    [% IF request.0 < 400 # there is no download for this document %]
+        [% INCLUDE button href=request.1 %]
     [% END %]
 [% END %]
 [% BLOCK tag_toggle %][% INCLUDE button hidden=0 %][% END %]

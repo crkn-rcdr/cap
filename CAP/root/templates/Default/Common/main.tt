@@ -29,7 +29,6 @@
 [% INCLUDE partial/debug_panel.tt name="portal" title="Portal" obj="c.portal" %]
 [% INCLUDE partial/debug_panel.tt name="stash" title="Stash" obj="c.stash" %]
 [% INCLUDE partial/debug_panel.tt name="session" title="Session" obj="c.session" %]
-[% IF c.user_exists(); INCLUDE partial/debug_panel.tt name="user" title="User" obj="c.user()"; END %]
                 </div>
 [% END -%]
             </div>

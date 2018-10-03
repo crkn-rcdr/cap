@@ -32,6 +32,6 @@
         [% END %]   
     </div>
     <div class="tab-pane" id="documentRecord">
-        [% INCLUDE partial/document_record.tt record=series.record prezi_demo_uri=series.prezi_demo_uri %]
+        [% INCLUDE partial/document_record.tt record=series.record %]
     </div>
 </div>

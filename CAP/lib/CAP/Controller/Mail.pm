@@ -92,101 +92,6 @@ sub sendmail {
     return 1;
 }
 
-sub user_reset :Private {
-    my ($self, $c, $recipient, $confirm_link) = @_;
-    $c->stash(confirm_link => $confirm_link);
-
-    my $from = $c->config->{email_from};
-    return unless ( $from );
-    my $header = [
-        From => $from,
-        To => $recipient,
-        Subject => $c->loc('Password Reset')
-    ];
-
-    $self->sendmail($c, "reset.tt", $header);
-    return 1;
-}
-
-sub user_activate :Private {
-    my ($self, $c, $recipient, $real_name, $confirm_link) = @_;
-    $c->stash(recipient => $recipient,
-        real_name => $real_name,
-        confirm_link => $confirm_link
-    );
-
-    my $from = $c->config->{email_from};
-    return unless ( $from );
-    my $header = [
-        From => $from,
-        To => $recipient,
-        Subject => $c->loc('Canadiana Account Activation')
-    ];
-
-    $self->sendmail($c, "activate.tt", $header);
-    return 1;
-}
-
-sub subscription_reminder :Private {
-    my ($self, $c, $exp_acct, $exp_date) = @_;
-    
-    my $recipient  =  $exp_acct->email;
-    
-    $c->stash(recipient  =>  $exp_acct->email,
-              real_name  =>  $exp_acct->name,
-              subexpires =>  $exp_date,
-              exp_en     =>  $exp_date->{en},
-              exp_fr     =>  $exp_date->{fr} 
-    );
-      
-    
-    my $from = $c->config->{email_from};
-    
-    # Don't want to return 1 here
-    return unless ( $from );
-
-    my $header = [
-        'From'                      => $from,
-        'To'                        => $recipient,
-        'Subject'                   => "Your Canadiana.org subscription / Votre abonnement Canadiana.org",
-        'Content-Type'              => 'text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding' => '8bit'
-    ];
-
-    my $template = "subscription_reminder.tt";
-
-    $self->sendmail($c, $template, $header);
-
-    return 1;
-}
-
-
-
-=head2 subscription_confirmation ($subscription)
-
-Send a message to the user to confirm their new subscription.
-
-=cut
-sub subscription_confirmation :Private {
-    my($self, $c, $subscription) = @_;
-
-    $c->stash(
-        subscription => $subscription
-    );
-
-    my $header = [
-        'From'                                                 =>  $c->config->{email_from},
-        'To'                                                       => $c->user->email,
-        'Subject'                                            => $c->loc("Your Canadiana Subscription"),
-        'Content-Transfer-Encoding'  =>  '8bit',
-        'Content-Type'                                => 'text/html; charset="UTF-8"'
-    ];
-
-    $self->sendmail($c, 'subscription_confirmation.tt', $header);
-    return 1;
-}
-
-
 sub status_report :Private {
     my($self, $c, $recipients, %data) = @_;
 
@@ -201,9 +106,6 @@ sub status_report :Private {
     $self->sendmail($c, 'status_report.tt', $header);
     return 1;
 }
-
-
-
 
 =head1 AUTHOR
 
