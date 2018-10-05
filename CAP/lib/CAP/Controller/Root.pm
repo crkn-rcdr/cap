@@ -47,12 +47,13 @@ sub auto :Private
         httponly => 1
     }; 
     $c->stash(
-        label          => $c->model('DB::Labels')->get_labels($c->stash->{lang}),
         content_blocks => $c->model('CMS')->cached_blocks({
             portal => $c->portal->id,
             lang   => $c->stash->{lang},
             action => $c->action->private_path
-        })
+        }),
+        depositor_labels => $c->model('Depositors')->as_labels($c->stash->{lang}),
+        language_labels => $c->model('Languages')->as_labels($c->stash->{lang})
     );
 
     if ($c->model('Collections')->has_subcollections($c->portal->id)) {

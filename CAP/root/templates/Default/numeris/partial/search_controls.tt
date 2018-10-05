@@ -74,7 +74,7 @@
                 </p>
             [% END %]
         [% END; END %]
-        [% INCLUDE facet_pane name="lang" title=c.loc("Language") p=searchLang facets=resultset.facets.lang labels=label.lang %]
+        [% INCLUDE facet_pane name="lang" title=c.loc("Language") p=searchLang facets=resultset.facets.lang labels=language_labels %]
         <p>
             <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
             <a class="btn btn-large refine-search" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
