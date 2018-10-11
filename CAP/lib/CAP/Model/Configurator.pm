@@ -8,19 +8,17 @@ $c->stash($c->model('Configurator')->configAll($c->request, $c->config);
 
 =cut
 
-use strict;
-use warnings;
+use strictures 2;
 use Moose;
-use MooseX::Method::Signatures;
 use namespace::autoclean;
-extends 'Catalyst::Model';
 
+extends 'Catalyst::Model';
 
 =head1 Methods
 
-=head2 setLang
+=head2 set_lang
 
-$lang = setLang($portal, $request)
+$lang = set_lang($request, $config)
 
 =over 4
 
@@ -31,9 +29,12 @@ selected language.
 
 =back
 =cut
-method setLang ($request, $config) {
+sub set_lang {
+    my ($self, $request, $config) = @_;
+
     my $lang;
     my @supported_langs = keys %{ $config->{languages} };
+
     if ($request->params->{usrlang} && grep($request->params->{usrlang}, @supported_langs)) {
         $lang = $request->params->{usrlang};
     }
@@ -59,9 +60,9 @@ method setLang ($request, $config) {
 }
 
 
-=head2 setView
+=head2 set_view
 
-$current_view = setView($request);
+$current_view = set_view($request, $config);
 
 =over 4
 
@@ -70,8 +71,9 @@ Set the current view according the request parameters.
 =back
 
 =cut
-method setView($request, $config) {
-    #warn $request->action;
+sub set_view {
+    my ($self, $request, $config) = @_;
+
     my $fmt = $request->params->{fmt};
 
     # If a format is defined...
@@ -99,9 +101,9 @@ method setView($request, $config) {
 }
 
 
-=head2 setView
+=head2 set_content_type
 
-$current_view = setView($request);
+$current_view = set_content_type($request, $config);
 
 =over 4
 
@@ -110,7 +112,8 @@ Set the content-type parameter according to the view type for the request.
 =back
 
 =cut
-method setContentType($request, $config) {
+sub set_content_type {
+    my ($self, $request, $config) = @_;
     if ($request->params->{fmt}) {
         my $fmt = $request->params->{fmt};
         if ($config->{fmt}->{$fmt}) {
@@ -121,9 +124,9 @@ method setContentType($request, $config) {
     return 'text/html';
 }
 
-=head2 setCookieDomain
+=head2 set_cookie_domain
 
-$cookie_domain = setCookieDomain($request, $config);
+$cookie_domain = set_cookie_domain($request, $config);
 
 =over 4
 
@@ -132,7 +135,9 @@ Sets the domain for cookies to the same one used by the session.
 =back
 
 =cut
-method setCookieDomain($request, $config) {
+sub set_cookie_domain {
+    my ($self, $request, $config) = @_;
+
     my $domain;
     if ($config->{'Plugin::Session'} && $config->{'Plugin::Session'}->{cookie_domain}) {
         $domain = $config->{'Plugin::Session'}->{cookie_domain};
@@ -144,9 +149,9 @@ method setCookieDomain($request, $config) {
 }
 
 
-=head2 configAll
+=head2 run
 
-%config = configAll($portal, $request)
+%config = run($request, $config)
 
 =over 4
 
@@ -156,13 +161,15 @@ the standard way to configure CAP for a request.
 
 =back
 =cut
-method configAll ($request, $config) {
+sub run {
+    my ($self, $request, $config) = @_;
+
     my %config = ();
 
-    $config{lang} = $self->setLang($request, $config);
-    $config{current_view} = $self->setView($request, $config);
-    $config{content_type} = $self->setContentType($request, $config);
-    $config{cookie_domain} = $self->setCookieDomain($request, $config);
+    $config{lang} = $self->set_lang($request, $config);
+    $config{current_view} = $self->set_view($request, $config);
+    $config{content_type} = $self->set_content_type($request, $config);
+    $config{cookie_domain} = $self->set_cookie_domain($request, $config);
 
     return %config;
 }
