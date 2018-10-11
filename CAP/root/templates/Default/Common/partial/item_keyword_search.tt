@@ -1,6 +1,6 @@
-[% IF portal == 'parl' %]
+[% IF c.portal_id == 'parl' %]
 [% search_label = c.loc("Search within this volume:") %]
-[% ELSIF portal == 'heritage' %]
+[% ELSIF c.portal_id == 'heritage' %]
 [% search_label = c.loc("Search within this reel:") %]
 [% ELSE %]
 [% search_label = c.loc("Search within this document:") %]
@@ -8,8 +8,8 @@
 <div class="row">
     <div class="span12">
         <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
-        [% IF c.session.$portal.defined("search") %]
-            <a class="form-align" href="[% c.uri_for_action("search/index", c.session.$portal.search.handler, c.session.$portal.search.start, c.session.$portal.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
+        [% IF c.session.${c.portal_id}.defined("search") %]
+            <a class="form-align" href="[% c.uri_for_action("search/index", c.session.${c.portal_id}.search.handler, c.session.${c.portal_id}.search.start, c.session.${c.portal_id}.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
             [% IF item.has_parent %]
             <span class="divider"></span>
             [% END %]
@@ -23,9 +23,9 @@
             <input type="hidden" name="handler" value="page" />
             <input type="hidden" name="so" value="seq" />
             <label>[% search_label %]</label>
-            <input type="text" name="q" placeholder="" value="[% c.session.$portal.search.query %]" />
+            <input type="text" name="q" placeholder="" value="[% c.session.${c.portal_id}.search.query %]" />
             <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("Search") %]</button>
-            [% INCLUDE partial/matching_pages.tt query=c.session.$portal.search.query pkey=item.record.key limit=item.record.order.size %]
+            [% INCLUDE partial/matching_pages.tt query=c.session.${c.portal_id}.search.query pkey=item.record.key limit=item.record.order.size %]
         [% END %]
         </form>
     </div>

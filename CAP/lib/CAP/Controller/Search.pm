@@ -32,7 +32,7 @@ sub index :Path('') {
     my $search;
     eval {
         $search = $c->model('Access::Search')->dispatch($handler, {
-            root_collection => $c->portal->id,
+            root_collection => $c->portal_id,
             offset => $offset
         }, $c->req->params);
     };
@@ -49,7 +49,7 @@ sub index :Path('') {
     );
 
     # Record the last search parameters
-    $c->session->{$c->portal->id}->{search} = {
+    $c->session->{$c->portal_id}->{search} = {
         start    => $page,
         params   => $c->req->params,
         hits     => $search->{resultset}->hits,

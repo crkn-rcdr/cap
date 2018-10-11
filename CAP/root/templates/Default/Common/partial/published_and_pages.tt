@@ -1,5 +1,5 @@
-[% issue_name_sing = c.portal.id == 'heritage' ? 'reel' : 'issue' -%]
-[% issue_name_plur = c.portal.id == 'heritage' ? 'reels' : 'issues' -%]
+[% issue_name_sing = c.portal_id == 'heritage' ? 'reel' : 'issue' -%]
+[% issue_name_plur = c.portal_id == 'heritage' ? 'reels' : 'issues' -%]
 [% list = result.defined("pu") ? result.pu.slice(0) : [];
     IF result.type == 'series';
         count = result.item_count || result.order.size || 0;

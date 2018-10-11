@@ -1,5 +1,5 @@
 ﻿<p>
-    [% IF c.stash.lang == "fr" %]
+    [% IF lang == "fr" %]
         <a href="http://www.international.gc.ca/international/index.aspx?lang=fra&view=d" target="_blank">Tous droits réservés © Affaires étrangères, Commerce et Développement</a><br />
         <a href="http://www.canadiana.org/fr/accueil" target="_blank">Réalisé par Canadiana.org</a>
     [% ELSE %]

@@ -1,5 +1,5 @@
 ﻿<p>
-    [% IF c.stash.lang == "fr" %]
+    [% IF lang == "fr" %]
         <a href="http://fr.numeris.ca" target="_blank">Numeris</a><br />
         <a href="http://www.canadiana.org/fr/accueil" target="_blank">Réalisé par Canadiana.org</a>
     [% ELSE %]

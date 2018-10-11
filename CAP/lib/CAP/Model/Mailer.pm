@@ -115,42 +115,4 @@ sub status_report {
 	});
 }
 
-sub user_reset {
-	my ($self, $c, $recipient, $confirm_link) = @_;
-	$self->send($c, {
-		to => $recipient,
-		subject => $c->loc('Password Reset'),
-		template => 'reset.tt',
-		template_vars => {
-			confirm_link => $confirm_link,
-			portal_name => $c->stash->{portal_name}
-		}
-	});
-}
-
-sub user_activate {
-	my ($self, $c, $recipient, $real_name, $confirm_link) = @_;
-	$self->send($c, {
-		to => $recipient,
-		subject => $c->loc('Canadiana Account Activation'),
-		template => 'activate.tt',
-		template_vars => {
-			real_name => $real_name,
-			recipient => $recipient,
-			confirm_link => $confirm_link,
-		}
-	});
-}
-
-sub subscription_confirmation {
-	my ($self, $c, $recipient, $lang, $subscription) = @_;
-	$self->send($c, {
-		to => $recipient,
-		subject => $c->loc("Your Canadiana Subscription"),
-		html => 1,
-		template => 'subscription_confirmation.tt',
-		template_vars => { lang => $lang, subscription => $subscription }
-	});
-}
-
 1;

@@ -1,8 +1,8 @@
-﻿[% l = c.stash.lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header class="navbar navbar-static-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="[% c.uri_for_action("/index") %]">[% portal_name %]</a>
+            <a class="brand" href="[% c.uri_for_action("/index") %]">[% c.portal_title %]</a>
             [% IF c.auth.can_use('searching') %]
             <form class="navbar-form pull-left" method="POST" action="[% c.uri_for_action("search/post") %]">
                 <input type="text" class="span3" placeholder="[% c.loc("New Search") %]" name="q" />

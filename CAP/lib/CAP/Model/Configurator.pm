@@ -4,7 +4,7 @@ package CAP::Model::Configurator;
 
 An object for setting per-request configurations based on the portal and the request context. Although methods can be called individually, the standard use case for CAP is to call configAll() near the beginning of a request and stash the result:
 
-$c->stash($c->model('Configurator')->configAll($c->portal, $c->request);
+$c->stash($c->model('Configurator')->configAll($c->request, $c->config);
 
 =cut
 
@@ -31,12 +31,13 @@ selected language.
 
 =back
 =cut
-method setLang ($portal, $request, $config) {
+method setLang ($request, $config) {
     my $lang;
-    if ($request->params->{usrlang} && $portal->supports_lang($request->params->{usrlang})) {
+    my @supported_langs = keys %{ $config->{languages} };
+    if ($request->params->{usrlang} && grep($request->params->{usrlang}, @supported_langs)) {
         $lang = $request->params->{usrlang};
     }
-    elsif ($request->cookie($config->{cookies}->{lang}) && $portal->supports_lang($request->cookie($config->{cookies}->{lang})->value)) {
+    elsif ($request->cookie($config->{cookies}->{lang}) && grep($request->cookie($config->{cookies}->{lang})->value, @supported_langs)) {
         $lang = $request->cookie($config->{cookies}->{lang})->value;
     }
     elsif ($request->header('Accept-Language')) {
@@ -44,7 +45,7 @@ method setLang ($portal, $request, $config) {
             my ($value) = split(';q=', $accept_lang);
             if ($value) {
                 $value = lc(substr($value, 0, 2));
-                if ($portal->supports_lang($value)) {
+                if (grep $value, @supported_langs) {
                     $lang = $value;
                     last;
                 }
@@ -54,55 +55,9 @@ method setLang ($portal, $request, $config) {
 
     # Return the user interface language. If none is set, use the portal
     # default. Failing that, fall back to English.
-    return $lang || $portal->default_lang || 'en';
+    return $lang || 'en';
 }
 
-
-=head2 portalName
-
-$portal_name = portalName($portal, $lang)
-
-=over 4
-
-Get the portal's name for the selected language.
-
-=back
-=cut
-method portalName($portal, $lang) {
-    return $portal->title($lang);
-}
-
-
-=head2 portalId
-
-$portal_id = $portalId($portal)
-
-=over 4
-
-Return the portal id string.
-
-=back
-
-=cut
-method portalId($portal) {
-    return $portal->id;
-}
-
-=head2 supportedLangs
-
-$supported_langs = supportedLangs($portal)
-
-=over 4
-
-Gets a list of the languages supported by the portal. Equivalent to
-calling $portal->langs, but included here for convenience.
-
-=back 
-
-=cut
-method supportedLangs($portal) {
-    return $portal->langs;
-}
 
 =head2 setView
 
@@ -138,13 +93,6 @@ method setView($request, $config) {
         # If the action doesn't match, undefine the format.
         delete($request->params->{fmt});
     }
-
-    #if ($request->params->{fmt}) {
-    #    my $fmt = $request->params->{fmt};
-    #    if ($config->{fmt}->{$fmt}) {
-    #        return $config->{fmt}->{$fmt}->{view};
-    #    }
-    #}
     
     # In all other cases, use the default view.
     return $config->{fmt}->{default}->{view};
@@ -170,7 +118,7 @@ method setContentType($request, $config) {
         }
     }
 
-    return 'text/html'
+    return 'text/html';
 }
 
 =head2 setCookieDomain
@@ -208,13 +156,10 @@ the standard way to configure CAP for a request.
 
 =back
 =cut
-method configAll ($portal, $request, $config) {
+method configAll ($request, $config) {
     my %config = ();
 
-    $config{lang} = $self->setLang($portal, $request, $config);
-    $config{portal} = $self->portalId($portal);
-    $config{portal_name} = $self->portalName($portal, $config{lang});
-    $config{supported_langs} = $self->supportedLangs($portal);
+    $config{lang} = $self->setLang($request, $config);
     $config{current_view} = $self->setView($request, $config);
     $config{content_type} = $self->setContentType($request, $config);
     $config{cookie_domain} = $self->setCookieDomain($request, $config);

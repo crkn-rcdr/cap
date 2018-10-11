@@ -9,7 +9,7 @@ sub process {
 	my ( $self, $c ) = @_;
 
 	my $data = {
-		portal => $c->portal->id,
+		portal => $c->portal_id,
 		view => $c->stash->{current_view},
 		action => $c->req->action,
 	};

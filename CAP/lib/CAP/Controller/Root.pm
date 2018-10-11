@@ -23,16 +23,21 @@ sub auto :Private
     # Create a session if we don't already have one.
     $c->initialize_session;
 
-    # Determine which portal to use and configure it.
-    $c->set_portal;
+    my $portal = $c->model('Collections')->portal_from_host($c->req->uri->host);
+    if ($portal) {
+        $c->stash(portal => $portal);
+    } else {
+        $c->res->redirect($c->config->{default_url});
+        $c->detach();
+    }
 
     # Set various per-request configuration variables.
-    $c->stash($c->model('Configurator')->configAll($c->portal, $c->req, $c->config));
+    $c->stash($c->model('Configurator')->configAll($c->req, $c->config));
 
     # Set the content type and template paths based on the view and portal.
     $c->response->content_type($c->stash->{content_type});
     $c->stash->{additional_template_paths} = [
-        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->portal->id),
+        join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, $c->portal_id),
         join('/', $c->config->{root}, 'templates', $c->stash->{current_view}, 'Common')
     ];
 
@@ -48,7 +53,7 @@ sub auto :Private
     }; 
     $c->stash(
         content_blocks => $c->model('CMS')->cached_blocks({
-            portal => $c->portal->id,
+            portal => $c->portal_id,
             lang   => $c->stash->{lang},
             action => $c->action->private_path
         }),
@@ -56,13 +61,7 @@ sub auto :Private
         language_labels => $c->model('Languages')->as_labels($c->stash->{lang})
     );
 
-    if ($c->model('Collections')->has_subcollections($c->portal->id)) {
-        $c->stash(
-            collections            => $c->model('Collections')->of_portal($c->portal->id),
-            sorted_collection_keys => $c->model('Collections')->sorted_keys($c->stash->{lang}, $c->portal->id),
-            collection_labels      => $c->model('Collections')->as_labels($c->stash->{lang}, $c->portal->id)
-        );
-    }
+    $c->stash(subcollection_labels => $portal->subcollection_labels($c->stash->{lang})) if $portal->has_subcollections();
 
     # throw JSON requests to error page
     if (exists $c->request->query_params->{fmt} && lc($c->request->query_params->{fmt}) eq 'json') {
@@ -101,7 +100,7 @@ sub default :Path {
 
     my $path = join '/', @path;
     my $lookup = $c->model('CMS')->view({
-        portal => $c->portal->id,
+        portal => $c->portal_id,
         lang => $c->stash->{lang},
         path => $path,
         base_url => $c->uri_for('/')
@@ -155,9 +154,8 @@ sub index :Path('') Args(0)
     my($self, $c) = @_;
 
     $c->stash->{template} = "index.tt";
-    $c->stash->{portals} = [$c->model("DB::Portal")->list];
     $c->stash->{updates} = $c->model("CMS")->cached_updates({
-        portal => $c->portal->id,
+        portal => $c->portal_id,
         lang => $c->stash->{lang},
         limit => 3
     });
@@ -167,7 +165,7 @@ sub index :Path('') Args(0)
 sub updates :Local {
     my ($self, $c) = @_;
     $c->stash->{updates} = $c->model("CMS")->updates({
-        portal => $c->portal->id,
+        portal => $c->portal_id,
         lang => $c->stash->{lang}
     });
 }

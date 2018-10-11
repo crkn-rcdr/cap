@@ -1,4 +1,4 @@
-﻿[% l = c.stash.lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">

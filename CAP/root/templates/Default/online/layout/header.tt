@@ -1,8 +1,8 @@
-﻿[% l = c.stash.lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header class="navbar navbar-static-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="logo" style="background-image: url(/static/images/online_logo_[% c.stash.lang %].png)" href="[% c.uri_for_action("/index") %]"></a>
+            <a class="logo" style="background-image: url(/static/images/online_logo_[% lang %].png)" href="[% c.uri_for_action("/index") %]"></a>
             <ul class="nav pull-right">
                 <li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
             </ul>

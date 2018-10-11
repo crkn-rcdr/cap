@@ -6,6 +6,9 @@ use Moose;
 use namespace::autoclean;
 use Types::Standard qw/HashRef ArrayRef Str/;
 
+use CAP::Collection;
+use CAP::Portal;
+
 with 'Role::REST::Client';
 
 extends 'Catalyst::Model';
@@ -18,21 +21,25 @@ has '+persistent_headers' => (
 	default => sub { return { Accept => 'application/json'}; }
 );
 
-has 'subcollections' => (
-	is => 'ro',
-	required => 1
-);
-
-has 'all' => (
+has '_collections' => (
 	is => 'ro',
 	isa => 'HashRef',
-	writer => '_set_collections'
+	default => sub { {} },
+	init_arg => undef
+);
+
+has '_subdomains' => (
+	is => 'ro',
+	isa => 'HashRef',
+	default => sub { {} },
+	init_arg => undef
 );
 
 sub COMPONENT {
 	my ($class, $app, $args) = @_;
 	my $config = { server => $app->config->{services}->{collection}->{endpoint} };
 	$args = $class->merge_config_hashes($config, $args);
+
 	return $class->new($app, $args);
 }
 
@@ -42,47 +49,58 @@ sub BUILD {
 	if ($response->failed) {
 		my $error = $response->error;
 		die "Collections could not be loaded: $error";
-	} else {
-		my $collections = { map {
-			($_->{id} => $_->{doc} )
-		} @{ $response->data->{rows} } };
-		$self->_set_collections($collections);
+	}
+
+	my $rows = $response->data->{rows};
+	my $conf = $args->{portal_config};
+
+	my %subdomains;
+	my $subcollections = {};
+	foreach my $r (@$rows) {
+		my $id = $r->{id};
+		my $doc = $r->{doc};
+		if ($conf->{$id}) {
+			$self->_collections->{$id} = CAP::Portal->new({
+				id => $id,
+				label => $doc->{label},
+				summary => $doc->{summary},
+				search => $conf->{$id}->{search} // 1
+			});
+
+			for my $subd (split ',', $conf->{$id}->{subdomains}) {
+				$subdomains{$subd} = $id;
+			}
+
+			if ($conf->{$id}->{subcollections}) {
+				for my $subc (split ',', $conf->{$id}->{subcollections}) {
+					$subcollections->{$id} //= [];
+					push @{ $subcollections->{$id} }, $subc;
+				}
+			}
+		} else {
+			$self->_collections->{$id} = CAP::Collection->new({
+				id => $id,
+				label => $doc->{label},
+				summary => $doc->{summary}
+			});
+		}
+	}
+
+	foreach my $id (keys %$subcollections) {
+		$self->_collections->{$id}->_set_subcollections({ map {
+			$_ => $self->_collections->{$_}
+		} @{ $subcollections->{$id} } });
+	}
+
+	foreach my $subd (keys %subdomains) {
+		$self->_subdomains->{$subd} = $self->_collections->{$subdomains{$subd}};
 	}
 }
 
-sub has_subcollections {
-	my ($self, $portal) = @_;
-	return !!$self->subcollections->{$portal};
-}
-
-sub of_portal {
-	my ($self, $portal) = @_;
-	my $subs = $self->subcollections->{$portal};
-	if ($subs) {
-		return { map { ($_ => $self->all->{$_}) } @$subs };
-	} else {
-		return {};
-	}
-}
-
-sub sorted_keys {
-	my ($self, $lang, $portal) = @_;
-	my $labels = $self->as_labels($lang, $portal);
-	if ($labels) {
-		return [ sort { $labels->{$a} cmp $labels->{$b} } keys %$labels ]
-	} else {
-		return [];
-	}
-}
-
-sub as_labels {
-	my ($self, $lang, $portal) = @_;
-	my @subs = @{ $self->subcollections->{$portal} };
-	if (@subs) {
-		return { map { $_ => join(' ', @{ $self->all->{$_}->{label}->{$lang} }) } @subs };
-	} else {
-		return {};
-	}
+sub portal_from_host {
+	my ($self, $host) = @_;
+	my $subd = substr($host, 0, index($host, '.'));
+	return $self->_subdomains->{$subd};
 }
 
 1;

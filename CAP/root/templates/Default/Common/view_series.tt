@@ -9,14 +9,14 @@
 
 <h2>[% series.canonical_label %]</h2>
 [% INCLUDE partial/published_and_pages.tt record=series.record %]
-[% IF portal == 'heritage' %]
+[% IF c.portal_id == 'heritage' %]
     [% IF series.child_count > 0 %]<p>[% c.loc("Available reels: [_1]", series.child_count) %]</p>[% END %]
 [% ELSE %]
     [% IF series.child_count > 0 %]<p>[% c.loc("Available issues: [_1]", series.child_count) %]</p>[% END %]
 [% END %]
 
 <ul class="nav nav-tabs">
-    [% IF portal == 'heritage' %]
+    [% IF c.portal_id == 'heritage' %]
         <li class="active"><a href="#issuesList" data-toggle="tab">[% c.loc("List of Reels") %]</a></li>
     [% ELSE %]
         <li class="active"><a href="#issuesList" data-toggle="tab">[% c.loc("List of Issues") %]</a></li>

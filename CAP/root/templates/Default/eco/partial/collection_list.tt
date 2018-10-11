@@ -2,16 +2,16 @@
 
 <div class="collections">
     <div class="collections-list" id="collectionsParent">
-        [% FOREACH key IN sorted_collection_keys; -%]
+        [% FOREACH key IN portal.sorted_subcollection_keys(lang); -%]
         <a class="collections-header" id="[% key %]Header" data-toggle="collapse" data-target="#[% key %]Content" data-parent="#collectionsParent">
-            [% collections.$key.label.$lang.join(' ') %]
+            [% portal.subcollections.$key.label.$lang %]
         </a>
         <div class="collections-content collapse" id="[% key %]Content">
             <div class="collections-description">
-                <h3>[% collections.$key.label.$lang.join(' ') %]</h3>
+                <h3>[% portal.subcollections.$key.label.$lang %]</h3>
                 <img class="collections-image" src="[% c.uri_for("/static/images/collections/${key}200x200.jpg") %]" />
                 <p>
-                    [% collections.$key.summary.$lang.join(' ') %]
+                    [% portal.subcollections.$key.summary.$lang %]
                     <a href="[% c.uri_for_action("search/index", 'browsable', { collection => key, so => 'oldest' }) %]">[% c.loc("Browse this collection") %]&nbsp;&raquo;</a>
                 </p>
             </div>
