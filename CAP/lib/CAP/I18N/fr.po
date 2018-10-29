@@ -3966,3 +3966,18 @@ msgstr "Les abonnés peuvent voir quelles pages correspondent à leurs termes de
 
 msgid "Searching within a document is available to subscribers."
 msgstr "La fonction de recherche dans un document est disponible pour les abonnés."
+
+msgid "Canadiana Collections"
+msgstr "Collections de Canadiana"
+
+msgid "https://www.crkn-rcdr.ca/en/crkn-and-canadianaorg-merge-combined-organization"
+msgstr "https://www.crkn-rcdr.ca/fr/le-rcdr-et-canadianaorg-fusionnent-pour-devenir-une-organisation-commune"
+
+msgid "CRKN and Canadiana.org Merge as Combined Organization"
+msgstr "Le RCDR et Canadiana.org fusionnent pour devenir une organisation commune"
+
+msgid "https://www.crkn-rcdr.ca/en"
+msgstr "https://www.crkn-rcdr.ca/fr"
+
+msgid "CRKN Logo"
+msgstr "Logo du RCDR"
