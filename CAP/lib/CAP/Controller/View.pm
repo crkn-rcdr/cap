@@ -100,7 +100,7 @@ sub random : Path('/viewrandom') Args() {
     my $doc;
     eval {
         $doc = $c->model('Access::Search')->random_document({
-            root_collection => $c->stash->{newportal}->id
+            root_collection => $c->portal_id
         })->{resultset}{documents}[0];
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
