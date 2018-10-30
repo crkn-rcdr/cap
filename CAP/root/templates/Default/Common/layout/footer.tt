@@ -43,7 +43,7 @@
 <div class="footer-bottom">
     <div class="container">
         <p class="text-right-aligned">
-            [% c.loc("Copyright © Canadiana.org [_1]", current_year) %]
+            [% c.loc("© [_1] Canadian Resource Knowledge Network", current_year) %]
         </p>
     </div>
 </div>

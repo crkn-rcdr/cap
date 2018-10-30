@@ -3981,3 +3981,6 @@ msgstr "https://www.crkn-rcdr.ca/fr"
 
 msgid "CRKN Logo"
 msgstr "Logo du RCDR"
+
+msgid "© %1 Canadian Resource Knowledge Network"
+msgstr "© %1 Réseau canadien de documentation pour la recherche"
