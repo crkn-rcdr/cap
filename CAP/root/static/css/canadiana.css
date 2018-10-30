@@ -6655,13 +6655,13 @@ footer .footer-bottom p {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    margin-bottom: -162px;
+    margin-bottom: -172px;
   }
   #push {
-    height: 162px;
+    height: 172px;
   }
   footer {
-    height: 144px;
+    height: 154px;
   }
 }
 /* RANDOM STUFF */

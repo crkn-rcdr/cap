@@ -1,19 +1,19 @@
 ﻿<div class="footer-top">
     <div class="container">
         <div class="row">
-            <ul class="span5 left">
+            <ul class="span4 left">
                 <li><a href="http://www.canadiana.ca/" target="_blank"><img src="[% c.uri_for("/static/images/logo_" _ lang _ ".png") %]" alt="Canadiana" /></a></li>
             </ul>
-            <ul class="span5 text-centered">
+            <ul class="span4 text-centered">
                 <li class="title"><a href="http://www.canadiana.ca/about" target="_blank">[% c.loc("About Canadiana") %]</a></li>
                 <li><a href="[% c.uri_for_portal("co", "/contact") %]" target="_blank">[% c.loc("Contact us") %]</a></li>
                 <li><a href="[% c.uri_for("/terms") %]" target="_blank">[% c.loc("Terms of Service") %]</a></li>
                 <li>&nbsp;</li>
             </ul>
-            <ul class="span2">
+            <ul class="span4">
                 <li style="float: right">
                     <a href="[% c.loc("https://www.crkn-rcdr.ca/en") %]" target="_blank">
-                        <img src="[% cdn_uri('co', 'crkn.png') %]" alt="[% c.loc("CRKN Logo") %]" />
+                        <img src="[% cdn_uri('co', 'crkn_full.png') %]" alt="[% c.loc("CRKN Logo") %]" />
                     </a>
                 </li>
             </ul>
