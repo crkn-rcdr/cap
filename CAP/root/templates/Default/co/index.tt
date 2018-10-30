@@ -30,7 +30,7 @@
 		<h3>[% c.loc("Our Other Projects") %]</h3>
 		<ul class="linkList">
 			<li style="background-image: url('[% cdn_uri('co', 'cpu.jpg') %]'); background-position: 0 -60px">
-				<a href="h/digitization-services" target="_blank"><span style="background-color: #be645b; color: white">[% c.loc("Digitization &amp; Preservation") %]</span></a>
+				<a href="/digitization-services"><span style="background-color: #be645b; color: white">[% c.loc("Digitization &amp; Preservation") %]</span></a>
 			</li>
 			<li style="background-image: url('[% cdn_uri('co', 'tdr-link.png') %]')">
 				<a href="/trustworthy-digital-repository"><span style="background-color: #4b92db; color: white">[% c.loc("Trustworthy Digital Repository") %]</span></a>
