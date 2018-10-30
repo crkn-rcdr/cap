@@ -1,22 +1,8 @@
 ﻿[% title = c.loc("Welcome") -%]
 
 <div class="row index">
-	<div class="span12 hero">
-		[% content_blocks.hero %]
-	</div>
-	<div class="span4">
-		<h3>[% c.loc("Digitization &amp; Preservation") %]</h3>
-		<div class="row">
-		<a class="linkBlock span4" href="/digitization-services">
-			<h4 class="title">
-				[% c.loc("Learn About Our Services") %]
-			</h4>
-			<div class="illustration" style="background-image: url('[% cdn_uri('co', 'cpu.jpg') %]'); background-position: bottom; height: 180px;"></div>
-		</a>
-		</div>
-	</div>
-	<div class="span8">
-		<h3>[% c.loc("Featured Collections") %]</h3>
+	<div class="span12">
+		<h3>[% c.loc("Canadiana Collections") %]</h3>
 		<div class="row">
 			<a class="linkBlock span4" href="http://online.canadiana.ca/" target="_blank">
 				<h4 class="title">
@@ -30,6 +16,12 @@
 				</h4>
 				<div class="illustration" style="background-image: url('[% cdn_uri('co', 'heritage-block.jpg') %]'); height: 180px;"></div>
 			</a>
+			<a class="linkBlock span4" href="http://eco.canadiana.ca/" target="_blank">
+				<h4 class="title">
+					[% c.loc("Early Canadiana Online") %]
+				</h4>
+				<div class="illustration" style="background-image: url('[% cdn_uri('co', 'eco-block.jpg') %]'); height: 180px;"></div>
+			</a>
 		</div>
 	</div>
 </div>
@@ -37,8 +29,8 @@
 	<div class="span4">
 		<h3>[% c.loc("Our Other Projects") %]</h3>
 		<ul class="linkList">
-			<li style="background-image: url('[% cdn_uri('co', 'eco-block.jpg') %]'); background-position: 0 -60px">
-				<a href="http://eco.canadiana.ca/" target="_blank"><span style="background-color: #be645b; color: white">[% c.loc("Early Canadiana Online") %]</span></a>
+			<li style="background-image: url('[% cdn_uri('co', 'cpu.jpg') %]'); background-position: 0 -60px">
+				<a href="/digitization-services"><span style="background-color: #be645b; color: white">[% c.loc("Digitization &amp; Preservation") %]</span></a>
 			</li>
 			<li style="background-image: url('[% cdn_uri('co', 'tdr-link.png') %]')">
 				<a href="/trustworthy-digital-repository"><span style="background-color: #4b92db; color: white">[% c.loc("Trustworthy Digital Repository") %]</span></a>
@@ -55,8 +47,11 @@
 	</div>
 	<div class="span4">
 		<h3>[% c.loc("Recent Updates") %]</h3>
-		[% INCLUDE partial/update_list.tt updates=updates %]
-		<div class="moreLinkWrapper"><a href="/updates" class="moreLink">[% c.loc("View more") %]</a></div>
+			<ul class="updateList">
+				<li><a href="[% c.loc("https://www.crkn-rcdr.ca/en/crkn-and-canadianaorg-merge-combined-organization") %]">
+					[% c.loc("CRKN and Canadiana.org Merge as Combined Organization") %]
+				</a></li>
+			</ul>
 	</div>
 </div>
 
