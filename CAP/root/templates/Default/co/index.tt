@@ -47,11 +47,7 @@
 	</div>
 	<div class="span4">
 		<h3>[% c.loc("Recent Updates") %]</h3>
-			<ul class="updateList">
-				<li><a href="[% c.loc("https://www.crkn-rcdr.ca/en/crkn-and-canadianaorg-merge-combined-organization") %]">
-					[% c.loc("CRKN and Canadiana.org Merge as Combined Organization") %]
-				</a></li>
-			</ul>
+		[% content_blocks.updates %]
 	</div>
 </div>
 

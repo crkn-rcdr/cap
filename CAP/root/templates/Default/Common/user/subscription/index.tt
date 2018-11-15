@@ -1,30 +1,10 @@
-[% MACRO format_money(amount) INCLUDE macro/format_money.tt %]
-[% IF c.user_exists;
-    subscribe_text = c.loc("Subscribe");
-   ELSE;
-    subscribe_text = c.loc("Log in or create an account to continue");
-   END;
-%]
-[% title = c.loc("Subscribe to [_1]", entity.portal.title(lang)) %]
+[% title = entity.portal.title(lang) %]
 
-<h2>[% c.loc("Subscribe to [_1]", entity.portal.title(lang)) %]</h2>
+<h2>[% entity.portal.title(lang) %]</h2>
 
 <div class="row">
     <div class="span8">
-    	[% content_main = "${entity.portal.id}_main"; content_blocks.$content_main %]
-        <div class="subscriptions">
-        [% FOREACH sub IN entity.products %]
-            [% IF sub.duration < 35 %]
-            <div class="subbox">
-                <p class="subbox-duration">[% sub.duration <= 35 ? c.loc("One Month") : c.loc("One Year") %]</p>
-                <p class="subbox-price">[% format_money(sub.price) %]</p>
-                <p class="subbox-button"><a class="btn btn-primary" href="[% c.uri_for_action("/user/subscription/subscribe", [entity.portal.id, sub.id]) %]">[% subscribe_text %]</a>
-            </div>
-            [% END %]
-        [% END %]
-        </div>
-        <div class="clearBoth"></div>
-        [% content_lower = "${entity.portal.id}_lower"; content_blocks.$content_lower %]
+    	[% content_free = "${entity.portal.id}_free"; content_blocks.$content_free %]
     </div>
     <div class="span4">
     	[% content_side = "${entity.portal.id}_side"; content_blocks.$content_side %]
