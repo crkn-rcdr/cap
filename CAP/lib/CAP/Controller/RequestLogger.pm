@@ -12,6 +12,7 @@ sub process {
 		portal => $c->portal_id,
 		view => $c->stash->{current_view},
 		action => $c->req->action,
+		ip => $c->req->address,
 	};
 	my $args = join('/', @{ $c->req->arguments });
 	$data->{args} = $args if ($args);
