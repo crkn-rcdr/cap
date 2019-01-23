@@ -5,6 +5,7 @@ use strictures 2;
 use Moose;
 use namespace::autoclean;
 use Types::Standard qw/HashRef ArrayRef Str/;
+use Scalar::Util qw/blessed/;
 
 use CAP::Collection;
 use CAP::Portal;
@@ -101,6 +102,17 @@ sub portal_from_host {
 	my ($self, $host) = @_;
 	my $subd = substr($host, 0, index($host, '.'));
 	return $self->_subdomains->{$subd};
+}
+
+sub portals_with_titles {
+	my ($self, $lang) = @_;
+	my $result = {};
+	foreach my $id (keys %{$self->_collections}) {
+		if (blessed($self->_collections->{$id}) eq 'CAP::Portal') {
+			$result->{$id} = $self->_collections->{$id}->{label}->{$lang};
+		}
+	}
+	return $result;
 }
 
 1;

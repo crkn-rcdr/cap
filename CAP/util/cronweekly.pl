@@ -39,8 +39,7 @@ sub status_report {
     my $recipients =$c->config->{mailinglist}->{status_report};
     return 1 unless ($recipients);
 
-    # FIXME: Rework without db call, if we still want to do this
-    my $portals = $c->model('DB::Portal')->with_titles('en');
+    my $portals = $c->model('Collections')->portals_with_titles('en');
     my $now = DateTime->now();
 
     $c->model('Mailer')->status_report($c, $recipients, {
