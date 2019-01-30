@@ -1,7 +1,9 @@
 FROM perl:5.24.2
 
 RUN groupadd -g 1115 cihm && useradd -u 1015 -g cihm -m cihm && \
-  cpanm -n Carton && mkdir -p /opt/cap && ln -s cap/log4perl.conf /opt/log4perl.conf
+  cpanm -n Carton && mkdir -p /opt/cap && \
+  ln -s cap/log4perl.conf /opt/log4perl.conf && \
+  mkdir -p /var/log/cap ; chown cihm.cihm /var/log/cap
 
 WORKDIR /opt/cap
 
