@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  cap-apache:
+    build: apache/.
+    image: cap-apache:latest
+# If you want to keep the Apache logs, mount the volume externally
+#    volumes:
+#    - "./apachelogs:/usr/local/apache2/logs"
+    environment:
+    - CDNHOSTPORT=cheddar.uab.c7a.ca:5984
+    ports:
+    - "80:80"
+  cap:
+    build: CAP/.
+    image: cap:latest
+    environment:
+    - CATALYST_DEBUG=0
+    command: ["starman", "cap.psgi", "-Ilib", "--port", "3011", "--workers", "8"]
+    volumes:
+    - ./CAP/cap_local.conf:/opt/cap/cap_local.conf
+    - ./CAP/cap_log4perl.conf:/opt/cap/log4perl.conf
+# My /cap_log4perl.conf points to /var/log/cap/
+# This must be writeable to uid 1115 (cihm)
+#    - /var/log/cap/:/var/log/cap/
+    ports:
+    - "3011:3011"
+  cap-redis:
+    image: redis:4.0.6-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+# Depending on where docker containers are stored, volumes may be faster
+#    volumes:
+#    - /opt/cap-redis:/data
