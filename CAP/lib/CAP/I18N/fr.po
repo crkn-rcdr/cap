@@ -3979,6 +3979,9 @@ msgstr "Le RCDR et Canadiana.org fusionnent pour devenir une organisation commun
 msgid "https://www.crkn-rcdr.ca/en"
 msgstr "https://www.crkn-rcdr.ca/fr"
 
+msgid "https://www.crkn-rcdr.ca/en/contact/contact_crkn"
+msgstr "https://www.crkn-rcdr.ca/fr/contact/contact_crkn"
+
 msgid "CRKN Logo"
 msgstr "Logo du RCDR"
 

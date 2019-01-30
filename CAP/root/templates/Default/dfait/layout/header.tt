@@ -1,4 +1,4 @@
-﻿[% l = c.stash.lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header>
     <a class="banner" href="[% c.uri_for_action("index") %]"></a>
 </header>

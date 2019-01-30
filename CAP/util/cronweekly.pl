@@ -39,13 +39,12 @@ sub status_report {
     my $recipients =$c->config->{mailinglist}->{status_report};
     return 1 unless ($recipients);
 
-    my $portals = $c->model('DB::Portal')->with_titles('en');
+    my $portals = $c->model('Collections')->portals_with_titles('en');
     my $now = DateTime->now();
 
     $c->model('Mailer')->status_report($c, $recipients, {
         portal_stats_current => $c->model('UsageStats')->status_report($portals, $now),
         portal_stats_previous => $c->model('UsageStats')->status_report($portals, $now->subtract(months => 1)),
-        user_subscriptions => [$c->model('DB::UserSubscription')->active_by_portal()]
     });
 
     return 1;

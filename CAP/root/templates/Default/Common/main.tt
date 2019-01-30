@@ -1,8 +1,8 @@
 ﻿[% USE Dumper -%]
 <!doctype html>
-<html id="html" class="no-js [% portal %]" lang="[% c.stash.lang %]">
+<html id="html" class="no-js [% c.portal_id %]" lang="[% lang %]">
     <head>
-        <title>[% title | xhtml %] - [% portal_name %]</title>
+        <title>[% title | xhtml %] - [% c.portal_title %]</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         [% IF c.stash.defined("nofollow") && c.stash.nofollow %]<meta name="robots" content="index, nofollow" />[% END %]
@@ -10,7 +10,7 @@
         <meta name="author" content="Canadiana" />
 
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:400,700" />
-        <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ portal _ '.min.css', { cssr => 8 }) %]" />
+        <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ c.portal_id _ '.min.css', { cssr => 8 }) %]" />
         <!--[if lt IE 8]><link rel="stylesheet" href="[% c.uri_for('/static/css/ie7.min.css', { cssr => 4 }) %]" /><![endif]-->
         <script src="[% c.uri_for('/static/js/modernizr.custom.js') %]"></script>
         <script src="[% c.uri_for('/static/js/respond.min.js') %]"></script>
@@ -25,11 +25,8 @@
                 <div id="debug">
 [% INCLUDE partial/debug_panel.tt name="action" title="Action" obj="c.action" %]
 [% INCLUDE partial/debug_panel.tt name="config" title="Config" obj="c.config" %]
-[% INCLUDE partial/debug_panel.tt name="flash" title="Flash" obj="c.flash" %]
-[% INCLUDE partial/debug_panel.tt name="portal" title="Portal" obj="c.portal" %]
 [% INCLUDE partial/debug_panel.tt name="stash" title="Stash" obj="c.stash" %]
 [% INCLUDE partial/debug_panel.tt name="session" title="Session" obj="c.session" %]
-[% IF c.user_exists(); INCLUDE partial/debug_panel.tt name="user" title="User" obj="c.user()"; END %]
                 </div>
 [% END -%]
             </div>

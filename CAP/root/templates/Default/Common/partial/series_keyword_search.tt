@@ -1,6 +1,6 @@
-[% IF portal == 'parl' %]
+[% IF c.portal_id == 'parl' %]
 [% search_label = c.loc("Search within this session:") %]
-[% ELSIF portal == 'heritage' %]
+[% ELSIF c.portal_id == 'heritage' %]
 [% search_label = c.loc("Search within this collection:") %]
 [% ELSE %]
 [% search_label = c.loc("Search within this series:") %]

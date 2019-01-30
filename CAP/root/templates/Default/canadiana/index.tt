@@ -1,9 +1,0 @@
-[% title = c.loc("Welcome") -%]
-
-<div class="row">
-    <div class="span12 blurb">
-    	<p></p>
-        <div class="logo"></div>
-    </div>
-</div>
-

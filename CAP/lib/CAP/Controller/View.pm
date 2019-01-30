@@ -17,7 +17,7 @@ sub index :Path('') {
 
     my $doc;
     eval {
-        $doc = $c->model('Access::Presentation')->fetch($key, $c->portal->id);
+        $doc = $c->model('Access::Presentation')->fetch($key, $c->portal_id);
     };
     $c->detach('/error', [404, "Presentation fetch failed on document $key: $@"]) if $@;
 
@@ -50,8 +50,6 @@ sub view_component :Private {
 
 sub view_item :Private {
     my ($self, $c, $item, $seq) = @_;
-
-    $item->authorize_item($c->auth);
 
     if ($item->has_children) {
         $seq = $item->first_component_seq unless ($seq && $seq =~ /^\d+$/);
@@ -102,7 +100,7 @@ sub random : Path('/viewrandom') Args() {
     my $doc;
     eval {
         $doc = $c->model('Access::Search')->random_document({
-            root_collection => $c->portal->id
+            root_collection => $c->portal_id
         })->{resultset}{documents}[0];
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
@@ -112,3 +110,5 @@ sub random : Path('/viewrandom') Args() {
 }
 
 __PACKAGE__->meta->make_immutable;
+
+1;

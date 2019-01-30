@@ -28,6 +28,6 @@
     </div>
     [% END %]
     <div class="tab-pane[% UNLESS item.has_children %] active[% END %]" id="documentRecord">
-        [% INCLUDE partial/document_record.tt record=item.record prezi_demo_uri=item.prezi_demo_uri %]
+        [% INCLUDE partial/document_record.tt record=item.record %]
     </div>
 </div>

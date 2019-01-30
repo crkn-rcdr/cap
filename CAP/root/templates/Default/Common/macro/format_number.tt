@@ -7,7 +7,7 @@
     use Number::Format qw(:subs :vars);
 
     my $num = [% number %];
-    my $lang = "[% c.stash.lang %]";
+    my $lang = "[% lang %]";
 
     #format only if it's a valid decimal number
     if ($num =~ /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/) {  

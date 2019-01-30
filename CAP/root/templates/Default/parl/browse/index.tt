@@ -2,7 +2,7 @@
 
 <h2>[% c.loc("Browse") %]</h2>
 
-[% IF c.portal.id == "parl" %]
+[% IF c.portal_id == "parl" %]
 <div class="row"><div class="span6">
 	<h3>[% c.loc("Debates") %]</h3>
 [% INCLUDE partial/browse_debates.tt %]

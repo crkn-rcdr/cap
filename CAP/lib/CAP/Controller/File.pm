@@ -18,7 +18,7 @@ sub get_page_uri :Local :Args(2) {
 
     my $doc;
     eval {
-        $doc = $c->model('Access::Presentation')->fetch($key, $c->portal->id);
+        $doc = $c->model('Access::Presentation')->fetch($key, $c->portal_id);
     };
     $c->detach('/error', [404, "Presentation fetch failed on document $key: $@"]) if $@;
 

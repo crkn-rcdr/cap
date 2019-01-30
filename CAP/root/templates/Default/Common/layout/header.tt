@@ -1,8 +1,8 @@
-﻿[% l = c.stash.lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header class="navbar navbar-static-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="[% c.uri_for_action("/index") %]">[% portal_name %]</a>
+            <a class="brand" href="[% c.uri_for_action("/index") %]">[% c.portal_title %]</a>
             [% IF c.auth.can_use('searching') %]
             <form class="navbar-form pull-left" method="POST" action="[% c.uri_for_action("search/post") %]">
                 <input type="text" class="span3" placeholder="[% c.loc("New Search") %]" name="q" />
@@ -10,27 +10,9 @@
             [% END -%]
             <ul class="nav pull-right">
                 [% INCLUDE partial/extra_header_links.tt %]
-                [% IF c.user_exists && c.portal.supports_users -%]
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        [% c.user.name | html %]
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="[% c.uri_for_action("/user/profile") %]">[% c.loc("Profile") %]</a></li>
-                        [% IF c.portal.supports_subscriptions %]<li><a href="[% c.uri_for_action("/user/subscription/index", [c.portal.id]) %]">[% c.loc("Subscribe") %]</a></li>[% END %]
-                        [% IF c.user.has_role('administrator') %]<li><a href="[% c.uri_for_action("admin/index") %]"><em>[% c.loc("Admin") %]</em></a></li>[% END %]
-                        [% IF c.user.has_role('reports') %]<li><a href="[% c.uri_for_action("reports/index") %]"><em>[% c.loc("Reports") %]</a></em></li>[% END %]
-                        <li><a href="[% c.uri_for_action("/user/logout") %]">[% c.loc("Logout") %]</a></li>
-                    </ul>
-                </li>
-                [% ELSIF c.portal.supports_users -%]
-                <li><a href="[% c.uri_for_action("/user/login") %]">[% c.loc("Login/Signup") %]</a></li>
-                [% END %]
                 <li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
             </ul>
         </div>
     </div>
 </header> 
-[% INCLUDE partial/access_status.tt -%]
 [% INCLUDE layout/banner.tt %]

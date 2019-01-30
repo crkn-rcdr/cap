@@ -1,6 +1,6 @@
 ﻿<div class="container"><div class="row">
 <p class="span8 offset2">
-    [% IF c.stash.lang == "fr" %]
+    [% IF lang == "fr" %]
         <a href="https://bdp.parl.ca/" target="_blank">Contenu fourni par la Bibliothèque du Parlement</a><br />
         <a href="http://www.canadiana.ca/" target="_blank">Réalisé par Canadiana.org</a>
     [% ELSE %]

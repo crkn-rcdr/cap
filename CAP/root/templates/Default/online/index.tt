@@ -4,12 +4,12 @@
 <div class="row index">
 	<div class="linkBlock span4[% IF right %] right[% END %]">
 		<h4 class="title">
-			[% collections.$coll_id.label.${c.stash.lang}.join(' ') %]
+			[% portal.subcollections.$coll_id.label.${lang}.join(' ') %]
 		</h4>
 		<div class="illustration" style="background-image: url('[% cdn_uri('online', coll_id _ '-block.jpg') %]'); height: 180px;"></div>
 	</div>
 	<div class="span8">
-		[% FOREACH summary IN collections.$coll_id.summary.${c.stash.lang} %]
+		[% FOREACH summary IN portal.subcollections.$coll_id.summary.${lang} %]
 		<p>[% summary %]</p>
 		[% END %]
 		<p>

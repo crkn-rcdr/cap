@@ -32,7 +32,7 @@
 
 <p>[% error_text %]</p>
 
-[% IF c.debug || c.has_role('administrator') %]
+[% IF c.debug %]
 <h3>[% c.loc("Additional Debugging Information") %]</h3>
 <p>[% c.loc("Status:") %] <strong>[% status %]</strong></p>
 <p>[% c.loc("Error:")  %] <strong>[% error %]</strong></p>

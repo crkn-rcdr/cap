@@ -34,7 +34,7 @@ sub index :Path('') Args(1) {
 
     my $titles;
     eval {
-        $titles = $c->model('Access::Presentation')->title_list($c->portal->id, $page);
+        $titles = $c->model('Access::Presentation')->title_list($c->portal_id, $page);
     };
     $c->detach('/error', [500, $@]) if $@;
 
@@ -88,7 +88,7 @@ sub static :Path('static.xml') Args(0) {
     $url->appendChild($loc);
     $root->appendChild($url);
 
-    my $nodes = $c->model('CMS')->sitemap($c->portal->id);
+    my $nodes = $c->model('CMS')->sitemap($c->portal_id);
     foreach my $path (sort keys %$nodes) {
         $url = $doc->createElement('url');
         $loc = $doc->createElement('loc');
@@ -137,7 +137,7 @@ sub sitemapindex :Path('sitemap.xml') Args(0) {
     my $map_length = $c->model('Access::Presentation')->sitemap_node_limit;
     my $title_count;
     eval {
-        $title_count = $c->model('Access::Presentation')->title_count($c->portal->id);
+        $title_count = $c->model('Access::Presentation')->title_count($c->portal_id);
     };
     $c->detach('/error', [500, $@]) if $@;
 

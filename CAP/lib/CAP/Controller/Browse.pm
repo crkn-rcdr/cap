@@ -7,8 +7,8 @@ BEGIN { extends 'Catalyst::Controller'; }
 sub index :Path :Args(0) {
     my($self, $c) = @_;
 
-    if ($c->portal->id eq 'parl') {
-        delete $c->session->{$c->portal->id}->{search};
+    if ($c->portal_id eq 'parl') {
+        delete $c->session->{$c->portal_id}->{search};
     } else {
         $c->detach('/error', [404, "Browsing from a non-parl portal"]);
     }

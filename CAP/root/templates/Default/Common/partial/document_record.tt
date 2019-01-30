@@ -11,19 +11,13 @@
 [% INCLUDE entry field=(record.defined("pu") ? record.pu : "") name=c.loc("Published") %]
 [% INCLUDE entry field=(record.defined("identifier") ? record.identifier : "") name=c.loc("Identifier") %]
 [% INCLUDE entry field=(record.defined("su") ? record.su : "") name=c.loc("Subject") search_field="su" %]
-[% UNLESS c.portal.id == 'parl' %][% INCLUDE entry field=(record.defined("no_rights") ? record.no_rights : "") name=c.loc("Rights") %][% END %]
+[% UNLESS c.portal_id == 'parl' %][% INCLUDE entry field=(record.defined("no_rights") ? record.no_rights : "") name=c.loc("Rights") %][% END %]
 [% INCLUDE entry field=(record.defined("no_source") ? record.no_source : "") name=c.loc("Document source") %]
 [% INCLUDE entry field=(record.defined("no") ? record.no : "") name=c.loc("Notes") %]
-[% IF c.portal.has_feature('collections'); INCLUDE entry field=(record.defined("collection") ? record.collection : "") name=c.loc("Collection") labels=collection_labels collection_field=1; END %]
-[% INCLUDE entry field=(record.defined("lang") ? record.lang : "") name=c.loc("Language") labels=c.stash.languages %]
-[% IF c.portal.has_feature('contributors'); INCLUDE entry field=(record.defined("depositor") ? record.depositor : "") name=c.loc("Contributor") labels=c.model('Depositors').as_labels(c.stash.lang); END %]
+[% IF portal.has_subcollections; INCLUDE entry field=(record.defined("collection") ? record.collection : "") name=c.loc("Collection") labels=subcollection_labels collection_field=1; END %]
+[% INCLUDE entry field=(record.defined("lang") ? record.lang : "") name=c.loc("Language") labels=language_labels %]
+[% IF depositor_labels; INCLUDE entry field=(record.defined("depositor") ? record.depositor : "") name=c.loc("Contributor") labels=depositor_labels; END %]
 [% INCLUDE entry field=(record.defined("ab") ? record.ab : "") name=c.loc("Description") labels='' %]
-[% IF prezi_demo_uri && c.user.has_role('iiif_preview') -%]
-    <tr>
-        <th>[% c.loc("IIIF Presentation Document") %]</th>
-        <td><a href="[% prezi_demo_uri %]" target="_blank">[% prezi_demo_uri %]</a></td>
-    </tr>
-[% END -%]
     <tr>
         <th>[% c.loc("Permanent Link") %]</th>
         <td><a href="[% c.uri_for_action("view/index", record.key) %]">[% c.uri_for_action("view/index", record.key) %]</a></td>
@@ -45,7 +39,7 @@
               IF labels.defined(value); value = labels.$value; ELSE; value = ''; END;
            END %]
         [% IF value %]
-            [% IF search_field && c.portal.has_feature('record_links') %]
+            [% IF search_field %]
                 <a href="[% c.uri_for_action("/search/index", { 'q0.0' => search_field _ ":\"" _ value _ "\"" }) %]">[% value | html %]</a>
             [% ELSIF collection_field %]
                 <a href="[% c.uri_for_action("/search/index", { collection => oldvalue }) %]">[% value | html %]</a>

@@ -1,9 +1,0 @@
-[% c.loc("Hello [_1]," real_name) %]
-
-[% c.loc("A Canadiana account has been created for [_1]. To confirm and activate your account, click on the following link:", recipient) %]
-
-[% confirm_link %]
-
-[% c.loc("If you did not request a Canadiana account, please disregard this message.") %]
-
-[% INCLUDE partial/boilerplate_footer.tt %]

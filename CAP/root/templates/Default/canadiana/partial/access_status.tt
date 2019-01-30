@@ -1,7 +1,0 @@
-<div class="access">
-[% IF c.stash.defined('origin') && c.stash.origin.defined('portal') %]
-    <div><a href="[% origin.uri %]">
-        <strong>[% c.loc("Return to [_1]", origin.portal.title(c.stash.lang)) %] &raquo;</strong>
-    </a></div>
-[% END -%]
-</div>
