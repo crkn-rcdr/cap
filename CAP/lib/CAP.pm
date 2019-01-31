@@ -25,8 +25,6 @@ use Catalyst qw/
                 Session
                 Session::Store::Redis
                 Session::State::Cookie
-
-                MessageStack
                /;
 
 # Configure the application. 
