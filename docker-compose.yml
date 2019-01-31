@@ -8,7 +8,7 @@ services:
 #    volumes:
 #    - "./apachelogs:/usr/local/apache2/logs"
     environment:
-    - CDNHOSTPORT=cheddar.uab.c7a.ca:5984
+    - CDNHOSTPORT=gouda.tor.c7a.ca:5984
     ports:
     - "80:80"
   cap:
