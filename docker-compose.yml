@@ -4,31 +4,35 @@ services:
   cap-apache:
     build: apache/.
     image: cap-apache:latest
-# If you want to keep the Apache logs, mount the volume externally
-#    volumes:
-#    - "./apachelogs:/usr/local/apache2/logs"
+    container_name: cap-apache
+    # If you want to keep the Apache logs, mount the volume externally
+    # volumes:
+    #   - "./apachelogs:/usr/local/apache2/logs"
     environment:
-    - CDNHOSTPORT=gouda.tor.c7a.ca:5984
+      - CDNHOSTPORT=gouda.tor.c7a.ca:5984
     ports:
-    - "80:80"
+      - "80:80"
   cap:
     build: CAP/.
     image: cap:latest
+    container_name: cap
     environment:
-    - CATALYST_DEBUG=0
-#    - TZ=America/Montreal
-#    - LOG4PERLFILENAME=/var/log/cap/request.log
-    command: ["starman", "cap.psgi", "-Ilib", "--port", "3011", "--workers", "8"]
+      - CATALYST_DEBUG=0
+    #   - TZ=America/Montreal
+    #   - LOG4PERLFILENAME=/var/log/cap/request.log
+    command:
+      ["starman", "cap.psgi", "-Ilib", "--port", "3011", "--workers", "8"]
     volumes:
-    - ./CAP/cap_local.conf:/opt/cap/cap_local.conf
-# Default LOG4PERLFILENAME points to /var/log/cap/
-# This must be writeable to uid 1115 (cihm)
-#    - /var/log/cap/:/var/log/cap/
+      - ./CAP/cap_local.conf:/opt/cap/cap_local.conf
+    # Default LOG4PERLFILENAME points to /var/log/cap/
+    # This must be writeable to uid 1115 (cihm)
+    #   - /var/log/cap/:/var/log/cap/
     ports:
-    - "3011:3011"
+      - "3011:3011"
   cap-redis:
     image: redis:4.0.6-alpine
+    container_name: cap-redis
     command: ["redis-server", "--appendonly", "yes"]
-# Depending on where docker containers are stored, volumes may be faster
-#    volumes:
-#    - /opt/cap-redis:/data
+    # Depending on where docker containers are stored, volumes may be faster
+    # volumes:
+    #   - /opt/cap-redis:/data
