@@ -14,5 +14,11 @@ RUN sed -i \
     -e 's/logs\/httpd.pid/httpd.pid/' \
     conf/extra/httpd-mpm.conf
 
+RUN apt-get update ; apt-get install -yq subversion && apt-get clean && \
+    svn co --trust-server-cert https://github.com/crkn-rcdr/Digital-Preservation.git/trunk/xml/published/ /usr/local/apache2/htdocs/xml-published/
+
+# This should be changed when running container to the correct host and post for the relevant instance.  This is only Dev.
+ENV CDNHOSTPORT gouda.tor.c7a.ca:5984
+
 COPY cihm-error /usr/local/apache2/htdocs/cihm-error/
 COPY httpd-vhosts.conf /usr/local/apache2/conf/extra/
