@@ -16,11 +16,12 @@ services:
     image: cap:latest
     environment:
     - CATALYST_DEBUG=0
+#    - TZ=America/Montreal
+#    - LOG4PERLFILENAME=/var/log/cap/request.log
     command: ["starman", "cap.psgi", "-Ilib", "--port", "3011", "--workers", "8"]
     volumes:
     - ./CAP/cap_local.conf:/opt/cap/cap_local.conf
-    - ./CAP/cap_log4perl.conf:/opt/cap/log4perl.conf
-# My /cap_log4perl.conf points to /var/log/cap/
+# Default LOG4PERLFILENAME points to /var/log/cap/
 # This must be writeable to uid 1115 (cihm)
 #    - /var/log/cap/:/var/log/cap/
     ports:

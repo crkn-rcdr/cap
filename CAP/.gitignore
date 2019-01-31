@@ -8,6 +8,5 @@ blib
 docker-compose*
 inc
 local
-log4perl.conf
 .vscode
 

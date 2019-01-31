@@ -19,5 +19,9 @@ COPY util /opt/cap/util/
 
 USER cihm
 
+# Default, which should be changed per production machine
+ENV LOG4PERLFILENAME=/var/log/cap/request.log
+ENV TZ=America/Toronto
+
 EXPOSE 3000
 ENTRYPOINT ["carton", "exec"]
