@@ -7,17 +7,9 @@ use Catalyst::Runtime '5.70';
 use FindBin;
 use Log::Log4perl::Catalyst;
 
-# Set flags and add plugins for the application
-#
-#         -Debug: activates the debug mode for very useful log messages
-#   ConfigLoader: will load the configuration from a Config::General file in the
-#                 application's home directory
-# Static::Simple: will serve static files from the application's root 
-#                 directory
-
-use parent qw/Catalyst/;
 use Catalyst qw/
                 ConfigLoader
+                ConfigLoader::Environment
                 Static::Simple
                 StackTrace
                 I18N
