@@ -36,14 +36,6 @@ has '_subdomains' => (
 	init_arg => undef
 );
 
-sub COMPONENT {
-	my ($class, $app, $args) = @_;
-	my $config = { server => $app->config->{services}->{collection}->{endpoint} };
-	$args = $class->merge_config_hashes($config, $args);
-
-	return $class->new($app, $args);
-}
-
 sub BUILD {
 	my ($self, $args) = @_;
 	my $response = $self->get('/_all_docs', { include_docs => 'true' });

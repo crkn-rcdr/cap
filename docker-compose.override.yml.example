@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  cap:
+    environment:
+      - CAP_Model::Access::Derivative_key=<insert key>
+      - CAP_Model::Access::Derivative_password=<insert password>
+      - CAP_Model::Access::Download_key=<insert key>
+      - CAP_Model::Access::Download_password=<insert password>
+      - CAP_Model::Mailer_status_recipients=list,of,email,addresses
+      # You can also edit defaults, e.g.
+      - CAP_Model::CouchCache_interval=3
+      - CAP_Model::Mailer_from="Sascha.CAP" <sascha@c7a.ca>
+      - LOGLEVELSCREEN=DEBUG

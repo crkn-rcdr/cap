@@ -16,10 +16,6 @@ services:
     build: CAP/.
     image: cap:latest
     container_name: cap
-    environment:
-      - CATALYST_DEBUG=0
-    #   - TZ=America/Montreal
-    #   - LOG4PERLFILENAME=/var/log/cap/request.log
     command:
       ["starman", "cap.psgi", "-Ilib", "--port", "3011", "--workers", "8"]
     volumes:

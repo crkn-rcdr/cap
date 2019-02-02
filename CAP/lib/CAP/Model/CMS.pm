@@ -6,6 +6,11 @@ use Moose;
 
 our $AUTOLOAD;
 
+has 'server' => (
+	is => 'rw',
+	isa => 'Str'
+);
+
 has 'cms_instance' => (
 	is => 'rw',
 	isa => 'CIHM::CMS'
@@ -16,7 +21,7 @@ sub initialize_after_setup {
 	my ($self, $app) = @_;
 	$self->cms_instance(
 		CIHM::CMS->new({
-			server => $app->config->{services}->{cms}->{endpoint},
+			server => $self->server,
 			languages => $app->config->{languages},
 			cache => $app->model('CouchCache')
 		})

@@ -34,15 +34,10 @@ foreach (@actions) {
 sub status_report {
     my $c = shift;
 
-    # If there is no one to send a status report to, then don't bother
-    # doing any work.
-    my $recipients =$c->config->{mailinglist}->{status_report};
-    return 1 unless ($recipients);
-
     my $portals = $c->model('Collections')->portals_with_titles('en');
     my $now = DateTime->now();
 
-    $c->model('Mailer')->status_report($c, $recipients, {
+    $c->model('Mailer')->status_report($c, {
         portal_stats_current => $c->model('UsageStats')->status_report($portals, $now),
         portal_stats_previous => $c->model('UsageStats')->status_report($portals, $now->subtract(months => 1)),
     });
