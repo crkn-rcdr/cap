@@ -16,19 +16,10 @@ services:
     build: CAP/.
     image: cap:latest
     container_name: cap
-    environment:
-      - CATALYST_DEBUG=0
-    #   - TZ=America/Montreal
-    #   - LOG4PERLFILENAME=/var/log/cap/request.log
-    command:
-      ["starman", "cap.psgi", "-Ilib", "--port", "3011", "--workers", "8"]
-    volumes:
-      - ./CAP/cap_local.conf:/opt/cap/cap_local.conf
-    # Default LOG4PERLFILENAME points to /var/log/cap/
+    # Default LOGFILENAME points to /var/log/cap/
     # This must be writeable to uid 1115 (cihm)
+    #volumes:
     #   - /var/log/cap/:/var/log/cap/
-    ports:
-      - "3011:3011"
   cap-redis:
     image: redis:4.0.6-alpine
     container_name: cap-redis

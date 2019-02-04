@@ -19,7 +19,6 @@
         <div id="wrapper">
 [% INCLUDE layout/header.tt | indent(12) -%]
             <div class="container">
-[% INCLUDE partial/messages.tt | indent(16) -%]
 [% content | indent(16) -%]
 [% IF c.debug -%]
                 <div id="debug">

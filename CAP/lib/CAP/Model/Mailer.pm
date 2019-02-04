@@ -30,9 +30,10 @@ has 'from' => (
 	required => 1
 );
 
-has 'automated_email_redirect' => (
+has 'status_recipients' => (
 	is => 'ro',
-	isa => 'Str'
+	isa => 'Str',
+	required => 1
 );
 
 has 'template_path' => (
@@ -72,12 +73,6 @@ sub _build_transport {
 	});
 }
 
-sub COMPONENT {
-	my ($class, $app, $args) = @_;
-	$args = $class->merge_config_hashes($app->config->{services}->{mail}, $args);
-	return $class->new($app, $args);
-}
-
 sub send {
 	my ($self, $c, $args) = @_;
 	my $body = '';
@@ -90,7 +85,7 @@ sub send {
 
 	my $email = Email::Stuffer->new({
 		from => $self->from,
-		to => $args->{automated} ? ($self->automated_email_redirect || $args->{to}) : $args->{to},
+		to => $args->{to},
 		subject => $args->{subject},
 		text_body => $args->{html} ? undef : $body,
 		html_body => $args->{html} ? $body : undef,
@@ -105,9 +100,9 @@ sub send {
 }
 
 sub status_report {
-	my ($self, $c, $recipients, $data) = @_;
+	my ($self, $c, $data) = @_;
 	$self->send($c, {
-		to => $recipients,
+		to => $self->status_recipients,
 		subject => "CAP System Status Report",
 		html => 1,
 		template => 'status_report.tt',

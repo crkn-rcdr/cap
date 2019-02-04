@@ -1,4 +1,4 @@
-requires 'Catalyst', '5.90115';
+requires 'Catalyst', '== 5.90124';
 
 requires 'Starman';
 
@@ -9,14 +9,15 @@ requires 'XML::LibXML', '== 2.0128';
 requires 'Log::Log4perl::Catalyst';
 requires 'Log::Dispatch::FileRotate';
 requires 'MooseX::Role::WithOverloading';
-requires 'Catalyst::Plugin::MessageStack';
+requires 'Catalyst::Plugin::Session::State::Cookie';
 requires 'Catalyst::Plugin::Session::Store::Redis';
 requires 'Catalyst::Plugin::I18N';
 requires 'Catalyst::Plugin::StackTrace';
 requires 'Catalyst::Plugin::Static::Simple';
 requires 'Catalyst::Plugin::ConfigLoader';
+requires 'Catalyst::Plugin::ConfigLoader::Environment';
 requires 'Catalyst::Action::RenderView';
-requires 'strictures', '2';
+requires 'strictures', '>= 2, < 3';
 requires 'Text::Undiacritic';
 requires 'JSON';
 requires 'DateTime';
@@ -30,7 +31,6 @@ requires 'Text::MultiMarkdown';
 requires 'Text::Trim';
 requires 'Catalyst::Controller::REST';
 requires 'Hash::MoreUtils';
-requires 'Business::PayPal::API::ExpressCheckout';
 requires 'Template::Plugin::JSON::Escape';
 requires 'Number::Format';
 requires 'Locale::Currency::Format';
@@ -38,5 +38,5 @@ requires 'Net::IP';
 requires 'Crypt::JWT';
 requires 'Email::Sender::Transport::SMTP';
 requires 'Email::Stuffer';
-requires 'Net::SMTP', '3.11';
+requires 'Net::SMTP', '== 3.11';
 requires 'File::ReadBackwards';

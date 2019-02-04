@@ -19,9 +19,23 @@ COPY util /opt/cap/util/
 
 USER cihm
 
-# Default, which should be changed per production machine
-ENV LOG4PERLFILENAME=/var/log/cap/request.log
-ENV TZ=America/Toronto
+# See cap.env.example for required config which is not stored in the repository
+ENV CATALYST_DEBUG=0 \
+  CAP_Model::Access::Derivative_endpoint=http://image.romano.canadiana.ca/iiif/2 \
+  CAP_Model::Access::Derivative_cookie_domain=image.romano.canadiana.ca \
+  CAP_Model::Access::Download_endpoint=http://file.ulloa.canadiana.ca \
+  CAP_Model::Access::Presentation_server=http://eclipse.tor.c7a.ca:5984/copresentation \
+  CAP_Model::Access::Presentation_prezi_demo_endpoint=http://presentation.demo.canadiana.ca/iiif \
+  CAP_Model::Access::Search_server=http://havarti.tor.c7a.ca:8983/solr/cosearch \
+  CAP_Model::CMS_server=http://eclipse.tor.c7a.ca:5984/cms \
+  CAP_Model::Collections_server=http://eclipse.tor.c7a.ca:5984/collection \
+  CAP_Model::CouchCache_server=http://eclipse.tor.c7a.ca:5984/cap_caches \
+  CAP_Model::UsageStats_statsdb=http://eclipse.tor.c7a.ca:5984/cap_usage_stats \
+  CAP_Model::UsageStats_logfiledb=http://eclipse.tor.c7a.ca:5984/cap_logfile_registry \
+  LOGLEVELSCREEN=WARN \
+  LOGFILENAME=/var/log/cap/request.log \
+  TZ=America/Toronto
 
-EXPOSE 3000
+EXPOSE 3011
 ENTRYPOINT ["carton", "exec"]
+CMD ["starman", "cap.psgi", "-Ilib", "--port", "3011", "--workers", "8"]
