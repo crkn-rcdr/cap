@@ -36,5 +36,6 @@ ENV CATALYST_DEBUG=0 \
   LOGFILENAME=/var/log/cap/request.log \
   TZ=America/Toronto
 
-EXPOSE 3000
+EXPOSE 3011
 ENTRYPOINT ["carton", "exec"]
+CMD ["starman", "cap.psgi", "-Ilib", "--port", "3011", "--workers", "8"]
