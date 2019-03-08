@@ -61,6 +61,13 @@ sub auto :Private
         language_labels => $c->model('Languages')->as_labels($c->stash->{lang})
     );
 
+    if ($portal->id eq 'parl') {
+        $c->stash(
+            type_labels => $c->model('Parl')->type_labels($c->stash->{lang}),
+            chamber_labels => $c->model('Parl')->chamber_labels($c->stash->{lang}),
+        );
+    }
+
     $c->stash(subcollection_labels => $portal->subcollection_labels($c->stash->{lang})) if $portal->has_subcollections();
 
     # throw JSON requests to error page

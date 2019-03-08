@@ -33,6 +33,7 @@ sub index :Path('') {
     eval {
         $search = $c->model('Access::Search')->dispatch($handler, {
             root_collection => $c->portal_id,
+            schema => $c->stash->{portal}->search_schema,
             offset => $offset
         }, $c->req->params);
     };
@@ -65,7 +66,10 @@ sub matching_pages :Private {
 
     my $search;
     eval {
-        $search = $c->model('Access::Search')->dispatch('page', { limit => $self->matching_page_limit }, $c->req->params);
+        $search = $c->model('Access::Search')->dispatch('page', {
+            limit => $self->matching_page_limit,
+            schema => 'default'
+        }, $c->req->params);
     };
     $c->detach('/error', [503, "Solr error: $@"]) if ($@);
 
@@ -80,7 +84,10 @@ sub matching_pages :Private {
 
 sub post :Local {
     my ($self, $c) = @_;
-    my $get_params = $c->model('Access::Search')->transform_query($c->req->params);
+    my $get_params = $c->model('Access::Search')->transform_query(
+        $c->req->params,
+        $c->stash->{portal}->search_schema
+    );
     my $handler = delete $get_params->{handler} || '';
     $c->response->redirect($c->uri_for_action('/search/index', $handler, $get_params));
     $c->detach();
