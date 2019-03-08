@@ -3799,6 +3799,12 @@ msgstr "Journaux"
 msgid "Committees"
 msgstr "Comités"
 
+msgid "Prime Minister(s)"
+msgstr "Premier(s) Ministre(s)"
+
+msgid "Report Title"
+msgstr "Titre du rapport"
+
 # student voice stuff
 msgid "CARL Homepage"
 msgstr "Page d’accueil de l’ABRC"

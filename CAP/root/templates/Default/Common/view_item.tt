@@ -8,10 +8,14 @@
 [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=item.record.key %]
 
 <h2>
-    [% IF item.has_parent -%]
-        <a href="[% c.uri_for_action("view/index", item.record.pkey) %]">[% item.record.plabel %]</a> :
-    [% END -%]
-    [% item.record.label %]
+    [% IF c.portal_id == "parl" %]
+        [% item.record.parlLabel %]
+    [% ELSE %]
+        [% IF item.has_parent -%]
+            <a href="[% c.uri_for_action("view/index", item.record.pkey) %]">[% item.record.plabel %]</a> :
+        [% END -%]
+        [% item.record.label %]
+    [% END %]
 </h2>
 [% INCLUDE partial/published_and_pages.tt result=item.record %]
 
