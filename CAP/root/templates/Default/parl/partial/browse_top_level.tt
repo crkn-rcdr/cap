@@ -1,29 +1,14 @@
 ﻿<h2>[% c.loc("Browse") %]</h2>
-<div class="row">
-	<div class="span3">
-		<h3>[% c.loc("Debates") %]</h3>
-		<h4>English</h4>
-		<ul>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "6" }) %]">Senate</a></li>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "12" }) %]">House of Commons</a></li>
-		</ul>
-		<h4>Français</h4>
-		<ul>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "2" }) %]">Sénat</a></li>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "9" }) %]">Chambre des communes</a></li>
-		</ul>
-	</div>
-	<div class="span3">
-		<h3>[% c.loc("Journals") %]</h3>
-		<h4>English</h4>
-		<ul>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "6j" }) %]">Senate</a></li>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "12j" }) %]">House of Commons</a></li>
-		</ul>
-		<h4>Français</h4>
-		<ul>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "2j" }) %]">Sénat</a></li>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "9j" }) %]">Chambre des communes</a></li>
-		</ul>	
-	</div>
-</div>
+<h3>[% c.loc("Senate") %]</h3>
+<ul>
+	<li><a href="[% c.uri_for("/browse", { show => "eng_s_debates" }) %]">[% c.loc("Debates") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => "eng_s_journals" }) %]">[% c.loc("Journals") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => "eng_s_committees" }) %]">[% c.loc("Committees") %]</a></li>
+</ul>
+<h3>[% c.loc("House of Commons") %]</h3>
+<ul>
+	<li><a href="[% c.uri_for("/browse", { show => "fra_c_debates" }) %]">[% c.loc("Debates") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => "fra_c_journals" }) %]">[% c.loc("Journals") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => "fra_c_committees" }) %]">[% c.loc("Committees") %]</a></li>
+</ul>
+

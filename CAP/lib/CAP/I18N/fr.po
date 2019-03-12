@@ -3805,6 +3805,15 @@ msgstr "Premier(s) Ministre(s)"
 msgid "Report Title"
 msgstr "Titre du rapport"
 
+msgid "%1 volumes"
+msgstr "%1 volumes"
+
+msgid "Prime Minister:"
+msgstr "Premier Ministre :"
+
+msgid "Prime Ministers:"
+msgstr "Premiers Ministres :"
+
 # student voice stuff
 msgid "CARL Homepage"
 msgstr "Page d’accueil de l’ABRC"
