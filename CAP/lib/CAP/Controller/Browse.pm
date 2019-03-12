@@ -24,11 +24,15 @@ sub leaf :Path :Args(4) {
     my ($self, $c, $language, $chamber, $type, $session) = @_;
 
     my $leaf = $c->model('Parl')->leaf($language, $chamber, $type, $session);
+    my $session_doc = $c->model('ParlSession')->session($session);
     $c->stash(
         leaf => $leaf->{leaf}, 
         title => $leaf->{title},
-        chamber => $chamber,
-        parl_session => $c->model('ParlSession')->session($session)
+        parl_language => $language,
+        parl_chamber => $chamber,
+        parl_type => $type,
+        parl_session => $session_doc,
+        parl_parliament => substr $session_doc->{_id}, 0, 2
     );
 
     return 1;

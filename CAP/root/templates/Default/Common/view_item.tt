@@ -9,7 +9,12 @@
 
 <h2>
     [% IF c.portal_id == "parl" %]
-        [% item.record.parlLabel %]
+        [% FOREACH langpair IN parl_label_slicer(item.record.parlLabel) %]
+        [% llang = item.record.lang.${loop.index} %]
+        <a href="[% c.uri_for("/browse", llang, item.record.parlChamber.0, item.record.parlType, item.record.parlSession.0) %]">[% langpair.0 %]</a>
+        : [% langpair.1 %]
+        [% UNLESS loop.last %] = [% END %]
+        [% END %]
     [% ELSE %]
         [% IF item.has_parent -%]
             <a href="[% c.uri_for_action("view/index", item.record.pkey) %]">[% item.record.plabel %]</a> :

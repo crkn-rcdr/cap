@@ -3800,7 +3800,7 @@ msgid "Committees"
 msgstr "Comités"
 
 msgid "Prime Minister(s)"
-msgstr "Premier(s) Ministre(s)"
+msgstr "Premier(s) ministre(s)"
 
 msgid "Report Title"
 msgstr "Titre du rapport"
@@ -3809,10 +3809,13 @@ msgid "%1 volumes"
 msgstr "%1 volumes"
 
 msgid "Prime Minister:"
-msgstr "Premier Ministre :"
+msgstr "Premier ministre :"
 
 msgid "Prime Ministers:"
-msgstr "Premiers Ministres :"
+msgstr "Premiers ministres :"
+
+msgid "Browse volumes from this parliament"
+msgstr "Parcourir volumes de cette législature"
 
 # student voice stuff
 msgid "CARL Homepage"
