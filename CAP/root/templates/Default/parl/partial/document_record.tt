@@ -1,3 +1,4 @@
+[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
 <section class="well">
 <table class="table">
 <thead>
@@ -7,6 +8,26 @@
 </thead>
 <tbody>
 [% INCLUDE entry field=(record.defined("lang") ? record.lang : "") name=c.loc("Language") labels=language_labels %]
+    <tr>
+        <th>[% c.loc("Session") %]</th>
+        <td>
+        [% FOREACH l IN record.lang %]
+        [% FOREACH ch IN record.parlChamber %]
+        [% FOREACH ps IN record.parlSession %]
+        [% p = ps.substr(0,2) + 0; s = ps.substr(3,1) + 0 %]
+            <a href="[% c.uri_for("/browse", l, ch, record.parlType, ps) %]">
+                [% chamber_labels.$ch %] [% type_labels.${record.parlType} %],
+                [% ordinate(p, 'f') %] [% c.loc("Parliament") %], [% ordinate(s, 'f') %] [% c.loc("Session") %],
+                [% language_labels.$l %]
+            </a>
+            [% UNLESS loop.last %]<br />[% END %]
+        [% END %]
+            [% UNLESS loop.last %]<br />[% END %]
+        [% END %]
+            [% UNLESS loop.last %]<br />[% END %]
+        [% END %]
+        </td>
+    </tr>
 [% INCLUDE entry field=(record.defined("parlReportTitle") ? record.parlReportTitle : "") name=c.loc("Report Title") %]
 [% INCLUDE entry field=(record.defined("parlCallNumber") ? record.parlCallNumber : "") name=c.loc("Identifier") %]
 [% INCLUDE entry field=(record.defined("parlPrimeMinisters") ? record.parlPrimeMinisters : "") name=c.loc("Prime Minister(s)") %]
