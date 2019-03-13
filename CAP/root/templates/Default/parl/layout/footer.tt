@@ -2,10 +2,10 @@
 <p class="span8 offset2">
     [% IF lang == "fr" %]
         <a href="https://bdp.parl.ca/" target="_blank">Contenu fourni par la Bibliothèque du Parlement</a><br />
-        <a href="http://www.canadiana.ca/" target="_blank">Réalisé par Canadiana.org</a>
+        <a href="https://www.crkn-rcdr.ca/fr" target="_blank">Réalisé par le RCDR</a>
     [% ELSE %]
         <a href="https://lop.parl.ca/" target="_blank">Content provided by the Library of Parliament</a><br />
-        <a href="http://www.canadiana.ca/" target="_blank">Produced by Canadiana.org</a>
+        <a href="https://www.crkn-rcdr.ca/" target="_blank">Produced by CRKN</a>
     [% END %]
 </p>
 <p class="span2">
