@@ -1,14 +1,15 @@
-﻿<h2>[% c.loc("Browse") %]</h2>
+﻿[% llang = lang == "fr" ? "fra" : "eng" %]
+<h2>[% c.loc("Browse") %]</h2>
 <h3>[% c.loc("Senate") %]</h3>
 <ul>
-	<li><a href="[% c.uri_for("/browse", { show => "eng_s_debates" }) %]">[% c.loc("Debates") %]</a></li>
-	<li><a href="[% c.uri_for("/browse", { show => "eng_s_journals" }) %]">[% c.loc("Journals") %]</a></li>
-	<li><a href="[% c.uri_for("/browse", { show => "eng_s_committees" }) %]">[% c.loc("Committees") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_debates" }) %]">[% c.loc("Debates") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_journals" }) %]">[% c.loc("Journals") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_committees" }) %]">[% c.loc("Committees") %]</a></li>
 </ul>
 <h3>[% c.loc("House of Commons") %]</h3>
 <ul>
-	<li><a href="[% c.uri_for("/browse", { show => "fra_c_debates" }) %]">[% c.loc("Debates") %]</a></li>
-	<li><a href="[% c.uri_for("/browse", { show => "fra_c_journals" }) %]">[% c.loc("Journals") %]</a></li>
-	<li><a href="[% c.uri_for("/browse", { show => "fra_c_committees" }) %]">[% c.loc("Committees") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_debates" }) %]">[% c.loc("Debates") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_journals" }) %]">[% c.loc("Journals") %]</a></li>
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_committees" }) %]">[% c.loc("Committees") %]</a></li>
 </ul>
 
