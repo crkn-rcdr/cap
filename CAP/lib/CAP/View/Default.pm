@@ -77,11 +77,6 @@ __PACKAGE__->config(
             my ($doc, $file) = (@_);
             return "http://cdn.canadiana.ca/$doc/$file";
         },
-
-        parl_label_slicer => sub {
-            my ($label) = @_;
-            return [ map { [ trim(split " : ", $_) ] } (split " = ", $label) ];
-        }
     }
 );
 

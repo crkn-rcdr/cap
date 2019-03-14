@@ -134,4 +134,30 @@ sub chamber_labels {
   return $self->_chamber_labels->{$lang};
 }
 
+sub _ordinate {
+  my ($self, $num, $lang) = @_;
+
+  if ($lang eq 'fr') {
+    if ($num == 1) {
+      return '1re';
+    } else {
+      return $num . 'e';
+    } 
+  } else {
+    $num =~ s/1?\d$/$& . ((0,'st','nd','rd')[$&] || 'th')/e;
+    return $num;
+  }
+}
+
+sub leaf_to_string {
+  my ($self, $node) = @_;
+  my $lang = $node->[0] eq 'fra' ? 'fr' : 'en';
+  my $ch = $self->_chamber_labels->{$lang}->{$node->[1]};
+  my $type = $self->_type_labels->{$lang}->{$node->[2]};
+  my $pl = $lang eq 'fr' ? 'Législature' : 'Parliament';
+  my $p = $self->_ordinate((substr $node->[3], 0, 2) + 0, $lang);
+  my $s = $self->_ordinate((substr $node->[3], 3, 1) + 0, $lang);
+  my $session = "$p $pl, $s Session";
+  return "$ch, $type, $session";
+}
 1;
