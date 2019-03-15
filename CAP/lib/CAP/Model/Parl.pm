@@ -56,13 +56,6 @@ sub tree {
   return $self->_bt;
 }
 
-sub _collection_title {
-  my ($full_title, $lang) = @_;
-  my ($eng, $fra) = split " = ", $full_title;
-  my $title = $fra && $lang eq "fra" ? $fra : $eng;
-  return trim((split ":", $title)[0] || $title);
-}
-
 sub _issue_title {
   my ($full_title, $lang) = @_;
   my ($eng, $fra) = split " = ", $full_title;
@@ -81,13 +74,11 @@ sub leaf {
   my $leaf = [];
   return $leaf unless $response->data->{rows};
 
-  my $collection_title;
   foreach my $row (@{ $response->data->{rows} }) {
-    $collection_title = _collection_title($row->{value}, $lang);
     push @$leaf, { id => $row->{id}, label => _issue_title($row->{value}, $lang) };
   }
 
-  return { title => $collection_title, leaf => $leaf };
+  return { title => $self->leaf_to_string([$lang, $chamber, $type, $session]), leaf => $leaf };
 }
 
 has _type_labels => (
@@ -134,6 +125,30 @@ sub chamber_labels {
   return $self->_chamber_labels->{$lang};
 }
 
+has _publications => (
+  is => 'ro',
+  default => sub {
+    return {
+      en => {
+        sdebates => 'Senate Debates',
+        sjournals => 'Senate Journals',
+        scommittees => 'Senate Committees',
+        cdebates => 'House of Commons Debates',
+        cjournals => 'House of Commons Journals',
+        ccommittees => 'House of Commons Committees'
+      },
+      fr => {
+        sdebates => 'Débats du Sénat',
+        sjournals => 'Journaux du Sénat',
+        scommittees => 'Comités du Sénat',
+        cdebates => 'Débats de la Chambre des communes',
+        cjournals => 'Journaux de la Chambre des communes',
+        ccommittees => 'Comités de la Chambre des communes'
+      }
+    }
+  }
+);
+
 sub _ordinate {
   my ($self, $num, $lang) = @_;
 
@@ -152,12 +167,11 @@ sub _ordinate {
 sub leaf_to_string {
   my ($self, $node) = @_;
   my $lang = $node->[0] eq 'fra' ? 'fr' : 'en';
-  my $ch = $self->_chamber_labels->{$lang}->{$node->[1]};
-  my $type = $self->_type_labels->{$lang}->{$node->[2]};
+  my $pub = $self->_publications->{$lang}->{$node->[1] . $node->[2]};
   my $pl = $lang eq 'fr' ? 'Législature' : 'Parliament';
   my $p = $self->_ordinate((substr $node->[3], 0, 2) + 0, $lang);
   my $s = $self->_ordinate((substr $node->[3], 3, 1) + 0, $lang);
   my $session = "$p $pl, $s Session";
-  return "$ch, $type, $session";
+  return "$pub, $session";
 }
 1;
