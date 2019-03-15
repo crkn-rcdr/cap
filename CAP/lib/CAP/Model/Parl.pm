@@ -30,7 +30,7 @@ sub _fetch_tree {
 	my ($self) = @_;
 
 	my $response = $self->get('/_design/parl/_view/browseTree',
-    { reduce => 'true', group_level => '4', stale => 'true' });
+    { reduce => 'true', group_level => '4', stale => 'update_after' });
   
   return {} unless $response->data->{rows};
 
@@ -69,7 +69,7 @@ sub leaf {
   my $startkey = qq/["$lang","$chamber","$type","$session"]/;
   my $endkey = qq/["$lang","$chamber","$type","$session!"]/;
   my $response = $self->get('/_design/parl/_view/browseTree',
-    { reduce => 'false', startkey => $startkey, endkey => $endkey, stale => 'true' });
+    { reduce => 'false', startkey => $startkey, endkey => $endkey, stale => 'update_after' });
   
   my $leaf = [];
   return $leaf unless $response->data->{rows};
