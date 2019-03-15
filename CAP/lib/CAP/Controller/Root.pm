@@ -65,6 +65,7 @@ sub auto :Private
         $c->stash(
             type_labels => $c->model('Parl')->type_labels($c->stash->{lang}),
             chamber_labels => $c->model('Parl')->chamber_labels($c->stash->{lang}),
+            tree => $c->model('Parl')->tree()
         );
     }
 

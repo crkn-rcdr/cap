@@ -1,15 +1,20 @@
 ﻿[% llang = lang == "fr" ? "fra" : "eng" %]
+[% types = ["debates", "journals", "committees"] %]
 <h2>[% c.loc("Browse") %]</h2>
 <h3>[% c.loc("Senate") %]</h3>
 <ul>
-	<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_debates" }) %]">[% c.loc("Debates") %]</a></li>
-	<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_journals" }) %]">[% c.loc("Journals") %]</a></li>
-	<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_committees" }) %]">[% c.loc("Committees") %]</a></li>
+[% FOREACH parl_type IN types %]
+[% IF tree.$llang.s.$parl_type %]
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_" _ parl_type }) %]">[% type_labels.$parl_type %]</a></li>
+[% END %]
+[% END %]
 </ul>
 <h3>[% c.loc("House of Commons") %]</h3>
 <ul>
-	<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_debates" }) %]">[% c.loc("Debates") %]</a></li>
-	<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_journals" }) %]">[% c.loc("Journals") %]</a></li>
-	<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_committees" }) %]">[% c.loc("Committees") %]</a></li>
+[% FOREACH parl_type IN types %]
+[% IF tree.$llang.c.$parl_type %]
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_" _ parl_type }) %]">[% type_labels.$parl_type %]</a></li>
+[% END %]
+[% END %]
 </ul>
 
