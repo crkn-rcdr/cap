@@ -7,15 +7,6 @@
 
 [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=item.record.key %]
 
-<p>
-[% FOREACH node IN item.record.parlNode %]
-    <a href="[% c.uri_for("/browse", node.0, node.1, node.2, node.3) %]">
-        &laquo; [% c.model("Parl").leaf_to_string(node) %]
-    </a>
-    [% UNLESS loop.last %]<br />[% END %]
-[% END %]
-</p>
-
 <h2>
     [% IF c.portal_id == "parl" %]
         [% item.record.parlLabel %]
@@ -26,6 +17,18 @@
         [% item.record.label %]
     [% END %]
 </h2>
+
+[% IF c.portal_id == "parl" %]
+<p>
+[% FOREACH node IN nodes %]
+    <a href="[% c.uri_for("/browse", node.0, node.1, node.2, node.3) %]">
+        &laquo; [% c.model("Parl").leaf_to_string(node) %]
+    </a>
+    [% UNLESS loop.last %]<br />[% END %]
+[% END %]
+</p>
+[% END %]
+
 [% INCLUDE partial/published_and_pages.tt result=item.record %]
 
 <ul class="nav nav-tabs">
