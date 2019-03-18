@@ -1,29 +1,20 @@
-﻿<h2>[% c.loc("Browse") %]</h2>
-<div class="row">
-	<div class="span3">
-		<h3>[% c.loc("Debates") %]</h3>
-		<h4>English</h4>
-		<ul>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "6" }) %]">Senate</a></li>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "12" }) %]">House of Commons</a></li>
-		</ul>
-		<h4>Français</h4>
-		<ul>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "2" }) %]">Sénat</a></li>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "9" }) %]">Chambre des communes</a></li>
-		</ul>
-	</div>
-	<div class="span3">
-		<h3>[% c.loc("Journals") %]</h3>
-		<h4>English</h4>
-		<ul>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "6j" }) %]">Senate</a></li>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "12j" }) %]">House of Commons</a></li>
-		</ul>
-		<h4>Français</h4>
-		<ul>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "2j" }) %]">Sénat</a></li>
-			<li><a href="[% c.uri_for_action("browse/index", { show => "9j" }) %]">Chambre des communes</a></li>
-		</ul>	
-	</div>
-</div>
+﻿[% llang = lang == "fr" ? "fra" : "eng" %]
+[% types = ["debates", "journals", "committees"] %]
+<h2>[% c.loc("Browse") %]</h2>
+<h3>[% c.loc("Senate") %]</h3>
+<ul>
+[% FOREACH parl_type IN types %]
+[% IF tree.$llang.s.$parl_type %]
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_" _ parl_type }) %]">[% type_labels.$parl_type %]</a></li>
+[% END %]
+[% END %]
+</ul>
+<h3>[% c.loc("House of Commons") %]</h3>
+<ul>
+[% FOREACH parl_type IN types %]
+[% IF tree.$llang.c.$parl_type %]
+	<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_" _ parl_type }) %]">[% type_labels.$parl_type %]</a></li>
+[% END %]
+[% END %]
+</ul>
+

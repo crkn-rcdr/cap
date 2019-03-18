@@ -15,6 +15,12 @@ has 'search' => (
     default => 1
 );
 
+has 'search_schema' => (
+    is => 'ro',
+    isa => 'Str',
+    default => 'default'
+);
+
 has 'subcollections' => (
     is => 'ro',
     isa => 'HashRef',

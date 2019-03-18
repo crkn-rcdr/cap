@@ -1,0 +1,34 @@
+<h2>[% title %]</h2>
+[% showlist = [parl_language, parl_chamber, parl_type, parl_parliament]; show = showlist.join("_") %]
+<p><a href="[% c.uri_for("/browse", { show = show }) %]">&laquo; [% c.loc("Browse volumes from this parliament") %]</a></p>
+
+<div class="row">
+  <div class="span3">
+    <h3>[% parl_session.term.start %] [% c.loc("to") %] [% parl_session.term.end %]</h3>
+    [% IF parl_chamber == "c" %]
+    [% IF parl_session.primeMinisters.size > 1 %]
+    <h4>[% c.loc("Prime Ministers:") %]</h4>
+    [% FOREACH pm IN parl_session.primeMinisters %]
+    <p>[% pm.name %]<br />([% pm.start %] [% c.loc("to") %] [% pm.end %])
+    [% END %]
+    [% ELSE %]
+    <h4>[% c.loc("Prime Minister:") %]</h4>
+    <p>[% parl_session.primeMinisters.0.name %]</p>
+    [% END %]
+    [% END %]
+  </div>
+  <div class="span9">
+    <table class="table">
+      <thead>
+        <tr><th>[% c.loc("Volumes") %]</th></tr>
+      </thead>
+      <tbody>
+      [% FOREACH item IN leaf %]
+        <tr>
+          <td><a href="[% c.uri_for("/view", item.id) %]">[% item.label %]</a></td>
+        </tr>
+      [% END %]
+      </tbody>
+    </table>
+  </div>
+</div>

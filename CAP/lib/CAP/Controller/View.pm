@@ -80,6 +80,15 @@ sub view_item :Private {
             template => "view_item.tt"
         );
     }
+
+    if ($c->portal_id eq "parl") {
+        $c->stash(nodes => [ sort { 
+            $a->[0] cmp $b->[0] || # eng before fra
+            $b->[1] cmp $a->[1] || # s before c
+            $a->[3] cmp $b->[3]
+        } @{ $item->record->{parlNode} } ]);
+    }
+
     return 1;
 }
 

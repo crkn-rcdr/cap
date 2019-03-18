@@ -10,17 +10,26 @@ with 'Role::REST::Client';
 use CIHM::Access::Search::Query;
 use CIHM::Access::Search::ResultSet;
 use CIHM::Access::Search::Schema;
+use CIHM::Access::Search::Schema::Parl;
 
 has '+type' => (
 	default => 'application/json'
 );
 
-has 'schema' => (
+has 'schemas' => (
 	is => 'ro',
 	default => sub {
-		return CIHM::Access::Search::Schema->new();
+		return {
+			default => CIHM::Access::Search::Schema->new(), 
+			parl => CIHM::Access::Search::Schema::Parl->new()
+		};
 	}
 );
+
+sub schema {
+	my ($self, $schema_key) = @_;
+	return $self->schemas->{$schema_key || 'default'};
+}
 
 # is your handler a string? you're in luck
 sub dispatch {
@@ -47,7 +56,7 @@ sub general {
 sub page {
 	my ($self, $options, $params) = @_;
 	die "Params did not contain pkey" unless defined $params->{pkey};
-	foreach my $filter (keys %{ $self->schema->filters }) {
+	foreach my $filter (keys %{ $self->schema($options->{schema})->filters }) {
 		delete $params->{$filter} unless $filter eq 'pkey';
 	}
 
@@ -83,11 +92,12 @@ sub random_document {
 # facet: flag for turning on faceted results, with fields based on Schema
 # date_stats: flag for turning on pubmin/pubmax
 # text_only: search text fields only
+# schema: search schema (default or parl)
 sub _request {
 	my ($self, $handler, $options, $params) = @_;
 
 	my $field_key = $options->{text_only} ? 'text' : 'general';
-	my $query = $self->query($params, $field_key);
+	my $query = $self->query($params, $field_key, $options->{schema});
 	my $search = { query => $query };
 
 	my $resultset = $self->_resultset($handler, $options, $query);
@@ -112,7 +122,7 @@ sub _resultset {
 		push @{$data->{filter}}, 'collection:' . $options->{root_collection};
 	}
 
-	my $sort = $self->_get_sort($options->{so});
+	my $sort = $self->_get_sort($options->{so}, $options->{schema});
 	$data->{sort} = $sort if ($sort);
 
 	$data->{offset} = $options->{offset} || 0;	
@@ -120,7 +130,7 @@ sub _resultset {
 	$data->{fields} = $options->{fields} if (defined $options->{fields});
 
 	$data->{params} = {};
-	$data->{params}{'facet.field'} = [ map { "{!ex=$_}$_" } @{$self->schema->facets} ] if $options->{facet};
+	$data->{params}{'facet.field'} = [ map { "{!ex=$_}$_" } @{$self->schema($options->{schema})->facets} ] if $options->{facet};
 
 	if ($options->{date_stats}) {
 		$data->{params}{stats} = 'true';
@@ -141,9 +151,9 @@ sub _resultset {
 }
 
 sub _get_sort {
-	my ($self, $so) = @_;
-	if (defined $so && exists $self->schema->sorting->{$so}) {
-		my $def = $self->schema->sorting->{$so};
+	my ($self, $so, $schema_key) = @_;
+	if (defined $so && exists $self->schema($schema_key)->sorting->{$so}) {
+		my $def = $self->schema($schema_key)->sorting->{$so};
 		return ref($def) eq 'CODE' ? &$def : $def;
 	}
 	return undef;
@@ -151,25 +161,25 @@ sub _get_sort {
 
 # builds a CIHM::Access::Search::Query using the local schema
 sub query {
-	my ($self, $params, $field_key) = @_;
-	my $args = { schema => $self->schema, params => $params };
+	my ($self, $params, $field_key, $schema_key) = @_;
+	my $args = { schema => $self->schema($schema_key), params => $params };
 	$args->{field_key} = $field_key if $field_key;
 	return CIHM::Access::Search::Query->new($args);
 }
 
 # transforms a posted search into terms to redirect to
 sub transform_query {
-	my ($self, $post_params) = @_;
+	my ($self, $post_params, $schema_key) = @_;
 	my $get_params = {};
 
 	# copy over filter parameters, search handler, and requested return format
-	for (keys %{ $self->schema->filters }, 'handler', 'fmt') {
+	for (keys %{ $self->schema($schema_key)->filters }, 'handler', 'fmt') {
 		$get_params->{$_} = $post_params->{$_} if exists $post_params->{$_};
 	}
 
 	# "Search in:" parameter
 	my $base_field = $post_params->{field};
-	$base_field = '' unless ($base_field && exists $self->schema->fields->{general}{$base_field});
+	$base_field = '' unless ($base_field && exists $self->schema($schema_key)->fields->{general}{$base_field});
 
 	my @pointer = (0,0);
 	my $or = 0;

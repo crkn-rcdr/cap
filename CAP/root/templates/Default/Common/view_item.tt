@@ -8,11 +8,27 @@
 [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=item.record.key %]
 
 <h2>
-    [% IF item.has_parent -%]
-        <a href="[% c.uri_for_action("view/index", item.record.pkey) %]">[% item.record.plabel %]</a> :
-    [% END -%]
-    [% item.record.label %]
+    [% IF c.portal_id == "parl" %]
+        [% item.record.parlLabel %]
+    [% ELSE %]
+        [% IF item.has_parent -%]
+            <a href="[% c.uri_for_action("view/index", item.record.pkey) %]">[% item.record.plabel %]</a> :
+        [% END -%]
+        [% item.record.label %]
+    [% END %]
 </h2>
+
+[% IF c.portal_id == "parl" %]
+<p>
+[% FOREACH node IN nodes %]
+    <a href="[% c.uri_for("/browse", node.0, node.1, node.2, node.3) %]">
+        &laquo; [% c.model("Parl").leaf_to_string(node) %]
+    </a>
+    [% UNLESS loop.last %]<br />[% END %]
+[% END %]
+</p>
+[% END %]
+
 [% INCLUDE partial/published_and_pages.tt result=item.record %]
 
 <ul class="nav nav-tabs">

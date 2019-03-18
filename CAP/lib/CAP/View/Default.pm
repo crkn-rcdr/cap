@@ -5,6 +5,7 @@ use base 'Catalyst::View::TT';
 use Date::Format qw(time2str);
 use Date::Parse qw(str2time);
 use Scalar::Util qw(looks_like_number);
+use Text::Trim;
 
 
 __PACKAGE__->config(
@@ -75,7 +76,7 @@ __PACKAGE__->config(
         cdn_uri => sub {
             my ($doc, $file) = (@_);
             return "http://cdn.canadiana.ca/$doc/$file";
-        }
+        },
     }
 );
 

@@ -10,15 +10,17 @@
         <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
         [% IF c.session.${c.portal_id}.defined("search") %]
             <a class="form-align" href="[% c.uri_for_action("search/index", c.session.${c.portal_id}.search.handler, c.session.${c.portal_id}.search.start, c.session.${c.portal_id}.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
-            [% IF item.has_parent %]
+            [% IF item.has_parent && c.portal_id != "parl" || item.record.component_count_fulltext %]
             <span class="divider"></span>
             [% END %]
         [% END %]
-        [% IF item.has_parent %]
+        [% IF item.has_parent && c.portal_id != "parl" %]
             <a class="form-align" href="[% c.uri_for_action("view/index", item.record.pkey) %]">&laquo; [% item.record.plabel %]</a>
+            [% IF item.record.component_count_fulltext %]
+            <span class="divider"></span>
+            [% END %]
         [% END %]
         [% IF item.record.component_count_fulltext %]
-            <span class="divider"></span>
             <input type="hidden" name="pkey" value="[% key %]" />
             <input type="hidden" name="handler" value="page" />
             <input type="hidden" name="so" value="seq" />

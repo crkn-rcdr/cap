@@ -3787,20 +3787,35 @@ msgstr "Comment aimeriez-vous qu’on vous appelle?"
 msgid "Publication type"
 msgstr "Type de publication"
 
-msgid "Debates and Journals"
-msgstr "Débats et Journaux"
-
-msgid "Debates only"
-msgstr "Débats seulement"
-
-msgid "Journals only"
-msgstr "Journaux seulement"
+msgid "All types"
+msgstr "Tous les types"
 
 msgid "Debates"
 msgstr "Débats"
 
 msgid "Journals"
 msgstr "Journaux"
+
+msgid "Committees"
+msgstr "Comités"
+
+msgid "Prime Minister(s)"
+msgstr "Premier(s) ministre(s)"
+
+msgid "Report Title"
+msgstr "Titre du rapport"
+
+msgid "%1 volumes"
+msgstr "%1 volumes"
+
+msgid "Prime Minister:"
+msgstr "Premier ministre :"
+
+msgid "Prime Ministers:"
+msgstr "Premiers ministres :"
+
+msgid "Browse volumes from this parliament"
+msgstr "Parcourir volumes de cette législature"
 
 # student voice stuff
 msgid "CARL Homepage"

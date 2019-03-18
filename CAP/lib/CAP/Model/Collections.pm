@@ -57,7 +57,8 @@ sub BUILD {
 				id => $id,
 				label => $doc->{label},
 				summary => $doc->{summary},
-				search => $conf->{$id}->{search} // 1
+				search => $conf->{$id}->{search} // 1,
+				search_schema => $conf->{$id}->{search_schema} // 'default'
 			});
 
 			for my $subd (split ',', $conf->{$id}->{subdomains}) {

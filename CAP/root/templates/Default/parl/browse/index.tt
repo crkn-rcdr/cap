@@ -1,13 +1,64 @@
-[% title = c.loc("Browse") -%]
+﻿[% title = c.loc("Browse") -%]
+[% showfull = (c.req.params.show || ""); show = showfull.split("_") %]
 
 <h2>[% c.loc("Browse") %]</h2>
 
-[% IF c.portal_id == "parl" %]
-<div class="row"><div class="span6">
-	<h3>[% c.loc("Debates") %]</h3>
-[% INCLUDE partial/browse_debates.tt %]
-</div><div class="span6">
-	<h3>[% c.loc("Journals") %]</h3>
-[% INCLUDE partial/browse_journals.tt %]
-</div></div>
+[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
+[% BLOCK tree %]
+[% DEFAULT language='eng' chamber='c' %]
+[% branch = tree.$language.$chamber %]
+[% root = ['browse', language, chamber]; rootid = root.join('_') %]
+<ul id="[% rootid %]">
+[% FOREACH type IN ["debates", "journals", "committees"] %]
+	[% IF branch.defined(type) %]
+	[% typeroot = [rootid, type]; typeid = typeroot.join('_') %]
+	<li>
+		<a data-toggle="collapse" data-parent="#[% rootid %]" data-target="#[% typeid %]">
+			[% type_labels.$type %]
+		</a>
+		<div id="[% typeid %]" class="collapse[% IF show.0.match(language) && show.1.match(chamber) && show.2.match(type) %] in[% END %]">
+			<ul>
+			[% FOREACH p IN branch.$type.keys.sort %]
+			[% proot = [typeid, p]; pid = proot.join('_') %]
+				<li>
+					<a data-toggle="collapse" data-parent="#[% typeid %]" data-target="#[% pid %]">
+						[% ordinate(p + 0, 'f') %] [% c.loc("Parliament") %]
+					</a>
+					<div id="[% pid %]" class="collapse[% IF show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %] in[% END %]">
+						<ul>
+						[% FOREACH skey IN branch.$type.$p.keys.sort %]
+							[% s = skey.split('-').1 %]
+							<li>
+								<a href="[% c.uri_for("/browse", language, chamber, type, skey) %]">
+									[% ordinate(s + 0, 'f') %] [% c.loc("Session") %] ([% branch.$type.$p.$skey == 1 ? "1 volume" : c.loc("[_1] volumes", branch.$type.$p.$skey) %])
+								</a>
+							</li>
+						[% END %]
+						</ul>
+					</div>
+				</li>
+			[% END %]
+			</ul>
+		</div>
+	</li>
+	[% END %]
 [% END %]
+</ul>
+[% END %]
+
+<div class="row">
+	<div class="span6">
+		<h3>[% c.loc("English") %]</h3>
+		<h4>[% c.loc("Senate") %]</h4>
+		[% INCLUDE tree language='eng' chamber='s' %]
+		<h4>[% c.loc("House of Commons") %]</h4>
+		[% INCLUDE tree language='eng' chamber='c' %]
+	</div>
+	<div class="span6">
+		<h3>[% c.loc("French") %]</h3>
+		<h4>[% c.loc("Senate") %]</h4>
+		[% INCLUDE tree language='fra' chamber='s' %]
+		<h4>[% c.loc("House of Commons") %]</h4>
+		[% INCLUDE tree language='fra' chamber='c' %]
+	</div>
+</div>
