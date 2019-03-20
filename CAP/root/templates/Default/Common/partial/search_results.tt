@@ -35,7 +35,7 @@
         [% END -%]
         <a href="[% c.uri_for_action("view/index", result.key) %]">
         [% IF c.portal_id == "parl" %]
-        [% result.parlLabel %]
+        [% result.parlLabel || result.label %]
         [% ELSE %]
         [% IF result.defined("plabel"); result.plabel _ " : "; END %] [% result.label %]
         [% END %]

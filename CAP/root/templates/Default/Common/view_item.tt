@@ -9,7 +9,7 @@
 
 <h2>
     [% IF c.portal_id == "parl" %]
-        [% item.record.parlLabel %]
+        [% item.record.parlLabel || item.record.label %]
     [% ELSE %]
         [% IF item.has_parent -%]
             <a href="[% c.uri_for_action("view/index", item.record.pkey) %]">[% item.record.plabel %]</a> :
