@@ -36,7 +36,7 @@ has 'filters' => (
 			lang => { multi_mode => 'OR' },
       chamber => { template => '{!tag=parlChamber}parlChamber:($)', multi_mode => 'OR' },
       session => { template => '{!tag=parlSession}parlSession:($)', multi_mode => 'OR' },
-      type => { template => '{!tag=parlType}parlType:($)' }
+      type => { template => '{!tag=parlType}parlType:($)', multi_mode => 'OR' }
 		};
 	}
 );
