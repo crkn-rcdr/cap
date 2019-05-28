@@ -3748,12 +3748,12 @@ msgid "http://www.canadiana.ca/en/home"
 msgstr "http://www.canadiana.ca/accueil"
 
 #: ../../../root/templates/Default/dfait/layout/header.tt:12
-msgid "http://www.international.gc.ca/international/index.aspx?lang=eng"
-msgstr "http://www.international.gc.ca/international/index.aspx?lang=fra"
+msgid "https://www.international.gc.ca/gac-amc/index.aspx?lang=eng"
+msgstr "https://www.international.gc.ca/gac-amc/index.aspx?lang=fra"
 
 #: ../../../root/templates/Default/dfait/layout/header.tt:10
-msgid "http://www.international.gc.ca/library-bibliotheque/index.aspx?lang=eng"
-msgstr "http://www.international.gc.ca/library-bibliotheque/index.aspx?lang=fra"
+msgid "https://www.international.gc.ca/gac-amc/programs-programmes/jll-bjl/index.aspx?lang=eng"
+msgstr "https://www.international.gc.ca/gac-amc/programs-programmes/jll-bjl/index.aspx?lang=fra"
 
 #: ../../../root/templates/Default/Common/admin/user/create.tt:36 ../../../root/templates/Default/Common/user/login.tt:64 ../../../root/templates/Default/Common/user/reset_password.tt:10
 msgid "minimum 6 characters, no spaces allowed"
