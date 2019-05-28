@@ -15,7 +15,10 @@ sub auto :Private {
 sub index :Path :Args(0) {
     my($self, $c) = @_;
 
-    $c->stash(tree => $c->model('Parl')->tree());
+    $c->stash(
+        tree => $c->model('Parl')->tree(),
+        parl_sessions => $c->model('ParlSession')->all()
+    );
 
     return 1;
 }

@@ -30,7 +30,9 @@
 							[% s = skey.split('-').1 %]
 							<li>
 								<a href="[% c.uri_for("/browse", language, chamber, type, skey) %]">
-									[% ordinate(s + 0, 'f') %] [% c.loc("Session") %] ([% branch.$type.$p.$skey == 1 ? "1 volume" : c.loc("[_1] volumes", branch.$type.$p.$skey) %])
+									[% ordinate(s + 0, 'f') %] [% c.loc("Session") %] ([% branch.$type.$p.$skey == 1 ? "1 volume" : c.loc("[_1] volumes", branch.$type.$p.$skey) %])<br />
+									[% parl_sessions.$skey.term.start %] [% c.loc("to") %] [% parl_sessions.$skey.term.end %]
+									[% IF chamber == 'c'; "<br />"; FOREACH pm IN parl_sessions.$skey.primeMinisters; pm.name; UNLESS loop.last; "; "; END; END; END %]
 								</a>
 							</li>
 						[% END %]
