@@ -23,7 +23,7 @@ USER cihm
 ENV CATALYST_DEBUG=0 \
   CAP_Model::Access::Derivative_endpoint=http://image.romano.canadiana.ca/iiif/2 \
   CAP_Model::Access::Derivative_cookie_domain=image.romano.canadiana.ca \
-  CAP_Model::Access::Download_endpoint=http://file.ulloa.canadiana.ca \
+  CAP_Model::Access::Download::ZFS_endpoint=http://file.paneer.canadiana.ca \
   CAP_Model::Access::Presentation_server=http://gouda.tor.c7a.ca:5984/copresentation \
   CAP_Model::Access::Presentation_prezi_demo_endpoint=http://presentation.demo.canadiana.ca/iiif \
   CAP_Model::Access::Search_server=http://gouda.tor.c7a.ca:8983/solr/cosearch \
