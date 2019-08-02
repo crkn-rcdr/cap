@@ -23,7 +23,7 @@
 <div class="footer-bottom">
     <div class="container">
         <p class="text-right-aligned">
-            [% c.loc("© [_1] Canadian Resource Knowledge Network", current_year) %]
+            [% c.loc("© [_1] Canadian Research Knowledge Network", current_year) %]
         </p>
     </div>
 </div>

@@ -4000,5 +4000,5 @@ msgstr "https://www.crkn-rcdr.ca/fr/contact/contact_crkn"
 msgid "CRKN Logo"
 msgstr "Logo du RCDR"
 
-msgid "© %1 Canadian Resource Knowledge Network"
+msgid "© %1 Canadian Research Knowledge Network"
 msgstr "© %1 Réseau canadien de documentation pour la recherche"
