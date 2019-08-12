@@ -27,12 +27,6 @@
 [% END %]
 
 <div class="row">
-	<div class="span6 offset3">
-		[% content_blocks.blurb %]
-	</div>
-</div>
-
-<div class="row">
 	<div class="span12">
 		<h2>[% c.loc("Search Canadiana Online") %]</h2>
 	</div>
