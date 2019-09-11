@@ -1,4 +1,4 @@
-FROM httpd:2.4.37
+FROM httpd:2.4.41
 
 RUN sed -i \
     -e 's/^#\(Include .*vhosts.conf\)/\1/' \
@@ -19,6 +19,10 @@ RUN apt-get update ; apt-get install -yq subversion && apt-get clean && \
 
 # This should be changed when running container to the correct host and post for the relevant instance.  This is only Dev.
 ENV CDNHOSTPORT gouda.tor.c7a.ca:5984
+
+# In production the docker-compose will launch a Cantaloupe along with CAP
+# Set this to a running Cantaloupe if you wish to test this aspect.
+ENV CIHM_CANTALOUPE vbc.canadiana.ca
 
 COPY cihm-error /usr/local/apache2/htdocs/cihm-error/
 COPY httpd-vhosts.conf /usr/local/apache2/conf/extra/
