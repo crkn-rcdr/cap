@@ -6444,7 +6444,7 @@ header {
   height: 18px;
   width: 18px;
   display: inline-block;
-  background-image: url('/static/icons/pvIcons.png');
+  background-image: url("/static/icons/pvIcons.png");
 }
 .pvicon-first {
   background-position: 0px 0px;
@@ -6650,6 +6650,13 @@ footer .footer-bottom p {
   margin-bottom: 0;
   line-height: 36px;
 }
+footer .footer-bottom p a {
+  color: #dddddd;
+  text-decoration: underline;
+}
+footer .footer-bottom p a:hover {
+  color: #c4c4c4;
+}
 @media (min-width: 768px) {
   #wrapper {
     min-height: 100%;
@@ -6703,7 +6710,7 @@ a {
   vertical-align: middle;
   height: 28px;
   width: 1px;
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
   overflow: hidden;
   margin: 0 9px;
   display: inline-block;
@@ -6736,7 +6743,7 @@ a.new-window {
   *zoom: 1;
   width: 18px;
   height: 18px;
-  background-image: url('/static/icons/newWindow.png');
+  background-image: url("/static/icons/newWindow.png");
   vertical-align: top;
 }
 div.dataTables_length label {
@@ -6775,19 +6782,19 @@ table.table thead .sorting_desc_disabled {
   background-position: center right;
 }
 table.table thead .sorting {
-  background-image: url('/static/icons/datatables/sort_both.png');
+  background-image: url("/static/icons/datatables/sort_both.png");
 }
 table.table thead .sorting_asc {
-  background-image: url('/static/icons/datatables/sort_asc.png');
+  background-image: url("/static/icons/datatables/sort_asc.png");
 }
 table.table thead .sorting_desc {
-  background-image: url('/static/icons/datatables/sort_desc.png');
+  background-image: url("/static/icons/datatables/sort_desc.png");
 }
 table.table thead .sorting_asc_disabled {
-  background-image: url('/static/icons/datatables/sort_asc_disabled.png');
+  background-image: url("/static/icons/datatables/sort_asc_disabled.png");
 }
 table.table thead .sorting_desc_disabled {
-  background-image: url('/static/icons/datatables/sort_desc_disabled.png');
+  background-image: url("/static/icons/datatables/sort_desc_disabled.png");
 }
 table.dataTable th:active {
   outline: none;
@@ -6825,7 +6832,7 @@ table.calendar a {
 .subscriptions .subbox {
   float: left;
   width: 160px;
-  background-color: #FFE8E8;
+  background-color: #ffe8e8;
   padding: 18px;
   margin: 18px;
   text-align: center;
@@ -6849,15 +6856,15 @@ table.calendar a {
   height: 120px;
 }
 .banner .banner-left-bg {
-  background-image: url('/static/images/heritage_banner_left.png');
+  background-image: url("/static/images/heritage_banner_left.png");
   height: 120px;
 }
 .banner .banner-right-bg {
-  background-image: url('/static/images/heritage_banner_right.png');
+  background-image: url("/static/images/heritage_banner_right.png");
   height: 120px;
 }
 .banner .banner-image-absolute {
-  background-image: url('/static/images/heritage_banner.png');
+  background-image: url("/static/images/heritage_banner.png");
   height: 120px;
 }
 h2 {
@@ -6891,19 +6898,19 @@ h2 {
   }
 }
 .banner .banner-image-absolute {
-  background-image: url('/static/images/heritage_banner.png');
+  background-image: url("/static/images/heritage_banner.png");
 }
 .banner {
   margin-bottom: 9px;
 }
 .collections .collections-list .collections-header#heirHeader {
-  background-image: url('/static/images/heritage_collections/heir_off.png');
+  background-image: url("/static/images/heritage_collections/heir_off.png");
 }
 .collections .collections-list .collections-header#landHeader {
-  background-image: url('/static/images/heritage_collections/land_off.png');
+  background-image: url("/static/images/heritage_collections/land_off.png");
 }
 .collections .collections-list .collections-header#sundriesHeader {
-  background-image: url('/static/images/heritage_collections/sundries_off.png');
+  background-image: url("/static/images/heritage_collections/sundries_off.png");
 }
 .collections .collections-list .collections-header:hover,
 .collections .collections-list .collections-header.selected {
@@ -6913,15 +6920,15 @@ h2 {
 }
 .collections .collections-list .collections-header:hover#heirHeader,
 .collections .collections-list .collections-header.selected#heirHeader {
-  background-image: url('/static/images/heritage_collections/heir_on.png');
+  background-image: url("/static/images/heritage_collections/heir_on.png");
 }
 .collections .collections-list .collections-header:hover#landHeader,
 .collections .collections-list .collections-header.selected#landHeader {
-  background-image: url('/static/images/heritage_collections/land_on.png');
+  background-image: url("/static/images/heritage_collections/land_on.png");
 }
 .collections .collections-list .collections-header:hover#sundriesHeader,
 .collections .collections-list .collections-header.selected#sundriesHeader {
-  background-image: url('/static/images/heritage_collections/sundries_on.png');
+  background-image: url("/static/images/heritage_collections/sundries_on.png");
 }
 @media (min-width: 768px) {
   .collections {
@@ -6962,35 +6969,35 @@ h2 {
   color: #222;
 }
 .heritage-collections .genealogy .collection-title {
-  background-image: url('/static/images/heritage_collections/genealogy.png');
+  background-image: url("/static/images/heritage_collections/genealogy.png");
 }
 .heritage-collections .aboriginal-history {
   background-color: #8a403d;
   color: #ddd;
 }
 .heritage-collections .aboriginal-history .collection-title {
-  background-image: url('/static/images/heritage_collections/aboriginal_history.png');
+  background-image: url("/static/images/heritage_collections/aboriginal_history.png");
 }
 .heritage-collections .government-documents {
   background-color: #23571d;
   color: #ddd;
 }
 .heritage-collections .government-documents .collection-title {
-  background-image: url('/static/images/heritage_collections/government_documents.png');
+  background-image: url("/static/images/heritage_collections/government_documents.png");
 }
 .heritage-collections .military-history {
   background-color: #15618e;
   color: #ddd;
 }
 .heritage-collections .military-history .collection-title {
-  background-image: url('/static/images/heritage_collections/military_history.png');
+  background-image: url("/static/images/heritage_collections/military_history.png");
 }
 .heritage-collections .landmark-papers {
   background-color: #ebbc2f;
   color: #222;
 }
 .heritage-collections .landmark-papers .collection-title {
-  background-image: url('/static/images/heritage_collections/landmark_papers.png');
+  background-image: url("/static/images/heritage_collections/landmark_papers.png");
 }
 @media (max-width: 767px) {
   .heritage-collections .collection .collection-info {

@@ -5,9 +5,9 @@
                 <li><a href="http://www.canadiana.ca/" target="_blank"><img src="[% c.uri_for("/static/images/logo_" _ lang _ ".png") %]" alt="Canadiana" /></a></li>
             </ul>
             <ul class="span4 text-centered">
-                <li class="title"><a href="http://www.canadiana.ca/about" target="_blank">[% c.loc("About Canadiana") %]</a></li>
-                <li><a href="[% c.loc("https://www.crkn-rcdr.ca/en/contact/contact_crkn") %]" target="_blank">[% c.loc("Contact us") %]</a></li>
-                <li><a href="[% c.uri_for("/terms") %]" target="_blank">[% c.loc("Terms of Service") %]</a></li>
+                <li class="title"><a href="[% c.loc("https://www.crkn-rcdr.ca/en/canadiana-collections") %]" target="_blank">[% c.loc("About CRKN") %]</a></li>
+                <li><a href="http://www.canadiana.ca/" target="_blank">[% c.loc("Canadiana Online") %]</a></li>
+                <li><a href="http://heritage.canadiana.ca/" target="_blank">Héritage</a></li>
                 <li>&nbsp;</li>
             </ul>
             <ul class="span4">
@@ -23,6 +23,10 @@
 <div class="footer-bottom">
     <div class="container">
         <p class="text-right-aligned">
+            <a href="[% c.loc("https://www.crkn-rcdr.ca/en/contact/contact_crkn") %]" target="_blank">[% c.loc("Contact us") %]</a>
+            //
+            <a href="[% c.uri_for("/terms") %]">[% c.loc("Terms of Service") %]</a>
+            //
             [% c.loc("© [_1] Canadian Research Knowledge Network", current_year) %]
         </p>
     </div>

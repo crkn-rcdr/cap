@@ -12,163 +12,200 @@
 @btnInfoBackground: #ffaa44;
 @btnInfoBackgroundHighlight: darken(@btnInfoBackground, 10%);
 
-body {
-    //background-image: url('/static/images/whf_bg.png');
-}
-
 .banner {
+  height: 120px;
+  .banner-left-bg {
+    background-image: url("/static/images/heritage_banner_left.png");
     height: 120px;
-    .banner-left-bg {
-        background-image: url('/static/images/heritage_banner_left.png');
-        height: 120px;
-    }
-    .banner-right-bg {
-        background-image: url('/static/images/heritage_banner_right.png');
-        height: 120px;
-    }
-    .banner-image-absolute {
-        background-image: url('/static/images/heritage_banner.png');
-        height: 120px;
-    }
+  }
+  .banner-right-bg {
+    background-image: url("/static/images/heritage_banner_right.png");
+    height: 120px;
+  }
+  .banner-image-absolute {
+    background-image: url("/static/images/heritage_banner.png");
+    height: 120px;
+  }
 }
 
 h2 {
-    color: @mainColor;
-    font-variant: small-caps;
+  color: @mainColor;
+  font-variant: small-caps;
 }
 
 .search-item h2 {
-    font-variant: normal;
+  font-variant: normal;
 }
 
 .whf-search-bar {
-    font-size: @baseFontSize + 2px;
-    font-weight: bold;
-    padding: 9px 4px;
-    .border-radius(5px);
-    line-height: normal;
+  font-size: @baseFontSize + 2px;
+  font-weight: bold;
+  padding: 9px 4px;
+  .border-radius(5px);
+  line-height: normal;
 }
 
 .blurb {
-    //background-image: url('/static/images/whf_blurb_bg.png');
-    background-position: bottom left;
-    background-repeat: no-repeat;
+  //background-image: url('/static/images/whf_blurb_bg.png');
+  background-position: bottom left;
+  background-repeat: no-repeat;
 }
 
 .search {
-    //background-image: url('/static/images/whf_search_bg.png');
-    background-position: bottom right;
-    background-repeat: no-repeat;
+  //background-image: url('/static/images/whf_search_bg.png');
+  background-position: bottom right;
+  background-repeat: no-repeat;
 }
 
 @media (min-width: 768px) {
-    .blurb, .search {
-        min-height: 300px;
-    }
+  .blurb,
+  .search {
+    min-height: 300px;
+  }
 }
 
-.banner .banner-image-absolute { background-image: url('/static/images/heritage_banner.png'); }
-.banner { margin-bottom: @baseLineHeight / 2; }
+.banner .banner-image-absolute {
+  background-image: url("/static/images/heritage_banner.png");
+}
+.banner {
+  margin-bottom: @baseLineHeight / 2;
+}
 
 .collections {
-    .collections-list {
-        .collections-header {
-            // yay
-            &#heirHeader { background-image: url('/static/images/heritage_collections/heir_off.png') }
-            &#landHeader { background-image: url('/static/images/heritage_collections/land_off.png') }
-            &#sundriesHeader { background-image: url('/static/images/heritage_collections/sundries_off.png') }
-            &:hover, &.selected {
-                color: @white;
-                text-decoration: none;
-                background-color: #711127;
-                &#heirHeader { background-image: url('/static/images/heritage_collections/heir_on.png') }
-                &#landHeader { background-image: url('/static/images/heritage_collections/land_on.png') }
-                &#sundriesHeader { background-image: url('/static/images/heritage_collections/sundries_on.png') }
-            }
+  .collections-list {
+    .collections-header {
+      // yay
+      &#heirHeader {
+        background-image: url("/static/images/heritage_collections/heir_off.png");
+      }
+      &#landHeader {
+        background-image: url("/static/images/heritage_collections/land_off.png");
+      }
+      &#sundriesHeader {
+        background-image: url("/static/images/heritage_collections/sundries_off.png");
+      }
+      &:hover,
+      &.selected {
+        color: @white;
+        text-decoration: none;
+        background-color: #711127;
+        &#heirHeader {
+          background-image: url("/static/images/heritage_collections/heir_on.png");
         }
+        &#landHeader {
+          background-image: url("/static/images/heritage_collections/land_on.png");
+        }
+        &#sundriesHeader {
+          background-image: url("/static/images/heritage_collections/sundries_on.png");
+        }
+      }
     }
+  }
 }
 
 @media (min-width: 768px) {
-    .collections {
-        min-height: 169px;
-        .collections-info {
-            .collections-content {
-                .collections-description {
-                	p { margin-bottom: @baseLineHeight / 2; }
-                    min-height: 132px;
-                }
-            }
+  .collections {
+    min-height: 169px;
+    .collections-info {
+      .collections-content {
+        .collections-description {
+          p {
+            margin-bottom: @baseLineHeight / 2;
+          }
+          min-height: 132px;
         }
+      }
     }
+  }
 }
 
 .heritage-collections {
-    .collection {
-        margin-bottom: @baseLineHeight;
-        min-height: 100px;
-        .collection-title {
-            display: block;
-            height: 100px;
-            width: 250px;
-            position: relative;
-            margin-right: 10px;
-            h3 {
-                position: absolute;
-                width: 180px;
-                text-align: right;
-                bottom: 5px;
-                right: 10px;
-                color: #eee;
-                text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000;
-            }
-        }
-        .collection-info {
-            padding: (@baseLineHeight / 2) 10px 0 10px;
-        }
+  .collection {
+    margin-bottom: @baseLineHeight;
+    min-height: 100px;
+    .collection-title {
+      display: block;
+      height: 100px;
+      width: 250px;
+      position: relative;
+      margin-right: 10px;
+      h3 {
+        position: absolute;
+        width: 180px;
+        text-align: right;
+        bottom: 5px;
+        right: 10px;
+        color: #eee;
+        text-shadow: 1px 1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+          -1px -1px 0 #000;
+      }
     }
+    .collection-info {
+      padding: (@baseLineHeight / 2) 10px 0 10px;
+    }
+  }
 
-    .genealogy {
-        .collection-title { background-image: url('/static/images/heritage_collections/genealogy.png') }
-        background-color: #bd9c7b;
-        color: #222;
+  .genealogy {
+    .collection-title {
+      background-image: url("/static/images/heritage_collections/genealogy.png");
     }
-    .aboriginal-history {
-        .collection-title { background-image: url('/static/images/heritage_collections/aboriginal_history.png') }
-        background-color: #8a403d;
-        color: #ddd;
+    background-color: #bd9c7b;
+    color: #222;
+  }
+  .aboriginal-history {
+    .collection-title {
+      background-image: url("/static/images/heritage_collections/aboriginal_history.png");
     }
-    .government-documents {
-        .collection-title { background-image: url('/static/images/heritage_collections/government_documents.png') }
-        background-color: #23571d;
-        color: #ddd;
+    background-color: #8a403d;
+    color: #ddd;
+  }
+  .government-documents {
+    .collection-title {
+      background-image: url("/static/images/heritage_collections/government_documents.png");
     }
-    .military-history {
-        .collection-title { background-image: url('/static/images/heritage_collections/military_history.png') }
-        background-color: #15618e;
-        color: #ddd;
+    background-color: #23571d;
+    color: #ddd;
+  }
+  .military-history {
+    .collection-title {
+      background-image: url("/static/images/heritage_collections/military_history.png");
     }
-    .landmark-papers {
-        .collection-title { background-image: url('/static/images/heritage_collections/landmark_papers.png') }
-        background-color: #ebbc2f;
-        color: #222;
+    background-color: #15618e;
+    color: #ddd;
+  }
+  .landmark-papers {
+    .collection-title {
+      background-image: url("/static/images/heritage_collections/landmark_papers.png");
     }
+    background-color: #ebbc2f;
+    color: #222;
+  }
 }
 
 @media (max-width: 767px) {
-    .heritage-collections .collection .collection-info { padding-bottom: 1px; }
+  .heritage-collections .collection .collection-info {
+    padding-bottom: 1px;
+  }
 }
 
 @media (min-width: 768px) {
-    .heritage-collections .collection.span12 {
-        .collection-title { float: left; }
-        .collection-info { margin-left: 250px; }
+  .heritage-collections .collection.span12 {
+    .collection-title {
+      float: left;
     }
+    .collection-info {
+      margin-left: 250px;
+    }
+  }
 }
 
 @media (min-width: 1200px) {
-    .heritage-collections .collection.span6 {
-        .collection-title { float: left; }
-        .collection-info { margin-left: 250px; }
+  .heritage-collections .collection.span6 {
+    .collection-title {
+      float: left;
     }
+    .collection-info {
+      margin-left: 250px;
+    }
+  }
 }

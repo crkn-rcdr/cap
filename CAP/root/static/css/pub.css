@@ -6444,7 +6444,7 @@ header {
   height: 18px;
   width: 18px;
   display: inline-block;
-  background-image: url('/static/icons/pvIcons.png');
+  background-image: url("/static/icons/pvIcons.png");
 }
 .pvicon-first {
   background-position: 0px 0px;
@@ -6650,6 +6650,13 @@ footer .footer-bottom p {
   margin-bottom: 0;
   line-height: 36px;
 }
+footer .footer-bottom p a {
+  color: #f7f8f8;
+  text-decoration: underline;
+}
+footer .footer-bottom p a:hover {
+  color: #dce0e0;
+}
 @media (min-width: 768px) {
   #wrapper {
     min-height: 100%;
@@ -6703,7 +6710,7 @@ a {
   vertical-align: middle;
   height: 28px;
   width: 1px;
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
   overflow: hidden;
   margin: 0 9px;
   display: inline-block;
@@ -6736,7 +6743,7 @@ a.new-window {
   *zoom: 1;
   width: 18px;
   height: 18px;
-  background-image: url('/static/icons/newWindow.png');
+  background-image: url("/static/icons/newWindow.png");
   vertical-align: top;
 }
 div.dataTables_length label {
@@ -6775,19 +6782,19 @@ table.table thead .sorting_desc_disabled {
   background-position: center right;
 }
 table.table thead .sorting {
-  background-image: url('/static/icons/datatables/sort_both.png');
+  background-image: url("/static/icons/datatables/sort_both.png");
 }
 table.table thead .sorting_asc {
-  background-image: url('/static/icons/datatables/sort_asc.png');
+  background-image: url("/static/icons/datatables/sort_asc.png");
 }
 table.table thead .sorting_desc {
-  background-image: url('/static/icons/datatables/sort_desc.png');
+  background-image: url("/static/icons/datatables/sort_desc.png");
 }
 table.table thead .sorting_asc_disabled {
-  background-image: url('/static/icons/datatables/sort_asc_disabled.png');
+  background-image: url("/static/icons/datatables/sort_asc_disabled.png");
 }
 table.table thead .sorting_desc_disabled {
-  background-image: url('/static/icons/datatables/sort_desc_disabled.png');
+  background-image: url("/static/icons/datatables/sort_desc_disabled.png");
 }
 table.dataTable th:active {
   outline: none;
@@ -6825,7 +6832,7 @@ table.calendar a {
 .subscriptions .subbox {
   float: left;
   width: 160px;
-  background-color: #FFE8E8;
+  background-color: #ffe8e8;
   padding: 18px;
   margin: 18px;
   text-align: center;
@@ -6846,11 +6853,9 @@ table.calendar a {
   border: 1px solid #eee;
 }
 #wrapper {
-  background-image: url('/static/images/co_bg_gradient.png');
+  background-image: url("/static/images/co_bg_gradient.png");
   background-position: 0 40px;
   background-repeat: repeat-x;
-  z-index: 2;
-  position: relative;
 }
 #wrapper > .container {
   padding-top: 9px;
@@ -6862,22 +6867,6 @@ table.calendar a {
   text-align: center;
   margin-bottom: 18px;
   margin-top: 36px;
-}
-#wrapper > .bg {
-  position: absolute;
-  top: 40px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: -1;
-  background-image: url('/static/images/co_search_bg.png');
-  background-position: top center;
-  background-repeat: no-repeat;
-}
-@media (min-width: 768px) {
-  #wrapper > .bg {
-    bottom: 154px;
-  }
 }
 .logo {
   margin: 0 auto;
@@ -6895,7 +6884,7 @@ table.calendar a {
   background-color: rgba(192, 192, 192, 0.5);
 }
 .media-icon {
-  background-image: url('/static/icons/icons_co.png');
+  background-image: url("/static/icons/icons_co.png");
 }
 .search-row {
   height: 58px;

@@ -19,6 +19,5 @@
 
 <h2>[% c.loc("In partnership with") %]</h2>
 <p>
-	<a href="http://crkn.ca/"><img src="/static/images/crkn_logo.jpg" alt="CRKN / RCDR" /></a>
 	<a href="http://www.collectionscanada.gc.ca/index-[% lang == "fr" ? "f" : "e" %].html"><img src="/static/images/lac_logo_[% lang %].png" alt="Library and Archives Canada / Bibliothèque et Archives Canada" /></a>
 </p>
