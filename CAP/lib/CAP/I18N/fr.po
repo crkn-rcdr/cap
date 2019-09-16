@@ -4007,4 +4007,5 @@ msgid "https://www.crkn-rcdr.ca/en/canadiana-collections"
 msgstr "https://www.crkn-rcdr.ca/fr/collections-de-canadiana"
 
 msgid "About CRKN"
-msgstr "msgstr "À propos du RCDR"
+msgstr "À propos du RCDR"
+
