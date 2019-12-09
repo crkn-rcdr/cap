@@ -21,7 +21,7 @@ services:
     #volumes:
     #   - /var/log/cap/:/var/log/cap/
   cap-redis:
-    image: redis:4.0.6-alpine
+    image: redis:4.0.14-alpine3.10
     container_name: cap-redis
     command: ["redis-server", "--appendonly", "yes"]
     # Depending on where docker containers are stored, volumes may be faster
