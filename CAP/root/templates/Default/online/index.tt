@@ -17,9 +17,9 @@
 			|
 			<a href="[% c.uri_for_action("search/index", 'browsable', { collection => coll_id, so => 'oldest' }) %]">[% c.loc("Browse this collection") %]</a>
 		</p>
-        <form method="POST" class="collections-form form-inline" action="[% c.uri_for_action("/search/post") %]">
+        <form method="POST" class="form-inline" action="[% c.uri_for_action("/search/post") %]">
             <input type="hidden" name="collection" value="[% coll_id %]" />
-            <input type="text" class="whf-search-bar" placeholder="[% c.loc("Search this collection") %]" name="q">
+            <input type="text" placeholder="[% c.loc("Search this collection") %]" name="q">
             <button class="btn btn-primary" type="submit">[% c.loc("Search") %]</button>
         </form>
 	</div>
