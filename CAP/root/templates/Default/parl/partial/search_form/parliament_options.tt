@@ -1,14 +1,30 @@
 [% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
 <div class="span3">
-    <label for="typeSelect">[% c.loc("Publication type") %]</label>
-    <select id="typeSelect" name="type" class="span3">
-        <option value="">[% c.loc("All types") %]</option>
-        <option value="debates">[% c.loc("Debates") %]</option>
-        <option value="journals">[% c.loc("Journals") %]</option>
-        <option value="committees">[% c.loc("Committees") %]</option>
-        <option value="bills">[% c.loc("Bills") %]</option>
-        <option value="proc">[% c.loc("Votes and Proceedings") %]</option>
-    </select>
+    <p>[% c.loc("Publication type") %]</p>
+    <label class="checkbox">
+        <input type="checkbox" name="type" value="debates" checked />
+        [% c.loc("Debates") %]
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="type" value="journals" checked />
+        [% c.loc("Journals") %]
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="type" value="committees" checked />
+        [% c.loc("Committees") %]
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="type" value="bills" checked />
+        [% c.loc("Bills") %]
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="type" value="proc" checked />
+        [% c.loc("Votes and Proceedings") %]
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="type" value="sessional" checked />
+        [% c.loc("Sessional Papers") %]
+    </label>
 </div>
 <div class="span3">
     <label for="houseSelect">[% c.loc("Chamber") %]</label>
@@ -17,8 +33,6 @@
         <option value="s">[% c.loc("Senate") %]</option>
         <option value="c">[% c.loc("House of Commons") %]</option>
     </select>
-</div>
-<div class="span3">
     <label for="parlSelect">[% c.loc("Parliament") %]</label>
     <select id="parlSelect" name="session" class="span3">
         <option value="">[% c.loc("All") %]</option>
@@ -26,8 +40,6 @@
         <option value="[% p %]*">[% ordinate(p, 'f') %]</option> 
         [% END -%]
     </select>
-</div>
-<div class="span3">
     <label for="langSelect">[% c.loc("Language") %]</label>
     <select id="langSelect" name="lang" class="span3">
         <option value="">[% c.loc("Both Languages") %]</option>
