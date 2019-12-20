@@ -5,7 +5,7 @@
     [% FOREACH parl_type IN supported_types %]
 	[% IF tree.$llang.s.$parl_type || tree.$llang.c.$parl_type %]
     <label class="checkbox">
-        <input type="checkbox" name="type" value=parl_type checked />
+        <input type="checkbox" name="type" value=[% parl_type %] checked />
         [% type_labels.$parl_type %]
     </label>
     [% END %]
