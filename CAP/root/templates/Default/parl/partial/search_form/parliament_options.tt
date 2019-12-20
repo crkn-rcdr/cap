@@ -6,6 +6,8 @@
         <option value="debates">[% c.loc("Debates") %]</option>
         <option value="journals">[% c.loc("Journals") %]</option>
         <option value="committees">[% c.loc("Committees") %]</option>
+        <option value="bills">[% c.loc("Bills") %]</option>
+        <option value="proc">[% c.loc("Votes and Proceedings") %]</option>
     </select>
 </div>
 <div class="span3">

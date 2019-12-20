@@ -1,5 +1,6 @@
 ﻿[% title = c.loc("Browse") -%]
 [% showfull = (c.req.params.show || ""); show = showfull.split("_") %]
+[% llang = c.stash.lang == "fr" ? "fra" : "eng" %]
 
 <h2>[% c.loc("Browse") %]</h2>
 
@@ -9,7 +10,7 @@
 [% branch = tree.$language.$chamber %]
 [% root = ['browse', language, chamber]; rootid = root.join('_') %]
 <ul id="[% rootid %]">
-[% FOREACH type IN ["debates", "journals", "committees"] %]
+[% FOREACH type IN ["debates", "journals", "committees", "bills", "proc", "sessional"] %]
 	[% IF branch.defined(type) %]
 	[% typeroot = [rootid, type]; typeid = typeroot.join('_') %]
 	<li>
@@ -50,17 +51,11 @@
 
 <div class="row">
 	<div class="span6">
-		<h3>[% c.loc("English") %]</h3>
-		<h4>[% c.loc("Senate") %]</h4>
-		[% INCLUDE tree language='eng' chamber='s' %]
-		<h4>[% c.loc("House of Commons") %]</h4>
-		[% INCLUDE tree language='eng' chamber='c' %]
+		<h3>[% c.loc("Senate") %]</h3>
+		[% INCLUDE tree language=llang chamber='s' %]
 	</div>
 	<div class="span6">
-		<h3>[% c.loc("French") %]</h3>
-		<h4>[% c.loc("Senate") %]</h4>
-		[% INCLUDE tree language='fra' chamber='s' %]
-		<h4>[% c.loc("House of Commons") %]</h4>
-		[% INCLUDE tree language='fra' chamber='c' %]
+		<h3>[% c.loc("House of Commons") %]</h3>
+		[% INCLUDE tree language=llang chamber='c' %]
 	</div>
 </div>

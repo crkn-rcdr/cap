@@ -3799,6 +3799,21 @@ msgstr "Journaux"
 msgid "Committees"
 msgstr "Comités"
 
+msgid "Bills"
+msgstr "Projets de loi"
+
+msgid "Votes and Proceedings"
+msgstr "Procès-verbaux"
+
+msgid "Rules of the Senate"
+msgstr "Règlement du Sénat"
+
+msgid "Standing Orders of the House of Commons"
+msgstr "Règlement de la Chambre des communes"
+
+msgid "Sessional Papers"
+msgstr "Documents parlementaires"
+
 msgid "Prime Minister(s)"
 msgstr "Premier(s) ministre(s)"
 
