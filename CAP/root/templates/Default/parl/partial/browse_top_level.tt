@@ -1,11 +1,10 @@
-﻿[% types = ["debates", "journals", "committees", "bills", "proc", "sessional"] %]
-[% llang = c.stash.lang == "fr" ? "fra" : "eng" %]
+﻿[% llang = c.stash.lang == "fr" ? "fra" : "eng" %]
 <h2>[% c.loc("Browse") %]</h2>
 <div class="row">
 	<div class="span3">
 		<h3>[% c.loc("Senate") %]</h3>
 		<ul>
-		[% FOREACH parl_type IN types %]
+		[% FOREACH parl_type IN supported_types %]
 		[% IF tree.$llang.s.$parl_type %]
 			<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_" _ parl_type }) %]">[% type_labels.$parl_type %]</a></li>
 		[% END %]
@@ -15,7 +14,7 @@
 	<div class="span3">
 		<h3>[% c.loc("House of Commons") %]</h3>
 		<ul>
-		[% FOREACH parl_type IN types %]
+		[% FOREACH parl_type IN supported_types %]
 		[% IF tree.$llang.c.$parl_type %]
 			<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_" _ parl_type }) %]">[% type_labels.$parl_type %]</a></li>
 		[% END %]

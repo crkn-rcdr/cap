@@ -1,30 +1,15 @@
 [% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
+[% llang = c.stash.lang == 'fr' ? 'fra' : 'eng' %]
 <div class="span3">
-    <p>[% c.loc("Publication type") %]</p>
+    <p style="margin-bottom: 5px">[% c.loc("Publication type") %]</p>
+    [% FOREACH parl_type IN supported_types %]
+	[% IF tree.$llang.s.$parl_type || tree.$llang.c.$parl_type %]
     <label class="checkbox">
-        <input type="checkbox" name="type" value="debates" checked />
-        [% c.loc("Debates") %]
+        <input type="checkbox" name="type" value=parl_type checked />
+        [% type_labels.$parl_type %]
     </label>
-    <label class="checkbox">
-        <input type="checkbox" name="type" value="journals" checked />
-        [% c.loc("Journals") %]
-    </label>
-    <label class="checkbox">
-        <input type="checkbox" name="type" value="committees" checked />
-        [% c.loc("Committees") %]
-    </label>
-    <label class="checkbox">
-        <input type="checkbox" name="type" value="bills" checked />
-        [% c.loc("Bills") %]
-    </label>
-    <label class="checkbox">
-        <input type="checkbox" name="type" value="proc" checked />
-        [% c.loc("Votes and Proceedings") %]
-    </label>
-    <label class="checkbox">
-        <input type="checkbox" name="type" value="sessional" checked />
-        [% c.loc("Sessional Papers") %]
-    </label>
+    [% END %]
+    [% END %]
 </div>
 <div class="span3">
     <label for="houseSelect">[% c.loc("Chamber") %]</label>

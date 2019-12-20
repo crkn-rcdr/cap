@@ -10,7 +10,7 @@
 [% branch = tree.$language.$chamber %]
 [% root = ['browse', language, chamber]; rootid = root.join('_') %]
 <ul id="[% rootid %]">
-[% FOREACH type IN ["debates", "journals", "committees", "bills", "proc", "sessional"] %]
+[% FOREACH type IN supported_types %]
 	[% IF branch.defined(type) %]
 	[% typeroot = [rootid, type]; typeid = typeroot.join('_') %]
 	<li>
