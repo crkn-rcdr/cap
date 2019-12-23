@@ -93,13 +93,6 @@ sub auto : Private {
   return 1;
 }
 
-sub access_denied : Private {
-  my ( $self, $c ) = @_;
-  warn("[debug] Access denied (insufficient privileges)") if ( $c->debug );
-  $c->stash->{page} = $c->{stash}->{uri};
-  $c->detach( 'error', [403, "NOACCESS"] );
-}
-
 =head2 favicon()
 
 Handle requests for /favicon.ico by redirecting them to /static/favicon.ico
@@ -202,19 +195,6 @@ EOF
 sub test_error : Path('error') Args(1) {
   my ( $self, $c, $error ) = @_;
   $c->detach( 'error', [$error, 'Test error'] );
-}
-
-# Generate a basic system error message. This action is intended to catch
-# serious system misconfigurations that cannot or should not be handled
-# using the templating system.
-sub config_error : Private {
-  my ( $self, $c, $message ) = @_;
-  $c->stash->{config_error} = 1;
-  $c->res->status(500);
-  $c->res->body(
-"<html><head><title>Configuration Error</title><body><h1>Configuration Error</h1><p>$message</p></body></html>"
-  );
-  return 0;
 }
 
 # Serve a file in the static directory under root. In production, requests
