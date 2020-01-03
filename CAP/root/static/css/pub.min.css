@@ -884,7 +884,7 @@ header{margin-bottom:18px;}
 .pv-imagelink-left{left:0px;}.pv-imagelink-left .pv-imagelink-text{left:30px;}
 .pv-imagelink-right{right:0px;}.pv-imagelink-right .pv-imagelink-text{right:30px;}
 .pvbutton{padding-bottom:0;}
-.pvicon{height:18px;width:18px;display:inline-block;background-image:url("/static/icons/pvIcons.png");}
+.pvicon{height:18px;width:18px;display:inline-block;background-image:url("/static/images/pvIcons.png");}
 .pvicon-first{background-position:0px 0px;}
 .pvicon-previous{background-position:-24px 0px;}
 .pvicon-next{background-position:-48px 0px;}
@@ -923,7 +923,6 @@ ul.browse ul{margin:0;}
 #wrapper{background-image:url("/static/images/co_bg_gradient.png");background-position:0 40px;background-repeat:repeat-x;}#wrapper>.container{padding-top:9px;}#wrapper>.container>h1{color:#971131;font-family:Georgia,"Times New Roman",Times,serif;font-variant:small-caps;text-align:center;margin-bottom:18px;margin-top:36px;}
 .logo{margin:0 auto;width:228px;display:block;}
 @media (max-width:767px){.logo{margin-bottom:18px;}}.form-actions,.well{background-color:#dfdfdf;background-color:rgba(192, 192, 192, 0.5);}
-.media-icon{background-image:url("/static/icons/icons_co.png");}
 .search-row{height:58px;}
 .search-bar{padding:9px 14px;font-size:15px;line-height:normal;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:9px 14px !important;float:left;margin-right:5px;font-weight:bold;}
 @media (min-width:768px){.search-bar{width:321px;}}@media (min-width:980px){.search-bar{width:465px;}}@media (min-width:1200px){.search-bar{width:615px;}}.search-button{width:120px;float:left;}
