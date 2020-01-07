@@ -6319,7 +6319,7 @@ header {
   height: 18px;
   width: 18px;
   display: inline-block;
-  background-image: url("/static/icons/pvIcons.png");
+  background-image: url("/static/images/pvIcons.png");
 }
 .pvicon-first {
   background-position: 0px 0px;

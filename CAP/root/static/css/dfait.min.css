@@ -884,7 +884,7 @@ header{margin-bottom:18px;}
 .pv-imagelink-left{left:0px;}.pv-imagelink-left .pv-imagelink-text{left:30px;}
 .pv-imagelink-right{right:0px;}.pv-imagelink-right .pv-imagelink-text{right:30px;}
 .pvbutton{padding-bottom:0;}
-.pvicon{height:18px;width:18px;display:inline-block;background-image:url("/static/icons/pvIcons.png");}
+.pvicon{height:18px;width:18px;display:inline-block;background-image:url("/static/images/pvIcons.png");}
 .pvicon-first{background-position:0px 0px;}
 .pvicon-previous{background-position:-24px 0px;}
 .pvicon-next{background-position:-48px 0px;}

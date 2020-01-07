@@ -1,7 +1,7 @@
 [% INCLUDE partial/page_viewer/toolbar.tt %]
 <section id="pvPane">
     <section id="pvImageContainer">
-        <div id="pvImageInner"><img id="pvImg" src="[% item.validate_derivative(seq, size, rotate).1 %]"></div>
+        <div id="pvImageInner"><img id="pvImg" src="[% first_uri %]"></div>
         <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
         <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
         <aside id="pvComponent"[% UNLESS item.component(seq).hasTags %] class="hidden"[% END %]>

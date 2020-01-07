@@ -2,19 +2,19 @@
 [% title = item_title _ (c.stash.defined('component') ? " - " _ component.label : "") %]
 [% c.stash.nofollow = 1 %]
 [% c.stash.description = item.canonical_label;
-   IF item.record.defined("pu"); c.stash.description = c.stash.description _ " : " _ item.record.pu.join("; "); END;
-   IF item.record.defined("au"); c.stash.description = c.stash.description _ " : " _ item.record.au.join("; "); END %] 
+   IF record.defined("pu"); c.stash.description = c.stash.description _ " : " _ record.pu.join("; "); END;
+   IF record.defined("au"); c.stash.description = c.stash.description _ " : " _ record.au.join("; "); END %] 
 
-[% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=item.record.key %]
+[% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
 
 <h2>
     [% IF c.portal_id == "parl" %]
-        [% item.record.parlLabel || item.record.label %]
+        [% record.parlLabel || record.label %]
     [% ELSE %]
         [% IF item.has_parent -%]
-            <a href="[% c.uri_for_action("view/index", item.record.pkey) %]">[% item.record.plabel %]</a> :
+            <a href="[% c.uri_for_action("view/index", record.pkey) %]">[% record.plabel %]</a> :
         [% END -%]
-        [% item.record.label %]
+        [% record.label %]
     [% END %]
 </h2>
 
@@ -29,7 +29,7 @@
 </p>
 [% END %]
 
-[% INCLUDE partial/published_and_pages.tt result=item.record %]
+[% INCLUDE partial/published_and_pages.tt result=record %]
 
 <ul class="nav nav-tabs">
     [% IF item.has_children %]
@@ -44,6 +44,6 @@
     </div>
     [% END %]
     <div class="tab-pane[% UNLESS item.has_children %] active[% END %]" id="documentRecord">
-        [% INCLUDE partial/document_record.tt record=item.record %]
+        [% INCLUDE partial/document_record.tt record=record %]
     </div>
 </div>

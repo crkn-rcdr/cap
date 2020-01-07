@@ -9,7 +9,7 @@ SCRIPT_OUT = ../static/js
 PORTALS = $(basename $(notdir $(wildcard $(STYLE_IN)/*.less)))
 BOOTSTRAP_ORDER = transition alert button carousel collapse dropdown modal tooltip popover scrollspy tab typeahead
 LIBS_ORDER = jquery-1.7.1 jquery.history jquery.placeholder
-JS_ORDER = cap.preloader cap.pageViewer cap.matchingPages cap.main
+JS_ORDER = cap.pageViewer cap.matchingPages cap.main
 
 #uglifyjs -nc bootstrap/js/bootstrap.js > bootstrap/js/bootstrap.min.js
 
