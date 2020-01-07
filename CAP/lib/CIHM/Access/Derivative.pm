@@ -42,7 +42,7 @@ has 'config' => (
 sub item_token {
   my ( $self, $item_key, $is_pdf ) = @_;
   my $derivative_exp =
-    $is_pdf ? "$item_key\\/data\\/sip\\/data\\/files\\/document\\.pdf" :
+    $is_pdf ? "$item_key\\/data\\/sip\\/data\\/files\\/.+\\.pdf" :
     "$item_key\\/data\\/sip\\/data\\/files\\/.+\\.(jpg|jp2|tif)";
 
   return encode_jwt(
