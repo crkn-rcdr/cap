@@ -11629,6 +11629,7 @@ window.JSON||(window.JSON={}),function(){function f(a){return a<10?"0"+a:a}funct
         s: parseInt($e.attr("data-size"), 10)
       };
       this.settings = {
+        token: $e.attr("data-token"),
         pkey: $e.attr("data-pkey"),
         total: parseInt($e.attr("data-total"), 10),
         minSize: parseInt($e.attr("data-min-size"), 10),
@@ -11636,7 +11637,17 @@ window.JSON||(window.JSON={}),function(){function f(a){return a<10?"0"+a:a}funct
         canResize: !!parseInt($e.attr("data-resize"), 10),
         portalName: $e.attr("data-portal-name"),
         documentLabel: $e.attr("data-document-label"),
-        hasTags: !!$e.attr("data-tags")
+        hasTags: !!$e.attr("data-tags"),
+        // TODO: load this from config
+        rotates: { 0: "0", 1: "90", 2: "180", 3: "270" },
+        sizes: {
+          1: "800",
+          2: "1024",
+          3: "1296",
+          4: "1600",
+          5: "2048",
+          6: "2560"
+        }
       };
     },
 
@@ -11845,7 +11856,7 @@ window.JSON||(window.JSON={}),function(){function f(a){return a<10?"0"+a:a}funct
         pv.components[this.value] = {
           key: this.getAttribute("data-key"),
           hasAccess: !!parseInt(this.getAttribute("data-access"), 10),
-          master: this.getAttribute("data-master"),
+          uri: this.getAttribute("data-uri"),
           label: this.innerHTML
         };
 
@@ -12011,34 +12022,16 @@ window.JSON||(window.JSON={}),function(){function f(a){return a<10?"0"+a:a}funct
       }
     },
 
-    getUri: function(seq) {
-      var args = { r: this.state.r, s: this.state.s, fmt: "ajax" };
-      var call = ["", "file", "get_page_uri", this.settings.pkey, seq].join(
-        "/"
-      );
+    getUri: function(seq, uriTemplate) {
+      var uri = uriTemplate;
+      uri = uri.replace("$TOKEN", this.settings.token);
+      uri = uri.replace("$ROTATE", this.settings.rotates[this.state.r] || "0");
+      var size = this.settings.sizes[this.state.s] || "800";
+      uri = uri.replace("$SIZE", "!" + size + "," + size);
+
       var ref = this.imageCacheRef(seq, this.state.r, this.state.s);
-      var pv = this;
-      $.ajax({
-        url: call,
-        dataType: "json",
-        data: args,
-        success: function(data) {
-          if (data["status"] === 200) {
-            pv.imageCache[ref] = data.uri;
-            $.preloadImages([data.uri]);
-          } else {
-            pv.imageCache[ref] = "error";
-          }
-        },
-        error: function() {
-          setTimeout(
-            $.proxy(function() {
-              this.getUri(seq);
-            }, pv),
-            1000
-          );
-        }
-      });
+      this.imageCache[ref] = uri;
+      $.preloadImages([uri]);
     },
 
     preload: function(seq) {
@@ -12055,7 +12048,7 @@ window.JSON||(window.JSON={}),function(){function f(a){return a<10?"0"+a:a}funct
           (pv.state.s === pv.settings.minSize || pv.settings.canResize) &&
           !pv.imageCache[ref]
         ) {
-          pv.getUri(newSeq);
+          pv.getUri(newSeq, pv.components[newSeq].uri);
         }
       });
     },

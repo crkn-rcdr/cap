@@ -95,8 +95,19 @@ sub has_parent {
 
 sub component {
   my ( $self, $seq ) = @_;
-  my $child_id = $self->record->{order}[$seq - 1];
-  return { %{ $self->record->{components}{$child_id} }, key => $child_id };
+  my $child_id         = $self->record->{order}[$seq - 1];
+  my $component_record = $self->record->{components}{$child_id};
+  my $is_pdf           = $component_record->{canonicalMaster} ? 0 : 1;
+  my $file             = $is_pdf ? $self->record->{canonicalDownload} :
+    $component_record->{canonicalMaster};
+  my $uri = $self->derivative->uri_template( $file, $is_pdf );
+  $uri =~ s/\$SEQ/$seq/g;
+  return {
+    %{$component_record},
+    key => $child_id,
+    seq => $seq,
+    uri => $uri
+  };
 }
 
 sub first_component_seq {
@@ -129,37 +140,10 @@ sub validate_download {
   return [200, $self->download->uri($download)];
 }
 
-sub validate_derivative {
-  my ( $self, $seq, $size, $rotate ) = @_;
-  my $component = $self->component($seq);
-  return [400, $self->key . " does not have page at seq $seq."]
-    unless $component;
-  if ( $component->{canonicalMaster} ) {
-    return [
-      200,
-      $self->derivative->uri( {
-          master => $component->{canonicalMaster},
-          size   => $size,
-          rotate => $rotate
-        }
-      )
-    ];
-  } elsif ( $self->record->{canonicalDownloadMime} eq 'application/pdf' ) {
-    return [
-      200,
-      $self->derivative->uri( {
-          from_pdf => 1,
-          download => $self->record->{canonicalDownload},
-          page     => $seq,
-          size     => $size,
-          rotate   => $rotate
-        }
-      )
-    ];
-  } else {
-    return [400, $component->{key} . " does not have a canonical master."]
-      unless $component->{canonicalMaster};
-  }
+sub token {
+  my ($self) = @_;
+  my $is_pdf = $self->component(1)->{canonicalMaster} ? 0 : 1;
+  return $self->derivative->item_token( $self->record->{key}, $is_pdf );
 }
 
 sub prezi_demo_uri {
