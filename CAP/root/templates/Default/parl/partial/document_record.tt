@@ -1,4 +1,3 @@
-[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
 <section class="well">
 <table class="table">
 <thead>

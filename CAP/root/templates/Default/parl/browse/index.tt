@@ -4,7 +4,6 @@
 
 <h2>[% c.loc("Browse") %]</h2>
 
-[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
 [% BLOCK tree %]
 [% DEFAULT language='eng' chamber='c' %]
 [% branch = tree.$language.$chamber %]
@@ -23,7 +22,7 @@
 			[% proot = [typeid, p]; pid = proot.join('_') %]
 				<li>
 					<a data-toggle="collapse" data-parent="#[% typeid %]" data-target="#[% pid %]">
-						[% ordinate(p + 0, 'f') %] [% c.loc("Parliament") %]
+						[% ordinate(p + 0, 'f', c.stash.lang) %] [% c.loc("Parliament") %]
 					</a>
 					<div id="[% pid %]" class="collapse[% IF show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %] in[% END %]">
 						<ul>
@@ -31,7 +30,7 @@
 							[% s = skey.split('-').1 %]
 							<li>
 								<a href="[% c.uri_for("/browse", language, chamber, type, skey) %]">
-									[% ordinate(s + 0, 'f') %] [% c.loc("Session") %] ([% branch.$type.$p.$skey == 1 ? "1 volume" : c.loc("[_1] volumes", branch.$type.$p.$skey) %])<br />
+									[% ordinate(s + 0, 'f', c.stash.lang) %] [% c.loc("Session") %] ([% branch.$type.$p.$skey == 1 ? "1 volume" : c.loc("[_1] volumes", branch.$type.$p.$skey) %])<br />
 									[% parl_sessions.$skey.term.start %] [% c.loc("to") %] [% parl_sessions.$skey.term.end %]
 									[% IF chamber == 'c'; "<br />"; FOREACH pm IN parl_sessions.$skey.primeMinisters; pm.name; UNLESS loop.last; "; "; END; END; END %]
 								</a>

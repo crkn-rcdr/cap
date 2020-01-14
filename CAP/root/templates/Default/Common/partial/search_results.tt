@@ -1,14 +1,14 @@
 ﻿<section class="well">
     <h2>
         [% UNLESS keywords %]
-            [% c.loc("[_1] total results.", format_number(hits)) %]
+            [% c.loc("[_1] total results.", format_number(hits, c.stash.lang)) %]
         [% ELSE %]
             [% IF !hits -%]
                 [% c.loc("No results") %]
             [% ELSIF hits == 1 -%]
                 [% c.loc("1 result") %]
             [% ELSE -%]
-                [% c.loc("[_1] results", format_number(hits)) %]
+                [% c.loc("[_1] results", format_number(hits, c.stash.lang)) %]
             [% END -%]
             [% c.loc("for") %] <i>[% keywords %]</i>.
         [% END %]

@@ -1,3 +1,0 @@
-[%- FOREACH pair IN hash.pairs %]
-    [% IF pair.value %]<input type="hidden" name="[% pair.key %]" value="[% pair.value %]" />[% END %]
-[% END -%]

@@ -30,7 +30,6 @@
     [% END %]
 [% END %]
 
-[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
 <aside class="search-controls">
     <form method="POST" action="[% c.uri_for_action("/search/post") %]">
         <p>[% c.loc("Refine your search:") %]</p>
@@ -73,7 +72,7 @@
             <option value="">[% c.loc("All") %]</option>
             [% FOREACH p IN [1 .. 35] -%]
             [% ps = p < 10 ? "0" _ p : "" _ p %]
-            <option value="[% ps %]*"[% IF parl_session.grep(ps).size %] selected[% END %]>[% ordinate(p, 'f') %]</option> 
+            <option value="[% ps %]*"[% IF parl_session.grep(ps).size %] selected[% END %]>[% ordinate(p, 'f', c.stash.lang) %]</option> 
             [% END -%]
         </select>
         <p>
