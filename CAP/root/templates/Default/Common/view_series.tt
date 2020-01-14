@@ -1,5 +1,5 @@
 [% series_title = series.canonical_label | truncate(50) %]
-[% title = series_title | xhtml -%]
+[% title = series_title | html -%]
 [% c.stash.nofollow = 1 %]
 [% c.stash.description = series.canonical_label;
    IF series.record.defined("pu"); c.stash.description = c.stash.description _ " : " _ series.record.pu.join("; "); END;
