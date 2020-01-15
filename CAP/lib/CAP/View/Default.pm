@@ -4,9 +4,6 @@ use strict;
 use base 'Catalyst::View::TT';
 use Number::Format;
 use Date::Format qw(time2str);
-use Date::Parse qw(str2time);
-use Scalar::Util qw(looks_like_number);
-use Text::Trim;
 
 __PACKAGE__->config(
   TEMPLATE_EXTENSION => '.tt',
