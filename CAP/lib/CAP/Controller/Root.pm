@@ -4,7 +4,6 @@ use namespace::autoclean;
 
 use strict;
 use warnings;
-use Config::General;
 use utf8;
 
 use JSON qw/encode_json/;
