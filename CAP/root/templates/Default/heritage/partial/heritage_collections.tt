@@ -33,7 +33,7 @@
 				<h3>[% c.loc(coll.fullname) %]</h3>
 			</a>
 			<div class="collection-info">
-				[% content_blocks.${coll.blockname} %]
+				[% INCLUDE "blocks/${c.stash.lang}/${coll.blockname}.html" %]
 				<p>
 					<a class="btn" href="[% coll.link %]">[% c.loc("Browse this collection") %]</a>
 				</p>
