@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="span6 blurb">
-[% content_blocks.blurb %]
+[% INCLUDE "blocks/${c.stash.lang}/blurb.html" %]
     </div>
     <div class="span6 search">
 [% INCLUDE partial/search_form.tt | indent(8) %]

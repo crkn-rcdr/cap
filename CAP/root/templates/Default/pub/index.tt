@@ -9,4 +9,4 @@
 [% INCLUDE partial/search_form.tt | indent(8) %]
     </div>
 </div>
-[% content_blocks.blurb %]
+[% INCLUDE "blocks/${c.stash.lang}/blurb.html" %]

@@ -2,7 +2,7 @@
 
 <div class="row">
 	<div class="span6 blurb">
-	[% content_blocks.blurb %]
+	[% INCLUDE "blocks/${c.stash.lang}/blurb.html" %]
 [% IF updates.size %]
 	<h3>[% c.loc("Recent Updates") %]</h3>
 	[% INCLUDE partial/update_list.tt updates=updates %]

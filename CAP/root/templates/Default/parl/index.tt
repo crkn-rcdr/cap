@@ -10,6 +10,6 @@
 </div>
 <div class="row">
     <div class="span12">
-    [% content_blocks.blurb %]
+    [% INCLUDE "blocks/${c.stash.lang}/blurb.html" %]
     </div>
 </div>

@@ -1,0 +1,7 @@
+<div class="row">
+    <article class="span12 node">
+        <h1>[% title %]</h1>
+        [% INCLUDE $include %]
+    </article>
+</div>
+

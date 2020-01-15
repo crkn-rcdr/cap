@@ -55,12 +55,6 @@ sub auto : Private {
     httponly => 1
   };
   $c->stash(
-    content_blocks => $c->model('CMS')->cached_blocks( {
-        portal => $c->portal_id,
-        lang   => $c->stash->{lang},
-        action => $c->action->private_path
-      }
-    ),
     depositor_labels =>
       $c->model('Depositors')->as_labels( $c->stash->{lang} ),
     language_labels => $c->model('Languages')->as_labels( $c->stash->{lang} )
@@ -105,32 +99,28 @@ sub favicon : Path('favicon.ico') {
   $c->detach();
 }
 
-# If we don't match anything, we're trying to access a CMS node (or 404)
+# If we don't match anything, we're trying to access a page
 sub default : Path {
   my ( $self, $c, @path ) = @_;
 
   my $path   = join '/', @path;
-  my $lookup = $c->model('CMS')->view( {
-      portal   => $c->portal_id,
-      lang     => $c->stash->{lang},
-      path     => $path,
-      base_url => $c->uri_for('/')
-    }
-  );
+  my $lookup = $c->stash->{portal}->page_mapping( $c->stash->{lang}, $path );
 
   $c->detach( 'error', [404, "Failed lookup for $path"] ) unless $lookup;
-  $c->detach( 'error', [404, $lookup] ) unless ref $lookup;
 
-  if ( ( ref $lookup ) =~ /URI/ ) {
-    $c->response->redirect($lookup);
+  if ( $lookup->{redirect} ) {
+    $c->response->redirect( '/' . $lookup->{redirect} );
     $c->detach();
   }
 
-  use Data::Dumper;
+  my $page    = $lookup->{page} || '';
+  my $include = join( '/', 'pages', $c->stash->{lang}, "$page.html" );
   $c->stash(
-    node     => $lookup,
-    template => "node.tt"
+    include  => $include,
+    template => 'page.tt',
+    title    => $lookup->{title}
   );
+
 }
 
 sub end : ActionClass('RenderView') {
@@ -160,22 +150,6 @@ sub index : Path('') Args(0) {
   my ( $self, $c ) = @_;
 
   $c->stash->{template} = "index.tt";
-  $c->stash->{updates}  = $c->model("CMS")->cached_updates( {
-      portal => $c->portal_id,
-      lang   => $c->stash->{lang},
-      limit  => 3
-    }
-  );
-}
-
-# list of CMS nodes marked isUpdate
-sub updates : Local {
-  my ( $self, $c ) = @_;
-  $c->stash->{updates} = $c->model("CMS")->updates( {
-      portal => $c->portal_id,
-      lang   => $c->stash->{lang}
-    }
-  );
 }
 
 sub robots : Path('robots.txt') {
