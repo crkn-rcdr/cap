@@ -1,0 +1,19 @@
+<label for="query">[% c.loc("L_SEARCH_REFINE") %]</label>
+<div class="form-group input-group">
+  <input type="text" id="query" class="form-control form-control-lg" name="q" value="[% query | html %]" />
+  <div class="input-group-append">
+    <button type="submit" class="btn btn-lg btn-primary btn-icon search" value="submit">
+      <span class="sr-only">[% c.loc("L_SEARCH_IMPERATIVE") %]</span>
+    </button>
+    <a class="btn btn-lg btn-outline-secondary btn-icon help" href="[% c.loc("URL_HELP") %]">
+      <span class="sr-only">[% c.loc("L_HELP") %]</span>
+    </a>
+  </div>
+</div>
+[% IF search_params.pkey %]
+  <input type="hidden" name="pkey" value="[% search_params.pkey %]" />
+  <p>
+    <a href="[% c.uri_for_action("/search/index", c.req.mangle_params({ pkey => "" })) %]">[&times;]</a>
+    [% c.loc("Searching within") %] <a href="[% c.uri_for_action("view/index", search_params.pkey) %]"><i>[% resultset.documents.0.plabel %]</i></a>.
+  </p>
+[% END %]

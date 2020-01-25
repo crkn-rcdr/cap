@@ -1,0 +1,5 @@
+[% INCLUDE entry field=(record.defined("lang") ? record.lang : "") name=c.loc("R_LANGUAGE") labels=language_labels %]
+[% INCLUDE entry field=(record.defined("parlReportTitle") ? record.parlReportTitle : "") name=c.loc("R_PARL_REPORT_TITLE") %]
+[% INCLUDE entry field=(record.defined("parlCallNumber") ? record.parlCallNumber : "") name=c.loc("R_IDENTIFIER") %]
+[% INCLUDE entry field=(record.defined("parlPrimeMinisters") ? record.parlPrimeMinisters : "") name=c.loc("R_PARL_PMS") %]
+[% INCLUDE entry field=(record.defined("no_source") ? record.no_source : "") name=c.loc("R_NO_SOURCE") %]

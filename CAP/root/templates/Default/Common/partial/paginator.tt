@@ -1,11 +1,11 @@
 [% MACRO page_link(page, text) BLOCK %]
 [% IF page_action == "hash" %]
-<a href="[% c.req.uri_with({ $hash_key => page }) %]">[% text %]</a>
+<a class="page-link" href="[% c.req.uri_with({ $hash_key => page }) %]">[% text %]</a>
 [% ELSE %]
 [% IF init_arg %]
-<a href="[% c.uri_for_action(page_action, init_arg, page, c.req.query_params) %]">[% text %]</a>
+<a class="page-link" href="[% c.uri_for_action(page_action, init_arg, page, c.req.query_params) %]">[% text %]</a>
 [% ELSE %]
-<a href="[% c.uri_for_action(page_action, page, c.req.query_params) %]">[% text %]</a>
+<a class="page-link" href="[% c.uri_for_action(page_action, page, c.req.query_params) %]">[% text %]</a>
 [% END %]
 [% END %]
 [% END %]
@@ -15,21 +15,21 @@
    last_page = current_page + 2; last_page = last_page > total_pages ? total_pages : last_page;
    page_range = [first_page .. last_page];
 %]
-<div class="pagination">
-    <ul>
-        [% IF current_page > 1 %]<li>[% page_link(current_page - 1, c.loc("Previous")) %]</li>[% END %]
-        [% IF first_page > 1 %]<li>[% page_link(1, 1) %]</li>[% END %]
-        [% IF first_page > 2 %]<li class="disabled"><a>...</a></li>[% END %]
-        [% FOREACH page IN page_range %]
-            [% UNLESS page == current_page %]
-                <li>[% page_link(page, page) %]</li>
-            [% ELSE %]
-                <li class="active"><a>[% page %]</a></li>
-            [% END %]
-        [% END %]
-        [% IF last_page < total_pages - 1 %]<li class="disabled"><a>...</a></li>[% END %]
-        [% IF last_page < total_pages %]<li>[% page_link(total_pages, total_pages) %]</li>[% END %]
-        [% IF current_page < total_pages %]<li>[% page_link(current_page + 1, c.loc("Next")) %]</li>[% END %]
-    </ul>
-</div>
+<nav[% IF first %] aria-label="[% c.loc("L_PAGINATOR") %]"[% END %]>
+  <ul class="pagination">
+    [% IF current_page > 1 %]<li class="page-item">[% page_link(current_page - 1, c.loc("GENERIC_PREVIOUS")) %]</li>[% END %]
+    [% IF first_page > 1 %]<li class="page-item">[% page_link(1, 1) %]</li>[% END %]
+    [% IF first_page > 2 %]<li class="page-item disabled"><a class="page-link">...</a></li>[% END %]
+    [% FOREACH page IN page_range %]
+      [% UNLESS page == current_page %]
+        <li class="page-item">[% page_link(page, page) %]</li>
+      [% ELSE %]
+        <li class="page-item active"><a class="page-link">[% page %]</a></li>
+      [% END %]
+    [% END %]
+    [% IF last_page < total_pages - 1 %]<li class="page-item disabled"><a class="page-link">...</a></li>[% END %]
+    [% IF last_page < total_pages %]<li class="page-item">[% page_link(total_pages, total_pages) %]</li>[% END %]
+    [% IF current_page < total_pages %]<li class="page-item">[% page_link(current_page + 1, c.loc("GENERIC_NEXT")) %]</li>[% END %]
+  </ul>
+</nav>
 [% END %]

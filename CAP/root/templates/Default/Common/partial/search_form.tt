@@ -1,9 +1,15 @@
-﻿<h2>[% IF lang == "fr"; "Recherche"; ELSE; "Search"; END %]</h2>
-<form method="POST" action="[% c.uri_for_action("search/post") %]" class="">
-    <input type="text" class="whf-search-bar span6" name="q" placeholder="[% c.loc("Search the collection") %]" />
-    <fieldset class="row">
-[% INCLUDE partial/search_form/contents.tt %]
-    </fieldset>
-    <button type="submit" class="btn btn-primary btn-large" value="submit">[% c.loc("Search") %]</button>
-    <a class="btn btn-large" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
+﻿<form method="POST" action="[% c.uri_for_action("search/post") %]">
+  <div class="input-group form-group">
+    <label for="search" class="sr-only">[% c.loc("L_SEARCH_PLACEHOLDER") %]</label>
+    <input type="text" id="search" autofocus class="form-control form-control-lg" name="q" placeholder="[% c.loc("L_SEARCH_PLACEHOLDER") %]" />
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-lg btn-primary btn-icon search" value="submit">
+        <span class="sr-only">[% c.loc("L_SEARCH_IMPERATIVE") %]</span>
+      </button>
+      <a class="btn btn-lg btn-outline-secondary btn-icon help" href="[% c.loc("URL_HELP") %]">
+        <span class="sr-only">[% c.loc("L_HELP") %]</span>
+      </a>
+    </div>
+  </div>
+[% INCLUDE partial/search_form/contents.tt | indent(2)%]
 </form>

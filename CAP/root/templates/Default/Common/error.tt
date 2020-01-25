@@ -2,7 +2,6 @@
   # Generic error page.
   title = c.loc("Error");
 -%]
-  
 [%
   IF status == '400';
     error_header = c.loc("Bad Request");
@@ -17,14 +16,13 @@
     error_header = c.loc("Error");
     error_text   = c.loc("We're sorry; we were unable to process your request.");
   END;
-%]
-
-<h2>[% error_header %]</h2>
-
-<p>[% error_text %]</p>
-
-[% IF c.debug %]
-<h3>[% c.loc("Additional Debugging Information") %]</h3>
-<p>[% c.loc("Status:") %] <strong>[% status %]</strong></p>
-<p>[% c.loc("Error:")  %] <strong>[% error %]</strong></p>
-[% END %]
+-%]
+<div class="container">
+  <h2>[% error_header %]</h2>
+  <p>[% error_text %]</p>
+[% IF c.debug -%]
+  <h3>[% c.loc("Additional Debugging Information") %]</h3>
+  <p>[% c.loc("Status:") %] <strong>[% status %]</strong></p>
+  <p>[% c.loc("Error:")  %] <strong>[% error %]</strong></p>
+[% END -%]
+</div>

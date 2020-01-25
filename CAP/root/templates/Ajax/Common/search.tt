@@ -5,22 +5,13 @@
 [% END -%]
 
 [%- IF resultset.documents.size -%]
-    [% c.loc("Matching pages:") %]
-    [% initial_documents = resultset.documents.size > 10 ? resultset.documents.slice(0,9) : resultset.documents -%]
-	[% FOR page IN initial_documents -%]
+  [% c.loc("L_MATCHING") %]
+	[% FOR page IN resultset.documents -%]
 	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop -%]
 	[% END %]
-	[% IF resultset.documents.size > 10 %]
-	| <a class="matching-pages-more-link">[% c.loc("Show all [_1] matches", resultset.hits) %]</a>
-	<span class="matching-pages-more hidden">
-		[% FOR page IN resultset.documents.slice(10) -%]
-		[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop -%]
-		[% END %]
-		[% IF resultset.documents.size < resultset.hits %]
-		| [% c.loc("and [_1] more", resultset.hits - resultset.documents.size) %]
-		[% END %]
-	</span>
+	[% IF resultset.documents.size < resultset.hits %]
+	| [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]
 	[% END %]
 [% ELSE -%]
-    [% c.loc("No matching pages found.") %]
+    [% c.loc("L_MATCHING_NONE") %]
 [% END -%]

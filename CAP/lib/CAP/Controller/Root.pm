@@ -43,10 +43,6 @@ sub auto : Private {
       'templates', $c->stash->{current_view}, 'Common' )
   ];
 
-  # Configure the interface language. Stash the language in a separate
-  # cookie with a long expiration time so that the user's language
-  # preference is stored long-term on their browser.
-  $c->languages( [$c->stash->{lang}] );
   $c->res->cookies->{ $c->config->{cookies}->{lang} } = {
     domain   => $c->stash->{cookie_domain},
     value    => $c->stash->{lang},
