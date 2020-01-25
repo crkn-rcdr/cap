@@ -1,6 +1,8 @@
-<div class="span3">
-    <label>[% c.loc("Date Range") %]</label>
-    <input type="text" name="df" maxlength="4" class="input-mini" placeholder="[% c.loc("YYYY") %]" />
-    [% c.loc("to") %]
-    <input type="text" name="dt" maxlength="4" class="input-mini" placeholder="[% c.loc("YYYY") %]" />
+<div class="form-group col-sm-4">
+  <label for="dateRangeFrom">[% c.loc("L_DATE_RANGE") %] [% c.loc("L_DATE_RANGE_FROM") %]</label>
+  <input type="text" id="dateRangeFrom" name="df" maxlength="4" class="form-control" placeholder="[% c.loc("L_DATE_RANGE_PLACEHOLDER") %]" />
+</div>
+<div class="form-group col-sm-4">
+  <label for="dateRangeTo"><span class="sr-only">[% c.loc("L_DATE_RANGE") %]</span> [% c.loc("L_DATE_RANGE_TO") %]</label>
+  <input type="text" id="dateRangeTo" name="dt" maxlength="4" class="form-control" placeholder="[% c.loc("L_DATE_RANGE_PLACEHOLDER") %]" />
 </div>

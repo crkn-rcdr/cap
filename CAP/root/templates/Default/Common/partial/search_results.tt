@@ -1,57 +1,47 @@
-﻿<section class="well">
-    <h2>
-        [% UNLESS keywords %]
-            [% c.loc("[_1] total results.", format_number(hits, c.stash.lang)) %]
-        [% ELSE %]
-            [% IF !hits -%]
-                [% c.loc("No results") %]
-            [% ELSIF hits == 1 -%]
-                [% c.loc("1 result") %]
-            [% ELSE -%]
-                [% c.loc("[_1] results", format_number(hits, c.stash.lang)) %]
-            [% END -%]
-            [% c.loc("for") %] <i>[% keywords %]</i>.
-        [% END %]
-    </h2>
-    [% IF pkey && resultset.documents.size -%]
-        <h3>
-            <a href="[% c.uri_for_action("/search/index", c.req.mangle_params({ pkey => "" })) %]">[&times;]</a>
-            [% c.loc("Searching within") %] <a href="[% c.uri_for_action("view/index", pkey) %]"><i>[% resultset.documents.0.plabel %]</i></a>.
-        </h3>
-    [% END -%]
-    [% IF hits_from > 1 || hits_to < hits -%]
-        <h3>[% c.loc("Showing results [_1] - [_2].", hits_from, hits_to) %]</h3>
-    [% END -%]
-</section>
+<h2>
+[% UNLESS query -%]
+  [% c.loc("L_SEARCH_RESULTS_NO_QUERY", format_number(resultset.hits, lang)) %]
+[% ELSE -%]
+[%   IF !resultset.hits -%]
+  [%   c.loc("L_SEARCH_RESULTS_ZERO") %]
+[%   ELSIF resultset.hits == 1 -%]
+  [%   c.loc("L_SEARCH_RESULTS_ONE") %]
+[%   ELSE -%]
+  [%   c.loc("L_SEARCH_RESULTS_MULTI", format_number(resultset.hits, lang)) %]
+[%   END -%]
+  [% c.loc("GENERIC_FOR") %] <i>[% query %]</i>.
+[% END %]
+</h2>
+[% IF resultset.first > 1 || resultset.last < resultset.hits -%]
+<p>[% c.loc("L_SEARCH_RESULTS_PAGE", resultset.first, resultset.last) %]</p>
+[% END -%]
 
-[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" init_arg=search_handler %]
+[% INCLUDE partial/paginator.tt current_page=resultset.page total_pages=resultset.pages page_action="search/index" init_arg=search_handler first=1 %]
 
 [% FOREACH result IN resultset.documents %]
-
 <section class="search-item">
-    <h2>
-        [% IF result.type != "page" -%]
-            <a class="btn btn-primary pull-right plus-minus" data-toggle="collapse" data-target="#dr_[% loop.count %]" title="[% c.loc("More about this item") %]">+</a>
-        [% END -%]
-        <a href="[% c.uri_for_action("view/index", result.key) %]">
-        [% IF c.portal_id == "parl" %]
-        [% result.parlLabel || result.label %]
-        [% ELSE %]
-        [% IF result.defined("plabel"); result.plabel _ " : "; END %] [% result.label %]
-        [% END %]
-        </a>
-    </h2>
-
-    [% INCLUDE partial/published_and_pages.tt result=result %]
-    [% IF result.type == "document" && result.component_count_fulltext && result.component_count_fulltext > 0 && query.has_text_terms -%]
-        [% limit = result.component_count %]
-        [% INCLUDE partial/matching_pages.tt query=query.cap_query pkey=result.key limit=limit %]
+  <h3>
+    [% IF result.type != "page" -%]
+      <button class="btn btn-primary float-right ml-3 plus-minus" data-toggle="collapse" data-target="#dr_[% loop.count %]" title="[% c.loc("L_SEARCH_RESULTS_MORE") %]">+</button>
     [% END -%]
-    <div class="collapse" id="dr_[% loop.count %]">
-        [% INCLUDE partial/document_record.tt record=result %]
-    </div>
+    <a href="[% c.uri_for_action("view/index", result.key) %]">
+    [% IF c.portal_id == "parl" %]
+    [% result.parlLabel || result.label %]
+    [% ELSE %]
+    [% IF result.defined("plabel"); result.plabel _ " : "; END %] [% result.label %]
+    [% END %]
+    </a>
+  </h3>
+
+  [% INCLUDE partial/published_and_pages.tt result=result %]
+  [% IF match_pages && result.type == "document" && result.component_count_fulltext && result.component_count_fulltext > 0 -%]
+    [% INCLUDE partial/matching_pages.tt query=query pkey=result.key %]
+  [% END -%]
+  <div class="collapse" id="dr_[% loop.count %]">
+    [% INCLUDE partial/document_record.tt record=result %]
+  </div>
 </section>
 [% UNLESS loop.last %]<hr />[% END %]
 [% END %]
 
-[% INCLUDE partial/paginator.tt current_page=current_page total_pages=total_pages page_action="search/index" init_arg=search_handler %]
+[% INCLUDE partial/paginator.tt current_page=resultset.page total_pages=resultset.pages page_action="search/index" init_arg=search_handler %]

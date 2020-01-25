@@ -1,11 +1,6 @@
-﻿<aside class="search-controls">
-    <form method="POST" action="[% c.uri_for_action("/search/post") %]">
-        [% IF pkey %]<input type="hidden" name="pkey" value="[% pkey %]" />[% END -%]
-        <p>[% c.loc("Refine your search:") %]</p>
-        <input class="span3" type="text" name="q" value="[% keywords | html %]" />
-        <p>
-            <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
-            <a class="btn btn-large refine-search" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
-        </p>
-    </form>
+<aside role="search">
+  <form method="POST" action="[% c.uri_for_action("/search/post") %]">
+    [% INCLUDE partial/search_controls/basic.tt %]
+    [% INCLUDE partial/search_controls/facet_pane.tt name="lang" title=c.loc("R_LANGUAGE") p=search_params.lang facets=resultset.facets.lang labels=language_labels %]
+  </form>
 </aside>

@@ -7,6 +7,7 @@ use Date::Format qw(time2str);
 
 __PACKAGE__->config(
   TEMPLATE_EXTENSION => '.tt',
+  ENCODING           => 'UTF-8',
   STRICT             => 0,
   RELATIVE           => 1,
   WRAPPER            => 'main.tt',

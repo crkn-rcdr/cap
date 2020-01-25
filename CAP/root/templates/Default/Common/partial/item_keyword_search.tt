@@ -1,34 +1,26 @@
 [% IF c.portal_id == 'parl' %]
-[% search_label = c.loc("Search within this volume:") %]
+[% search_label = c.loc("L_SEARCH_WITHIN_VOLUME") %]
 [% ELSIF c.portal_id == 'heritage' %]
-[% search_label = c.loc("Search within this reel:") %]
+[% search_label = c.loc("L_SEARCH_WITHIN_REEL") %]
 [% ELSE %]
-[% search_label = c.loc("Search within this document:") %]
+[% search_label = c.loc("L_SEARCH_WITHIN") %]
 [% END %]
-<div class="row">
-    <div class="span12">
-        <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
-        [% IF c.session.${c.portal_id}.defined("search") %]
-            <a class="form-align" href="[% c.uri_for_action("search/index", c.session.${c.portal_id}.search.handler, c.session.${c.portal_id}.search.start, c.session.${c.portal_id}.search.params) %]">&laquo; [% c.loc("Back to search results") %]</a>
-            [% IF item.has_parent && c.portal_id != "parl" || item.record.component_count_fulltext %]
-            <span class="divider"></span>
-            [% END %]
-        [% END %]
-        [% IF item.has_parent && c.portal_id != "parl" %]
-            <a class="form-align" href="[% c.uri_for_action("view/index", item.record.pkey) %]">&laquo; [% item.record.plabel %]</a>
-            [% IF item.record.component_count_fulltext %]
-            <span class="divider"></span>
-            [% END %]
-        [% END %]
-        [% IF item.record.component_count_fulltext %]
-            <input type="hidden" name="pkey" value="[% key %]" />
-            <input type="hidden" name="handler" value="page" />
-            <input type="hidden" name="so" value="seq" />
-            <label>[% search_label %]</label>
-            <input type="text" name="q" placeholder="" value="[% c.session.${c.portal_id}.search.query %]" />
-            <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("Search") %]</button>
-            [% INCLUDE partial/matching_pages.tt query=c.session.${c.portal_id}.search.query pkey=item.record.key limit=item.record.order.size %]
-        [% END %]
-        </form>
-    </div>
+<div class="form-inline" id="keywordSearch">
+[% IF c.session.${c.portal_id}.defined("search") %]
+  <a class="btn btn-outline-primary mr-3" href="[% c.uri_for_action("search/index", c.session.${c.portal_id}.search.handler, c.session.${c.portal_id}.search.start, c.session.${c.portal_id}.search.params) %]">
+    &laquo; [% c.loc("L_SEARCH_RESULTS_BACK") %]
+  </a>
+[% END %]
+[% IF item.has_parent && c.portal_id != "parl" %]
+  <a class="btn btn-outline-primary mr-3" href="[% c.uri_for_action("view/index", item.record.pkey) %]">&laquo; [% item.record.plabel %]</a>
+[% END %]
+[% IF item.record.component_count_fulltext %]
+  <input type="hidden" name="pkey" value="[% key %]" />
+  <input type="hidden" name="handler" value="page" />
+  <input type="hidden" name="so" value="seq" />
+  <label for="query" class="mr-1">[% search_label %]</label>
+  <input type="text" id="query" class="form-control mr-2" name="q" value="[% c.session.${c.portal_id}.search.query %]" />
+  <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
+  [% INCLUDE partial/matching_pages.tt query=c.session.${c.portal_id}.search.query pkey=item.record.key %]
+[% END %]
 </div>

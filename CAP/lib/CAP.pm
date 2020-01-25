@@ -12,7 +12,6 @@ use Catalyst qw/
   ConfigLoader::Environment
   Static::Simple
   StackTrace
-  I18N
 
   Session
   Session::Store::Redis
@@ -76,6 +75,13 @@ sub portal_title {
   } else {
     return '';
   }
+}
+
+sub loc {
+  my ( $c, $tag, @args ) = @_;
+  die 'Trying to localize a string without $c->stash->{lang} set'
+    unless $c->stash->{lang};
+  return $c->model("I18N")->localize( $c->stash->{lang}, $tag, @args );
 }
 
 1;

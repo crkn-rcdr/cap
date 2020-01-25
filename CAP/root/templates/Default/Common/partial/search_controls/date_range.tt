@@ -1,0 +1,24 @@
+[%- BLOCK refine_date_link %]<a href="[% c.uri_for_action('search/index', c.req.mangle_params({ df => '', dt => '' })) %]">[&times;]</a>[% END %]
+[% IF (resultset.defined("pubmin") && resultset.defined("pubmax") && resultset.pubmin != resultset.pubmax) || search_params.df || search_params.dt;
+    WRAPPER layout/collapse_pane.tt name="daterange" title=c.loc("L_DATE_RANGE") open=1 %]
+  [% IF search_params.df %]<input type="hidden" name="df" value="[% search_params.df %]" />[% END %]
+  [% IF search_params.dt %]<input type="hidden" name="dt" value="[% search_params.dt %]" />[% END %]
+  [% IF search_params.df && search_params.dt %]
+    [% INCLUDE refine_date_link %] [% c.loc("L_DATE_RANGE_RESULTS_BOTH", search_params.df, search_params.dt) %]
+  [% ELSIF search_params.df %]
+    [% INCLUDE refine_date_link %] [% c.loc("L_DATE_RANGE_RESULTS_FROM", search_params.df) %]
+  [% ELSIF search_params.dt %]
+    [% INCLUDE refine_date_link %] [% c.loc("L_DATE_RANGE_RESULTS_TO", search_params.dt) %]
+  [% ELSE %]
+    <div class="form-row">
+      <div class="col">
+        <label for="dateRangeFrom">[% c.loc("L_DATE_RANGE_FROM") %]</label>
+        <input type="text" id="dateRangeFrom" class="form-control" name="df" maxlength="4" placeholder="[% resultset.pubmin %]" value="" class="input-mini" />
+      </div>
+      <div class="col">
+        <label for="dateRangeTo">[% c.loc("L_DATE_RANGE_TO") %]</label>
+        <input type="text" id="dateRangeTo" class="form-control" name="dt" maxlength="4" placeholder="[% resultset.pubmax %]" value="" class="input-mini" />
+      </div>
+    </div>
+  [% END %]
+[% END; END %]

@@ -1,18 +1,20 @@
-﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
-<header class="navbar navbar-static-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="brand" href="[% c.uri_for_action("/index") %]">[% c.portal_title %]</a>
-            [% IF c.auth.can_use('searching') %]
-            <form class="navbar-form pull-left" method="POST" action="[% c.uri_for_action("search/post") %]">
-                <input type="text" class="span3" placeholder="[% c.loc("New Search") %]" name="q" />
-            </form>
-            [% END -%]
-            <ul class="nav pull-right">
-                [% INCLUDE partial/extra_header_links.tt %]
-                <li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
-            </ul>
-        </div>
+[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+<header class="bg-primary text-white mb-auto">
+  <div class="container-lg">
+    <div class="row py-3">
+      <h1 class="col-lg-8"><a href="[% c.uri_for_action("/index") %]">[% c.portal_title %]</a></h1>
+      <p class="col-lg text-right small">
+        <span class="d-inline-block">
+          <a href="[% c.loc("URL_TERMS") %]">[% c.loc("L_TERMS") %]</a>
+        </span>
+        <span class="d-inline-block ml-3">
+[% IF lang == 'fr' -%]
+          <a href="[% c.req.uri_with({ usrlang => 'en' }) %]">English</a> | <b>Français</b>
+[% ELSE -%]
+          <b>English</b> | <a href="[% c.req.uri_with({ usrlang => 'fr' }) %]">Français</a>
+[% END -%]
+        </span>
+      </p>
     </div>
-</header> 
-[% INCLUDE layout/banner.tt %]
+  </div>
+</header>

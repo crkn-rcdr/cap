@@ -1,9 +1,0 @@
-[% title = node.title -%]
-
-<div class="row">
-    <article class="span12 node">
-    	<h1>[% node.title %]</h1>
-    	[% node.body %]
-    </article>
-</div>
-

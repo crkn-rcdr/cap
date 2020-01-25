@@ -1,6 +1,8 @@
-<section class="collapse-pane">
-    <div class="collapse-pane-header" data-toggle="collapse" data-target="#cp_[% name %]">[% title %] <b class="caret"></b></div>
-    <div class="collapse-pane-content collapse[% IF open %] in[% END %]" id="cp_[% name %]">
-[% content %]
-    </div>
-</section>
+<div class="collapse-pane">
+  <div class="collapse-pane-header" data-toggle="collapse" data-target="#cp_[% name %]" aria-expanded="[% open ? 'true' : 'false' %]">
+    <span>[% title %]</span>
+  </div>
+  <div class="collapse-pane-content collapse[% IF open %] show[% END %]" id="cp_[% name %]">
+[% content | indent(4) %]
+  </div>
+</div>
