@@ -4,6 +4,7 @@ const gulp = require("gulp");
 const autoprefixer = require("gulp-autoprefixer");
 const sass = require("gulp-sass");
 sass.compiler = require("node-sass");
+const purgecss = require("gulp-purgecss");
 const sourcemaps = require("gulp-sourcemaps");
 const concat = require("gulp-concat");
 const terser = require("gulp-terser");
@@ -18,6 +19,12 @@ const css = () => {
         outputStyle: "compressed",
         includePaths: ["./node_modules/"]
       }).on("error", sass.logError)
+    )
+    .pipe(
+      purgecss({
+        content: ["../templates/**/*.tt", "../templates/**/*.html"],
+        whitelist: ["imageCache"]
+      })
     )
     .pipe(autoprefixer())
     .pipe(sourcemaps.write())
