@@ -4,9 +4,6 @@
   $.extend({
     preloadImages: function(uris) {
       var $cache = $("#imageCache");
-      if (!$cache.length) {
-        $("body").append('<div id="imageCache"></div>');
-      }
 
       $.map(uris, function(uri) {
         $cache.append('<img src="' + uri + '" />');
@@ -54,9 +51,6 @@
         token: $e.attr("data-token"),
         pkey: $e.attr("data-pkey"),
         total: parseInt($e.attr("data-total"), 10),
-        minSize: parseInt($e.attr("data-min-size"), 10),
-        maxSize: parseInt($e.attr("data-max-size"), 10),
-        canResize: !!parseInt($e.attr("data-resize"), 10),
         portalName: $e.attr("data-portal-name"),
         documentLabel: $e.attr("data-document-label"),
         hasTags: !!$e.attr("data-tags"),
@@ -69,7 +63,9 @@
           4: "1600",
           5: "2048",
           6: "2560"
-        }
+        },
+        minSize: 1,
+        maxSize: 6
       };
     },
 
@@ -97,7 +93,6 @@
         toolbar: pve($("#pvToolbar")),
         loading: pve($("#pvLoading")),
         error: pve($("#pvError")),
-        subscribe: pve($("#pvSubscribe")),
         component: {
           frame: pve($("#pvComponent")),
           loading: pve($("#pvComponentLoading")),
@@ -162,21 +157,13 @@
           selector: $(spec.selection),
           enable: function() {
             this.selector.removeClass("disabled selected hidden");
-            if (
-              !(
-                this.selector.data("events") &&
-                this.selector.data("events")[spec.eventName]
-              )
-            ) {
-              this.selector.on(
-                spec.eventName + ".pv",
-                $.proxy(spec.handler, pv)
-              );
-            }
+            this.selector
+              .off(spec.eventName)
+              .on(spec.eventName, $.proxy(spec.handler, pv));
           },
           disable: function(className) {
             this.selector.addClass(className);
-            this.selector.off(spec.eventName + ".pv");
+            this.selector.off(spec.eventName);
           }
         };
       };
@@ -277,7 +264,6 @@
       $("#pvPageSelect option").each(function(index, element) {
         pv.components[this.value] = {
           key: this.getAttribute("data-key"),
-          hasAccess: !!parseInt(this.getAttribute("data-access"), 10),
           uri: this.getAttribute("data-uri"),
           label: this.innerHTML
         };
@@ -340,7 +326,6 @@
       if (st.r > 3 || st.r < 0) st.r = 0;
       if (st.s < this.settings.minSize) st.s = this.settings.minSize;
       if (st.s > this.settings.maxSize) st.s = this.settings.maxSize;
-      if (!this.settings.canResize) st.s = this.settings.minSize;
       return st;
     },
 
@@ -354,6 +339,9 @@
         null,
         this.makePathFromState(this.state)
       );
+
+      // see note in updateState
+      this.stateChanged();
 
       // seems like a good enough place to load component data (that I'm not bothering with server-side)
       if (this.settings.hasTags) {
@@ -377,6 +365,10 @@
           null,
           this.makePathFromState(st)
         );
+
+        // unlike the old History.js method, popstate only fires when the user
+        // triggers the history change directly (back button, etc.)
+        this.stateChanged();
       }
     },
 
@@ -404,10 +396,10 @@
       this.controls.pageSelect.selector.val(this.state.seq);
       this.controls.rotateLeft.enable();
       this.controls.rotateRight.enable();
-      this.state.s <= this.settings.minSize || !this.settings.canResize
+      this.state.s <= this.settings.minSize
         ? this.controls.smaller.disable("disabled")
         : this.controls.smaller.enable();
-      this.state.s >= this.settings.maxSize || !this.settings.canResize
+      this.state.s >= this.settings.maxSize
         ? this.controls.bigger.disable("disabled")
         : this.controls.bigger.enable();
 
@@ -461,13 +453,7 @@
         newSeq
       ) {
         var ref = pv.imageCacheRef(newSeq, pv.state.r, pv.state.s);
-        if (
-          newSeq >= 1 &&
-          newSeq <= pv.settings.total &&
-          pv.components[newSeq].hasAccess &&
-          (pv.state.s === pv.settings.minSize || pv.settings.canResize) &&
-          !pv.imageCache[ref]
-        ) {
+        if (newSeq >= 1 && newSeq <= pv.settings.total && !pv.imageCache[ref]) {
           pv.getUri(newSeq, pv.components[newSeq].uri);
         }
       });
@@ -479,7 +465,6 @@
       ];
       if (uri && uri !== "error") {
         this.image.attr("src", uri);
-        this.display.subscribe.hide();
         this.display.error.hide();
         this.display.container.show();
       } else if (!uri) {
@@ -488,18 +473,9 @@
     },
 
     stateChanged: function() {
-      this.state = this.sanitizeState(history.state.data);
+      this.state = this.sanitizeState(history.state);
       this.preload(this.state.seq);
-      if (
-        this.components[this.state.seq].hasAccess &&
-        (this.state.s == this.settings.minSize || this.settings.canResize)
-      ) {
-        this.requestImage();
-      } else {
-        this.display.container.hide();
-        this.display.loading.hide();
-        this.display.subscribe.show();
-      }
+      this.requestImage();
 
       if (this.settings.hasTags) {
         this.fetchComponentData(this.state.seq);
@@ -548,13 +524,11 @@
     imageLoaded: function() {
       this.display.loading.hide();
       this.display.error.hide();
-      this.display.subscribe.hide();
     },
 
     imageError: function() {
       this.display.loading.hide();
       this.display.container.hide();
-      this.display.subscribe.hide();
       this.display.error.show();
     },
 

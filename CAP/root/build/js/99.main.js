@@ -1,5 +1,4 @@
 $(function() {
-  // page viewer
   $("#pvToolbar").pageViewer();
   $(".matching-pages").matchingPages();
 

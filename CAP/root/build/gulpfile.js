@@ -22,8 +22,7 @@ const css = () => {
     )
     .pipe(
       purgecss({
-        content: ["../templates/**/*.tt", "../templates/**/*.html"],
-        whitelist: ["imageCache"]
+        content: ["../templates/**/*.tt", "../templates/**/*.html"]
       })
     )
     .pipe(autoprefixer())
@@ -32,36 +31,24 @@ const css = () => {
 };
 
 const js = () => {
-  return (
-    gulp
-      .src([
-        "./node_modules/jquery/dist/jquery.js",
-        "./node_modules/popper.js/dist/umd/popper.js",
-        "./node_modules/bootstrap/dist/js/bootstrap.js",
-        "./js/*.js"
-      ])
-      .pipe(concat("cap.js"))
-      // .pipe(sourcemaps.init())
-      .pipe(terser())
-      // .pipe(sourcemaps.write())
-      .pipe(gulp.dest("../static/js"))
-  );
-};
-
-const reload = done => {
-  const call = spawn("docker-compose", ["exec", "cap", "kill", "-HUP", "1"], {
-    cwd: "../.."
-  });
-
-  call.on("close", () => {
-    done();
-  });
+  return gulp
+    .src([
+      "./node_modules/jquery/dist/jquery.js",
+      "./node_modules/popper.js/dist/umd/popper.js",
+      "./node_modules/bootstrap/dist/js/bootstrap.js",
+      "./js/*.js"
+    ])
+    .pipe(concat("cap.js"))
+    .pipe(terser())
+    .pipe(gulp.dest("../static/js"));
 };
 
 const watch = () => {
-  gulp.watch("./scss/**/*.scss", css);
+  gulp.watch(
+    ["./scss/**/*.scss", "../templates/**/*.tt", "../templates/**/*.html"],
+    css
+  );
   gulp.watch("./js/**/*.js", js);
-  // gulp.watch(["../../lib/**/*", "../../conf/**/*", "../../cap.conf"], reload);
 };
 
 exports.default = gulp.series([css, js]);

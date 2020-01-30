@@ -1,9 +1,9 @@
 [% record = c.stash.component.record %]
-<ul class="tags unstyled">
+<ul class="tags list-unstyled mb-3">
 [% FOREACH tag_type IN tag_types -%]
 [% IF record.defined(tag_type) -%]
 [% FOREACH tag IN record.$tag_type -%]
-	<li class="[% tag_type %]"><span class="label">[% tag %]</span></li>
+	<li class="[% tag_type %] pr-1"><span class="badge badge-secondary">[% tag %]</span></li>
 [% END -%]
 [% END -%]
 [% END -%]
@@ -11,8 +11,10 @@
 
 [% FOREACH description_type IN description_types -%]
 [% IF record.defined(description_type) -%]
+<ul>
 [% FOREACH description IN record.$description_type %]
-<p class="description [% description_type %]">[% description %]</p>
+	<li class="description [% description_type %]">[% description %]</li>
 [% END -%]
+</ul>
 [% END -%]
 [% END -%]
