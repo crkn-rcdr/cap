@@ -1,31 +1,31 @@
-<nav id="pvToolbar" class="btn-toolbar form-inline mb-3" data-token="[% token %]" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-min-size="1" data-max-size="6" data-pkey="[% record.key %]" data-resize="1"  data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %]>
+<nav id="pvToolbar" class="btn-toolbar form-inline mb-3" data-token="[% token %]" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %]>
   <select id="pvPageSelect" class="custom-select mr-3" name="seq">
     [% FOREACH component_key IN record.order %]
       [% curr_seq = loop.count -%]
       [% child = item.component(curr_seq) -%]
-      <option id="seq[% curr_seq %]" data-uri="[% child.uri %]" data-key="[% component_key %]" data-access="1" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
+      <option id="seq[% curr_seq %]" data-uri="[% child.uri %]" data-key="[% component_key %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
     [% END %]
   </select>
   <div class="btn-group mr-3">
-    [% INCLUDE change_page new_seq=(1) label=c.loc("First Page") disabled=(seq <= 1) id="pvFirst" icon_class="pv-page-first" %]
-    [% INCLUDE change_page new_seq=(seq - 1) label=c.loc("Previous Page") disabled=(seq <= 1) id="pvPrevious" icon_class="pv-page-previous" %]
-    [% INCLUDE change_page new_seq=(seq + 1) label=c.loc("Next Page") disabled=(seq >= item.child_count) id="pvNext" icon_class="pv-page-next" %]
-    [% INCLUDE change_page new_seq=(item.child_count) label=c.loc("Last Page") disabled=(seq >= item.child_count) id="pvLast" icon_class="pv-page-last" %]
+    [% INCLUDE change_page new_seq=(1) label=c.loc("L_VIEWER_FIRST") disabled=(seq <= 1) id="pvFirst" icon_class="pv-page-first" %]
+    [% INCLUDE change_page new_seq=(seq - 1) label=c.loc("L_VIEWER_PREVIOUS") disabled=(seq <= 1) id="pvPrevious" icon_class="pv-page-previous" %]
+    [% INCLUDE change_page new_seq=(seq + 1) label=c.loc("L_VIEWER_NEXT") disabled=(seq >= item.child_count) id="pvNext" icon_class="pv-page-next" %]
+    [% INCLUDE change_page new_seq=(item.child_count) label=c.loc("L_VIEWER_LAST") disabled=(seq >= item.child_count) id="pvLast" icon_class="pv-page-last" %]
   </div>
   <div class="btn-group mr-3">
-    [% INCLUDE rotate new_rotation=((rotate - 1) % 4) label=c.loc("Rotate Left") id="pvRotateLeft" icon_class="pv-rotate-left" %]
-    [% INCLUDE rotate new_rotation=((rotate + 1) % 4) label=c.loc("Rotate Right") id="pvRotateRight" icon_class="pv-rotate-right" %]
+    [% INCLUDE rotate new_rotation=((rotate - 1) % 4) label=c.loc("L_VIEWER_ROTATE_LEFT") id="pvRotateLeft" icon_class="pv-rotate-left" %]
+    [% INCLUDE rotate new_rotation=((rotate + 1) % 4) label=c.loc("L_VIEWER_ROTATE_RIGHT") id="pvRotateRight" icon_class="pv-rotate-right" %]
   </div>
   <div class="btn-group mr-3">
-    [% INCLUDE resize new_size=(size - 1) label=c.loc("Smaller") id="pvSmaller" icon_class="pv-smaller" %]
-    [% INCLUDE resize new_size=(size + 1) label=c.loc("Bigger") id="pvBigger" icon_class="pv-bigger" %]
+    [% INCLUDE resize new_size=(size - 1) label=c.loc("L_VIEWER_SMALLER") id="pvSmaller" icon_class="pv-smaller" %]
+    [% INCLUDE resize new_size=(size + 1) label=c.loc("L_VIEWER_BIGGER") id="pvBigger" icon_class="pv-bigger" %]
   </div>
   <div class="btn-group mr-3">
-    [% INCLUDE download label=c.loc("Download PDF") id="pvDownload" icon_class="pv-download-full" %]
+    [% INCLUDE download label=c.loc("L_VIEWER_DOWNLOAD_FULL") id="pvDownload" icon_class="pv-download-full" %]
   </div>
   [% IF record.defined('hasTags') && record.hasTags %]
-  <div class="btn-group mr-0">
-    [% INCLUDE tag_toggle label=c.loc("Toggle Tags") id="pvTagToggle" icon_class="pv-download-single" active=item.component(seq).hasTags %]
+  <div class="btn-group ml-auto">
+    [% INCLUDE tag_toggle label=c.loc("L_VIEWER_TOGGLE_TAGS") id="pvTagToggle" icon_class="pv-tags" active=item.component(seq).hasTags %]
   </div>
   [% END %]
 </nav>

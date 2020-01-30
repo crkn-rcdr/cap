@@ -4,19 +4,15 @@
     <div id="pvImageInner"><img id="pvImg" src="[% first_uri %]"></div>
     <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
     <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
-    <aside id="pvComponent"[% UNLESS item.component(seq).hasTags %] class="hidden"[% END %]>
-      <ul id="pvComponentNav">
-        <li id="pvComponentPrevious">
-          <a id="pvComponentPreviousLink" href="#">&laquo; [% c.loc('Previous tagged page') %] (<span id="pvComponentPreviousSeq"></span>)</a>
-        </li>
-        <li id="pvComponentNext">
-          <a id="pvComponentNextLink" href="#">[% c.loc('Next tagged page') %] (<span id="pvComponentNextSeq"></span>) &raquo;</a>
-        </li>
-      </ul>
-      <div id="pvComponentLoading"><img src="/static/images/loader.gif" alt="[% c.loc('Loading') %]" /></div>
+    <aside id="pvComponent" class="p-3[% UNLESS item.component(seq).hasTags %] hidden[% END %]">
+      <div class="btn-group">
+        <button id="pvComponentPreviousLink" class="btn btn-outline-primary">&laquo; [% c.loc("L_VIEW_TAGS_PREVIOUS") %] (<span id="pvComponentPreviousSeq"></span>)</button>
+        <button id="pvComponentNextLink" class="btn btn-outline-primary">[% c.loc("L_VIEW_TAGS_NEXT") %] (<span id="pvComponentNextSeq"></span>) &raquo;</button>
+      </div>
+      <div id="pvComponentLoading"><img src="/static/images/loader.gif" alt="[% c.loc("L_VIEW_LOADING") %]" /></div>
       <div id="pvComponentContainer" class="hidden"></div>
     </aside>
   </section>
-  <p id="pvLoading" class="loading hidden p-3">[% c.loc("Loading...") %]</p>
-  <p id="pvError" class="hidden">[% c.loc("There was an error retrieving this page.") %]</p>
+  <p id="pvLoading" class="loading hidden p-3">[% c.loc("L_VIEW_LOADING") %]...</p>
+  <p id="pvError" class="hidden p-3">[% c.loc("L_VIEW_ERROR") %]</p>
 </section>

@@ -33,9 +33,9 @@
 
   <ul class="nav nav-tabs mb-3">
     [% IF item.has_children %]
-    <li class="nav-item"><a href="#pageViewer" class="nav-link active" data-toggle="tab">[% c.loc("View") %]</a></li>
+    <li class="nav-item"><a href="#pageViewer" class="nav-link active" data-toggle="tab">[% c.loc("L_VIEW_TAB_VIEW") %]</a></li>
     [% END %]
-    <li class="nav-item"><a href="#documentRecord" class="nav-link[% UNLESS item.has_children %] active[% END %]" data-toggle="tab">[% c.loc("About") %]</a></li>
+    <li class="nav-item"><a href="#documentRecord" class="nav-link[% UNLESS item.has_children %] active[% END %]" data-toggle="tab">[% c.loc("L_VIEW_TAB_ABOUT") %]</a></li>
   </ul>
   <div class="tab-content">
     [% IF item.has_children %]
