@@ -1,18 +1,14 @@
 [% IF c.portal_id == 'parl' %]
-[% search_label = c.loc("Search within this session:") %]
+[% search_label = c.loc("L_SEARCH_WITHIN_SESSION") %]
 [% ELSIF c.portal_id == 'heritage' %]
-[% search_label = c.loc("Search within this collection:") %]
+[% search_label = c.loc("L_SEARCH_WITHIN_COLLECTION") %]
 [% ELSE %]
-[% search_label = c.loc("Search within this series:") %]
+[% search_label = c.loc("L_SEARCH_WITHIN_SERIES") %]
 [% END %]
-<div class="row">
-    <div class="span12">
-        <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
-            <input type="hidden" name="pkey" value="[% key %]" />
-            <input type="hidden" name="so" value="seq" />
-            <label>[% search_label %]</label>
-            <input type="text" name="q" placeholder="" />
-            <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("Search") %]</button>
-        </form>
-    </div>
-</div>
+<form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
+  <input type="hidden" name="pkey" value="[% key %]" />
+  <input type="hidden" name="so" value="seq" />
+  <label for="query" class="mr-1">[% search_label %]</label>
+  <input type="text" id="query" class="form-control mr-2" name="q" />
+  <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
+</form>

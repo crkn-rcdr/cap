@@ -5,33 +5,34 @@
    IF series.record.defined("pu"); c.stash.description = c.stash.description _ " : " _ series.record.pu.join("; "); END;
    IF series.record.defined("au"); c.stash.description = c.stash.description _ " : " _ series.record.au.join("; "); END %] 
 
-[% INCLUDE partial/series_keyword_search.tt label=series.canonical_label key=series.record.key %]
+<div class="container-md">
+  [% INCLUDE partial/series_keyword_search.tt label=series.canonical_label key=series.record.key %]
+  <h2>[% series.canonical_label %]</h2>
+  [% INCLUDE partial/published_and_pages.tt record=series.record %]
+  [% IF c.portal_id == 'heritage' %]
+    [% IF series.child_count > 0 %]<p>[% c.loc("L_VIEW_AVAILABLE_REELS", series.child_count) %]</p>[% END %]
+  [% ELSE %]
+    [% IF series.child_count > 0 %]<p>[% c.loc("L_VIEW_AVAILABLE_ISSUES", series.child_count) %]</p>[% END %]
+  [% END %]
 
-<h2>[% series.canonical_label %]</h2>
-[% INCLUDE partial/published_and_pages.tt record=series.record %]
-[% IF c.portal_id == 'heritage' %]
-    [% IF series.child_count > 0 %]<p>[% c.loc("Available reels: [_1]", series.child_count) %]</p>[% END %]
-[% ELSE %]
-    [% IF series.child_count > 0 %]<p>[% c.loc("Available issues: [_1]", series.child_count) %]</p>[% END %]
-[% END %]
-
-<ul class="nav nav-tabs">
-    [% IF c.portal_id == 'heritage' %]
-        <li class="active"><a href="#issuesList" data-toggle="tab">[% c.loc("List of Reels") %]</a></li>
-    [% ELSE %]
-        <li class="active"><a href="#issuesList" data-toggle="tab">[% c.loc("List of Issues") %]</a></li>
-    [% END %]
-    <li><a href="#documentRecord" data-toggle="tab">[% c.loc("About") %]</a></li>
+<ul class="nav nav-tabs mb-3">
+  [% IF c.portal_id == 'heritage' %]
+    <li class="nav-item"><a class="nav-link active" href="#issuesList" data-toggle="tab">[% c.loc("L_VIEW_TAB_REELS") %]</a></li>
+  [% ELSE %]
+    <li class="nav-item"><a class="nav-link active" href="#issuesList" data-toggle="tab">[% c.loc("L_VIEW_TAB_ISSUES") %]</a></li>
+  [% END %]
+  <li class="nav-item"><a class="nav-link" href="#documentRecord" data-toggle="tab">[% c.loc("L_VIEW_TAB_ABOUT") %]</a></li>
 </ul>
 <div class="tab-content">
-    <div class="tab-pane active" id="issuesList">
-        [% IF series.child_count > 0 %]
-        [% INCLUDE partial/issues_list.tt %]
-        [% ELSE %]
-        <p>[% c.loc("There is no content yet for this title. Please check again later.") %]</p>
-        [% END %]   
-    </div>
-    <div class="tab-pane" id="documentRecord">
-        [% INCLUDE partial/document_record.tt record=series.record %]
-    </div>
+  <div class="tab-pane active" id="issuesList">
+    [% IF series.child_count > 0 %]
+    [% INCLUDE partial/issues_list.tt %]
+    [% ELSE %]
+    <p>[% c.loc("L_VIEW_SERIES_NO_CONTENT") %]</p>
+    [% END %]   
+  </div>
+  <div class="tab-pane" id="documentRecord">
+    [% INCLUDE partial/document_record.tt record=series.record %]
+  </div>
+</div>
 </div>
