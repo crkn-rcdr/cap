@@ -1,9 +1,0 @@
-﻿[% IF updates.size %]
-<ul class="updateList">
-[% FOREACH update IN updates -%]
-	<li><a href="[% c.uri_for(update.path) %]">[% update.title %]</a></li>
-[% END %]
-</ul>
-[% ELSE %]
-<p>[% c.loc("There are no updates to view.") %]</p>
-[% END %]

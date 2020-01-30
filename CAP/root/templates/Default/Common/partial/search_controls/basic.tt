@@ -14,6 +14,6 @@
   <input type="hidden" name="pkey" value="[% search_params.pkey %]" />
   <p>
     <a href="[% c.uri_for_action("/search/index", c.req.mangle_params({ pkey => "" })) %]">[&times;]</a>
-    [% c.loc("Searching within") %] <a href="[% c.uri_for_action("view/index", search_params.pkey) %]"><i>[% resultset.documents.0.plabel %]</i></a>.
+    [% c.loc("L_SEARCH_WITHIN") %] <a href="[% c.uri_for_action("view/index", search_params.pkey) %]"><i>[% resultset.documents.0.plabel %]</i></a>.
   </p>
 [% END %]
