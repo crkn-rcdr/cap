@@ -3,7 +3,7 @@
 [% ELSIF c.portal_id == 'heritage' %]
 [% search_label = c.loc("L_SEARCH_WITHIN_REEL") %]
 [% ELSE %]
-[% search_label = c.loc("L_SEARCH_WITHIN") %]
+[% search_label = c.loc("L_SEARCH_WITHIN_DOCUMENT") %]
 [% END %]
 <div class="form-inline" id="keywordSearch">
 [% IF c.session.${c.portal_id}.defined("search") %]
