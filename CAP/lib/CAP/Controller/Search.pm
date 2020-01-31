@@ -88,7 +88,7 @@ sub matching_pages : Private {
 
   $c->stash(
     resultset => $search->{resultset},
-    query     => $search->{query},
+    query     => $search->{query}->cap_query,
     template  => 'search.tt',
   );
 
