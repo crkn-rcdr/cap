@@ -14,7 +14,8 @@ RUN carton install --deployment || (cat /root/.cpanm/work/*/build.log && exit 1)
 COPY *.conf cap.psgi /opt/cap/
 COPY conf /opt/cap/conf/
 COPY lib /opt/cap/lib/
-COPY root /opt/cap/root/
+COPY root/static /opt/cap/root/static
+COPY root/templates /opt/cap/root/templates
 COPY util /opt/cap/util/
 
 USER cihm
