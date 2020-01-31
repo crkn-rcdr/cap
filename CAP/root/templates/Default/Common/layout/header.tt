@@ -2,7 +2,11 @@
 <header class="bg-primary text-white">
   <div class="container-lg">
     <div class="row py-3">
-      <h1 class="col-lg-8"><a href="[% c.uri_for_action("/index") %]">[% c.portal_title %]</a></h1>
+      <h1 class="col-lg-8">
+        <a href="[% c.uri_for_action("/index") %]">
+[% INCLUDE partial/portal_title.tt | indent(10) %]
+        </a>
+      </h1>
       <p class="col-lg text-right small">
         <span class="d-inline-block">
           <a href="[% c.loc("URL_TERMS") %]">[% c.loc("L_TERMS") %]</a>
