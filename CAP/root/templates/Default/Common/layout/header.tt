@@ -1,5 +1,5 @@
 [% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
-<header class="bg-primary text-white mb-auto">
+<header class="bg-primary text-white">
   <div class="container-lg">
     <div class="row py-3">
       <h1 class="col-lg-8"><a href="[% c.uri_for_action("/index") %]">[% c.portal_title %]</a></h1>
