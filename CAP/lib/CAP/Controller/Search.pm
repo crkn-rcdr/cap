@@ -58,15 +58,6 @@ sub index : Path('') {
     template       => 'search.tt',
   );
 
-  # Record the last search parameters
-  $c->session->{ $c->portal_id }->{search} = {
-    start   => $page,
-    params  => $c->req->params,
-    hits    => $search->{resultset}->hits,
-    query   => $search->{query}->cap_query,
-    handler => $handler ne 'general' ? $handler : '',
-  };
-
   return 1;
 }
 

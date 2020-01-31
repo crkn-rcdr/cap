@@ -17,9 +17,6 @@ BEGIN { extends 'Catalyst::Controller'; }
 sub auto : Private {
   my ( $self, $c ) = @_;
 
-  # Create a session if we don't already have one.
-  $c->initialize_session;
-
   my $portal =
     $c->model('Collections')->portal_from_host( $c->req->uri->host );
   if ($portal) {

@@ -1,11 +1,3 @@
-[% IF c.session.${c.portal_id}.defined("search") %]
-<p>
-  <a class="btn btn-primary" href="[% c.uri_for_action("search/index", c.session.${c.portal_id}.search.handler, c.session.${c.portal_id}.search.start, c.session.${c.portal_id}.search.params) %]">
-    &laquo; [% c.loc("L_SEARCH_RESULTS_BACK") %]
-  </a>
-</p>
-[% END %]
-
 [% IF c.portal_id == 'parl' %]
 [% search_label = c.loc("L_SEARCH_WITHIN_VOLUME") %]
 [% ELSIF c.portal_id == 'heritage' %]
@@ -13,15 +5,24 @@
 [% ELSE %]
 [% search_label = c.loc("L_SEARCH_WITHIN_DOCUMENT") %]
 [% END %]
-<form class="form-inline mb-3" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
+<form class="row" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
 [% IF item.record.component_count_fulltext %]
   <input type="hidden" name="pkey" value="[% key %]" />
   <input type="hidden" name="handler" value="page" />
   <input type="hidden" name="so" value="seq" />
-  <label for="query" class="mr-1">[% search_label %]</label>
-  <input type="text" id="query" class="form-control mr-2" name="q" value="[% c.session.${c.portal_id}.search.query %]" />
-  <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
+  <div class="col-md-8">
+    <div class="form-inline mb-3">
+      <label for="query" class="mr-1">[% search_label %]</label>
+      <input type="text" id="query" class="form-control mr-2" name="q" value="" />
+      <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
+    </div>
+    [% INCLUDE partial/matching_pages.tt query="" pkey=item.record.key %]
+  </div>
 [% END %]
+  <div class="col-md-4 text-right">
+    <a class="btn btn-primary hidden" id="searchBackButton">
+      &laquo; [% c.loc("L_SEARCH_RESULTS_BACK") %]
+    </a>
+  </div>
 </form>
 
-[% INCLUDE partial/matching_pages.tt query=c.session.${c.portal_id}.search.query pkey=item.record.key %]

@@ -20,10 +20,3 @@ services:
     # This must be writeable to uid 1115 (cihm)
     #volumes:
     #   - /var/log/cap/:/var/log/cap/
-  cap-redis:
-    image: redis:4.0.14-alpine3.10
-    container_name: cap-redis
-    command: ["redis-server", "--appendonly", "yes"]
-    # Depending on where docker containers are stored, volumes may be faster
-    # volumes:
-    #   - /opt/cap-redis:/data

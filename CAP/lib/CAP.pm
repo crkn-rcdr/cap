@@ -12,10 +12,6 @@ use Catalyst qw/
   ConfigLoader::Environment
   Static::Simple
   StackTrace
-
-  Session
-  Session::Store::Redis
-  Session::State::Cookie
   /;
 
 # Configure the application.
@@ -48,16 +44,6 @@ if ( -e "$FindBin::Bin/../log4perl.conf" ) {
 
 # Start the application
 __PACKAGE__->setup();
-
-sub initialize_session {
-  my ($c) = @_;
-
-  # No need to do anything if the session exists already.
-  return 1 if ( $c->sessionid );
-
-  $c->session();
-  return 1;
-}
 
 sub portal_id {
   my ($c) = @_;
