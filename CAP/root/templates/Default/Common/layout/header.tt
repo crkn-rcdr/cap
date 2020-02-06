@@ -1,24 +1,72 @@
 [% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
-<header class="bg-primary text-white">
-  <div class="container-lg">
+[% hclasses = fancy_index ? "text-white" : (fancy_other ? "white" : "bg-primary text-white") -%]
+<header class="[% hclasses %]">
+  <div class="container">
     <div class="row py-3">
-      <h1 class="col-lg-8">
+      <h1 class="col-8 col-md-6">
         <a href="[% c.uri_for_action("/index") %]">
 [% INCLUDE partial/portal_title.tt | indent(10) %]
         </a>
       </h1>
-      <p class="col-lg text-right small">
-        <span class="d-inline-block">
-          <a href="[% c.loc("URL_TERMS") %]">[% c.loc("L_TERMS") %]</a>
-        </span>
-        <span class="d-inline-block ml-3">
-[% IF lang == 'fr' -%]
-          <a href="[% c.req.uri_with({ usrlang => 'en' }) %]">English</a> | <b>Français</b>
-[% ELSE -%]
-          <b>English</b> | <a href="[% c.req.uri_with({ usrlang => 'fr' }) %]">Français</a>
+      <div class="col-4 col-md-6 text-right nav-sm">
+        <button id="menuButton" class="btn btn-lg btn-icon menu"></button>
+        <nav id="menuOverlay">
+          <div class="container h-100">
+            <div class="row py-3 h-100">
+              <div class="col-8">
+[% INCLUDE partial/portal_title.tt dark=1 | indent(16) %]
+              </div>
+              <div class="col-4">
+                <button id="menuClose" class="btn btn-lg btn-primary">X</button>
+              </div>
+              <div class="col-12 d-flex flex-column">
+                <a class="d-block h3 text-center" href="/">[% c.loc("L_HOME") %]</a> 
+[% p = ['online', 'heritage']; IF p.grep(c.portal_id) %]
+                <a class="d-block h3 text-center" href="[% c.loc("URL_ABOUT") %]">[% c.loc("L_ABOUT") %]</a> 
+[% IF c.portal_id == 'online' -%]
+                <a class="d-block h3 text-center" href="//heritage.canadiana.ca/">Héritage</a>
+[% END; IF c.portal_id == 'heritage' -%]
+                <a class="d-block h3 text-center" href="//www.canadiana.ca/">Canadiana</a>
 [% END -%]
-        </span>
-      </p>
+                <a class="d-block h3 text-center" href="[% c.loc("URL_CRKN") %]">[% c.loc("L_CRKN_SHORT") %]</a> 
+                <a class="d-block h3 text-center" href="[% c.loc("URL_CONTACT") %]">[% c.loc("L_CONTACT") %]</a>
+[% END -%]
+                <a class="d-block h5 text-center mt-auto" href="[% c.loc("URL_TERMS") %]">[% c.loc("L_TERMS") %]</a>
+[% IF lang == 'fr' %]
+                <a class="d-block h5 text-center" href="[% c.req.uri_with({ usrlang => 'en' }) %]">English</a>
+[% ELSE -%]
+                <a class="d-block h5 text-center" href="[% c.req.uri_with({ usrlang => 'fr' }) %]">Français</a>
+[% END -%]
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="col-4 col-md-6 text-right nav-lg">   
+        <nav class="small">
+          <span class="d-inline-block">
+            <a href="[% c.loc("URL_TERMS") %]">[% c.loc("L_TERMS") %]</a>
+          </span>
+          <span class="d-inline-block ml-3">
+[% IF lang == 'fr' -%]
+            <a href="[% c.req.uri_with({ usrlang => 'en' }) %]">English</a> | <b>Français</b>
+[% ELSE -%]
+            <b>English</b> | <a href="[% c.req.uri_with({ usrlang => 'fr' }) %]">Français</a>
+[% END -%]
+          </span>
+        </nav>
+[% p = ['online', 'heritage']; IF p.grep(c.portal_id) %]
+        <nav class="mt-3">
+          <a class="d-inline-block ml-2" href="[% c.loc("URL_ABOUT") %]">[% c.loc("L_ABOUT") %]</a>
+[% IF c.portal_id == 'online' -%]
+          <a class="d-inline-block ml-2" href="//heritage.canadiana.ca/">Héritage</a>
+[% END; IF c.portal_id == 'heritage' -%]
+          <a class="d-inline-block ml-2" href="//www.canadiana.ca/">Canadiana</a>
+[% END -%]
+          <a class="d-inline-block ml-2" href="[% c.loc("URL_CRKN") %]">[% c.loc("L_CRKN_SHORT") %]</a>
+          <a class="d-inline-block ml-2" href="[% c.loc("URL_CONTACT") %]">[% c.loc("L_CONTACT") %]</a>
+        </nav>
+[% END %]
+      </div>
     </div>
   </div>
 </header>

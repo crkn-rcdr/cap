@@ -1,7 +1,7 @@
 ﻿<form method="POST" action="[% c.uri_for_action("search/post") %]">
-  <div class="input-group form-group">
-    <label for="search" class="sr-only">[% c.loc("L_SEARCH_PLACEHOLDER") %]</label>
+  <div class="input-group mb-3">
     <input type="text" id="search" autofocus class="form-control form-control-lg" name="q" placeholder="[% c.loc("L_SEARCH_PLACEHOLDER") %]" />
+    <label for="search" class="sr-only">[% c.loc("L_SEARCH_PLACEHOLDER") %]</label>
     <div class="input-group-append">
       <button type="submit" class="btn btn-lg btn-primary btn-icon search" value="submit">
         <span class="sr-only">[% c.loc("L_SEARCH_IMPERATIVE") %]</span>
@@ -11,5 +11,5 @@
       </a>
     </div>
   </div>
-[% INCLUDE partial/search_form/contents.tt | indent(2)%]
+[% UNLESS no_controls; INCLUDE partial/search_form/contents.tt | indent(2); END %]
 </form>

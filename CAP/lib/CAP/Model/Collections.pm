@@ -56,6 +56,7 @@ sub BUILD {
           summary       => $doc->{summary},
           search        => $conf->{$id}->{search} // 1,
           search_schema => $conf->{$id}->{search_schema} // 'default',
+          fancy         => $conf->{$id}->{fancy} // 0,
           pages         => $conf->{$id}->{pages} // {}
         }
       );

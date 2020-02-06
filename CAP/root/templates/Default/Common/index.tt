@@ -1,5 +1,5 @@
 <div class="h-100 d-flex flex-column">
-  <div class="container-lg my-auto">
+  <div class="container my-auto">
     <div class="row justify-content-center">
       <div class="col-lg-8 mt-3">
         <h2>[% c.portal_title %]</h2>

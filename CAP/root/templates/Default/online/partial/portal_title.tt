@@ -1,0 +1,1 @@
+<img id="headerTitle" src="/static/images/canadiana-tag-[% IF fancy_index && !dark %]white[% ELSE %]color[% END %].svg" alt="[% c.portal_title %]" />

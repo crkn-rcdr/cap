@@ -40,6 +40,20 @@ $font-family-sans-serif: "Roboto", sans-serif;
 @import "bootstrap/scss/utilities";
 @import "bootstrap/scss/print";
 
+body.fancy {
+  background-color: brown;
+  header {
+    min-height: 240px;
+  }
+  .above-fold {
+    min-height: 100vh;
+    margin-top: calc(-240px - #{$spacer});
+  }
+  .below-fold {
+    background-color: $white;
+  }
+}
+
 .hidden {
   display: none !important;
 }
@@ -55,6 +69,45 @@ header a {
   color: $white;
   &:hover {
     color: $white;
+  }
+}
+
+header.white a {
+  color: $primary;
+  &:hover {
+    color: $primary;
+  }
+}
+
+#menuOverlay {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(255, 255, 255, 0.95);
+  a {
+    display: block;
+    margin-top: $spacer;
+    color: $primary;
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.nav-lg {
+  display: none;
+}
+
+@include media-breakpoint-up(md) {
+  .nav-sm {
+    display: none;
+  }
+  .nav-lg {
+    display: block;
   }
 }
 
@@ -113,12 +166,18 @@ footer a {
   height: 48px;
 }
 
+.btn-icon.menu {
+  background-image: url("/static/images/interface/menu.svg");
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
 .btn-icon.search {
   background-image: url("/static/images/interface/search.svg");
 }
 
 .btn-icon.help {
   background-image: url("/static/images/interface/help.svg");
+  background-color: $white;
 }
 
 .btn-icon.pv-bigger {
