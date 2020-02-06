@@ -1,55 +1,35 @@
-﻿[% title = c.loc("Welcome") -%]
-
-[% BLOCK collrow %]
-<div class="row index">
-	<div class="linkBlock span4[% IF right %] right[% END %]">
-		<h4 class="title">
-			[% portal.subcollections.$coll_id.label.${lang}.join(' ') %]
-		</h4>
-		<div class="illustration" style="background-image: url('[% cdn_uri('online', coll_id _ '-block.jpg') %]'); height: 180px;"></div>
-	</div>
-	<div class="span8">
-		[% FOREACH summary IN portal.subcollections.$coll_id.summary.${lang} %]
-		<p>[% summary %]</p>
-		[% END %]
-		<p>
-			<a href="[% c.uri_for("/collection-$coll_id") %]">[% c.loc("Read more") %]</a>
-			|
-			<a href="[% c.uri_for_action("search/index", 'browsable', { collection => coll_id, so => 'oldest' }) %]">[% c.loc("Browse this collection") %]</a>
-		</p>
-        <form method="POST" class="form-inline" action="[% c.uri_for_action("/search/post") %]">
-            <input type="hidden" name="collection" value="[% coll_id %]" />
-            <input type="text" placeholder="[% c.loc("Search this collection") %]" name="q">
-            <button class="btn btn-primary" type="submit">[% c.loc("Search") %]</button>
-        </form>
+﻿[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' ') %]
+<div class="col">
+	<div class="card mt-2 mb-2">
+		<img class="card-img-top" src="http://placekitten.com/300/200" alt="" />
+		<div class="card-body">
+			<h3 class="card-title h5 font-weight-bold"><a href="[% c.uri_for("/collection-$coll") %]">[% colltitle %]</a></h3>
+			<p>
+				[% portal.subcollections.$coll.summary.${lang}.join(' ') %]
+				<a href="[% c.uri_for("/collection-$coll") %]">[% c.loc("L_READ_MORE") %]&nbsp;&raquo;</a>
+			</p>
+		</div>
+		<div class="card-footer">
+			<a href="[% c.uri_for_action("search/index", 'browsable', { collection => coll, so => 'oldest' }) %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
+		</div>
 	</div>
 </div>
 [% END %]
-
-<div class="row">
-	<div class="span12">
-		<h2>[% c.loc("Search Canadiana Online") %]</h2>
+<div class="above-fold d-flex flex-column">
+  <div class="container my-auto">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 mt-3">
+[% INCLUDE partial/search_form.tt no_controls=1 | indent(8) %]
+      </div>
+    </div>
 	</div>
 </div>
-<div class="row index">
-	<div class="span12 search">
-		<form method="POST" action="[% c.uri_for_action("search/post") %]">
-			<div class="searchContainer">
-		   		<input type="text" class="searchInput" name="q" placeholder="[% c.loc("Search our collections&hellip;") %]" /><button
-		   		 type="submit" class="searchSubmit" value="submit">[% c.loc("Search") %]</button><a
-		   		 class="searchHelp" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
-		    </div>
-		</form>
-	</div>
+<div class="below-fold">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+[% INCLUDE collcard coll="monog" | indent(6) %]
+[% INCLUDE collcard coll="serials" | indent(6) %]
+[% INCLUDE collcard coll="govpubs" | indent(6) %]
+    </div>
+  </div>
 </div>
-
-<div class="row">
-	<div class="span12">
-		<h3>[% c.loc("Featured Collections") %]</h3>
-	</div>
-</div>
-[% INCLUDE collrow coll_id="monog" %]
-<hr />
-[% INCLUDE collrow coll_id="serials" right=1 %]
-<hr />
-[% INCLUDE collrow coll_id="govpubs" %]

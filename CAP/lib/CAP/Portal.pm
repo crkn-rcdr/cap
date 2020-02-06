@@ -28,6 +28,12 @@ has 'subcollections' => (
   writer  => '_set_subcollections'
 );
 
+has 'fancy' => (
+  is      => 'ro',
+  isa     => 'Bool',
+  default => 0
+);
+
 has 'pages' => (
   is      => 'ro',
   isa     => 'HashRef',

@@ -10,6 +10,14 @@ $(function() {
     $("#searchBackButton").attr("href", sessionStorage.getItem("searchPath"));
   }
 
+  $("#menuButton").on("click", function(ev) {
+    $("#menuOverlay").css("display", "block");
+  });
+
+  $("#menuClose").on("click", function(ev) {
+    $("#menuOverlay").css("display", "none");
+  });
+
   $("#pvToolbar").pageViewer();
   $(".matching-pages").matchingPages();
 
