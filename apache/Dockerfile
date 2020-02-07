@@ -9,6 +9,7 @@ RUN sed -i \
     -e 's/^#\(LoadModule .*mod_xml2enc.so\)/\1/' \
     -e 's/^#\(LoadModule .*mod_rewrite.so\)/\1/' \
     -e 's/^#\(LoadModule .*mod_allowmethods.so\)/\1/' \
+    -e 's/^#\(LoadModule .*mod_remoteip.so\)/\1/' \
     conf/httpd.conf ; \
     sed -i \
     -e 's/logs\/httpd.pid/httpd.pid/' \
