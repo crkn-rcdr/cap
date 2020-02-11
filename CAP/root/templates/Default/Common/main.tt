@@ -22,9 +22,7 @@
     <link rel="apple-touch-icon" href="[% c.uri_for('/static/images/icons/180.png') %]" sizes="180x180" />
     <meta name="theme-color" content="#1d808b" />
   </head>
-  [% fancy_index = portal.fancy && c.action == 'index' -%]
-  [% fancy_other = portal.fancy && c.action != 'index' -%]
-  <body class="d-flex flex-column h-100[% IF fancy_index %] fancy[% END %]">
+  <body class="d-flex flex-column h-100[% IF c.action == 'index' %] index[% END; IF portal.fancy %] fancy[% END %]">
 [% INCLUDE layout/header.tt | indent(4) %]
     <main role="main" class="mt-3 flex-grow-1">
 [% content | indent(6) -%]

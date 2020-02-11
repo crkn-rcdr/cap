@@ -10,12 +10,27 @@ $(function() {
     $("#searchBackButton").attr("href", sessionStorage.getItem("searchPath"));
   }
 
-  $("#menuButton").on("click", function(ev) {
-    $("#menuOverlay").css("display", "block");
+  var $fancyTitle = $(".fancy.index #headerTitle");
+  $(".menu-open").on("click", function(ev) {
+    $("header").addClass("overlay");
+    $(".fancy.index .above-fold").css("margin-top", "-1rem");
+    if ($fancyTitle.length) {
+      $fancyTitle.attr(
+        "src",
+        $fancyTitle.attr("src").replace("white", "color")
+      );
+    }
   });
 
-  $("#menuClose").on("click", function(ev) {
-    $("#menuOverlay").css("display", "none");
+  $(".menu-close").on("click", function(ev) {
+    $("header").removeClass("overlay");
+    $(".fancy.index .above-fold").css("margin-top", "calc(-240px - 1rem)");
+    if ($fancyTitle.length) {
+      $fancyTitle.attr(
+        "src",
+        $fancyTitle.attr("src").replace("color", "white")
+      );
+    }
   });
 
   $("#pvToolbar").pageViewer();

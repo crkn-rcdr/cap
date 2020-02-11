@@ -30,6 +30,21 @@ const css = () => {
     .pipe(gulp.dest("../static/css"));
 };
 
+const cssWatch = () => {
+  return gulp
+    .src("./scss/portals/*.scss")
+    .pipe(sourcemaps.init())
+    .pipe(
+      sass({
+        outputStyle: "compressed",
+        includePaths: ["./node_modules/"]
+      }).on("error", sass.logError)
+    )
+    .pipe(autoprefixer())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest("../static/css"));
+};
+
 const js = () => {
   return gulp
     .src([
@@ -46,7 +61,7 @@ const js = () => {
 const watch = () => {
   gulp.watch(
     ["./scss/**/*.scss", "../templates/**/*.tt", "../templates/**/*.html"],
-    css
+    cssWatch
   );
   gulp.watch("./js/**/*.js", js);
 };
