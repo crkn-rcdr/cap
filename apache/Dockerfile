@@ -3,6 +3,8 @@ FROM httpd:2.4.41
 RUN sed -i \
     -e 's/^#\(Include .*vhosts.conf\)/\1/' \
     -e 's/^#\(Include .*httpd-mpm.conf\)/\1/' \
+    -e 's/^#\(LoadModule .*mod_proxy.so\)/\1/' \
+    -e 's/^#\(LoadModule .*mod_proxy_http.so\)/\1/' \
     -e 's/^#\(LoadModule .*mod_rewrite.so\)/\1/' \
     -e 's/^#\(LoadModule .*mod_allowmethods.so\)/\1/' \
     -e 's/^#\(LoadModule .*mod_remoteip.so\)/\1/' \
