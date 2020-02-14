@@ -28,6 +28,9 @@ services:
     image: redis:4.0.14-alpine3.10
     container_name: cap-redis
     command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      access-platform:
+        ipv4_address: 172.30.0.100
     # Depending on where docker containers are stored, volumes may be faster
     # volumes:
     #   - /opt/cap-redis:/data
