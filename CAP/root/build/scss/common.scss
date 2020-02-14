@@ -114,6 +114,13 @@ header {
 body.fancy {
   header {
     background-color: unset;
+    color: $body-color;
+    a {
+      color: $primary;
+      &:hover {
+        color: $primary;
+      }
+    }
   }
   header.overlay {
     background-color: rgba(255, 255, 255, 0.95);
@@ -153,6 +160,13 @@ body.fancy.index {
   background-color: #222222;
   header {
     min-height: 240px;
+    color: $white;
+    a {
+      color: $white;
+      &:hover {
+        color: $white;
+      }
+    }
   }
 }
 
