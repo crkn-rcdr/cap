@@ -12,4 +12,5 @@ services:
       - CAP_Model::Access::Presentation_download_mode=swift
       # You can also edit defaults, e.g.
       - CAP_Model::CouchCache_interval=3
+      - CAP_cookie_domain=mamirolle.canadiana.ca
       - LOGLEVELSCREEN=DEBUG
