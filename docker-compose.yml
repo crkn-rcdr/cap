@@ -10,12 +10,16 @@ services:
     #   - "./apachelogs:/usr/local/apache2/logs"
     environment:
       - CDNHOSTPORT=gouda.tor.c7a.ca:5984
-    ports:
-      - "80:80"
+    networks:
+      access-platform:
+        ipv4_address: 172.30.0.4
   cap:
     build: CAP/.
     image: cap:latest
     container_name: cap
+    networks:
+      access-platform:
+        ipv4_address: 172.30.0.3
     # Default LOGFILENAME points to /var/log/cap/
     # This must be writeable to uid 1115 (cihm)
     #volumes:
@@ -24,6 +28,14 @@ services:
     image: redis:4.0.14-alpine3.10
     container_name: cap-redis
     command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      access-platform:
+        ipv4_address: 172.30.0.100
     # Depending on where docker containers are stored, volumes may be faster
     # volumes:
     #   - /opt/cap-redis:/data
+# This setup expects the Access-Platform haproxy config. Alternatively, you can
+# override this by setting up "ports" in the container config.
+networks:
+  access-platform:
+    external: true
