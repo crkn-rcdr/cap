@@ -1,0 +1,146 @@
+@import "../common.scss";
+
+/* purgecss start ignore */
+
+header {
+  background-color: unset;
+  color: $body-color;
+  a {
+    color: $primary;
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+header.overlay {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.header-title {
+  @include make-col-ready();
+  @include make-col(8);
+  @include media-breakpoint-up(md) {
+    @include make-col(6);
+  }
+}
+
+.header-button {
+  @include make-col-ready();
+  @include make-col(4);
+  display: block;
+  text-align: right;
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.menu-close {
+  display: none;
+}
+
+@include media-breakpoint-up(md) {
+  .menu-open {
+    display: none;
+  }
+}
+
+.header-links {
+  display: none;
+  @include make-col-ready();
+  @include media-breakpoint-up(md) {
+    display: block;
+    @include make-col(6);
+  }
+}
+
+.large-links {
+  display: block;
+  padding: 0;
+}
+
+.above-fold {
+  min-height: 100vh;
+  margin-top: calc(-240px - #{$spacer});
+}
+
+.below-fold {
+  background-color: $white;
+}
+
+body.action-index {
+  background-color: #222222;
+  header {
+    min-height: 240px;
+    color: $white;
+    a {
+      color: $white;
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+}
+
+header.overlay {
+  position: fixed;
+  z-index: 10;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+
+  > .container {
+    height: 100vh;
+    > .row {
+      height: 100vh;
+      display: flex;
+    }
+  }
+
+  li {
+    display: block;
+    margin-top: $spacer;
+    a {
+      color: $primary;
+    }
+    a:hover {
+      color: $primary;
+    }
+  }
+
+  .menu-open {
+    display: none;
+  }
+
+  .menu-close {
+    display: inline;
+  }
+
+  .header-links {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: $body-color;
+    li {
+      margin-top: $spacer * 2;
+    }
+  }
+
+  .small-links {
+    order: 2;
+    margin-top: auto;
+    li {
+      font-size: 1.25rem;
+    }
+  }
+
+  .large-links {
+    order: 1;
+    li {
+      font-size: 1.75rem;
+    }
+  }
+}
+
+/* purgecss end ignore */

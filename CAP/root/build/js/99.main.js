@@ -10,25 +10,25 @@ $(function() {
     $("#searchBackButton").attr("href", sessionStorage.getItem("searchPath"));
   }
 
-  var $fancyTitle = $(".fancy.index #headerTitle");
+  var $indexTitle = $(".action-index #headerTitle");
   $(".menu-open").on("click", function(ev) {
     $("header").addClass("overlay");
-    $(".fancy.index .above-fold").css("margin-top", "-1rem");
-    if ($fancyTitle.length) {
-      $fancyTitle.attr(
+    $(".above-fold").css("margin-top", "-1rem");
+    if ($indexTitle.length) {
+      $indexTitle.attr(
         "src",
-        $fancyTitle.attr("src").replace("white", "color")
+        $indexTitle.attr("src").replace("white", "color")
       );
     }
   });
 
   $(".menu-close").on("click", function(ev) {
     $("header").removeClass("overlay");
-    $(".fancy.index .above-fold").css("margin-top", "calc(-240px - 1rem)");
-    if ($fancyTitle.length) {
-      $fancyTitle.attr(
+    $(".above-fold").css("margin-top", "calc(-240px - 1rem)");
+    if ($indexTitle.length) {
+      $indexTitle.attr(
         "src",
-        $fancyTitle.attr("src").replace("color", "white")
+        $indexTitle.attr("src").replace("color", "white")
       );
     }
   });

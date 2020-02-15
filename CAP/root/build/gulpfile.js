@@ -6,6 +6,7 @@ const sass = require("gulp-sass");
 sass.compiler = require("node-sass");
 const purgecss = require("gulp-purgecss");
 const sourcemaps = require("gulp-sourcemaps");
+const cleanCSS = require("gulp-clean-css");
 const concat = require("gulp-concat");
 const terser = require("gulp-terser");
 const { spawn } = require("child_process");
@@ -13,10 +14,8 @@ const { spawn } = require("child_process");
 const css = () => {
   return gulp
     .src("./scss/portals/*.scss")
-    .pipe(sourcemaps.init())
     .pipe(
       sass({
-        outputStyle: "compressed",
         includePaths: ["./node_modules/"]
       }).on("error", sass.logError)
     )
@@ -25,8 +24,8 @@ const css = () => {
         content: ["../templates/**/*.tt", "../templates/**/*.html"]
       })
     )
+    .pipe(cleanCSS())
     .pipe(autoprefixer())
-    .pipe(sourcemaps.write())
     .pipe(gulp.dest("../static/css"));
 };
 

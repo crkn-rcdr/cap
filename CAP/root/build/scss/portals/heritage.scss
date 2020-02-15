@@ -1,3 +1,7 @@
 $primary: #1d808b;
 
-@import "../common.scss";
+@import "../firstParty.scss";
+
+#headerTitle {
+  max-width: 360px;
+}

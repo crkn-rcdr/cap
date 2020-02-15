@@ -1,1 +1,1 @@
-<img id="headerTitle" src="/static/images/canadiana-tag-[% IF portal.fancy && c.action == 'index' %]white[% ELSE %]color[% END %].svg" alt="[% c.portal_title %]" />
+<img id="headerTitle" src="/static/images/canadiana-tag-[% IF c.action == 'index' %]white[% ELSE %]color[% END %].svg" alt="[% c.portal_title %]" />
