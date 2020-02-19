@@ -22,6 +22,7 @@
             <b>English</b> | <a href="[% c.req.uri_with({ usrlang => 'fr' }) %]">Français</a>
 [% END -%]
           </li>
+[% INCLUDE partial/small_links.tt | indent(12) %]
         </ul>
         <ul class="large-links">
 [% INCLUDE partial/large_links.tt | indent(10) %]

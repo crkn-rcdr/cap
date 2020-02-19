@@ -166,4 +166,39 @@ header.overlay {
   }
 }
 
+.sm-icon {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  margin-bottom: -8px;
+  margin-left: $spacer / 2;
+}
+
+.facebook,
+header.overlay .facebook {
+  background-image: url("/static/images/interface/facebook-color.svg");
+}
+
+.action-index .facebook {
+  background-image: url("/static/images/interface/facebook-white.svg");
+}
+
+.twitter,
+header.overlay .twitter {
+  background-image: url("/static/images/interface/twitter-color.svg");
+}
+
+.action-index .twitter {
+  background-image: url("/static/images/interface/twitter-white.svg");
+}
+
+.linkedin,
+header.overlay .linkedin {
+  background-image: url("/static/images/interface/linkedin-color.svg");
+}
+
+.action-index .linkedin {
+  background-image: url("/static/images/interface/linkedin-white.svg");
+}
+
 /* purgecss end ignore */
