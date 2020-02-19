@@ -13,7 +13,6 @@ $(function() {
   var $indexTitle = $(".action-index #headerTitle");
   $(".menu-open").on("click", function(ev) {
     $("header").addClass("overlay");
-    $(".above-fold").css("margin-top", "-1rem");
     if ($indexTitle.length) {
       $indexTitle.attr(
         "src",
@@ -24,7 +23,6 @@ $(function() {
 
   $(".menu-close").on("click", function(ev) {
     $("header").removeClass("overlay");
-    $(".above-fold").css("margin-top", "calc(-240px - 1rem)");
     if ($indexTitle.length) {
       $indexTitle.attr(
         "src",
