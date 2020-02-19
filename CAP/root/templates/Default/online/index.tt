@@ -23,6 +23,7 @@
       </div>
     </div>
 	</div>
+[% INCLUDE partial/banner_credit.tt | indent (2) %]
 </div>
 <div class="below-fold">
   <div class="container">

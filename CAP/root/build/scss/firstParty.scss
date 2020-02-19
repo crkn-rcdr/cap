@@ -1,4 +1,6 @@
 @import "../common.scss";
+$transparent-background: rgba(34, 34, 34, 0.65);
+$transparent-blur: blur(3px);
 
 /* purgecss start ignore */
 
@@ -11,10 +13,6 @@ header {
       color: $primary;
     }
   }
-}
-
-header.overlay {
-  background-color: rgba(255, 255, 255, 0.95);
 }
 
 .header-title {
@@ -59,19 +57,15 @@ header.overlay {
   padding: 0;
 }
 
-.above-fold {
-  min-height: 100vh;
-  margin-top: calc(-240px - #{$spacer});
-}
-
-.below-fold {
-  background-color: $white;
-}
-
 body.action-index {
   background-color: #222222;
+  background-position-x: center;
+  background-repeat: no-repeat;
   header {
-    min-height: 240px;
+    position: absolute;
+    width: 100%;
+    background-color: $transparent-background;
+    backdrop-filter: $transparent-blur;
     color: $white;
     a {
       color: $white;
@@ -79,6 +73,30 @@ body.action-index {
         color: $white;
       }
     }
+  }
+
+  .above-fold {
+    min-height: 100vh;
+  }
+
+  .banner-credit {
+    position: absolute;
+    bottom: $spacer;
+    right: $spacer;
+    padding: $spacer / 2;
+    margin-left: $spacer;
+    background-color: $transparent-background;
+    backdrop-filter: $transparent-blur;
+    a {
+      color: $white;
+      :hover {
+        color: $white;
+      }
+    }
+  }
+
+  .below-fold {
+    background-color: $white;
   }
 }
 
@@ -89,6 +107,7 @@ header.overlay {
   left: 0px;
   height: 100vh;
   width: 100vw;
+  background-color: rgba(255, 255, 255, 0.95);
 
   > .container {
     height: 100vh;

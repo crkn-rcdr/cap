@@ -28,10 +28,10 @@ has 'subcollections' => (
   writer  => '_set_subcollections'
 );
 
-has 'fancy' => (
+has 'banners' => (
   is      => 'ro',
-  isa     => 'Bool',
-  default => 0
+  isa     => 'HashRef',
+  default => sub { {} }
 );
 
 has 'pages' => (
@@ -39,6 +39,11 @@ has 'pages' => (
   isa     => 'HashRef',
   default => sub { {} }
 );
+
+sub has_banners {
+  my ($self) = @_;
+  return scalar keys %{ $self->banners };
+}
 
 sub has_subcollections {
   my ($self) = @_;

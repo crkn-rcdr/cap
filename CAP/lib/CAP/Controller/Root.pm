@@ -141,6 +141,18 @@ sub error : Private {
 sub index : Path('') Args(0) {
   my ( $self, $c ) = @_;
 
+  if ( $c->stash->{portal}->has_banners ) {
+    my $banners = $c->stash->{portal}->banners;
+    my @list    = keys %$banners;
+    my $i       = int( rand( scalar @list ) );
+    my $banner  = $list[$i];
+    $c->stash->{banner} = {
+      image => "/static/images/banners/" . $list[$i] . ".jpg",
+      title => $banners->{ $list[$i] },
+      url   => $c->uri_for( "/view/" . $list[$i] =~ s/@/\//r )->as_string
+    };
+  }
+
   $c->stash->{template} = "index.tt";
 }
 
