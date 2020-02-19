@@ -1,7 +1,7 @@
 ﻿[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' ') %]
 <div class="col">
 	<div class="card mt-2 mb-2">
-		<img class="card-img-top" src="http://placekitten.com/300/200" alt="" />
+		<img class="card-img-top" src="/static/images/cards/[% coll %].jpg" alt="" />
 		<div class="card-body">
 			<h3 class="card-title h5 font-weight-bold"><a href="[% c.uri_for("/collection-$coll") %]">[% colltitle %]</a></h3>
 			<p>
