@@ -32,15 +32,13 @@ const css = () => {
 const cssWatch = () => {
   return gulp
     .src("./scss/portals/*.scss")
-    .pipe(sourcemaps.init())
     .pipe(
       sass({
-        outputStyle: "compressed",
         includePaths: ["./node_modules/"]
       }).on("error", sass.logError)
     )
+    .pipe(cleanCSS())
     .pipe(autoprefixer())
-    .pipe(sourcemaps.write())
     .pipe(gulp.dest("../static/css"));
 };
 
