@@ -26,7 +26,10 @@
 [% INCLUDE partial/banner_credit.tt | indent (2) %]
 </div>
 <div class="below-fold">
-[% INCLUDE partial/heritage_collections.tt %]
+	<div class="container pt-3">
+[% INCLUDE "blocks/${lang}/blurb.html" | indent(4) %]
+	</div>
+[% INCLUDE partial/heritage_collections.tt | indent(2) %]
 	<h3 class="text-center mt-3">
 		[% c.loc("L_HERITAGE_PARTNERSHIP") %]
 	</h3>

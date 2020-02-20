@@ -1,5 +1,4 @@
-﻿<div class="container">
-	<h2 id="collections">[% c.loc("Featured Collections") %]</h2>
+﻿<div class="container" id="collections">
 	<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
 		[% FOREACH coll IN [
 			{ fullname => 'Genealogy',
@@ -18,25 +17,12 @@
 			  blockname => 'landmark_papers',
 			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Papers" }) }
 		] %]
-		<!--
-		<div class="collection span[% coll.span %] [% coll.classname %]">
-			<a class="collection-title" href="[% coll.link %]">
-				<h3>[% c.loc(coll.fullname) %]</h3>
-			</a>
-			<div class="collection-info">
-				[% INCLUDE "blocks/${c.stash.lang}/${coll.blockname}.html" %]
-				<p>
-					<a class="btn" href="[% coll.link %]">[% c.loc("Browse this collection") %]</a>
-				</p>
-			</div>
-		</div>
-		-->
 		<div class="col">
 			<div class="card mt-2 mb-2">
 				<img class="card-img-top" src="/static/images/cards/[% coll.blockname %].jpg" alt="" />
 				<div class="card-body">
 					<h3 class="card-title h5 font-weight-bold"><a href="[% coll.link %]">[% coll.fullname %]</a></h3>
-					[% INCLUDE "blocks/${c.stash.lang}/${coll.blockname}.html" %]
+					[% INCLUDE "blocks/${lang}/${coll.blockname}.html" %]
 				</div>
 				<div class="card-footer">
 					<a href="[% coll.link %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
