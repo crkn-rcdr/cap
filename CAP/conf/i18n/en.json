@@ -45,6 +45,7 @@
   "L_READ_MORE": "Read more",
   "L_RECORD": "Document Record",
   "L_SEARCH_IMPERATIVE": "Search",
+  "L_SEARCH_INCLUDE_ISSUES": "Include results from individual issues",
   "L_SEARCH_PLACEHOLDER": "Search this collection",
   "L_SEARCH_PP_ISSUE_ONE": "1 issue",
   "L_SEARCH_PP_ISSUE_MULTI": "%1 issues",

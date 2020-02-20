@@ -54,7 +54,7 @@ sub index : Path('') {
     query          => $search->{query}->to_cap,
     match_pages    => $search->{query}->has_text_terms,
     search_params  => handle_params( $c->req->params ),
-    search_handler => $handler ne 'general' ? $handler : '',
+    search_handler => $handler,
     template       => 'search.tt',
   );
 
@@ -88,9 +88,17 @@ sub matching_pages : Private {
 
 sub post : Local {
   my ( $self, $c ) = @_;
+
+  my $params = $c->req->params;
+  unless ( exists $params->{handler} ) {
+    $params->{handler} = $params->{include_issues} ? 'general' : 'browsable';
+  }
+
   my $get_params = $c->model('Access::Search')
-    ->transform_query( $c->req->params, $c->stash->{portal}->search_schema );
-  my $handler = delete $get_params->{handler} || '';
+    ->transform_query( $params, $c->stash->{portal}->search_schema );
+  my $handler = delete $get_params->{handler};
+  $handler = '' if $handler eq 'general';
+
   $c->response->redirect(
     $c->uri_for_action( '/search/index', $handler, $get_params ) );
   $c->detach();

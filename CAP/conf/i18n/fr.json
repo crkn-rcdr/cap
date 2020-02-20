@@ -45,6 +45,7 @@
   "L_READ_MORE": "Lire la suite",
   "L_RECORD": "Notice bibliographique du document",
   "L_SEARCH_IMPERATIVE": "Rechercher",
+  "L_SEARCH_INCLUDE_ISSUES": "Inclure résultats des numéros individus",
   "L_SEARCH_PLACEHOLDER": "Recherche dans la collection",
   "L_SEARCH_PP_ISSUE_ONE": "1 numéro",
   "L_SEARCH_PP_ISSUE_MULTI": "%1 numéros",

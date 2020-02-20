@@ -1,4 +1,5 @@
 <form class="form-inline mb-3" method="POST" action="[% c.uri_for_action("search/post") %]">
+  <input type="hidden" name="handler" value="general" />
   <input type="hidden" name="collection" value="[% coll %]" />
   <a class="btn btn-primary mr-3" href="[% c.uri_for_action("search/index", 'browsable', { collection => coll, so => 'oldest' }) %]">
     [% c.loc("L_BROWSE_COLLECTION") %]

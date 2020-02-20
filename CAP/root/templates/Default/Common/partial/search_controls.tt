@@ -1,6 +1,5 @@
 <aside role="search">
   <form method="POST" action="[% c.uri_for_action("search/post") %]">
-    [% IF search_handler %]<input type="hidden" name="handler" value="[% search_handler %]" />[% END %]
     [% INCLUDE partial/search_controls/basic.tt %]
     [% INCLUDE partial/search_form/field_select.tt class="mt-3" field=search_params.field %]
     [% INCLUDE partial/search_controls/sort_order.tt %]
