@@ -58,6 +58,7 @@
   "L_SEARCH_PP_REEL_MULTI": "%1 bobines",
   "L_SEARCH_PP_FT_TOOLTIP": "Canadiana utilise l'OCR (reconnaissance optique de caractères) pour fournir des recherches en texte intégral pour les documents imprimés.",
   "L_SEARCH_REFINE": "Raffinez votre recherche",
+  "L_SEARCH_RESULTS": "Résultats",
   "L_SEARCH_RESULTS_BACK": "Retour à la page des résultats",
   "L_SEARCH_RESULTS_FOR": "Résultats pour %1",
   "L_SEARCH_RESULTS_MORE": "Plus d’information sur ce document",

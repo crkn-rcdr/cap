@@ -1,4 +1,4 @@
-﻿[% title = c.loc("L_SEARCH_RESULTS_FOR", query) -%]
+[% title = query ? c.loc("L_SEARCH_RESULTS_FOR", query) : c.loc("L_SEARCH_RESULTS") -%]
 <div class="container-md">
   <div class="row">
     <div class="col-md-4 col-lg-3">
