@@ -1,16 +1,14 @@
-﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header>
-    <a class="banner" href="[% c.uri_for_action("index") %]"></a>
+	<a class="banner" href="/"></a>
+	<nav>
+		<ul class="container">
+			<li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
+			<li><a href="/">[% c.loc("L_HOME") %]</a></li>
+			<li><a href="[% c.loc("URL_GAC_LIBRARY") %]">[% c.loc("L_GAC_LIBRARY") %]</a></li>
+			<li><a href="[% c.loc("URL_HELP") %]">[% c.loc("L_HELP") %]</a></li>
+			<li><a href="[% c.loc("URL_GAC") %]">[% c.loc("L_GAC") %]</a></li>
+			<li><a href="[% c.loc("URL_CANADA") %]">Canada.ca</a></li>
+		</ul>
+	</nav>
 </header>
-<div class="dfait_bar">
-    <div class="container">
-        <ul class="row">
-            <li class="span2"><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
-            <li class="span2"><a href="[% c.uri_for_action("/index") %]">[% c.loc("Home") %]</a></li>
-            <li class="span2"><a href="[% c.loc("https://www.international.gc.ca/gac-amc/programs-programmes/jll-bjl/index.aspx?lang=eng") %]" target="_blank">[% c.loc("Jules Léger Library") %]</a></li>
-            <li class="span2"><a href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a></li>
-            <li class="span2"><a href="[% c.loc("https://www.international.gc.ca/gac-amc/index.aspx?lang=eng") %]" target="_blank">[% c.loc("Global Affairs Canada") %]</a></li>
-            <li class="span2"><a href="[% c.loc("https://www.canada.ca/en.html") %]" target="_blank">Canada.ca</a></li>
-        </ul>
-    </div>
-</div>
