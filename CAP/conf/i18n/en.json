@@ -33,7 +33,9 @@
   "L_FIELD_SELECT_TEXT": "Text",
   "L_FIELD_SELECT_TITLE": "Titles",
   "L_HELP": "Help",
+  "L_HERITAGE_PARTNERSHIP": "In partnership with",
   "L_HOME": "Home",
+  "L_LAC": "Library and Archives Canada",
   "L_MATCHING": "Matching pages:",
   "L_MATCHING_ALL": "Show all %1 pages",
   "L_MATCHING_MORE": "and %1 more",
@@ -121,5 +123,6 @@
   "URL_CONTACT": "https://www.crkn-rcdr.ca/en/contact-us",
   "URL_CRKN": "https://www.crkn-rcdr.ca/en",
   "URL_HELP": "/search-tips",
+  "URL_LAC": "http://www.bac-lac.gc.ca/eng/Pages/home.aspx",
   "URL_TERMS": "http://www.canadiana.ca/terms"
 }

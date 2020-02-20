@@ -1,33 +1,24 @@
-﻿<h2 id="collections">[% c.loc("Featured Collections") %]</h2>
-<div class="heritage-collections">
-	<div class="row">
+﻿<div class="container">
+	<h2 id="collections">[% c.loc("Featured Collections") %]</h2>
+	<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
 		[% FOREACH coll IN [
 			{ fullname => 'Genealogy',
-			  classname => 'genealogy',
 			  blockname => 'genealogy',
-			  span => 6,
 			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Genealogy" }) },
 			{ fullname => 'Aboriginal History',
-			  classname => 'aboriginal-history',
 			  blockname => 'aboriginal_history',
-			  span => 6,
 			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Aboriginal" }) },
 			{ fullname => 'Government Documents',
-			  classname => 'government-documents',
 			  blockname => 'government_documents',
-			  span => 6,
 			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Government" }) },
 			{ fullname => 'Military History',
-			  classname => 'military-history',
 			  blockname => 'military_history',
-			  span => 6,
 			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Military" }) },
 			{ fullname => 'Landmark Papers',
-			  classname => 'landmark-papers',
 			  blockname => 'landmark_papers',
-			  span => 12,
 			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Papers" }) }
 		] %]
+		<!--
 		<div class="collection span[% coll.span %] [% coll.classname %]">
 			<a class="collection-title" href="[% coll.link %]">
 				<h3>[% c.loc(coll.fullname) %]</h3>
@@ -37,6 +28,19 @@
 				<p>
 					<a class="btn" href="[% coll.link %]">[% c.loc("Browse this collection") %]</a>
 				</p>
+			</div>
+		</div>
+		-->
+		<div class="col">
+			<div class="card mt-2 mb-2">
+				<img class="card-img-top" src="/static/images/cards/[% coll.blockname %].jpg" alt="" />
+				<div class="card-body">
+					<h3 class="card-title h5 font-weight-bold"><a href="[% coll.link %]">[% coll.fullname %]</a></h3>
+					[% INCLUDE "blocks/${c.stash.lang}/${coll.blockname}.html" %]
+				</div>
+				<div class="card-footer">
+					<a href="[% coll.link %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
+				</div>
 			</div>
 		</div>
 		[% END %]
