@@ -1,15 +1,13 @@
-﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header>
-    <a class="banner" href="[% c.uri_for_action("index") %]"></a>
+	<a class="banner" href="/"><span class="sr-only">[% c.portal_title %]</span></a>
+	<nav>
+		<ul class="container">
+			<li><a href="/">[% c.loc("L_HOME") %]</a></li>
+			<li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
+			<li><a href="[% c.loc("URL_HELP") %]">[% c.loc("L_HELP") %]</a></li>
+			<li><a href="[% c.loc("URL_CARL") %]">[% c.loc("L_CARL_HOME") %]</a></li>
+			<li><a href="[% c.loc("URL_LAC") %]">[% c.loc("L_LAC") %]</a></li>
+		</ul>
+	</nav>
 </header>
-<div class="sve_bar">
-    <div class="container">
-        <ul class="row">
-            <li class="span2"><a href="[% c.uri_for_action("/index") %]">[% c.loc("Home") %]</a></li>
-            <li class="span2"><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
-            <li class="span2"><a href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a></li>
-            <li class="span3"><a href="[% c.loc("http://www.carl-abrc.ca/") %]" target="_blank">[% c.loc("CARL Homepage") %]</a></li>
-            <li class="span3"><a href="[% c.loc("http://www.bac-lac.gc.ca/eng/Pages/home.aspx") %]" target="_blank">[% c.loc("Library and Archives Canada") %]</a></li>
-        </ul>
-    </div>
-</div>

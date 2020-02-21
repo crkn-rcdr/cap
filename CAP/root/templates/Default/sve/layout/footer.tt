@@ -1,20 +1,26 @@
-﻿<div class="container">
-	<div class="row">
-		<div class="span2">
-			<a class="carl-logo" alt="[% c.loc("CARL Homepage") %]" href="[% c.loc("http://www.carl-abrc.ca/") %]" target="_blank"></a>
-		</div>
-		<div class="span8">
-			<p class="mid-content">
-				[% c.loc("Content provided by participating post-secondary institutions on behalf of their student bodies.") %]
-				<br />
-				[% c.loc("Funded by the Government of Canada.") %]
-			</p>
-			<p>
-				<a href="[% c.uri_for("/copyright") %]">[% c.loc("Copyright Notice") %]</a>
-			</p>
-		</div>
-		<div class="span2">
-			<a class="canada-logo" alt="Canada" href="http://www.canada.ca/" target="_blank"></a>
-		</div>
-	</div>
-</div>
+<footer class="mt-auto bg-dark text-white text-center">
+  <div class="container-lg">
+    <div class="row py-3 small">
+      <div class="col-lg">
+        <a href="[% c.loc("URL_CARL") %]">
+          <img src="/static/images/carl_logo.png" alt="[% L_CARL_HOME %]" height="50" />
+        </a>
+      </div>
+      <div class="col-lg">
+        <p>
+          <a href="/copyright">[% c.loc("L_SVE_COPYRIGHT") %]</a>
+        </p>
+        <p>
+          [% c.loc("L_SVE_PROVISO_1") %]
+          <br />
+          [% c.loc("L_SVE_PROVISO_2") %]
+        </p>
+      </div>
+      <div class="col-lg">
+        <a href="[% c.loc("URL_CANADA") %]">
+          <img src="/static/images/canada_logo.png" alt="Canada.ca" height="50" />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

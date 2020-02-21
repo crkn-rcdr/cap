@@ -1,6 +1,6 @@
 [% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header>
-	<a class="banner" href="/"></a>
+	<a class="banner" href="/"><span class="sr-only">[% c.portal_title %]</span></a>
 	<nav>
 		<ul class="container">
 			<li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
