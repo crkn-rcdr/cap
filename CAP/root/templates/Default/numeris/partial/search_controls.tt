@@ -1,7 +1,7 @@
 <aside role="search">
   <form method="POST" action="[% c.uri_for_action("/search/post") %]">
     [% INCLUDE partial/search_controls/basic.tt %]
-    [% INCLUDE partial/search_form/field_select.tt field=search_params.field %]
+    [% INCLUDE partial/search_form/field_select.tt %]
     [% INCLUDE partial/search_controls/sort_order.tt %]
     [% INCLUDE partial/search_controls/date_range.tt %]
     [% INCLUDE partial/search_controls/facet_pane.tt name="lang" title=c.loc("R_LANGUAGE") p=search_params.lang facets=resultset.facets.lang labels=language_labels %]

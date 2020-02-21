@@ -48,6 +48,7 @@
   "L_MATCHING_MORE": "et %1 autres",
   "L_MATCHING_LOAD": "Recherche des pages correspondantes...",
   "L_MATCHING_NONE": "Aucune page correspondante trouvée.",
+  "L_NUMERIS": "Numeris",
   "L_PAGINATOR": "Naviguer dans les résultats de recherche",
   "L_READ_MORE": "Lire la suite",
   "L_RECORD": "Notice bibliographique du document",
@@ -140,5 +141,6 @@
   "URL_GAC_LIBRARY": "https://www.international.gc.ca/gac-amc/programs-programmes/jll-bjl/index.aspx?lang=fra",
   "URL_HELP": "/conseils-recherche",
   "URL_LAC": "http://www.bac-lac.gc.ca/fra/Pages/accueil.aspx",
+  "URL_NUMERIS": "http://fr.numeris.ca",
   "URL_TERMS": "http://www.canadiana.ca/conditions"
 }
