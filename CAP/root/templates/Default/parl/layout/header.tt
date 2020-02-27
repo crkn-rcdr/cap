@@ -1,0 +1,28 @@
+<header>
+  <div class="container">
+    <div class="row py-3">
+      <nav class="header-links">
+        <ul class="small-links">
+          <li><a href="[% c.uri_for_action("/browse/index") %]">[% c.loc("L_BROWSE") %]</a></li>
+          <li><a href="[% c.loc("URL_PARL_ABOUT") %]">[% c.loc("L_PARL_ABOUT_HELP") %]</a></li>
+          <li><a href="[% c.loc("URL_PARL") %]">[% c.loc("L_PARL_LOP") %]</a></li>
+          <li>
+[% IF lang == 'fr' -%]
+            <a href="[% c.req.uri_with({ usrlang => 'en' }) %]">English</a> | <b>Français</b>
+[% ELSE -%]
+            <b>English</b> | <a href="[% c.req.uri_with({ usrlang => 'fr' }) %]">Français</a>
+[% END -%]
+          </li>
+[% INCLUDE partial/small_links.tt | indent(12) %]
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="header-title-background">
+    <h1 class="header-title-parl container">
+      <a href="[% c.uri_for_action("/index") %]">
+[% INCLUDE partial/portal_title.tt | indent(8) %]
+      </a>
+    </h1>
+  </div>
+</header>

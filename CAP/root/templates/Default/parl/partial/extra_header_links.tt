@@ -1,7 +1,0 @@
-<li><a href="[% c.uri_for_action("/browse/index") %]">[% c.loc("Browse") %]</a></li>
-<li><a href="[% c.uri_for("/about") %]">[% c.loc("About") %] / [% c.loc("Help") %]</a></li>
-[% IF lang == "fr" -%]
-<li><a href="http://www.parl.ca/" target="_blank">Parlement</a></li>
-[% ELSE -%]
-<li><a href="http://www.parl.ca/" target="_blank">Parliament</a></li>
-[% END -%]

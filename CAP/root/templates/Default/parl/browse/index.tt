@@ -1,8 +1,6 @@
-﻿[% title = c.loc("Browse") -%]
+[% title = c.loc("L_BROWSE") -%]
 [% showfull = (c.req.params.show || ""); show = showfull.split("_") %]
-[% llang = c.stash.lang == "fr" ? "fra" : "eng" %]
-
-<h2>[% c.loc("Browse") %]</h2>
+[% llang = lang == "fr" ? "fra" : "eng" %]
 
 [% BLOCK tree %]
 [% DEFAULT language='eng' chamber='c' %]
@@ -22,7 +20,7 @@
 			[% proot = [typeid, p]; pid = proot.join('_') %]
 				<li>
 					<a data-toggle="collapse" data-parent="#[% typeid %]" data-target="#[% pid %]">
-						[% ordinate(p + 0, 'f', c.stash.lang) %] [% c.loc("Parliament") %]
+						[% ordinate(p + 0, 'f', c.stash.lang) %] [% c.loc("L_PARL_PARLIAMENT") %]
 					</a>
 					<div id="[% pid %]" class="collapse[% IF show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %] in[% END %]">
 						<ul>
@@ -30,8 +28,8 @@
 							[% s = skey.split('-').1 %]
 							<li>
 								<a href="[% c.uri_for("/browse", language, chamber, type, skey) %]">
-									[% ordinate(s + 0, 'f', c.stash.lang) %] [% c.loc("Session") %] ([% branch.$type.$p.$skey == 1 ? "1 volume" : c.loc("[_1] volumes", branch.$type.$p.$skey) %])<br />
-									[% parl_sessions.$skey.term.start %] [% c.loc("to") %] [% parl_sessions.$skey.term.end %]
+									[% ordinate(s + 0, 'f', c.stash.lang) %] [% c.loc("L_PARL_SESSION") %] ([% branch.$type.$p.$skey == 1 ? c.loc("L_SEARCH_PP_VOLUME_ONE") : c.loc("L_SEARCH_PP_VOLUME_MULTI", branch.$type.$p.$skey) %])<br />
+									[% parl_sessions.$skey.term.start %] [% c.loc("GENERIC_TO") %] [% parl_sessions.$skey.term.end %]
 									[% IF chamber == 'c'; "<br />"; FOREACH pm IN parl_sessions.$skey.primeMinisters; pm.name; UNLESS loop.last; "; "; END; END; END %]
 								</a>
 							</li>
@@ -48,13 +46,16 @@
 </ul>
 [% END %]
 
-<div class="row">
-	<div class="span6">
-		<h3>[% c.loc("Senate") %]</h3>
-		[% INCLUDE tree language=llang chamber='s' %]
-	</div>
-	<div class="span6">
-		<h3>[% c.loc("House of Commons") %]</h3>
-		[% INCLUDE tree language=llang chamber='c' %]
+<div class="container">
+	<h2>[% c.loc("L_BROWSE") %]</h2>
+	<div class="row">
+		<div class="col-sm">
+			<h3 class="h4">[% c.loc("L_PARL_SENATE") %]</h3>
+			[% INCLUDE tree language=llang chamber='s' %]
+		</div>
+		<div class="col-sm">
+			<h3 class="h4">[% c.loc("L_PARL_HOC") %]</h3>
+			[% INCLUDE tree language=llang chamber='c' %]
+		</div>
 	</div>
 </div>

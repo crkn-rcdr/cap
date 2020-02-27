@@ -1,8 +1,8 @@
-﻿[% llang = c.stash.lang == "fr" ? "fra" : "eng" %]
-<h2>[% c.loc("Browse") %]</h2>
+﻿[% llang = lang == "fr" ? "fra" : "eng" %]
+<h2>[% c.loc("L_BROWSE") %]</h2>
 <div class="row">
-	<div class="span3">
-		<h3>[% c.loc("Senate") %]</h3>
+	<div class="col-lg-5">
+		<h3 class="h4">[% c.loc("L_PARL_SENATE") %]</h3>
 		<ul>
 		[% FOREACH parl_type IN supported_types %]
 		[% IF tree.$llang.s.$parl_type %]
@@ -11,8 +11,8 @@
 		[% END %]
 		</ul>
 	</div>
-	<div class="span3">
-		<h3>[% c.loc("House of Commons") %]</h3>
+	<div class="col-lg-7">
+		<h3 class="h4">[% c.loc("L_PARL_HOC") %]</h3>
 		<ul>
 		[% FOREACH parl_type IN supported_types %]
 		[% IF tree.$llang.c.$parl_type %]

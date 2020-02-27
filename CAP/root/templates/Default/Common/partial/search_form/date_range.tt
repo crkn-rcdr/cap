@@ -1,8 +1,9 @@
-<div class="form-group col-sm-4">
+[% DEFAULT colclass = "col-sm-4" -%]
+<div class="form-group [% colclass %]">
   <label for="dateRangeFrom">[% c.loc("L_DATE_RANGE") %] [% c.loc("L_DATE_RANGE_FROM") %]</label>
   <input type="text" id="dateRangeFrom" name="df" maxlength="4" class="form-control" placeholder="[% c.loc("L_DATE_RANGE_PLACEHOLDER") %]" />
 </div>
-<div class="form-group col-sm-4">
+<div class="form-group [% colclass %]">
   <label for="dateRangeTo"><span class="sr-only">[% c.loc("L_DATE_RANGE") %]</span> [% c.loc("L_DATE_RANGE_TO") %]</label>
   <input type="text" id="dateRangeTo" name="dt" maxlength="4" class="form-control" placeholder="[% c.loc("L_DATE_RANGE_PLACEHOLDER") %]" />
 </div>

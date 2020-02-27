@@ -12,7 +12,7 @@
     <meta name="description" content="[% c.stash.description %]" />
 [% END -%]
     <meta name="author" content="Canadiana" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=[% portal.font.replace(' ', '+') %]&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ c.portal_id _ '.css', { cssr => 1 }) %]" />
     <link rel="icon" href="[% c.uri_for('/static/images/icons/32.png') %]" sizes="32x32" />
     <link rel="icon" href="[% c.uri_for('/static/images/icons/128.png') %]" sizes="128x128" />

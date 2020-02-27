@@ -15,6 +15,12 @@ has 'search' => (
   default  => 1
 );
 
+has 'font' => (
+  is      => 'ro',
+  isa     => 'Str',
+  default => 'Roboto'
+);
+
 has 'search_schema' => (
   is      => 'ro',
   isa     => 'Str',

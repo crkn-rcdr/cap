@@ -57,7 +57,8 @@ sub BUILD {
           search        => $conf->{$id}->{search} // 1,
           search_schema => $conf->{$id}->{search_schema} // 'default',
           banners       => $conf->{$id}->{banners} // {},
-          pages         => $conf->{$id}->{pages} // {}
+          pages         => $conf->{$id}->{pages} // {},
+          font          => $conf->{$id}->{font} // 'Roboto'
         }
       );
 

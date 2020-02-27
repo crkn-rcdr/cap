@@ -1,3 +1,41 @@
-$primary: #1d808b;
+$primary: #3a78ae;
+$font-family-sans-serif: "Open Sans", sans-serif;
 
 @import "../common.scss";
+
+a:not([href]) {
+  color: $primary;
+}
+
+header {
+  background-color: $dark;
+  margin-bottom: $spacer;
+}
+
+.header-links {
+  @include media-breakpoint-up(md) {
+    @include make-col(12);
+  }
+}
+
+.small-links {
+  margin: 0;
+}
+
+.header-title-background {
+  background-image: url("/static/images/lop_keys.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-title-parl {
+  padding-top: $spacer;
+  padding-bottom: $spacer;
+  margin-top: auto;
+  margin-bottom: auto;
+}

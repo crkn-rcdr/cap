@@ -1,33 +1,33 @@
 [% llang = c.stash.lang == 'fr' ? 'fra' : 'eng' %]
-<div class="span3">
-    <p style="margin-bottom: 5px">[% c.loc("Publication type") %]</p>
-    [% FOREACH parl_type IN supported_types %]
-	[% IF tree.$llang.s.$parl_type || tree.$llang.c.$parl_type %]
-    <label class="checkbox">
-        <input type="checkbox" name="type" value=[% parl_type %] checked />
-        [% type_labels.$parl_type %]
-    </label>
-    [% END %]
-    [% END %]
+<div class="col-sm-6">
+  <p>[% c.loc("R_PARL_TYPE") %]</p>
+  [% FOREACH parl_type IN supported_types %]
+  [% IF tree.$llang.s.$parl_type || tree.$llang.c.$parl_type %]
+  <div class="form-check pl-0">
+    <input type="checkbox" id="check_[% parl_type %]" name="type" value=[% parl_type %] checked />
+    <label class="checkbox" for="check_[% parl_type %]">[% type_labels.$parl_type %]</label>
+  </div>
+  [% END %]
+  [% END %]
 </div>
-<div class="span3">
-    <label for="houseSelect">[% c.loc("Chamber") %]</label>
-    <select id="houseSelect" name="chamber" class="span3">
-        <option value="">[% c.loc("Both Chambers") %]</option>
-        <option value="s">[% c.loc("Senate") %]</option>
-        <option value="c">[% c.loc("House of Commons") %]</option>
-    </select>
-    <label for="parlSelect">[% c.loc("Parliament") %]</label>
-    <select id="parlSelect" name="session" class="span3">
-        <option value="">[% c.loc("All") %]</option>
-        [% FOREACH p IN [1 .. 35] -%]
-        <option value="[% p %]*">[% ordinate(p, 'f', c.stash.lang) %]</option> 
-        [% END -%]
-    </select>
-    <label for="langSelect">[% c.loc("Language") %]</label>
-    <select id="langSelect" name="lang" class="span3">
-        <option value="">[% c.loc("Both Languages") %]</option>
-        <option value="eng">[% c.loc("English") %]</option>
-        <option value="fra">[% c.loc("French") %]</option>
-    </select>
+<div class="col-sm-6 form-group">
+  <label for="houseSelect">[% c.loc("R_PARL_CHAMBER") %]</label>
+  <select id="houseSelect" name="chamber" class="custom-select mb-2">
+    <option value="">[% c.loc("L_PARL_CHAMBERS_BOTH") %]</option>
+    <option value="s">[% c.loc("L_PARL_SENATE") %]</option>
+    <option value="c">[% c.loc("L_PARL_HOC") %]</option>
+  </select>
+  <label for="parlSelect">[% c.loc("R_PARL_PARLIAMENT") %]</label>
+  <select id="parlSelect" name="session" class="custom-select mb-2">
+    <option value="">[% c.loc("GENERIC_ALL_F") %]</option>
+    [% FOREACH p IN [1 .. 35] -%]
+    <option value="[% p %]*">[% ordinate(p, 'f', c.stash.lang) %]</option> 
+    [% END -%]
+  </select>
+  <label for="langSelect">[% c.loc("R_LANGUAGE") %]</label>
+  <select id="langSelect" name="lang" class="custom-select mb-2">
+    <option value="">[% c.loc("L_PARL_LANGUAGES_BOTH") %]</option>
+    <option value="eng">[% c.loc("GENERIC_EN") %]</option>
+    <option value="fra">[% c.loc("GENERIC_FR") %]</option>
+  </select>
 </div>
