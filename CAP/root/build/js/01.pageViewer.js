@@ -152,10 +152,10 @@
       // set up page viewer controls
       var pv = this;
       var pvc = function(spec) {
-        $(spec.selection).attr("href", "#0");
         return {
           selector: $(spec.selection),
           enable: function() {
+            $(spec.selection).attr("href", "#0");
             this.selector.removeClass("disabled selected hidden");
             this.selector.off(spec.eventName).on(spec.eventName, function(e) {
               e.preventDefault();
@@ -163,6 +163,7 @@
             });
           },
           disable: function(className) {
+            $(spec.selection).removeAttr("href");
             this.selector.addClass(className);
             this.selector.off(spec.eventName);
           }
