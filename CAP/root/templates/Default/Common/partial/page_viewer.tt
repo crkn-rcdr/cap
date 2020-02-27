@@ -1,7 +1,7 @@
 [% INCLUDE partial/page_viewer/toolbar.tt %]
 <section id="pvPane" class="mb-3">
   <section id="pvImageContainer">
-    <div id="pvImageInner"><img id="pvImg" src="[% first_uri %]"></div>
+    <div id="pvImageInner"><img id="pvImg" src="[% first_uri %]" alt="[% first_label %]"></div>
     <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
     <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
     <aside id="pvComponent" class="p-3[% UNLESS item.component(seq).hasTags %] hidden[% END %]">

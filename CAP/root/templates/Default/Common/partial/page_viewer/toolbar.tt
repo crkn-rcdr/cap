@@ -1,10 +1,10 @@
 <nav id="pvToolbar" class="btn-toolbar form-inline mb-3" data-token="[% token %]" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %]>
   <select id="pvPageSelect" class="custom-select mr-3" name="seq">
-    [% FOREACH component_key IN record.order %]
-      [% curr_seq = loop.count -%]
-      [% child = item.component(curr_seq) -%]
-      <option id="seq[% curr_seq %]" data-uri="[% child.uri %]" data-key="[% component_key %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
-    [% END %]
+[% FOREACH component_key IN record.order -%]
+[% curr_seq = loop.count -%]
+[% child = item.component(curr_seq) -%]
+    <option id="seq[% curr_seq %]" data-uri="[% child.uri %]" data-key="[% component_key %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
+[% END -%]
   </select>
   <div class="btn-group mr-3">
     [% INCLUDE change_page new_seq=(1) label=c.loc("L_VIEWER_FIRST") disabled=(seq <= 1) id="pvFirst" icon_class="pv-page-first" %]
@@ -36,9 +36,9 @@
  </a>
 [% END %]
 
-[% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/index", page.pkey, new_seq) disabled=disabled %][% END %]
-[% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/index", record.key, seq, refine(c.req.params, { r => new_rotation })) disabled=(c.stash.rotate == new_rotation) %][% END %]
-[% BLOCK resize %][% INCLUDE button href=c.uri_for_action("view/index", record.key, seq, refine(c.req.params, { s => new_size })) disabled=!item.content.derivative_config.size.defined("$new_size") %][% END %]
+[% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/index", record.key, new_seq) disabled=disabled %][% END %]
+[% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/index", record.key, seq, refine(c.req.params, { r => new_rotation })) %][% END %]
+[% BLOCK resize %][% INCLUDE button href=c.uri_for_action("view/index", record.key, seq, refine(c.req.params, { s => new_size })) disabled=(new_size < 1 || new_size > 6) %][% END %]
 [% BLOCK download %]
   [% request = item.validate_download %]
   [% IF request.0 < 400 # there is no download for this document %]

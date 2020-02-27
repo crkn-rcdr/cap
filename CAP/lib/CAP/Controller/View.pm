@@ -95,23 +95,26 @@ sub view_item : Private {
       $rotate = int( $c->request->query_params->{r} );
     }
 
-    my $token        = $item->token;
-    my $first_uri    = $item->component($seq)->{uri};
-    my $first_rotate = $item->derivative->{config}->{rotate}->{$rotate};
-    my $first_size   = $item->derivative->{config}->{size}->{$size};
+    my $token       = $item->token;
+    my $first_uri   = $item->component($seq)->{uri};
+    my $first_label = $item->component($seq)->{label},
+
+      my $first_rotate = $item->derivative->{config}->{rotate}->{$rotate};
+    my $first_size = $item->derivative->{config}->{size}->{$size};
     $first_uri =~ s/\$SIZE/!$first_size,$first_size/g;
     $first_uri =~ s/\$ROTATE/$first_rotate/g;
     $first_uri =~ s/\$TOKEN/$token/g;
 
     $c->stash(
-      item      => $item,
-      record    => $item->record,
-      token     => $token,
-      first_uri => $first_uri,
-      seq       => $seq,
-      rotate    => $rotate,
-      size      => $size,
-      template  => "view_item.tt"
+      item        => $item,
+      record      => $item->record,
+      token       => $token,
+      first_uri   => $first_uri,
+      first_label => $first_label,
+      seq         => $seq,
+      rotate      => $rotate,
+      size        => $size,
+      template    => "view_item.tt"
     );
   } else {    # we don't have a item with components
     $c->stash(

@@ -6,7 +6,7 @@
       var $cache = $("#imageCache");
 
       $.map(uris, function(uri) {
-        $cache.append('<img src="' + uri + '" />');
+        $cache.append('<img src="' + uri + '" alt="" />');
       });
     }
   });
@@ -152,14 +152,15 @@
       // set up page viewer controls
       var pv = this;
       var pvc = function(spec) {
-        $(spec.selection).removeAttr("href");
+        $(spec.selection).attr("href", "#0");
         return {
           selector: $(spec.selection),
           enable: function() {
             this.selector.removeClass("disabled selected hidden");
-            this.selector
-              .off(spec.eventName)
-              .on(spec.eventName, $.proxy(spec.handler, pv));
+            this.selector.off(spec.eventName).on(spec.eventName, function(e) {
+              e.preventDefault();
+              $.proxy(spec.handler, pv)();
+            });
           },
           disable: function(className) {
             this.selector.addClass(className);
@@ -524,6 +525,10 @@
     imageLoaded: function() {
       this.display.loading.hide();
       this.display.error.hide();
+      this.image.attr(
+        "alt",
+        this.controls.pageSelect.selector.find("option:selected").text()
+      );
     },
 
     imageError: function() {
