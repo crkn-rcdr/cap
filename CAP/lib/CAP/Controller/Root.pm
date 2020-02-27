@@ -163,6 +163,7 @@ sub robots : Path('robots.txt') {
   my $body        = <<"EOF";
 User-agent: *
 Disallow: /search
+Allow: /search-tips
 Disallow: /file
 Sitemap: $sitemap_uri
 EOF
