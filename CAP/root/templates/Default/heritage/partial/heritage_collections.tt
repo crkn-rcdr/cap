@@ -1,5 +1,5 @@
-﻿<div class="container" id="collections">
-	<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+﻿<div class="container pt-3" id="collections">
+	<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 mb-3">
 		[% FOREACH coll IN [
 			{ fullname => 'Genealogy',
 			  blockname => 'genealogy',
@@ -17,8 +17,8 @@
 			  blockname => 'landmark_papers',
 			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Papers" }) }
 		] %]
-		<div class="col">
-			<div class="card mt-2 mb-2">
+		<div class="col mb-3">
+			<div class="card">
 				<img class="card-img-top" src="/static/images/cards/[% coll.blockname %].jpg" alt="" />
 				<div class="card-body">
 					<h3 class="card-title h5 font-weight-bold"><a href="[% coll.link %]">[% coll.fullname %]</a></h3>
