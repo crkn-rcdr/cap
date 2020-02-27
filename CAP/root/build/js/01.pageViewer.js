@@ -114,11 +114,10 @@
       this.lastPage = function() {
         this.updateState({ seq: this.settings.total });
       };
-      this.goToPage = function(page) {
-        this.updateState({ seq: page });
-      };
       this.selectPage = function() {
-        this.goToPage(parseInt(this.controls.pageSelect.selector.val(), 10));
+        this.updateState({
+          seq: parseInt(this.controls.pageSelect.selector.val(), 10)
+        });
       };
       this.rotateLeft = function() {
         this.updateState({ r: (this.state.r + 3) % 4 });
