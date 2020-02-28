@@ -96,6 +96,8 @@ sub BUILD {
 sub portal_from_host {
   my ( $self, $host ) = @_;
   my $subd = substr( $host, 0, index( $host, '.' ) );
+  $subd = substr( $subd, 0, index( $subd, '-' ) )
+    if ( index( $subd, '-' ) > -1 );
   return $self->_subdomains->{$subd};
 }
 
