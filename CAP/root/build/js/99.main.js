@@ -43,6 +43,10 @@ $(function() {
 
   $(function() {
     $('[data-toggle="tooltip"]').tooltip();
+    $("#pvHelp").on("click", function(ev) {
+      $("#pvToolbar *").tooltip("toggle");
+      $("#pvHelp").toggleClass("active");
+    });
   });
 
   $(".plus-minus").on("click", function(ev) {

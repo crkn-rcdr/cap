@@ -26,7 +26,7 @@
 	<p>
 	  [% list.unique.join('; ') %]
 	  [% IF result.component_count_fulltext -%]
-		  <a class="text-primary" data-toggle="tooltip" data-placement="right" title="[% c.loc("L_SEARCH_PP_FT_TOOLTIP") %]">[?]</a>
+		  <button class="btn btn-icon btn-sm help text-aligned" data-toggle="tooltip" data-placement="right" title="[% c.loc("L_SEARCH_PP_FT_TOOLTIP") %]"><span class="sr-only">[% c.loc("L_HELP") %]</span></button>
     [% END -%]
 	</p>
 [% END %]
