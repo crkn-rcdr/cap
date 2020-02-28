@@ -9,13 +9,6 @@
     [% IF portal.has_subcollections %]
       [% INCLUDE partial/search_controls/facet_pane.tt name="collection" title=c.loc("R_COLLECTION") p=search_params.collection facets=resultset.facets.collection labels=subcollection_labels %]
     [% END %]
-    <div class="mt-3 mb-3 btn-group">
-      <button type="submit" class="btn btn-lg btn-primary" value="submit">
-        [% c.loc("L_SEARCH_IMPERATIVE") %]
-      </button>
-      <a class="btn btn-lg btn-outline-secondary" href="[% c.loc("URL_HELP") %]">
-        [% c.loc("L_HELP") %]
-      </a>
-    </div>
+    [% INCLUDE partial/search_controls/buttons.tt %]
   </form>
 </aside>

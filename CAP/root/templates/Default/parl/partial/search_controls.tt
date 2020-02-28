@@ -16,5 +16,6 @@
         [% END -%]
       </select>
     </div>
+    [% INCLUDE partial/search_controls/buttons.tt %]
   </form>
 </aside>
