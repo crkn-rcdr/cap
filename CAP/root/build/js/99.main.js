@@ -4,10 +4,17 @@ $(function() {
     sessionStorage.setItem("query", $("#query").attr("value"));
     sessionStorage.setItem("searchPath", location.href);
   } else if (action === "view") {
-    $("#query").attr("value", sessionStorage.getItem("query"));
-    $(".matching-pages").attr("data-query", sessionStorage.getItem("query"));
-    $("#searchBackButton").removeClass("hidden");
-    $("#searchBackButton").attr("href", sessionStorage.getItem("searchPath"));
+    var query = sessionStorage.getItem("query");
+    if (query) {
+      $("#query").attr("value", query);
+      $(".matching-pages").attr("data-query", query);
+    }
+
+    var searchPath = sessionStorage.getItem("searchPath");
+    if (searchPath) {
+      $("#searchBackButton").removeClass("hidden");
+      $("#searchBackButton").attr("href", searchPath);
+    }
   }
 
   var $indexTitle = $(".action-index #headerTitle");
