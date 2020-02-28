@@ -266,6 +266,7 @@
         pv.components[this.value] = {
           key: this.getAttribute("data-key"),
           uri: this.getAttribute("data-uri"),
+          download: this.getAttribute("data-download"),
           label: this.innerHTML
         };
 
@@ -404,15 +405,17 @@
         ? this.controls.bigger.disable("disabled")
         : this.controls.bigger.enable();
 
-      var itemName = this.controls.pageSelect.selector
-        .find("#seq" + this.state.seq)
-        .html();
       document.title =
         this.settings.documentLabel +
         " - " +
-        itemName +
+        this.controls.pageSelect.selector.find("option:selected").text() +
         " - " +
         this.settings.portalName;
+
+      var $singleDownload = $("#pvDownloadSingle");
+      if ($singleDownload.length > 0) {
+        $singleDownload.attr("href", this.components[this.state.seq].download);
+      }
 
       if (this.settings.hasTags) {
         this.controls.tagToggle.enable();

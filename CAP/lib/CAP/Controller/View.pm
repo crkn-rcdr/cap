@@ -106,15 +106,16 @@ sub view_item : Private {
     $first_uri =~ s/\$TOKEN/$token/g;
 
     $c->stash(
-      item        => $item,
-      record      => $item->record,
-      token       => $token,
-      first_uri   => $first_uri,
-      first_label => $first_label,
-      seq         => $seq,
-      rotate      => $rotate,
-      size        => $size,
-      template    => "view_item.tt"
+      item          => $item,
+      record        => $item->record,
+      item_download => $item->item_download,
+      token         => $token,
+      first_uri     => $first_uri,
+      first_label   => $first_label,
+      seq           => $seq,
+      rotate        => $rotate,
+      size          => $size,
+      template      => "view_item.tt"
     );
   } else {    # we don't have a item with components
     $c->stash(

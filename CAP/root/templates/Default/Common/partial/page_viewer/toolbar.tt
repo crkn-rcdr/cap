@@ -1,9 +1,10 @@
 <nav id="pvToolbar" class="btn-toolbar form-inline mb-3" data-token="[% token %]" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %]>
   <select id="pvPageSelect" class="custom-select mr-3" name="seq">
+[% first_child = item.component(seq) -%]
 [% FOREACH component_key IN record.order -%]
 [% curr_seq = loop.count -%]
 [% child = item.component(curr_seq) -%]
-    <option id="seq[% curr_seq %]" data-uri="[% child.uri %]" data-key="[% component_key %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
+    <option id="seq[% curr_seq %]" data-uri="[% child.uri %]"[% IF child.download_uri %] data-download="[% child.download_uri %]"[% END %] data-key="[% component_key %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
 [% END -%]
   </select>
   <div class="btn-group mr-3">
@@ -21,11 +22,15 @@
     [% INCLUDE resize new_size=(size + 1) label=c.loc("L_VIEWER_BIGGER") id="pvBigger" icon_class="pv-bigger" %]
   </div>
   <div class="btn-group mr-3">
-    [% INCLUDE download label=c.loc("L_VIEWER_DOWNLOAD_FULL") id="pvDownload" icon_class="pv-download-full" %]
+    [% IF item_download -%]
+    [% INCLUDE button label=c.loc("L_VIEWER_DOWNLOAD_FULL") id="pvDownloadFull" icon_class="pv-download-full" href=item_download %]
+    [% ELSIF first_child.download_uri %]
+    [% INCLUDE button label=c.loc("L_VIEWER_DOWNLOAD_SINGLE") id="pvDownloadSingle" icon_class="pv-download-single" href=first_child.download_uri %]
+    [% END %]
   </div>
   [% IF record.defined('hasTags') && record.hasTags %]
   <div class="btn-group ml-auto">
-    [% INCLUDE tag_toggle label=c.loc("L_VIEWER_TOGGLE_TAGS") id="pvTagToggle" icon_class="pv-tags" active=item.component(seq).hasTags %]
+    [% INCLUDE tag_toggle label=c.loc("L_VIEWER_TOGGLE_TAGS") id="pvTagToggle" icon_class="pv-tags" active=first_child.hasTags %]
   </div>
   [% END %]
 </nav>
@@ -33,16 +38,10 @@
 [% BLOCK button %]
 <a id="[% id %]" class="btn btn-icon btn-light btn-outline-primary [% icon_class %][% IF disabled %] disabled[% END; IF hidden %] hidden[% END; IF active %] active[% END %]"[% UNLESS (disabled || hidden) %] href="[% href %]"[% END %] title="[% label %]">
   <span class="sr-only">[% label %]</span>
- </a>
+</a>
 [% END %]
 
 [% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/index", record.key, new_seq) disabled=disabled %][% END %]
 [% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/index", record.key, seq, refine(c.req.params, { r => new_rotation })) %][% END %]
 [% BLOCK resize %][% INCLUDE button href=c.uri_for_action("view/index", record.key, seq, refine(c.req.params, { s => new_size })) disabled=(new_size < 1 || new_size > 6) %][% END %]
-[% BLOCK download %]
-  [% request = item.validate_download %]
-  [% IF request.0 < 400 # there is no download for this document %]
-    [% INCLUDE button href=request.1 %]
-  [% END %]
-[% END %]
 [% BLOCK tag_toggle %][% INCLUDE button hidden=0 %][% END %]

@@ -98,16 +98,27 @@ sub component {
   my $child_id         = $self->record->{order}[$seq - 1];
   my $component_record = $self->record->{components}{$child_id};
   my $is_pdf           = $component_record->{canonicalMaster} ? 0 : 1;
-  my $file             = $is_pdf ? $self->record->{canonicalDownload} :
+  my $image_source     = $is_pdf ? $self->record->{canonicalDownload} :
     $component_record->{canonicalMaster};
-  my $uri = $self->derivative->uri_template( $file, $is_pdf );
+
+  my $uri = $self->derivative->uri_template( $image_source, $is_pdf );
   $uri =~ s/\$SEQ/$seq/g;
-  return {
+
+  my $r = {
     %{$component_record},
     key => $child_id,
     seq => $seq,
     uri => $uri
   };
+
+  if ( !$is_pdf &&
+    !$self->record->{canonicalDownload} &&
+    $self->record->{component_count_fulltext} ) {
+    $r->{download_uri} = $self->download->uri(
+      $component_record->{canonicalMaster} =~ s/\w+$/pdf/r );
+  }
+
+  return $r;
 }
 
 sub first_component_seq {
@@ -130,14 +141,10 @@ sub canonical_label {
     $self->record->{label};
 }
 
-sub validate_download {
+sub item_download {
   my ($self) = @_;
-  my $download = $self->record->{canonicalDownload};
-  return [400,
-    "Document " .
-      $self->record->{key} . " does not have a canonical download."]
-    unless $download;
-  return [200, $self->download->uri($download)];
+  my $item_download = $self->record->{canonicalDownload};
+  return $item_download ? $self->download->uri($item_download) : undef;
 }
 
 sub token {
