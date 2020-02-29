@@ -1,5 +1,5 @@
 <div class="collapse-pane">
-  <div class="collapse-pane-header" data-toggle="collapse" data-target="#cp_[% name %]" aria-expanded="[% open ? 'true' : 'false' %]">
+  <div class="collapse-pane-header" data-toggle="collapse" data-target="#cp_[% name %]" aria-expanded="[% open ? 'true' : 'false' %]" aria-controls="cp_[% name %]" aria-expanded="[% open ? 'true' : 'false' %]" role="button" tabindex="0">
     <span>[% title %]</span>
   </div>
   <div class="collapse-pane-content collapse[% IF open %] show[% END %]" id="cp_[% name %]">

@@ -22,7 +22,7 @@
 <section class="search-item">
   <h3>
     [% IF result.type != "page" -%]
-      <button class="btn btn-primary float-right ml-3 plus-minus" data-toggle="collapse" data-target="#dr_[% loop.count %]" title="[% c.loc("L_SEARCH_RESULTS_MORE") %]">+</button>
+      <button class="btn btn-primary float-right ml-3 plus-minus" data-toggle="collapse" data-target="#dr_[% loop.count %]" title="[% c.loc("L_SEARCH_RESULTS_MORE") %]" aria-expanded="false" aria-controls="dr_[% loop.count %]">+</button>
     [% END -%]
     <a href="[% c.uri_for_action("view/index", result.key) %]">
     [% IF c.portal_id == "parl" %]

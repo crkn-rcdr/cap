@@ -11,18 +11,20 @@
 	[% IF branch.defined(type) %]
 	[% typeroot = [rootid, type]; typeid = typeroot.join('_') %]
 	<li>
-		<a data-toggle="collapse" data-parent="#[% rootid %]" data-target="#[% typeid %]">
+		[% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) %]
+		<a role="button" data-toggle="collapse" data-parent="#[% rootid %]" data-target="#[% typeid %]" aria-expanded="[% expanded ? 'true' : 'false' %]" aria-controls="[% typeid %]" tabindex="0">
 			[% type_labels.$type %]
 		</a>
-		<div id="[% typeid %]" class="collapse[% IF show.0.match(language) && show.1.match(chamber) && show.2.match(type) %] in[% END %]">
+		<div id="[% typeid %]" class="collapse[% IF expanded %] show[% END %]">
 			<ul>
 			[% FOREACH p IN branch.$type.keys.sort %]
 			[% proot = [typeid, p]; pid = proot.join('_') %]
+			[% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %]
 				<li>
-					<a data-toggle="collapse" data-parent="#[% typeid %]" data-target="#[% pid %]">
+					<a role="button" data-toggle="collapse" data-parent="#[% typeid %]" data-target="#[% pid %]" aria-expanded="[% expanded ? 'true' : 'false' %]" aria-controls="[% pid %]" tabindex="0">
 						[% ordinate(p + 0, 'f', c.stash.lang) %] [% c.loc("L_PARL_PARLIAMENT") %]
 					</a>
-					<div id="[% pid %]" class="collapse[% IF show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %] in[% END %]">
+					<div id="[% pid %]" class="collapse[% IF expanded %] show[% END %]">
 						<ul>
 						[% FOREACH skey IN branch.$type.$p.keys.sort %]
 							[% s = skey.split('-').1 %]

@@ -22,8 +22,8 @@ const css = () => {
     .pipe(
       purgecss({
         content: ["../templates/**/*.tt", "../templates/**/*.html"],
-        whitelistPatterns: [/tooltip/],
-        whitelistPatternsChildren: [/tooltip/]
+        whitelistPatterns: [/tooltip/, /collapsing/],
+        whitelistPatternsChildren: [/tooltip/, /collapsing/]
       })
     )
     .pipe(cleanCSS())

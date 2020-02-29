@@ -49,6 +49,20 @@ $(function() {
     });
   });
 
+  $('[data-toggle="collapse"]').on("focusin", function(ev) {
+    var $collapseTarget = $($(ev.target).attr("data-target"));
+    $(document).on("keydown.cap", function(ev) {
+      if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
+        ev.preventDefault();
+        $collapseTarget.collapse("toggle");
+      }
+    });
+  });
+
+  $('[data-toggle="collapse"').on("focusout", function(ev) {
+    $(document).off("keydown.cap");
+  });
+
   $(".plus-minus").on("click", function(ev) {
     var $element = $(this);
     $element.text($element.text() === "+" ? "-" : "+");
