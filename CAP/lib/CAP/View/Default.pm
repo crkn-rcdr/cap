@@ -75,6 +75,11 @@ __PACKAGE__->config(
     current_year => sub {
       return time2str( "%Y", time );
     },
+
+    ref => sub {
+      my ($t) = @_;
+      return ref $t;
+    }
   }
 );
 

@@ -11,6 +11,7 @@
 	[% IF branch.defined(type) %]
 	[% typeroot = [rootid, type]; typeid = typeroot.join('_') %]
 	<li>
+		[% IF ref(branch.$type) == 'HASH' %]
 		[% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) %]
 		<a role="button" data-toggle="collapse" data-parent="#[% rootid %]" data-target="#[% typeid %]" aria-expanded="[% expanded ? 'true' : 'false' %]" aria-controls="[% typeid %]" tabindex="0">
 			[% type_labels.$type %]
@@ -42,6 +43,9 @@
 			[% END %]
 			</ul>
 		</div>
+		[% ELSE %]
+		<a href="[% c.uri_for("/browse", language, chamber, type) %]">[% type_labels.$type %] ([% branch.$type == 1 ? c.loc("L_SEARCH_PP_VOLUME_ONE") : c.loc("L_SEARCH_PP_VOLUME_MULTI", branch.$type) %])</a>
+		[% END %]
 	</li>
 	[% END %]
 [% END %]

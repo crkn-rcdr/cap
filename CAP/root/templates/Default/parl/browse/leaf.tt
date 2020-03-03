@@ -1,9 +1,14 @@
 <div class="container">
   <h2>[% title %]</h2>
+  [% IF parl_parliament %]
   [% showlist = [parl_language, parl_chamber, parl_type, parl_parliament]; show = showlist.join("_") %]
   <p><a href="[% c.uri_for("/browse", { show = show }) %]">&laquo; [% c.loc("L_PARL_BROWSE_VOLUMES") %]</a></p>
+  [% ELSE %]
+  <p><a href-"[% c.uri_for("/browse") %]">&laquo; [% c.loc("L_PARL_BROWSE_BACK") %]</a></p>
+  [% END %]
 
   <div class="row">
+    [% IF parl_parliament %]
     <div class="col-md-4">
       <p class="lead">[% parl_session.term.start %] [% c.loc("GENERIC_TO") %] [% parl_session.term.end %]</p>
       [% IF parl_chamber == "c" -%]
@@ -18,7 +23,8 @@
       [% END -%]
       [% END -%]
     </div>
-    <div class="col-md-8">
+    [% END %]
+    <div class="[% IF parl_parliament %]col-md-8[% ELSE %]col-md-12[% END %]">
       <h3 class="border-bottom border-primary">[% c.loc("L_PARL_VOLUMES") %]</h3>
       <ul class="list-unstyled">
       [% FOREACH item IN leaf -%]

@@ -6,7 +6,11 @@
 		<ul>
 		[% FOREACH parl_type IN supported_types %]
 		[% IF tree.$llang.s.$parl_type %]
+			[% IF ref(tree.$llang.s.$parl_type) == 'HASH' %]
 			<li><a href="[% c.uri_for("/browse", { show => llang _ "_s_" _ parl_type }) %]">[% type_labels.$parl_type %]</a></li>
+			[% ELSE %]
+			<li><a href="[% c.uri_for("/browse", llang, "s", parl_type) %]">[% type_labels.$parl_type %]</a></li>
+			[% END %]
 		[% END %]
 		[% END %]
 		</ul>
@@ -16,7 +20,11 @@
 		<ul>
 		[% FOREACH parl_type IN supported_types %]
 		[% IF tree.$llang.c.$parl_type %]
+			[% IF ref(tree.$llang.s.$parl_type) == 'HASH' %]
 			<li><a href="[% c.uri_for("/browse", { show => llang _ "_c_" _ parl_type }) %]">[% type_labels.$parl_type %]</a></li>
+			[% ELSE %]
+			<li><a href="[% c.uri_for("/browse", llang, "c", parl_type) %]">[% type_labels.$parl_type %]</a></li>
+			[% END %]
 		[% END %]
 		[% END %]
 		</ul>

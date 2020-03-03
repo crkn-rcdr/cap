@@ -34,12 +34,16 @@ sub _fetch_tree {
   foreach my $row ( @{ $response->data->{rows} } ) {
     my ( $lang, $chamber, $type, $session ) = @{ $row->{key} };
     my ($parliament) = ( $session =~ /^(\d{2})-\d$/ );
-    $self->_bt->{$lang}                                     //= {};
-    $self->_bt->{$lang}->{$chamber}                         //= {};
-    $self->_bt->{$lang}->{$chamber}->{$type}                //= {};
-    $self->_bt->{$lang}->{$chamber}->{$type}->{$parliament} //= {};
-    $self->_bt->{$lang}->{$chamber}->{$type}->{$parliament}->{$session} =
-      $row->{value};
+    $self->_bt->{$lang}                      //= {};
+    $self->_bt->{$lang}->{$chamber}          //= {};
+    $self->_bt->{$lang}->{$chamber}->{$type} //= {};
+    if ($session) {
+      $self->_bt->{$lang}->{$chamber}->{$type}->{$parliament} //= {};
+      $self->_bt->{$lang}->{$chamber}->{$type}->{$parliament}->{$session} =
+        $row->{value};
+    } else {
+      $self->_bt->{$lang}->{$chamber}->{$type} = $row->{value};
+    }
   }
 
   return $self->_bt;
@@ -64,8 +68,10 @@ sub _issue_title {
 sub leaf {
   my ( $self, $lang, $chamber, $type, $session ) = @_;
 
-  my $startkey = qq/["$lang","$chamber","$type","$session"]/;
-  my $endkey   = qq/["$lang","$chamber","$type","$session!"]/;
+  my $session_lookup_start = $session ? qq/"$session"/  : qq/null/;
+  my $session_lookup_end   = $session ? qq/"$session!"/ : qq/"a"/;
+  my $startkey = qq/["$lang","$chamber","$type",$session_lookup_start]/;
+  my $endkey   = qq/["$lang","$chamber","$type",$session_lookup_end]/;
   my $response = $self->get(
     '/_design/parl/_view/browseTree',
     {
@@ -199,12 +205,17 @@ sub _ordinate {
 
 sub leaf_to_string {
   my ( $self, $node ) = @_;
-  my $lang    = $node->[0] eq 'fra' ? 'fr' : 'en';
-  my $pub     = $self->_publications->{$lang}->{ $node->[1] . $node->[2] };
-  my $pl      = $lang eq 'fr' ? 'Législature' : 'Parliament';
-  my $p       = $self->_ordinate( ( substr $node->[3], 0, 2 ) + 0, $lang );
-  my $s       = $self->_ordinate( ( substr $node->[3], 3, 1 ) + 0, $lang );
-  my $session = "$p $pl, $s Session";
-  return "$pub, $session";
+  my $lang = $node->[0] eq 'fra' ? 'fr' : 'en';
+  my $pub  = $self->_publications->{$lang}->{ $node->[1] . $node->[2] };
+
+  if ( $node->[3] ) {
+    my $pl      = $lang eq 'fr' ? 'Législature' : 'Parliament';
+    my $p       = $self->_ordinate( ( substr $node->[3], 0, 2 ) + 0, $lang );
+    my $s       = $self->_ordinate( ( substr $node->[3], 3, 1 ) + 0, $lang );
+    my $session = "$p $pl, $s Session";
+    return "$pub, $session";
+  } else {
+    return $pub;
+  }
 }
 1;
