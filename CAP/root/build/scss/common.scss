@@ -43,10 +43,19 @@ $card-height: 100%;
 /* purgecss start ignore */
 
 a:not([href]) {
-  color: $primary;
-  &:focus {
-    color: $primary;
+  color: $link-color;
+  text-decoration: $link-decoration;
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
   }
+  &:focus {
+    color: $link-color;
+  }
+}
+
+a[role="button"] {
+  cursor: pointer;
 }
 
 .hidden {
