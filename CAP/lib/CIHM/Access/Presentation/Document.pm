@@ -111,11 +111,9 @@ sub component {
     uri => $uri
   };
 
-  if ( !$is_pdf &&
-    !$self->record->{canonicalDownload} &&
-    $self->record->{component_count_fulltext} ) {
-    $r->{download_uri} = $self->download->uri(
-      $component_record->{canonicalMaster} =~ s/\w+$/pdf/r );
+  if ( $component_record->{canonicalDownload} ) {
+    $r->{download_uri} =
+      $self->download->uri( $component_record->{canonicalDownload} );
   }
 
   return $r;
