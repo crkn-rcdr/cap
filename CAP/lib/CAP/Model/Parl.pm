@@ -33,13 +33,15 @@ sub _fetch_tree {
 
   foreach my $row ( @{ $response->data->{rows} } ) {
     my ( $lang, $chamber, $type, $session ) = @{ $row->{key} };
-    my ($parliament) = ( $session =~ /^(\d{2})-\d$/ );
-    $self->_bt->{$lang}                                     //= {};
-    $self->_bt->{$lang}->{$chamber}                         //= {};
-    $self->_bt->{$lang}->{$chamber}->{$type}                //= {};
-    $self->_bt->{$lang}->{$chamber}->{$type}->{$parliament} //= {};
-    $self->_bt->{$lang}->{$chamber}->{$type}->{$parliament}->{$session} =
-      $row->{value};
+    if ( $type ne 'rules' && $type ne 'orders' ) {
+      my ($parliament) = ( $session =~ /^(\d{2})-\d$/ );
+      $self->_bt->{$lang}                                     //= {};
+      $self->_bt->{$lang}->{$chamber}                         //= {};
+      $self->_bt->{$lang}->{$chamber}->{$type}                //= {};
+      $self->_bt->{$lang}->{$chamber}->{$type}->{$parliament} //= {};
+      $self->_bt->{$lang}->{$chamber}->{$type}->{$parliament}->{$session} =
+        $row->{value};
+    }
   }
 
   return $self->_bt;
