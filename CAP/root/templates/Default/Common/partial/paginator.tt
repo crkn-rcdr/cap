@@ -15,7 +15,7 @@
    last_page = current_page + 2; last_page = last_page > total_pages ? total_pages : last_page;
    page_range = [first_page .. last_page];
 %]
-<nav[% IF first %] aria-label="[% c.loc("L_PAGINATOR") %]"[% END %]>
+<nav aria-label="[% first ? c.loc("L_PAGINATOR") : c.loc("L_PAGINATOR_AGAIN") %]">
   <ul class="pagination">
     [% IF current_page > 1 %]<li class="page-item">[% page_link(current_page - 1, c.loc("GENERIC_PREVIOUS")) %]</li>[% END %]
     [% IF first_page > 1 %]<li class="page-item">[% page_link(1, 1) %]</li>[% END %]

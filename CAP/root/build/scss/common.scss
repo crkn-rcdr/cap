@@ -69,6 +69,26 @@ a[role="button"] {
   overflow: hidden;
 }
 
+#skipLink {
+  position: absolute;
+  display: block;
+  left: -9999px;
+  top: 0px;
+  overflow: hidden;
+  background-color: $white;
+  color: $link-color;
+  padding: $spacer;
+  border-bottom-right-radius: $spacer;
+  text-decoration: underline;
+  &:hover {
+    color: $link-color;
+  }
+  &:focus {
+    left: 0px;
+    color: $link-color;
+  }
+}
+
 header {
   background-color: $primary;
   color: $white;

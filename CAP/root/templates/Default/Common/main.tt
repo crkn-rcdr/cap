@@ -23,8 +23,9 @@
     <meta name="theme-color" content="#1d808b" />
   </head>
   <body class="d-flex flex-column h-100 action-[% c.action.reverse.replace('\/', '-') %]"[% IF banner %] style="background-image: url('[% banner.image %]')"[% END %]>
+    <a href="#main" id="skipLink">[% c.loc("L_SKIP_CONTENT") %]</a>
 [% INCLUDE layout/header.tt | indent(4) %]
-    <main role="main" class="flex-grow-1">
+    <main role="main" id="main" class="flex-grow-1">
 [% content | indent(6) -%]
 [% IF c.debug -%]
       <div id="debug">
@@ -35,7 +36,7 @@
 [% END -%]
     </main>
 [% INCLUDE layout/footer.tt | indent(8) -%]
-    <div id="imageCache"></div>
+    <div id="imageCache" aria-hidden="true"></div>
     <script src="[% c.uri_for('/static/js/cap.js', { r => 1 }) %]" type="text/javascript"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];

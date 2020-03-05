@@ -1,5 +1,5 @@
-<nav id="pvToolbar" class="btn-toolbar form-inline mb-3" data-token="[% token %]" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %]>
-  <select id="pvPageSelect" class="custom-select mr-3" name="seq" data-toggle="tooltip" data-placement="left" title="[% c.loc("L_VIEWER_PAGE_SELECT") %]">
+<nav id="pvToolbar" aria-label="[% c.loc("L_VIEWER_LABEL") %]" class="btn-toolbar form-inline mb-3" data-token="[% token %]" data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %]>
+  <select id="pvPageSelect" class="custom-select mr-3" aria-label="[% c.loc("L_VIEWER_PAGE_SELECT") %]" name="seq" data-toggle="tooltip" data-placement="left" title="[% c.loc("L_VIEWER_PAGE_SELECT") %]">
 [% first_child = item.component(seq) -%]
 [% FOREACH component_key IN record.order -%]
 [% curr_seq = loop.count -%]
