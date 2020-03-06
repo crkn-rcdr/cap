@@ -16,6 +16,10 @@ $(function() {
       $("#searchBackButton").attr("href", searchPath);
     }
   }
+  if (action === "browse") {
+    sessionStorage.removeItem("query");
+    sessionStorage.removeItem("searchPath");
+  }
 
   var $indexTitle = $(".action-index #headerTitle");
   $(".menu-open").on("click", function(ev) {
