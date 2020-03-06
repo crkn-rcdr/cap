@@ -4,10 +4,10 @@
     <input type="text" id="search" autofocus class="form-control form-control-lg" name="q" placeholder="[% c.loc("L_SEARCH_PLACEHOLDER") %]" />
     <label for="search" class="sr-only">[% c.loc("L_SEARCH_PLACEHOLDER") %]</label>
     <div class="input-group-append">
-      <button type="submit" class="btn btn-lg btn-primary btn-icon search" value="submit">
+      <button type="submit" class="btn btn-lg btn-primary btn-icon search" title="[% c.loc("L_SEARCH_IMPERATIVE") %]" data-toggle="tooltip" value="submit">
         <span class="sr-only">[% c.loc("L_SEARCH_IMPERATIVE") %]</span>
       </button>
-      <a class="btn btn-lg btn-outline-secondary btn-icon help" href="[% c.loc("URL_HELP") %]">
+      <a class="btn btn-lg btn-outline-secondary btn-icon help" href="[% c.loc("URL_HELP") %]" title="[% c.loc("L_HELP") %]" data-toggle="tooltip">
         <span class="sr-only">[% c.loc("L_HELP") %]</span>
       </a>
     </div>
