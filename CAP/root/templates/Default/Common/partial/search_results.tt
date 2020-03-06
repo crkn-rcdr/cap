@@ -21,7 +21,7 @@
 [% FOREACH result IN resultset.documents %]
 <section class="search-item">
   <h3>
-    [% IF result.type != "page" -%]
+    [% IF result.type != "page" && portal.sr_record -%]
       <button class="btn btn-primary float-right ml-3 plus-minus" data-toggle="collapse" data-target="#dr_[% loop.count %]" title="[% c.loc("L_SEARCH_RESULTS_MORE") %]" aria-expanded="false" aria-controls="dr_[% loop.count %]">+</button>
     [% END -%]
     <a href="[% c.uri_for_action("view/index", result.key) %]">
@@ -37,9 +37,11 @@
   [% IF match_pages && result.type == "document" && result.component_count_fulltext && result.component_count_fulltext > 0 -%]
     [% INCLUDE partial/matching_pages.tt query=query pkey=result.key %]
   [% END -%]
+  [% IF result.type != "page" && portal.sr_record %]
   <div class="collapse" id="dr_[% loop.count %]">
     [% INCLUDE partial/document_record.tt record=result %]
   </div>
+  [% END %]
 </section>
 [% UNLESS loop.last %]<hr />[% END %]
 [% END %]

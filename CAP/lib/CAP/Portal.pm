@@ -21,6 +21,12 @@ has 'font' => (
   default => 'Roboto'
 );
 
+has 'sr_record' => (
+  is      => 'ro',
+  isa     => 'Bool',
+  default => 1
+);
+
 has 'search_schema' => (
   is      => 'ro',
   isa     => 'Str',
