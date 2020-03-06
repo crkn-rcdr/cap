@@ -38,7 +38,10 @@
         var pageViewer = $pvToolbar.data().pageViewer;
         this.$element.on("click", ".matching-page", function(e) {
           e.preventDefault();
-          pageViewer.goToPage(parseInt($(this).attr("data-seq"), 10));
+          pageViewer.controls.pageSelect.selector.val(
+            parseInt($(this).attr("data-seq"), 10)
+          );
+          pageViewer.selectPage();
         });
       }
     },
@@ -72,14 +75,13 @@
       this.$searching.hide();
       this.$results.html(data);
 
-      var $moreLink = $(".matching-pages-more-link", this.$element);
-      $moreLink.removeAttr("href");
-      var $more = $(".matching-pages-more", this.$element);
-      if ($moreLink.length) {
-        $moreLink.on("click", function(e) {
+      var $moreButton = $(".matching-pages-more", this.$results);
+      var $more = $(".matching-pages-remainder", this.$results);
+      if ($moreButton.length) {
+        $moreButton.on("click", function(e) {
           e.preventDefault();
-          $moreLink.addAttr("hidden");
-          $more.removeAttr("hidden");
+          $moreButton.addClass("hidden");
+          $more.removeClass("hidden");
         });
       }
     }
