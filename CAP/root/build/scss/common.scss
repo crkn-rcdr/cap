@@ -153,6 +153,19 @@ footer a {
   }
 }
 
+#noFlexWarning {
+  display: block;
+  position: absolute;
+  padding: 24px;
+  top: 50%;
+  background-color: $warning;
+  width: 100%;
+}
+
+.flexbox #noFlexWarning {
+  display: none;
+}
+
 .collapse-pane {
   border-radius: 0.375rem;
 }
