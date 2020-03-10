@@ -5,7 +5,7 @@ $transparent-blur: blur(3px);
 /* purgecss start ignore */
 
 header {
-  background-color: unset;
+  background-color: $white;
   color: $body-color;
   a {
     color: $primary;
@@ -76,7 +76,7 @@ body.action-index {
   }
 
   .above-fold {
-    min-height: 100vh;
+    height: 100vh;
   }
 
   .banner-credit {
