@@ -6,10 +6,10 @@
           <a href="[% c.loc("URL_PARL_PARL") %]">[% c.loc("L_PARL_PARLIAMENT_LONG") %]</a>
         </li>
         <li class="d-inline-block ml-auto">
-          <a href="[% c.loc("URL_PARL_VISIT") %]">
-            <span class="d-none d-sm-inline">[% c.loc("L_PARL_VISIT_LONG") %]</span>
-            <span class="d-inline d-sm-none">[% c.loc("L_PARL_VISIT_SHORT") %]</span>
-          </a>
+          <a href="/">[% c.loc("L_SEARCH_NEW") %]</a>
+        </li>
+        <li class="d-inline-block">
+          <a href="/browse">[% c.loc("L_BROWSE") %]</a>
         </li>
         <li class="d-inline-block">
 [% IF lang == 'fr' -%]

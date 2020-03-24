@@ -1,3 +1,4 @@
+<p class="sr-only">[% c.loc("L_VIEW_TEXT_ONLY") %]</p>
 [% INCLUDE partial/page_viewer/toolbar.tt %]
 <section id="pvPane" class="mb-3">
   <section id="pvImageContainer">
