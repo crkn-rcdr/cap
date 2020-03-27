@@ -59,10 +59,11 @@ sub tree {
 }
 
 sub _issue_title {
-  my ( $full_title, $lang ) = @_;
+  my ( $full_title, $lang, $split_colon ) = @_;
   my ( $eng, $fra ) = split " = ", $full_title;
   my $title = $fra && $lang eq "fra" ? $fra : $eng;
-  return trim( ( split ":", $title )[1] || $title );
+  $title = ( split ":", $title )[1] || $title if ($split_colon);
+  return trim($title);
 }
 
 sub leaf {
@@ -86,8 +87,9 @@ sub leaf {
   return $leaf unless $response->data->{rows};
 
   foreach my $row ( @{ $response->data->{rows} } ) {
-    push @$leaf,
-      { id => $row->{id}, label => _issue_title( $row->{value}, $lang ) };
+    my $label = _issue_title( $row->{value}, $lang,
+      $type ne "rules" && $type ne "orders" );
+    push @$leaf, { id => $row->{id}, label => $label };
   }
 
   return {
