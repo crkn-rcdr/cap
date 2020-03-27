@@ -4,7 +4,7 @@
   [% showlist = [parl_language, parl_chamber, parl_type, parl_parliament]; show = showlist.join("_") %]
   <p><a href="[% c.uri_for("/browse", { show = show }) %]">&laquo; [% c.loc("L_PARL_BROWSE_VOLUMES") %]</a></p>
   [% ELSE %]
-  <p><a href-"[% c.uri_for("/browse") %]">&laquo; [% c.loc("L_PARL_BROWSE_BACK") %]</a></p>
+  <p><a href="[% c.uri_for("/browse") %]">&laquo; [% c.loc("L_PARL_BROWSE_BACK") %]</a></p>
   [% END %]
 
   <div class="row">
