@@ -54,11 +54,8 @@ sub auto : Private {
 
   if ( $portal->id eq 'parl' ) {
     $c->stash(
-      supported_types => [
-        'debates', 'journals', 'committees', 'bills',
-        'proc',    'rules',    'orders',     'sessional'
-      ],
-      type_labels    => $c->model('Parl')->type_labels( $c->stash->{lang} ),
+      supported_types => $c->model('Parl')->supported_types,
+      type_labels     => $c->model('Parl')->type_labels( $c->stash->{lang} ),
       chamber_labels => $c->model('Parl')->chamber_labels( $c->stash->{lang} ),
       tree           => $c->model('Parl')->tree()
     );

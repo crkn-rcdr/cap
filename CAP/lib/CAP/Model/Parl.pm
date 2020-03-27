@@ -96,6 +96,13 @@ sub leaf {
   };
 }
 
+sub supported_types {
+  return [
+    'debates', 'journals', 'committees', 'bills', 'sproc',
+    'cproc',   'rules',    'orders',     'sessional'
+  ];
+}
+
 has _type_labels => (
   is      => 'ro',
   default => sub {
@@ -105,7 +112,8 @@ has _type_labels => (
         journals   => "Journals",
         committees => "Committees",
         bills      => "Bills",
-        proc       => "Votes and Proceedings",
+        sproc      => "Senate Minutes of Proceedings",
+        cproc      => "House of Commons Votes and Proceedings",
         rules      => "Rules of the Senate",
         orders     => "Standing Orders of the House of Commons",
         sessional  => "Sessional Papers"
@@ -115,7 +123,8 @@ has _type_labels => (
         journals   => "Journaux",
         committees => "Comités",
         bills      => "Projets de loi",
-        proc       => "Procès-verbaux",
+        sproc      => "Procès-verbaux du Sénat",
+        cproc      => "Procès-verbaux de la Chambre des communes",
         rules      => "Règlement du Sénat",
         orders     => "Règlement de la Chambre des communes",
         sessional  => "Documents parlementaires"
@@ -159,13 +168,13 @@ has _publications => (
         sjournals   => 'Senate Journals',
         scommittees => 'Senate Committees',
         sbills      => 'Senate Bills',
-        sproc       => 'Senate Votes and Proceedings',
+        ssproc      => 'Senate Minutes of Proceedings',
         srules      => 'Rules of the Senate',
         cdebates    => 'House of Commons Debates',
         cjournals   => 'House of Commons Journals',
         ccommittees => 'House of Commons Committees',
         cbills      => 'House of Commons Bills',
-        cproc       => 'House of Commons Votes and Proceedings',
+        ccproc      => 'House of Commons Votes and Proceedings',
         corders     => 'Standing Orders of the House of Commons',
         csessional  => 'Sessional Papers'
       },
@@ -174,13 +183,13 @@ has _publications => (
         sjournals   => 'Journaux du Sénat',
         scommittees => 'Comités du Sénat',
         sbills      => 'Projets de loi du Sénat',
-        sproc       => 'Procès-verbaux du Sénat',
+        ssproc      => 'Procès-verbaux du Sénat',
         srules      => 'Règlement du Sénat',
         cdebates    => 'Débats de la Chambre des communes',
         cjournals   => 'Journaux de la Chambre des communes',
         ccommittees => 'Comités de la Chambre des communes',
         cbills      => 'Projets de loi de la Chambre des communes',
-        cproc       => 'Procès-verbaux de la Chambre des communes',
+        ccproc      => 'Procès-verbaux de la Chambre des communes',
         corders     => 'Règlement de la Chambre des communes',
         csessional  => 'Documents parlementaires'
       }
