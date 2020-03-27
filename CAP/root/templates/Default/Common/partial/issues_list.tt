@@ -1,17 +1,19 @@
-<table class="table">
-    <thead>
-        <tr>
-            <th>[% c.loc("Published") %]</th>
-            <th>[% c.loc("Issue Title") %]</th>
-        </tr>
-    </thead>
-    <tbody>
-        [% FOREACH issue_key IN series.record.order %]
-        [% issue = series.record.items.$issue_key %]
-        <tr>
-            <td>[% IF issue.defined("pubmin"); issue.pubmin.substr(0,4); END %]</td>
-            <td><a href="[% c.uri_for_action("view/index", issue_key) %]">[% issue.label %]</a></td>
-        </tr>
-        [% END %]
-    </tbody>
-</table>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+  [% FOREACH issue_key IN series.record.order %]
+  [% issue = series.record.items.$issue_key %]
+  <div class="col mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title h5 mb-0">
+          <a class="stretched-link" href="[% c.uri_for_action("view/index", issue_key) %]">[% issue.label %]</a>
+        </h3>
+      </div>
+      [% IF c.portal_id != "heritage" && issue.defined("pubmin") %]
+        <div class="card-footer">
+          [% issue.pubmin.substr(0,4) %]
+        </div>
+      [% END %]
+    </div>
+  </div>
+  [% END %]
+</div>

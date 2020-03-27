@@ -1,18 +1,12 @@
-﻿[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header>
-    <a class="banner" href="[% c.uri_for_action("index") %]">
-        <div class="illustration"></div>
-        <div class="logo"></div>
-    </a>
-    <a class="lang" href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a>
+	<a class="banner container" href="/"><span class="sr-only">[% c.portal_title %]</span></a>
+	<nav>
+		<ul class="container">
+			<li><a href="/">[% c.loc("L_HOME") %]</a></li>
+			<li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
+			<li><a href="[% c.loc("URL_HELP") %]">[% c.loc("L_HELP") %]</a></li>
+      <li><a href="[% c.loc("URL_NUMERIS") %]">numeris.ca</a></li
+		</ul>
+	</nav>
 </header>
-<div class="sve_bar">
-    <div class="container">
-        <ul class="row">
-            <li class="span3"><a href="[% c.uri_for_action("/index") %]">[% c.loc("Home") %]</a></li>
-            <li class="span3"><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
-            <li class="span3"><a href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a></li>
-            <li class="span3"><a href="[% c.loc("http://www.numeris.ca") %]" target="_blank">numeris.ca</a></li>
-        </ul>
-    </div>
-</div>

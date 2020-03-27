@@ -1,32 +1,11 @@
-﻿[% title = c.loc("Search results for [_1]", query.to_cap) -%]
-
-[%-
-    MACRO sort_order(code) INCLUDE macro/sort_order.tt;
-    MACRO format_number(number) INCLUDE macro/format_number.tt;
-    MACRO hash_to_hidden(hash) INCLUDE macro/hash_to_hidden.tt;
-    keywords = query.to_cap;
-    pkey = c.req.query_params.defined("pkey") ? c.req.query_params.pkey : "";
-    sort = c.req.query_params.defined("so") ? c.req.query_params.so : "score";
-    searchLang = c.req.query_params.defined("lang") ? (c.req.query_params.lang.0 ? c.req.query_params.lang : [ c.req.query_params.lang ]) : [];
-    depositor = c.req.query_params.defined("depositor") ? (c.req.query_params.depositor.0 ? c.req.query_params.depositor : [ c.req.query_params.depositor ]) : [];
-    collection = c.req.query_params.defined("collection") ? (c.req.query_params.collection.0 ? c.req.query_params.collection : [ c.req.query_params.collection ]) : [];
-    parl_type = c.req.query_params.defined("type") ? (c.req.query_params.type.0 ? c.req.query_params.type : [ c.req.query_params.type ]) : [];
-    parl_chamber = c.req.query_params.defined("chamber") ? (c.req.query_params.chamber.0 ? c.req.query_params.chamber : [ c.req.query_params.chamber ]) : [];
-    parl_session = c.req.query_params.defined("session") ? (c.req.query_params.session.0 ? c.req.query_params.session : [ c.req.query_params.session ]) : [];
-    date_from = c.req.query_params.defined("df") ? c.req.query_params.df : "";
-    date_to = c.req.query_params.defined("dt") ? c.req.query_params.dt : "";
-    hits = resultset.hits;
-    hits_from = resultset.first;
-    hits_to = resultset.last;
-    current_page = resultset.page;
-    total_pages = resultset.pages;
--%]
-
-<div class="row">
-    <div class="span3">
-[% INCLUDE partial/search_controls.tt | indent(8) -%]
+[% title = query ? c.loc("L_SEARCH_RESULTS_FOR", query) : c.loc("L_SEARCH_RESULTS") -%]
+<div class="container-md">
+  <div class="row">
+    <div class="col-md-4 col-lg-3">
+[% INCLUDE partial/search_controls.tt | indent(6) -%]
     </div>
-    <div class="span9">
-[% INCLUDE partial/search_results.tt | indent(8) -%]
+    <div class="col-md-8 col-lg-9">
+[% INCLUDE partial/search_results.tt | indent(6) -%]
     </div>
+  </div>
 </div>

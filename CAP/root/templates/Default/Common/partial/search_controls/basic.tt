@@ -1,0 +1,17 @@
+<label for="query">[% c.loc("L_SEARCH_REFINE") %]</label>
+<input type="text" id="query" class="form-control form-control-lg" name="q" value="[% query | html %]" />
+[% IF search_params.pkey && c.portal_id != "sve" -%]
+<input type="hidden" name="pkey" value="[% search_params.pkey %]" />
+<p class="mt-3">
+  <a href="[% c.uri_for_action("/search/index", c.req.mangle_params({ pkey => "" })) %]">[&times;]</a>
+  [% c.loc("L_SEARCH_WITHIN") %] <a href="[% c.uri_for_action("view/index", search_params.pkey) %]"><i>[% resultset.documents.0.plabel %]</i></a>.
+</p>
+[% END -%]
+[% IF portal.has_subcollections && search_handler != "page" -%]
+<div class="form-group form-check mt-3">
+  <input type="checkbox" class="form-check-input" id="handlerCheck" name="include_issues"[% IF search_handler == "general" %] checked[% END %]>
+  <label class="form-check-label" for="handlerCheck">[% c.loc("L_SEARCH_INCLUDE_ISSUES") %]</label>
+</div>
+[% ELSE -%]
+<input type="hidden" name="handler" value="[% search_handler %]" />
+[% END -%]

@@ -1,10 +1,15 @@
-[% title = c.loc("Welcome") -%]
-
-<div class="row">
-    <div class="span6 blurb">
-    [% content_blocks.blurb %]
-    </div>
-    <div class="span6 search">
+<div class="h-100 d-flex flex-column">
+  <div class="container my-auto">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 mt-3">
+        <h2>[% c.portal_title %]</h2>
 [% INCLUDE partial/search_form.tt | indent(8) %]
+      </div>
     </div>
+    <div class="row mt-4">
+      <div class="col-lg-12">
+[% INCLUDE "blocks/${c.stash.lang}/blurb.html" | indent(8) %]
+      </div>
+    </div>
+  </div>
 </div>

@@ -2,82 +2,85 @@ package CAP::View::Default;
 
 use strict;
 use base 'Catalyst::View::TT';
+use Number::Format;
 use Date::Format qw(time2str);
-use Date::Parse qw(str2time);
-use Scalar::Util qw(looks_like_number);
-use Text::Trim;
-
 
 __PACKAGE__->config(
-    TEMPLATE_EXTENSION => '.tt',
-    STRICT => 0,
-    #INCLUDE_PATH => [CAP->path_to('root/Default/templates/Default')],
-    #INCLUDE_PATH => [CAP->path_to('root', 'templates', 'Default', 'Default')],
-    RELATIVE => 1,
-    WRAPPER => 'main.tt',
-    FILTERS => {
-        escape_js => sub { $_[0] =~ s/["\\]/\\$1/g; return $_[0]; },
+  TEMPLATE_EXTENSION => '.tt',
+  ENCODING           => 'UTF-8',
+  STRICT             => 0,
+  RELATIVE           => 1,
+  WRAPPER            => 'main.tt',
+  VARIABLES          => {
 
-        # Works basically like xml_escape, but doesn't turn ' into &quot;,
-        # saving a lot of grief with Internet Explorer.
-        xhtml => sub {
-            $_[0] =~ s/&/&amp;/g;
-            $_[0] =~ s/</&lt;/g;
-            $_[0] =~ s/>/&gt;/g;
-            $_[0] =~ s/"/&quot;/g;
-            return $_[0];
-        }
+    # Refines $param by adding/replacing any keys that appear in
+    # refine. Returns a new hash.
+    refine => sub {
+      my ( $param, $refine ) = @_;
+      my $joined = {};
+      while ( my ( $key, $value ) = each( %{$param} ) ) {
+        $joined->{$key} = $value;
+      }
+      while ( my ( $key, $value ) = each( %{$refine} ) ) {
+        $joined->{$key} = $value;
+      }
+      return $joined;
     },
-    EVAL_PERL => 1,
-    VARIABLES => {
-        megabytes => sub {
-            return sprintf("%3.1f", $_[0] / 1048576);
-        },
 
-        # Refines $param by adding/replacing any keys that appear in
-        # refine. Returns a new hash.
-        refine => sub {
-            my($param, $refine) = @_;
-            my $joined = {};
-            while (my($key, $value) = each(%{$param})) { $joined->{$key} = $value; }
-            while (my($key, $value) = each(%{$refine})) { $joined->{$key} = $value; }
-            return $joined;
-        },
-        
-        # Delete keys from the hash
-        'delete' => sub {
-            my($hash, @keys) = @_;
-            my $joined = {};
-            while (my($key, $value) = each(%{$hash})) { $joined->{$key} = $value; }
-            foreach my $key (@keys) { delete($joined->{$key}) if (defined($joined->{$key})); }
-            return $joined;
-        },
+    format_number => sub {
+      my ( $number, $lang ) = @_;
 
-        format_date => sub {
-            my $date = shift(@_);
-            $date = str2time($date) unless looks_like_number($date);
-            return $date ? time2str("%Y-%m-%d", $date) : "";
-        },
+      #format only if it's a valid decimal number
+      my $result;
+      if ( $number =~ /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/ ) {
+        my %delimiters;
 
-        format_time => sub {
-            my $time = shift(@_);
-            $time = str2time($time) unless looks_like_number($time);
-            return $time ? time2str("%Y-%m-%d %T", $time) : "";
-        },
+        if ( $lang eq 'fr' ) {
+          %delimiters = ( -thousands_sep => ' ', -decimal_point => ',' );
+        } else {
+          %delimiters = ( -thousands_sep => ',', -decimal_point => '.' );
+        }
 
-        'now' => sub {
-            return time;
-        },
+        my $format = new Number::Format(%delimiters);
+        $result = $format->format_number($number);
+      } else {
+        $result = $number;
+      }
+    },
 
-        current_year => sub {
-            return time2str("%Y", time);
-        },
+    ordinate => sub {
+      my ( $number, $gender, $lang ) = @_;
 
-        cdn_uri => sub {
-            my ($doc, $file) = (@_);
-            return "http://cdn.canadiana.ca/$doc/$file";
-        },
+      my $result;
+
+      #format only if it's a valid decimal number
+      if ( $number =~ /^\d+$/ ) {
+        if ( $lang eq 'fr' ) {
+          if ( $number == 1 ) {
+            $result = ( $gender eq 'f' ? '1re' : '1er' );
+          } else {
+            $result = $number . 'e';
+          }
+        } else {
+          $number =~ s/1?\d$/$& . ((0,'st','nd','rd')[$&] || 'th')/e;
+          $result = $number;
+        }
+      } else {
+        $result = $number;
+      }
+
+      return $result;
+    },
+
+    current_year => sub {
+      return time2str( "%Y", time );
+    },
+
+    ref => sub {
+      my ($t) = @_;
+      return ref $t;
     }
+  }
 );
 
 =head1 NAME

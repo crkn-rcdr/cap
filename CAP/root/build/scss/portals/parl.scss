@@ -1,0 +1,122 @@
+$primary: #3a78ae;
+$font-family-sans-serif: "Open Sans", sans-serif;
+
+@import "../common.scss";
+
+header {
+  background-color: $dark;
+  margin-bottom: $spacer;
+}
+
+.header-links {
+  @include media-breakpoint-up(md) {
+    @include make-col(12);
+  }
+}
+
+.small-links {
+  margin: 0;
+}
+
+.ce-lop-header a {
+  display: block;
+  text-transform: uppercase;
+  color: $white;
+  text-decoration: none;
+  padding: 5px 10px;
+  transition: background-color ease-in 0.3s;
+  &:hover {
+    background-color: #000;
+  }
+}
+
+.ce-lop-header li {
+  border-right: solid 1px #000;
+  &:first-child,
+  &.ml-auto {
+    border-left: solid 1px #000;
+  }
+}
+
+.ce-lop-header-parl {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.ce-lop-nav {
+  background-color: $white;
+}
+
+.ce-lop-nav li {
+  border-right: solid 1px #e5e5e5;
+  &:first-child,
+  &.ml-auto {
+    border-left: solid 1px #e5e5e5;
+  }
+}
+
+.ce-lop-nav li a {
+  display: block;
+  padding: 16px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color ease-in 0.3s;
+  font-size: 1.15em;
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.ce-lop-nav-senate a,
+.ce-lop-nav-senate a:hover {
+  color: #7f0116;
+}
+
+.ce-lop-nav-lop a,
+.ce-lop-nav-lop a:hover {
+  color: #006;
+}
+
+.ce-lop-nav-hoc a,
+.ce-lop-nav-hoc a:hover {
+  color: #427a26;
+}
+
+.ce-lop-bar {
+  background-color: #e7e9ec;
+}
+
+.ce-lop-bar a {
+  color: #322f31;
+  display: block;
+  padding: 20px;
+  transition: background-color ease-in 0.3s;
+  font-weight: 600;
+  max-height: 64px;
+  &:hover {
+    color: #322f31;
+    background-color: $white;
+    text-decoration: none;
+  }
+  &.logo {
+    padding: 6px 20px 0px 20px;
+  }
+}
+
+.header-title-background {
+  background-image: url("/static/images/lop_keys.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-title-parl {
+  padding-top: $spacer;
+  padding-bottom: $spacer;
+  margin-top: auto;
+  margin-bottom: auto;
+}

@@ -1,2 +1,4 @@
-[% INCLUDE partial/search_form/parliament_options.tt %]
-[% INCLUDE partial/search_form/date_range.tt %]
+<div class="form-row">
+[% INCLUDE partial/search_form/parliament_options.tt | indent(2) %]
+[% INCLUDE partial/search_form/date_range.tt colclass="col-sm-6" | indent(2) %]
+</div>

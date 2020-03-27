@@ -4,7 +4,6 @@ use namespace::autoclean;
 
 use strict;
 use warnings;
-use Config::General;
 use utf8;
 
 use JSON qw/encode_json/;
@@ -17,9 +16,6 @@ BEGIN { extends 'Catalyst::Controller'; }
 
 sub auto : Private {
   my ( $self, $c ) = @_;
-
-  # Create a session if we don't already have one.
-  $c->initialize_session;
 
   my $portal =
     $c->model('Collections')->portal_from_host( $c->req->uri->host );
@@ -44,10 +40,6 @@ sub auto : Private {
       'templates', $c->stash->{current_view}, 'Common' )
   ];
 
-  # Configure the interface language. Stash the language in a separate
-  # cookie with a long expiration time so that the user's language
-  # preference is stored long-term on their browser.
-  $c->languages( [$c->stash->{lang}] );
   $c->res->cookies->{ $c->config->{cookies}->{lang} } = {
     domain   => $c->stash->{cookie_domain},
     value    => $c->stash->{lang},
@@ -55,12 +47,6 @@ sub auto : Private {
     httponly => 1
   };
   $c->stash(
-    content_blocks => $c->model('CMS')->cached_blocks( {
-        portal => $c->portal_id,
-        lang   => $c->stash->{lang},
-        action => $c->action->private_path
-      }
-    ),
     depositor_labels =>
       $c->model('Depositors')->as_labels( $c->stash->{lang} ),
     language_labels => $c->model('Languages')->as_labels( $c->stash->{lang} )
@@ -68,9 +54,8 @@ sub auto : Private {
 
   if ( $portal->id eq 'parl' ) {
     $c->stash(
-      supported_types =>
-        ['debates', 'journals', 'committees', 'bills', 'proc', 'sessional'],
-      type_labels    => $c->model('Parl')->type_labels( $c->stash->{lang} ),
+      supported_types => $c->model('Parl')->supported_types,
+      type_labels     => $c->model('Parl')->type_labels( $c->stash->{lang} ),
       chamber_labels => $c->model('Parl')->chamber_labels( $c->stash->{lang} ),
       tree           => $c->model('Parl')->tree()
     );
@@ -105,32 +90,28 @@ sub favicon : Path('favicon.ico') {
   $c->detach();
 }
 
-# If we don't match anything, we're trying to access a CMS node (or 404)
+# If we don't match anything, we're trying to access a page
 sub default : Path {
   my ( $self, $c, @path ) = @_;
 
   my $path   = join '/', @path;
-  my $lookup = $c->model('CMS')->view( {
-      portal   => $c->portal_id,
-      lang     => $c->stash->{lang},
-      path     => $path,
-      base_url => $c->uri_for('/')
-    }
-  );
+  my $lookup = $c->stash->{portal}->page_mapping( $c->stash->{lang}, $path );
 
   $c->detach( 'error', [404, "Failed lookup for $path"] ) unless $lookup;
-  $c->detach( 'error', [404, $lookup] ) unless ref $lookup;
 
-  if ( ( ref $lookup ) =~ /URI/ ) {
-    $c->response->redirect($lookup);
+  if ( $lookup->{redirect} ) {
+    $c->response->redirect( '/' . $lookup->{redirect} );
     $c->detach();
   }
 
-  use Data::Dumper;
+  my $page    = $lookup->{page} || '';
+  my $include = join( '/', 'pages', $c->stash->{lang}, "$page.html" );
   $c->stash(
-    node     => $lookup,
-    template => "node.tt"
+    include  => $include,
+    template => 'page.tt',
+    title    => $lookup->{title}
   );
+
 }
 
 sub end : ActionClass('RenderView') {
@@ -159,23 +140,19 @@ sub error : Private {
 sub index : Path('') Args(0) {
   my ( $self, $c ) = @_;
 
-  $c->stash->{template} = "index.tt";
-  $c->stash->{updates}  = $c->model("CMS")->cached_updates( {
-      portal => $c->portal_id,
-      lang   => $c->stash->{lang},
-      limit  => 3
-    }
-  );
-}
+  if ( $c->stash->{portal}->has_banners ) {
+    my $banners = $c->stash->{portal}->banners;
+    my @list    = keys %$banners;
+    my $i       = int( rand( scalar @list ) );
+    my $banner  = $list[$i];
+    $c->stash->{banner} = {
+      image => "/static/images/banners/" . $list[$i] . ".jpg",
+      title => $banners->{ $list[$i] },
+      url   => $c->uri_for( "/view/" . $list[$i] =~ s/@/\//r )->as_string
+    };
+  }
 
-# list of CMS nodes marked isUpdate
-sub updates : Local {
-  my ( $self, $c ) = @_;
-  $c->stash->{updates} = $c->model("CMS")->updates( {
-      portal => $c->portal_id,
-      lang   => $c->stash->{lang}
-    }
-  );
+  $c->stash->{template} = "index.tt";
 }
 
 sub robots : Path('robots.txt') {
@@ -185,6 +162,7 @@ sub robots : Path('robots.txt') {
   my $body        = <<"EOF";
 User-agent: *
 Disallow: /search
+Allow: /search-tips
 Disallow: /file
 Sitemap: $sitemap_uri
 EOF

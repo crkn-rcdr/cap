@@ -1,9 +1,6 @@
-﻿<p>
-    [% IF lang == "fr" %]
-        <a href="http://www.international.gc.ca/international/index.aspx?lang=fra&view=d" target="_blank">Tous droits réservés © Affaires étrangères, Commerce et Développement</a><br />
-        <a href="http://www.canadiana.org/fr/accueil" target="_blank">Réalisé par Canadiana.org</a>
-    [% ELSE %]
-        <a href="http://www.international.gc.ca/international/index.aspx?view=d" target="_blank">All content copyright © Foreign Affairs, Trade and Development</a><br />
-        <a href="http://www.canadiana.org/en/home" target="_blank">Produced by Canadiana.org</a>
-    [% END %]
-</p>
+﻿<footer class="mt-auto bg-dark text-white text-center">
+  <p class="my-3">
+    <a href="[% c.loc("URL_GAC") %]">[% c.loc("L_GAC_COPYRIGHT") %]</a><br />
+    <a href="[% c.loc("URL_CRKN") %]">[% c.loc("L_CRKN_PRODUCED") %]</a>
+  </p>
+</footer>

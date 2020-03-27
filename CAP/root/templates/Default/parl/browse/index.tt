@@ -1,10 +1,7 @@
-﻿[% title = c.loc("Browse") -%]
+[% title = c.loc("L_BROWSE") -%]
 [% showfull = (c.req.params.show || ""); show = showfull.split("_") %]
-[% llang = c.stash.lang == "fr" ? "fra" : "eng" %]
+[% llang = lang == "fr" ? "fra" : "eng" %]
 
-<h2>[% c.loc("Browse") %]</h2>
-
-[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
 [% BLOCK tree %]
 [% DEFAULT language='eng' chamber='c' %]
 [% branch = tree.$language.$chamber %]
@@ -14,25 +11,28 @@
 	[% IF branch.defined(type) %]
 	[% typeroot = [rootid, type]; typeid = typeroot.join('_') %]
 	<li>
-		<a data-toggle="collapse" data-parent="#[% rootid %]" data-target="#[% typeid %]">
+		[% IF ref(branch.$type) == 'HASH' %]
+		[% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) %]
+		<a role="button" data-toggle="collapse" data-parent="#[% rootid %]" data-target="#[% typeid %]" aria-expanded="[% expanded ? 'true' : 'false' %]" aria-controls="[% typeid %]" tabindex="0">
 			[% type_labels.$type %]
 		</a>
-		<div id="[% typeid %]" class="collapse[% IF show.0.match(language) && show.1.match(chamber) && show.2.match(type) %] in[% END %]">
+		<div id="[% typeid %]" class="collapse[% IF expanded %] show[% END %]">
 			<ul>
 			[% FOREACH p IN branch.$type.keys.sort %]
 			[% proot = [typeid, p]; pid = proot.join('_') %]
+			[% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %]
 				<li>
-					<a data-toggle="collapse" data-parent="#[% typeid %]" data-target="#[% pid %]">
-						[% ordinate(p + 0, 'f') %] [% c.loc("Parliament") %]
+					<a role="button" data-toggle="collapse" data-parent="#[% typeid %]" data-target="#[% pid %]" aria-expanded="[% expanded ? 'true' : 'false' %]" aria-controls="[% pid %]" tabindex="0">
+						[% ordinate(p + 0, 'f', c.stash.lang) %] [% c.loc("L_PARL_PARLIAMENT") %]
 					</a>
-					<div id="[% pid %]" class="collapse[% IF show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %] in[% END %]">
+					<div id="[% pid %]" class="collapse[% IF expanded %] show[% END %]">
 						<ul>
 						[% FOREACH skey IN branch.$type.$p.keys.sort %]
 							[% s = skey.split('-').1 %]
 							<li>
 								<a href="[% c.uri_for("/browse", language, chamber, type, skey) %]">
-									[% ordinate(s + 0, 'f') %] [% c.loc("Session") %] ([% branch.$type.$p.$skey == 1 ? "1 volume" : c.loc("[_1] volumes", branch.$type.$p.$skey) %])<br />
-									[% parl_sessions.$skey.term.start %] [% c.loc("to") %] [% parl_sessions.$skey.term.end %]
+									[% ordinate(s + 0, 'f', c.stash.lang) %] [% c.loc("L_PARL_SESSION") %] ([% branch.$type.$p.$skey == 1 ? c.loc("L_SEARCH_PP_VOLUME_ONE") : c.loc("L_SEARCH_PP_VOLUME_MULTI", branch.$type.$p.$skey) %])<br />
+									[% parl_sessions.$skey.term.start %] [% c.loc("GENERIC_TO") %] [% parl_sessions.$skey.term.end %]
 									[% IF chamber == 'c'; "<br />"; FOREACH pm IN parl_sessions.$skey.primeMinisters; pm.name; UNLESS loop.last; "; "; END; END; END %]
 								</a>
 							</li>
@@ -43,19 +43,25 @@
 			[% END %]
 			</ul>
 		</div>
+		[% ELSE %]
+		<a href="[% c.uri_for("/browse", language, chamber, type) %]">[% type_labels.$type %] ([% branch.$type == 1 ? c.loc("L_SEARCH_PP_VOLUME_ONE") : c.loc("L_SEARCH_PP_VOLUME_MULTI", branch.$type) %])</a>
+		[% END %]
 	</li>
 	[% END %]
 [% END %]
 </ul>
 [% END %]
 
-<div class="row">
-	<div class="span6">
-		<h3>[% c.loc("Senate") %]</h3>
-		[% INCLUDE tree language=llang chamber='s' %]
-	</div>
-	<div class="span6">
-		<h3>[% c.loc("House of Commons") %]</h3>
-		[% INCLUDE tree language=llang chamber='c' %]
+<div class="container">
+	<h2>[% c.loc("L_BROWSE") %]</h2>
+	<div class="row">
+		<div class="col-sm">
+			<h3 class="h4">[% c.loc("L_PARL_SENATE") %]</h3>
+			[% INCLUDE tree language=llang chamber='s' %]
+		</div>
+		<div class="col-sm">
+			<h3 class="h4">[% c.loc("L_PARL_HOC") %]</h3>
+			[% INCLUDE tree language=llang chamber='c' %]
+		</div>
 	</div>
 </div>

@@ -1,0 +1,25 @@
+[% IF facets.size > 1 %]
+  [% WRAPPER layout/collapse_pane.tt name=name title=title open=1 %]
+    [% IF resultset.hits %]
+      [% FOREACH facet IN facets %]
+        [% IF labels.defined(facet.name) %]
+          <div class="form-check">
+            <input type="checkbox" id="facet[% name %][% facet.name %]" class="form-check-input" name="[% search_name || name %]" value="[% facet.name %]"[% IF p.grep(facet.name).size %] checked[% END %] />
+            <label class="form-check-label" for="facet[% name %][% facet.name %]">
+              [% labels.${facet.name} %] ([% facet.count %])
+            </label>
+          </div>
+        [% END %]
+      [% END %]
+    [% ELSE %]
+      [% FOREACH param IN p %]
+        <div class="form-check">
+          <input type="checkbox" id="facet[% name %][% param %]" class="form-check-input" name="[% search_name || name %]" value="[% param %]" checked />
+          <label class="form-check-label" for="facet[% name %][% param %]">
+            [% labels.defined(param) ? labels.$param : param %]
+          </label>
+        </div>
+      [% END %]
+    [% END %]
+  [% END %]
+[% END %]

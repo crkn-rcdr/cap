@@ -1,9 +1,9 @@
-<div class="span3">
-    <label for="fieldSelect">[% c.loc("Search in") %]</label>
-    <select id="fieldSelect" name="field" class="span3">
-        <option value="">[% c.loc("Everything") %]</option>
-        <option value="ti">[% c.loc("Titles") %]</option>
-        <option value="su">[% c.loc("Subjects") %]</option>
-        <option value="tx">[% c.loc("Text") %]</option>
-    </select>
+<div class="form-group[% IF class %] [% class %][% END %]">
+  <label for="fieldSelect">[% c.loc("L_FIELD_SELECT") %]</label>
+  <select id="fieldSelect" class="custom-select" name="field">
+    <option value="">[% c.loc("L_FIELD_SELECT_EVERYTHING") %]</option>
+    <option value="ti"[% IF search_params.field == "ti" %] selected[% END %]>[% c.loc("L_FIELD_SELECT_TITLE") %]</option>
+    <option value="su"[% IF search_params.field == "su" %] selected[% END %]>[% c.loc("L_FIELD_SELECT_SUBJECT") %]</option>
+    <option value="tx"[% IF search_params.field == "tx" %] selected[% END %]>[% c.loc("L_FIELD_SELECT_TEXT") %]</option>
+  </select>
 </div>

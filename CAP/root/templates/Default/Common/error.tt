@@ -1,30 +1,28 @@
 [%-
   # Generic error page.
-  title = c.loc("Error");
+  title = c.loc("L_ERROR_HEADER");
 -%]
-  
 [%
   IF status == '400';
-    error_header = c.loc("Bad Request");
-    error_text   = c.loc("The page you requested cannot be displayed.");
+    error_header = c.loc("L_ERROR_400_HEADER");
+    error_text   = c.loc("L_ERROR_400_TEXT");
   ELSIF status == '404';
-    error_header = c.loc("Page Not Found");
-    error_text   = c.loc("The page you were looking for cannot be found.");
+    error_header = c.loc("L_ERROR_404_HEADER");
+    error_text   = c.loc("L_ERROR_404_TEXT");
   ELSIF status == '500' || status == '503';
-    error_header = c.loc("Server Error");
-    error_text   = c.loc("There was a problem with your request; try again in a few moments.");
+    error_header = c.loc("L_ERROR_500_HEADER");
+    error_text   = c.loc("L_ERROR_500_TEXT");
   ELSE;
-    error_header = c.loc("Error");
-    error_text   = c.loc("We're sorry; we were unable to process your request.");
+    error_header = c.loc("L_ERROR_HEADER");
+    error_text   = c.loc("L_ERROR_TEXT");
   END;
-%]
-
-<h2>[% error_header %]</h2>
-
-<p>[% error_text %]</p>
-
-[% IF c.debug %]
-<h3>[% c.loc("Additional Debugging Information") %]</h3>
-<p>[% c.loc("Status:") %] <strong>[% status %]</strong></p>
-<p>[% c.loc("Error:")  %] <strong>[% error %]</strong></p>
-[% END %]
+-%]
+<div class="container">
+  <h2>[% error_header %]</h2>
+  <p>[% error_text %]</p>
+[% IF c.debug -%]
+  <h3>Additional Debugging Information</h3>
+  <p>Status: <strong>[% status %]</strong></p>
+  <p>Error: <strong>[% error %]</strong></p>
+[% END -%]
+</div>

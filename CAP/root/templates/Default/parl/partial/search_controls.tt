@@ -1,84 +1,21 @@
-﻿[%- BLOCK refine_link %]
-[% DEFAULT active = "" %]
-[% IF value == active %]
-    <strong>[% content %]</strong>
-[% ELSE %]
-    <a href="[% c.uri_for_action('search/index', c.req.mangle_params({ $field => value })) %]">[% content %]</a>
-[% END %]
-[% END -%]
-
-[%- BLOCK refine_date_link %]<a href="[% c.uri_for_action('search/index', c.req.mangle_params({ df => date_from, dt => date_to })) %]">[% content %]</a>[% END %]
-
-[%- BLOCK facet_pane %]
-    [% IF facets.size > 1 %]
-        [% WRAPPER layout/collapse_pane.tt name=name title=title open=1 %]
-            <nav>
-                <ul>
-                    [% FOREACH facet IN facets %]
-                        [% IF labels.defined(facet.name) %]
-                            <li>
-                                <label class="checkbox">
-                                    <input type="checkbox" name="[% search_name || name %]" value="[% facet.name %]"[% IF p.grep(facet.name.remove("\\*")).size %] checked[% END %] />
-                                    [% labels.${facet.name} %] ([% facet.count %])
-                                </label>
-                            </li>
-                        [% END %]
-                    [% END %]
-                </ul>
-            </nav>
-        [% END %]
-    [% END %]
-[% END %]
-
-[% MACRO ordinate(number, gender) INCLUDE macro/ordinate.tt -%]
-<aside class="search-controls">
-    <form method="POST" action="[% c.uri_for_action("/search/post") %]">
-        <p>[% c.loc("Refine your search:") %]</p>
-        <input class="span3" type="text" name="q" value="[% keywords | html %]" />
-        [% IF hits > 0;
-           WRAPPER layout/collapse_pane.tt name="sort" title=c.loc("Sort Order") open=1 %]
-            [% IF sort %]<input type="hidden" name="so" value="[% sort %]" />[% END %]
-            <nav>
-                <ul>
-                    <li>[% WRAPPER refine_link field="so" value="score" active=sort %][% c.loc("relevance") %][% END %]</li>
-                    <li>[% WRAPPER refine_link field="so" value="newest" active=sort %][% c.loc("newest") %][% END %]</li>
-                    <li>[% WRAPPER refine_link field="so" value="oldest" active=sort %][% c.loc("oldest") %][% END %]</li>
-                </ul>
-            </nav>
-        [% END; END %]
-        [% IF (resultset.defined("pubmin") && resultset.defined("pubmax") && resultset.pubmin != resultset.pubmax) || date_from || date_to;
-           WRAPPER layout/collapse_pane.tt name="daterange" title=c.loc("Date Range") open=1 %]
-            [% IF date_from %]<input type="hidden" name="df" value="[% date_from %]" />[% END %]
-            [% IF date_to %]<input type="hidden" name="dt" value="[% date_to %]" />[% END %]
-            [% IF date_from && date_to %]
-                <p>[% c.loc("Results from [_1] to [_2].", date_from, date_to) %] [% WRAPPER refine_date_link date_from="" date_to="" %]<b class="close">&times;</b>[% END %]</p>
-            [% ELSIF date_from %]
-                <p>[% c.loc("Results from [_1] onward.", date_from) %] [% WRAPPER refine_date_link date_from="" date_to="" %]<b class="close">&times;</b>[% END %]</p>
-            [% ELSIF date_to %]
-                <p>[% c.loc("Results up to [_1].", date_to) %] [% WRAPPER refine_date_link date_from="" date_to="" %]<b class="close">&times;</b>[% END %]</p>
-            [% ELSE %]
-                <p>
-                    [% c.loc("Between") %]
-                    <input type="text" name="df" maxlength="4" placeholder="[% resultset.pubmin %]" value="" class="input-mini" />
-                    [% c.loc("and") %]
-                    <input type="text" name="dt" maxlength="4" placeholder="[% resultset.pubmax %]" value="" class="input-mini" />
-                </p>
-            [% END %]
-        [% END; END %]
-        [% INCLUDE facet_pane name="lang" title=c.loc("Language") p=searchLang facets=resultset.facets.lang labels=language_labels %]
-        [% INCLUDE facet_pane name="parlType" search_name="type" title=c.loc("Publication Type") p=parl_type facets=resultset.facets.parlType labels=type_labels %]
-        [% INCLUDE facet_pane name="parlChamber" search_name="chamber" title=c.loc("Chamber") p=parl_chamber facets=resultset.facets.parlChamber labels=chamber_labels %]
-        <label for="parlSelect" style="margin-top: 16px">[% c.loc("Parliament") %]</label>
-        <select id="parlSelect" name="session" class="span3">
-            <option value="">[% c.loc("All") %]</option>
-            [% FOREACH p IN [1 .. 35] -%]
-            [% ps = p < 10 ? "0" _ p : "" _ p %]
-            <option value="[% ps %]*"[% IF parl_session.grep(ps).size %] selected[% END %]>[% ordinate(p, 'f') %]</option> 
-            [% END -%]
-        </select>
-        <p>
-            <button type="submit" value="refine_search" class="btn btn-primary btn-large refine-search">[% c.loc("Update") %]</button>
-            <a class="btn btn-large refine-search" href="[% c.uri_for("/search-tips") %]">[% c.loc("Help") %]</a>
-        </p>
-    </form>
+<aside role="search">
+  <form method="POST" action="[% c.uri_for_action("/search/post") %]">
+    [% INCLUDE partial/search_controls/basic.tt %]
+    [% INCLUDE partial/search_controls/sort_order.tt %]
+    [% INCLUDE partial/search_controls/date_range.tt %]
+    [% INCLUDE partial/search_controls/facet_pane.tt name="lang" title=c.loc("R_LANGUAGE") p=search_params.lang facets=resultset.facets.lang labels=language_labels %]
+    [% INCLUDE partial/search_controls/facet_pane.tt facet_pane name="parlType" search_name="type" title=c.loc("R_PARL_TYPE") p=search_params.parl_type facets=resultset.facets.parlType labels=type_labels %]
+    [% INCLUDE partial/search_controls/facet_pane.tt name="parlChamber" search_name="chamber" title=c.loc("R_PARL_CHAMBER") p=search_params.parl_chamber facets=resultset.facets.parlChamber labels=chamber_labels %]
+    <div class="form-group">
+      <label for="parlSelect" style="margin-top: 16px">[% c.loc("R_PARL_PARLIAMENT") %]</label>
+      <select id="parlSelect" name="session" class="custom-select">
+        <option value="">[% c.loc("All") %]</option>
+        [% FOREACH p IN [1 .. 35] -%]
+        [% ps = p < 10 ? "0" _ p : "" _ p %]
+        <option value="[% ps %]*"[% IF search_params.parl_session.grep(ps).size %] selected[% END %]>[% ordinate(p, 'f', lang) %]</option> 
+        [% END -%]
+      </select>
+    </div>
+    [% INCLUDE partial/search_controls/buttons.tt %]
+  </form>
 </aside>

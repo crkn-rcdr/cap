@@ -1,0 +1,3 @@
+<div class="banner-credit">
+  <a href="[% banner.url %]">[% banner.title %]</a>
+</div>

@@ -1,2 +1,0 @@
-[% INCLUDE partial/search_form/sve_options.tt %]
-[% INCLUDE partial/search_form/date_range.tt %]

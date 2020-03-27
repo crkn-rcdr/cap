@@ -1,4 +1,4 @@
-FROM perl:5.24.2
+FROM perl:5.28.1
 
 RUN groupadd -g 1115 cihm && useradd -u 1015 -g cihm -m cihm && \
   cpanm -n Carton && mkdir -p /opt/cap && \
@@ -14,7 +14,8 @@ RUN carton install --deployment || (cat /root/.cpanm/work/*/build.log && exit 1)
 COPY *.conf cap.psgi /opt/cap/
 COPY conf /opt/cap/conf/
 COPY lib /opt/cap/lib/
-COPY root /opt/cap/root/
+COPY root/static /opt/cap/root/static
+COPY root/templates /opt/cap/root/templates
 COPY util /opt/cap/util/
 
 USER cihm
@@ -27,9 +28,7 @@ ENV CATALYST_DEBUG=0 \
   CAP_Model::Access::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation \
   CAP_Model::Access::Presentation_prezi_demo_endpoint=http://presentation.demo.canadiana.ca/iiif \
   CAP_Model::Access::Search_server=http://iris.tor.c7a.ca:8983/solr/cosearch \
-  CAP_Model::CMS_server=http://iris.tor.c7a.ca:5984/cms \
   CAP_Model::Collections_server=http://iris.tor.c7a.ca:5984/cap_collections \
-  CAP_Model::CouchCache_server=http://iris.tor.c7a.ca:5984/cap_caches \
   CAP_Model::Parl_server=http://iris.tor.c7a.ca:5984/copresentation \
   CAP_Model::ParlSession_server=http://iris.tor.c7a.ca:5984/parl_session \
   CAP_Model::UsageStats_statsdb=http://iris.tor.c7a.ca:5984/cap_usage_stats \

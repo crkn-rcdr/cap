@@ -1,9 +1,6 @@
-﻿<p>
-    [% IF lang == "fr" %]
-        <a href="http://fr.numeris.ca" target="_blank">Numeris</a><br />
-        <a href="http://www.canadiana.org/fr/accueil" target="_blank">Réalisé par Canadiana.org</a>
-    [% ELSE %]
-        <a href="http://en.numeris.ca" target="_blank">Numeris</a><br />
-        <a href="http://www.canadiana.org/en/home" target="_blank">Produced by Canadiana.org</a>
-    [% END %]
-</p>
+﻿<footer class="mt-auto bg-dark text-white text-center">
+  <p class="my-3">
+    <a href="[% c.loc("URL_NUMERIS") %]">[% c.loc("L_NUMERIS") %]</a><br />
+    <a href="[% c.loc("URL_CRKN") %]">[% c.loc("L_CRKN_PRODUCED") %]</a>
+  </p>
+</footer>
