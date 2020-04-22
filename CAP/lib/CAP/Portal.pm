@@ -58,6 +58,11 @@ has 'redirects' => (
   default => sub { {} }
 );
 
+has 'ga_id' => (
+  is  => 'ro',
+  isa => 'Str'
+);
+
 sub has_banners {
   my ($self) = @_;
   return scalar keys %{ $self->banners };

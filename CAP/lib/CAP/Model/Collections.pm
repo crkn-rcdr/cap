@@ -60,7 +60,8 @@ sub BUILD {
           pages         => $conf->{$id}->{pages} // {},
           redirects     => $conf->{$id}->{redirects} // {},
           font          => $conf->{$id}->{font} // 'Roboto',
-          sr_record     => $conf->{$id}->{sr_record} // 1
+          sr_record     => $conf->{$id}->{sr_record} // 1,
+          ga_id         => $conf->{$id}->{ga_id} // ''
         }
       );
 
