@@ -58,6 +58,7 @@ sub BUILD {
           search_schema => $conf->{$id}->{search_schema} // 'default',
           banners       => $conf->{$id}->{banners} // {},
           pages         => $conf->{$id}->{pages} // {},
+          redirects     => $conf->{$id}->{redirects} // {},
           font          => $conf->{$id}->{font} // 'Roboto',
           sr_record     => $conf->{$id}->{sr_record} // 1
         }

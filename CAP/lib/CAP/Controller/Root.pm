@@ -94,22 +94,31 @@ sub favicon : Path('favicon.ico') {
 sub default : Path {
   my ( $self, $c, @path ) = @_;
 
-  my $path   = join '/', @path;
-  my $lookup = $c->stash->{portal}->page_mapping( $c->stash->{lang}, $path );
+  my $path = join '/', @path;
+  my $page_lookup =
+    $c->stash->{portal}->page_mapping( $c->stash->{lang}, $path );
+  my $redirect_lookup =
+    $c->stash->{portal}->redirect( $c->stash->{lang}, $path );
 
-  $c->detach( 'error', [404, "Failed lookup for $path"] ) unless $lookup;
+  $c->detach( 'error', [404, "Failed lookup for $path"] )
+    unless ( $page_lookup || $redirect_lookup );
 
-  if ( $lookup->{redirect} ) {
-    $c->response->redirect( '/' . $lookup->{redirect} );
+  if ($redirect_lookup) {
+    $c->response->redirect($redirect_lookup);
     $c->detach();
   }
 
-  my $page    = $lookup->{page} || '';
+  if ( $page_lookup->{redirect} ) {
+    $c->response->redirect( '/' . $page_lookup->{redirect} );
+    $c->detach();
+  }
+
+  my $page    = $page_lookup->{page} || '';
   my $include = join( '/', 'pages', $c->stash->{lang}, "$page.html" );
   $c->stash(
     include  => $include,
     template => 'page.tt',
-    title    => $lookup->{title}
+    title    => $page_lookup->{title}
   );
 
 }

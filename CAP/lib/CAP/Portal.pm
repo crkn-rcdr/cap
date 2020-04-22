@@ -52,6 +52,12 @@ has 'pages' => (
   default => sub { {} }
 );
 
+has 'redirects' => (
+  is      => 'ro',
+  isa     => 'HashRef',
+  default => sub { {} }
+);
+
 sub has_banners {
   my ($self) = @_;
   return scalar keys %{ $self->banners };
@@ -89,6 +95,16 @@ sub page_mapping {
     } else {
       return { page => $key, title => $mapping->{title}->{$lang} };
     }
+  }
+}
+
+sub redirect {
+  my ( $self, $lang, $key ) = @_;
+  my $redirect = $self->redirects->{$key};
+  if ( $redirect && $redirect->{$lang} ) {
+    return $redirect->{$lang};
+  } else {
+    return undef;
   }
 }
 
