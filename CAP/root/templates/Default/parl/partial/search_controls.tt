@@ -7,14 +7,7 @@
     [% INCLUDE partial/search_controls/facet_pane.tt facet_pane name="parlType" search_name="type" title=c.loc("R_PARL_TYPE") p=search_params.parl_type facets=resultset.facets.parlType labels=type_labels %]
     [% INCLUDE partial/search_controls/facet_pane.tt name="parlChamber" search_name="chamber" title=c.loc("R_PARL_CHAMBER") p=search_params.parl_chamber facets=resultset.facets.parlChamber labels=chamber_labels %]
     <div class="form-group">
-      <label for="parlSelect" style="margin-top: 16px">[% c.loc("R_PARL_PARLIAMENT") %]</label>
-      <select id="parlSelect" name="session" class="custom-select">
-        <option value="">[% c.loc("All") %]</option>
-        [% FOREACH p IN [1 .. 35] -%]
-        [% ps = p < 10 ? "0" _ p : "" _ p %]
-        <option value="[% ps %]*"[% IF search_params.parl_session.grep(ps).size %] selected[% END %]>[% ordinate(p, 'f', lang) %]</option> 
-        [% END -%]
-      </select>
+      [% INCLUDE partial/search_form/parl_select.tt label_class="mt-3" %]
     </div>
     [% INCLUDE partial/search_controls/buttons.tt %]
   </form>

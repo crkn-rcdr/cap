@@ -17,13 +17,7 @@
     <option value="s">[% c.loc("L_PARL_SENATE") %]</option>
     <option value="c">[% c.loc("L_PARL_HOC") %]</option>
   </select>
-  <label for="parlSelect">[% c.loc("R_PARL_PARLIAMENT") %]</label>
-  <select id="parlSelect" name="session" class="custom-select mb-2">
-    <option value="">[% c.loc("GENERIC_ALL_F") %]</option>
-    [% FOREACH p IN [1 .. 35] -%]
-    <option value="[% p %]*">[% ordinate(p, 'f', c.stash.lang) %]</option> 
-    [% END -%]
-  </select>
+  [% INCLUDE partial/search_form/parl_select.tt select_class="mb-2" %]
   <label for="langSelect">[% c.loc("R_LANGUAGE") %]</label>
   <select id="langSelect" name="lang" class="custom-select mb-2">
     <option value="">[% c.loc("L_PARL_LANGUAGES_BOTH") %]</option>
