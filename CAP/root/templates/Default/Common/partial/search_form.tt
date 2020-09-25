@@ -1,6 +1,6 @@
-﻿<form method="POST" action="[% c.uri_for_action("search/post") %]">
+﻿<form id="searchForm" method="POST" action="[% c.uri_for_action("search/post") %]">
   <input type="hidden" name="handler" value="general" />
-  <div class="input-group mb-3">
+  <div class="input-group[% UNLESS no_controls %] mb-3[% END %]">
     <input type="text" id="search" autofocus class="form-control form-control-lg" name="q" placeholder="[% c.loc("L_SEARCH_PLACEHOLDER") %]" />
     <label for="search" class="sr-only">[% c.loc("L_SEARCH_PLACEHOLDER") %]</label>
     <div class="input-group-append">
