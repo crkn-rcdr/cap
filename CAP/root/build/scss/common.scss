@@ -42,7 +42,8 @@ $card-height: 100%;
 
 /* purgecss start ignore */
 
-a:not([href]) {
+a:not([href]),
+a:not([href]):not([class]) {
   color: $link-color;
   text-decoration: $link-decoration;
   &:hover {
