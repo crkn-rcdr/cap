@@ -6,6 +6,7 @@
 [% search_label = c.loc("L_SEARCH_WITHIN_SERIES") %]
 [% END %]
 <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
+  <input type="hidden" name="handler" value="general" />
   <input type="hidden" name="pkey" value="[% key %]" />
   <input type="hidden" name="so" value="seq" />
   <label for="query" class="mr-1">[% search_label %]</label>
