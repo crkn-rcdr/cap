@@ -285,6 +285,16 @@ footer a {
   background-image: url("/static/images/interface/pv-download-full.svg");
 }
 
+.btn-icon.pv-full-image {
+  background-image: url("/static/images/interface/pv-full-image.svg");
+}
+
+.btn-icon.pv-manifest {
+  background-image: url("/static/images/interface/pv-iiif.png");
+  background-size: 34px 30px;
+  background-position: 6px 3px;
+}
+
 .btn-icon.pv-tags {
   background-image: url("/static/images/interface/pv-tags.svg");
 }
