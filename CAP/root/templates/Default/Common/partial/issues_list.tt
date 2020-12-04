@@ -1,11 +1,10 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-  [% FOREACH issue_key IN series.record.order %]
-  [% issue = series.record.items.$issue_key %]
+  [% FOREACH issue IN series.items %]
   <div class="col mb-4">
     <div class="card">
       <div class="card-body">
         <h3 class="card-title h5 mb-0">
-          <a class="stretched-link" href="[% c.uri_for_action("view/index", issue_key) %]">[% issue.label %]</a>
+          <a class="stretched-link" href="[% c.uri_for_action("view/index", issue.key) %]">[% issue.label %]</a>
         </h3>
       </div>
       [% IF c.portal_id != "heritage" && issue.defined("pubmin") %]

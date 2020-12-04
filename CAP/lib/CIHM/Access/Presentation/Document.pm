@@ -61,7 +61,8 @@ sub BUILD {
 sub _build_items {
   my ($self) = @_;
   if ( $self->is_type("series") ) {
-    return [map { $self->record->{items}{$_} } @{ $self->record->{order} }];
+    return [map { { key => $_, %{ $self->record->{items}{$_} } } }
+        @{ $self->record->{order} }];
   }
   if ( $self->is_type("document") ) {
     return [
