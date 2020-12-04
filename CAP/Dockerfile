@@ -1,4 +1,4 @@
-FROM perl:5.28.1
+FROM perl:5.30
 
 RUN groupadd -g 1115 cihm && useradd -u 1015 -g cihm -m cihm && \
   cpanm -n Carton && mkdir -p /opt/cap && \
