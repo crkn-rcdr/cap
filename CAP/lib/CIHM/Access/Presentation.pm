@@ -39,8 +39,9 @@ has 'sitemap_node_limit' => (
 );
 
 # fetch a copresentation document with key $key, which must be in collection $collection
+# $domain is the host of the incoming request
 sub fetch {
-  my ( $self, $key, $collection ) = @_;
+  my ( $self, $key, $collection, $domain ) = @_;
 
   my $response = $self->get("/$key");
   if ( $response->failed ) {
@@ -53,6 +54,7 @@ sub fetch {
           record     => $response->data,
           derivative => $self->derivative,
           download   => $self->download,
+          domain => $domain
         }
       );
     } else {

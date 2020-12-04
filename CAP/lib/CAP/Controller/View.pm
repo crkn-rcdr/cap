@@ -18,7 +18,7 @@ sub index : Path('') {
 
   my $doc;
   eval {
-    $doc = $c->model('Access::Presentation')->fetch( $key, $c->portal_id );
+    $doc = $c->model('Access::Presentation')->fetch( $key, $c->portal_id, $c->req->uri->host );
   };
   $c->detach( '/error',
     [404, "Presentation fetch failed on document $key: $@"] )

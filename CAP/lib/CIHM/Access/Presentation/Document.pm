@@ -4,8 +4,9 @@ use utf8;
 use strictures 2;
 
 use Moo;
-use Types::Standard qw/HashRef ArrayRef/;
-use List::Util qw/min/;
+use Types::Standard qw/HashRef ArrayRef Str/;
+use List::Util qw/min max/;
+use POSIX qw/ceil/;
 use List::MoreUtils qw/any/;
 
 has 'record' => (
@@ -29,6 +30,13 @@ has 'download' => (
     die "$_[0] is not a valid object"
       unless ref( $_[0] ) eq 'CIHM::Access::Download';
   },
+  required => 1
+);
+
+# host of the incoming request
+has 'domain' => (
+  is => 'ro',
+  isa => Str,
   required => 1
 );
 
@@ -188,6 +196,113 @@ sub token {
   my ($self) = @_;
   my $is_pdf = $self->component(1)->{canonicalMaster} ? 0 : 1;
   return $self->derivative->item_token( $self->record->{key}, $is_pdf );
+}
+
+sub _iiif_context { return ('@context' => "http://iiif.io/api/presentation/3/context.json"); }
+
+sub _iiif_url {
+  my ( $self, $remainder ) = @_;
+  my $domain = $self->domain;
+  my $slug = $self->_slug;
+  return "https://$domain/iiif/$slug/$remainder";
+}
+
+sub _iiif_image {
+  my ($item, $max_side) = @_;
+  my $height = $item->{canonicalMasterHeight};
+  my $width = $item->{canonicalMasterWidth};
+  if ($max_side) {
+    my $divisor = max($height, $width) / $max_side;
+    $height = ceil($height / $divisor);
+    $width = ceil($width / $divisor);
+  }
+  my $size = $max_side ? "!$max_side,$max_side" : "full";
+  my $image_uri = $item->{uri};
+  $image_uri =~ s/\$SIZE/$size/g;
+  $image_uri =~ s/\$ROTATE/0/g;
+
+  return {
+    id => $image_uri,
+    type => "Image",
+    format => "image/jpeg",
+    service => [{
+      id => $item->{iiif_service},
+      type => "ImageService2",
+      profile => "level2"
+    }],
+    height => $height,
+    width => $width
+  };
+}
+
+sub iiif_annotation {
+  my ( $self, $seq, $is_root ) = @_;
+  my $item = $self->item($seq);
+  my $annotation = {
+    id         => $self->_iiif_url("annotation/p$seq/image"),
+    type       => "Annotation",
+    motivation => "painting",
+    body => _iiif_image($item),
+    target => $self->_iiif_url("canvas/p$seq")
+  };
+  return $is_root ? { _iiif_context, %$annotation } : $annotation;
+}
+
+sub iiif_annotation_page {
+  my ( $self, $seq, $is_root ) = @_;
+  my $page = {
+    id    => $self->_iiif_url("page/p$seq/main"),
+    type  => "AnnotationPage",
+    items => [$self->iiif_annotation($seq)]
+  };
+  return $is_root ? { _iiif_context, %$page } : $page;
+}
+
+sub iiif_canvas {
+  my ( $self, $seq, $is_root ) = @_;
+  my $item = $self->item($seq);
+  my $canvas = {
+    id     => $self->_iiif_url("canvas/p$seq"),
+    type   => "Canvas",
+    label  => { none => [$item->{label}] },
+    height => $item->{canonicalMasterHeight},
+    width  => $item->{canonicalMasterWidth},
+    items  => [$self->iiif_annotation_page($seq)],
+    # thumbnail => _iiif_image($item, 200)
+  };
+  return $is_root ? { _iiif_context, %$canvas } : $canvas;
+}
+
+sub iiif_manifest {
+  my ( $self ) = @_;
+  return undef unless $self->is_type("document");
+  my $slug = $self->record->{_id};
+
+  return {
+    _iiif_context,
+    id         => $self->_iiif_url("manifest"),
+    type       => "Manifest",
+    label      => { none => [$self->canonical_label] },
+    provider   => [{
+      id    => "https://www.crkn-rcdr.ca/",
+      type  => "Agent",
+      label => {
+        en => ["Canadian Research Knowledge Network"],
+        fr => ["Réseau canadien de documentation pour la recherche"]
+      },
+      homepage => {
+        id    => "https://www.crkn-rcdr.ca/",
+        type  => "Text",
+        label => {
+          en => ["Canadian Research Knowledge Network"],
+          fr => ["Réseau canadien de documentation pour la recherche"]
+        },
+        format => "text/html"
+      }
+    }],
+    metadata => {},
+    items => [map { $self->iiif_canvas($_) } 1 .. @{ $self->items }]
+  };
 }
 
 1;
