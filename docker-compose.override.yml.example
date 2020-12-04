@@ -5,11 +5,8 @@ services:
     environment:
       - CAP_Model::Access::Derivative_key=<insert key>
       - 'CAP_Model::Access::Derivative_password=<insert password>'
-      - CAP_Model::Access::Download::ZFS_key=<insert key>
-      - 'CAP_Model::Access::Download::ZFS_password=<insert password>'
-      - CAP_Model::Access::Download::Swift_container=<swift container url>
-      - CAP_Model::Access::Download::Swift_tempURLKey=<swift tempurl key>
-      - CAP_Model::Access::Presentation_download_mode=swift
+      - CAP_Model::Access::Download_container=<swift container url>
+      - CAP_Model::Access::Download_tempURLKey=<swift tempurl key>
       # You can also edit defaults, e.g.
       - CAP_Model::CouchCache_interval=3
       - CAP_cookie_domain=mamirolle.canadiana.ca

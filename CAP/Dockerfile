@@ -24,9 +24,7 @@ USER cihm
 ENV CATALYST_DEBUG=0 \
   CAP_Model::Access::Derivative_endpoint=http://image.romano.canadiana.ca/iiif/2 \
   CAP_Model::Access::Derivative_cookie_domain=image.romano.canadiana.ca \
-  CAP_Model::Access::Download::ZFS_endpoint=http://file.paneer.canadiana.ca \
   CAP_Model::Access::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation \
-  CAP_Model::Access::Presentation_prezi_demo_endpoint=http://presentation.demo.canadiana.ca/iiif \
   CAP_Model::Access::Search_server=http://iris.tor.c7a.ca:8983/solr/cosearch \
   CAP_Model::Collections_server=http://iris.tor.c7a.ca:5984/cap_collections \
   CAP_Model::Parl_server=http://iris.tor.c7a.ca:5984/copresentation \

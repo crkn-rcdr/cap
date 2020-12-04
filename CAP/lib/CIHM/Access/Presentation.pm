@@ -23,32 +23,12 @@ has 'derivative' => (
   required => 1
 );
 
-has 'download_mode' => (
-  is  => 'ro',
-  isa => Enum [qw/swift zfs/]
-);
-
-has 'download_swift' => (
+has 'download' => (
   is  => 'ro',
   isa => sub {
-    die "$_[0] is not a CIHM::Access::Download::Swift"
-      unless ref( $_[0] ) eq 'CIHM::Access::Download::Swift';
+    die "$_[0] is not a CIHM::Access::Download"
+      unless ref( $_[0] ) eq 'CIHM::Access::Download';
   },
-  required => 1
-);
-
-has 'download_zfs' => (
-  is  => 'ro',
-  isa => sub {
-    die "$_[0] is not a CIHM::Access::Download::ZFS"
-      unless ref( $_[0] ) eq 'CIHM::Access::Download::ZFS';
-  },
-  required => 1
-);
-
-has 'prezi_demo_endpoint' => (
-  is       => 'ro',
-  isa      => Str,
   required => 1
 );
 
@@ -69,13 +49,10 @@ sub fetch {
   } else {
     if ( $response->data->{type} eq 'page' ||
       any { $_ eq $collection } @{ $response->data->{collection} } ) {
-      my $download = $self->download_mode eq 'swift' ? $self->download_swift :
-        $self->download_zfs;
       return CIHM::Access::Presentation::Document->new( {
-          record              => $response->data,
-          derivative          => $self->derivative,
-          download            => $download,
-          prezi_demo_endpoint => $self->prezi_demo_endpoint
+          record     => $response->data,
+          derivative => $self->derivative,
+          download   => $self->download,
         }
       );
     } else {
