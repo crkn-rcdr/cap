@@ -57,16 +57,27 @@ sub item_token {
   );
 }
 
-sub uri_template {
-  my ( $self, $file, $is_pdf ) = @_;
+sub iiif_template {
+  my ( $self, $key, $is_pdf ) = @_;
   my $uri = join( '/',
-    $self->endpoint, uri_escape($file), 'full',
-    '$SIZE', '$ROTATE', 'default.jpg' );
+    $self->iiif_service($key),
+    'full', '$SIZE', '$ROTATE', 'default.jpg' );
   if ($is_pdf) {
     return join( '?', $uri, join( '&', 'token=$TOKEN', 'page=$SEQ' ) );
   } else {
-    return join( '?', $uri, 'token=$TOKEN' );
+    return $uri;
   }
+}
+
+sub iiif_default {
+  my ( $self, $key ) = @_;
+  return
+    join( '/', $self->iiif_service($key), 'full', 'max', '0', 'default.jpg' );
+}
+
+sub iiif_service {
+  my ( $self, $key ) = @_;
+  return join( '/', $self->endpoint, uri_escape($key) );
 }
 
 1;
