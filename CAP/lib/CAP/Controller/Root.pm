@@ -71,10 +71,6 @@ sub auto : Private {
     $c->detach( '/error', [404, 'API Unavailable -- API non disponible'] );
   }
 
-  # If we got to here, it means we will attempt to actually do
-  # something, so increment the request counter and log the request
-  $c->forward('CAP::Controller::RequestLogger');
-
   return 1;
 }
 

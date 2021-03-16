@@ -16,26 +16,21 @@ COPY conf /opt/cap/conf/
 COPY lib /opt/cap/lib/
 COPY root/static /opt/cap/root/static
 COPY root/templates /opt/cap/root/templates
-COPY util /opt/cap/util/
 
 USER cihm
 
-# See cap.env.example for required config which is not stored in the repository
 ENV CATALYST_DEBUG=0 \
-  CAP_Model::Access::Derivative_endpoint=http://image.romano.canadiana.ca/iiif/2 \
-  CAP_Model::Access::Derivative_cookie_domain=image.romano.canadiana.ca \
-  CAP_Model::Access::Download::ZFS_endpoint=http://file.paneer.canadiana.ca \
+  CAP_Model::Access::Derivative_key=CAP \
+  CAP_Model::Access::Derivative_endpoint=http://image-tor.canadiana.ca/iiif/2 \
+  CAP_Model::Access::Download::ZFS_key=CAP \
+  CAP_Model::Access::Download::ZFS_endpoint=http://file-tor.canadiana.ca \
+  CAP_Model::Access::Download::Swift_container=https://swift.canadiana.ca/v1/AUTH_crkn/repository \
+  CAP_Model::Access::Presentation_download_mode=swift \
   CAP_Model::Access::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation \
-  CAP_Model::Access::Presentation_prezi_demo_endpoint=http://presentation.demo.canadiana.ca/iiif \
   CAP_Model::Access::Search_server=http://iris.tor.c7a.ca:8983/solr/cosearch \
   CAP_Model::Collections_server=http://iris.tor.c7a.ca:5984/cap_collections \
   CAP_Model::Parl_server=http://iris.tor.c7a.ca:5984/copresentation \
-  CAP_Model::ParlSession_server=http://iris.tor.c7a.ca:5984/parl_session \
-  CAP_Model::UsageStats_statsdb=http://iris.tor.c7a.ca:5984/cap_usage_stats \
-  CAP_Model::UsageStats_logfiledb=http://iris.tor.c7a.ca:5984/cap_logfile_registry \
-  LOGLEVELSCREEN=WARN \
-  LOGFILENAME=/var/log/cap/request.log \
-  TZ=America/Toronto
+  CAP_Model::ParlSession_server=http://iris.tor.c7a.ca:5984/parl_session
 
 EXPOSE 3011
 ENTRYPOINT ["carton", "exec"]
