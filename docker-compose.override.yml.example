@@ -3,7 +3,9 @@ version: "3"
 services:
   cap:
     environment:
-      # change below to 1 for debug output; it's a little flaky in Docker
+      # reduce the number of Catalyst workers to avoid straining your machine
+      - WORKERS=1
+      # change below to 1 for debug output
       - CATALYST_DEBUG=0
       - 'CAP_Model::Access::Derivative_password=CAP_PASSWORD'
       - 'CAP_Model::Access::Download::ZFS_password=CAP_PASSWORD'
