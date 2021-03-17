@@ -27,12 +27,6 @@ has 'password' => (
   required => 1
 );
 
-has 'cookie_domain' => (
-  is       => 'ro',
-  isa      => Str,
-  required => 1
-);
-
 has 'config' => (
   is       => 'ro',
   isa      => HashRef,

@@ -33,12 +33,6 @@ has 'download' => (
   required => 1
 );
 
-has 'prezi_demo_endpoint' => (
-  is       => 'ro',
-  isa      => Str,
-  required => 1
-);
-
 sub BUILD {
   my ( $self, $args ) = @_;
 
@@ -149,19 +143,6 @@ sub token {
   my ($self) = @_;
   my $is_pdf = $self->component(1)->{canonicalMaster} ? 0 : 1;
   return $self->derivative->item_token( $self->record->{key}, $is_pdf );
-}
-
-sub prezi_demo_uri {
-  my ($self) = @_;
-  if ( $self->is_type('document') ) {
-    return join '/', $self->prezi_demo_endpoint, $self->record->{key},
-      'manifest';
-  } elsif ( $self->is_type('series') ) {
-    return join '/', $self->prezi_demo_endpoint, 'collection',
-      $self->record->{key};
-  } else {
-    return '';
-  }
 }
 
 1;

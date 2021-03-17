@@ -46,12 +46,6 @@ has 'download_zfs' => (
   required => 1
 );
 
-has 'prezi_demo_endpoint' => (
-  is       => 'ro',
-  isa      => Str,
-  required => 1
-);
-
 has 'sitemap_node_limit' => (
   is       => 'ro',
   isa      => Int,
@@ -75,7 +69,6 @@ sub fetch {
           record              => $response->data,
           derivative          => $self->derivative,
           download            => $download,
-          prezi_demo_endpoint => $self->prezi_demo_endpoint
         }
       );
     } else {
