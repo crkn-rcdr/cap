@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
   var action = location.pathname.split("/")[1];
   if (action === "search") {
     sessionStorage.setItem("query", $("#query").attr("value"));
@@ -22,7 +22,7 @@ $(function() {
   }
 
   var $indexTitle = $(".action-index #headerTitle");
-  $(".menu-open").on("click", function(ev) {
+  $(".menu-open").on("click", function (ev) {
     $("header").addClass("overlay");
     if ($indexTitle.length) {
       $indexTitle.attr(
@@ -32,7 +32,7 @@ $(function() {
     }
   });
 
-  $(".menu-close").on("click", function(ev) {
+  $(".menu-close").on("click", function (ev) {
     $("header").removeClass("overlay");
     if ($indexTitle.length) {
       $indexTitle.attr(
@@ -45,17 +45,17 @@ $(function() {
   $("#pvToolbar").pageViewer();
   $(".matching-pages").matchingPages();
 
-  $(function() {
+  $(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    $("#pvHelp").on("click", function(ev) {
+    $("#pvHelp").on("click", function (ev) {
       $("#pvToolbar *").tooltip("toggle");
       $("#pvHelp").toggleClass("active");
     });
   });
 
-  $('[data-toggle="collapse"]').on("focusin", function(ev) {
+  $('[data-toggle="collapse"]').on("focusin", function (ev) {
     var $collapseTarget = $($(ev.target).attr("data-target"));
-    $(document).on("keydown.cap", function(ev) {
+    $(document).on("keydown.cap", function (ev) {
       if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
         ev.preventDefault();
         $collapseTarget.collapse("toggle");
@@ -63,11 +63,11 @@ $(function() {
     });
   });
 
-  $('[data-toggle="collapse"').on("focusout", function(ev) {
+  $('[data-toggle="collapse"').on("focusout", function (ev) {
     $(document).off("keydown.cap");
   });
 
-  $(".plus-minus").on("click", function(ev) {
+  $(".plus-minus").on("click", function (ev) {
     var $element = $(this);
     $element.text($element.text() === "+" ? "-" : "+");
   });

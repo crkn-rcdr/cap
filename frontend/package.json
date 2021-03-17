@@ -1,0 +1,35 @@
+{
+  "name": "cap-frontend",
+  "version": "0.0.0",
+  "private": "true",
+  "description": "Build system for CAP front-end assets",
+  "main": "gulpfile.js",
+  "repository": {
+    "url": "https://github.com/crkn-rcdr/cap",
+    "directory": "frontend"
+  },
+  "author": "Sascha Adler <sadler@crkn.ca>",
+  "license": "Unlicense",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-purgecss": "^4.0.2",
+    "gulp-sass": "^4.1.0",
+    "gulp-terser": "^2.0.1",
+    "prettier": "^2.2.1",
+    "sass": "^1.32.8"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  }
+}

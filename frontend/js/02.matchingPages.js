@@ -1,26 +1,24 @@
 /* cap.matchingPages.js */
 
-!(function($) {
-  var MatchingPages = function(element) {
+!(function ($) {
+  var MatchingPages = function (element) {
     this.init(element);
   };
 
   MatchingPages.prototype = {
     constructor: MatchingPages,
 
-    init: function(element) {
+    init: function (element) {
       this.$element = $(element);
       this.$searching = $(".matching-pages-searching", this.$element);
       this.$results = $(".matching-pages-results", this.$element);
       this.callUrl = ["", "search", "post"].join("/");
 
       this.params = {
-        q: $("<div/>")
-          .html(this.$element.attr("data-query"))
-          .text(),
+        q: $("<div/>").html(this.$element.attr("data-query")).text(),
         pkey: this.$element.attr("data-pkey"),
         fmt: "ajax",
-        handler: "page"
+        handler: "page",
       };
 
       if (!!this.params.q) {
@@ -36,7 +34,7 @@
       var $pvToolbar = $("#pvToolbar");
       if ($pvToolbar.length) {
         var pageViewer = $pvToolbar.data().pageViewer;
-        this.$element.on("click", ".matching-page", function(e) {
+        this.$element.on("click", ".matching-page", function (e) {
           e.preventDefault();
           pageViewer.controls.pageSelect.selector.val(
             parseInt($(this).attr("data-seq"), 10)
@@ -46,7 +44,7 @@
       }
     },
 
-    submitSearch: function(e) {
+    submitSearch: function (e) {
       e.preventDefault();
       this.params.q = $('input[name="q"]', $("#keywordSearch")).val();
       if (!!this.params.q) {
@@ -56,7 +54,7 @@
       }
     },
 
-    makeCall: function() {
+    makeCall: function () {
       var that = this;
       $.ajax({
         url: this.callUrl,
@@ -64,31 +62,31 @@
         dataType: "html",
         data: this.params,
         success: $.proxy(this.success, this),
-        error: function(data) {
+        error: function (data) {
           that.$element.empty();
           that.$element.html("Error &mdash; Erreur");
-        }
+        },
       });
     },
 
-    success: function(data) {
+    success: function (data) {
       this.$searching.hide();
       this.$results.html(data);
 
       var $moreButton = $(".matching-pages-more", this.$results);
       var $more = $(".matching-pages-remainder", this.$results);
       if ($moreButton.length) {
-        $moreButton.on("click", function(e) {
+        $moreButton.on("click", function (e) {
           e.preventDefault();
           $moreButton.addClass("hidden");
           $more.removeClass("hidden");
         });
       }
-    }
+    },
   };
 
-  $.fn.matchingPages = function(option) {
-    return this.each(function() {
+  $.fn.matchingPages = function (option) {
+    return this.each(function () {
       var $this = $(this);
       var data = $this.data("matchingPages");
       if (!data) {

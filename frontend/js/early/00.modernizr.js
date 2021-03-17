@@ -1,5 +1,5 @@
 // a Modernizr build for detecting the browser's flexbox support
-!(function(e, n, t) {
+!(function (e, n, t) {
   function r(e, n) {
     return typeof e === n;
   }
@@ -40,7 +40,7 @@
       _ ? (x.className.baseVal = n) : (x.className = n));
   }
   function i(e, n) {
-    return function() {
+    return function () {
       return e.apply(n, arguments);
     };
   }
@@ -65,7 +65,7 @@
   }
   function u(e) {
     return e
-      .replace(/([a-z])-([a-z])/g, function(e, n, t) {
+      .replace(/([a-z])-([a-z])/g, function (e, n, t) {
         return n + t.toUpperCase();
       })
       .replace(/^-/, "");
@@ -88,7 +88,7 @@
   }
   function p(e) {
     return e
-      .replace(/([A-Z])/g, function(e, n) {
+      .replace(/([A-Z])/g, function (e, n) {
         return "-" + n.toLowerCase();
       })
       .replace(/^ms-/, "-ms-");
@@ -143,7 +143,7 @@
         (s = s.join(" or ")),
         m(
           "@supports (" + s + ") { #modernizr { position: absolute; } }",
-          function(e) {
+          function (e) {
             return "absolute" == c(e, null, "position");
           }
         )
@@ -198,23 +198,23 @@
         classPrefix: "",
         enableClasses: !0,
         enableJSClass: !0,
-        usePrefixes: !0
+        usePrefixes: !0,
       },
       _q: [],
-      on: function(e, n) {
+      on: function (e, n) {
         var t = this;
-        setTimeout(function() {
+        setTimeout(function () {
           n(t[e]);
         }, 0);
       },
-      addTest: function(e, n, t) {
+      addTest: function (e, n, t) {
         S.push({ name: e, fn: n, options: t });
       },
-      addAsyncTest: function(e) {
+      addAsyncTest: function (e) {
         S.push({ name: null, fn: e });
-      }
+      },
     },
-    Modernizr = function() {};
+    Modernizr = function () {};
   (Modernizr.prototype = w), (Modernizr = new Modernizr());
   var x = n.documentElement,
     _ = "svg" === x.nodeName.toLowerCase(),
@@ -224,11 +224,11 @@
   var z = w._config.usePrefixes ? b.toLowerCase().split(" ") : [];
   w._domPrefixes = z;
   var E = { elem: f("modernizr") };
-  Modernizr._q.push(function() {
+  Modernizr._q.push(function () {
     delete E.elem;
   });
   var N = { style: E.elem.style };
-  Modernizr._q.unshift(function() {
+  Modernizr._q.unshift(function () {
     delete N.style;
   }),
     (w.testAllProps = g),
