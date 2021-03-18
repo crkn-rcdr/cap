@@ -3,11 +3,14 @@ version: "3"
 services:
   cap:
     environment:
-      - CAP_Model::Access::Derivative_key=<insert key>
-      - 'CAP_Model::Access::Derivative_password=<insert password>'
-      - CAP_Model::Access::Download_container=<swift container url>
-      - CAP_Model::Access::Download_tempURLKey=<swift tempurl key>
-      # You can also edit defaults, e.g.
-      - CAP_Model::CouchCache_interval=3
-      - CAP_cookie_domain=mamirolle.canadiana.ca
-      - LOGLEVELSCREEN=DEBUG
+      # reduce the number of Catalyst workers to avoid straining your machine
+      - WORKERS=1
+      # change below to 1 for debug output
+      - CATALYST_DEBUG=0
+      - 'CAP_Model::Access::Derivative_password=CAP_PASSWORD'
+      - 'CAP_Model::Access::Download::ZFS_password=CAP_PASSWORD'
+      - 'CAP_Model::Access::Download_tempURLKey=CAP_PASSWORD'
+    volumes:
+      - ./CAP/conf:/opt/cap/conf
+      - ./CAP/lib:/opt/cap/lib
+      - ./CAP/root:/opt/cap/root

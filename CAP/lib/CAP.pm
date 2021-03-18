@@ -5,7 +5,6 @@ use warnings;
 
 use Catalyst::Runtime '5.70';
 use FindBin;
-use Log::Log4perl::Catalyst;
 
 use Catalyst qw/
   ConfigLoader
@@ -34,13 +33,6 @@ __PACKAGE__->config(
     },
   },
 );
-
-if ( -e "$FindBin::Bin/../log4perl.conf" ) {
-  __PACKAGE__->log(
-    Log::Log4perl::Catalyst->new("$FindBin::Bin/../log4perl.conf") );
-} else {
-  __PACKAGE__->log( Log::Log4perl::Catalyst->new() );
-}
 
 # Start the application
 __PACKAGE__->setup();

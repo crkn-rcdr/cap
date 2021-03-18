@@ -1,8 +1,0 @@
-FROM perl:5.28.1
-
-RUN groupadd -g 1115 cihm && useradd -u 1015 -g cihm -m cihm && \
-    cpanm -n Carton && mkdir -p /opt/cap && ln -s cap/log4perl.conf /opt/log4perl.conf
-
-WORKDIR /opt/cap
-COPY cpanfile /opt/cap/
-RUN carton install || (cat /root/.cpanm/work/*/build.log && exit 1)
