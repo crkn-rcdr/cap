@@ -10,7 +10,6 @@ COPY . /opt/cap/
 RUN groupadd -g 1115 cihm && useradd -u 1015 -g cihm -m cihm
 USER cihm
 
-# See cap.env.example for required config which is not stored in the repository
 ENV WORKERS=8 \
   CATALYST_DEBUG=0 \
   CAP_Model::Access::Derivative_endpoint=http://image-tor.canadiana.ca/iiif/2 \
