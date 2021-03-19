@@ -227,8 +227,8 @@ sub item_download {
 
 sub token {
   my ($self) = @_;
-  my $is_pdf = $self->component(1)->{canonicalMaster} ? 0 : 1;
-  return $self->derivative->item_token($self->record->{key}, $is_pdf);
+  return $self->derivative->item_token($self->record->{key},
+    $self->item_mode eq "pdf");
 }
 
 sub _iiif_context {
