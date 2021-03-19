@@ -15,12 +15,6 @@ has 'endpoint' => (
   required => 1
 );
 
-has 'key' => (
-  is       => 'ro',
-  isa      => Str,
-  required => 1
-);
-
 has 'password' => (
   is       => 'ro',
   isa      => Str,
@@ -42,7 +36,7 @@ sub item_token {
 
   return encode_jwt(
     payload => {
-      iss               => $self->key,
+      iss               => "CAP",
       'derivativeFiles' => $derivative_exp
     },
     alg          => 'HS256',

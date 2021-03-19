@@ -13,9 +13,6 @@ USER cihm
 # See cap.env.example for required config which is not stored in the repository
 ENV WORKERS=8 \
   CATALYST_DEBUG=0 \
-  CAP_Model::Access::Derivative_endpoint=http://image.romano.canadiana.ca/iiif/2 \
-  CAP_Model::Access::Derivative_cookie_domain=image.romano.canadiana.ca \
-  CAP_Model::Access::Derivative_key=CAP \
   CAP_Model::Access::Derivative_endpoint=http://image-tor.canadiana.ca/iiif/2 \
   CAP_Model::Access::Download_container=https://swift.canadiana.ca/v1/AUTH_crkn/repository \
   CAP_Model::Access::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation \
