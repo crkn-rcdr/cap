@@ -29,8 +29,7 @@ const css = (watch = false) =>
         .pipe(
           purgecss({
             content: TEMPLATES,
-            whitelistPatterns: [/tooltip/, /collapsing/],
-            whitelistPatternsChildren: [/tooltip/, /collapsing/],
+            safelist: { deep: [/tooltip/, /collapsing/] },
           })
         )
         .pipe(cleanCSS())

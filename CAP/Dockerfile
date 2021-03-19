@@ -12,12 +12,8 @@ USER cihm
 
 ENV WORKERS=8 \
   CATALYST_DEBUG=0 \
-  CAP_Model::Access::Derivative_key=CAP \
-  CAP_Model::Access::Derivative_endpoint=http://image-tor.canadiana.ca/iiif/2 \
-  CAP_Model::Access::Download::ZFS_key=CAP \
-  CAP_Model::Access::Download::ZFS_endpoint=http://file-tor.canadiana.ca \
-  CAP_Model::Access::Download::Swift_container=https://swift.canadiana.ca/v1/AUTH_crkn/repository \
-  CAP_Model::Access::Presentation_download_mode=swift \
+  CAP_Model::Access::Derivative_endpoint=https://image-tor.canadiana.ca/iiif/2 \
+  CAP_Model::Access::Download_container=https://swift.canadiana.ca/v1/AUTH_crkn/repository \
   CAP_Model::Access::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation \
   CAP_Model::Access::Search_server=http://iris.tor.c7a.ca:8983/solr/cosearch \
   CAP_Model::Collections_server=http://iris.tor.c7a.ca:5984/cap_collections \

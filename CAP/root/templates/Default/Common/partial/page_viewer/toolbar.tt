@@ -28,6 +28,12 @@
     [% INCLUDE button label=c.loc("L_VIEWER_DOWNLOAD_SINGLE") id="pvDownloadSingle" icon_class="pv-download-single" href=first_child.download_uri tooltip_placement="bottom" tooltip_offset="40" %]
     [% END %]
   </div>
+  [% IF item.item_mode == "noid" %]
+    <div class="btn-group mr-3">
+      [% INCLUDE button label=c.loc("L_VIEWER_FULL_IMAGE") id="pvFullImage" icon_class="pv-full-image" href=first_child.iiif_default tooltip_placement="top" tooltip_offset="20" %]
+      [% INCLUDE button label=c.loc("L_VIEWER_IIIF_MANIFEST") id="pvManifest" icon_class="pv-manifest" href=c.uri_for("/iiif/" _ record.key _ "/manifest") tooltip_placement="right" tooltip_offset="0" %]
+    </div>
+  [% END %]
   <div class="ml-auto">
 [% has_tags = record.defined('hasTags') && record.hasTags -%]
     <div class="btn-group[% IF has_tags %] mr-3[% END %]">

@@ -1,4 +1,21 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[perl]": {
+    "editor.defaultFormatter": "sfodje.perltidy"
+  },
+  "perltidy.additionalArguments": [
+    "-l=78",
+    "-i=2",
+    "-ci=2",
+    "-bar",
+    "-ce",
+    "-nsbl",
+    "-sot",
+    "-sct",
+    "-pt=2",
+    "-bt=2",
+    "-bbt=1",
+    "-nsfs"
+  ]
 }

@@ -270,6 +270,10 @@
           label: this.innerHTML,
         };
 
+        pv.components[this.value].fullImage = pv.components[this.value].uri
+          .replace("$SIZE", "max")
+          .replace("$ROTATE", 0);
+
         if (pv.settings.hasTags) {
           pv.components[this.value].hasTags = !!parseInt(
             this.getAttribute("data-tags"),
@@ -415,6 +419,11 @@
       var $singleDownload = $("#pvDownloadSingle");
       if ($singleDownload.length > 0) {
         $singleDownload.attr("href", this.components[this.state.seq].download);
+      }
+
+      var $fullImage = $("#pvFullImage");
+      if ($fullImage.length > 0) {
+        $fullImage.attr("href", this.components[this.state.seq].fullImage);
       }
 
       if (this.settings.hasTags) {

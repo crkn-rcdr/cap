@@ -9,7 +9,7 @@ services:
       - CATALYST_DEBUG=0
       - 'CAP_Model::Access::Derivative_password=CAP_PASSWORD'
       - 'CAP_Model::Access::Download::ZFS_password=CAP_PASSWORD'
-      - 'CAP_Model::Access::Download::Swift_tempURLKey=CAP_PASSWORD'
+      - 'CAP_Model::Access::Download_tempURLKey=CAP_PASSWORD'
     volumes:
       - ./CAP/conf:/opt/cap/conf
       - ./CAP/lib:/opt/cap/lib

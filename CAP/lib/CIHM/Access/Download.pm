@@ -1,4 +1,4 @@
-package CIHM::Access::Download::Swift;
+package CIHM::Access::Download;
 
 use utf8;
 use strictures 2;

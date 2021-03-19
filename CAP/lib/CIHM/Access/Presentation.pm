@@ -23,25 +23,11 @@ has 'derivative' => (
   required => 1
 );
 
-has 'download_mode' => (
-  is  => 'ro',
-  isa => Enum [qw/swift zfs/]
-);
-
-has 'download_swift' => (
+has 'download' => (
   is  => 'ro',
   isa => sub {
-    die "$_[0] is not a CIHM::Access::Download::Swift"
-      unless ref( $_[0] ) eq 'CIHM::Access::Download::Swift';
-  },
-  required => 1
-);
-
-has 'download_zfs' => (
-  is  => 'ro',
-  isa => sub {
-    die "$_[0] is not a CIHM::Access::Download::ZFS"
-      unless ref( $_[0] ) eq 'CIHM::Access::Download::ZFS';
+    die "$_[0] is not a CIHM::Access::Download"
+      unless ref( $_[0] ) eq 'CIHM::Access::Download';
   },
   required => 1
 );
@@ -53,8 +39,9 @@ has 'sitemap_node_limit' => (
 );
 
 # fetch a copresentation document with key $key, which must be in collection $collection
+# $domain is the host of the incoming request
 sub fetch {
-  my ( $self, $key, $collection ) = @_;
+  my ( $self, $key, $collection, $domain ) = @_;
 
   my $response = $self->get("/$key");
   if ( $response->failed ) {
@@ -63,12 +50,11 @@ sub fetch {
   } else {
     if ( $response->data->{type} eq 'page' ||
       any { $_ eq $collection } @{ $response->data->{collection} } ) {
-      my $download = $self->download_mode eq 'swift' ? $self->download_swift :
-        $self->download_zfs;
       return CIHM::Access::Presentation::Document->new( {
-          record              => $response->data,
-          derivative          => $self->derivative,
-          download            => $download,
+          record     => $response->data,
+          derivative => $self->derivative,
+          download   => $self->download,
+          domain => $domain
         }
       );
     } else {
