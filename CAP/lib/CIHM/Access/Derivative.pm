@@ -34,10 +34,11 @@ has 'config' => (
 );
 
 sub item_token {
-  my ( $self, $item_key, $is_pdf ) = @_;
+  my ($self, $item_key, $is_pdf) = @_;
   my $derivative_exp =
-    $is_pdf ? "$item_key\\/data\\/sip\\/data\\/files\\/.+\\.pdf" :
-    "$item_key\\/data\\/sip\\/data\\/files\\/.+\\.(jpg|jp2|tif)";
+    $is_pdf
+    ? "$item_key\\/data\\/sip\\/data\\/files\\/.+\\.pdf"
+    : "$item_key\\/data\\/sip\\/data\\/files\\/.+\\.(jpg|jp2|tif)";
 
   return encode_jwt(
     payload => {
@@ -52,26 +53,28 @@ sub item_token {
 }
 
 sub iiif_template {
-  my ( $self, $key, $is_pdf ) = @_;
-  my $uri = join( '/',
+  my ($self, $key, $mode) = @_;
+  my $uri = join('/',
     $self->iiif_service($key),
-    'full', '$SIZE', '$ROTATE', 'default.jpg' );
-  if ($is_pdf) {
-    return join( '?', $uri, join( '&', 'token=$TOKEN', 'page=$SEQ' ) );
+    'full', '$SIZE', '$ROTATE', 'default.jpg');
+  if ($mode ne "noid") {
+    my @qs = ('token=$TOKEN');
+    if ($mode eq "pdf") { push @qs, 'page=$SEQ'; }
+    return join('?', $uri, join('&', @qs));
   } else {
     return $uri;
   }
 }
 
 sub iiif_default {
-  my ( $self, $key ) = @_;
+  my ($self, $key) = @_;
   return
-    join( '/', $self->iiif_service($key), 'full', 'max', '0', 'default.jpg' );
+    join('/', $self->iiif_service($key), 'full', 'max', '0', 'default.jpg');
 }
 
 sub iiif_service {
-  my ( $self, $key ) = @_;
-  return join( '/', $self->endpoint, uri_escape($key) );
+  my ($self, $key) = @_;
+  return join('/', $self->endpoint, uri_escape($key));
 }
 
 1;
