@@ -78,7 +78,10 @@ sub _build_item_mode {
     my $component_record =
       $self->record->{components}{$self->record->{order}[0]};
 
-    if ($component_record->{canonicalMaster}) {
+    if (
+      $component_record->{canonicalMaster} ||
+      $component_record->{canonicalMasterExtension}
+    ) {
       return $component_record->{noid}
         ? "noid"
         : "path";
@@ -125,6 +128,19 @@ sub _build_items {
         if ($component_record->{canonicalDownload}) {
           $r->{download_uri} =
             $self->download->uri($component_record->{canonicalDownload});
+        }
+
+        if (
+          $component_record->{canonicalDownloadExtension} &&
+          $component_record->{noid}
+        ) {
+          $r->{download_uri} =
+            $self->download->uri(
+              $component_record->{noid} .
+              "." .
+              $component_record->{canonicalDownloadExtension},
+              1
+            );
         }
 
         $r;
