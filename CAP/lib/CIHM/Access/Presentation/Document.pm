@@ -130,6 +130,19 @@ sub _build_items {
             $self->download->uri($component_record->{canonicalDownload});
         }
 
+        if (
+          $component_record->{canonicalDownloadExtension} &&
+          $component_record->{noid}
+        ) {
+          $r->{download_uri} =
+            $self->download->uri(
+              $component_record->{noid} .
+              "." .
+              $component_record->{canonicalDownloadExtension},
+              1
+            );
+        }
+
         $r;
       } 1 .. @{$self->record->{order}} ];
   }
