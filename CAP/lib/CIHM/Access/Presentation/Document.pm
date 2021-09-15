@@ -78,7 +78,10 @@ sub _build_item_mode {
     my $component_record =
       $self->record->{components}{$self->record->{order}[0]};
 
-    if ($component_record->{canonicalMaster}) {
+    if (
+      $component_record->{canonicalMaster} ||
+      $component_record->{canonicalMasterExtension}
+    ) {
       return $component_record->{noid}
         ? "noid"
         : "path";
