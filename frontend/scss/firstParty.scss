@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../common.scss";
 $transparent-background: rgba(34, 34, 34, 0.65);
 $transparent-blur: blur(3px);
@@ -83,7 +85,7 @@ body.action-index {
     position: absolute;
     bottom: $spacer;
     right: $spacer;
-    padding: $spacer / 2;
+    padding: math.div($spacer, 2);
     margin-left: $spacer;
     background-color: $transparent-background;
     backdrop-filter: $transparent-blur;
@@ -178,7 +180,7 @@ header.overlay {
   height: 24px;
   width: 24px;
   margin-bottom: -8px;
-  margin-left: $spacer / 2;
+  margin-left: math.div($spacer, 2);
 }
 
 .facebook,

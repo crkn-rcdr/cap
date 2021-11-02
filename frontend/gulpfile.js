@@ -3,8 +3,7 @@
 const path = require("path");
 const gulp = require("gulp");
 const autoprefixer = require("gulp-autoprefixer");
-const sass = require("gulp-sass");
-sass.compiler = require("sass");
+const sass = require("gulp-sass")(require("sass"));
 const purgecss = require("gulp-purgecss");
 const cleanCSS = require("gulp-clean-css");
 const concat = require("gulp-concat");
