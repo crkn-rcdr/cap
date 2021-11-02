@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $dark: #222222;
 $body-color: #222222;
 $card-height: 100%;
@@ -88,7 +90,7 @@ header {
   li {
     list-style-type: none;
     display: inline-block;
-    margin-left: $spacer / 2;
+    margin-left: math.div($spacer, 2);
   }
 }
 

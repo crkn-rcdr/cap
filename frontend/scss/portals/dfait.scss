@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $primary: #232965;
 $font-family-sans-serif: "Roboto", sans-serif;
 
@@ -25,8 +27,8 @@ header {
       li {
         margin-left: auto;
         margin-right: auto;
-        padding-top: $spacer / 2;
-        padding-bottom: $spacer / 2;
+        padding-top: math.div($spacer, 2);
+        padding-bottom: math.div($spacer, 2);
         text-align: center;
       }
     }
