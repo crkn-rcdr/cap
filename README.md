@@ -1,23 +1,102 @@
 # `cap` &mdash; the public front-end for the Canadiana Access Platform
 
-## Development
+## Setup
+
+To set up this repo:
 
 ```
 $ git clone git@github.com:crkn-rcdr/cap.git
 $ cp docker-compose.override.yml.example docker-compose.override.yml
 ```
 
-Replace `CAP_PASSWORD` wherever it's found with the value found in the shared vault in 1Password. Then, you can build and start a local dev environment:
+In `docker-compose.override.yml`, replace `CAP_PASSWORD` wherever it's found with the value found in the shared vault in 1Password.
 
-```
-$ docker-compose up --build
-```
-
-Make sure that every site you want to view locally has an entry in `/etc/hosts` with each subdomain suffixed with `-dev`:
+Every portal that you want to view locally requires an entry in `/etc/hosts` with each subdomain suffixed with `-dev`:
 
 ```
 127.0.0.1   www-dev.canadiana.ca
 127.0.0.1   heritage-dev.canadiana.ca
 ```
 
-Style and JavaScript development takes place in the [`frontend`](frontend) directory. To set it up, from that directory, run `pnpx install`. `pnpx gulp watch` allows for changes to update the static files in CAP. `pnpx gulp` builds the static files for production use.
+## Run
+
+First, ensure that the [Access-Platform](https://github.com/crkn-rcdr/Access-Platform) development environment is running, as its `haproxy` service handles the reverse proxying required to point requests to each portal. You will also need to ensure that you're connected to the Canadiana VPN.
+
+Build and start a local dev environment:
+
+```
+$ docker-compose up --build
+```
+
+## Development
+
+### Config
+
+CAP configuration can be found in two places. Making changes to configuration requires a webserver restart (see [Back-end Perl Code](#back-end-perl-code), below).
+
+#### [`CAP/cap.conf`](CAP/cap.conf)
+
+This contains a whole host of server and portal configuration. The section that is most important and likely to require changes is the `portal_config` section under `CAP::Model::Collections`; this controls the subdomains that each portal can be found at, what static pages can be displayed, and more. This section is highly unwieldy and in the future much of this information will be stored with the relevant collection record in the Access Platform.
+
+#### [`CAP/conf`](CAP/conf)
+
+This directory contains configuration files that are used by some of CAP's models. Of special note are the JSON files in [`CAP/conf/i18n`](CAP/conf/i18n), which contain the strings that are used by the i18n system when handling `c.loc` directives.
+
+### Back-end Perl code
+
+Back-end Perl code can be found in [`CAP/lib`](CAP/lib). After making changes, you will need to send the HUP signal to the CAP process to restart the webserver:
+
+```
+$ docker-compose exec cap /bin/bash
+...:/opt/cap$ kill -HUP 1
+```
+
+Set the `CATALYST_DEBUG` environment variable to `1` in `docker-compose.override.yml` to view debug output in the CAP logs.
+
+Much of CAP's business logic is found in the [`CAP/lib/CIHM/Access`](CAP/lib/CIHM/Access) directory, which was created in an old attempt to separate this code out for other resources to use. There is an [outstanding ticket](https://github.com/crkn-rcdr/cap/issues/42) to move this content into [`CAP/lib/CAP/Model`](CAP/lib/CAP/Model).
+
+External Perl dependencies are listed in [`CAP/cpanfile`](CAP/cpanfile).
+
+### Templates
+
+CAP uses [Template Toolkit](http://www.template-toolkit.org/docs/index.html) to build its HTML templates. The templates can be found in `cap/root/templates`. Each portal has its own template directory, where you can override common templates (found in the `Common` directory, naturally) with portal-specific things. A template directory looks like this:
+
+- `blocks`: English/French chunks of HTML that can be inserted into templates
+- `layout`: Page layout templates
+- `pages`: Full HTML pages
+- `partial`: Partial templates that are inserted into other templates
+
+The templates in each template directory's root generally map to CAP Controller routes.
+
+### CSS/JS
+
+Style and JavaScript development takes place in the [`frontend`](frontend) directory. To set it up, with `pnpm` installed globally (as you'll have done for working with the Access-Platform repo):
+
+```
+$ cd frontend
+$ pnpm install
+```
+
+This directory has a [gulpfile](frontend/gulpfile.js) which contains scripts for building CAP front-end assets. Run
+
+```
+$ pnpm exec gulp watch
+```
+
+to continuously rebuid the assets while working on them, and
+
+```
+$ pnpm exec gulp
+```
+
+to build the assets for production use. This is a very important step as the production build strips out unused [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) styles.
+
+## Deployment
+
+Use the following to deploy the `cap` image to our internal docker repository:
+
+```
+$ ./deployImage.sh cap
+```
+
+Replace `cap` with `cap-apache` to deploy the `cap-apache` image.
