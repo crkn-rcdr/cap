@@ -90,3 +90,13 @@ $ pnpm exec gulp
 ```
 
 to build the assets for production use. This is a very important step as the production build strips out unused [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) styles.
+
+## Deployment
+
+Use the following to deploy the `cap` image to our internal docker repository:
+
+```
+$ ./deployImage.sh cap
+```
+
+Replace `cap` with `cap-apache` to deploy the `cap-apache` image.
