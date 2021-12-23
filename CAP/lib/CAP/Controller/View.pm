@@ -117,9 +117,18 @@ sub view_item : Private {
       size          => $size,
       template      => "view_item.tt"
     );
-  } else {    # we don't have a item with components
+  } elsif ($item->item_mode eq "pdf") {
     $c->stash(
       item     => $item,
+      record   => $item->record,
+      item_download => $item->item_download,
+      token => $item->token,
+      template => "view_pdf.tt"
+    );
+  } else {
+    $c->stash(
+      item => $item,
+      record => $item->record,
       template => "view_item.tt"
     );
   }

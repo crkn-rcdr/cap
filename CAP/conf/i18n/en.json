@@ -138,6 +138,7 @@
   "L_VIEW_TEXT_ONLY": "This digital collection contains images of historical texts. Alternative text is not available for these images.",
   "L_VIEWER_BIGGER": "Zoom In",
   "L_VIEWER_DOWNLOAD_FULL": "Download PDF",
+  "L_VIEWER_DOWNLOAD_PDF_EXPLANATION": "This document can only be viewed by downloading it as a PDF.",
   "L_VIEWER_DOWNLOAD_SINGLE": "Download PDF (single page)",
   "L_VIEWER_FIRST": "First Page",
   "L_VIEWER_FULL_IMAGE": "Full-sized Image",
