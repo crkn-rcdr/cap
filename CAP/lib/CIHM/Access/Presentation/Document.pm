@@ -75,18 +75,22 @@ sub BUILD {
 sub _build_item_mode {
   my ($self) = @_;
   if ($self->is_type("document")) {
-    my $component_record =
+    if (defined $self->record->{order} && $self->record->{order}[0]) {
+      my $component_record =
       $self->record->{components}{$self->record->{order}[0]};
 
-    if (
-      $component_record->{canonicalMaster} ||
-      $component_record->{canonicalMasterExtension}
-    ) {
-      return $component_record->{noid}
-        ? "noid"
-        : "path";
+      if (
+        $component_record->{canonicalMaster} ||
+        $component_record->{canonicalMasterExtension}
+      ) {
+        return $component_record->{noid}
+          ? "noid"
+          : "path";
+      } else {
+        return "pdf";
+      }
     } else {
-      return "pdf";
+      return $self->item_download ? "pdf" : "";
     }
   } else {
     return "";
@@ -190,7 +194,11 @@ sub is_in_collection {
 
 sub has_children {
   my ($self) = @_;
-  return scalar(@{$self->record->{order}});
+  if (defined $self->record->{order}) {
+    return scalar(@{$self->record->{order}});
+  } else {
+    return 0;
+  }
 }
 
 sub child_count { return shift->has_children() }
@@ -237,7 +245,7 @@ sub canonical_label {
 
 sub item_download {
   my ($self) = @_;
-  my $item_download = $self->record->{canonicalDownload};
+  my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
   return $item_download ? $self->download->uri($item_download) : undef;
 }
 
