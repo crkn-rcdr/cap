@@ -44,8 +44,11 @@ sub auto : Private {
     domain   => $c->stash->{cookie_domain},
     value    => $c->stash->{lang},
     expires  => time() + 7776000,
-    httponly => 1
+    httponly => 1,
+    secure   => 1,
+    samesite => 'None'
   };
+
   $c->stash(
     depositor_labels =>
       $c->model('Depositors')->as_labels( $c->stash->{lang} ),
