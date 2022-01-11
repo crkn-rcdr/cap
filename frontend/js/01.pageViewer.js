@@ -417,8 +417,13 @@
         this.settings.portalName;
 
       var $singleDownload = $("#pvDownloadSingle");
-      if ($singleDownload.length > 0) {
-        $singleDownload.attr("href", this.components[this.state.seq].download);
+      var downloadUri = this.components[this.state.seq].download;
+      if (downloadUri) {
+        $singleDownload.removeClass("hidden");
+        $singleDownload.attr("href", downloadUri);
+      } else {
+        $singleDownload.addClass("hidden");
+        $singleDownload.attr("href", "");
       }
 
       var $fullImage = $("#pvFullImage");
@@ -477,9 +482,10 @@
     },
 
     requestImage: function () {
-      var uri = this.imageCache[
-        this.imageCacheRef(this.state.seq, this.state.r, this.state.s)
-      ];
+      var uri =
+        this.imageCache[
+          this.imageCacheRef(this.state.seq, this.state.r, this.state.s)
+        ];
       if (uri && uri !== "error") {
         this.image.attr("src", uri);
         this.display.error.hide();
