@@ -42,7 +42,13 @@ $(function () {
     }
   });
 
-  $("#pvToolbar").pageViewer();
+  var $toolbar = $("#pvToolbar");
+  if ($toolbar.attr("data-mode") === "noid") {
+    $toolbar.dragonViewer();
+  } else {
+    $toolbar.pageViewer();
+  }
+
   $(".matching-pages").matchingPages();
 
   $(function () {

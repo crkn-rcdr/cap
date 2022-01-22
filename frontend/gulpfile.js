@@ -41,13 +41,17 @@ const css = (watch = false) =>
 const js = (watch = false) =>
   function js() {
     let stream = gulp
-      .src([
-        "./js/early/*.js",
-        "./node_modules/jquery/dist/jquery.js",
-        "./node_modules/popper.js/dist/umd/popper.js",
-        "./node_modules/bootstrap/dist/js/bootstrap.js",
-        "./js/*.js",
-      ])
+      .src(
+        [
+          "./js/early/*.js",
+          "./node_modules/jquery/dist/jquery.js",
+          "./node_modules/popper.js/dist/umd/popper.js",
+          "./node_modules/bootstrap/dist/js/bootstrap.js",
+          "./node_modules/openseadragon/build/openseadragon/openseadragon.js",
+          "./js/*.js",
+        ],
+        { sourcemaps: true }
+      )
       .pipe(concat("cap.js"));
 
     if (!watch) stream = stream.pipe(terser());
