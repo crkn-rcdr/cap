@@ -60,9 +60,12 @@
         if (pv.settings.hasTags) {
           component.hasTags = !!parseInt(this.getAttribute("data-tags"), 10);
 
-          if (lastTaggedPage >= 0) {
-            component.previousTags = lastTaggedPage;
-            pv.components[lastTaggedPage].nextTags = index;
+          if (component.hasTags) {
+            if (lastTaggedPage >= 0) {
+              component.previousTags = lastTaggedPage;
+              pv.components[lastTaggedPage].nextTags = index;
+            }
+
             lastTaggedPage = index;
           }
         }
@@ -183,14 +186,14 @@
         this.controls.tagToggle.selector.toggleClass("active");
       };
       this.previousTaggedPage = function () {
-        var page = this.dragon.getCurrentPage();
+        var page = this.dragon.currentPage();
         var previousTags = this.components[page].previousTags;
         if (previousTags) {
           this.dragon.goToPage(previousTags);
         }
       };
       this.nextTaggedPage = function () {
-        var page = this.dragon.getCurrentPage();
+        var page = this.dragon.currentPage();
         var nextTags = this.components[page].nextTags;
         if (nextTags) {
           this.dragon.goToPage(nextTags);
