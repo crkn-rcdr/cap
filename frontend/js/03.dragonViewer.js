@@ -19,7 +19,7 @@
       this.setupControls();
 
       var page = this.settings.initialPage;
-      history.replaceState(page, null, this.makePathFromPage(page));
+      history.replaceState({ page: page }, null, this.makePathFromPage(page));
 
       // seems like a good enough place to load component data (that I'm not bothering with server-side)
       if (this.settings.hasTags) {
@@ -94,7 +94,11 @@
       this.dragon.addHandler("page", function (event) {
         var page = event.page;
 
-        history.pushState(page, null, pv.makePathFromPage(page));
+        if (!pv.isOnPopState) {
+          history.pushState({ page: page }, null, pv.makePathFromPage(page));
+        }
+        pv.isOnPopState = false;
+
         pv.fetchTagData(page);
         pv.pageUpdated(page);
       });
@@ -102,6 +106,15 @@
       this.dragon.addHandler("zoom", function (event) {
         pv.zoomUpdated(event.zoom);
       });
+
+      window.onpopstate = function (event) {
+        pv.isOnPopState = true;
+        pv.dragon.goToPage(event.state.page);
+      };
+
+      // Determines whether the next state change should push onto the history;
+      // it shouldn't if the state change comes from a popstate (e.g. browser "back")
+      this.isOnPopState = false;
     },
 
     setupTagView: function () {
