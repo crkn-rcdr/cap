@@ -2,9 +2,7 @@
 [% INCLUDE partial/page_viewer/toolbar.tt %]
 <section id="pvPane" class="mb-3">
   <section id="pvImageContainer">
-    <div id="pvImageInner">[% IF item.item_mode != "noid" %]<img id="pvImg" src="[% first_uri %]" alt="[% first_label %]">[% END %]</div>
-    <a id="pvImgPrev" class="pv-imagelink pv-imagelink-left hidden"><span class="pv-imagelink-text">&laquo;</span></a>
-    <a id="pvImgNext" class="pv-imagelink pv-imagelink-right hidden"><span class="pv-imagelink-text">&raquo;</span></a>
+    <div id="pvImageInner"><img id="pvImg" src="[% first_uri %]" alt="[% first_label %]"></div>
     <aside id="pvComponent" class="p-3[% UNLESS item.component(seq).hasTags %] hidden[% END %]">
       <div class="btn-group">
         <button id="pvComponentPreviousLink" class="btn btn-outline-primary">&laquo; [% c.loc("L_VIEW_TAGS_PREVIOUS") %] (<span id="pvComponentPreviousSeq"></span>)</button>

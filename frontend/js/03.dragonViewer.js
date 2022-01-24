@@ -85,6 +85,8 @@
         initialPage: this.settings.initialPage,
         showNavigationControl: false,
         showSequenceControl: false,
+        showNavigator: true,
+        navigatorPosition: "TOP_LEFT",
       });
 
       this.dragon = OpenSeadragon.getViewer(viewerAnchor);
