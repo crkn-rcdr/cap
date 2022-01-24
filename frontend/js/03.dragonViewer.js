@@ -393,9 +393,9 @@
   $.fn.dragonViewer = function (option) {
     return this.each(function () {
       var $this = $(this);
-      var data = $this.data("dragonViewer");
+      var data = $this.data("pageViewer");
       if (!data) {
-        $this.data("dragonViewer", (data = new DragonViewer(this)));
+        $this.data("pageViewer", (data = new DragonViewer(this)));
       }
       if (typeof option == "string") {
         data[option]();
