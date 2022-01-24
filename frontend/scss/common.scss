@@ -309,47 +309,14 @@ footer a {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   background-color: #eee;
+  height: 80vh;
+  width: 100%;
 }
 
 #pvImg {
   max-width: none;
   display: block;
   margin: 0 auto;
-}
-
-.pv-imagelink {
-  position: absolute;
-  width: 80px;
-  top: 0px;
-  height: 100%;
-  display: block;
-  background-color: $gray-400;
-  color: $white;
-  &:hover {
-    color: $white;
-    text-decoration: none;
-  }
-  font-size: xx-large;
-  .pv-imagelink-text {
-    position: absolute;
-    top: 50%;
-    display: block;
-    margin: 0 auto;
-  }
-}
-
-.pv-imagelink-left {
-  left: 0px;
-  .pv-imagelink-text {
-    left: 30px;
-  }
-}
-
-.pv-imagelink-right {
-  right: 0px;
-  .pv-imagelink-text {
-    right: 30px;
-  }
 }
 
 /* purgecss end ignore */

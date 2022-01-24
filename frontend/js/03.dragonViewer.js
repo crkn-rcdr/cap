@@ -10,6 +10,8 @@
       this.type = type;
       this.$element = $(element);
 
+      $("#pvImg").remove();
+
       this.loadData();
       this.setupViewer();
       this.setupTagView();
@@ -72,9 +74,6 @@
     setupViewer: function () {
       var pv = this;
       var viewerAnchor = "pvImageInner";
-
-      $("#" + viewerAnchor).css("height", "80vh");
-      $("#" + viewerAnchor).css("width", "100%");
 
       OpenSeadragon({
         id: viewerAnchor,
@@ -217,18 +216,8 @@
           eventName: "click",
           handler: this.previousPage,
         }),
-        previousBar: pvc({
-          selection: "#pvImgPrev",
-          eventName: "click",
-          handler: this.previousPage,
-        }),
         next: pvc({
           selection: "#pvNext",
-          eventName: "click",
-          handler: this.nextPage,
-        }),
-        nextBar: pvc({
-          selection: "#pvImgNext",
           eventName: "click",
           handler: this.nextPage,
         }),
@@ -282,16 +271,6 @@
       // These never need to be disabled.
       this.controls.rotateLeft.enable();
       this.controls.rotateRight.enable();
-
-      // TODO: replace this with some CSS transitions
-      var imageLinks = $(".pv-imagelink");
-      imageLinks.fadeTo(0, 0.5);
-      imageLinks.on("mouseover", function (ev) {
-        $(ev.delegateTarget).stop().fadeTo(400, 1);
-      });
-      imageLinks.on("mouseout", function (ev) {
-        $(ev.delegateTarget).stop().fadeTo(400, 0.5);
-      });
     },
 
     makePathFromPage: function (page) {
@@ -304,20 +283,16 @@
       if (page <= 0) {
         this.controls.first.disable("disabled");
         this.controls.previous.disable("disabled");
-        this.controls.previousBar.disable("hidden");
       } else {
         this.controls.first.enable();
         this.controls.previous.enable();
-        this.controls.previousBar.enable();
       }
       if (page >= this.settings.total - 1) {
         this.controls.last.disable("disabled");
         this.controls.next.disable("disabled");
-        this.controls.nextBar.disable("hidden");
       } else {
         this.controls.last.enable();
         this.controls.next.enable();
-        this.controls.nextBar.enable();
       }
 
       this.controls.pageSelect.enable();
