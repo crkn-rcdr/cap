@@ -147,12 +147,12 @@
       };
       this.rotateLeft = function () {
         this.dragon.viewport.setRotation(
-          (this.dragon.viewport.getRotation + 270) % 360
+          (this.dragon.viewport.degrees + 270) % 360
         );
       };
       this.rotateRight = function () {
         this.dragon.viewport.setRotation(
-          (this.dragon.viewport.getRotation + 90) % 360
+          (this.dragon.viewport.degrees + 90) % 360
         );
       };
       this.zoomOut = function () {
