@@ -180,18 +180,8 @@
           eventName: "click",
           handler: this.previousPage,
         }),
-        previousBar: pvc({
-          selection: "#pvImgPrev",
-          eventName: "click",
-          handler: this.previousPage,
-        }),
         next: pvc({
           selection: "#pvNext",
-          eventName: "click",
-          handler: this.nextPage,
-        }),
-        nextBar: pvc({
-          selection: "#pvImgNext",
           eventName: "click",
           handler: this.nextPage,
         }),
@@ -382,20 +372,16 @@
       if (this.state.seq <= 1) {
         this.controls.first.disable("disabled");
         this.controls.previous.disable("disabled");
-        this.controls.previousBar.disable("hidden");
       } else {
         this.controls.first.enable();
         this.controls.previous.enable();
-        this.controls.previousBar.enable();
       }
       if (this.state.seq >= this.settings.total) {
         this.controls.last.disable("disabled");
         this.controls.next.disable("disabled");
-        this.controls.nextBar.disable("hidden");
       } else {
         this.controls.last.enable();
         this.controls.next.enable();
-        this.controls.nextBar.enable();
       }
 
       this.controls.pageSelect.enable();
@@ -563,15 +549,6 @@
       window.onpopstate = $.proxy(this.stateChanged, this);
       this.image.on("load", $.proxy(this.imageLoaded, this));
       this.image.on("error", $.proxy(this.imageError, this));
-
-      var imageLinks = $(".pv-imagelink");
-      imageLinks.fadeTo(0, 0.5);
-      imageLinks.on("mouseover", function (ev) {
-        $(ev.delegateTarget).stop().fadeTo(400, 1);
-      });
-      imageLinks.on("mouseout", function (ev) {
-        $(ev.delegateTarget).stop().fadeTo(400, 0.5);
-      });
     },
   };
 

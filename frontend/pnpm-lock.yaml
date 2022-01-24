@@ -11,6 +11,7 @@ specifiers:
   gulp-sass: ^5.0.0
   gulp-terser: ^2.1.0
   jquery: ^3.6.0
+  openseadragon: ^3.0.0
   popper.js: ^1.16.1
   prettier: ^2.4.1
   sass: ^1.43.4
@@ -18,6 +19,7 @@ specifiers:
 dependencies:
   bootstrap: 4.6.1_jquery@3.6.0+popper.js@1.16.1
   jquery: 3.6.0
+  openseadragon: 3.0.0
   popper.js: 1.16.1
 
 optionalDependencies:
@@ -1692,6 +1694,10 @@ packages:
     dependencies:
       wrappy: 1.0.2
     dev: true
+
+  /openseadragon/3.0.0:
+    resolution: {integrity: sha512-IIl90uMZ8mi+W4IWJ0W6/xyz2SCcHeEMT6U5dcAN7UYJYAXWLYbmu3diWzoz4KE0JvMXbXC5wjRoACdTVrgaog==}
+    dev: false
 
   /ordered-read-streams/1.0.1:
     resolution: {integrity: sha1-d8DLN8QVJdZBZtmQ/61+xqDhNj4=}
