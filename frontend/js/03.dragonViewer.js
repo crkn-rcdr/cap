@@ -73,8 +73,8 @@
       var pv = this;
       var viewerAnchor = "pvImageInner";
 
-      $("#" + viewerAnchor).css("height", "800px");
-      $("#" + viewerAnchor).css("width", "1000px");
+      $("#" + viewerAnchor).css("height", "80vh");
+      $("#" + viewerAnchor).css("width", "100%");
 
       OpenSeadragon({
         id: viewerAnchor,
@@ -90,16 +90,16 @@
 
       this.dragon = OpenSeadragon.getViewer(viewerAnchor);
 
-      this.dragon.addHandler("page", function (_, page) {
-        history.pushState(page, null, makePathFromPage(page));
+      this.dragon.addHandler("page", function (event) {
+        var page = event.page;
 
+        history.pushState(page, null, pv.makePathFromPage(page));
         pv.fetchTagData(page);
-
         pv.pageUpdated(page);
       });
 
-      this.dragon.addHandler("zoom", function (_, zoom) {
-        pv.zoomUpdated(zoom);
+      this.dragon.addHandler("zoom", function (event) {
+        pv.zoomUpdated(event.zoom);
       });
     },
 
@@ -155,10 +155,14 @@
         );
       };
       this.zoomOut = function () {
-        this.dragon.viewport.zoomBy(0.5);
+        var zoom = this.dragon.viewport.getZoom();
+        var minZoom = this.dragon.viewport.getMinZoom();
+        this.dragon.viewport.zoomTo(Math.max(zoom * 0.5, minZoom));
       };
       this.zoomIn = function () {
-        this.dragon.viewport.zoomBy(2);
+        var zoom = this.dragon.viewport.getZoom();
+        var maxZoom = this.dragon.viewport.getMaxZoom();
+        this.dragon.viewport.zoomTo(Math.min(zoom * 2, maxZoom));
       };
       this.toggleTags = function () {
         this.tagView.frame.toggle();
