@@ -98,7 +98,7 @@
         var page = event.page;
 
         if (!pv.isOnPopState) {
-          history.pushState({ page: page }, null, pv.makePathFromPage(page));
+          history.replaceState({ page: page }, null, pv.makePathFromPage(page));
         }
         pv.isOnPopState = false;
 
