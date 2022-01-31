@@ -311,6 +311,10 @@ footer a {
   background-color: #eee;
   height: 80vh;
   width: 100%;
+  border: 5px solid $gray-400;
+  &:focus-within {
+    border-color: $primary;
+  }
 }
 
 #pvImg {
