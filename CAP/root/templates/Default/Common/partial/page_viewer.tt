@@ -1,7 +1,7 @@
 <p class="sr-only">[% c.loc("L_VIEW_TEXT_ONLY") %]</p>
-[% INCLUDE partial/page_viewer/toolbar.tt %]
 <section id="pvPane" class="mb-3">
   <section id="pvImageContainer">
+    [% INCLUDE partial/page_viewer/toolbar.tt %]
     <div id="pvImageInner"><img id="pvImg" src="[% first_uri %]" alt="[% first_label %]"></div>
     <aside id="pvComponent" class="p-3[% UNLESS item.component(seq).hasTags %] hidden[% END %]">
       <div class="btn-group">

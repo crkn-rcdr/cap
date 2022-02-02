@@ -305,6 +305,15 @@ footer a {
   }
 }
 
+#pvToolbar {
+  position: absolute;
+  z-index: 50;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  background-color: white;
+}
+
 #pvImageInner {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
