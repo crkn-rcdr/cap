@@ -46,7 +46,9 @@
 
     submitSearch: function (e) {
       e.preventDefault();
-      this.params.q = $('input[name="q"]', $("#keywordSearch")).val();
+      var q = $('input[name="q"]', $("#keywordSearch")).val();
+      this.params.q = q;
+      sessionStorage.setItem("query", q);
       if (!!this.params.q) {
         this.$results.empty();
         this.$searching.show();
