@@ -7,9 +7,9 @@
   [% INCLUDE button label=c.loc("L_VIEWER_TOGGLE_TAGS") id="pvTagToggle" icon_class="pv-tags" active=first_child.hasTags hidden=0 %]
   [% END -%]
   [% IF item.item_mode == "noid" -%]
-  [% INCLUDE button label=c.loc("L_VIEWER_FULL_IMAGE") id="pvFullImage" icon_class="pv-full-image" href=first_child.iiif_default %]
+  [% INCLUDE link_button label=c.loc("L_VIEWER_FULL_IMAGE") id="pvFullImage" icon_class="pv-full-image" href=first_child.iiif_default %]
   [% END -%]
-  [% INCLUDE button label=c.loc("L_VIEWER_DOWNLOAD_SINGLE") id="pvDownloadSingle" icon_class="pv-download-single" hidden=!first_child.download_uri href=first_child.download_uri %]
+  [% INCLUDE link_button label=c.loc("L_VIEWER_DOWNLOAD_SINGLE") id="pvDownloadSingle" icon_class="pv-download-single" hidden=!first_child.download_uri href=first_child.download_uri %]
 </nav>
 
 [%- BLOCK button -%]
