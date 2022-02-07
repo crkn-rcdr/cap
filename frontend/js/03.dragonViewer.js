@@ -220,6 +220,8 @@
         return {
           selector: $(spec.selection),
           enable: function () {
+            this.selector.prop("disabled", false);
+            this.selector.removeAttr("href");
             this.selector.removeClass("disabled selected hidden");
             this.selector.off(spec.eventName).on(spec.eventName, function (e) {
               e.preventDefault();
@@ -227,6 +229,7 @@
             });
           },
           disable: function (className) {
+            this.selector.prop("disabled", true);
             this.selector.addClass(className);
             this.selector.off(spec.eventName);
           },

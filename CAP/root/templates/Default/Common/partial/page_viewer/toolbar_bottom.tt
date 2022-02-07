@@ -26,7 +26,7 @@
 </nav>
 
 [%- BLOCK button_svg -%]
-<[% tag %] id="[% id %]" class="btn btn-light btn-outline-primary mr-1 my-1[% IF disabled %] disabled[% END; IF hidden %] hidden[% END; IF active %] active[% END %]" title="[% label %]" data-toggle="tooltip"[% IF href; " " _ href; END %]>
+<[% tag %] id="[% id %]" class="btn btn-light btn-outline-primary mr-1 my-1[% IF disabled %] disabled[% END; IF hidden %] hidden[% END; IF active %] active[% END %]" title="[% label %]" data-toggle="tooltip"[% IF href && !disabled %] href="[% href %]"[% END %]>
   [% content %]
   <span class="sr-only">[% label %]</span>
 </[% tag %]>
