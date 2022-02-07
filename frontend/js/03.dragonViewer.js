@@ -60,12 +60,14 @@
         if (pv.settings.hasTags) {
           component.hasTags = !!parseInt(this.getAttribute("data-tags"), 10);
 
-          if (component.hasTags) {
-            if (lastTaggedPage >= 0) {
-              component.previousTags = lastTaggedPage;
-              pv.components[lastTaggedPage].nextTags = index;
-            }
+          if (lastTaggedPage >= 0) {
+            component.previousTags = lastTaggedPage;
+          }
 
+          if (component.hasTags) {
+            for (var i = Math.max(0, lastTaggedPage); i < index; i++) {
+              pv.components[i].nextTags = index;
+            }
             lastTaggedPage = index;
           }
         }
