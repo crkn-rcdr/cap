@@ -14,7 +14,7 @@
 
       this.loadData();
       this.setupViewer();
-      this.setupTagView();
+      this.setupOverlays();
       this.setupHandlers();
       this.setupControls();
 
@@ -122,7 +122,7 @@
       this.isOnPopState = false;
     },
 
-    setupTagView: function () {
+    setupOverlays: function () {
       var pve = function (selection) {
         return {
           selector: selection,
@@ -136,6 +136,10 @@
             selection.toggleClass("hidden");
           },
         };
+      };
+
+      this.searchView = {
+        frame: pve($("#pvSearch")),
       };
 
       this.tagView = {
@@ -183,7 +187,13 @@
         var maxZoom = this.dragon.viewport.getMaxZoom();
         this.dragon.viewport.zoomTo(Math.min(zoom * 2, maxZoom));
       };
+      this.toggleSearch = function () {
+        this.tagView.frame.hide();
+        this.searchView.frame.toggle();
+        this.controls.searchToggle.selector.toggleClass("active");
+      };
       this.toggleTags = function () {
+        this.searchView.frame.hide();
         this.tagView.frame.toggle();
         this.controls.tagToggle.selector.toggleClass("active");
       };
@@ -210,7 +220,6 @@
         return {
           selector: $(spec.selection),
           enable: function () {
-            $(spec.selection).attr("href", "#0");
             this.selector.removeClass("disabled selected hidden");
             this.selector.off(spec.eventName).on(spec.eventName, function (e) {
               e.preventDefault();
@@ -218,7 +227,6 @@
             });
           },
           disable: function (className) {
-            $(spec.selection).removeAttr("href");
             this.selector.addClass(className);
             this.selector.off(spec.eventName);
           },
@@ -271,6 +279,11 @@
           eventName: "click",
           handler: this.zoomIn,
         }),
+        searchToggle: pvc({
+          selection: "#pvSearchToggle",
+          eventName: "click",
+          handler: this.toggleSearch,
+        }),
         tagToggle: pvc({
           selection: "#pvTagToggle",
           eventName: "click",
@@ -291,6 +304,7 @@
       // These never need to be disabled.
       this.controls.rotateLeft.enable();
       this.controls.rotateRight.enable();
+      this.controls.searchToggle.enable();
     },
 
     makePathFromPage: function (page) {

@@ -7,7 +7,9 @@ $card-height: 100%;
 $z-index-viewer-toolbars: 5;
 $z-index-header-overlay: 10;
 
-$viewer-border: 4px;
+$viewer-border: 1px;
+$viewer-border-radius: .25rem;
+$viewer-border-color: rgba(0, 0, 0, 0.125);
 
 @import "bootstrap";
 
@@ -172,7 +174,7 @@ footer a {
 
 .collapse-pane-content {
   padding: $spacer;
-  border: 1px $gray-400 solid;
+  border: 1px $viewer-border-color solid;
   border-radius: 0.375rem;
 }
 
@@ -270,15 +272,19 @@ footer a {
   background-image: url("/static/images/interface/pv-tags.svg");
 }
 
-#pvComponent {
+.pv-overlay {
   position: absolute;
-  top: 0px;
-  right: -1px;
-  max-height: 210px;
+  bottom: $viewer-border;
+  left: $viewer-border;
+  right: 4px;
+  max-height: 200px;
+  max-width: 400px;
   overflow-y: auto;
-  width: 372px;
   background-color: rgba(255, 255, 255, 0.95);
-  border: 2px solid $primary;
+  border: $viewer-border solid $primary;
+}
+
+#pvComponent {
   .tags {
     margin-bottom: 0;
     li {
@@ -311,17 +317,23 @@ footer a {
 }
 
 #pvToolbar {
-  background-color: white;
-  border-top: $viewer-border solid $gray-400;
-  border-left: $viewer-border solid $gray-400;
-  border-right: $viewer-border solid $gray-400;
+  border-top: $viewer-border solid $viewer-border-color;
+  border-left: $viewer-border solid $viewer-border-color;
+  border-right: $viewer-border solid $viewer-border-color;
+  border-top-left-radius: $viewer-border-radius;
+  border-top-right-radius: $viewer-border-radius;
 }
 
 #pvToolbarBottom {
-  background-color: white;
-  border-bottom: $viewer-border solid $gray-400;
-  border-left: $viewer-border solid $gray-400;
-  border-right: $viewer-border solid $gray-400;
+  border-bottom: $viewer-border solid $viewer-border-color;
+  border-left: $viewer-border solid $viewer-border-color;
+  border-right: $viewer-border solid $viewer-border-color;
+  border-bottom-left-radius: $viewer-border-radius;
+  border-bottom-right-radius: $viewer-border-radius;
+}
+
+#pvImageContainer {
+  position: relative;
 }
 
 #pvImageInner {
@@ -330,7 +342,7 @@ footer a {
   background-color: #eee;
   height: 50vh;
   width: 100%;
-  border: $viewer-border solid $gray-400;
+  border: $viewer-border solid $viewer-border-color;
   &:focus-within {
     border-color: $primary;
   }

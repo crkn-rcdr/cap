@@ -7,8 +7,6 @@
 <div class="container-md">
   [% INCLUDE partial/page_viewer.tt %]
 
-  [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
-
   <h2 class="mt-3">
     [% IF c.portal_id == "parl" %]
       [% record.parlLabel || record.label %]

@@ -1,9 +1,12 @@
 <p class="sr-only">[% c.loc("L_VIEW_TEXT_ONLY") %]</p>
 <section id="pvPane" class="mb-3">
+  [% INCLUDE partial/page_viewer/toolbar.tt %]
   <section id="pvImageContainer">
-    [% INCLUDE partial/page_viewer/toolbar.tt %]
     <div id="pvImageInner"><img id="pvImg" src="[% first_uri %]" alt="[% first_label %]"></div>
-    <aside id="pvComponent" class="p-3[% UNLESS item.component(seq).hasTags %] hidden[% END %]">
+    <aside id="pvSearch" class="pv-overlay p-3[% UNLESS item.record.component_count_fulltext %] hidden[% END %]">
+      [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
+    </aside>
+    <aside id="pvComponent" class="pv-overlay p-3[% UNLESS item.component(seq).hasTags %] hidden[% END %]">
       <div class="btn-group">
         <button id="pvComponentPreviousLink" class="btn btn-outline-primary">&laquo; [% c.loc("L_VIEW_TAGS_PREVIOUS") %] (<span id="pvComponentPreviousSeq"></span>)</button>
         <button id="pvComponentNextLink" class="btn btn-outline-primary">[% c.loc("L_VIEW_TAGS_NEXT") %] (<span id="pvComponentNextSeq"></span>) &raquo;</button>
@@ -11,8 +14,8 @@
       <div id="pvComponentLoading"><img src="/static/images/loader.gif" alt="[% c.loc("L_VIEW_LOADING") %]" /></div>
       <div id="pvComponentContainer" class="hidden"></div>
     </aside>
-    [% INCLUDE partial/page_viewer/toolbar_bottom.tt %]
   </section>
+  [% INCLUDE partial/page_viewer/toolbar_bottom.tt %]
   <p id="pvLoading" class="loading hidden p-3">[% c.loc("L_VIEW_LOADING") %]...</p>
   <p id="pvError" class="hidden p-3">[% c.loc("L_VIEW_ERROR") %]</p>
 </section>
