@@ -1,5 +1,9 @@
-<nav id="pvToolbar" aria-label="[% c.loc("L_VIEWER_LABEL") %]" class="btn-toolbar form-inline p-1" data-mode="[% item.item_mode %]"[% IF item.item_mode != "noid" %] data-token="[% token %]"[% END %] data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %]>
-  <select id="pvPageSelect" class="custom-select mr-1" style="width:auto" aria-label="[% c.loc("L_VIEWER_PAGE_SELECT") %]" name="seq" data-toggle="tooltip" title="[% c.loc("L_VIEWER_PAGE_SELECT") %]">
+<nav id="pvToolbar" aria-label="[% c.loc("L_VIEWER_LABEL") %]" class="btn-toolbar form-inline px-1" data-mode="[% item.item_mode %]"[% IF item.item_mode != "noid" %] data-token="[% token %]"[% END %] data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %]>
+  <div class="btn-group mr-1 py-1">
+    [% INCLUDE change_page new_seq=(1) label=c.loc("L_VIEWER_FIRST") disabled=(seq <= 1) id="pvFirst" icon_class="pv-page-first" %]
+    [% INCLUDE change_page new_seq=(seq - 1) label=c.loc("L_VIEWER_PREVIOUS") disabled=(seq <= 1) id="pvPrevious" icon_class="pv-page-previous" %]
+  </div>
+  <select id="pvPageSelect" class="custom-select mr-1 py-1" style="width:auto" aria-label="[% c.loc("L_VIEWER_PAGE_SELECT") %]" name="seq" data-toggle="tooltip" title="[% c.loc("L_VIEWER_PAGE_SELECT") %]">
 [% first_child = item.component(seq) -%]
 [% FOREACH component_key IN record.order -%]
 [% curr_seq = loop.count -%]
@@ -7,33 +11,17 @@
     <option id="seq[% curr_seq %]" data-uri="[% child.uri %]"[% IF child.download_uri %] data-download="[% child.download_uri %]"[% END %] data-key="[% component_key %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
 [% END -%]
   </select>
-  <div class="btn-group mr-1">
-    [% INCLUDE change_page new_seq=(1) label=c.loc("L_VIEWER_FIRST") disabled=(seq <= 1) id="pvFirst" icon_class="pv-page-first" %]
-    [% INCLUDE change_page new_seq=(seq - 1) label=c.loc("L_VIEWER_PREVIOUS") disabled=(seq <= 1) id="pvPrevious" icon_class="pv-page-previous" %]
+  <div class="btn-group mr-1 py-1">
     [% INCLUDE change_page new_seq=(seq + 1) label=c.loc("L_VIEWER_NEXT") disabled=(seq >= item.child_count) id="pvNext" icon_class="pv-page-next" %]
     [% INCLUDE change_page new_seq=(item.child_count) label=c.loc("L_VIEWER_LAST") disabled=(seq >= item.child_count) id="pvLast" icon_class="pv-page-last" %]
   </div>
-  <div class="btn-group mr-1">
+  <div class="btn-group mr-1 py-1">
     [% INCLUDE rotate new_rotation=((rotate - 1) % 4) label=c.loc("L_VIEWER_ROTATE_LEFT") id="pvRotateLeft" icon_class="pv-rotate-left" %]
     [% INCLUDE rotate new_rotation=((rotate + 1) % 4) label=c.loc("L_VIEWER_ROTATE_RIGHT") id="pvRotateRight" icon_class="pv-rotate-right" %]
   </div>
-  <div class="btn-group mr-1">
+  <div class="btn-group mr-1 py-1">
     [% INCLUDE resize new_size=(size - 1) label=c.loc("L_VIEWER_SMALLER") id="pvSmaller" icon_class="pv-smaller" %]
     [% INCLUDE resize new_size=(size + 1) label=c.loc("L_VIEWER_BIGGER") id="pvBigger" icon_class="pv-bigger" %]
-  </div>
-  <div class="btn-group">
-    [% IF item.item_mode == "noid" -%]
-    [% INCLUDE button label=c.loc("L_VIEWER_FULL_IMAGE") id="pvFullImage" icon_class="pv-full-image" href=first_child.iiif_default %]
-    [% END -%]
-    [% INCLUDE button label=c.loc("L_VIEWER_DOWNLOAD_SINGLE") id="pvDownloadSingle" icon_class="pv-download-single" hidden=!first_child.download_uri href=first_child.download_uri %]
-  </div>
-  <div class="ml-auto">
-    [% has_tags = record.defined('hasTags') && record.hasTags -%]
-    [% IF has_tags %]
-    <div class="btn-group">
-      [% INCLUDE tag_toggle label=c.loc("L_VIEWER_TOGGLE_TAGS") id="pvTagToggle" icon_class="pv-tags" active=first_child.hasTags %]
-    </div>
-    [% END %]
   </div>
 </nav>
 
@@ -46,4 +34,3 @@
 [% BLOCK change_page %][% INCLUDE button href=c.uri_for_action("view/index", record.key, new_seq) disabled=disabled %][% END %]
 [% BLOCK rotate %][% INCLUDE button href=c.uri_for_action("view/index", record.key, seq, refine(c.req.params, { r => new_rotation })) %][% END %]
 [% BLOCK resize %][% INCLUDE button href=c.uri_for_action("view/index", record.key, seq, refine(c.req.params, { s => new_size })) disabled=(new_size < 1 || new_size > 6) %][% END %]
-[% BLOCK tag_toggle %][% INCLUDE button hidden=0 %][% END %]

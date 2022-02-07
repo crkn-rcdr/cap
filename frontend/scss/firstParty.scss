@@ -115,7 +115,7 @@ body.action-index {
 
 header.overlay {
   position: fixed;
-  z-index: 10;
+  z-index: $z-index-header-overlay;
   top: 0px;
   left: 0px;
   height: 100vh;

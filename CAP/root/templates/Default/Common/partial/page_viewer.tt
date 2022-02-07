@@ -11,6 +11,7 @@
       <div id="pvComponentLoading"><img src="/static/images/loader.gif" alt="[% c.loc("L_VIEW_LOADING") %]" /></div>
       <div id="pvComponentContainer" class="hidden"></div>
     </aside>
+    [% INCLUDE partial/page_viewer/toolbar_bottom.tt %]
   </section>
   <p id="pvLoading" class="loading hidden p-3">[% c.loc("L_VIEW_LOADING") %]...</p>
   <p id="pvError" class="hidden p-3">[% c.loc("L_VIEW_ERROR") %]</p>

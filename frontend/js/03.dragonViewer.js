@@ -89,7 +89,7 @@
         showNavigationControl: false,
         showSequenceControl: false,
         showNavigator: true,
-        navigatorPosition: "BOTTOM_RIGHT",
+        navigatorPosition: "TOP_LEFT",
       });
 
       this.dragon = OpenSeadragon.getViewer(viewerAnchor);
