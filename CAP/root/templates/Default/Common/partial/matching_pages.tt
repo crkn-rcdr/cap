@@ -1,5 +1,5 @@
 <p
-  class="matching-pages col-md-12"
+  class="matching-pages"
   data-query="[% query | html %]"
   data-pkey="[% pkey %]"
 >
