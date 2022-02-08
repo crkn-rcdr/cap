@@ -218,6 +218,7 @@ footer a {
 }
 
 #pvPane {
+  background-color: $white;
   position: relative;
   .loading {
     position: absolute;
@@ -253,7 +254,7 @@ footer a {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   background-color: #eee;
-  height: 50vh;
+  height: 60vh;
   width: 100%;
   border: $viewer-border solid $viewer-border-color;
   &:focus-within {

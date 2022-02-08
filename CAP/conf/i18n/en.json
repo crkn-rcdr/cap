@@ -143,6 +143,8 @@
   "L_VIEWER_DOWNLOAD_SINGLE": "Download PDF (single page)",
   "L_VIEWER_FIRST": "First Page",
   "L_VIEWER_FULL_IMAGE": "Full-sized Image",
+  "L_VIEWER_FULLSCREEN_ENTER": "Enter fullscreen",
+  "L_VIEWER_FULLSCREEN_EXIT": "Exit fullscreen",
   "L_VIEWER_HELP": "Show/hide Help",
   "L_VIEWER_LABEL": "Viewer controls",
   "L_VIEWER_LAST": "Last Page",

@@ -143,6 +143,8 @@
   "L_VIEWER_DOWNLOAD_SINGLE": "Télécharger PDF (d'une seule page)",
   "L_VIEWER_FIRST": "Première page",
   "L_VIEWER_FULL_IMAGE": "Image en pleine grandeur",
+  "L_VIEWER_FULLSCREEN_ENTER": "Passer en mode plein écran",
+  "L_VIEWER_FULLSCREEN_EXIT": "Quitter le mode plein écran",
   "L_VIEWER_HELP": "Montrer / cacher l'assistance",
   "L_VIEWER_LABEL": "Commandes du visionneur",
   "L_VIEWER_LAST": "Dernière page",

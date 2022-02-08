@@ -17,6 +17,7 @@
       this.setupOverlays();
       this.setupHandlers();
       this.setupControls();
+      this.setupFullscreen();
 
       var page = this.settings.initialPage;
       history.replaceState({ page: page }, null, this.makePathFromPage(page));
@@ -211,6 +212,17 @@
           this.dragon.goToPage(nextTags);
         }
       };
+      this.enterFullscreen = function () {
+        if (!document.fullscreenElement) {
+          var pane = document.getElementById("pvPane");
+          pane.requestFullscreen();
+        }
+      };
+      this.exitFullscreen = function () {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      };
     },
 
     setupControls: function () {
@@ -302,12 +314,49 @@
           eventName: "click",
           handler: this.nextTaggedPage,
         }),
+        fullscreenEnter: pvc({
+          selection: "#pvFullscreenEnter",
+          eventName: "click",
+          handler: this.enterFullscreen,
+        }),
+        fullscreenExit: pvc({
+          selection: "#pvFullscreenExit",
+          eventName: "click",
+          handler: this.exitFullscreen,
+        }),
       };
 
       // These never need to be disabled.
       this.controls.rotateLeft.enable();
       this.controls.rotateRight.enable();
       this.controls.searchToggle.enable();
+
+      // This should be enabled now, because we don't have control over it
+      this.controls.fullscreenEnter.enable();
+    },
+
+    setupFullscreen: function () {
+      var pane = document.getElementById("pvPane");
+      var pv = this;
+      var $container = $("#pvImageInner");
+      var initialHeight = $container.css("height");
+      pane.onfullscreenchange = function (event) {
+        var pane = event.target;
+        if (document.fullscreenElement === pane) {
+          var $toolbarTop = $("#pvToolbar");
+          var $toolbarBottom = $("#pvToolbarBottom");
+          // This is unfortunate, but I don't want to think too hard about it
+          var toolbarHeights =
+            $toolbarBottom.height() + $toolbarTop.height() + 4;
+          $container.css("height", "calc(100vh - " + toolbarHeights + "px)");
+          pv.controls.fullscreenEnter.disable("hidden");
+          pv.controls.fullscreenExit.enable();
+        } else {
+          $container.css("height", initialHeight);
+          pv.controls.fullscreenExit.disable("hidden");
+          pv.controls.fullscreenEnter.enable();
+        }
+      };
     },
 
     makePathFromPage: function (page) {
