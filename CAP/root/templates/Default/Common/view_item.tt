@@ -33,5 +33,5 @@
 
   [% IF item_download %]<p><a href="[% item_download %]">[% c.loc("L_PDF_FULL") %]</a></p>[% END %]
 
-  [% INCLUDE partial/document_record.tt record=record %]
+  [% INCLUDE partial/document_record.tt record=record bottom_margin=1 %]
 </div>
