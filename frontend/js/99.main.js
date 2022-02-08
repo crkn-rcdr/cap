@@ -67,6 +67,14 @@ $(function () {
 
   $(".plus-minus").on("click", function (ev) {
     var $element = $(this);
-    $element.text($element.text() === "+" ? "-" : "+");
+    var $expand = $element.children(".expand");
+    var $collapse = $element.children(".unexpand");
+    if ($expand.hasClass("hidden")) {
+      $expand.removeClass("hidden");
+      $collapse.addClass("hidden");
+    } else {
+      $expand.addClass("hidden");
+      $collapse.removeClass("hidden");
+    }
   });
 });
