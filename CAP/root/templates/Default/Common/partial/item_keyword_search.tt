@@ -10,19 +10,16 @@
   <input type="hidden" name="pkey" value="[% key %]" />
   <input type="hidden" name="handler" value="page" />
   <input type="hidden" name="so" value="seq" />
-  <div class="col-md-8">
-    <div class="form-inline mb-3">
-      <label for="query" class="mr-1">[% search_label %]</label>
-      <input type="text" id="query" class="form-control mr-2" name="q" value="" />
-      <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
+  <div class="col-md-12 form-inline">
+    <label for="query" class="mr-1">[% search_label %]</label>
+    <div class="input-group mb-3">
+      <input type="text" id="query" class="form-control" name="q" value="" />
+      <div class="input-group-append">
+        <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
+      </div>
     </div>
     [% INCLUDE partial/matching_pages.tt query="" pkey=item.record.key %]
   </div>
 [% END %]
-  <div class="col-md-4 text-right">
-    <a class="btn btn-primary hidden text-white" id="searchBackButton">
-      &laquo; [% c.loc("L_SEARCH_RESULTS_BACK") %]
-    </a>
-  </div>
 </form>
 

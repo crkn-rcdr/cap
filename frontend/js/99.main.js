@@ -2,23 +2,15 @@ $(function () {
   var action = location.pathname.split("/")[1];
   if (action === "search") {
     sessionStorage.setItem("query", $("#query").attr("value"));
-    sessionStorage.setItem("searchPath", location.href);
   } else if (action === "view") {
     var query = sessionStorage.getItem("query");
     if (query) {
       $("#query").attr("value", query);
       $(".matching-pages").attr("data-query", query);
     }
-
-    var searchPath = sessionStorage.getItem("searchPath");
-    if (searchPath) {
-      $("#searchBackButton").removeClass("hidden");
-      $("#searchBackButton").attr("href", searchPath);
-    }
   }
   if (action === "browse") {
     sessionStorage.removeItem("query");
-    sessionStorage.removeItem("searchPath");
   }
 
   var $indexTitle = $(".action-index #headerTitle");
@@ -75,6 +67,14 @@ $(function () {
 
   $(".plus-minus").on("click", function (ev) {
     var $element = $(this);
-    $element.text($element.text() === "+" ? "-" : "+");
+    var $expand = $element.children(".expand");
+    var $collapse = $element.children(".unexpand");
+    if ($expand.hasClass("hidden")) {
+      $expand.removeClass("hidden");
+      $collapse.addClass("hidden");
+    } else {
+      $expand.addClass("hidden");
+      $collapse.removeClass("hidden");
+    }
   });
 });

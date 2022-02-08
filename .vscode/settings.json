@@ -1,8 +1,11 @@
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[perl]": {
-    "editor.defaultFormatter": "sfodje.perltidy"
+    "editor.defaultFormatter": "sfodje.perltidy",
+    "editor.formatOnSave": true
+  },
+  "[js]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
   },
   "perltidy.additionalArguments": [
     "-l=78",

@@ -14,9 +14,10 @@
 
       this.loadData();
       this.setupViewer();
-      this.setupTagView();
+      this.setupOverlays();
       this.setupHandlers();
       this.setupControls();
+      this.setupFullscreen();
 
       var page = this.settings.initialPage;
       history.replaceState({ page: page }, null, this.makePathFromPage(page));
@@ -60,12 +61,14 @@
         if (pv.settings.hasTags) {
           component.hasTags = !!parseInt(this.getAttribute("data-tags"), 10);
 
-          if (component.hasTags) {
-            if (lastTaggedPage >= 0) {
-              component.previousTags = lastTaggedPage;
-              pv.components[lastTaggedPage].nextTags = index;
-            }
+          if (lastTaggedPage >= 0) {
+            component.previousTags = lastTaggedPage;
+          }
 
+          if (component.hasTags) {
+            for (var i = Math.max(0, lastTaggedPage); i < index; i++) {
+              pv.components[i].nextTags = index;
+            }
             lastTaggedPage = index;
           }
         }
@@ -98,7 +101,7 @@
         var page = event.page;
 
         if (!pv.isOnPopState) {
-          history.pushState({ page: page }, null, pv.makePathFromPage(page));
+          history.replaceState({ page: page }, null, pv.makePathFromPage(page));
         }
         pv.isOnPopState = false;
 
@@ -120,7 +123,7 @@
       this.isOnPopState = false;
     },
 
-    setupTagView: function () {
+    setupOverlays: function () {
       var pve = function (selection) {
         return {
           selector: selection,
@@ -134,6 +137,10 @@
             selection.toggleClass("hidden");
           },
         };
+      };
+
+      this.searchView = {
+        frame: pve($("#pvSearch")),
       };
 
       this.tagView = {
@@ -181,7 +188,13 @@
         var maxZoom = this.dragon.viewport.getMaxZoom();
         this.dragon.viewport.zoomTo(Math.min(zoom * 2, maxZoom));
       };
+      this.toggleSearch = function () {
+        this.tagView.frame.hide();
+        this.searchView.frame.toggle();
+        this.controls.searchToggle.selector.toggleClass("active");
+      };
       this.toggleTags = function () {
+        this.searchView.frame.hide();
         this.tagView.frame.toggle();
         this.controls.tagToggle.selector.toggleClass("active");
       };
@@ -199,6 +212,17 @@
           this.dragon.goToPage(nextTags);
         }
       };
+      this.enterFullscreen = function () {
+        if (!document.fullscreenElement) {
+          var pane = document.getElementById("pvPane");
+          pane.requestFullscreen();
+        }
+      };
+      this.exitFullscreen = function () {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      };
     },
 
     setupControls: function () {
@@ -208,7 +232,8 @@
         return {
           selector: $(spec.selection),
           enable: function () {
-            $(spec.selection).attr("href", "#0");
+            this.selector.prop("disabled", false);
+            this.selector.removeAttr("href");
             this.selector.removeClass("disabled selected hidden");
             this.selector.off(spec.eventName).on(spec.eventName, function (e) {
               e.preventDefault();
@@ -216,7 +241,8 @@
             });
           },
           disable: function (className) {
-            $(spec.selection).removeAttr("href");
+            this.selector.prop("disabled", true);
+            this.selector.tooltip("hide");
             this.selector.addClass(className);
             this.selector.off(spec.eventName);
           },
@@ -269,6 +295,11 @@
           eventName: "click",
           handler: this.zoomIn,
         }),
+        searchToggle: pvc({
+          selection: "#pvSearchToggle",
+          eventName: "click",
+          handler: this.toggleSearch,
+        }),
         tagToggle: pvc({
           selection: "#pvTagToggle",
           eventName: "click",
@@ -284,11 +315,49 @@
           eventName: "click",
           handler: this.nextTaggedPage,
         }),
+        fullscreenEnter: pvc({
+          selection: "#pvFullscreenEnter",
+          eventName: "click",
+          handler: this.enterFullscreen,
+        }),
+        fullscreenExit: pvc({
+          selection: "#pvFullscreenExit",
+          eventName: "click",
+          handler: this.exitFullscreen,
+        }),
       };
 
       // These never need to be disabled.
       this.controls.rotateLeft.enable();
       this.controls.rotateRight.enable();
+      this.controls.searchToggle.enable();
+
+      // This should be enabled now, because we don't have control over it
+      this.controls.fullscreenEnter.enable();
+    },
+
+    setupFullscreen: function () {
+      var pane = document.getElementById("pvPane");
+      var pv = this;
+      var $container = $("#pvImageInner");
+      var initialHeight = $container.css("height");
+      pane.onfullscreenchange = function (event) {
+        var pane = event.target;
+        if (document.fullscreenElement === pane) {
+          var $toolbarTop = $("#pvToolbar");
+          var $toolbarBottom = $("#pvToolbarBottom");
+          // This is unfortunate, but I don't want to think too hard about it
+          var toolbarHeights =
+            $toolbarBottom.height() + $toolbarTop.height() + 4;
+          $container.css("height", "calc(100vh - " + toolbarHeights + "px)");
+          pv.controls.fullscreenEnter.disable("hidden");
+          pv.controls.fullscreenExit.enable();
+        } else {
+          $container.css("height", initialHeight);
+          pv.controls.fullscreenExit.disable("hidden");
+          pv.controls.fullscreenEnter.enable();
+        }
+      };
     },
 
     makePathFromPage: function (page) {
