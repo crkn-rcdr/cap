@@ -242,6 +242,7 @@
           },
           disable: function (className) {
             this.selector.prop("disabled", true);
+            this.selector.tooltip("hide");
             this.selector.addClass(className);
             this.selector.off(spec.eventName);
           },
