@@ -5,7 +5,7 @@
     <div id="pvImageInner">
       <noscript><img id="pvImg" src="[% first_uri %]" alt="[% first_label %]"></noscript>
     </div>
-    <aside id="pvSearch" class="pv-overlay p-3[% UNLESS item.record.component_count_fulltext %] hidden[% END %]">
+    <aside id="pvSearch" class="pv-overlay px-3 pt-3[% UNLESS item.record.component_count_fulltext %] hidden[% END %]">
       [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
     </aside>
     <aside id="pvComponent" class="pv-overlay p-3[% UNLESS item.component(seq).hasTags %] hidden[% END %]">
