@@ -11,7 +11,6 @@
       [% WRAPPER refine_link field="so" value="score" active=search_params.sort %][% c.loc("L_SEARCH_SORT_SCORE") %][% END %]
       [% WRAPPER refine_link field="so" value="newest" active=search_params.sort %][% c.loc("L_SEARCH_SORT_NEWEST") %][% END %]
       [% WRAPPER refine_link field="so" value="oldest" active=search_params.sort %][% c.loc("L_SEARCH_SORT_OLDEST") %][% END %]
-      [% IF search_params.pkey; WRAPPER refine_link field="so" value="seq" active=search_params.sort %][% c.loc("L_SEARCH_SORT_SEQUENCE") %][% END; END %]
     </div>
   [% END %]
 [% END %]
