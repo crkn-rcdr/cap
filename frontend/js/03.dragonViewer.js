@@ -40,6 +40,7 @@
         portalName: $e.attr("data-portal-name"),
         documentLabel: $e.attr("data-document-label"),
         hasTags: !!$e.attr("data-tags"),
+        imageLoadErrorString: $e.attr("data-load-error"),
       };
 
       var pv = this;
@@ -80,6 +81,11 @@
     setupViewer: function () {
       var pv = this;
       var viewerAnchor = "pvImageInner";
+
+      OpenSeadragon.setString(
+        "Errors.OpenFailed",
+        pv.settings.imageLoadErrorString
+      );
 
       OpenSeadragon({
         id: viewerAnchor,
