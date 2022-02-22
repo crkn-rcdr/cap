@@ -8,7 +8,6 @@
 <form class="form-inline" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
   <input type="hidden" name="handler" value="general" />
   <input type="hidden" name="pkey" value="[% key %]" />
-  <input type="hidden" name="so" value="seq" />
   <label for="query" class="mr-1">[% search_label %]</label>
   <input type="text" id="query" class="form-control mr-2" name="q" />
   <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
