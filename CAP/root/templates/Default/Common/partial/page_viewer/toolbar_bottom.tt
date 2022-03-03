@@ -1,36 +1,41 @@
 [% first_child = item.component(seq) -%]
 <nav id="pvToolbarBottom" aria-label="[% c.loc("L_VIEWER_LABEL") %]" class="btn-toolbar form-inline px-1">
   [% IF item.record.component_count_fulltext; WRAPPER button_svg tag="button" label=c.loc("L_VIEWER_TOGGLE_SEARCH") id="pvSearchToggle" active=0 %]
-    <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+    <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
     </svg>
   [% END; END -%]
   [% IF record.defined('hasTags') && record.hasTags; WRAPPER button_svg tag="button" label=c.loc("L_VIEWER_TOGGLE_TAGS") id="pvTagToggle" active=first_child.hasTags %]
-    <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+    <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
       <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
       <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
     </svg>
   [% END; END -%]
-  [% IF item.item_mode == "noid"; WRAPPER button_svg tag="a" label=c.loc("L_VIEWER_FULL_IMAGE") id="pvFullImage" href=first_child.iiif_default %]
-    <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" class="bi bi-file-image" viewBox="0 0 16 16">
-      <path d="M8.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-      <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v8l-2.083-2.083a.5.5 0 0 0-.76.063L8 11 5.835 9.7a.5.5 0 0 0-.611.076L3 12V2z"/>
-    </svg>
+  [% IF item.item_mode == "noid"; WRAPPER button_svg tag="a" label=c.loc("L_VIEWER_FULL_IMAGE") id="pvFullImage" href=first_child.iiif_default blanktarget=1 %]
+  <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+    <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z"/>
+  </svg>
   [% END; END -%]
   [% WRAPPER button_svg tag="a" label=c.loc("L_VIEWER_DOWNLOAD_SINGLE") id="pvDownloadSingle" hidden=!first_child.download_uri href=first_child.download_uri %]
-    <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
-      <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-      <path d="M4.603 12.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.701 19.701 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.187-.012.395-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.065.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.716 5.716 0 0 1-.911-.95 11.642 11.642 0 0 0-1.997.406 11.311 11.311 0 0 1-1.021 1.51c-.29.35-.608.655-.926.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.27.27 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.647 12.647 0 0 1 1.01-.193 11.666 11.666 0 0 1-.51-.858 20.741 20.741 0 0 1-.5 1.05zm2.446.45c.15.162.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.881 3.881 0 0 0-.612-.053zM8.078 5.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z"/>
-    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
+  </svg>
   [% END -%]
+  [% IF item_download; WRAPPER button_svg tag="a" label=c.loc("L_VIEWER_DOWNLOAD_FULL") id="pvDownloadFull" href=item_download %]
+  <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M14 6.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V6.5h-2A1.5 1.5 0 0 1 9.5 5V3H4a1 1 0 0 0-1 1v7H2V4c0-1.105.9-1.9 2-2h5.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+    <path fill-rule="evenodd" d="M8.5 1H4C2.502 1 1 2.504 1 4v7H0V4c0-2 2-4 4-4h3.5z"/>
+  </svg>
+  [% END; END -%]
   <div class="ml-auto">
     [% WRAPPER button_svg tag="button" label=c.loc("L_VIEWER_FULLSCREEN_ENTER") id="pvFullscreenEnter" disabled=1 %]
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-fullscreen" viewBox="0 0 16 16">
+      <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
         <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
       </svg>
     [% END -%]
     [% WRAPPER button_svg tag="button" label=c.loc("L_VIEWER_FULLSCREEN_EXIT") id="pvFullscreenExit" hidden=1 %]
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-fullscreen-exit" viewBox="0 0 16 16">
+      <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
         <path d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5zM0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zm10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4z"/>
       </svg>
     [% END -%]
@@ -38,7 +43,7 @@
 </nav>
 
 [%- BLOCK button_svg -%]
-<[% tag %] id="[% id %]" class="btn btn-light btn-outline-primary mr-1 my-1[% IF disabled %] disabled[% END; IF hidden %] hidden[% END; IF active %] active[% END %]"[% IF disabled %] disabled[% END %] title="[% label %]" data-toggle="tooltip" data-container="#pvPane" [% IF href && !disabled %] href="[% href %]"[% END %]>
+<[% tag %] id="[% id %]" class="btn btn-light btn-outline-primary mr-1 my-1[% IF disabled %] disabled[% END; IF hidden %] hidden[% END; IF active %] active[% END %]"[% IF disabled %] disabled[% END %] title="[% label %]" data-toggle="tooltip" data-container="#pvPane" [% IF href && !disabled %] href="[% href %]"[% END %][% IF blanktarget %] target="_blank"[% END %]>
   [% content %]
   <span class="sr-only">[% label %]</span>
 </[% tag %]>
