@@ -141,6 +141,7 @@
   "L_VIEWER_BIGGER": "Agrandir",
   "L_VIEWER_DOWNLOAD_PDF_EXPLANATION": "Ce document peut uniquement être consulté en le téléchargeant au format PDF.",
   "L_VIEWER_DOWNLOAD_SINGLE": "Télécharger PDF (d'une seule page)",
+  "L_VIEWER_DOWNLOAD_FULL": "Télécharger PDF (du document complet)",
   "L_VIEWER_FIRST": "Première page",
   "L_VIEWER_FULL_IMAGE": "Image en pleine grandeur",
   "L_VIEWER_FULLSCREEN_ENTER": "Passer en mode plein écran",
