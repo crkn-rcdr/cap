@@ -78,6 +78,17 @@ header {
   }
 }
 
+header .message-banner {
+  color: $dark;
+  background-color: scale-color($color: $primary, $lightness: 85%);
+  a {
+    color: $primary;
+    &:hover {
+      color: $link-hover-color;
+    }
+  }
+}
+
 .header-title {
   @include make-col-ready();
   @include make-col(12);

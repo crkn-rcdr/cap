@@ -75,6 +75,14 @@ body.action-index {
         color: $white;
       }
     }
+    .message-banner {
+      a {
+        color: $primary;
+        &:hover {
+          color: $link-hover-color;
+        }
+      }
+    }
   }
 
   .above-fold {
