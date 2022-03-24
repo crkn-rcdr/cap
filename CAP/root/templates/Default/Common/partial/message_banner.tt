@@ -1,10 +1,10 @@
 <div class="container">
   <p class="message-banner my-0 p-1">
 [% IF c.stash.lang == "fr" -%]
-    Nous avons mis en place quelques mises à jour de l'interface utilisateur des collections Canadiana.
+    Nous avons mis en place quelques mises à jour de l'interface utilisateur de cette collection.
     <a target="_blank" href="https://www.crkn-rcdr.ca/fr/mises-jour-de-linterface-utilisateur-du-site-web-de-canadiana">En apprendre davantage.</a>
 [% ELSE -%]
-    We have made several updates to the user interface of the Canadiana collections.
+    We have made several updates to the user interface of this collection.
     <a target="_blank" href="https://www.crkn-rcdr.ca/en/updates-canadiana-website-user-interface">Learn more.</a>
 [% END -%]
   </p>
