@@ -43,11 +43,26 @@ sub auto : Private {
   $c->res->cookies->{ $c->config->{cookies}->{lang} } = {
     domain   => $c->stash->{cookie_domain},
     value    => $c->stash->{lang},
-    expires  => time() + 7776000,
+    expires  => '+3M',
     httponly => 1,
     secure   => 1,
     samesite => 'None'
   };
+
+  if ( exists $c->request->query_params->{clearbanner} ) {
+    $c->res->cookies->{ $c->config->{cookies}->{clearbanner} } = {
+      domain   => $c->stash->{cookie_domain},
+      value    => $c->config->{message_banner},
+      expires  => '+1y',
+      httponly => 1,
+      secure   => 1,
+      samesite => 'None'
+    };
+
+    $c->res->redirect( $c->req->uri_with( { clearbanner => undef } ) );
+    $c->detach();
+    return 1;
+  }
 
   $c->stash(
     depositor_labels =>
