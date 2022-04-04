@@ -146,6 +146,20 @@ sub set_cookie_domain {
   return $config->{cookie_domain};
 }
 
+sub set_clearbanner {
+  my ( $self, $request, $config ) = @_;
+
+  my $current_banner = $config->{message_banner};
+  my $cookie = $request->cookie( $config->{cookies}->{clearbanner} );
+  my $cookie_banner = $cookie ? $cookie->value : "0";
+
+  if ($cookie_banner eq $current_banner) {
+    return $current_banner;
+  } else {
+    return 0;
+  }
+}
+
 =head2 run
 
 %config = run($request, $config)
@@ -168,6 +182,7 @@ sub run {
   $config{current_view}  = $self->set_view( $request, $config );
   $config{content_type}  = $self->set_content_type( $request, $config );
   $config{cookie_domain} = $self->set_cookie_domain( $request, $config );
+  $config{clearbanner}   = $self->set_clearbanner( $request, $config );
 
   return %config;
 }
