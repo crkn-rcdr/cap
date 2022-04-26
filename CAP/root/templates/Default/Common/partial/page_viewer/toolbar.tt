@@ -1,9 +1,9 @@
-<nav id="pvToolbar" aria-label="[% c.loc("L_VIEWER_LABEL") %]" class="btn-toolbar form-inline px-1 pb-1" data-mode="[% item.item_mode %]"[% IF item.item_mode != "noid" %] data-token="[% token %]"[% END %] data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]"[% IF record.hasTags %] data-tags="1"[% END %] data-load-error="[% c.loc("L_VIEW_ERROR") %]">
+<nav id="pvToolbar" aria-label="[% c.loc("L_VIEWER_LABEL") %]" class="btn-toolbar form-inline px-1 pb-1" data-mode="[% item.item_mode %]"[% IF item.item_mode != "noid" %] data-token="[% token %]"[% END %] data-seq="[% seq %]" data-total="[% item.child_count %]" data-rotation="[% rotate %]" data-size="[% size %]" data-pkey="[% record.key %]" data-portal-name="[% c.portal_title %]" data-document-label="[% item.canonical_label | truncate(50) %]" data-load-error="[% c.loc("L_VIEW_ERROR") %]">
   <select id="pvPageSelect" class="custom-select mr-1 mt-1" style="width:auto" aria-label="[% c.loc("L_VIEWER_PAGE_SELECT") %]" name="seq" data-toggle="tooltip" title="[% c.loc("L_VIEWER_PAGE_SELECT") %]" disabled>
 [% FOREACH component_key IN record.order -%]
 [% curr_seq = loop.count -%]
 [% child = item.component(curr_seq) -%]
-    <option id="seq[% curr_seq %]" data-uri="[% child.uri %]"[% IF child.download_uri %] data-download="[% child.download_uri %]"[% END %] data-key="[% component_key %]" [% IF child.hasTags %]data-tags="1" [% END %]value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
+    <option id="seq[% curr_seq %]" data-uri="[% child.uri %]"[% IF child.download_uri %] data-download="[% child.download_uri %]"[% END %] data-key="[% component_key %]" value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
 [% END -%]
   </select>
   <div class="btn-group mr-1 pt-1">
