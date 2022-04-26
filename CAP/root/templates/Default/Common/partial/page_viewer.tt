@@ -8,14 +8,6 @@
     <aside id="pvSearch" class="pv-overlay px-3 pt-3 hidden">
       [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
     </aside>
-    <aside id="pvComponent" class="pv-overlay p-3[% UNLESS item.component(seq).hasTags %] hidden[% END %]">
-      <div class="btn-group">
-        <button id="pvComponentPreviousLink" class="btn btn-outline-primary">&laquo; [% c.loc("L_VIEW_TAGS_PREVIOUS") %] (<span id="pvComponentPreviousSeq"></span>)</button>
-        <button id="pvComponentNextLink" class="btn btn-outline-primary">[% c.loc("L_VIEW_TAGS_NEXT") %] (<span id="pvComponentNextSeq"></span>) &raquo;</button>
-      </div>
-      <div id="pvComponentLoading"><img src="/static/images/loader.gif" alt="[% c.loc("L_VIEW_LOADING") %]" /></div>
-      <div id="pvComponentContainer" class="hidden"></div>
-    </aside>
   </section>
   [% INCLUDE partial/page_viewer/toolbar_bottom.tt %]
   <p id="pvLoading" class="loading hidden p-3">[% c.loc("L_VIEW_LOADING") %]...</p>
