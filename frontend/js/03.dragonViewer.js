@@ -99,6 +99,7 @@
         showSequenceControl: false,
         showNavigator: true,
         navigatorPosition: "TOP_LEFT",
+        crossOriginPolicy: "Anonymous",
       });
 
       this.dragon = OpenSeadragon.getViewer(viewerAnchor);
