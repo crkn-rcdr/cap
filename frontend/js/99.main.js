@@ -34,13 +34,7 @@ $(function () {
     }
   });
 
-  var $toolbar = $("#pvToolbar");
-  if ($toolbar.attr("data-mode") === "noid") {
-    $toolbar.dragonViewer();
-  } else {
-    $toolbar.pageViewer();
-  }
-
+  $("#pvToolbar").dragonViewer();
   $(".matching-pages").matchingPages();
 
   $(function () {
