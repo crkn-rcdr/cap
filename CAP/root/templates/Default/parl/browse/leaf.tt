@@ -10,16 +10,16 @@
   <div class="row">
     [% IF parl_parliament %]
     <div class="col-md-4">
-      <p class="lead">[% parl_session.term.start %] [% c.loc("GENERIC_TO") %] [% parl_session.term.end %]</p>
+      <p class="lead">[% parl_term.start %] [% c.loc("GENERIC_TO") %] [% parl_term.end %]</p>
       [% IF parl_chamber == "c" -%]
-      [% IF parl_session.primeMinisters.size > 1 -%]
+      [% IF parl_pms.size > 1 -%]
       <p class="mb-2 border-bottom border-primary"><b>[% c.loc("L_PARL_PM_PLUR") %]</b></p>
-      [% FOREACH pm IN parl_session.primeMinisters -%]
+      [% FOREACH pm IN parl_pms -%]
       <p>[% pm.name %]<br />([% pm.start %] [% c.loc("GENERIC_TO") %] [% pm.end %])
       [% END -%]
       [% ELSE -%]
       <p class="mb-2 border-bottom border-primary"><b>[% c.loc("L_PARL_PM_SING") %]</b></p>
-      <p>[% parl_session.primeMinisters.0.name %]</p>
+      <p>[% parl_pms.0.name %]</p>
       [% END -%]
       [% END -%]
     </div>

@@ -41,16 +41,22 @@ sub leaf : Path : Args(4) {
   my ( $self, $c, $language, $chamber, $type, $session ) = @_;
 
   my $leaf = $c->model('Parl')->leaf( $language, $chamber, $type, $session );
-  my $session_doc = $c->model('ParlSession')->session($session);
+  my $session_info = $c->model('ParlSession')->session($session);
+
+  unless ($session_info) {
+    $c->detach( '/error', [404, "Session $session does not exist"] );
+  }
+
   $c->stash(
     leaf            => $leaf->{leaf},
     title           => $leaf->{title},
     parl_language   => $language,
     parl_chamber    => $chamber,
     parl_type       => $type,
-    parl_session    => $session_doc,
-    parl_parliament => substr $session_doc->{_id},
-    0, 2
+    parl_session    => $session,
+    parl_parliament => substr($session, 0, 2),
+    parl_term       => $session_info->{term},
+    parl_pms        => $session_info->{primeMinisters}
   );
 
   return 1;
