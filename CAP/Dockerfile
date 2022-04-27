@@ -15,10 +15,10 @@ ENV WORKERS=8 \
   CAP_Model::Access::Derivative_endpoint=https://image-tor.canadiana.ca/iiif/2 \
   CAP_Model::Access::Download_container=https://swift.canadiana.ca/v1/AUTH_crkn/preservation-cihm-aip \
   CAP_Model::Access::Download_container_access=https://swift.canadiana.ca/v1/AUTH_crkn/access_files \
-  CAP_Model::Access::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation \
-  CAP_Model::Access::Search_server=http://iris.tor.c7a.ca:8983/solr/cosearch \
+  CAP_Model::Access::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation2 \
+  CAP_Model::Access::Search_server=http://iris.tor.c7a.ca:8983/solr/cosearch2 \
   CAP_Model::Collections_server=http://iris.tor.c7a.ca:5984/cap_collections \
-  CAP_Model::Parl_server=http://iris.tor.c7a.ca:5984/copresentation \
+  CAP_Model::Parl_server=http://iris.tor.c7a.ca:5984/copresentation2 \
   CAP_Model::ParlSession_server=http://iris.tor.c7a.ca:5984/parl_session
 
 EXPOSE 3011
