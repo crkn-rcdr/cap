@@ -104,10 +104,10 @@ sub static : Path('static.xml') Args(0) {
 
     my $mapping = $pages->{$path};
     my @alternates;
-    if ( $mapping->{en} ) {
-      @alternates = ( ['en', $mapping->{en}], ['fr', $path] );
-    } elsif ( $mapping->{fr} ) {
-      @alternates = ( ['en', $path], ['fr', $mapping->{fr}] );
+    if ( $mapping->{en} && $mapping->{en}->{redirect} ) {
+      @alternates = ( ['en', $mapping->{en}->{redirect}], ['fr', $path] );
+    } elsif ( $mapping->{fr} && $mapping->{fr}->{redirect} ) {
+      @alternates = ( ['en', $path], ['fr', $mapping->{fr}->{redirect}] );
     } else {
       @alternates = ( ['en', $path], ['fr', $path] );
     }

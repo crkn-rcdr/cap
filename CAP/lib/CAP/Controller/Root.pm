@@ -10,15 +10,19 @@ use JSON qw/encode_json/;
 
 # Sets the actions in this controller to be registered with no prefix
 # so they function identically to actions created in MyApp.pm
+# TODO: do we need this, still?
 __PACKAGE__->config->{namespace} = '';
 
 BEGIN { extends 'Catalyst::Controller'; }
 
+# Code that runs on every request.
 sub auto : Private {
   my ( $self, $c ) = @_;
 
+  # Detect the portal to use based on the subdomain of the incoming request.
+  # If the subdomain doesn't apply to a portal, redirect to some default url.
   my $portal =
-    $c->model('Collections')->portal_from_host( $c->req->uri->host );
+    $c->model('Portals')->portal_from_host( $c->req->uri->host );
   if ($portal) {
     $c->stash( portal => $portal );
   } else {
@@ -40,6 +44,7 @@ sub auto : Private {
       'templates', $c->stash->{current_view}, 'Common' )
   ];
 
+  # Set a cookie with the user's language preferences.
   $c->res->cookies->{ $c->config->{cookies}->{lang} } = {
     domain   => $c->stash->{cookie_domain},
     value    => $c->stash->{lang},
@@ -49,6 +54,8 @@ sub auto : Private {
     samesite => 'None'
   };
 
+  # If the user has clicked on the button closing a message banner,
+  # save that preference in a cookie.
   if ( exists $c->request->query_params->{clearbanner} ) {
     $c->res->cookies->{ $c->config->{cookies}->{clearbanner} } = {
       domain   => $c->stash->{cookie_domain},
@@ -64,12 +71,16 @@ sub auto : Private {
     return 1;
   }
 
+  # Stash assorted labels.
+  # TODO: Look into whether we need to use depositor labels any more.
   $c->stash(
     depositor_labels =>
       $c->model('Depositors')->as_labels( $c->stash->{lang} ),
     language_labels => $c->model('Languages')->as_labels( $c->stash->{lang} )
   );
 
+  # Stash parl-specific labels, and the parliament browse tree.
+  # TODO: determine whether you need to stash the browse tree on every request.
   if ( $portal->id eq 'parl' ) {
     $c->stash(
       supported_types => $c->model('Parl')->supported_types,
@@ -79,11 +90,13 @@ sub auto : Private {
     );
   }
 
+  # If the portal has subcollections (i.e. is 'online'), stash their labels.
   $c->stash(
     subcollection_labels => $portal->subcollection_labels( $c->stash->{lang} )
   ) if $portal->has_subcollections();
 
-  # throw JSON requests to error page
+  # We used to offer a JSON api through CAP. We don't any more.
+  # Detach to an error for those kinds of requests.
   if ( exists $c->request->query_params->{fmt} &&
     lc( $c->request->query_params->{fmt} ) eq 'json' ) {
     $c->detach( '/error', [404, 'API Unavailable -- API non disponible'] );
@@ -104,6 +117,7 @@ sub favicon : Path('favicon.ico') {
   $c->detach();
 }
 
+# Code that runs if the request does not match an existing route.
 # If we don't match anything, we're trying to access a page
 sub default : Path {
   my ( $self, $c, @path ) = @_;
@@ -127,8 +141,9 @@ sub default : Path {
     $c->detach();
   }
 
-  my $page    = $page_lookup->{page} || '';
-  my $include = join( '/', 'pages', $c->stash->{lang}, "$page.html" );
+  # We should only arrive here if the portal has a page $path in the current
+  # language. TODO: We should ensure this isn't some kind of security issue.
+  my $include = join( '/', 'pages', $c->stash->{lang}, "$path.html" );
   $c->stash(
     include  => $include,
     template => 'page.tt',

@@ -1,0 +1,27 @@
+{
+    "id": "pub",
+    "label": {
+        "en": "Public Collections",
+        "fr": "Collections publiques"
+    },
+    "subdomains": ["pub"],
+    "ga_id": "UA-162937182-9",
+    "pages": {
+        "conditions": {
+            "en": { "redirect": "terms" },
+            "fr": { "title": "Conditions générales d’utilisation du site Canadiana.ca" }
+        },
+        "conseils-recherche": {
+            "en": { "redirect": "search-tips" },
+            "fr": { "title": "Conseils de recherche" }
+        },
+        "search-tips": {
+            "en": { "title": "Search Tips" },
+            "fr": { "redirect": "conseils-recherche" }
+        },
+        "terms": {
+            "en": { "title": "Canadiana.ca Terms of Service" },
+            "fr": { "redirect": "conditions" }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "id": "mcgill",
+    "label": {
+        "en": "McGill University Archives",
+        "fr": "Archives de l'Université McGill"
+    },
+    "subdomains": ["mcgillarchives"],
+    "ga_id": "UA-162937182-6",
+    "pages": {
+        "conseils-recherche": {
+            "en": { "redirect": "search-tips" },
+            "fr": { "title": "Conseils de recherche" }
+        },
+        "search-tips": {
+            "en": { "title": "Search Tips" },
+            "fr": { "redirect": "conseils-recherche" }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "id": "dfait",
+    "label": {
+        "en": "Global Affairs Canada Digital Library",
+        "fr": "Bibliothèque numérique d’Affaires mondiales Canada"
+    },
+    "subdomains": ["gac", "dfait-aeci"],
+    "ga_id": "UA-162937182-2",
+    "pages": {
+        "conseils-recherche": {
+            "en": { "redirect": "search-tips" },
+            "fr": { "title": "Conseils de recherche" }
+        },
+        "search-tips": {
+            "en": { "title": "Search Tips" },
+            "fr": { "redirect": "conseils-recherche" }
+        }
+    }
+}

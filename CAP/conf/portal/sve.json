@@ -1,0 +1,27 @@
+{
+    "id": "sve",
+    "label": {
+        "en": "The Student Voice",
+        "fr": "La Voix étudiante"
+    },
+    "subdomains": ["sve"],
+    "ga_id": "UA-162937182-5",
+    "pages": {
+        "conseils-recherche": {
+            "en": { "redirect": "search-tips" },
+            "fr": { "title": "Conseils de recherche" }
+        },
+        "copyright": {
+            "en": { "title": "Copyright Notice" },
+            "fr": { "redirect": "droit-dauteur" }
+        },
+        "droit-dauteur": {
+            "en": { "redirect": "copyright" },
+            "fr": { "title": "Avis de droit d’auteur" }
+        },
+        "search-tips": {
+            "en": { "title": "Search Tips" },
+            "fr": { "redirect": "conseils-recherche" }
+        }
+    }
+}

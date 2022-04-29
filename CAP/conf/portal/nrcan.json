@@ -1,0 +1,19 @@
+{
+    "id": "nrcan",
+    "label": {
+        "en": "Natural Resources Canada",
+        "fr": "Ressources naturelles Canada"
+    },
+    "subdomains": ["nrcan"],
+    "ga_id": "UA-162937182-7",
+    "pages": {
+        "conseils-recherche": {
+            "en": { "redirect": "search-tips" },
+            "fr": { "title": "Conseils de recherche" }
+        },
+        "search-tips": {
+            "en": { "title": "Search Tips" },
+            "fr": { "redirect": "conseils-recherche" }
+        }
+    }
+}
