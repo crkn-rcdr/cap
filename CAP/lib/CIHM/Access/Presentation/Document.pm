@@ -50,28 +50,6 @@ has 'items' => (
   isa => ArrayRef
 );
 
-sub BUILD {
-  my ($self, $args) = @_;
-
-  # handle date tags correctly
-  my $dates = $args->{record}{tagDate};
-  if (defined $dates) {
-    my @date_tags = ();
-    foreach my $date_str (@$dates) {
-      my $tag = '';
-      if ($date_str =~ /\[(.+) TO (.+)\]/) {
-        my ($date1, $date2) =
-          (_format_date($1), _format_date($2));
-        $tag = $date1 && $date2 ? "$date1 – $date2" : '';
-      } else {
-        $tag = _format_date($date_str);
-      }
-      push(@date_tags, $tag) if $tag;
-    }
-    $args->{record}{tagDate} = \@date_tags;
-  }
-}
-
 sub _build_item_mode {
   my ($self) = @_;
   if ($self->is_type("document")) {
