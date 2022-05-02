@@ -41,15 +41,15 @@
       pv.components = [];
 
       $("#pvPageSelect option").each(function (index) {
-        var uriTemplate = this.getAttribute("data-uri");
+        var uri = this.getAttribute("data-uri");
 
         var component = {
           key: this.getAttribute("data-key"),
-          uri:
-            uriTemplate.slice(0, uriTemplate.indexOf("/full/")) + "/info.json",
+          uri: uri,
           download: this.getAttribute("data-download"),
           label: this.innerHTML,
-          fullImage: uriTemplate.replace("$SIZE", "max").replace("$ROTATE", 0),
+          fullImage:
+            uri.slice(0, uri.indexOf("/info.json")) + "/full/max/0/default.jpg",
         };
 
         pv.components.push(component);
