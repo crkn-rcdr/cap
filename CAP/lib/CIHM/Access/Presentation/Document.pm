@@ -136,12 +136,6 @@ sub _slug {
   return $self->record->{_id};
 }
 
-sub _format_date {
-  my ($date) = @_;
-  $date =~ /^(\d{4})-(\d{2})-(\d{2}).+/;
-  return $2 == 1 && $3 == 1 || $2 == 12 && $3 == 31 ? $1 : "$1-$2-$3";
-}
-
 sub is_type {
   my ($self, $type) = @_;
   return $self->record->{type} eq $type;
