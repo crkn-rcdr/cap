@@ -17,5 +17,4 @@ requires 'File::Slurp';
 requires 'Catalyst::View::TT';
 requires 'Text::Trim';
 requires 'Number::Format';
-requires 'Crypt::JWT';
 requires 'Term::Size::Any';
