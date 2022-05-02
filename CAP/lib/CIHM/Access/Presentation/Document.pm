@@ -83,7 +83,6 @@ sub _build_items {
 
         my $r = {
           %{$component_record},
-          key => $page_slug,
           seq => $seq,
           uri => $uri
         };

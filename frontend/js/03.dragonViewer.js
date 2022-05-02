@@ -44,7 +44,6 @@
         var uri = this.getAttribute("data-uri");
 
         var component = {
-          key: this.getAttribute("data-key"),
           uri: uri,
           download: this.getAttribute("data-download"),
           label: this.innerHTML,
