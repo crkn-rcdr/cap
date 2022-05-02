@@ -50,51 +50,19 @@ has 'items' => (
   isa => ArrayRef
 );
 
-sub BUILD {
-  my ($self, $args) = @_;
-
-  # handle date tags correctly
-  my $dates = $args->{record}{tagDate};
-  if (defined $dates) {
-    my @date_tags = ();
-    foreach my $date_str (@$dates) {
-      my $tag = '';
-      if ($date_str =~ /\[(.+) TO (.+)\]/) {
-        my ($date1, $date2) =
-          (_format_date($1), _format_date($2));
-        $tag = $date1 && $date2 ? "$date1 – $date2" : '';
-      } else {
-        $tag = _format_date($date_str);
-      }
-      push(@date_tags, $tag) if $tag;
-    }
-    $args->{record}{tagDate} = \@date_tags;
-  }
-}
-
+# For presentation documents of type "document" (i.e. manifests), determine
+# if the manifest is a PDF or has canvas components.
+# This populates the `item_mode` property.
 sub _build_item_mode {
   my ($self) = @_;
   if ($self->is_type("document")) {
-    if (defined $self->record->{order} && $self->record->{order}[0]) {
-      my $component_record =
-      $self->record->{components}{$self->record->{order}[0]};
-
-      if (
-        $component_record->{canonicalMaster} ||
-        $component_record->{canonicalMasterExtension}
-      ) {
-        return $component_record->{noid}
-          ? "noid"
-          : "path";
-      } else {
-        return "pdf";
-      }
-    } else {
-      return $self->item_download ? "pdf" : "";
+    if (defined $self->record->{components}) {
+      return "noid";
+    } elsif ($self->item_download) {
+      return "pdf";
     }
-  } else {
-    return "";
   }
+  return "";
 }
 
 sub _build_items {
@@ -103,47 +71,36 @@ sub _build_items {
     return [ map { {key => $_, %{$self->record->{items}{$_}}} }
         @{$self->record->{order}} ];
   }
-  if ($self->is_type("document")) {
+  if ($self->is_type("document") && $self->item_mode eq "noid") {
     return [
       map {
         my $seq              = $_;
         my $page_slug        = $self->record->{order}[ $seq - 1 ];
         my $component_record = $self->record->{components}{$page_slug};
-        my $item_mode        = $self->item_mode;
-        my $image_source     = $self->image_source($component_record);
+        my $noid             = $component_record->{noid};
 
-        my $uri = $self->derivative->iiif_template($image_source, $item_mode);
-        $uri =~ s/\$SEQ/$seq/g;
+        my $uri = $self->derivative->iiif_info($noid);
 
         my $r = {
           %{$component_record},
-          key => $page_slug,
           seq => $seq,
           uri => $uri
         };
 
-        if ($item_mode eq "noid") {
-          $r->{iiif_default} =
+        $r->{iiif_default} =
             $self->derivative->iiif_default($component_record->{noid});
-          $r->{iiif_service} =
+        $r->{iiif_service} =
             $self->derivative->iiif_service($component_record->{noid});
-        }
 
         if ($component_record->{canonicalDownload}) {
           $r->{download_uri} =
             $self->download->uri($component_record->{canonicalDownload});
-        }
-
-        if (
-          $component_record->{canonicalDownloadExtension} &&
-          $component_record->{noid}
+        } elsif (
+          $component_record->{canonicalDownloadExtension}
         ) {
           $r->{download_uri} =
             $self->download->uri(
-              $component_record->{noid} .
-              "." .
-              $component_record->{canonicalDownloadExtension},
-              1
+              join('.', $noid, $component_record->{canonicalDownloadExtension}), 1
             );
         }
 
@@ -158,33 +115,9 @@ sub _slug {
   return $self->record->{_id};
 }
 
-sub _format_date {
-  my ($date) = @_;
-  $date =~ /^(\d{4})-(\d{2})-(\d{2}).+/;
-  return $2 == 1 && $3 == 1 || $2 == 12 && $3 == 31 ? $1 : "$1-$2-$3";
-}
-
 sub is_type {
   my ($self, $type) = @_;
   return $self->record->{type} eq $type;
-}
-
-sub image_source {
-  my ($self, $component_record) = @_;
-  if ($self->item_mode) {
-    if ($self->item_mode eq "noid") {
-      return $component_record->{noid};
-    }
-
-    if ($self->item_mode eq "path") {
-      return $component_record->{canonicalMaster};
-    }
-
-    if ($self->item_mode eq "pdf") {
-      return $self->record->{canonicalDownload};
-    }
-  }
-  return undef;
 }
 
 sub is_in_collection {
@@ -243,16 +176,11 @@ sub canonical_label {
     . $self->record->{label};
 }
 
+# This will likely need some tweaks as multi-page PDF stuff gets sorted out.
 sub item_download {
   my ($self) = @_;
   my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
   return $item_download ? $self->download->uri($item_download) : undef;
-}
-
-sub token {
-  my ($self) = @_;
-  return $self->derivative->item_token($self->record->{key},
-    $self->item_mode eq "pdf");
 }
 
 sub _iiif_context {

@@ -1,0 +1,1769 @@
+{
+  "01-1": {
+    "term": {
+      "start": "1867-11-06",
+      "end": "1868-05-22"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1867-11-06",
+        "end": "1868-05-22"
+      }
+    ]
+  },
+  "01-2": {
+    "term": {
+      "start": "1869-04-15",
+      "end": "1869-06-22"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1869-04-15",
+        "end": "1869-06-22"
+      }
+    ]
+  },
+  "01-3": {
+    "term": {
+      "start": "1870-02-15",
+      "end": "1870-05-12"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1870-02-15",
+        "end": "1870-05-12"
+      }
+    ]
+  },
+  "01-4": {
+    "term": {
+      "start": "1871-02-15",
+      "end": "1871-04-14"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1871-02-15",
+        "end": "1871-04-14"
+      }
+    ]
+  },
+  "01-5": {
+    "term": {
+      "start": "1872-04-11",
+      "end": "1872-06-14"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1872-04-11",
+        "end": "1872-06-14"
+      }
+    ]
+  },
+  "02-1": {
+    "term": {
+      "start": "1873-03-05",
+      "end": "1873-08-13"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1873-03-05",
+        "end": "1873-08-13"
+      }
+    ]
+  },
+  "02-2": {
+    "term": {
+      "start": "1873-10-23",
+      "end": "1873-11-07"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1873-10-23",
+        "end": "1873-11-05"
+      },
+      {
+        "name": "Mackenzie, Alexander",
+        "start": "1873-11-07",
+        "end": "1873-11-07"
+      }
+    ]
+  },
+  "03-1": {
+    "term": {
+      "start": "1874-03-26",
+      "end": "1874-05-26"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mackenzie, Alexander",
+        "start": "1874-03-26",
+        "end": "1874-05-26"
+      }
+    ]
+  },
+  "03-2": {
+    "term": {
+      "start": "1875-02-04",
+      "end": "1875-04-08"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mackenzie, Alexander",
+        "start": "1875-02-04",
+        "end": "1875-04-08"
+      }
+    ]
+  },
+  "03-3": {
+    "term": {
+      "start": "1876-02-10",
+      "end": "1876-04-12"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mackenzie, Alexander",
+        "start": "1876-02-10",
+        "end": "1876-04-12"
+      }
+    ]
+  },
+  "03-4": {
+    "term": {
+      "start": "1877-02-08",
+      "end": "1877-04-28"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mackenzie, Alexander",
+        "start": "1877-02-08",
+        "end": "1877-04-28"
+      }
+    ]
+  },
+  "03-5": {
+    "term": {
+      "start": "1878-02-07",
+      "end": "1878-05-10"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mackenzie, Alexander",
+        "start": "1878-02-07",
+        "end": "1878-05-10"
+      }
+    ]
+  },
+  "04-1": {
+    "term": {
+      "start": "1879-02-13",
+      "end": "1879-05-15"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1879-02-13",
+        "end": "1879-05-15"
+      }
+    ]
+  },
+  "04-2": {
+    "term": {
+      "start": "1880-02-12",
+      "end": "1880-05-07"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1880-02-12",
+        "end": "1880-05-07"
+      }
+    ]
+  },
+  "04-3": {
+    "term": {
+      "start": "1880-12-09",
+      "end": "1881-03-21"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1880-12-09",
+        "end": "1881-03-21"
+      }
+    ]
+  },
+  "04-4": {
+    "term": {
+      "start": "1882-02-09",
+      "end": "1882-05-17"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1882-02-09",
+        "end": "1882-05-17"
+      }
+    ]
+  },
+  "05-1": {
+    "term": {
+      "start": "1883-02-08",
+      "end": "1883-05-27"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1883-02-08",
+        "end": "1883-05-27"
+      }
+    ]
+  },
+  "05-2": {
+    "term": {
+      "start": "1884-01-17",
+      "end": "1884-04-19"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1884-01-17",
+        "end": "1884-04-19"
+      }
+    ]
+  },
+  "05-3": {
+    "term": {
+      "start": "1885-01-29",
+      "end": "1885-07-20"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1885-01-29",
+        "end": "1885-07-20"
+      }
+    ]
+  },
+  "05-4": {
+    "term": {
+      "start": "1886-02-25",
+      "end": "1886-06-02"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1886-02-25",
+        "end": "1886-06-02"
+      }
+    ]
+  },
+  "06-1": {
+    "term": {
+      "start": "1887-04-13",
+      "end": "1887-06-23"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1887-04-13",
+        "end": "1887-06-23"
+      }
+    ]
+  },
+  "06-2": {
+    "term": {
+      "start": "1888-02-23",
+      "end": "1888-05-22"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1888-02-23",
+        "end": "1888-05-22"
+      }
+    ]
+  },
+  "06-3": {
+    "term": {
+      "start": "1889-01-31",
+      "end": "1889-05-02"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1889-01-31",
+        "end": "1889-05-02"
+      }
+    ]
+  },
+  "06-4": {
+    "term": {
+      "start": "1890-01-16",
+      "end": "1890-05-16"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1890-01-16",
+        "end": "1890-05-16"
+      }
+    ]
+  },
+  "07-1": {
+    "term": {
+      "start": "1891-04-29",
+      "end": "1891-09-30"
+    },
+    "primeMinisters": [
+      {
+        "name": "Macdonald, John Alexander",
+        "start": "1891-04-29",
+        "end": "1891-06-06"
+      },
+      {
+        "name": "Abbott, John Joseph Caldwell",
+        "start": "1891-06-16",
+        "end": "1891-09-30"
+      }
+    ]
+  },
+  "07-2": {
+    "term": {
+      "start": "1892-02-25",
+      "end": "1892-07-09"
+    },
+    "primeMinisters": [
+      {
+        "name": "Abbott, John Joseph Caldwell",
+        "start": "1892-02-25",
+        "end": "1892-07-09"
+      }
+    ]
+  },
+  "07-3": {
+    "term": {
+      "start": "1893-01-26",
+      "end": "1893-04-01"
+    },
+    "primeMinisters": [
+      {
+        "name": "Thompson, John Sparrow David",
+        "start": "1893-01-26",
+        "end": "1893-04-01"
+      }
+    ]
+  },
+  "07-4": {
+    "term": {
+      "start": "1894-03-15",
+      "end": "1894-07-23"
+    },
+    "primeMinisters": [
+      {
+        "name": "Thompson, John Sparrow David",
+        "start": "1894-03-15",
+        "end": "1894-07-23"
+      }
+    ]
+  },
+  "07-5": {
+    "term": {
+      "start": "1895-04-18",
+      "end": "1895-07-22"
+    },
+    "primeMinisters": [
+      {
+        "name": "Bowell, Mackenzie",
+        "start": "1895-04-18",
+        "end": "1895-07-22"
+      }
+    ]
+  },
+  "07-6": {
+    "term": {
+      "start": "1896-01-02",
+      "end": "1896-04-23"
+    },
+    "primeMinisters": [
+      {
+        "name": "Bowell, Mackenzie",
+        "start": "1896-01-02",
+        "end": "1896-04-23"
+      }
+    ]
+  },
+  "08-1": {
+    "term": {
+      "start": "1896-08-19",
+      "end": "1896-10-05"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1896-08-19",
+        "end": "1896-10-05"
+      }
+    ]
+  },
+  "08-2": {
+    "term": {
+      "start": "1897-03-25",
+      "end": "1897-06-29"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1897-03-25",
+        "end": "1897-06-29"
+      }
+    ]
+  },
+  "08-3": {
+    "term": {
+      "start": "1898-02-03",
+      "end": "1898-06-13"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1898-02-03",
+        "end": "1898-06-13"
+      }
+    ]
+  },
+  "08-4": {
+    "term": {
+      "start": "1899-03-16",
+      "end": "1899-08-11"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1899-03-16",
+        "end": "1899-08-11"
+      }
+    ]
+  },
+  "08-5": {
+    "term": {
+      "start": "1900-02-01",
+      "end": "1900-07-18"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1900-02-01",
+        "end": "1900-07-18"
+      }
+    ]
+  },
+  "09-1": {
+    "term": {
+      "start": "1901-02-06",
+      "end": "1901-05-23"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1901-02-06",
+        "end": "1901-05-23"
+      }
+    ]
+  },
+  "09-2": {
+    "term": {
+      "start": "1902-02-13",
+      "end": "1902-05-15"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1902-02-13",
+        "end": "1902-05-15"
+      }
+    ]
+  },
+  "09-3": {
+    "term": {
+      "start": "1903-03-12",
+      "end": "1903-10-24"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1903-03-12",
+        "end": "1903-10-24"
+      }
+    ]
+  },
+  "09-4": {
+    "term": {
+      "start": "1904-03-10",
+      "end": "1904-08-10"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1904-03-10",
+        "end": "1904-08-10"
+      }
+    ]
+  },
+  "10-1": {
+    "term": {
+      "start": "1905-01-11",
+      "end": "1905-07-20"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1905-01-11",
+        "end": "1905-07-20"
+      }
+    ]
+  },
+  "10-2": {
+    "term": {
+      "start": "1906-03-08",
+      "end": "1906-07-13"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1906-03-08",
+        "end": "1906-07-13"
+      }
+    ]
+  },
+  "10-3": {
+    "term": {
+      "start": "1906-11-22",
+      "end": "1907-04-27"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1906-11-22",
+        "end": "1907-04-27"
+      }
+    ]
+  },
+  "10-4": {
+    "term": {
+      "start": "1907-11-28",
+      "end": "1908-07-20"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1907-11-28",
+        "end": "1908-07-20"
+      }
+    ]
+  },
+  "11-1": {
+    "term": {
+      "start": "1909-01-20",
+      "end": "1909-05-19"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1909-01-20",
+        "end": "1909-05-19"
+      }
+    ]
+  },
+  "11-2": {
+    "term": {
+      "start": "1909-11-11",
+      "end": "1910-05-04"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1909-11-11",
+        "end": "1910-05-04"
+      }
+    ]
+  },
+  "11-3": {
+    "term": {
+      "start": "1910-11-17",
+      "end": "1911-07-29"
+    },
+    "primeMinisters": [
+      {
+        "name": "Laurier, Wilfrid",
+        "start": "1910-11-17",
+        "end": "1911-07-29"
+      }
+    ]
+  },
+  "12-1": {
+    "term": {
+      "start": "1911-11-15",
+      "end": "1912-04-01"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1911-11-15",
+        "end": "1912-04-01"
+      }
+    ]
+  },
+  "12-2": {
+    "term": {
+      "start": "1912-11-21",
+      "end": "1913-06-06"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1912-11-21",
+        "end": "1913-06-06"
+      }
+    ]
+  },
+  "12-3": {
+    "term": {
+      "start": "1914-01-15",
+      "end": "1914-06-12"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1914-01-15",
+        "end": "1914-06-12"
+      }
+    ]
+  },
+  "12-4": {
+    "term": {
+      "start": "1914-08-18",
+      "end": "1914-08-22"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1914-08-18",
+        "end": "1914-08-22"
+      }
+    ]
+  },
+  "12-5": {
+    "term": {
+      "start": "1915-02-04",
+      "end": "1915-04-15"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1915-02-04",
+        "end": "1915-04-15"
+      }
+    ]
+  },
+  "12-6": {
+    "term": {
+      "start": "1916-01-12",
+      "end": "1916-05-18"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1916-01-12",
+        "end": "1916-05-18"
+      }
+    ]
+  },
+  "12-7": {
+    "term": {
+      "start": "1917-01-18",
+      "end": "1917-09-20"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1917-01-18",
+        "end": "1917-09-20"
+      }
+    ]
+  },
+  "13-1": {
+    "term": {
+      "start": "1918-03-18",
+      "end": "1918-05-24"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1918-03-18",
+        "end": "1918-05-24"
+      }
+    ]
+  },
+  "13-2": {
+    "term": {
+      "start": "1919-02-20",
+      "end": "1919-07-07"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1919-02-20",
+        "end": "1919-07-07"
+      }
+    ]
+  },
+  "13-3": {
+    "term": {
+      "start": "1919-09-01",
+      "end": "1919-11-10"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1919-09-01",
+        "end": "1919-11-10"
+      }
+    ]
+  },
+  "13-4": {
+    "term": {
+      "start": "1920-02-26",
+      "end": "1920-07-01"
+    },
+    "primeMinisters": [
+      {
+        "name": "Borden, Robert Laird",
+        "start": "1920-02-26",
+        "end": "1920-07-01"
+      }
+    ]
+  },
+  "13-5": {
+    "term": {
+      "start": "1921-02-14",
+      "end": "1921-06-04"
+    },
+    "primeMinisters": [
+      {
+        "name": "Meighen, Arthur",
+        "start": "1921-02-14",
+        "end": "1921-06-04"
+      }
+    ]
+  },
+  "14-1": {
+    "term": {
+      "start": "1922-03-08",
+      "end": "1922-06-28"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1922-03-08",
+        "end": "1922-06-28"
+      }
+    ]
+  },
+  "14-2": {
+    "term": {
+      "start": "1923-01-31",
+      "end": "1923-06-30"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1923-01-31",
+        "end": "1923-06-30"
+      }
+    ]
+  },
+  "14-3": {
+    "term": {
+      "start": "1924-02-28",
+      "end": "1924-07-19"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1924-02-28",
+        "end": "1924-07-19"
+      }
+    ]
+  },
+  "14-4": {
+    "term": {
+      "start": "1925-02-05",
+      "end": "1925-06-27"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1925-02-05",
+        "end": "1925-06-27"
+      }
+    ]
+  },
+  "15-1": {
+    "term": {
+      "start": "1926-01-07",
+      "end": "1926-07-02"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1926-01-07",
+        "end": "1926-06-28"
+      },
+      {
+        "name": "Meighen, Arthur",
+        "start": "1926-06-29",
+        "end": "1926-07-02"
+      }
+    ]
+  },
+  "16-1": {
+    "term": {
+      "start": "1926-12-09",
+      "end": "1927-04-14"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1926-12-09",
+        "end": "1927-04-14"
+      }
+    ]
+  },
+  "16-2": {
+    "term": {
+      "start": "1928-01-26",
+      "end": "1928-06-11"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1928-01-26",
+        "end": "1928-06-11"
+      }
+    ]
+  },
+  "16-3": {
+    "term": {
+      "start": "1929-02-07",
+      "end": "1929-06-14"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1929-02-07",
+        "end": "1929-06-14"
+      }
+    ]
+  },
+  "16-4": {
+    "term": {
+      "start": "1930-02-20",
+      "end": "1930-05-30"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1930-02-20",
+        "end": "1930-05-30"
+      }
+    ]
+  },
+  "17-1": {
+    "term": {
+      "start": "1930-09-08",
+      "end": "1930-09-22"
+    },
+    "primeMinisters": [
+      {
+        "name": "Bennett, Richard Bedford",
+        "start": "1930-09-08",
+        "end": "1930-09-22"
+      }
+    ]
+  },
+  "17-2": {
+    "term": {
+      "start": "1931-03-12",
+      "end": "1931-08-03"
+    },
+    "primeMinisters": [
+      {
+        "name": "Bennett, Richard Bedford",
+        "start": "1931-03-12",
+        "end": "1931-08-03"
+      }
+    ]
+  },
+  "17-3": {
+    "term": {
+      "start": "1932-02-04",
+      "end": "1932-05-26"
+    },
+    "primeMinisters": [
+      {
+        "name": "Bennett, Richard Bedford",
+        "start": "1932-02-04",
+        "end": "1932-05-26"
+      }
+    ]
+  },
+  "17-4": {
+    "term": {
+      "start": "1932-10-06",
+      "end": "1933-05-27"
+    },
+    "primeMinisters": [
+      {
+        "name": "Bennett, Richard Bedford",
+        "start": "1932-10-06",
+        "end": "1933-05-27"
+      }
+    ]
+  },
+  "17-5": {
+    "term": {
+      "start": "1934-01-25",
+      "end": "1934-07-03"
+    },
+    "primeMinisters": [
+      {
+        "name": "Bennett, Richard Bedford",
+        "start": "1934-01-25",
+        "end": "1934-07-03"
+      }
+    ]
+  },
+  "17-6": {
+    "term": {
+      "start": "1935-01-17",
+      "end": "1935-07-05"
+    },
+    "primeMinisters": [
+      {
+        "name": "Bennett, Richard Bedford",
+        "start": "1935-01-17",
+        "end": "1935-07-05"
+      }
+    ]
+  },
+  "18-1": {
+    "term": {
+      "start": "1936-02-06",
+      "end": "1936-06-23"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1936-02-06",
+        "end": "1936-06-23"
+      }
+    ]
+  },
+  "18-2": {
+    "term": {
+      "start": "1937-01-14",
+      "end": "1937-04-10"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1937-01-14",
+        "end": "1937-04-10"
+      }
+    ]
+  },
+  "18-3": {
+    "term": {
+      "start": "1938-01-27",
+      "end": "1938-07-01"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1938-01-27",
+        "end": "1938-07-01"
+      }
+    ]
+  },
+  "18-4": {
+    "term": {
+      "start": "1939-01-12",
+      "end": "1939-06-03"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1939-01-12",
+        "end": "1939-06-03"
+      }
+    ]
+  },
+  "18-5": {
+    "term": {
+      "start": "1939-09-07",
+      "end": "1939-09-13"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1939-09-07",
+        "end": "1939-09-13"
+      }
+    ]
+  },
+  "18-6": {
+    "term": {
+      "start": "1940-01-25",
+      "end": "1940-01-25"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1940-01-25",
+        "end": "1940-01-25"
+      }
+    ]
+  },
+  "19-1": {
+    "term": {
+      "start": "1940-05-16",
+      "end": "1940-11-05"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1940-05-16",
+        "end": "1940-11-05"
+      }
+    ]
+  },
+  "19-2": {
+    "term": {
+      "start": "1940-11-07",
+      "end": "1942-01-21"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1940-11-07",
+        "end": "1942-01-21"
+      }
+    ]
+  },
+  "19-3": {
+    "term": {
+      "start": "1942-01-22",
+      "end": "1943-01-27"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1942-01-22",
+        "end": "1943-01-27"
+      }
+    ]
+  },
+  "19-4": {
+    "term": {
+      "start": "1943-01-28",
+      "end": "1944-01-26"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1943-01-28",
+        "end": "1944-01-26"
+      }
+    ]
+  },
+  "19-5": {
+    "term": {
+      "start": "1944-01-27",
+      "end": "1945-01-31"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1944-01-27",
+        "end": "1945-01-31"
+      }
+    ]
+  },
+  "19-6": {
+    "term": {
+      "start": "1945-03-19",
+      "end": "1945-04-16"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1945-03-19",
+        "end": "1945-04-16"
+      }
+    ]
+  },
+  "20-1": {
+    "term": {
+      "start": "1945-09-06",
+      "end": "1945-12-18"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1945-09-06",
+        "end": "1945-12-18"
+      }
+    ]
+  },
+  "20-2": {
+    "term": {
+      "start": "1946-03-14",
+      "end": "1946-08-31"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1946-03-14",
+        "end": "1946-08-31"
+      }
+    ]
+  },
+  "20-3": {
+    "term": {
+      "start": "1947-01-30",
+      "end": "1947-07-17"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1947-01-30",
+        "end": "1947-07-17"
+      }
+    ]
+  },
+  "20-4": {
+    "term": {
+      "start": "1947-12-05",
+      "end": "1948-06-30"
+    },
+    "primeMinisters": [
+      {
+        "name": "King, William Lyon Mackenzie",
+        "start": "1947-12-05",
+        "end": "1948-06-30"
+      }
+    ]
+  },
+  "20-5": {
+    "term": {
+      "start": "1949-01-26",
+      "end": "1949-04-30"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1949-01-26",
+        "end": "1949-04-30"
+      }
+    ]
+  },
+  "21-1": {
+    "term": {
+      "start": "1949-09-15",
+      "end": "1949-12-10"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1949-09-15",
+        "end": "1949-12-10"
+      }
+    ]
+  },
+  "21-2": {
+    "term": {
+      "start": "1950-02-16",
+      "end": "1950-06-30"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1950-02-16",
+        "end": "1950-06-30"
+      }
+    ]
+  },
+  "21-3": {
+    "term": {
+      "start": "1950-08-29",
+      "end": "1951-01-29"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1950-08-29",
+        "end": "1951-01-29"
+      }
+    ]
+  },
+  "21-4": {
+    "term": {
+      "start": "1951-01-30",
+      "end": "1951-10-09"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1951-01-30",
+        "end": "1951-10-09"
+      }
+    ]
+  },
+  "21-5": {
+    "term": {
+      "start": "1951-10-09",
+      "end": "1951-12-29"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1951-10-09",
+        "end": "1951-12-29"
+      }
+    ]
+  },
+  "21-6": {
+    "term": {
+      "start": "1952-02-28",
+      "end": "1952-11-20"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1952-02-28",
+        "end": "1952-11-20"
+      }
+    ]
+  },
+  "21-7": {
+    "term": {
+      "start": "1952-11-20",
+      "end": "1953-05-14"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1952-11-20",
+        "end": "1953-05-14"
+      }
+    ]
+  },
+  "22-1": {
+    "term": {
+      "start": "1953-11-12",
+      "end": "1954-06-26"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1953-11-12",
+        "end": "1954-06-26"
+      }
+    ]
+  },
+  "22-2": {
+    "term": {
+      "start": "1955-01-07",
+      "end": "1955-07-28"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1955-01-07",
+        "end": "1955-07-28"
+      }
+    ]
+  },
+  "22-3": {
+    "term": {
+      "start": "1956-01-10",
+      "end": "1956-08-14"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1956-01-10",
+        "end": "1956-08-14"
+      }
+    ]
+  },
+  "22-4": {
+    "term": {
+      "start": "1956-11-26",
+      "end": "1957-01-08"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1956-11-26",
+        "end": "1957-01-08"
+      }
+    ]
+  },
+  "22-5": {
+    "term": {
+      "start": "1957-01-08",
+      "end": "1957-04-12"
+    },
+    "primeMinisters": [
+      {
+        "name": "St-Laurent, Louis Stephen",
+        "start": "1957-01-08",
+        "end": "1957-04-12"
+      }
+    ]
+  },
+  "23-1": {
+    "term": {
+      "start": "1957-10-14",
+      "end": "1958-02-01"
+    },
+    "primeMinisters": [
+      {
+        "name": "Diefenbaker, John George",
+        "start": "1957-10-14",
+        "end": "1958-02-01"
+      }
+    ]
+  },
+  "24-1": {
+    "term": {
+      "start": "1958-05-12",
+      "end": "1958-09-06"
+    },
+    "primeMinisters": [
+      {
+        "name": "Diefenbaker, John George",
+        "start": "1958-05-12",
+        "end": "1958-09-06"
+      }
+    ]
+  },
+  "24-2": {
+    "term": {
+      "start": "1959-01-15",
+      "end": "1959-07-18"
+    },
+    "primeMinisters": [
+      {
+        "name": "Diefenbaker, John George",
+        "start": "1959-01-15",
+        "end": "1959-07-18"
+      }
+    ]
+  },
+  "24-3": {
+    "term": {
+      "start": "1960-01-14",
+      "end": "1960-08-10"
+    },
+    "primeMinisters": [
+      {
+        "name": "Diefenbaker, John George",
+        "start": "1960-01-14",
+        "end": "1960-08-10"
+      }
+    ]
+  },
+  "24-4": {
+    "term": {
+      "start": "1960-11-17",
+      "end": "1961-09-29"
+    },
+    "primeMinisters": [
+      {
+        "name": "Diefenbaker, John George",
+        "start": "1960-11-17",
+        "end": "1961-09-29"
+      }
+    ]
+  },
+  "24-5": {
+    "term": {
+      "start": "1962-01-18",
+      "end": "1962-04-19"
+    },
+    "primeMinisters": [
+      {
+        "name": "Diefenbaker, John George",
+        "start": "1962-01-18",
+        "end": "1962-04-19"
+      }
+    ]
+  },
+  "25-1": {
+    "term": {
+      "start": "1962-09-27",
+      "end": "1963-02-06"
+    },
+    "primeMinisters": [
+      {
+        "name": "Diefenbaker, John George",
+        "start": "1962-09-27",
+        "end": "1963-02-06"
+      }
+    ]
+  },
+  "26-1": {
+    "term": {
+      "start": "1963-05-16",
+      "end": "1963-12-21"
+    },
+    "primeMinisters": [
+      {
+        "name": "Pearson, Lester Bowles",
+        "start": "1963-05-16",
+        "end": "1963-12-21"
+      }
+    ]
+  },
+  "26-2": {
+    "term": {
+      "start": "1964-02-18",
+      "end": "1965-04-03"
+    },
+    "primeMinisters": [
+      {
+        "name": "Pearson, Lester Bowles",
+        "start": "1964-02-18",
+        "end": "1965-04-03"
+      }
+    ]
+  },
+  "26-3": {
+    "term": {
+      "start": "1965-04-05",
+      "end": "1965-09-08"
+    },
+    "primeMinisters": [
+      {
+        "name": "Pearson, Lester Bowles",
+        "start": "1965-04-05",
+        "end": "1965-09-08"
+      }
+    ]
+  },
+  "27-1": {
+    "term": {
+      "start": "1966-01-18",
+      "end": "1967-05-08"
+    },
+    "primeMinisters": [
+      {
+        "name": "Pearson, Lester Bowles",
+        "start": "1966-01-18",
+        "end": "1967-05-08"
+      }
+    ]
+  },
+  "27-2": {
+    "term": {
+      "start": "1967-05-08",
+      "end": "1968-04-23"
+    },
+    "primeMinisters": [
+      {
+        "name": "Pearson, Lester Bowles",
+        "start": "1967-05-08",
+        "end": "1968-04-19"
+      },
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1968-04-20",
+        "end": "1968-04-23"
+      }
+    ]
+  },
+  "28-1": {
+    "term": {
+      "start": "1968-09-12",
+      "end": "1969-10-22"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1968-09-12",
+        "end": "1969-10-22"
+      }
+    ]
+  },
+  "28-2": {
+    "term": {
+      "start": "1969-10-23",
+      "end": "1970-10-07"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1969-10-23",
+        "end": "1970-10-07"
+      }
+    ]
+  },
+  "28-3": {
+    "term": {
+      "start": "1970-10-08",
+      "end": "1972-02-16"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1970-10-08",
+        "end": "1972-02-16"
+      }
+    ]
+  },
+  "28-4": {
+    "term": {
+      "start": "1972-02-17",
+      "end": "1972-09-01"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1972-02-17",
+        "end": "1972-09-01"
+      }
+    ]
+  },
+  "29-1": {
+    "term": {
+      "start": "1973-01-04",
+      "end": "1974-02-26"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1973-01-04",
+        "end": "1974-02-26"
+      }
+    ]
+  },
+  "29-2": {
+    "term": {
+      "start": "1974-02-27",
+      "end": "1974-05-09"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1974-02-27",
+        "end": "1974-05-09"
+      }
+    ]
+  },
+  "30-1": {
+    "term": {
+      "start": "1974-09-30",
+      "end": "1976-10-12"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1974-09-30",
+        "end": "1976-10-12"
+      }
+    ]
+  },
+  "30-2": {
+    "term": {
+      "start": "1976-10-12",
+      "end": "1977-10-17"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1976-10-12",
+        "end": "1977-10-17"
+      }
+    ]
+  },
+  "30-3": {
+    "term": {
+      "start": "1977-10-18",
+      "end": "1978-10-10"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1977-10-18",
+        "end": "1978-10-10"
+      }
+    ]
+  },
+  "30-4": {
+    "term": {
+      "start": "1978-10-11",
+      "end": "1979-03-26"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1978-10-11",
+        "end": "1979-03-26"
+      }
+    ]
+  },
+  "31-1": {
+    "term": {
+      "start": "1979-10-09",
+      "end": "1979-12-14"
+    },
+    "primeMinisters": [
+      {
+        "name": "Clark, Charles Joseph",
+        "start": "1979-10-09",
+        "end": "1979-12-14"
+      }
+    ]
+  },
+  "32-1": {
+    "term": {
+      "start": "1980-04-14",
+      "end": "1983-11-30"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1980-04-14",
+        "end": "1983-11-30"
+      }
+    ]
+  },
+  "32-2": {
+    "term": {
+      "start": "1983-12-07",
+      "end": "1984-07-09"
+    },
+    "primeMinisters": [
+      {
+        "name": "Trudeau, Pierre Elliott",
+        "start": "1983-12-07",
+        "end": "1984-06-29"
+      },
+      {
+        "name": "Turner, John Napier",
+        "start": "1984-06-30",
+        "end": "1984-07-09"
+      }
+    ]
+  },
+  "33-1": {
+    "term": {
+      "start": "1984-11-05",
+      "end": "1986-08-28"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mulroney, Martin Brian",
+        "start": "1984-11-05",
+        "end": "1986-08-28"
+      }
+    ]
+  },
+  "33-2": {
+    "term": {
+      "start": "1986-09-30",
+      "end": "1988-10-01"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mulroney, Martin Brian",
+        "start": "1986-09-30",
+        "end": "1988-10-01"
+      }
+    ]
+  },
+  "34-1": {
+    "term": {
+      "start": "1988-12-12",
+      "end": "1989-02-28"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mulroney, Martin Brian",
+        "start": "1988-12-12",
+        "end": "1989-02-28"
+      }
+    ]
+  },
+  "34-2": {
+    "term": {
+      "start": "1989-04-03",
+      "end": "1991-05-12"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mulroney, Martin Brian",
+        "start": "1989-04-03",
+        "end": "1991-05-12"
+      }
+    ]
+  },
+  "34-3": {
+    "term": {
+      "start": "1991-05-13",
+      "end": "1993-09-08"
+    },
+    "primeMinisters": [
+      {
+        "name": "Mulroney, Martin Brian",
+        "start": "1991-05-13",
+        "end": "1993-09-08"
+      }
+    ]
+  },
+  "35-1": {
+    "term": {
+      "start": "1994-01-17",
+      "end": "1996-02-02"
+    },
+    "primeMinisters": [
+      {
+        "name": "Chrétien, Joseph Jacques Jean",
+        "start": "1994-01-17",
+        "end": "1996-02-02"
+      }
+    ]
+  },
+  "35-2": {
+    "term": {
+      "start": "1996-02-27",
+      "end": "1997-04-27"
+    },
+    "primeMinisters": [
+      {
+        "name": "Chrétien, Joseph Jacques Jean",
+        "start": "1996-02-27",
+        "end": "1997-04-27"
+      }
+    ]
+  }
+}

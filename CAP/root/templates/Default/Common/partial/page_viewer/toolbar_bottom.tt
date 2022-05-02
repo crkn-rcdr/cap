@@ -1,4 +1,3 @@
-[% first_child = item.component(seq) -%]
 <nav id="pvToolbarBottom" aria-label="[% c.loc("L_VIEWER_LABEL") %]" class="btn-toolbar form-inline px-1">
   [% IF item.record.component_count_fulltext; WRAPPER button_svg tag="button" label=c.loc("L_VIEWER_TOGGLE_SEARCH") id="pvSearchToggle" active=0 %]
     <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">

@@ -1,0 +1,30 @@
+{
+    "id": "parl",
+    "label": {
+        "en": "Canadian Parliamentary Historical Resources",
+        "fr": "Ressources parlementaires historiques canadiennes"
+    },
+    "subdomains": ["parl"],
+    "ga_id": "UA-162937182-3",
+    "search_schema": "parl",
+    "font": "Open Sans",
+    "sr_record": 0,
+    "pages": {
+        "avis-importants": {
+            "en": { "redirect": "important-notices" },
+            "fr": { "title": "Avis importants" }
+        },
+        "conseils-recherche": {
+            "en": { "redirect": "search-tips" },
+            "fr": { "title": "Aide à la recherche" }
+        },
+        "important-notices": {
+            "en": { "title": "Important Notices" },
+            "fr": { "redirect": "avis-importants" }
+        },
+        "search-tips": {
+            "en": { "title": "Help with Searching" },
+            "fr": { "redirect": "conseils-recherche" }
+        }
+    }
+}

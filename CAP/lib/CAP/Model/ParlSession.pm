@@ -5,42 +5,32 @@ use strictures 2;
 use Moose;
 use namespace::autoclean;
 use Types::Standard qw/HashRef/;
+use JSON qw/decode_json/;
+use File::Slurp qw/read_file/;
 
 extends 'Catalyst::Model';
-with 'Role::REST::Client';
 
-has '+type' => (
-	default => sub { 'application/json' }
-);
-
-has '+persistent_headers' => (
-	default => sub { return { Accept => 'application/json' }; }
-);
+has 'path' => (
+	is => 'ro',
+	isa => 'Str',
+	required => 1 );
 
 has '_sessions' => (
 	is => 'ro',
 	isa => 'HashRef',
-	default => sub { {} },
-	init_arg => undef
-);
+	writer => '_set_sessions' );
 
 sub BUILD {
   my ($self, $args) = @_;
-  my $response = $self->get('/_all_docs', { include_docs => 'true' });
-	if ($response->failed) {
-		my $error = $response->error;
-		die "Parliament sessions could not be loaded: $error";
-	}
-
-  foreach my $row (@{ $response->data->{rows} }) {
-    $self->_sessions->{$row->{id}} = $row->{doc};
-  }
+  my $file = read_file($self->path);
+  my $json = decode_json($file);
+  $self->_set_sessions($json);
 }
 
 sub session {
   my ($self, $session) = @_;
 
-  return $self->_sessions->{$session} || {};
+  return $self->_sessions->{$session};
 }
 
 sub all {
