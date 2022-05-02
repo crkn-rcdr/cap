@@ -18,3 +18,4 @@ requires 'Catalyst::View::TT';
 requires 'Text::Trim';
 requires 'Number::Format';
 requires 'Term::Size::Any';
+requires 'Crypt::Mac::HMAC';
