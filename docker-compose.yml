@@ -8,8 +8,6 @@ services:
     # If you want to keep the Apache logs, mount the volume externally
     # volumes:
     #   - "./apachelogs:/usr/local/apache2/logs"
-    environment:
-      - CDNHOSTPORT=gouda.tor.c7a.ca:5984
     networks:
       access-platform:
         ipv4_address: 172.30.0.4

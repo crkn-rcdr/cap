@@ -13,7 +13,7 @@ sub index : PathPart('iiif') Chained('/') CaptureArgs(1) {
 
   my $doc;
   eval {
-    $doc = $c->model('Access::Presentation')
+    $doc = $c->model('Presentation')
       ->fetch($slug, $c->portal_id, $c->req->uri->host);
   };
   $c->detach('/error',

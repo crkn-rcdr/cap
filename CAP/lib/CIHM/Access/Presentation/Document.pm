@@ -15,20 +15,20 @@ has 'record' => (
   required => 1
 );
 
-has 'derivative' => (
+has 'image_client' => (
   is  => 'ro',
   isa => sub {
-    die "$_[0] is not a CIHM::Access::Derivative"
-      unless ref($_[0]) eq 'CIHM::Access::Derivative';
+    die "$_[0] is not a valid object"
+      unless ref($_[0]) eq 'CIHM::Access::Presentation::ImageClient';
   },
   required => 1
 );
 
-has 'download' => (
+has 'swift_client' => (
   is  => 'ro',
   isa => sub {
     die "$_[0] is not a valid object"
-      unless ref($_[0]) eq 'CIHM::Access::Download';
+      unless ref($_[0]) eq 'CIHM::Access::Presentation::SwiftClient';
   },
   required => 1
 );
@@ -79,29 +79,23 @@ sub _build_items {
         my $component_record = $self->record->{components}{$page_slug};
         my $noid             = $component_record->{noid};
 
-        my $uri = $self->derivative->iiif_info($noid);
-
         my $r = {
           %{$component_record},
           seq => $seq,
-          uri => $uri
+          iiif_image_info => $self->image_client->info($noid),
+          iiif_image_full => $self->image_client->full($noid)
         };
 
-        $r->{iiif_default} =
-            $self->derivative->iiif_default($component_record->{noid});
-        $r->{iiif_service} =
-            $self->derivative->iiif_service($component_record->{noid});
-
         if ($component_record->{canonicalDownload}) {
-          $r->{download_uri} =
-            $self->download->uri($component_record->{canonicalDownload});
+          # Not likely in use any more, but this is how single-page PDFs are found in the preservation Swift repository.
+          my $obj_path = $component_record->{canonicalDownload};
+          $r->{download_uri} = $self->swift_client->preservation_uri($obj_path);
         } elsif (
           $component_record->{canonicalDownloadExtension}
         ) {
-          $r->{download_uri} =
-            $self->download->uri(
-              join('.', $noid, $component_record->{canonicalDownloadExtension}), 1
-            );
+          # This generates the URL for a single page from the access-files Swift repository.
+          my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
+          $r->{download_uri} = $self->swift_client->access_uri($obj_path);
         }
 
         $r;
@@ -176,11 +170,12 @@ sub canonical_label {
     . $self->record->{label};
 }
 
-# This will likely need some tweaks as multi-page PDF stuff gets sorted out.
+# Once multi-page PDF generation is sorted out, we won't need to source these from
+# the preservation Swift repository any more.
 sub item_download {
   my ($self) = @_;
   my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
-  return $item_download ? $self->download->uri($item_download) : undef;
+  return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
 }
 
 sub _iiif_context {
@@ -194,35 +189,6 @@ sub _iiif_url {
   return "https://$domain/iiif/$slug/$remainder";
 }
 
-sub _iiif_image {
-  my ($item, $max_side) = @_;
-  my $height = $item->{canonicalMasterHeight};
-  my $width  = $item->{canonicalMasterWidth};
-  if ($max_side) {
-    my $divisor = max($height, $width) / $max_side;
-    $height = ceil($height / $divisor);
-    $width  = ceil($width / $divisor);
-  }
-  my $size      = $max_side ? "!$max_side,$max_side" : "full";
-  my $image_uri = $item->{uri};
-  $image_uri =~ s/\$SIZE/$size/g;
-  $image_uri =~ s/\$ROTATE/0/g;
-
-  return {
-    id      => $image_uri,
-    type    => "Image",
-    format  => "image/jpeg",
-    service => [ {
-        id      => $item->{iiif_service},
-        type    => "ImageService2",
-        profile => "level2"
-      }
-    ],
-    height => $height,
-    width  => $width
-  };
-}
-
 sub iiif_annotation {
   my ($self, $seq, $is_root) = @_;
   my $item       = $self->item($seq);
@@ -230,7 +196,19 @@ sub iiif_annotation {
     id         => $self->_iiif_url("annotation/p$seq/image"),
     type       => "Annotation",
     motivation => "painting",
-    body       => _iiif_image($item),
+    body       => {
+      id      => $self->image_client->full($item->{noid}),
+      type    => "Image",
+      format  => "image/jpeg",
+      service => [ {
+          id      => $self->image_client->bare($item->{noid}),
+          type    => "ImageService2",
+          profile => "level2"
+        }
+      ],
+      height => $item->{canonicalMasterHeight},
+      width  => $item->{canonicalMasterWidth}
+    },
     target     => $self->_iiif_url("canvas/p$seq")};
   return $is_root ? {_iiif_context, %$annotation} : $annotation;
 }
@@ -254,8 +232,6 @@ sub iiif_canvas {
     height => $item->{canonicalMasterHeight},
     width  => $item->{canonicalMasterWidth},
     items  => [ $self->iiif_annotation_page($seq) ],
-
-    # thumbnail => _iiif_image($item, 200)
   };
   return $is_root ? {_iiif_context, %$canvas} : $canvas;
 }

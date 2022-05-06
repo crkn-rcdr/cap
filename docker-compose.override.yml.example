@@ -7,10 +7,11 @@ services:
       - WORKERS=1
       # change below to 1 for debug output
       - CATALYST_DEBUG=0
-      - 'CAP_Model::Access::Derivative_password=CAP_PASSWORD'
-      - 'CAP_Model::Access::Download_password=CAP_PASSWORD'
-      - 'CAP_Model::Access::Download_tempURLKey=CAP_PASSWORD'
+      # find the value of CAP_PASSWORD in the dev 1password vault
+      - 'CAP_Model::Presentation_swift_temp_url_key=CAP_PASSWORD'
     volumes:
+      # cap still needs to be restarted for changes in these directories
       - ./CAP/conf:/opt/cap/conf
       - ./CAP/lib:/opt/cap/lib
+      # cap does not need to be restarted for changes in this directory
       - ./CAP/root:/opt/cap/root

@@ -4,7 +4,7 @@
   [% INCLUDE partial/page_viewer/toolbar.tt %]
   <section id="pvImageContainer">
     <div id="pvImageInner">
-      <noscript><a href="[% first_child.iiif_default %]" target="_blank">[% first_child.label %]</a></noscript>
+      <noscript><a href="[% first_child.iiif_image_full %]" target="_blank">[% first_child.label %]</a></noscript>
     </div>
     <aside id="pvSearch" class="pv-overlay px-3 pt-3 hidden">
       [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]

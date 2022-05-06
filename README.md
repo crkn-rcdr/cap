@@ -36,11 +36,13 @@ CAP configuration can be found in two places. Making changes to configuration re
 
 #### [`CAP/cap.conf`](CAP/cap.conf)
 
-This contains a whole host of server and portal configuration. The section that is most important and likely to require changes is the `portal_config` section under `CAP::Model::Collections`; this controls the subdomains that each portal can be found at, what static pages can be displayed, and more. This section is highly unwieldy and in the future much of this information will be stored with the relevant collection record in the Access Platform.
+This file used to contain a lot of server and portal configuration that required occasional change, but everything important has been moved to files in [`CAP/conf`](CAP/conf).
 
 #### [`CAP/conf`](CAP/conf)
 
-This directory contains configuration files that are used by some of CAP's models. Of special note are the JSON files in [`CAP/conf/i18n`](CAP/conf/i18n), which contain the strings that are used by the i18n system when handling `c.loc` directives.
+This directory contains configuration files that are used by some of CAP's models. Of special note are the following:
+- the JSON files in [`CAP/conf/i18n`](CAP/conf/i18n), which contain the strings that are used by the i18n system when handling `c.loc` directives
+- the JSON files in [`CAP/conf/portals`](CAP/conf/portals), which contain portal configuration. Explanations of these properties can be found in [`CAP/lib/CAP/Portal.pm`](CAP/lib/CAP/Portal.pm)
 
 ### Back-end Perl code
 

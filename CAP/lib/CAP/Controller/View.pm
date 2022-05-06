@@ -18,7 +18,7 @@ sub index : Path('') {
 
   my $doc;
   eval {
-    $doc = $c->model('Access::Presentation')->fetch( $key, $c->portal_id, $c->req->uri->host );
+    $doc = $c->model('Presentation')->fetch( $key, $c->portal_id, $c->req->uri->host );
   };
   $c->detach( '/error',
     [404, "Presentation fetch failed on document $key: $@"] )
@@ -111,7 +111,7 @@ sub random : Path('/viewrandom') Args() {
 
   my $doc;
   eval {
-    $doc = $c->model('Access::Search')->random_document( {
+    $doc = $c->model('Search')->random_document( {
         root_collection => $c->portal_id
       }
     )->{resultset}{documents}[0];

@@ -3,7 +3,7 @@
 [% FOREACH component_key IN record.order -%]
 [% curr_seq = loop.count -%]
 [% child = item.component(curr_seq) -%]
-    <option id="seq[% curr_seq %]" data-uri="[% child.uri %]"[% IF child.download_uri %] data-download="[% child.download_uri %]"[% END %] value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
+    <option id="seq[% curr_seq %]" data-uri="[% child.iiif_image_info %]"[% IF child.download_uri %] data-download="[% child.download_uri %]"[% END %] value="[% curr_seq %]"[% seq == curr_seq ? " selected" : "" %]>[% child.label %]</option>
 [% END -%]
   </select>
   <div class="btn-group mr-1 pt-1">

@@ -12,11 +12,12 @@ USER cihm
 
 ENV WORKERS=8 \
   CATALYST_DEBUG=0 \
-  CAP_Model::Access::Derivative_endpoint=https://image-tor.canadiana.ca/iiif/2 \
-  CAP_Model::Access::Download_container=https://swift.canadiana.ca/v1/AUTH_crkn/preservation-cihm-aip \
-  CAP_Model::Access::Download_container_access=https://swift.canadiana.ca/v1/AUTH_crkn/access_files \
-  CAP_Model::Access::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation2 \
-  CAP_Model::Access::Search_server=http://iris.tor.c7a.ca:8983/solr/cosearch2 \
+  CAP_Model::Presentation_image_endpoint=https://image-tor.canadiana.ca/iiif/2 \
+  CAP_Model::Presentation_swift_container_preservation=https://swift.canadiana.ca/v1/AUTH_crkn/preservation-cihm-aip \
+  CAP_Model::Presentation_swift_container_access=https://swift.canadiana.ca/v1/AUTH_crkn/access-files \
+  # CAP_Model::Presentation_swift_temp_url_key=${cappassword} (set this one elsewhere)
+  CAP_Model::Presentation_server=http://iris.tor.c7a.ca:5984/copresentation2 \
+  CAP_Model::Search_server=http://iris.tor.c7a.ca:8983/solr/cosearch2 \
   CAP_Model::Parl_server=http://iris.tor.c7a.ca:5984/copresentation2 
 
 EXPOSE 3011

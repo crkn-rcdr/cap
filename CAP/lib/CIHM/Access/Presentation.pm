@@ -7,6 +7,8 @@ use Moo;
 use List::MoreUtils qw/any/;
 use Types::Standard qw/Int Str Enum/;
 use CIHM::Access::Presentation::Document;
+use CIHM::Access::Presentation::ImageClient;
+use CIHM::Access::Presentation::SwiftClient;
 with 'Role::REST::Client';
 
 has '+type' => ( default => 'application/json' );
@@ -14,28 +16,56 @@ has '+type' => ( default => 'application/json' );
 has '+persistent_headers' =>
   ( default => sub { return { Accept => 'application/json' }; } );
 
-has 'derivative' => (
-  is  => 'ro',
-  isa => sub {
-    die "$_[0] is not a CIHM::Access::Derivative"
-      unless ref( $_[0] ) eq 'CIHM::Access::Derivative';
-  },
+# IIIF Image API service
+has 'image_endpoint' => (
+  is => 'ro',
+  isa => Str,
   required => 1
 );
 
-has 'download' => (
-  is  => 'ro',
-  isa => sub {
-    die "$_[0] is not a CIHM::Access::Download"
-      unless ref( $_[0] ) eq 'CIHM::Access::Download';
-  },
+# Preservation swift container. Only in use now for multi-page PDFs, pending new work on that front.
+has 'swift_container_preservation' => (
+  is => 'ro',
+  isa => Str,
   required => 1
 );
 
+# Access file container.
+has 'swift_container_access' => (
+  is => 'ro',
+  isa => Str,
+  required => 1
+);
+
+# Key used to sign Swift temp URLs.
+has 'swift_temp_url_key' => (
+  is => 'ro',
+  isa => Str,
+  required => 1
+);
+
+# The limit of nodes that can appear in a sitemap page.
 has 'sitemap_node_limit' => (
   is       => 'ro',
   isa      => Int,
   required => 1
+);
+
+has 'image_client' => (
+  is => 'lazy',
+  default => sub { return CIHM::Access::Presentation::ImageClient->new({ endpoint => shift->image_endpoint }); }
+);
+
+has 'swift_client' => (
+  is => 'lazy',
+  default => sub {
+    my $self = shift;
+    return CIHM::Access::Presentation::SwiftClient->new({
+      container_preservation => $self->swift_container_preservation,
+      container_access => $self->swift_container_access,
+      temp_url_key => $self->swift_temp_url_key
+    });
+  }
 );
 
 # fetch a copresentation document with key $key, which must be in collection $collection
@@ -52,8 +82,8 @@ sub fetch {
       any { $_ eq $collection } @{ $response->data->{collection} } ) {
       return CIHM::Access::Presentation::Document->new( {
           record     => $response->data,
-          derivative => $self->derivative,
-          download   => $self->download,
+          image_client => $self->image_client,
+          swift_client => $self->swift_client,
           domain => $domain
         }
       );
