@@ -1,4 +1,4 @@
-package CAP::Model::Access::Presentation;
+package CAP::Model::Presentation;
 
 use base 'Catalyst::Model::Adaptor';
 __PACKAGE__->config( class => 'CIHM::Access::Presentation' );

@@ -33,7 +33,7 @@ sub index : Path('') {
   # Run the main search
   my $search;
   eval {
-    $search = $c->model('Access::Search')->dispatch(
+    $search = $c->model('Search')->dispatch(
       $handler,
       {
         root_collection => $c->portal_id,
@@ -66,7 +66,7 @@ sub matching_pages : Private {
 
   my $search;
   eval {
-    $search = $c->model('Access::Search')->dispatch(
+    $search = $c->model('Search')->dispatch(
       'page',
       {
         limit  => $self->matching_page_limit,
@@ -94,7 +94,7 @@ sub post : Local {
     $params->{handler} = $params->{include_issues} ? 'general' : 'browsable';
   }
 
-  my $get_params = $c->model('Access::Search')
+  my $get_params = $c->model('Search')
     ->transform_query( $params, $c->stash->{portal}->search_schema );
   my $handler = delete $get_params->{handler};
   $handler = '' if $handler eq 'general';

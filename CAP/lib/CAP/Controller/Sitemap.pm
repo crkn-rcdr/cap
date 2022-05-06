@@ -35,7 +35,7 @@ sub index : Path('') Args(1) {
   my $titles;
   eval {
     $titles =
-      $c->model('Access::Presentation')->title_list( $c->portal_id, $page );
+      $c->model('Presentation')->title_list( $c->portal_id, $page );
   };
   $c->detach( '/error', [500, $@] ) if $@;
 
@@ -155,11 +155,11 @@ sub sitemapindex : Path('sitemap.xml') Args(0) {
   $root->appendChild($map);
 
   # Determine how many sitemap files we need
-  my $map_length = $c->model('Access::Presentation')->sitemap_node_limit;
+  my $map_length = $c->model('Presentation')->sitemap_node_limit;
   my $title_count;
   eval {
     $title_count =
-      $c->model('Access::Presentation')->title_count( $c->portal_id );
+      $c->model('Presentation')->title_count( $c->portal_id );
   };
   $c->detach( '/error', [500, $@] ) if $@;
 
