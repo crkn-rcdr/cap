@@ -167,7 +167,6 @@
         this.dragon.viewport.zoomTo(Math.min(zoom * 2, maxZoom));
       };
       this.toggleSearch = function () {
-        this.tagView.frame.hide();
         this.searchView.frame.toggle();
         this.controls.searchToggle.selector.toggleClass("active");
       };
