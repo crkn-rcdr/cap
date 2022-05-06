@@ -24,11 +24,11 @@ has 'image_client' => (
   required => 1
 );
 
-has 'download' => (
+has 'swift_client' => (
   is  => 'ro',
   isa => sub {
     die "$_[0] is not a valid object"
-      unless ref($_[0]) eq 'CIHM::Access::Download';
+      unless ref($_[0]) eq 'CIHM::Access::Presentation::SwiftClient';
   },
   required => 1
 );
@@ -87,15 +87,15 @@ sub _build_items {
         };
 
         if ($component_record->{canonicalDownload}) {
-          $r->{download_uri} =
-            $self->download->uri($component_record->{canonicalDownload});
+          # Not likely in use any more, but this is how single-page PDFs are found in the preservation Swift repository.
+          my $obj_path = $component_record->{canonicalDownload};
+          $r->{download_uri} = $self->swift_client->preservation_uri($obj_path);
         } elsif (
           $component_record->{canonicalDownloadExtension}
         ) {
-          $r->{download_uri} =
-            $self->download->uri(
-              join('.', $noid, $component_record->{canonicalDownloadExtension}), 1
-            );
+          # This generates the URL for a single page from the access-files Swift repository.
+          my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
+          $r->{download_uri} = $self->swift_client->access_uri($obj_path);
         }
 
         $r;
@@ -170,11 +170,12 @@ sub canonical_label {
     . $self->record->{label};
 }
 
-# This will likely need some tweaks as multi-page PDF stuff gets sorted out.
+# Once multi-page PDF generation is sorted out, we won't need to source these from
+# the preservation Swift repository any  more.
 sub item_download {
   my ($self) = @_;
   my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
-  return $item_download ? $self->download->uri($item_download) : undef;
+  return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
 }
 
 sub _iiif_context {
