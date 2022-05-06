@@ -171,7 +171,7 @@ sub canonical_label {
 }
 
 # Once multi-page PDF generation is sorted out, we won't need to source these from
-# the preservation Swift repository any  more.
+# the preservation Swift repository any more.
 sub item_download {
   my ($self) = @_;
   my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
