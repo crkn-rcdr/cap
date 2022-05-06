@@ -7,7 +7,6 @@ sub prepare_arguments {
   my ( $self, $app, $arg ) = @_;
   my $parameters =
     exists $self->{args} ? { %{ $self->{args} }, %$arg, } : $arg;
-  $parameters->{derivative} = $app->model('Access::Derivative');
   $parameters->{download}   = $app->model('Access::Download');
   return $parameters;
 }

@@ -7,21 +7,13 @@ use Moo;
 use List::MoreUtils qw/any/;
 use Types::Standard qw/Int Str Enum/;
 use CIHM::Access::Presentation::Document;
+use CIHM::Access::Presentation::ImageClient;
 with 'Role::REST::Client';
 
 has '+type' => ( default => 'application/json' );
 
 has '+persistent_headers' =>
   ( default => sub { return { Accept => 'application/json' }; } );
-
-has 'derivative' => (
-  is  => 'ro',
-  isa => sub {
-    die "$_[0] is not a CIHM::Access::Derivative"
-      unless ref( $_[0] ) eq 'CIHM::Access::Derivative';
-  },
-  required => 1
-);
 
 has 'download' => (
   is  => 'ro',
@@ -32,10 +24,21 @@ has 'download' => (
   required => 1
 );
 
+has 'image_endpoint' => (
+  is => 'ro',
+  isa => Str,
+  required => 1
+);
+
 has 'sitemap_node_limit' => (
   is       => 'ro',
   isa      => Int,
   required => 1
+);
+
+has 'image_client' => (
+  is => 'lazy',
+  default => sub { return CIHM::Access::Presentation::ImageClient->new({ endpoint => shift->image_endpoint }); }
 );
 
 # fetch a copresentation document with key $key, which must be in collection $collection
@@ -52,7 +55,7 @@ sub fetch {
       any { $_ eq $collection } @{ $response->data->{collection} } ) {
       return CIHM::Access::Presentation::Document->new( {
           record     => $response->data,
-          derivative => $self->derivative,
+          image_client => $self->image_client,
           download   => $self->download,
           domain => $domain
         }
