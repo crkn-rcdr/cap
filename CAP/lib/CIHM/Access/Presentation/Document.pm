@@ -95,7 +95,10 @@ sub _build_items {
         ) {
           # This generates the URL for a single page from the access-files Swift repository.
           my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
-          $r->{download_uri} = $self->swift_client->access_uri($obj_path);
+
+          my $filename = join('.', $page_slug, $component_record->{canonicalDownloadExtension});
+
+          $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
         }
 
         $r;
