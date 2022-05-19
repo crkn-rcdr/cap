@@ -38,12 +38,12 @@ sub preservation_uri {
 
 # Returns a Swift TempURL for the access file at $obj_path.
 sub access_uri {
-  my ($self, $obj_path) = @_;
-  return $self->_uri($self->container_access, $obj_path);
+  my ($self, $obj_path, $filename) = @_;
+  return $self->_uri($self->container_access, $obj_path, $filename);
 }
 
 sub _uri {
-  my ( $self, $container, $obj_path ) = @_;
+  my ( $self, $container, $obj_path, $filename ) = @_;
 
   my $expires = time + 86400;    # expires in a day
   my $path      = join( '/', $container->path, $obj_path );
@@ -51,8 +51,14 @@ sub _uri {
   my $signature = hmac_hex( 'SHA1', $self->temp_url_key, $payload );
 
   my $uri = URI->new( join( '/', $container->as_string, $obj_path ) );
-  $uri->query_form(
-    { temp_url_sig => $signature, temp_url_expires => $expires } );
+
+  my $query = { temp_url_sig => $signature, temp_url_expires => $expires };
+  
+  if (defined $filename) {
+    $query->{filename} = $filename;
+  }
+
+  $uri->query_form( $query );
   return $uri->as_string;
 }
 
