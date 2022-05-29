@@ -389,7 +389,14 @@
       var $fullImage = $("#pvFullImage");
       if ($fullImage.length > 0) {
         $fullImage.attr("href", this.components[page].fullImage);
+        var downloadButton = document.getElementById("pvFullImageDownload");
+        if(downloadButton) {
+          downloadButton.setAttribute("data-url", this.components[page].fullImage);
+          downloadButton.setAttribute("data-slug", this.settings.pkey);
+          downloadButton.setAttribute("data-seq", page + 1);
+        }
       }
+      
     },
 
     zoomUpdated: function (zoom) {
