@@ -226,6 +226,7 @@
           selector: $(spec.selection),
           enable: function () {
             this.selector.prop("disabled", false);
+            this.selector.attr("href", "");
             //this.selector.removeAttr("href");
             this.selector.removeClass("disabled selected hidden");
             this.selector.off(spec.eventName).on(spec.eventName, function (e) {
