@@ -184,7 +184,6 @@
       this.downloadFullImage = function () {
         var downloadButton = document.getElementById("pvFullImageDownload");
         var url = downloadButton.getAttribute("data-url");
-        console.log("url", url);
         $.ajax({
           url: url,
           method: "get",
