@@ -193,7 +193,7 @@
           success: function(data) {
             var slug = downloadButton.getAttribute("data-slug");
             var seq = downloadButton.getAttribute("data-seq");
-            var filename = slug + "/" + seq + '.jpg';
+            var filename = slug + "." + seq + '.jpg';
 
             if (window.navigator.msSaveOrOpenBlob) {
               // Internet Explorer
