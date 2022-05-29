@@ -181,6 +181,42 @@
           document.exitFullscreen();
         }
       };
+      this.downloadFullImage = function () {
+        var downloadButton = document.getElementById("pvFullImageDownload");
+        var url = downloadButton.getAttribute("data-url");
+        console.log("url", url);
+        $.ajax({
+          url: url,
+          method: "get",
+          xhrFields:{
+              responseType: 'blob'
+          },
+          success: function(data) {
+            var slug = downloadButton.getAttribute("data-slug");
+            var seq = downloadButton.getAttribute("data-seq");
+            var filename = slug + "/" + seq + '.jpg';
+
+            if (window.navigator.msSaveOrOpenBlob) {
+              // Internet Explorer
+              window.navigator.msSaveOrOpenBlob(data, {type: "image/jpg"}, filename);
+            } else {
+              var url = URL.createObjectURL(data);
+              var a = document.createElement('a');
+              a.href = url;
+              a.download = filename;
+              document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+              a.click();
+              a.remove();  //afterwards we remove the element again
+            }
+
+            a.click();
+          },
+          error: function (data) {
+            that.$element.empty();
+            that.$element.html("Error &mdash; Erreur");
+          },
+        });
+      };
     },
 
     setupControls: function () {
@@ -268,12 +304,18 @@
           eventName: "click",
           handler: this.exitFullscreen,
         }),
+        fullImageDownload: pvc({
+          selection: "#pvFullImageDownload",
+          eventName: "click",
+          handler: this.downloadFullImage,
+        }),
       };
 
       // These never need to be disabled.
       this.controls.rotateLeft.enable();
       this.controls.rotateRight.enable();
       this.controls.searchToggle.enable();
+      this.controls.fullImageDownload.enable();
 
       // This should be enabled now, because we don't have control over it
       this.controls.fullscreenEnter.enable();
