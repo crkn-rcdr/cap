@@ -207,8 +207,6 @@
               a.click();
               a.remove();  //afterwards we remove the element again
             }
-
-            a.click();
           },
           error: function (data) {
             that.$element.empty();
