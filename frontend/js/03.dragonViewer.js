@@ -197,7 +197,9 @@
 
             if (window.navigator.msSaveOrOpenBlob) {
               // Internet Explorer
-              window.navigator.msSaveOrOpenBlob(data, {type: "image/jpg"}, filename);
+
+              var blob = new Blob([data], { type: "application/octetstream" });
+              window.navigator.msSaveOrOpenBlob(blob, filename);
             } else {
               var url = URL.createObjectURL(data);
               var a = document.createElement('a');
