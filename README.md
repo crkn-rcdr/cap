@@ -85,13 +85,15 @@ This directory has a [gulpfile](frontend/gulpfile.js) which contains scripts for
 $ pnpm exec gulp watch
 ```
 
-to continuously rebuid the assets while working on them, and
+to continuously rebuild the assets while working on them, and
 
 ```
 $ pnpm exec gulp
 ```
 
 to build the assets for production use. This is a very important step as the production build strips out unused [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) styles.
+
+Don't forget to update the 'r => <version>' for the cap.js import in main.tt if you've changed the JS code at all.
 
 ## Deployment
 
