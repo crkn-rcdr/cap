@@ -197,7 +197,6 @@
 
             if (window.navigator.msSaveOrOpenBlob) {
               // Internet Explorer
-
               var blob = new Blob([data], { type: "application/octetstream" });
               window.navigator.msSaveOrOpenBlob(blob, filename);
             } else {
