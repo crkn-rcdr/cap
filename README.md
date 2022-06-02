@@ -104,3 +104,26 @@ $ ./deployImage.sh cap
 ```
 
 Replace `cap` with `cap-apache` to deploy the `cap-apache` image.
+
+## Demo urls
+https://gac-demo.canadiana.ca/
+https://heritage-demo.canadiana.ca/
+https://mcgillarchives-demo.canadiana.ca/
+https://nrcan-demo.canadiana.ca/
+https://numeris-demo.canadiana.ca/
+https://parl-demo.canadiana.ca/
+https://pub-demo.canadiana.ca/
+https://sve-demo.canadiana.ca/
+https://www-demo.canadiana.ca/
+
+## Production urls
+https://gac.canadiana.ca/
+https://heritage.canadiana.ca/
+https://mcgillarchives.canadiana.ca/
+https://nrcan.canadiana.ca/
+https://numeris.canadiana.ca/
+https://parl.canadiana.ca/
+https://pub.canadiana.ca/
+https://sve.canadiana.ca/
+https://www.canadiana.ca/
+
