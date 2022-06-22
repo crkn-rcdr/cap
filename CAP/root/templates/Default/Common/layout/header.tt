@@ -1,4 +1,5 @@
 <header>
+[% INCLUDE partial/environment_banner.tt | indent(2) %]
 [% INCLUDE partial/message_banner.tt | indent(2) %]
   <div class="container">
     <div class="row py-3">

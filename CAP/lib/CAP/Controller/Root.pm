@@ -196,14 +196,25 @@ sub index : Path('') Args(0) {
 sub robots : Path('robots.txt') {
   my ( $self, $c ) = @_;
   $c->res->header( 'Content-Type', 'text/plain' );
-  my $sitemap_uri = $c->uri_for('/sitemap/sitemap.xml');
-  my $body        = <<"EOF";
+  my $body = "";
+
+  # If Demo or Test environment, send nothing
+  if ( $c->config->{environment} ne 'production' ) {
+    $body = <<"ENDTEXT";
+User-agent: *
+Disallow: /
+ENDTEXT
+  } else {
+    # Else - regular site should be indexed 
+    my $sitemap_uri = $c->uri_for('/sitemap/sitemap.xml');
+    $body = <<"EOF";
 User-agent: *
 Disallow: /search
 Allow: /search-tips
 Disallow: /file
 Sitemap: $sitemap_uri
 EOF
+  }
   $c->res->body($body);
   return 1;
 }
@@ -224,6 +235,12 @@ sub static : Path('static') : Args() {
   } else {
     $c->detach( 'error', [404, $file] );
   }
+  return 1;
+}
+
+sub version : Path('version') : Args() {
+  my ( $self, $c ) = @_;
+  $c->stash->{template} = "version.tt";
   return 1;
 }
 
