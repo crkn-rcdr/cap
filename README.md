@@ -82,7 +82,7 @@ $ pnpm install
 This directory has a [gulpfile](frontend/gulpfile.js) which contains scripts for building CAP front-end assets. Run
 
 ```
-$ pnpm exec gulp watch
+$ pnpm exec gulp watch -r
 ```
 
 to continuously rebuild the assets while working on them, and
