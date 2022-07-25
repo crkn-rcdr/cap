@@ -1,9 +1,16 @@
-﻿[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' ') %]
-<div class="col mb-3">
+﻿[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' '); flag = portal.subcollections.$coll.flag.${lang} %]
+<div class="col mb-2">
 	<div class="card">
 		<img class="card-img-top" src="/static/images/cards/[% coll %].jpg" alt="" />
 		<div class="card-body">
-			<h3 class="card-title h5 font-weight-bold"><a href="[% c.uri_for("/collection-$coll") %]">[% colltitle %]</a></h3>
+			<h3 class="card-title h5 font-weight-bold d-flex">
+        <a href="[% c.uri_for("/collection-$coll") %]">
+          [% colltitle %]
+        </a>
+        [% IF flag != "" %]
+          <span class="badge home-card-badge">[% flag %]</span>
+        [% END %]
+      </h3>
 			<p>
 				[% portal.subcollections.$coll.summary.${lang}.join(' ') %]
 				<a href="[% c.uri_for("/collection-$coll") %]">[% c.loc("L_READ_MORE") %]&nbsp;&raquo;</a>
@@ -27,10 +34,11 @@
 </div>
 <div class="below-fold">
   <div class="container pt-3 pb-3">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-2">
 [% INCLUDE collcard coll="monog" | indent(6) %]
 [% INCLUDE collcard coll="serials" | indent(6) %]
 [% INCLUDE collcard coll="govpubs" | indent(6) %]
+[% INCLUDE collcard coll="maps" | indent(6) %]
     </div>
 		<div class="border rounded pt-3 pl-3 pr-3 mb-3">
 [% INCLUDE "blocks/${c.stash.lang}/content-statement.html" | indent(8) %]

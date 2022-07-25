@@ -184,6 +184,8 @@
       this.downloadFullImage = function () {
         var downloadButton = document.getElementById("pvFullImageDownload");
         var url = downloadButton.getAttribute("data-url");
+        var origContent = downloadButton.innerHTML;
+        downloadButton.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
         $.ajax({
           url: url,
           method: "get",
@@ -208,10 +210,12 @@
               a.click();
               a.remove();  //afterwards we remove the element again
             }
+            downloadButton.innerHTML = origContent;
           },
           error: function (data) {
             that.$element.empty();
             that.$element.html("Error &mdash; Erreur");
+            downloadButton.innerHTML = origContent;
           },
         });
       };

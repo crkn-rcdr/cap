@@ -290,8 +290,25 @@ footer a {
   margin: 0 auto;
 }
 
+
 .badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  color: inherit;
   font-size: 90%;
+  background-color: $primary;
+}
+
+.full-size-download-spinner {
+  width: 24px;
+  height: 24px;
 }
 
 /* purgecss end ignore */

@@ -15,6 +15,10 @@
             "summary": {
                 "en": "The Monographs collection, spanning three and a half centuries of Canadian documentary history, holds rich primary materials exploring a wide range of subjects and disciplines.",
                 "fr": "La collection des monographies, qui couvre trois siècles et demi d’histoire canadienne, s’avère une riche source de documentation primaire pour l’exploration d’un large éventail de sujets et de disciplines."
+            },
+            "flag" : {
+              "en": "",
+              "fr": ""
             }
         },
         "serials": {
@@ -25,6 +29,10 @@
             "summary": {
                 "en": "The Serials collection includes a wide range of dailies, weeklies, specialized journals and mass-market magazines, as well as city directories and annual reports from churches, schools, and corporations.",
                 "fr": "La collection des publications en série englobe un large éventail de quotidiens, d’hebdomadaires, de revues spécialisées et de magazines grand public, ainsi que des annuaires de villes et des rapports annuels d’églises, d’écoles et de sociétés."
+            },
+            "flag" : {
+              "en": "",
+              "fr": ""
             }
         },
         "govpubs": {
@@ -35,7 +43,25 @@
             "summary": {
                 "en": "The Government Publications collection includes over 1.7 million pages of historical pre-1920 colonial, provincial and federal government documents.",
                 "fr": "La collection des publications gouvernementales d’avant 1920 contient plus de 1,7 million de pages de documents officiels et historiques de l’époque coloniale, ainsi que des gouvernements provinciaux et fédéral."
+            },
+            "flag" : {
+              "en": "",
+              "fr": ""
             }
+        },
+        "maps": {
+          "label": {
+              "en": "Maps",
+              "fr": "La collection de cartes"
+          },
+          "summary": {
+              "en": "The Maps collection currently contains nearly 24,000 Canadian maps digitized from the 1:50,000 scale National Topographic Series. The maps date from 1905 to 2012 and cover all of the Canadian provinces and territories.",
+              "fr": "La collection de cartes contient actuellement près de 24 000 cartes canadiennes numérisées à partir de la Série nationale de référence cartographique à l’échelle 1:50 000. Les cartes datent de 1905 à 2012 et couvrent l’ensemble des provinces et territoires canadiens."
+          },
+          "flag" : {
+            "en": "New",
+            "fr": "Nouveau"
+          }
         },
         "per": {
             "label": {
@@ -45,6 +71,10 @@
             "summary": {
                 "en": "",
                 "fr": ""
+            },
+            "flag" : {
+              "en": "",
+              "fr": ""
             }
         },
         "annual": {
@@ -55,6 +85,10 @@
             "summary": {
                 "en": "",
                 "fr": ""
+            },
+            "flag" : {
+              "en": "",
+              "fr": ""
             }
         },
         "news": {
@@ -65,6 +99,10 @@
             "summary": {
                 "en": "",
                 "fr": ""
+            },
+            "flag" : {
+              "en": "",
+              "fr": ""
             }
         }
     },
@@ -86,6 +124,10 @@
         "collection-govpubs": {
             "en": { "title": "Government Publications" },
             "fr": { "title": "Publications gouvernementales" }
+        },
+        "collection-maps": {
+          "en": { "title": "Maps" },
+          "fr": { "title": "La collection de cartes" }
         },
         "collection-monog": {
             "en": { "title": "Monographs" },
