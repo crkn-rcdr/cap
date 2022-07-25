@@ -185,7 +185,7 @@
         var downloadButton = document.getElementById("pvFullImageDownload");
         var url = downloadButton.getAttribute("data-url");
         var origContent = downloadButton.innerHTML;
-        downloadButton.innerHTML = "...please wait";
+        downloadButton.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
         $.ajax({
           url: url,
           method: "get",
