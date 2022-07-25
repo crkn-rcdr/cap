@@ -25,7 +25,7 @@
 [% END %]
 
 <div class="card[% IF bottom_margin %] mb-3[% END %]">
-  <h4 class="card-header">[% c.loc("L_RECORD") %]</h4>
+  <h3 class="card-header">[% c.loc("L_RECORD") %]</h3>
   <dl class="row px-4 py-3 mb-0">
 [% INCLUDE partial/document_record_entries.tt %]
     <dt class="col-md-3">[% c.loc("GENERIC_URL") %]</dt>
