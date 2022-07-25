@@ -225,6 +225,17 @@ sub iiif_annotation_page {
   return $is_root ? {_iiif_context, %$page} : $page;
 }
 
+sub iiif_thumbnail {
+  my ($self, $seq, $is_root) = @_;
+  my $item = $self->item($seq);
+  my $thumbnail = {
+    id => $self->image_client->full($item->{noid}),
+    type => "Image",
+    format => "image/jpeg"
+  };
+  return $is_root ? {_iiif_context, %$thumbnail} : $thumbnail;
+}
+
 sub iiif_canvas {
   my ($self, $seq, $is_root) = @_;
   my $item   = $self->item($seq);
@@ -234,6 +245,7 @@ sub iiif_canvas {
     label  => {none => [ $item->{label} ]},
     height => $item->{canonicalMasterHeight},
     width  => $item->{canonicalMasterWidth},
+    thumbnail => [ $self->iiif_thumbnail($seq) ],
     items  => [ $self->iiif_annotation_page($seq) ],
   };
   return $is_root ? {_iiif_context, %$canvas} : $canvas;

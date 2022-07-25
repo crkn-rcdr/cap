@@ -1,0 +1,25 @@
+[% IF c.config.environment != "production" %]
+<div class="container">
+  <div class="environment-message message-banner d-flex" id="[% c.config.environment %]">
+    <p class="my-0 py-1 px-2">
+[% IF c.stash.lang == "fr" -%]
+  [% IF c.config.environment == "demo" %]
+      <b>Il s'agit d'un environnement de démonstration.</b>
+      <br/>Tout le contenu et les URL sont susceptibles d'être modifiés à tout moment.
+  [% END -%]
+  [% IF c.config.environment == "test" %]
+      <b>Il s'agit d'un environnement de test, à utiliser par le personnel du RCDR.</b>
+  [% END -%]
+[% ELSE -%]
+  [% IF c.config.environment == "demo" %]
+      <b>This is a demo environment.</b>
+      <br/>All content and URLs are subject to change at any time.
+  [% END -%]
+  [% IF c.config.environment == "test" %]
+      <b>This is a test environment, to be used by CRKN staff.</b>
+  [% END -%]
+[% END -%]
+    </p>
+  </div>
+</div>
+[% END -%]
