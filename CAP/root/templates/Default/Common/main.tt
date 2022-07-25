@@ -47,7 +47,7 @@
       </ul>
     </div>
 ![endif]-->
-    <script src="[% c.uri_for('/static/js/cap.js', { r => 12 }) %]" type="text/javascript"></script>
+    <script src="[% c.uri_for('/static/js/cap.js', { r => 13 }) %]" type="text/javascript"></script>
 [% IF portal.ga_id -%]
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=[% portal.ga_id %]"></script>
