@@ -12,5 +12,18 @@ $font-family-sans-serif: "Roboto", sans-serif;
 }
 
 .province-card {
-  height: 10em;
+  /*height: 10em;*/
+}
+
+.ca-front-card {
+  height: 20em;
+  object-fit: cover;
+}
+
+.ca-province-card {
+  object-fit: cover;
+}
+
+.browse-province-button {
+ margin-bottom: 0.5em !important;
 }
