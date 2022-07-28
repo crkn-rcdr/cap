@@ -280,7 +280,18 @@ footer a {
 }
 
 .badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  color: white;
   font-size: 90%;
+  background-color: $primary;
 }
 
 /* purgecss end ignore */
