@@ -1,7 +1,7 @@
 ﻿[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' '); flag = portal.subcollections.$coll.flag.${lang} %]
 <div class="col mb-2">
 	<div class="card">
-		<img class="card-img-top" src="/static/images/cards/[% coll %].jpg" alt="" />
+		<img class="card-img-top ca-front-card" src="/static/images/cards/[% coll %].jpg" alt="A descriptive image" />
 		<div class="card-body">
 			<h3 class="card-title h5 font-weight-bold d-flex">
         <a href="[% c.uri_for("/collection-$coll") %]">
@@ -17,6 +17,11 @@
 			</p>
 		</div>
 		<div class="card-footer">
+
+[% IF coll == "maps" %]
+		<a href="/collection-maps-provinces">[% c.loc("L_BROWSE_MAPS_PROVINCES") %]</a>
+    &nbsp;[% c.loc("GENERIC_OR") %]&nbsp;
+[% END %]
 [% IF browselink %]
 			<a href="[% browselink %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
 [% ELSE %]

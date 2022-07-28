@@ -52,7 +52,7 @@
         "maps": {
           "label": {
               "en": "Maps",
-              "fr": "La collection de cartes"
+              "fr": "Cartes"
           },
           "summary": {
               "en": "The Maps collection currently contains nearly 24,000 Canadian maps digitized from the 1:50,000 scale National Topographic Series. The maps date from 1905 to 2012 and cover all of the Canadian provinces and territories.",
@@ -127,7 +127,11 @@
         },
         "collection-maps": {
           "en": { "title": "Maps" },
-          "fr": { "title": "La collection de cartes" }
+          "fr": { "title": "Cartes" }
+        },
+        "collection-maps-provinces": {
+          "en": { "title": "Browse by Province/Territory" },
+          "fr": { "title": "Naviguer par province/territoire" }
         },
         "collection-monog": {
             "en": { "title": "Monographs" },
