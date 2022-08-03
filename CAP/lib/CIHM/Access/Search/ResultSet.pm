@@ -72,7 +72,7 @@ has 'pubmax' => (
 	isa => Str
 );
 
-has 'plabel' => (
+has 'label' => (
 	is => 'ro',
 	isa => Str
 );
