@@ -88,7 +88,7 @@ $ pnpm exec gulp watch
 to continuously rebuid the assets while working on them, and
 
 ```
-$ pnpm exec gulp
+$ pnpm exec -r gulp
 ```
 
 to build the assets for production use. This is a very important step as the production build strips out unused [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) styles.
