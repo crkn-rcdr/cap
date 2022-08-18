@@ -89,17 +89,6 @@ header .message-banner {
   }
 }
 
-header .environment-message.message-banner {
-  padding: 1em 2em;
-  font-size: 1.2rem;
-}
-header #demo.environment-message.message-banner {
-  background: var(--yellow);
-}
-header #test.environment-message.message-banner {
-  background: var(--orange);
-}
-
 .header-title {
   @include make-col-ready();
   @include make-col(12);
@@ -290,7 +279,6 @@ footer a {
   margin: 0 auto;
 }
 
-
 .badge {
   display: inline-block;
   padding: 0.25em 0.4em;
@@ -301,14 +289,14 @@ footer a {
   vertical-align: baseline;
   border-radius: 0.25rem;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  color: inherit;
+  color: white;
   font-size: 90%;
   background-color: $primary;
 }
+
 
 .full-size-download-spinner {
   width: 24px;
   height: 24px;
 }
-
 /* purgecss end ignore */

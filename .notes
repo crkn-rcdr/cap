@@ -1,0 +1,4 @@
+convention with moo object property called items, if you need to run some code to build that property (especially lazy) create method called _build_<propname> that will do that gets called by code when referencing the items for the first time
+https://metacpan.org/pod/Moo
+
+warning about moo - sometimes say read the moose stuff about this
