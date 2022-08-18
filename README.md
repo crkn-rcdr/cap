@@ -126,4 +126,3 @@ Replace `cap` with `cap-apache` to deploy the `cap-apache` image.
 - https://pub.canadiana.ca/
 - https://sve.canadiana.ca/
 - https://www.canadiana.ca/
-
