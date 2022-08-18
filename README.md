@@ -82,16 +82,18 @@ $ pnpm install
 This directory has a [gulpfile](frontend/gulpfile.js) which contains scripts for building CAP front-end assets. Run
 
 ```
-$ pnpm exec gulp watch
+$ pnpm exec gulp watch -r
 ```
 
-to continuously rebuid the assets while working on them, and
+to continuously rebuild the assets while working on them, and
 
 ```
-$ pnpm exec -r gulp
+$ pnpm exec gulp -r
 ```
 
 to build the assets for production use. This is a very important step as the production build strips out unused [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) styles.
+
+Don't forget to update the 'r => <version>' for the cap.js import in main.tt if you've changed the JS code at all.
 
 ## Deployment
 
@@ -102,3 +104,26 @@ $ ./deployImage.sh cap
 ```
 
 Replace `cap` with `cap-apache` to deploy the `cap-apache` image.
+
+## Demo urls
+- https://gac-demo.canadiana.ca/
+- https://heritage-demo.canadiana.ca/
+- https://mcgillarchives-demo.canadiana.ca/
+- https://nrcan-demo.canadiana.ca/
+- https://numeris-demo.canadiana.ca/
+- https://parl-demo.canadiana.ca/
+- https://pub-demo.canadiana.ca/
+- https://sve-demo.canadiana.ca/
+- https://www-demo.canadiana.ca/
+
+## Production urls
+- https://gac.canadiana.ca/
+- https://heritage.canadiana.ca/
+- https://mcgillarchives.canadiana.ca/
+- https://nrcan.canadiana.ca/
+- https://numeris.canadiana.ca/
+- https://parl.canadiana.ca/
+- https://pub.canadiana.ca/
+- https://sve.canadiana.ca/
+- https://www.canadiana.ca/
+

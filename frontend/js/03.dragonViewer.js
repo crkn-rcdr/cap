@@ -181,6 +181,44 @@
           document.exitFullscreen();
         }
       };
+      this.downloadFullImage = function () {
+        var downloadButton = document.getElementById("pvFullImageDownload");
+        var url = downloadButton.getAttribute("data-url");
+        var origContent = downloadButton.innerHTML;
+        downloadButton.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
+        $.ajax({
+          url: url,
+          method: "get",
+          xhrFields:{
+              responseType: 'blob'
+          },
+          success: function(data) {
+            var slug = downloadButton.getAttribute("data-slug");
+            var seq = downloadButton.getAttribute("data-seq");
+            var filename = slug + "." + seq + '.jpg';
+
+            if (window.navigator.msSaveOrOpenBlob) {
+              // Internet Explorer
+              var blob = new Blob([data], { type: "application/octetstream" });
+              window.navigator.msSaveOrOpenBlob(blob, filename);
+            } else {
+              var url = URL.createObjectURL(data);
+              var a = document.createElement('a');
+              a.href = url;
+              a.download = filename;
+              document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+              a.click();
+              a.remove();  //afterwards we remove the element again
+            }
+            downloadButton.innerHTML = origContent;
+          },
+          error: function (data) {
+            that.$element.empty();
+            that.$element.html("Error &mdash; Erreur");
+            downloadButton.innerHTML = origContent;
+          },
+        });
+      };
     },
 
     setupControls: function () {
@@ -191,7 +229,8 @@
           selector: $(spec.selection),
           enable: function () {
             this.selector.prop("disabled", false);
-            this.selector.removeAttr("href");
+            this.selector.attr("href", "");
+            //this.selector.removeAttr("href");
             this.selector.removeClass("disabled selected hidden");
             this.selector.off(spec.eventName).on(spec.eventName, function (e) {
               e.preventDefault();
@@ -268,12 +307,18 @@
           eventName: "click",
           handler: this.exitFullscreen,
         }),
+        fullImageDownload: pvc({
+          selection: "#pvFullImageDownload",
+          eventName: "click",
+          handler: this.downloadFullImage,
+        }),
       };
 
       // These never need to be disabled.
       this.controls.rotateLeft.enable();
       this.controls.rotateRight.enable();
       this.controls.searchToggle.enable();
+      this.controls.fullImageDownload.enable();
 
       // This should be enabled now, because we don't have control over it
       this.controls.fullscreenEnter.enable();
@@ -348,7 +393,14 @@
       var $fullImage = $("#pvFullImage");
       if ($fullImage.length > 0) {
         $fullImage.attr("href", this.components[page].fullImage);
+        var downloadButton = document.getElementById("pvFullImageDownload");
+        if(downloadButton) {
+          downloadButton.setAttribute("data-url", this.components[page].fullImage);
+          downloadButton.setAttribute("data-slug", this.settings.pkey);
+          downloadButton.setAttribute("data-seq", page + 1);
+        }
       }
+      
     },
 
     zoomUpdated: function (zoom) {
