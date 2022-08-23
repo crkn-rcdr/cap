@@ -48,6 +48,7 @@ has 'sorting' => (
 	isa => HashRef[Str|CodeRef],
 	default => sub {
 		return {
+			alphabetical => 'label asc',
 			oldest => 'pubmin asc',
 			newest => 'pubmax desc',
 			random => sub { my $now = time; return "random_$now asc"; },
