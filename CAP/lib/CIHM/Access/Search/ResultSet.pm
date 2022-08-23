@@ -72,6 +72,11 @@ has 'pubmax' => (
 	isa => Str
 );
 
+has 'label' => (
+	is => 'ro',
+	isa => Str
+);
+
 # expect a hashref that needs to be mangled
 around BUILDARGS => sub {
 	my ($orig, $class, @args) = @_;
