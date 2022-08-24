@@ -51,15 +51,15 @@ sub BUILD {
 sub portal_from_host {
   my ( $self, $host ) = @_;
 
-  if( defined $host ) {
-    my $subd = substr( $host, 0, index( $host, '.' ) );
-    if ( index( $subd, '-' ) > -1 ) {
-      $subd = substr( $subd, 0, index( $subd, '-' ) );
-    }
+  return if (! defined $host);
+  
+  my $subd = substr( $host, 0, index( $host, '.' ) );
+  if ( index( $subd, '-' ) > -1 ) {
+    $subd = substr( $subd, 0, index( $subd, '-' ) );
+  }
 
-    if( exists($self->_subdomains->{$subd}) ) {
-      return $self->_portals->{$self->_subdomains->{$subd}};
-    }
+  if( exists($self->_subdomains->{$subd}) ) {
+    return $self->_portals->{$self->_subdomains->{$subd}};
   }
 }
 
