@@ -1,5 +1,6 @@
 [% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
 <header>
+[% INCLUDE partial/environment_banner.tt | indent(2) %]
 [% INCLUDE partial/message_banner.tt | indent(2) %]
 	<a class="banner container" href="/"><span class="sr-only">[% c.portal_title %]</span></a>
 	<nav>

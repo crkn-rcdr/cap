@@ -1,116 +1,94 @@
 <h3>Browsing and Searching</h3>
 
 <p>
-  The collections in the database can be accessed using browse or search.
+  Access the collections in the database using either the Browse function or the Search function
 </p>
 
 <h3>Browse</h3>
 
 <p>
-  The <b>Browse</b> function is on the left-hand side of the home page. The
-  Browse function can be accessed from the menu in the top right corner. Browse
-  allows you to locate a specific volume in a given parliament and session. Once
-  a volume is selected, you can view it and search further within it.
+  The <b>Browse</b> function on the left-hand side of the home page features a list of the Senate and House of Commons collections that are available. Click on a collection to drill down to a specific volume in a given parliament, session or year. Select a volume to view and search that volume.
 </p>
-
 <p>
-  Once you have selected a volume, use the
-  <b>Search within this volume:</b> search box located in the top left side of
-  the viewer to search for keywords within the volume. A list of matching pages
-  (listed as numbered images) that contain the search terms will appear below
-  the search box. Click on each page in turn to view it (the list of matching
-  pages for your search remains on the page while you view individual pages).
+  To search the selected volume, click on the <b>magnifying glass icon ("Show/hide full-text search")</b> beneath the image viewer. Enter keywords in the text box and click "Search." A list of pages that contain the search term(s) will appear below the search box. Click on any page to view it.
 </p>
 
 <h3>Search</h3>
 
 <p>
-  The <b>Search</b> function is on the right-hand side of the home page and
-  allows for searching the full text content of the portal. By selecting or
-  deselecting the various checkboxes or using the drop-down menus, you can
-  search within specific types of publications, or narrow your search by
-  chamber, parliament, language and date.
+  Use the <b>Search</b> function on the right-hand side of the home page to query the full-text content of collection. Narrow your search by: selecting or deselecting publication types from various options; using the drop-down menus to limit your search by chamber, parliament and language; or entering a date range. 
 </p>
 
 <p>
-  Search terms are not case- or accent-sensitive: searching for
+  Search terms are not case- or accent-sensitive; searching for
   <code>Français</code> or for <code>francais</code> will produce the same
   result.
 </p>
 
 <p>
-  You can access the home page with both the <b>Browse</b> and
-  <b>Search</b> functions by selecting the <b>New Search</b> option in the menu
-  in the top right corner.
+  Use the following features to refine your search:
 </p>
 
-<p>
-  You can use the following features to refine searches:
-</p>
-
-<h4>Wildcards: ? and *</h4>
+<h4>Wildcards: <code>?</code> and <code>*</code></h4>
 
 <p>
-  Use <code>?</code> in the middle or at the end of a word to match any one
-  character. Use <code>*</code> to match any number of characters (including
+  Use <code>?</code> (question mark) in the middle or at the end of a word to match any one
+  character. Use <code>*</code> (asterisk) to match any number of characters (including
   zero). For example:
 </p>
 
 <ul>
   <li>
-    To find either <code>defence</code> or <code>defense</code>:
+    To find either <code>defence</code> or <code>defense</code>, enter:
     <strong><a href="/search?q0.0=defen%3Fe">defen?e</a></strong>
   </li>
   <li>
-    To find either <code>labour</code> or <code>labor</code>:
+    To find either <code>labour</code> or <code>labor</code>, enter:
     <strong><a href="/search?q0.0=labo*r">labo*r</a></strong>
   </li>
 </ul>
 
-<h4>Phrases: " "</h4>
+<h4>Phrases: <code>" "</code></h4>
 
 <p>
-  To search for an exact phrase, enclose all of the words in double quotes. You
-  cannot use wildcards within a phrase. For example:
+  To search for an exact phrase, enclose all of the words in double quotation marks. You cannot use wildcards within a phrase. For example:
 </p>
 
 <ul>
   <li>
     To find documents that contain the phrase
-    <code>quebec city</code> and not just the individual terms
-    <code>quebec</code> and <code>city</code>:
+    "<code>Quebec City</code>" and not just the individual words
+    <code>Quebec</code> and <code>city</code>, enter: 
     <strong><a href='/search?q0.0="quebec+city"'>"quebec city"</a></strong>
   </li>
 </ul>
 
-<h4>Excluded terms: -</h4>
+<h4>Excluded terms: <code>-</code></h4>
 
 <p>
-  Use <code>-</code> (a hyphen) in front of a word or phrase to indicate that
-  the term must not appear in the record. For example:
+  To exclude a word or phrase from your search, add a <code>-</code> (hyphen or minus sign) before the word or phrase. For example: 
 </p>
 
 <ul>
   <li>
-    To find documents that contain <code>paris</code> but not
-    <code>france</code>:
+    To find documents that contain <code>Paris</code> but not
+    <code>France</code>, enter:
     <strong
       ><a href="/search/?q0.0=paris&amp;q1.0=-france">paris -france</a></strong
     >
   </li>
 </ul>
 
-<h4>Alternative terms: |</h4>
+<h4>Alternative terms: <code>|</code></h4>
 
 <p>
-  To match any one of a number of alternative terms, put a
-  <code>|</code> between them. For example:
+  To match any one of a number of alternative terms, insert a <code>|</code> (vertical line) between them. For example:
 </p>
 
 <ul>
   <li>
-    To find <code>ontario</code> and either <code>york</code> or
-    <code>toronto</code>:
+    To find <code>Ontario</code> and either <code>York</code> or
+    <code>Toronto</code>:
     <strong
       ><a href="/search/?q0.0=canada&amp;q1.0=york&amp;q1.1=toronto"
         >ontario york | toronto</a
@@ -119,57 +97,32 @@
   </li>
 </ul>
 
-<h3>Sort Research Results</h3>
+<h3>Interpreting search results</h3>
 
 <p>
-  By default, search results are presented in order of relevance based on the
-  search terms used. On your search results page, you can change the sort order
-  to start with “newest” first or “oldest” first.
+  When all of the keywords used in the search appear in the same image (or on the same page in a volume), all corresponding images will appear below the volume title. If the keywords searched do not all appear in the same image, the message "No matching images found" will appear below the volume title.
 </p>
 
-<h3>Page Viewer</h3>
+<h3>Sort search results</h3>
 
 <p>
-  Once you have selected a volume, use the functions of the page viewer to
-  select a specific image number, to scroll through the volume, to rotate an
-  image left or right, and to zoom in on or out of the page image.
+  By default, search results are presented in order of relevance based on the search terms used. The search results page gives the option to re-sort results by newest (descending) or oldest (ascending) item.
 </p>
 
-<h3>Share</h3>
+<h3>Image viewer</h3>
 
 <p>
-  If you want to share your search results, on your search results page you can
-  copy the entire link in the address bar of your browser into an email.
-</p>
-
-<p>
-  Each volume also has its own permanent URL if you wish to bookmark it or share
-  the link. You can find this link if you select the page viewer’s
-  <b>About</b> tab, located to the right of the <b>View</b> tab.
-</p>
-
-<p>
-  To create a permanent link to a specific page of a publication, copy the URL
-  found in your browser up to (but not including) the “?”. Paste this shortened
-  link into an email or other document. This creates a direct link to the page.
+  Search a selected volume using the upper and lower toolbars in the image viewer. Use the upper toolbar to view a specific image, scroll through the volume, rotate an image left or right, and zoom in on or out of the image. Use the bottom toolbar to search within the volume, view a full-size image in its original resolution, download an image or enter full screen mode.
 </p>
 
 <h3>Download</h3>
+<p>Single page downloads (individual PDF files for each image) are available for all collections; full volume downloads are also available for the Debates, Journals and House of Commons Sessional Papers.</p>
 
+
+<h3>If you need more help</h3>
 <p>
-  Full volumes of the debates, journals and sessional papers can be downloaded,
-  while single pages from committee documentation, bills, Senate Minutes of
-  Proceedings, the Rules of the Senate, the House of Commons Votes and
-  Proceedings, and the Standing Orders of the House of Commons can be
-  downloaded.
+  Please send your questions or comments to <a href="mailto:info@parl.gc.ca">info@parl.gc.ca</a>.
 </p>
-
-<h3>If You Need More Help</h3>
-
 <p>
-  You are welcome to report any difficulties you are experiencing with the
-  portal. Your help in improving the quality of the
-  <b><i>Canadian Parliamentary Historical Resources</i></b> portal is
-  invaluable. Please direct any questions or comments to
-  <a href="mailto:info@parl.gc.ca">info@parl.gc.ca</a>.
+  We welcome your feedback about any difficulties you may have experienced while using <i>Canadian Parliamentary Historical Resources.</i> Your help improving users' experience with this collection is invaluable.
 </p>
