@@ -38,5 +38,9 @@
 	"qmma": {
 		"en":"McGill University Archives",
 		"fr":"Les archives de l'Université McGill"
+	},
+	"sru": {
+		"en": "University of Regina Archives",
+		"fr": "University of Regina Archives"
 	}
 }
