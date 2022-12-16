@@ -6,6 +6,8 @@ use Moose;
 use namespace::autoclean;
 use Scalar::Util qw/looks_like_number/;
 use Types::Standard qw/Int/;
+use HTML::Escape qw/escape_html/;
+use JSON;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -16,7 +18,6 @@ has 'matching_page_limit' => (
   required => 1
 );
 
-use JSON;
 sub index : Path('') {
   my ( $self, $c, $handler, $page ) = @_;
   $page =
@@ -64,7 +65,9 @@ sub index : Path('') {
     match_pages    => $search->{query}->has_text_terms,
     search_params  => handle_params($c->req->params),
     search_handler => $handler,
-    template       => 'search.tt'
+    template       => 'search.tt',
+    p  => to_json(handle_params($c->req->params)),
+
   );
 
   return 1;
@@ -115,29 +118,40 @@ sub post : Local {
 
 sub slug_sanitize {
   my ( $text ) = @_;
-  $text =~ s/[^A-Za-z0-9\.]//g; # Replace all non-alphanumericals or . with ""
+  if(defined $text) {
+    $text =~ s/[^A-Za-z0-9\.]//g;
+  } else {
+    $text = "";
+  }
   return $text;
 }
 
 sub make_slug {
   my ($array) = @_;
+  my $i = 0;
   foreach ($array) {
-    $a = slug_sanitize($_);
+    $array->[$i] = slug_sanitize($array->[$i]);
+    $i = $i + 1;
   }
   return $array;
 }
 
-use HTML::Escape qw/escape_html/;
 sub html_sanitize {
   my ( $text ) = @_;
-  my $escaped = escape_html($text);
-  return $escaped;
+  if(defined $text) {
+    $text = escape_html($text);
+  } else {
+    $text = "";
+  }
+  return $text;
 }
 
 sub make_escaped {
   my ($array) = @_;
+  my $i = 0;
   foreach ($array) {
-    $a = html_sanitize($_);
+    $array->[$i] = html_sanitize($array->[$i]);
+    $i = $i + 1;
   }
   return $array;
 }
@@ -157,7 +171,7 @@ sub make_singleton {
 sub handle_params {
   my ($params) = @_;
   return {
-    pkey  => make_slug(html_sanitize(make_singleton($params->{pkey}))),
+    pkey  => slug_sanitize(html_sanitize(make_singleton($params->{pkey}))),
     sort  => html_sanitize(make_singleton($params->{so} // "score")),
     df    => html_sanitize(make_singleton($params->{df})),
     dt    => html_sanitize(make_singleton($params->{dt})),
