@@ -65,9 +65,7 @@ sub index : Path('') {
     match_pages    => $search->{query}->has_text_terms,
     search_params  => handle_params($c->req->params),
     search_handler => $handler,
-    template       => 'search.tt',
-    p  => to_json(handle_params($c->req->params)),
-
+    template       => 'search.tt'
   );
 
   return 1;

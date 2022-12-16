@@ -1,5 +1,3 @@
-P: [% c.stash.p %]
-<br/>
 <label for="query">[% c.loc("L_SEARCH_REFINE") %]</label>
 <input type="text" id="query" class="form-control form-control-lg" name="q" value="[% query | html %]" />
 [% IF search_params.pkey && c.portal_id != "sve" -%]
