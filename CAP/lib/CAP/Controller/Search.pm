@@ -7,7 +7,6 @@ use namespace::autoclean;
 use Scalar::Util qw/looks_like_number/;
 use Types::Standard qw/Int/;
 use HTML::Escape qw/escape_html/;
-use JSON;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
