@@ -227,7 +227,7 @@ sub leaf_to_string {
   if(defined $node->[1] && defined $node->[2]) {
     my $pub  = $self->_publications->{$lang}->{ $node->[1] . $node->[2] };
 
-    if ( $node->[3] ) {
+    if (defined $pub && defined $node->[3] ) {
       my $pl      = $lang eq 'fr' ? 'Législature' : 'Parliament';
       my $p       = $self->_ordinate( ( substr $node->[3], 0, 2 ) + 0, $lang );
       my $s       = $self->_ordinate( ( substr $node->[3], 3, 1 ) + 0, $lang );
@@ -236,8 +236,7 @@ sub leaf_to_string {
     } else {
       return $pub;
     }
-  } else {
-    return '';
   }
+  return '';
 }
 1;
