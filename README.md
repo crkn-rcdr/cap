@@ -100,10 +100,8 @@ Don't forget to update the 'r => <version>' for the cap.js import in main.tt if 
 Use the following to deploy the `cap` image to our internal docker repository:
 
 ```
-$ ./deployImage.sh cap
+$ ./deployImage.sh
 ```
-
-Replace `cap` with `cap-apache` to deploy the `cap-apache` image.
 
 ## Demo urls
 - https://gac-demo.canadiana.ca/
