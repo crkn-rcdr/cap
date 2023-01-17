@@ -279,7 +279,7 @@ sub iiif_manifest {
         }]
       }
     ],
-    metadata => {},
+    metadata => [],
     items    => [ map { $self->iiif_canvas($_) } 1 .. @{$self->items} ]};
 }
 
