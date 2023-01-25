@@ -1,16 +1,6 @@
 version: "3"
 
 services:
-  cap-apache:
-    build: apache/.
-    image: cap-apache:latest
-    container_name: cap-apache
-    # If you want to keep the Apache logs, mount the volume externally
-    # volumes:
-    #   - "./apachelogs:/usr/local/apache2/logs"
-    networks:
-      access-platform:
-        ipv4_address: 172.30.0.4
   cap:
     build: CAP/.
     image: cap:latest
