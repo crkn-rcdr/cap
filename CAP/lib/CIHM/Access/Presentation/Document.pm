@@ -275,7 +275,7 @@ sub iiif_manifest {
           en => ["Canadian Research Knowledge Network"],
           fr => ["Réseau canadien de documentation pour la recherche"]
         },
-        homepage => {
+        homepage => [{
           id    => "https://www.crkn-rcdr.ca/",
           type  => "Text",
           label => {
@@ -283,9 +283,10 @@ sub iiif_manifest {
             fr => ["Réseau canadien de documentation pour la recherche"]
           },
           format => "text/html"
-        }}
+        }]
+      }
     ],
-    metadata => {},
+    metadata => [],
     items    => [ map { $self->iiif_canvas($_) } 1 .. @{$self->items} ]};
 }
 

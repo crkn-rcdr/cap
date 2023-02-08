@@ -8,5 +8,8 @@
   <a href="[% c.loc("URL_CRKN") %]">[% c.loc("L_CRKN_SHORT") %]</a>
 </li>
 <li>
+  <a href="[% c.loc("URL_NEW") %]">[% c.loc("L_NEW") %]</a>
+</li>
+<li>
   <a href="[% c.loc("URL_CONTACT") %]">[% c.loc("L_CONTACT") %]</a>
 </li>
