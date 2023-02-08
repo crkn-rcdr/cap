@@ -173,12 +173,17 @@ sub canonical_label {
     . $self->record->{label};
 }
 
-# Once multi-page PDF generation is sorted out, we won't need to source these from
-# the preservation Swift repository any more.
+# Checks the access repository for a multi-page PDF, falls back to preservation, or returns undefined.
 sub item_download {
   my ($self) = @_;
-  my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
-  return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
+  if( $self->record->{ocrPdf} ) {
+    my $item_download =  join('.', $self->record->{noid}, $self->record->{ocrPdf}{extension});
+    return $item_download ? $self->swift_client->access_uri("", $item_download) : undef;
+  } elsif ( $self->record->{canonicalDownload} ) {
+    my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
+    return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
+  }
+  return undef;
 }
 
 sub _iiif_context {
