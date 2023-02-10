@@ -37,11 +37,12 @@ sub set_lang {
   my @supported_langs = keys %{ $config->{languages} };
 
   if ( $request->params->{usrlang} &&
-    exists( $config->{languages}->{$request->params->{usrlang} } ) ) {
+    grep( $request->params->{usrlang}, @supported_langs ) ) {
     $lang = $request->params->{usrlang};
   } elsif (
     $request->cookie( $config->{cookies}->{lang} ) &&
-    exists( $config->{languages}->{$request->cookie( $config->{cookies}->{lang} )->value} )
+    grep( $request->cookie( $config->{cookies}->{lang} )->value,
+      @supported_langs )
   ) {
     $lang = $request->cookie( $config->{cookies}->{lang} )->value;
   } elsif ( $request->header('Accept-Language') ) {
@@ -50,9 +51,7 @@ sub set_lang {
       my ($value) = split( ';q=', $accept_lang );
       if ($value) {
         $value = lc( substr( $value, 0, 2 ) );
-        if ( 
-          exists( $config->{languages}->{$value} )
-        ) {
+        if ( grep $value, @supported_langs ) {
           $lang = $value;
           last;
         }
@@ -60,7 +59,7 @@ sub set_lang {
     }
   }
 
-  # Return the user interface language. If none is set, use the portal 
+  # Return the user interface language. If none is set, use the portal
   # default. Failing that, fall back to English.
   return $lang || 'en';
 }

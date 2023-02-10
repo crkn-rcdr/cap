@@ -6,7 +6,6 @@ use Moose;
 use namespace::autoclean;
 use Scalar::Util qw/looks_like_number/;
 use Types::Standard qw/Int/;
-use HTML::Escape qw/escape_html/;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -33,14 +32,6 @@ sub index : Path('') {
 
   # Run the main search
   my $search;
-
-
-  while (my ($key, $value) = each(%{ $c->req->params })) {
-    if(index($key, 'q') != -1) {
-      $c->req->params->{$key} = html_sanitize($value);
-    }
-  }
-  
   eval {
     $search = $c->model('Search')->dispatch(
       $handler,
@@ -62,9 +53,9 @@ sub index : Path('') {
     resultset      => $search->{resultset},
     query          => $search->{query}->to_cap,
     match_pages    => $search->{query}->has_text_terms,
-    search_params  => handle_params($c->req->params),
+    search_params  => handle_params( $c->req->params ),
     search_handler => $handler,
-    template       => 'search.tt'
+    template       => 'search.tt',
   );
 
   return 1;
@@ -113,72 +104,20 @@ sub post : Local {
   $c->detach();
 }
 
-sub slug_sanitize {
-  my ( $text ) = @_;
-  if(defined $text) {
-    $text =~ s/[^A-Za-z0-9\.]//g;
-  } else {
-    $text = "";
-  }
-  return $text;
-}
-
-sub make_slug {
-  my ($array) = @_;
-  my $i = 0;
-  foreach ($array) {
-    $array->[$i] = slug_sanitize($array->[$i]);
-    $i = $i + 1;
-  }
-  return $array;
-}
-
-sub html_sanitize {
-  my ( $text ) = @_;
-  if(defined $text) {
-    $text = escape_html($text);
-  } else {
-    $text = "";
-  }
-  return $text;
-}
-
-sub make_escaped {
-  my ($array) = @_;
-  my $i = 0;
-  foreach ($array) {
-    $array->[$i] = html_sanitize($array->[$i]);
-    $i = $i + 1;
-  }
-  return $array;
-}
-
-sub make_singleton {
-  my ($ref) = @_;
-  if ($ref) {
-    if ( ref $ref eq 'ARRAY' ) {
-      $ref = $ref->[0];
-    }
-  } else {
-    $ref = '';
-  }
-  return $ref;
-}
-
 sub handle_params {
   my ($params) = @_;
   return {
-    pkey  => slug_sanitize(html_sanitize(make_singleton($params->{pkey}))),
-    sort  => html_sanitize(make_singleton($params->{so} // "score")),
-    df    => html_sanitize(make_singleton($params->{df})),
-    dt    => html_sanitize(make_singleton($params->{dt})),
-    field => html_sanitize(make_singleton($params->{field})),
-    lang  => make_escaped(make_array($params->{lang})),
-    depositor    => make_escaped(make_slug(make_array( $params->{depositor}))),
-    collection   => make_escaped(make_slug(make_array( $params->{collection}))),
-    parl_type    => make_escaped(make_array($params->{type} )),
-    parl_chamber => make_escaped(make_array($params->{chamber})),
-    parl_session => make_escaped(make_array($params->{session})),
+    pkey  => $params->{pkey}  // "",
+    sort  => $params->{so}    // "score",
+    df    => $params->{df}    // "",
+    dt    => $params->{dt}    // "",
+    field => $params->{field} // "",
+    lang  => make_array( $params->{lang} ),
+    depositor    => make_array( $params->{depositor} ),
+    collection   => make_array( $params->{collection} ),
+    parl_type    => make_array( $params->{type} ),
+    parl_chamber => make_array( $params->{chamber} ),
+    parl_session => make_array( $params->{session} ),
   };
 }
 

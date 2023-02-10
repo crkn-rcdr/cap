@@ -216,27 +216,17 @@ sub _ordinate {
 
 sub leaf_to_string {
   my ( $self, $node ) = @_;
+  my $lang = $node->[0] eq 'fra' ? 'fr' : 'en';
+  my $pub  = $self->_publications->{$lang}->{ $node->[1] . $node->[2] };
 
-  my $lang = 'en';
-  if (defined $node && defined $node->[0]) {
-    if( $node->[0] eq 'fra' ) {
-      $lang = 'fr';
-    }
+  if ( $node->[3] ) {
+    my $pl      = $lang eq 'fr' ? 'Législature' : 'Parliament';
+    my $p       = $self->_ordinate( ( substr $node->[3], 0, 2 ) + 0, $lang );
+    my $s       = $self->_ordinate( ( substr $node->[3], 3, 1 ) + 0, $lang );
+    my $session = "$p $pl, $s Session";
+    return "$pub, $session";
+  } else {
+    return $pub;
   }
-
-  if(defined $node->[1] && defined $node->[2]) {
-    my $pub  = $self->_publications->{$lang}->{ $node->[1] . $node->[2] };
-
-    if (defined $pub && defined $node->[3] ) {
-      my $pl      = $lang eq 'fr' ? 'Législature' : 'Parliament';
-      my $p       = $self->_ordinate( ( substr $node->[3], 0, 2 ) + 0, $lang );
-      my $s       = $self->_ordinate( ( substr $node->[3], 3, 1 ) + 0, $lang );
-      my $session = "$p $pl, $s Session";
-      return "$pub, $session";
-    } else {
-      return $pub;
-    }
-  }
-  return '';
 }
 1;
