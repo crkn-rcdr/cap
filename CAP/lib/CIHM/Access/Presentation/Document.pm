@@ -176,7 +176,7 @@ sub canonical_label {
 # Checks the access repository for a multi-page PDF, falls back to preservation, or returns undefined.
 sub item_download {
   my ($self) = @_;
-  if( $self->record->{ocrPdf} ) {
+  if( (ref $self->record->{ocrPdf} eq "HASH" ) && $self->record->{ocrPdf}->{extension} ) {
     my $slug = $self->record->{_id}; 
     my $item_download =  join('.', $self->record->{noid}, $self->record->{ocrPdf}{extension});
     my $item_filename =  join('.', $slug, $self->record->{ocrPdf}{extension});
