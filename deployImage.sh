@@ -40,7 +40,7 @@ fi
 TAG=`date -u +"%Y%m%d%H%M%S"`
 
 echo
-echo "Tagging cap$IMAGEEXT:latest as docker.c7a.ca/cap$IMAGEEXT:$TAG"
+echo "Tagging cap:latest as docker.c7a.ca/cap$IMAGEEXT:$TAG"
 
 docker tag cap:latest docker.c7a.ca/cap$IMAGEEXT:$TAG
 
