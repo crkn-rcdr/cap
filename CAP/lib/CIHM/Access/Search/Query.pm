@@ -6,6 +6,7 @@ use strictures 2;
 use Moo;
 use List::Util qw/reduce/;
 use Types::Standard qw/HashRef ArrayRef Str Bool/;
+use HTML::Escape qw/escape_html/;
 
 has 'schema' => (
 	is => 'ro',
@@ -41,7 +42,11 @@ has 'cap_query' => (
 
 sub to_cap {
 	my ($self) = @_;
-	return $self->cap_query;
+	if(defined $self->cap_query) {
+		return escape_html($self->cap_query);
+	} else {
+		return "";
+	}
 }
 
 has 'query_terms' => (
