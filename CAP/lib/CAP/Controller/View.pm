@@ -59,11 +59,12 @@ sub view_item : Private {
       unless $item->has_child($seq);
 
     $c->stash(
-      item          => $item,
-      record        => $item->record,
-      item_download => $item->item_download,
-      seq           => $seq,
-      template      => "view_item.tt"
+      item               => $item,
+      record             => $item->record,
+      item_download      => $item->item_download,
+      item_download_size => $item->item_download_size,
+      seq                => $seq,
+      template           => "view_item.tt"
     );
   } elsif ($item->item_mode eq "pdf") {
     $c->stash(

@@ -8,6 +8,7 @@ use Types::Standard qw/HashRef ArrayRef Str/;
 use List::Util qw/min max/;
 use POSIX qw/ceil/;
 use List::MoreUtils qw/any/;
+use Number::Bytes::Human qw(format_bytes);
 
 has 'record' => (
   is       => 'ro',
@@ -184,6 +185,18 @@ sub item_download {
   } elsif ( $self->record->{canonicalDownload} ) {
     my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
     return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
+  }
+  return undef;
+}
+
+# Checks the access repository for a multi-page PDF, falls back to preservation, or returns undefined.
+sub item_download_size {
+  my ($self) = @_;
+  if( (ref $self->record->{ocrPdf} eq "HASH" ) && $self->record->{ocrPdf}->{size} ) {
+    return format_bytes($self->record->{ocrPdf}->{size});
+  } elsif ( $self->record->{canonicalDownload} ) {
+    my $size = defined $self->record->{file} ? $self->record->{file}->{size} : undef;
+    return $size ? format_bytes($size) : undef;
   }
   return undef;
 }
