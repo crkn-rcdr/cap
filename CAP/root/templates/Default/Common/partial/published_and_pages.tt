@@ -23,16 +23,43 @@
 		END;
 	END; %]
 [% IF list.size %]
-	<p>
-	  [% list.unique.join('; ') %]
-	  [% IF result.component_count_fulltext -%]
+	<div>
+		[% IF result.type == 'document' -%]
 		  <button class="btn btn-sm text-aligned" data-toggle="tooltip" data-placement="right" title="[% c.loc("L_SEARCH_PP_FT_TOOLTIP") %]">
-		    <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="20" height="22" fill="currentColor" viewBox="0 0 16 16">
-				<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-				<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-			</svg>
+		    <svg enable-background="new 0 0 50 50" height="20" width="20" id="Layer_1" version="1.1" viewBox="0 0 50 50"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><circle cx="25" cy="25" fill="none" r="24" stroke="#000000" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3"/><rect fill="none" height="50" width="50"/><path d="M23.779,16.241c-0.216,0-0.357-0.144-0.357-0.359v-2.618c0-0.215,0.142-0.359,0.357-0.359h2.439  c0.215,0,0.359,0.144,0.359,0.359v2.618c0,0.215-0.145,0.359-0.359,0.359H23.779z M23.852,37.293c-0.215,0-0.358-0.143-0.358-0.358  V20.473c0-0.215,0.144-0.359,0.358-0.359h2.295c0.216,0,0.359,0.144,0.359,0.359v16.462c0,0.216-0.144,0.358-0.359,0.358H23.852z"/></svg>
 		    <span class="sr-only">[% c.loc("L_HELP") %]</span>
 	      </button>
-    [% END -%]
-	</p>
+		  [% list.unique.join('; ') %]
+		[% END -%]
+	</div>
 [% END %]
+
+<!--todo, lang-->
+
+<span class="icon-text-wrap">
+	<span class="icon text-aligned">
+		<svg height="26" width="26" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><polygon points="288,144 288,160 400,160 400,432 112,432 112,160 224,160 224,144 96,144 96,448 416,448 416,144   "/></g><g><polygon points="193.1,252.3 181.5,263.9 256,338.4 330.5,263.9 318.9,252.3 264.2,307 264.2,64 247.8,64 247.8,307   "/></g></g></svg>
+	</span>
+	<span>
+		[% IF item_download_size %]
+			<a href="[% item_download %]">
+				Download full [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] as PDF ([% item_download_size %])
+			</a>
+		[% ELSE %]
+			Full [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] PDF download not available
+		[% END %]
+	</span>
+</span>
+
+<span class="icon-text-wrap dl-help">
+	<span class="icon text-aligned">
+		<svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="20" height="22" fill="currentColor" viewBox="0 0 16 16">
+			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+		</svg>
+	</span>
+	
+	<span>For help and additional download options, please see our <a href="https://www.crkn-rcdr.ca/en/documentation" target="_blank">documentation</a> <!--[% c.loc("L_HELP") %]--></span>
+</span>
+<br/>
+<br/>
