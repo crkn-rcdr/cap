@@ -337,3 +337,21 @@ code {
 .dl-help {
   margin-left: 3px;
 }
+
+.dl-full-txt:hover {
+  text-decoration:underline !important;
+}
+
+.ghost-button {
+  background: none;
+  border-color: white;
+}
+
+.ghost-button:hover {
+  cursor:pointer;
+  background: none;
+  border-color: white;
+  color: $primary;
+  text-decoration:underline !important;
+}
+
