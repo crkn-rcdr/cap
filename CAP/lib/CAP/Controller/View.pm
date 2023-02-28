@@ -55,14 +55,11 @@ sub view_item : Private {
   if ( $item->has_children ) {
     $seq = $item->first_component_seq unless ( $seq && $seq =~ /^\d+$/ );
 
-    
-
     # Make sure the requested page exists.
     $c->detach( "/error", [404, "Page not found: $seq"] )
       unless $item->has_child($seq);
 
     my $child_key = join( '.', $item->record->{key}, $seq);
-    
     my $canvas = $c->model('Presentation')->fetch( $child_key, $c->portal_id, $c->req->uri->host );
     my $child_size = $canvas->record->{canonicalMasterSize};
     if( $child_size ) {
