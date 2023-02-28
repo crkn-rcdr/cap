@@ -84,7 +84,8 @@ sub _build_items {
           %{$component_record},
           seq => $seq,
           iiif_image_info => $self->image_client->info($noid),
-          iiif_image_full => $self->image_client->full($noid)
+          iiif_image_full => $self->image_client->full($noid),
+          #download_size => "moo"
         };
 
         if ($component_record->{canonicalDownload}) {
@@ -96,9 +97,7 @@ sub _build_items {
         ) {
           # This generates the URL for a single page from the access-files Swift repository.
           my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
-
           my $filename = join('.', $page_slug, $component_record->{canonicalDownloadExtension});
-
           $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
         }
 
@@ -166,6 +165,37 @@ sub first_component_seq {
   }
 
   return 1;
+}
+
+sub first_component_size {
+  my ($self, $seq) = @_;
+  my $page_slug        = $self->record->{order}[ $seq - 1 ];
+  my $component_record = $self->record->{components}{$page_slug};
+  my $noid             = $component_record->{noid};
+
+  my $r = {
+    %{$component_record},
+    seq => $seq,
+    iiif_image_info => $self->image_client->info($noid),
+    iiif_image_full => $self->image_client->full($noid),
+    #download_size => "moo"
+  };
+
+  if ($component_record->{canonicalDownload}) {
+    # Not likely in use any more, but this is how single-page PDFs are found in the preservation Swift repository.
+    my $obj_path = $component_record->{canonicalDownload};
+    $r->{download_uri} = $self->swift_client->preservation_uri($obj_path);
+  } elsif (
+    $component_record->{canonicalDownloadExtension}
+  ) {
+    # This generates the URL for a single page from the access-files Swift repository.
+    my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
+    my $filename = join('.', $page_slug, $component_record->{canonicalDownloadExtension});
+    $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
+  }
+
+  return $self->swift_client->file_size($r->{download_uri});
+  #$r->{download_size} = "moooo2";
 }
 
 sub canonical_label {

@@ -46,3 +46,24 @@
   <span class="sr-only">[% label %]</span>
 </[% tag %]>
 [% END %]
+
+
+Maybeee???
+[% first_child.iiif_image_full %]
+
+------ jpeg size: 
+
+[% child_size %] 
+
+---
+
+
+Maybeee???
+[% first_child.download_uri %] 
+
+
+------ pdf size:
+
+[% pdf_size %] 
+
+ ---
