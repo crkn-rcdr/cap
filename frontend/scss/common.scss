@@ -316,3 +316,24 @@ footer a {
 code {
   color: #A30049 !important; // wcag fix! 
 }
+
+.icon {
+  padding: 0.25rem 0.4rem;
+  font-size: .875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  margin-right: 5px;
+}
+
+.icon-text-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.dl-full {
+  margin-right: 1rem;
+}
+
+.dl-help {
+  margin-left: 3px;
+}
