@@ -36,22 +36,43 @@
 
 <!--todo, lang-->
 
-<span class="icon-text-wrap">
+<span class="icon-text-wrap dl-full">
 	<span class="icon text-aligned">
 		<svg height="26" width="26" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><polygon points="288,144 288,160 400,160 400,432 112,432 112,160 224,160 224,144 96,144 96,448 416,448 416,144   "/></g><g><polygon points="193.1,252.3 181.5,263.9 256,338.4 330.5,263.9 318.9,252.3 264.2,307 264.2,64 247.8,64 247.8,307   "/></g></g></svg>
 	</span>
 	<span>
 		[% IF item_download_size %]
 			<a href="[% item_download %]">
-				Download full [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] as PDF ([% item_download_size %])
+				[% IF lang == 'fr' -%]
+					[% IF c.portal_id == 'parl' %] 
+						Télécharger le volume entier en PDF
+					[% ELSIF c.portal_id == 'heritage' %] 
+						Télécharger la reel entière en PDF
+					[% ELSE %] 
+						Télécharger le document complet en PDF
+					[% END %]
+				[% ELSE -%]
+					Download entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] as a PDF ([% item_download_size %])
+				[% END -%]
 			</a>
 		[% ELSE %]
-			Full [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] PDF download not available
+			[% IF lang == 'fr' -%]
+				[% IF c.portal_id == 'parl' %] 
+					Le téléchargement de l'ensemble du volume n'est pas disponible
+				[% ELSIF c.portal_id == 'heritage' %] 
+					Le téléchargement de la reel entière n'est pas disponible
+				[% ELSE %] 
+					Le téléchargement du document entier n'est pas disponible
+				[% END %]
+			[% ELSE -%]
+				Entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] PDF download not available
+			[% END -%]
+
 		[% END %]
 	</span>
 </span>
 
-<span class="icon-text-wrap dl-help">
+<span class="icon-text-wrap">
 	<span class="icon text-aligned">
 		<svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="20" height="22" fill="currentColor" viewBox="0 0 16 16">
 			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -59,7 +80,7 @@
 		</svg>
 	</span>
 	
-	<span>For help and additional download options, please see our <a href="https://www.crkn-rcdr.ca/en/documentation" target="_blank">documentation</a> <!--[% c.loc("L_HELP") %]--></span>
+	<span>[% c.loc("L_DOWNLOAD_DOCS_PRE") %] <a href="[% c.loc("URL_DOWNLOAD_DOCS") %]" target="_blank">[% c.loc("L_DOWNLOAD_DOCS") %]</a> <!--[% c.loc("L_HELP") %]--></span>
 </span>
 <br/>
 <br/>

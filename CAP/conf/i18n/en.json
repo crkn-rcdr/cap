@@ -30,6 +30,8 @@
   "L_DATE_RANGE_RESULTS_FROM": "Results from %1 onward.",
   "L_DATE_RANGE_RESULTS_TO": "Results up to %1.",
   "L_DATE_RANGE_TO": "to",
+  "L_DOWNLOAD_DOCS" : "documentation",
+  "L_DOWNLOAD_DOCS_PRE" :"For help and additional download options, please see our",
   "L_ERROR_400_HEADER": "Bad Request",
   "L_ERROR_400_TEXT": "The page you requested cannot be displayed.",
   "L_ERROR_404_HEADER": "Page Not Found",
@@ -146,7 +148,7 @@
   "L_VIEWER_DOWNLOAD_FULL": "Download PDF (full document)",
   "L_VIEWER_FIRST": "First image",
   "L_VIEWER_FULL_IMAGE_DOWNLOAD": "Download full-size image in JPG format",
-  "L_VIEWER_FULL_IMAGE": "Open image in new tab",
+  "L_VIEWER_FULL_IMAGE": "Open full-size image in new tab",
   "L_VIEWER_FULLSCREEN_ENTER": "Enter fullscreen",
   "L_VIEWER_FULLSCREEN_EXIT": "Exit fullscreen",
   "L_VIEWER_LABEL": "Viewer controls",
@@ -198,5 +200,6 @@
   "URL_PARL_PARL": "https://www.parl.ca/",
   "URL_PARL_SENATE": "https://www.sencanada.ca/en",
   "URL_PARL_VISIT": "https://visit.parl.ca/",
-  "URL_TERMS": "http://www.canadiana.ca/terms"
+  "URL_TERMS": "http://www.canadiana.ca/terms",
+  "URL_DOWNLOAD_DOCS": "https://www.crkn-rcdr.ca/en/heritage-content"
 }
