@@ -18,20 +18,6 @@
     [% END %]
   </h2>
 
-
-bytes:
-  [% IF record.ocrPdf %]
-    [% record.ocrPdf.extension %]
-    [% record.ocrPdf.size %]
-  [% END %]
-
-  
-readable:
-  [% IF item_download_size %]
-    [% item_download_size %]
-  [% END %]
-
-
   [% IF c.portal_id == "parl" %]
   <p>
   [% FOREACH node IN nodes %]

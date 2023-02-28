@@ -92,15 +92,18 @@
 
         var url = "/files/get/" + slug + "/" + seq;
 
+
+        var pvFullImageDownloadSize = document.getElementById("pvFullImageDownloadSize");
+        if(pvFullImageDownloadSize) pvFullImageDownloadSize.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
+        var pvDownloadSingleSize = document.getElementById("pvDownloadSingleSize");
+        if(pvDownloadSingleSize) pvDownloadSingleSize.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
+        
         $.ajax({
           url: url,
           method: "get",
           success: function(data) {
-            var pvFullImageDownloadSize = document.getElementById("pvFullImageDownloadSize");
-            var pvDownloadSingleSize = document.getElementById("pvDownloadSingleSize");
-            //var json = $.parseJSON(data);
-            pvFullImageDownloadSize.innerHTML = data['child_size'];
-            pvDownloadSingleSize.innerHTML = data['pdf_size'];
+            if(pvFullImageDownloadSize) pvFullImageDownloadSize.innerHTML = data['child_size'];
+            if(pvDownloadSingleSize) pvDownloadSingleSize.innerHTML = data['pdf_size'];
           },
           error: function (data) {
             that.$element.empty();
