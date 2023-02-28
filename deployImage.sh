@@ -15,7 +15,7 @@ fi
 
 cd $OLDPWD
 
-docker-compose build
+docker-compose build --pull
 
 if [ "$?" -ne "0" ]; then
   exit $?
