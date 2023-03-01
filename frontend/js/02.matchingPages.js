@@ -72,6 +72,8 @@
     },
 
     success: function (data) {
+      $("#matchingImagesResults").show();
+      $("#matchingImagesQuery").html(this.params.q);
       this.$searching.hide();
       this.$results.html(data);
 

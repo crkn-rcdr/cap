@@ -2,15 +2,39 @@
 <p class="sr-only">[% c.loc("L_VIEW_TEXT_ONLY") %]</p>
 <section id="pvPane" class="mb-3">
   [% INCLUDE partial/page_viewer/toolbar.tt %]
+
+  [% IF item.record.component_count_fulltext %]
+  <div id="matchingImagesResults">
+    <div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Resulting images for '<span id="matchingImagesQuery"></span>' in this volume:
+            </button>
+          </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            [% INCLUDE partial/matching_pages.tt query="" pkey=item.record.key %]
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  [% END %]
+
   <section id="pvImageContainer">
     <div id="pvImageInner">
       <noscript><a href="[% first_child.iiif_image_full %]" target="_blank">[% first_child.label %]</a></noscript>
     </div>
-    <aside id="pvSearch" class="pv-overlay px-3 pt-3 hidden">
-      [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
-    </aside>
+    <!--aside id="pvSearch" class="pv-overlay px-3 pt-3 hidden">
+      
+    </aside-->
   </section>
   [% INCLUDE partial/page_viewer/toolbar_bottom.tt %]
   <p id="pvLoading" class="loading hidden p-3">[% c.loc("L_VIEW_LOADING") %]...</p>
   <p id="pvError" class="hidden p-3">[% c.loc("L_VIEW_ERROR") %]</p>
 </section>
+

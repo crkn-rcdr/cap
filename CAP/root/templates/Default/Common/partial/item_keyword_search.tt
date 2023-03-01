@@ -5,20 +5,20 @@
 [% ELSE %]
 [% search_label = c.loc("L_SEARCH_WITHIN_DOCUMENT") %]
 [% END %]
+
 <form class="row" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
 [% IF item.record.component_count_fulltext %]
   <input type="hidden" name="pkey" value="[% key %]" />
   <input type="hidden" name="handler" value="page" />
   <input type="hidden" name="so" value="seq" />
   <div class="col-md-12 form-inline">
-    <label for="query" class="mr-1">[% search_label %]</label>
-    <div class="input-group mb-3">
-      <input type="text" id="query" class="form-control" name="q" value="" />
+    <!--label for="query" class="mr-1"></label-->
+    <div class="input-group">
+      <input type="text" id="query" class="form-control" name="q" value="" placeholder="[% search_label %]"/>
       <div class="input-group-append">
         <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
       </div>
     </div>
-    [% INCLUDE partial/matching_pages.tt query="" pkey=item.record.key %]
   </div>
 [% END %]
 </form>
