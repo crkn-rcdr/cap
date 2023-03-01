@@ -409,10 +409,10 @@
       var $singleDownload = $("#pvDownloadSingle");
       var downloadUri = this.components[page].download;
       if (downloadUri) {
-        $singleDownload.removeClass("hidden");
+        $singleDownload.prop('disabled', false);//.removeClass("hidden");
         $singleDownload.attr("href", downloadUri);
       } else {
-        $singleDownload.addClass("hidden");
+        $singleDownload.prop('disabled', true);//.addClass("hidden");
         $singleDownload.attr("href", "");
       }
 

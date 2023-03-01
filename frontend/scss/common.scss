@@ -338,7 +338,7 @@ code {
   margin-left: 3px;
 }
 
-.dl-full-txt:hover {
+.dl-full-txt a:hover {
   text-decoration:underline !important;
 }
 
@@ -353,5 +353,10 @@ code {
   border-color: white;
   color: $primary;
   text-decoration:underline !important;
+}
+
+.ghost-button.disabled, .ghost-button:disabled {
+  border-color: transparent !important;
+  border: none !important;
 }
 
