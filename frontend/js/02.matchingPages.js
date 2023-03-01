@@ -24,6 +24,7 @@
       if (!!this.params.q) {
         this.$searching.show();
         this.makeCall();
+        $("#matchingImagesQuery").html(this.params.q);
       }
 
       var $keywordSearch = $("#keywordSearch");
@@ -75,15 +76,30 @@
       $("#matchingImagesResults").show();
       $("#matchingImagesQuery").html(this.params.q);
       this.$searching.hide();
-      this.$results.html(data);
+      this.$results.html(data.replace(/<\/a>/g, "</a>, ").replace(/,([^,]*)$/, '$1'));
 
       var $moreButton = $(".matching-pages-more", this.$results);
-      var $more = $(".matching-pages-remainder", this.$results);
+      var $lessButton = $(".matching-pages-less", this.$results);
+      var $preview = $(".matching-pages-preview", this.$results);
+      var $all = $(".matching-pages-all", this.$results);
       if ($moreButton.length) {
         $moreButton.on("click", function (e) {
+          console.log("mp")
           e.preventDefault();
           $moreButton.addClass("hidden");
-          $more.removeClass("hidden");
+          $preview.addClass("hidden");
+          if ($lessButton.length)  $lessButton.removeClass("hidden");
+          $all.removeClass("hidden");
+        });
+      }
+      if ($lessButton.length) {
+        $lessButton.on("click", function (e) {
+          console.log("ls")
+          e.preventDefault();
+          $lessButton.addClass("hidden");
+          $all.addClass("hidden");
+          if ($moreButton.length) $moreButton.removeClass("hidden");
+          $preview.removeClass("hidden");
         });
       }
     },
