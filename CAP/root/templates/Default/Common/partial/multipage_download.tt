@@ -15,7 +15,7 @@
 					[% END %]
 					([% item_download_size %])
 				[% ELSE -%]
-					Download entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] bobine [% ELSE %] document [% END %] as a PDF ([% item_download_size %])
+					Download entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] as a PDF ([% item_download_size %])
 				[% END -%]
 			</a>
 		[% ELSE %]
@@ -23,12 +23,12 @@
 				[% IF c.portal_id == 'parl' %] 
 					Le téléchargement de l'ensemble du volume n'est pas disponible
 				[% ELSIF c.portal_id == 'heritage' %] 
-					Le téléchargement de la bobine entière n'est pas disponible
+					Le téléchargement de la bobine entière n'est pas disponibles
 				[% ELSE %] 
 					Le téléchargement du document entier n'est pas disponible
 				[% END %]
 			[% ELSE -%]
-				Entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] bobine [% ELSE %] document [% END %] PDF download not available
+				Entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] PDF download not available
 			[% END -%]
 		[% END %]
 	</span>
