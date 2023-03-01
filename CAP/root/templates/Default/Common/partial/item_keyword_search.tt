@@ -6,8 +6,9 @@
 [% search_label = c.loc("L_SEARCH_WITHIN_DOCUMENT") %]
 [% END %]
 
-<form class="row" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
 [% IF item.record.component_count_fulltext %]
+<form class="row" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
+
   <input type="hidden" name="pkey" value="[% key %]" />
   <input type="hidden" name="handler" value="page" />
   <input type="hidden" name="so" value="seq" />
@@ -20,6 +21,8 @@
       </div>
     </div>
   </div>
-[% END %]
 </form>
+[% ELSE %]
+  <span>In-document search not available</span>
+[% END %]
 
