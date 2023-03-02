@@ -85,19 +85,15 @@
       this.dragon.addHandler("page", function (event) {
         var page = event.page;
 
-
-        var downloadButton = document.getElementById("pvFullImageDownload");
+        /*var downloadButton = document.getElementById("pvFullImageDownload");
         var slug = downloadButton.getAttribute("data-slug");
         var seq = downloadButton.getAttribute("data-seq");
 
         var url = "/files/get/" + slug + "/" + seq;
-
-
         var pvFullImageDownloadSize = document.getElementById("pvFullImageDownloadSize");
         if(pvFullImageDownloadSize) pvFullImageDownloadSize.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
         var pvDownloadSingleSize = document.getElementById("pvDownloadSingleSize");
         if(pvDownloadSingleSize) pvDownloadSingleSize.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
-        
         $.ajax({
           url: url,
           method: "get",
@@ -109,7 +105,7 @@
             that.$element.empty();
             that.$element.html("Error &mdash; Erreur");
           },
-        });
+        });*/
 
         if (!pv.isOnPopState) {
           history.replaceState({ page: page }, null, pv.makePathFromPage(page));
