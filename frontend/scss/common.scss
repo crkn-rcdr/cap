@@ -338,8 +338,12 @@ code {
   margin-left: 3px;
 }
 
-.dl-full-txt:hover {
+.dl-full-txt a:hover {
   text-decoration:underline !important;
+}
+
+.dl-full-icon {
+  margin-left: 4px;
 }
 
 .ghost-button {
@@ -353,5 +357,10 @@ code {
   border-color: white;
   color: $primary;
   text-decoration:underline !important;
+}
+
+.ghost-button.disabled, .ghost-button:disabled {
+  border-color: transparent !important;
+  border: none !important;
 }
 
