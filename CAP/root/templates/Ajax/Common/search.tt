@@ -5,37 +5,42 @@
 
 [%- IF resultset.documents.size; has_remainder = resultset.documents.size > 6; start = has_remainder ? resultset.documents.slice(0, 6) : resultset.documents -%]
 
-	<span>
-        Resulting images for "[% query %]" in this volume:
-    </span>
+	<div class="matching-pages-upper">
+		<span>
+			Resulting images for "[% query %]" in this volume:
+		</span>
 
-	<span class="matching-pages-preview">
-		[% FOR page IN start -%]
-			[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%]
+		<span id="matching-pages-preview-wrap" class="matching-pages-preview">
+			[% FOR page IN start -%]
+				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%]
+			[% END %]
+		</span>
+
+		[% IF has_remainder; remainder = resultset.documents.slice(6) -%]
+			<button class="btn btn-link matching-pages-more p-0 border-0">[% c.loc("L_MATCHING_SHOW_MORE") %]</button>
+
+			<button class="btn btn-link matching-pages-less p-0 border-0 hidden">[% c.loc("L_MATCHING_SHOW_LESS") %]</button>
+
+			<div id="matching-pages-all-wrap" class="matching-pages-all hidden">
+				[% FOR page IN resultset.documents -%]
+				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
+				[% END %]
+				<!--[% IF resultset.documents.size < resultset.hits %]
+				, [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]...
+				[% END %]-->
+			</div>
 		[% END %]
-	</span>
+	</div>
 
-	[% IF has_remainder; remainder = resultset.documents.slice(6) -%]
-		<button class="btn btn-link matching-pages-more p-0 border-0">[% c.loc("L_MATCHING_SHOW_MORE") %]</button>
-
-		<button class="btn btn-link matching-pages-less p-0 border-0 hidden">[% c.loc("L_MATCHING_SHOW_LESS") %]</button>
-
-		<div class="matching-pages-all hidden">
-			[% FOR page IN resultset.documents -%]
-			[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
-			[% END %]
-			[% IF resultset.documents.size < resultset.hits %]
-			| [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]
-			[% END %]
-		</div>
-	[% END %]
-
-
-    <div>
-      <button id="matching-page-prev" class="btn btn-link p-0 border-0">prev</button>
-      <button id="matching-page-next" class="btn btn-link p-0 border-0">next</button>
-      <span> <span id="matching-page-current">1</span> / [% resultset.hits %] resulting images for "[% query %]" in this volume</span>
+    <div class="matching-page-nav-buttons">
+      <button id="matching-page-prev" class="btn btn-light btn-outline-primary">Previous result</button>
+      <button id="matching-page-next" class="btn btn-light btn-outline-primary">Next result</button>
+      <span> <span id="matching-page-current">1</span> / [% resultset.documents.size %] resulting images for "[% query %]" in this volume</span>
     </div>
 [% ELSE -%]
-    [% c.loc("L_MATCHING_NONE") %]
+
+	<div class="matching-pages-upper">
+		[% c.loc("L_MATCHING_NONE") %]
+	</div>
+
 [% END -%]

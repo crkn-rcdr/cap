@@ -4,7 +4,7 @@
   data-pkey="[% pkey %]"
 >
   <span class="matching-pages-results"></span>
-  <span class="matching-pages-searching" style="display: none">[% c.loc("L_MATCHING_LOAD") %]
+  <span class="matching-pages-searching matching-pages-upper" style="display: none">[% c.loc("L_MATCHING_LOAD") %]
     <img src="/static/images/loader.gif" class="loader" alt=""/>
   </span>
 </span>

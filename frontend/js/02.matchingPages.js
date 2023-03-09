@@ -90,44 +90,83 @@
       //matching-page
 
       if(window.location.href.includes("view")) {
-        var links = $(".matching-page");
+        var previewWrap = $("#matching-pages-preview-wrap");
+        var previewLinks = $(".matching-page", previewWrap);
+        console.log(previewLinks);
+        var allWrap = $("#matching-pages-all-wrap");
+        var allLinks = $(".matching-page", allWrap);
         var prev = $("#matching-page-prev");
         var next = $("#matching-page-next");
-        var currentPage = null;
+        var currentMatchingPage = null;
 
-        links.each( ( i ) => {
-          console.log(links[i]);
-          links[i].addEventListener('click', () => {
+        allLinks.each( ( i ) => {
+          allLinks[i].addEventListener('click', () => {
             console.log("clicked");
-            currentPage = i;
-            links[i].style = "font-style: italic;";
-            links.each( ( j ) => {
-              if ( i !== j ) links[j].style = "font-style: normal;";
+            currentMatchingPage = i;
+
+            if(currentMatchingPage === allLinks.length-1) {
+              next.prop('disabled', true);
+            } else {
+              next.prop('disabled', false);
+            }
+            if(currentMatchingPage === 0) {
+              prev.prop('disabled', true);
+            } else {
+              prev.prop('disabled', false);
+            }
+            
+            allLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";;
+            $("#matching-page-current").html(currentMatchingPage+1);
+            if(previewLinks.length > i) {
+              previewLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";
+            }
+
+            allLinks.each( ( j ) => {
+              if ( i !== j ) {
+                allLinks[j].style = "";
+                if(previewLinks.length > j) {
+                  previewLinks[j].style = "";
+                }
+              }
             })
+
+
           }, false);
         })
 
-        if(links.length) {
-          links[0].click();
+        if(allLinks.length) {
+          allLinks[0].click();
         }
 
         if(prev) {
           prev.click(() => {
-            var prevPage = currentPage - 1;
-            if(prevPage > -1) { 
-              links[prevPage].click();
-              $("#matching-page-current").html(prevPage+1);
+            var prevMatchingPage = currentMatchingPage - 1;
+            if(prevMatchingPage > -1) { 
+              allLinks[prevMatchingPage].click();
+              $("#matching-page-current").html(prevMatchingPage+1);
             }
+            if(prevMatchingPage === 0) {
+              prev.prop('disabled', true);
+            } else {
+              prev.prop('disabled', false);
+            }
+            next.prop('disabled', false);
           })
         }
 
         if(next) {
           next.click(() => {
-            var nextPage = currentPage + 1;
-            if(nextPage < links.length) { 
-              links[nextPage].click();
-              $("#matching-page-current").html(nextPage+1);
+            var nextMatchingPage = currentMatchingPage + 1;
+            if(nextMatchingPage < allLinks.length) { 
+              allLinks[nextMatchingPage].click();
+              $("#matching-page-current").html(nextMatchingPage+1);
             }
+            if(nextMatchingPage === allLinks.length-1) {
+              next.prop('disabled', true);
+            } else {
+              next.prop('disabled', false);
+            }
+            prev.prop('disabled', false);
           })
         }
       }
