@@ -5,12 +5,10 @@
 
   [% IF item.record.component_count_fulltext %]
     <div id="matchingImagesResults"> 
-      <span>
-        Resulting images for '<span id="matchingImagesQuery"></span>' in this volume:
-      </span>
       <!-- [% c.loc("L_MATCHING") %]-->
       [% INCLUDE partial/matching_pages.tt query="" pkey=item.record.key %]
     </div>
+
   [% END %]
 
   <section id="pvImageContainer">

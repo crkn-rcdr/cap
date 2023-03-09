@@ -325,3 +325,8 @@ code {
 .matching-pages-more, .matching-pages-less {
   float: right;
 }
+
+.matching-pages-all {
+  max-height: 6rem;
+  overflow-y: auto;
+}

@@ -13,7 +13,7 @@
       this.$searching = $(".matching-pages-searching", this.$element);
       this.$results = $(".matching-pages-results", this.$element);
       this.callUrl = ["", "search", "post"].join("/");
-
+      
       this.params = {
         q: $("<div/>").html(this.$element.attr("data-query")).text(),
         pkey: this.$element.attr("data-pkey"),
@@ -24,12 +24,12 @@
       if (!!this.params.q) {
         this.$searching.show();
         this.makeCall();
-        $("#matchingImagesQuery").html(this.params.q);
       }
 
       var $keywordSearch = $("#keywordSearch");
       if ($keywordSearch.length) {
         $keywordSearch.on("submit", $.proxy(this.submitSearch, this));
+        $keywordSearch.on("reset", $.proxy(this.clearSearch, this));
       }
 
       var $pvToolbar = $("#pvToolbar");
@@ -57,6 +57,16 @@
       }
     },
 
+    clearSearch: function (e) {
+      e.preventDefault();
+      console.log("hi");
+      this.params.q = "";
+      this.$results.empty();
+      $("#matchingImagesResults").hide();
+      $("#query").val('');
+      sessionStorage.setItem("query", "");
+    },
+
     makeCall: function () {
       var that = this;
       $.ajax({
@@ -74,9 +84,53 @@
 
     success: function (data) {
       $("#matchingImagesResults").show();
-      $("#matchingImagesQuery").html(this.params.q);
       this.$searching.hide();
       this.$results.html(data.replace(/<\/a>/g, "</a>, ").replace(/,([^,]*)$/, '$1'));
+
+      //matching-page
+
+      if(window.location.href.includes("view")) {
+        var links = $(".matching-page");
+        var prev = $("#matching-page-prev");
+        var next = $("#matching-page-next");
+        var currentPage = null;
+
+        links.each( ( i ) => {
+          console.log(links[i]);
+          links[i].addEventListener('click', () => {
+            console.log("clicked");
+            currentPage = i;
+            links[i].style = "font-style: italic;";
+            links.each( ( j ) => {
+              if ( i !== j ) links[j].style = "font-style: normal;";
+            })
+          }, false);
+        })
+
+        if(links.length) {
+          links[0].click();
+        }
+
+        if(prev) {
+          prev.click(() => {
+            var prevPage = currentPage - 1;
+            if(prevPage > -1) { 
+              links[prevPage].click();
+              $("#matching-page-current").html(prevPage+1);
+            }
+          })
+        }
+
+        if(next) {
+          next.click(() => {
+            var nextPage = currentPage + 1;
+            if(nextPage < links.length) { 
+              links[nextPage].click();
+              $("#matching-page-current").html(nextPage+1);
+            }
+          })
+        }
+      }
 
       var $moreButton = $(".matching-pages-more", this.$results);
       var $lessButton = $(".matching-pages-less", this.$results);
