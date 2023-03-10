@@ -242,6 +242,7 @@ footer a {
 #pvPane {
   background-color: $white;
   position: relative;
+  margin-top: 1.5rem;
   .loading {
     position: absolute;
     top: 10px;
@@ -392,4 +393,10 @@ code {
 
 .search-result-ocr-msg {
   margin-bottom: 0.25rem;
+}
+
+.upper-links { 
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
 }
