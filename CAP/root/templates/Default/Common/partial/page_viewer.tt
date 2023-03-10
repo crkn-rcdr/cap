@@ -2,15 +2,36 @@
 <p class="sr-only">[% c.loc("L_VIEW_TEXT_ONLY") %]</p>
 <section id="pvPane" class="mb-3">
   [% INCLUDE partial/page_viewer/toolbar.tt %]
+
+  [% IF item.record.component_count_fulltext %]
+    <div id="matchingImagesResults"> 
+      <!-- [% c.loc("L_MATCHING") %]-->
+      [% INCLUDE partial/matching_pages.tt query="" pkey=item.record.key %]
+    </div>
+    <div id="matchingPageNavButtons" class="matching-page-nav-buttons">
+      <button id="matching-page-prev" class="btn btn-light btn-outline-primary">[% c.loc("L_MATCHING_PREV") %]</button>
+      <button id="matching-page-next" class="btn btn-light btn-outline-primary">[% c.loc("L_MATCHING_NEXT") %]</button>
+      <span> <span id="matching-page-current">1</span>/<span id="matching-page-count"></span> 
+        [% IF lang == 'fr' -%]
+          images contenant "<span id="matching-page-query">[% query %]</span>" [% IF c.portal_id == 'parl' %] dans ce volume [% ELSIF c.portal_id == 'heritage' %] dans cette bobine [% ELSE %] dans ce document [% END %]
+        [% ELSE -%]
+          images containing "<span id="matching-page-query">[% query %]</span>" in this [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %]
+        [% END -%]
+      </span>
+    </div>
+
+  [% END %]
+
   <section id="pvImageContainer">
     <div id="pvImageInner">
       <noscript><a href="[% first_child.iiif_image_full %]" target="_blank">[% first_child.label %]</a></noscript>
     </div>
-    <aside id="pvSearch" class="pv-overlay px-3 pt-3 hidden">
-      [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
-    </aside>
+    <!--aside id="pvSearch" class="pv-overlay px-3 pt-3 hidden">
+      
+    </aside-->
   </section>
   [% INCLUDE partial/page_viewer/toolbar_bottom.tt %]
   <p id="pvLoading" class="loading hidden p-3">[% c.loc("L_VIEW_LOADING") %]...</p>
   <p id="pvError" class="hidden p-3">[% c.loc("L_VIEW_ERROR") %]</p>
 </section>
+
