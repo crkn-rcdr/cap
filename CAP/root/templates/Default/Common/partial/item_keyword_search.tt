@@ -8,14 +8,12 @@
 
 [% IF item.record.component_count_fulltext %]
 <form class="row" id="keywordSearch" method="POST" action="[% c.uri_for_action("/search/post") %]">
-
   <input type="hidden" name="pkey" value="[% key %]" />
   <input type="hidden" name="handler" value="page" />
   <input type="hidden" name="so" value="seq" />
   <div class="col-md-12 form-inline">
-    <!--label for="query" class="mr-1"></label-->
     <div class="input-group">
-      <input type="text" id="query" class="form-control" name="q" value="" placeholder="[% search_label %]"/>
+      <input type="text" id="query" class="form-control in-doc-search-input" name="q" value="" placeholder="[% search_label %]"/>
       <div class="input-group-append">
         <button type="submit" id="keyword-submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
         <button type="reset" class="btn btn-light btn-outline-primary" value="keyword_clear">[% c.loc("L_SEARCH_CLEAR") %]</button>
@@ -24,6 +22,6 @@
   </div>
 </form>
 [% ELSE %]
-  <span>In-document search not available</span>
+  <span>[% c.loc("L_SEARCH_WITHIN_NA") %]</span>
 [% END %]
 

@@ -9,7 +9,7 @@
   <div class="upper-links">
     <div>
       <a id="back-to-search" href="/search">
-        &laquo; Back to search
+        &laquo; [% c.loc("L_BACK") %] 
       </a>
     </div>
 

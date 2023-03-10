@@ -8,18 +8,10 @@
 	<div class="matching-pages-upper">
 		<span>
 			[% IF lang == 'fr' -%]
-				[% IF c.portal_id == 'parl' %] 
-					Télécharger le volume entier en PDF
-				[% ELSIF c.portal_id == 'heritage' %] 
-					Télécharger la bobine entière en PDF
-				[% ELSE %] 
-					Télécharger le document complet en PDF
-				[% END %]
-				([% item_download_size %])
+				Images contenant "[% query %]" [% IF c.portal_id == 'parl' %] dans ce volume [% ELSIF c.portal_id == 'heritage' %] dans cette bobine [% ELSE %] dans ce document [% END %] :
 			[% ELSE -%]
-				Download entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] as a PDF ([% item_download_size %])
+				Images containing "[% query %]" in this [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %]:
 			[% END -%]
-			Images containing "[% query %]" in this volume:
 		</span>
 
 		<span id="matching-pages-preview-wrap" class="matching-pages-preview">

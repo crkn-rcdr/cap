@@ -6,7 +6,11 @@
 [%- IF resultset.documents.size; has_remainder = resultset.documents.size > 20; start = has_remainder ? resultset.documents.slice(0, 20) : resultset.documents -%]
   	<!--[% c.loc("L_MATCHING") %]-->
   	<span>
-		Images containing "[% query %]" in this volume:
+		[% IF lang == 'fr' -%]
+			Images contenant "[% query %]" [% IF c.portal_id == 'parl' %] dans ce volume [% ELSIF c.portal_id == 'heritage' %] dans cette bobine [% ELSE %] dans ce document [% END %] :
+		[% ELSE -%]
+			Images containing "[% query %]" in this [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %]:
+		[% END -%]
 	</span>
 
 	[% FOR page IN start -%]

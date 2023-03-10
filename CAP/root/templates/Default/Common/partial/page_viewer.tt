@@ -9,9 +9,15 @@
       [% INCLUDE partial/matching_pages.tt query="" pkey=item.record.key %]
     </div>
     <div id="matchingPageNavButtons" class="matching-page-nav-buttons">
-      <button id="matching-page-prev" class="btn btn-light btn-outline-primary">Previous result</button>
-      <button id="matching-page-next" class="btn btn-light btn-outline-primary">Next result</button>
-      <span> <span id="matching-page-current">1</span>/<span id="matching-page-count"></span> images containing "<span id="matching-page-query">[% query %]</span>" in this volume</span>
+      <button id="matching-page-prev" class="btn btn-light btn-outline-primary">[% c.loc("L_MATCHING_PREV") %]</button>
+      <button id="matching-page-next" class="btn btn-light btn-outline-primary">[% c.loc("L_MATCHING_NEXT") %]</button>
+      <span> <span id="matching-page-current">1</span>/<span id="matching-page-count"></span> 
+        [% IF lang == 'fr' -%]
+          images contenant "<span id="matching-page-query">[% query %]</span>" [% IF c.portal_id == 'parl' %] dans ce volume [% ELSIF c.portal_id == 'heritage' %] dans cette bobine [% ELSE %] dans ce document [% END %]
+        [% ELSE -%]
+          images containing "<span id="matching-page-query">[% query %]</span>" in this [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %]
+        [% END -%]
+      </span>
     </div>
 
   [% END %]
