@@ -5,7 +5,16 @@
    IF record.defined("pu"); c.stash.description = c.stash.description _ " : " _ record.pu.join("; "); END;
    IF record.defined("au"); c.stash.description = c.stash.description _ " : " _ record.au.join("; "); END %] 
 <div class="container-md">
-  [% INCLUDE partial/page_viewer.tt %]
+  [% IF c.portal_id == "parl" %]
+  <p>
+  [% FOREACH node IN nodes %]
+    <a href="[% c.uri_for("/browse", node.0, node.1, node.2, node.3) %]">
+      &laquo; [% c.model("Parl").leaf_to_string(node) %]
+    </a>
+    [% UNLESS loop.last %]<br />[% END %]
+  [% END %]
+  </p>
+  [% END %]
 
   <h2 class="mt-3">
     [% IF c.portal_id == "parl" %]
@@ -18,18 +27,10 @@
     [% END %]
   </h2>
 
-  [% IF c.portal_id == "parl" %]
-  <p>
-  [% FOREACH node IN nodes %]
-    <a href="[% c.uri_for("/browse", node.0, node.1, node.2, node.3) %]">
-      &laquo; [% c.model("Parl").leaf_to_string(node) %]
-    </a>
-    [% UNLESS loop.last %]<br />[% END %]
-  [% END %]
-  </p>
-  [% END %]
+  [% INCLUDE partial/page_viewer.tt %]
 
   [% INCLUDE partial/published_and_pages.tt result=record %]
+  [% INCLUDE partial/multipage_download.tt result=record %]
 
   [% INCLUDE partial/document_record.tt record=record bottom_margin=1 %]
 </div>
