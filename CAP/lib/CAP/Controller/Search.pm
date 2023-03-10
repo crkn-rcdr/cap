@@ -25,7 +25,8 @@ sub index : Path('') {
     1;
 
   $handler = $handler && !looks_like_number($handler) ? $handler : 'general';
-  $c->detach('matching_pages') if ( $handler eq 'page' );
+  $c->detach('matching_pages_short') if ( $handler eq 'results' );
+  $c->detach('matching_pages_long') if ( $handler eq 'page' );
 
   # Retrieve the first page of results unless otherwise requested.
   $page = 1 unless ( $page > 1 );
@@ -70,7 +71,32 @@ sub index : Path('') {
   return 1;
 }
 
-sub matching_pages : Private {
+sub matching_pages_short : Private {
+  my ( $self, $c ) = @_;
+
+  my $search;
+  eval {
+    $search = $c->model('Search')->dispatch(
+      'page',
+      {
+        limit  => $self->matching_page_limit,
+        schema => 'default'
+      },
+      $c->req->params
+    );
+  };
+  $c->detach( '/error', [503, "Solr error: $@"] ) if ($@);
+
+  $c->stash(
+    resultset => $search->{resultset},
+    query     => $search->{query}->cap_query,
+    template  => 'search2.tt',
+  );
+
+  return 1;
+}
+
+sub matching_pages_long : Private {
   my ( $self, $c ) = @_;
 
   my $search;

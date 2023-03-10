@@ -18,7 +18,7 @@
         q: $("<div/>").html(this.$element.attr("data-query")).text(),
         pkey: this.$element.attr("data-pkey"),
         fmt: "ajax",
-        handler: "page",
+        handler: window.location.href.includes("view") ? "page" : "results",
       };
 
       if (!!this.params.q) {
@@ -85,11 +85,12 @@
     },
 
     success: function (data) {
-      $("#matchingImagesResults").show();
       this.$searching.hide();
       this.$results.html(data);
 
+
       if(window.location.href.includes("view")) {
+        $("#matchingImagesResults").show();
         var previewWrap = $("#matching-pages-preview-wrap");
         var previewLinks = $(".matching-page", previewWrap);
 
@@ -203,32 +204,42 @@
             prev.prop('disabled', false);
           })
         }
-      }
+      
 
-      var $moreButton = $(".matching-pages-more", this.$results);
-      var $lessButton = $(".matching-pages-less", this.$results);
-      var $preview = $(".matching-pages-preview", this.$results);
-      var $all = $(".matching-pages-all", this.$results);
+        var $moreButton = $(".matching-pages-more", this.$results);
+        var $lessButton = $(".matching-pages-less", this.$results);
+        var $preview = $(".matching-pages-preview", this.$results);
+        var $all = $(".matching-pages-all", this.$results);
+        if ($moreButton.length) {
+          $moreButton.on("click", function (e) {
+            e.preventDefault();
+            $moreButton.addClass("hidden");
+            $preview.addClass("hidden");
+            if ($lessButton.length)  $lessButton.removeClass("hidden");
+            $all.removeClass("hidden");
+          });
+        }
+        if ($lessButton.length) {
+          $lessButton.on("click", function (e) {
+            e.preventDefault();
+            $lessButton.addClass("hidden");
+            $all.addClass("hidden");
+            if ($moreButton.length) $moreButton.removeClass("hidden");
+            $preview.removeClass("hidden");
+          });
+        }
+    } else {
+      var $moreButton = $(".matching-pages-more-2", this.$results);
+      var $more = $(".matching-pages-remainder", this.$results);
       if ($moreButton.length) {
         $moreButton.on("click", function (e) {
           e.preventDefault();
           $moreButton.addClass("hidden");
-          $preview.addClass("hidden");
-          if ($lessButton.length)  $lessButton.removeClass("hidden");
-          $all.removeClass("hidden");
+          $more.removeClass("hidden");
         });
       }
-      if ($lessButton.length) {
-        $lessButton.on("click", function (e) {
-          e.preventDefault();
-          $lessButton.addClass("hidden");
-          $all.addClass("hidden");
-          if ($moreButton.length) $moreButton.removeClass("hidden");
-          $preview.removeClass("hidden");
-        });
-      }
-    },
-  };
+    }
+  }};
 
   $.fn.matchingPages = function (option) {
     return this.each(function () {
