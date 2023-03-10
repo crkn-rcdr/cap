@@ -7,6 +7,8 @@ $(function () {
     if (query) {
       $("#query").attr("value", query);
       $(".matching-pages").attr("data-query", query);
+      $("#matchingImagesResults").show();
+      $("#matchingImagesQuery").html(query);
     }
   }
   if (action === "browse") {
