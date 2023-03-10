@@ -12,7 +12,7 @@
 
 		<span id="matching-pages-preview-wrap" class="matching-pages-preview">
 			[% FOR page IN start -%]
-				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%]
+				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%] [% IF !loop.last %], [% END %]
 			[% END %]
 		</span>
 
@@ -23,7 +23,7 @@
 
 			<div id="matching-pages-all-wrap" class="matching-pages-all hidden">
 				[% FOR page IN resultset.documents -%]
-				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
+				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %] [% IF !loop.last %], [% END %]
 				[% END %]
 				<!--[% IF resultset.documents.size < resultset.hits %]
 				, [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]...

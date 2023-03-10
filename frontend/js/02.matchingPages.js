@@ -30,11 +30,6 @@
       if ($keywordSearch.length) {
         $keywordSearch.on("submit", $.proxy(this.submitSearch, this));
         $keywordSearch.on("reset", $.proxy(this.clearSearch, this));
-
-        $("#keyword-submit").click( () => {
-          console.log("clicked");
-          this.submitButtonPressed = true;
-        })
       }
 
       var $pvToolbar = $("#pvToolbar");
@@ -92,14 +87,10 @@
     success: function (data) {
       $("#matchingImagesResults").show();
       this.$searching.hide();
-      this.$results.html(data.replace(/<\/a>/g, "</a>, "));
-      this.$results.html(this.$results.html().replace(/,([^,]*)$/, '$1'));
-
-      //matching-page
+      this.$results.html(data);
 
       if(window.location.href.includes("view")) {
         var previewWrap = $("#matching-pages-preview-wrap");
-        previewWrap.html(previewWrap.html().replace(/,([^,]*)$/, '$1'));
         var previewLinks = $(".matching-page", previewWrap);
 
         var allWrap = $("#matching-pages-all-wrap");
@@ -212,12 +203,6 @@
             prev.prop('disabled', false);
           })
         }
-      }
-
-      if(this.submitButtonPressed && allLinks.length) {
-        this.submitButtonPressed = false;
-        allLinks[0].click();
-        $("#matchingPageNavButtons").show();
       }
 
       var $moreButton = $(".matching-pages-more", this.$results);
