@@ -11,8 +11,8 @@
       this.$element = $(element);
       this.$searching = $(".matching-pages-searching", this.$element);
       this.$results = $(".matching-pages-results", this.$element);
-      $("#matchingPageNavButtons").hide();
       this.callUrl = ["", "search", "post"].join("/");
+      $("#matchingPageNavButtons").hide();
       
       this.params = {
         q: $("<div/>").html(this.$element.attr("data-query")).text(),
@@ -30,6 +30,11 @@
       if ($keywordSearch.length) {
         $keywordSearch.on("submit", $.proxy(this.submitSearch, this));
         $keywordSearch.on("reset", $.proxy(this.clearSearch, this));
+
+        $("#keyword-submit").click( () => {
+          console.log("clicked");
+          this.submitButtonPressed = true;
+        })
       }
 
       var $pvToolbar = $("#pvToolbar");
@@ -87,7 +92,8 @@
     success: function (data) {
       $("#matchingImagesResults").show();
       this.$searching.hide();
-      this.$results.html(data.replace(/<\/a>/g, "</a>, ").replace(/,([^,]*)$/, '$1'));
+      this.$results.html(data.replace(/<\/a>/g, "</a>, "));
+      this.$results.html(this.$results.html().replace(/,([^,]*)$/, '$1'));
 
       //matching-page
 
@@ -206,6 +212,12 @@
             prev.prop('disabled', false);
           })
         }
+      }
+
+      if(this.submitButtonPressed && allLinks.length) {
+        this.submitButtonPressed = false;
+        allLinks[0].click();
+        $("#matchingPageNavButtons").show();
       }
 
       var $moreButton = $(".matching-pages-more", this.$results);

@@ -17,7 +17,7 @@
     <div class="input-group">
       <input type="text" id="query" class="form-control" name="q" value="" placeholder="[% search_label %]"/>
       <div class="input-group-append">
-        <button type="submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
+        <button type="submit" id="keyword-submit" class="btn btn-primary" value="keyword_search">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
         <button type="reset" class="btn btn-light btn-outline-primary" value="keyword_clear">[% c.loc("L_SEARCH_CLEAR") %]</button>
       </div>
     </div>
