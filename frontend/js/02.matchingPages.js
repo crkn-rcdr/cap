@@ -90,6 +90,15 @@
 
 
       if(window.location.href.includes("view")) {
+        var backString = "/search";
+        var queries = this.params.q.split(" ");
+        //?q2.0=m&dt=&q1.0=mo&df=&q0.0=moo
+        for(let i = 0; i < queries.length; i++) {
+          if(i == 0) backString += "?q0.0=" + queries[i];
+          else backString += "&q"+i+".0=" + queries[i];
+        }
+        $("#back-to-search").attr("href", backString)
+
         $("#matchingImagesResults").show();
         var previewWrap = $("#matching-pages-preview-wrap");
         var previewLinks = $(".matching-page", previewWrap);
