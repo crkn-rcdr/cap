@@ -8,6 +8,11 @@
       <!-- [% c.loc("L_MATCHING") %]-->
       [% INCLUDE partial/matching_pages.tt query="" pkey=item.record.key %]
     </div>
+    <div id="matchingPageNavButtons" class="matching-page-nav-buttons">
+      <button id="matching-page-prev" class="btn btn-light btn-outline-primary">Previous result</button>
+      <button id="matching-page-next" class="btn btn-light btn-outline-primary">Next result</button>
+      <span> <span id="matching-page-current">1</span>/<span id="matching-page-count"></span> images containing "<span id="matching-page-query">[% query %]</span>" in this volume</span>
+    </div>
 
   [% END %]
 

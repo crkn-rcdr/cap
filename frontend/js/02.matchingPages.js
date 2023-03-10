@@ -1,5 +1,4 @@
 /* cap.matchingPages.js */
-
 !(function ($) {
   var MatchingPages = function (element) {
     this.init(element);
@@ -59,16 +58,18 @@
 
     clearSearch: function (e) {
       e.preventDefault();
-      console.log("hi");
       this.params.q = "";
       this.$results.empty();
       $("#matchingImagesResults").hide();
+      $("#matchingPageNavButtons").hide();
       $("#query").val('');
       sessionStorage.setItem("query", "");
     },
 
     makeCall: function () {
       var that = this;
+      $("#matchingImagesResults").hide();
+      $("#matchingPageNavButtons").hide();
       $.ajax({
         url: this.callUrl,
         method: "post",
@@ -92,16 +93,19 @@
       if(window.location.href.includes("view")) {
         var previewWrap = $("#matching-pages-preview-wrap");
         var previewLinks = $(".matching-page", previewWrap);
-        console.log(previewLinks);
+
         var allWrap = $("#matching-pages-all-wrap");
         var allLinks = $(".matching-page", allWrap);
+        $("#matching-page-count").html(allLinks.length);
+        $("#matching-page-query").html(this.params.q);
+
         var prev = $("#matching-page-prev");
         var next = $("#matching-page-next");
         var currentMatchingPage = null;
 
         allLinks.each( ( i ) => {
           allLinks[i].addEventListener('click', () => {
-            console.log("clicked");
+
             currentMatchingPage = i;
 
             if(currentMatchingPage === allLinks.length-1) {
@@ -115,7 +119,7 @@
               prev.prop('disabled', false);
             }
             
-            allLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";;
+            allLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";
             $("#matching-page-current").html(currentMatchingPage+1);
             if(previewLinks.length > i) {
               previewLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";
@@ -130,19 +134,46 @@
               }
             })
 
+            $("#matchingPageNavButtons").show();
 
           }, false);
         })
 
-        if(allLinks.length) {
-          allLinks[0].click();
-        }
+        previewLinks.each( ( i ) => {
+          previewLinks[i].addEventListener('click', () => {
+            currentMatchingPage = i;
+            if(currentMatchingPage === allLinks.length-1) {
+              next.prop('disabled', true);
+            } else {
+              next.prop('disabled', false);
+            }
+            if(currentMatchingPage === 0) {
+              prev.prop('disabled', true);
+            } else {
+              prev.prop('disabled', false);
+            }
+            previewLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";;
+            $("#matching-page-current").html(currentMatchingPage+1);
+            allLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";
+            previewLinks.each( ( j ) => {
+              if ( i !== j ) {
+                previewLinks[j].style = "";
+                allLinks[j].style = "";
+              }
+            })
+            $("#matchingPageNavButtons").show();
+          }, false);
+        })
 
         if(prev) {
           prev.click(() => {
             var prevMatchingPage = currentMatchingPage - 1;
             if(prevMatchingPage > -1) { 
               allLinks[prevMatchingPage].click();
+              $("#matching-page-current").html(prevMatchingPage+1);
+            }
+            if(prevMatchingPage > -1 && prevMatchingPage < previewLinks.length) { 
+              previewLinks[prevMatchingPage].click();
               $("#matching-page-current").html(prevMatchingPage+1);
             }
             if(prevMatchingPage === 0) {
@@ -161,6 +192,10 @@
               allLinks[nextMatchingPage].click();
               $("#matching-page-current").html(nextMatchingPage+1);
             }
+            if(nextMatchingPage < previewLinks.length) { 
+              previewLinks[nextMatchingPage].click();
+              $("#matching-page-current").html(nextMatchingPage+1);
+            }
             if(nextMatchingPage === allLinks.length-1) {
               next.prop('disabled', true);
             } else {
@@ -177,7 +212,6 @@
       var $all = $(".matching-pages-all", this.$results);
       if ($moreButton.length) {
         $moreButton.on("click", function (e) {
-          console.log("mp")
           e.preventDefault();
           $moreButton.addClass("hidden");
           $preview.addClass("hidden");
@@ -187,7 +221,6 @@
       }
       if ($lessButton.length) {
         $lessButton.on("click", function (e) {
-          console.log("ls")
           e.preventDefault();
           $lessButton.addClass("hidden");
           $all.addClass("hidden");

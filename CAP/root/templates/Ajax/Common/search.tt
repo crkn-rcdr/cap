@@ -7,7 +7,7 @@
 
 	<div class="matching-pages-upper">
 		<span>
-			Resulting images for "[% query %]" in this volume:
+			Images containing "[% query %]" in this volume:
 		</span>
 
 		<span id="matching-pages-preview-wrap" class="matching-pages-preview">
@@ -31,12 +31,6 @@
 			</div>
 		[% END %]
 	</div>
-
-    <div class="matching-page-nav-buttons">
-      <button id="matching-page-prev" class="btn btn-light btn-outline-primary">Previous result</button>
-      <button id="matching-page-next" class="btn btn-light btn-outline-primary">Next result</button>
-      <span> <span id="matching-page-current">1</span> / [% resultset.documents.size %] resulting images for "[% query %]" in this volume</span>
-    </div>
 [% ELSE -%]
 
 	<div class="matching-pages-upper">
