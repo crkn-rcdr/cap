@@ -11,6 +11,7 @@
       this.$element = $(element);
       this.$searching = $(".matching-pages-searching", this.$element);
       this.$results = $(".matching-pages-results", this.$element);
+      $("#matchingPageNavButtons").hide();
       this.callUrl = ["", "search", "post"].join("/");
       
       this.params = {
@@ -92,6 +93,7 @@
 
       if(window.location.href.includes("view")) {
         var previewWrap = $("#matching-pages-preview-wrap");
+        previewWrap.html(previewWrap.html().replace(/,([^,]*)$/, '$1'));
         var previewLinks = $(".matching-page", previewWrap);
 
         var allWrap = $("#matching-pages-all-wrap");

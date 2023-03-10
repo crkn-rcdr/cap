@@ -320,6 +320,8 @@ code {
 
 #matchingImagesResults {
   display: none;
+  border: 1px solid #ced4da;
+  padding: 0.7rem 0.5rem;
 }
 
 .matching-pages-more, .matching-pages-less {
@@ -336,11 +338,6 @@ code {
   border-right: 1px solid #ced4da;
   border-left: 1px solid #ced4da;
   padding: 0.2rem 0.4rem;
-}
-
-.matching-pages-upper {
-  border: 1px solid #ced4da;
-  padding: 0.7rem 0.5rem;
 }
 
 #matching-page-next {
