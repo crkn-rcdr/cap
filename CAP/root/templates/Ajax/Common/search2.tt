@@ -10,18 +10,19 @@
 	</span>
 
 	[% FOR page IN start -%]
-	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%]
+	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%][% IF !loop.last %], [% END %]
 	[% END %]
 	[% IF has_remainder; remainder = resultset.documents.slice(20) -%]
-	<button class="btn btn-link matching-pages-more-2 p-0 border-0">[% c.loc("L_MATCHING_SHOW_MORE") %]</button>
+	<button class="btn btn-link matching-pages-more-2 p-0 border-0">...[% c.loc("L_MATCHING_SHOW_MORE") %]</button>
 	<span class="matching-pages-remainder hidden">
 		[% FOR page IN remainder -%]
-		[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
+		[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %] [% IF !loop.last %], [% END %]
+		[% END %]
+		[% IF resultset.documents.size < resultset.hits %]
+		| [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]
 		[% END %]
 	</span>
-	[% IF resultset.documents.size < resultset.hits %]
-	| [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]
-	[% END %]
+	
 	[% END %]
 [% ELSE -%]
     [% c.loc("L_MATCHING_NONE") %]
