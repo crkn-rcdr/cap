@@ -34,7 +34,6 @@ sub index : Path('') {
   # Run the main search
   my $search;
 
-
   #while (my ($key, $value) = each(%{ $c->req->params })) {
   #  if(index($key, 'q') != -1) {
   #    $c->req->params->{$key} = html_sanitize($value);
