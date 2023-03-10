@@ -3,7 +3,7 @@
 <a class="matching-page-link" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq).path %]">[% label | html %]</a>
 [% END -%]
 
-[%- IF resultset.documents.size; has_remainder = resultset.documents.size > 20; start = has_remainder ? resultset.documents.slice(0, 20) : resultset.documents -%]
+[%- IF resultset.documents.size; has_remainder = resultset.documents.size > 6; start = has_remainder ? resultset.documents.slice(0, 6) : resultset.documents -%]
   	<!--[% c.loc("L_MATCHING") %]-->
   	<span>
 		[% IF lang == 'fr' -%]
@@ -16,7 +16,7 @@
 	[% FOR page IN start -%]
 	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%][% IF !loop.last %], [% END %]
 	[% END %]
-	[% IF has_remainder; remainder = resultset.documents.slice(20) -%]
+	[% IF has_remainder; remainder = resultset.documents.slice(6) -%]
 	<button class="btn btn-link matching-pages-more-2 p-0 border-0">...[% c.loc("L_MATCHING_SHOW_MORE") %]</button>
 	<span class="matching-pages-remainder hidden">
 		[% FOR page IN remainder -%]
