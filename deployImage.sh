@@ -15,13 +15,9 @@ fi
 
 cd $OLDPWD
 
-<<<<<<< HEAD
-docker-compose build --pull
-=======
 
 docker-compose build --pull
 
->>>>>>> citation-guide
 
 if [ "$?" -ne "0" ]; then
   exit $?
