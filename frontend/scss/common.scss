@@ -104,7 +104,7 @@ header #test.environment-message.message-banner {
   @include make-col-ready();
   @include make-col(12);
   @include media-breakpoint-up(md) {
-    @include make-col(8);
+    @include make-col(3);
   }
 }
 
@@ -116,7 +116,7 @@ header #test.environment-message.message-banner {
   @include make-col-ready();
   @include make-col(12);
   @include media-breakpoint-up(md) {
-    @include make-col(4);
+    @include make-col(8);
   }
   text-align: right;
   li {
@@ -125,6 +125,7 @@ header #test.environment-message.message-banner {
     margin-left: math.div($spacer, 2);
   }
 }
+
 
 .small-links {
   display: block;
