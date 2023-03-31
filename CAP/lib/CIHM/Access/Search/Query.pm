@@ -43,10 +43,10 @@ has 'cap_query' => (
 sub to_cap {
 	my ($self) = @_;
 	if(defined $self->cap_query) {
-		return escape_html($self->cap_query);
-	} else {
-		return "";
-	}
+ 		return escape_html($self->cap_query);
+ 	} else {
+ 		return "";
+ 	}
 }
 
 has 'query_terms' => (
