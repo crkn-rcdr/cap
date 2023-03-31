@@ -19,6 +19,10 @@ requires 'Text::Trim';
 requires 'Number::Format';
 requires 'Term::Size::Any';
 requires 'Crypt::Mac::HMAC';
+<<<<<<< HEAD
 requires 'HTML::Escape';
 requires 'Number::Bytes::Human';
 requires 'LWP::Protocol::https';
+=======
+requires 'HTML::Escape';
+>>>>>>> citation-guide
