@@ -7,13 +7,14 @@
 <div class="container-md">
 
   <div class="upper-links">
-    <div>
-      <a id="back-to-search" href="/search">
-        &laquo; [% c.loc("L_BACK") %] 
-      </a>
-    </div>
 
     [% IF c.portal_id == "parl" %]
+      <div>
+        <a id="back-to-search" href="/search">
+          &laquo; [% c.loc("L_BACK") %] 
+        </a>
+      </div>
+
       <div>
       [% FOREACH node IN nodes %]
         <a href="[% c.uri_for("/browse", node.0, node.1, node.2, node.3) %]">
