@@ -210,5 +210,6 @@
   "URL_PARL_VISIT": "https://visitez.parl.ca/",
   "URL_TERMS": "http://www.canadiana.ca/conditions",
   "URL_DOWNLOAD_DOCS": "https://www.crkn-rcdr.ca/en/draft-pdf-download-user-guide",
-  "URL_CITATION_GUIDE": "https://www.crkn-rcdr.ca/fr/guide-de-citation-canadiana"
+  "URL_CITATION_GUIDE": "https://www.crkn-rcdr.ca/fr/guide-de-citation-canadiana",
+  "URL_CITATION_GUIDE_HERITAGE": "https://bibliotheque-archives.canada.ca/fra/services/public/utiliser-documents-bac/crediting-citing-material/Pages/citation-documents.aspx"
 }
