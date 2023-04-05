@@ -21,6 +21,7 @@
   "L_CNDHI": "CNDHI: Canadian National Digital Heritage Index",
   "L_CONTACT": "Contact Us",
   "L_NEW" : "What's New",
+  "L_CITE" : "Citation Guide",
   "L_CRKN": "Canadian Research Knowledge Network",
   "L_CRKN_PRODUCED": "Produced by CRKN",
   "L_CRKN_SHORT": "CRKN",
@@ -208,5 +209,7 @@
   "URL_PARL_SENATE": "https://www.sencanada.ca/en",
   "URL_PARL_VISIT": "https://visit.parl.ca/",
   "URL_TERMS": "http://www.canadiana.ca/terms",
-  "URL_DOWNLOAD_DOCS": "https://www.crkn-rcdr.ca/en/navigating-collections"
+  "URL_DOWNLOAD_DOCS": "https://www.crkn-rcdr.ca/en/draft-pdf-download-user-guide",
+  "URL_CITATION_GUIDE": "https://www.crkn-rcdr.ca/en/canadiana-citation-guide",
+  "URL_CITATION_GUIDE_HERITAGE": "https://library-archives.canada.ca/eng/services/public/using-lac-material/crediting-citing-material/Pages/credit-citing-material.aspx"
 }

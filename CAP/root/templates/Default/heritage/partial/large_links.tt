@@ -11,6 +11,9 @@
   <a href="[% c.loc("URL_NEW") %]">[% c.loc("L_NEW") %]</a>
 </li>
 <li>
+  <a href="[% c.loc("URL_CITATION_GUIDE_HERITAGE") %]">[% c.loc("L_CITE") %]</a>
+</li>
+<li>
   <a href="[% c.loc("URL_CONTACT") %]">[% c.loc("L_CONTACT") %]</a>
 </li>
 

@@ -97,11 +97,11 @@
           if(i == 0) backString += "?q0.0=" + queries[i];
           else backString += "&q"+i+".0=" + queries[i];
         }
-
         var back = $("#back-to-search");
         if(back) {
           back.attr("href", backString);
         }
+
 
         $("#matchingImagesResults").show();
         var previewWrap = $("#matching-pages-preview-wrap");
