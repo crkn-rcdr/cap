@@ -200,5 +200,6 @@
   "URL_PARL_SENATE": "https://www.sencanada.ca/en",
   "URL_PARL_VISIT": "https://visit.parl.ca/",
   "URL_TERMS": "http://www.canadiana.ca/terms",
-  "URL_CITATION_GUIDE": "https://www.crkn-rcdr.ca/en/canadiana-citation-guide"
+  "URL_CITATION_GUIDE": "https://www.crkn-rcdr.ca/en/canadiana-citation-guide",
+  "URL_CITATION_GUIDE_HERITAGE": "https://library-archives.canada.ca/eng/services/public/using-lac-material/crediting-citing-material/Pages/credit-citing-material.aspx"
 }
