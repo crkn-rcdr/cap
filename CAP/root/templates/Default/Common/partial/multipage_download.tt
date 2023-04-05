@@ -1,0 +1,51 @@
+<span class="icon-text-wrap dl-full">
+	<span class="icon text-aligned dl-full-icon">
+		<!--svg height="26" width="26" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><polygon points="288,144 288,160 400,160 400,432 112,432 112,160 224,160 224,144 96,144 96,448 416,448 416,144   "/></g><g><polygon points="193.1,252.3 181.5,263.9 256,338.4 330.5,263.9 318.9,252.3 264.2,307 264.2,64 247.8,64 247.8,307   "/></g></g></svg-->
+		<svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+    	<path fill-rule="evenodd" d="M14 6.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V6.5h-2A1.5 1.5 0 0 1 9.5 5V3H4a1 1 0 0 0-1 1v7H2V4c0-1.105.9-1.9 2-2h5.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z"/>
+    	<path fill-rule="evenodd" d="M8.5 1H4C2.502 1 1 2.504 1 4v7H0V4c0-2 2-4 4-4h3.5z"/>
+  		</svg>
+	</span>
+	<span class="dl-full-txt">
+		[% IF item_download_size %]
+			<a href="[% item_download %]">
+				[% IF lang == 'fr' -%]
+					[% IF c.portal_id == 'parl' %] 
+						Télécharger le volume entier en PDF
+					[% ELSIF c.portal_id == 'heritage' %] 
+						Télécharger la bobine entière en PDF
+					[% ELSE %] 
+						Télécharger le document complet en PDF
+					[% END %]
+					([% item_download_size %])
+				[% ELSE -%]
+					Download entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] as a PDF ([% item_download_size %])
+				[% END -%]
+			</a>
+		[% ELSE %]
+			[% IF lang == 'fr' -%]
+				[% IF c.portal_id == 'parl' %] 
+					Le téléchargement de l'ensemble du volume n'est pas disponible
+				[% ELSIF c.portal_id == 'heritage' %] 
+					Le téléchargement de la bobine entière n'est pas disponibles
+				[% ELSE %] 
+					Le téléchargement du document entier n'est pas disponible
+				[% END %]
+			[% ELSE -%]
+				Entire [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %] PDF download not available
+			[% END -%]
+		[% END %]
+	</span>
+</span>
+
+<span class="icon-text-wrap dl-help ">
+	<span class="icon text-aligned">
+		<svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="20" height="22" fill="currentColor" viewBox="0 0 16 16">
+			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+		</svg>
+	</span>
+	<span>[% c.loc("L_DOWNLOAD_DOCS_PRE") %] <a href="[% c.loc("URL_DOWNLOAD_DOCS") %]" target="_blank">[% c.loc("L_DOWNLOAD_DOCS") %]</a> <!--[% c.loc("L_HELP") %]--></span>
+</span>
+<br/>
+<br/>

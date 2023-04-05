@@ -1,5 +1,4 @@
 /* cap.matchingPages.js */
-
 !(function ($) {
   var MatchingPages = function (element) {
     this.init(element);
@@ -13,12 +12,13 @@
       this.$searching = $(".matching-pages-searching", this.$element);
       this.$results = $(".matching-pages-results", this.$element);
       this.callUrl = ["", "search", "post"].join("/");
-
+      $("#matchingPageNavButtons").hide();
+      
       this.params = {
         q: $("<div/>").html(this.$element.attr("data-query")).text(),
         pkey: this.$element.attr("data-pkey"),
         fmt: "ajax",
-        handler: "page",
+        handler: window.location.href.includes("view") ? "page" : "results",
       };
 
       if (!!this.params.q) {
@@ -29,6 +29,7 @@
       var $keywordSearch = $("#keywordSearch");
       if ($keywordSearch.length) {
         $keywordSearch.on("submit", $.proxy(this.submitSearch, this));
+        $keywordSearch.on("reset", $.proxy(this.clearSearch, this));
       }
 
       var $pvToolbar = $("#pvToolbar");
@@ -56,8 +57,20 @@
       }
     },
 
+    clearSearch: function (e) {
+      e.preventDefault();
+      this.params.q = "";
+      this.$results.empty();
+      $("#matchingImagesResults").hide();
+      $("#matchingPageNavButtons").hide();
+      $("#query").val('');
+      sessionStorage.setItem("query", "");
+    },
+
     makeCall: function () {
       var that = this;
+      $("#matchingImagesResults").hide();
+      $("#matchingPageNavButtons").hide();
       $.ajax({
         url: this.callUrl,
         method: "post",
@@ -75,7 +88,157 @@
       this.$searching.hide();
       this.$results.html(data);
 
-      var $moreButton = $(".matching-pages-more", this.$results);
+
+      if(window.location.href.includes("view")) {
+        var backString = "/search";
+        var queries = this.params.q.split(" ");
+        //?q2.0=m&dt=&q1.0=mo&df=&q0.0=moo
+        for(let i = 0; i < queries.length; i++) {
+          if(i == 0) backString += "?q0.0=" + queries[i];
+          else backString += "&q"+i+".0=" + queries[i];
+        }
+        $("#back-to-search").attr("href", backString)
+
+        $("#matchingImagesResults").show();
+        var previewWrap = $("#matching-pages-preview-wrap");
+        var previewLinks = $(".matching-page", previewWrap);
+
+        var allWrap = $("#matching-pages-all-wrap");
+        var allLinks = $(".matching-page", allWrap);
+        $("#matching-page-count").html(allLinks.length);
+        $("#matching-page-query").html(this.params.q);
+
+        var prev = $("#matching-page-prev");
+        var next = $("#matching-page-next");
+        var currentMatchingPage = null;
+
+        allLinks.each( ( i ) => {
+          allLinks[i].addEventListener('click', () => {
+
+            currentMatchingPage = i;
+
+            if(currentMatchingPage === allLinks.length-1) {
+              next.prop('disabled', true);
+            } else {
+              next.prop('disabled', false);
+            }
+            if(currentMatchingPage === 0) {
+              prev.prop('disabled', true);
+            } else {
+              prev.prop('disabled', false);
+            }
+            
+            allLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";
+            $("#matching-page-current").html(currentMatchingPage+1);
+            if(previewLinks.length > i) {
+              previewLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";
+            }
+
+            allLinks.each( ( j ) => {
+              if ( i !== j ) {
+                allLinks[j].style = "";
+                if(previewLinks.length > j) {
+                  previewLinks[j].style = "";
+                }
+              }
+            })
+
+            $("#matchingPageNavButtons").show();
+
+          }, false);
+        })
+
+        previewLinks.each( ( i ) => {
+          previewLinks[i].addEventListener('click', () => {
+            currentMatchingPage = i;
+            if(currentMatchingPage === allLinks.length-1) {
+              next.prop('disabled', true);
+            } else {
+              next.prop('disabled', false);
+            }
+            if(currentMatchingPage === 0) {
+              prev.prop('disabled', true);
+            } else {
+              prev.prop('disabled', false);
+            }
+            previewLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";;
+            $("#matching-page-current").html(currentMatchingPage+1);
+            allLinks[i].style = "font-style: italic; text-decoration: underline; color: #000000;";
+            previewLinks.each( ( j ) => {
+              if ( i !== j ) {
+                previewLinks[j].style = "";
+                allLinks[j].style = "";
+              }
+            })
+            $("#matchingPageNavButtons").show();
+          }, false);
+        })
+
+        if(prev) {
+          prev.click(() => {
+            var prevMatchingPage = currentMatchingPage - 1;
+            if(prevMatchingPage > -1) { 
+              allLinks[prevMatchingPage].click();
+              $("#matching-page-current").html(prevMatchingPage+1);
+            }
+            if(prevMatchingPage > -1 && prevMatchingPage < previewLinks.length) { 
+              previewLinks[prevMatchingPage].click();
+              $("#matching-page-current").html(prevMatchingPage+1);
+            }
+            if(prevMatchingPage === 0) {
+              prev.prop('disabled', true);
+            } else {
+              prev.prop('disabled', false);
+            }
+            next.prop('disabled', false);
+          })
+        }
+
+        if(next) {
+          next.click(() => {
+            var nextMatchingPage = currentMatchingPage + 1;
+            if(nextMatchingPage < allLinks.length) { 
+              allLinks[nextMatchingPage].click();
+              $("#matching-page-current").html(nextMatchingPage+1);
+            }
+            if(nextMatchingPage < previewLinks.length) { 
+              previewLinks[nextMatchingPage].click();
+              $("#matching-page-current").html(nextMatchingPage+1);
+            }
+            if(nextMatchingPage === allLinks.length-1) {
+              next.prop('disabled', true);
+            } else {
+              next.prop('disabled', false);
+            }
+            prev.prop('disabled', false);
+          })
+        }
+      
+
+        var $moreButton = $(".matching-pages-more", this.$results);
+        var $lessButton = $(".matching-pages-less", this.$results);
+        var $preview = $(".matching-pages-preview", this.$results);
+        var $all = $(".matching-pages-all", this.$results);
+        if ($moreButton.length) {
+          $moreButton.on("click", function (e) {
+            e.preventDefault();
+            $moreButton.addClass("hidden");
+            $preview.addClass("hidden");
+            if ($lessButton.length)  $lessButton.removeClass("hidden");
+            $all.removeClass("hidden");
+          });
+        }
+        if ($lessButton.length) {
+          $lessButton.on("click", function (e) {
+            e.preventDefault();
+            $lessButton.addClass("hidden");
+            $all.addClass("hidden");
+            if ($moreButton.length) $moreButton.removeClass("hidden");
+            $preview.removeClass("hidden");
+          });
+        }
+    } else {
+      var $moreButton = $(".matching-pages-more-2", this.$results);
       var $more = $(".matching-pages-remainder", this.$results);
       if ($moreButton.length) {
         $moreButton.on("click", function (e) {
@@ -84,8 +247,8 @@
           $more.removeClass("hidden");
         });
       }
-    },
-  };
+    }
+  }};
 
   $.fn.matchingPages = function (option) {
     return this.each(function () {

@@ -104,7 +104,7 @@ header #test.environment-message.message-banner {
   @include make-col-ready();
   @include make-col(12);
   @include media-breakpoint-up(md) {
-    @include make-col(8);
+    @include make-col(3);
   }
 }
 
@@ -116,7 +116,7 @@ header #test.environment-message.message-banner {
   @include make-col-ready();
   @include make-col(12);
   @include media-breakpoint-up(md) {
-    @include make-col(4);
+    @include make-col(8);
   }
   text-align: right;
   li {
@@ -125,6 +125,7 @@ header #test.environment-message.message-banner {
     margin-left: math.div($spacer, 2);
   }
 }
+
 
 .small-links {
   display: block;
@@ -242,6 +243,7 @@ footer a {
 #pvPane {
   background-color: $white;
   position: relative;
+  margin-top: 1.5rem;
   .loading {
     position: absolute;
     top: 10px;
@@ -276,7 +278,7 @@ footer a {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   background-color: #eee;
-  height: 60vh;
+  height: 75vh;
   width: 100%;
   border: $viewer-border solid $viewer-border-color;
   &:focus-within {
@@ -315,4 +317,92 @@ footer a {
 
 code {
   color: #A30049 !important; // wcag fix! 
+}
+
+#matchingImagesResults {
+  display: none;
+  border: 1px solid #ced4da;
+  padding: 0.7rem 0.5rem;
+}
+
+.matching-pages-more, .matching-pages-less {
+  float: right;
+}
+
+.matching-pages-all {
+  max-height: 6rem;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+.matching-page-nav-buttons { 
+  border-right: 1px solid #ced4da;
+  border-left: 1px solid #ced4da;
+  padding: 0.2rem 0.4rem;
+}
+
+#matching-page-next {
+  margin-right: 1rem;
+}
+
+.icon {
+  padding: 0.25rem 0.4rem;
+  font-size: .875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  margin-right: 5px;
+}
+
+.icon-text-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.dl-full {
+  margin-right: 1rem;
+}
+
+.dl-help {
+  margin-left: 3px;
+}
+
+.dl-full-txt a:hover {
+  text-decoration:underline !important;
+}
+
+.dl-full-icon {
+  margin-left: 4px;
+}
+
+.ghost-button {
+  background: none;
+  border-color: white;
+}
+
+.ghost-button:hover {
+  cursor:pointer;
+  background: none;
+  border-color: white;
+  color: $primary;
+  text-decoration:underline !important;
+}
+
+.ghost-button.disabled, .ghost-button:disabled {
+  border-color: transparent !important;
+  border: none !important;
+}
+
+.search-result-ocr-msg {
+  margin-bottom: 0.25rem;
+}
+
+.upper-links { 
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.in-doc-search-input {
+  min-width: 16rem !important;
 }
