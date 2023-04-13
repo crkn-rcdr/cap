@@ -177,8 +177,16 @@ sub canonical_label {
 # the preservation Swift repository any more.
 sub item_download {
   my ($self) = @_;
-  my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
-  return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
+  if( (ref $self->record->{ocrPdf} eq "HASH" ) && $self->record->{ocrPdf}->{extension} ) {
+    my $slug = $self->record->{_id}; 
+    my $item_download =  join('.', $self->record->{noid}, $self->record->{ocrPdf}{extension});
+    my $item_filename =  join('.', $slug, $self->record->{ocrPdf}{extension});
+    return $item_download ? $self->swift_client->access_uri($item_download, $item_filename) : undef;
+  } elsif ( $self->record->{canonicalDownload} ) {
+    my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
+    return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
+  }
+  return undef;
 }
 
 sub _iiif_context {
