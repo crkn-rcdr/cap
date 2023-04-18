@@ -329,6 +329,11 @@ code {
   float: right;
 }
 
+.matching-pages-upper {
+  height: fit-content;
+  overflow: auto;
+}
+
 .matching-pages-all {
   max-height: 6rem;
   overflow-y: auto;
