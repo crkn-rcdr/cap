@@ -30,6 +30,7 @@
   ([% item_download_size %])
 [% END %]
  
+  
   <div class="ml-auto">
     [% WRAPPER button_svg tag="button" label=c.loc("L_VIEWER_FULLSCREEN_ENTER") id="pvFullscreenEnter" disabled=1 %]
       <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
