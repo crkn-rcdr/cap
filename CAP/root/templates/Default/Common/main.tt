@@ -2,7 +2,7 @@
 <!doctype html>
 <html id="html" lang="[% lang %]" class="vh-100">
   <head>
-    <title>[% IF title; title _ " -" | html; END %] [% c.portal_title %]</title>
+    <title>[% IF title; title _ " -"; END %] [% c.portal_title %]</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 [% IF c.stash.defined("nofollow") && c.stash.nofollow -%]
@@ -13,7 +13,9 @@
 [% END -%]
     <meta name="author" content="Canadiana" />
     <link href="https://fonts.googleapis.com/css?family=[% portal.font.replace(' ', '+') %]&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ c.portal_id _ '.css', { cssr => 13 }) %]" />
+
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ c.portal_id _ '.css', { cssr => 17 }) %]" />
+
     <link rel="icon" href="[% c.uri_for('/static/images/icons/32.png') %]" sizes="32x32" />
     <link rel="icon" href="[% c.uri_for('/static/images/icons/128.png') %]" sizes="128x128" />
     <link rel="icon" href="[% c.uri_for('/static/images/icons/192.png') %]" sizes="192x192" />
@@ -47,7 +49,8 @@
       </ul>
     </div>
 ![endif]-->
-    <script src="[% c.uri_for('/static/js/cap.js', { r => 21 }) %]" type="text/javascript"></script>
+    <script src="[% c.uri_for('/static/js/cap.js', { r => 24 }) %]" type="text/javascript"></script>
+
 
 [% IF portal.ga_id -%]
     <!-- Global site tag (gtag.js) - Google Analytics -->
