@@ -13,7 +13,6 @@
 [% END -%]
     <meta name="author" content="Canadiana" />
     <link href="https://fonts.googleapis.com/css?family=[% portal.font.replace(' ', '+') %]&amp;display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ c.portal_id _ '.css', { cssr => 17 }) %]" />
 
     <link rel="icon" href="[% c.uri_for('/static/images/icons/32.png') %]" sizes="32x32" />
