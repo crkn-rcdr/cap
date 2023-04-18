@@ -40,7 +40,9 @@
     </a>
   </h3>
 
-  [% INCLUDE partial/published_and_pages.tt result=result %]
+  <div class="search-result-ocr-msg">
+    [% INCLUDE partial/published_and_pages.tt result=result %]
+  </div>
   [% IF match_pages && result.type == "document" && result.component_count_fulltext && result.component_count_fulltext > 0 -%]
     [% INCLUDE partial/matching_pages.tt query=query pkey=result.key %]
   [% END -%]

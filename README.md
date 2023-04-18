@@ -108,7 +108,6 @@ $ ./deployImage.sh
 - https://heritage-demo.canadiana.ca/
 - https://mcgillarchives-demo.canadiana.ca/
 - https://nrcan-demo.canadiana.ca/
-- https://numeris-demo.canadiana.ca/
 - https://parl-demo.canadiana.ca/
 - https://pub-demo.canadiana.ca/
 - https://sve-demo.canadiana.ca/
@@ -119,7 +118,6 @@ $ ./deployImage.sh
 - https://heritage.canadiana.ca/
 - https://mcgillarchives.canadiana.ca/
 - https://nrcan.canadiana.ca/
-- https://numeris.canadiana.ca/
 - https://parl.canadiana.ca/
 - https://pub.canadiana.ca/
 - https://sve.canadiana.ca/
