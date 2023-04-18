@@ -29,8 +29,14 @@
 
   [% INCLUDE partial/page_viewer.tt %]
 
-  [% INCLUDE partial/published_and_pages.tt result=record %]
+
+  <p>
   [% INCLUDE partial/multipage_download.tt result=record %]
+  </p>
+
+  [% INCLUDE partial/published_and_pages.tt result=record %]
+
+  <br/>
 
   [% INCLUDE partial/document_record.tt record=record bottom_margin=1 %]
 </div>
