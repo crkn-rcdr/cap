@@ -1,9 +1,9 @@
 [% BLOCK matching_page -%]
 	[%# uses .path to generate a relative URL so that clients using proxies don't get sent back to the mothership #5105 -%]
-	<a class="matching-page" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq).path %]">[% label | html %]</a>
+	<a class="matching-page" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq).path %]">[% label | html %]</a>[% IF !loop.last %], [% END %]
 [% END -%]
 
-[%- IF resultset.documents.size; has_remainder = resultset.documents.size > 6; start = has_remainder ? resultset.documents.slice(0, 6) : resultset.documents -%]
+[%- IF resultset.documents.size; has_remainder = resultset.documents.size > 4; start = has_remainder ? resultset.documents.slice(0, 4) : resultset.documents -%]
 
 	<div class="matching-pages-upper">
 		<span>
@@ -16,11 +16,11 @@
 
 		<span id="matching-pages-preview-wrap" class="matching-pages-preview">
 			[% FOR page IN start -%]
-				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%] [% IF !loop.last %], [% END %]
+				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%][% IF loop.last &&  has_remainder%]... [% END %]
 			[% END %]
 		</span>
 
-		[% IF has_remainder; remainder = resultset.documents.slice(6) -%]
+		[% IF has_remainder; remainder = resultset.documents.slice(4) -%]
 			<button class="btn btn-link matching-pages-more p-0 border-0">
 				[% c.loc("L_MATCHING_SHOW_MORE") %]
 				<svg fill="none" height="22" viewBox="0 0 15 15" width="22" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M4.18179 6.18181C4.35753 6.00608 4.64245 6.00608 4.81819 6.18181L7.49999 8.86362L10.1818 6.18181C10.3575 6.00608 10.6424 6.00608 10.8182 6.18181C10.9939 6.35755 10.9939 6.64247 10.8182 6.81821L7.81819 9.81821C7.73379 9.9026 7.61934 9.95001 7.49999 9.95001C7.38064 9.95001 7.26618 9.9026 7.18179 9.81821L4.18179 6.81821C4.00605 6.64247 4.00605 6.35755 4.18179 6.18181Z" fill="currentColor" fill-rule="evenodd"/></svg>
@@ -33,7 +33,7 @@
 
 			<div id="matching-pages-all-wrap" class="matching-pages-all hidden">
 				[% FOR page IN resultset.documents -%]
-				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %] [% IF !loop.last %], [% END %]
+				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
 				[% END %]
 				<!--[% IF resultset.documents.size < resultset.hits %]
 				, [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]...
