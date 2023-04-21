@@ -1,4 +1,5 @@
-﻿﻿[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' '); flag = portal.subcollections.$coll.flag.${lang} %]
+﻿﻿[% INCLUDE partial/message_banner.tt | indent(2) %]
+[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' '); flag = portal.subcollections.$coll.flag.${lang} %]
 <div class="col mb-2">
 	<div class="card">
 		<img class="card-img-top ca-front-card" src="/static/images/cards/[% coll %].jpg" alt="A descriptive image" />
