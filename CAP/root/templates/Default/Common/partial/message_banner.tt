@@ -1,3 +1,4 @@
+<!--
 [% IF c.config.show_banner && !clearbanner -%]
 <div class="container">
   <div class="message-banner d-flex">
@@ -19,3 +20,4 @@
   </div>
 </div>
 [% END -%]
+-->
