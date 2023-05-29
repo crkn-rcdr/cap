@@ -78,6 +78,7 @@
         navigatorPosition: "TOP_LEFT",
         crossOriginPolicy: "Anonymous",
         preserveViewport: true,
+        alwaysBlend: true
       });
 
       this.dragon = OpenSeadragon.getViewer(viewerAnchor);
