@@ -1,24 +1,50 @@
 [% BLOCK matching_page -%]
-[%# uses .path to generate a relative URL so that clients using proxies don't get sent back to the mothership #5105 -%]
-<a class="matching-page badge badge-primary" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq).path %]">[% label | html %]</a>
+	[%# uses .path to generate a relative URL so that clients using proxies don't get sent back to the mothership #5105 -%]
+	<a class="matching-page" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq).path %]">[% label | html %]</a>[% IF !loop.last %], [% END %]
 [% END -%]
 
-[%- IF resultset.documents.size; has_remainder = resultset.documents.size > 20; start = has_remainder ? resultset.documents.slice(0, 20) : resultset.documents -%]
-  [% c.loc("L_MATCHING") %]
-	[% FOR page IN start -%]
-	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%]
-	[% END %]
-	[% IF has_remainder; remainder = resultset.documents.slice(20) -%]
-	<button class="btn btn-link matching-pages-more p-0 border-0">[% c.loc("L_MATCHING_SHOW_MORE") %]</button>
-	<span class="matching-pages-remainder hidden">
-		[% FOR page IN remainder -%]
-		[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
+[%- IF resultset.documents.size; has_remainder = resultset.documents.size > 4; start = has_remainder ? resultset.documents.slice(0, 4) : resultset.documents -%]
+
+	<div class="matching-pages-upper">
+		<span>
+			[% IF lang == 'fr' -%]
+				Images contenant "[% query %]" [% IF c.portal_id == 'parl' %] dans ce volume [% ELSIF c.portal_id == 'heritage' %] dans cette bobine [% ELSE %] dans ce document [% END %] :
+			[% ELSE -%]
+				Images containing "[% query %]" in this [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %]:
+			[% END -%]
+		</span>
+
+		<span id="matching-pages-preview-wrap" class="matching-pages-preview">
+			[% FOR page IN start -%]
+				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%][% IF loop.last &&  has_remainder%]... [% END %]
+			[% END %]
+		</span>
+
+		[% IF has_remainder; remainder = resultset.documents.slice(4) -%]
+			<button class="btn btn-link matching-pages-more p-0 border-0">
+				[% c.loc("L_MATCHING_SHOW_MORE") %]
+				<svg fill="none" height="22" viewBox="0 0 15 15" width="22" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M4.18179 6.18181C4.35753 6.00608 4.64245 6.00608 4.81819 6.18181L7.49999 8.86362L10.1818 6.18181C10.3575 6.00608 10.6424 6.00608 10.8182 6.18181C10.9939 6.35755 10.9939 6.64247 10.8182 6.81821L7.81819 9.81821C7.73379 9.9026 7.61934 9.95001 7.49999 9.95001C7.38064 9.95001 7.26618 9.9026 7.18179 9.81821L4.18179 6.81821C4.00605 6.64247 4.00605 6.35755 4.18179 6.18181Z" fill="currentColor" fill-rule="evenodd"/></svg>
+			</button>
+
+			<button class="btn btn-link matching-pages-less p-0 border-0 hidden">
+				[% c.loc("L_MATCHING_SHOW_LESS") %]
+				<svg fill="none" height="22" viewBox="0 0 15 15" width="22" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M4.18179 8.81819C4.00605 8.64245 4.00605 8.35753 4.18179 8.18179L7.18179 5.18179C7.26618 5.0974 7.38064 5.04999 7.49999 5.04999C7.61933 5.04999 7.73379 5.0974 7.81819 5.18179L10.8182 8.18179C10.9939 8.35753 10.9939 8.64245 10.8182 8.81819C10.6424 8.99392 10.3575 8.99392 10.1818 8.81819L7.49999 6.13638L4.81819 8.81819C4.64245 8.99392 4.35753 8.99392 4.18179 8.81819Z" fill="currentColor" fill-rule="evenodd"/></svg>
+			</button>
+
+			<div id="matching-pages-all-wrap" class="matching-pages-all hidden">
+				[% FOR page IN resultset.documents -%]
+				[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
+				[% END %]
+				<!--[% IF resultset.documents.size < resultset.hits %]
+				, [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]...
+				[% END %]-->
+			</div>
 		[% END %]
-	</span>
-	[% IF resultset.documents.size < resultset.hits %]
-	| [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]
-	[% END %]
-	[% END %]
+	</div>
 [% ELSE -%]
-    [% c.loc("L_MATCHING_NONE") %]
+
+	<div class="matching-pages-upper">
+		[% c.loc("L_MATCHING_NONE") %]
+	</div>
+
 [% END -%]

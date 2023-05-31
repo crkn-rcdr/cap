@@ -58,6 +58,9 @@
     </svg>
     [% END -%]
   </div>
+  <div class="matching-search mr-1 pt-1" style="flex: 6; display: inline-flex; justify-content: end;">
+    [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
+  </div>
 </nav>
 
 [%- BLOCK button_svg -%]

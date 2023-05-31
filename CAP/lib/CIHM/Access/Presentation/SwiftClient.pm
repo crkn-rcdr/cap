@@ -7,6 +7,7 @@ use Moo;
 use Types::Standard qw/Str/;
 use Crypt::Mac::HMAC qw/hmac_hex/;
 use URI;
+use LWP::Simple;
 
 has 'container_preservation' => (
   is     => 'ro',
@@ -40,6 +41,12 @@ sub preservation_uri {
 sub access_uri {
   my ($self, $obj_path, $filename) = @_;
   return $self->_uri($self->container_access, $obj_path, $filename);
+}
+
+sub file_size {
+  my ($self, $uri) = @_;
+  my ($type, $size) = head($uri); # or die "ERROR $uri: $!"
+  return $size;
 }
 
 sub _uri {

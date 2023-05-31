@@ -1,0 +1,33 @@
+[% BLOCK matching_page -%]
+[%# uses .path to generate a relative URL so that clients using proxies don't get sent back to the mothership #5105 -%]
+<a class="matching-page-link" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq).path %]">[% label | html %]</a>[% IF !loop.last %], [% END %]
+[% END -%]
+
+[%- IF resultset.documents.size; has_remainder = resultset.documents.size > 6; start = has_remainder ? resultset.documents.slice(0, 6) : resultset.documents -%]
+  	<!--[% c.loc("L_MATCHING") %]-->
+  	<span>
+		[% IF lang == 'fr' -%]
+			Images contenant "[% query %]" [% IF c.portal_id == 'parl' %] dans ce volume [% ELSIF c.portal_id == 'heritage' %] dans cette bobine [% ELSE %] dans ce document [% END %] :
+		[% ELSE -%]
+			Images containing "[% query %]" in this [% IF c.portal_id == 'parl' %] volume [% ELSIF c.portal_id == 'heritage' %] reel [% ELSE %] document [% END %]:
+		[% END -%]
+	</span>
+
+	[% FOR page IN start -%]
+	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%]
+	[% END %]
+	[% IF has_remainder; remainder = resultset.documents.slice(6) -%]
+	<button class="btn btn-link matching-pages-more-2 p-0 border-0">...[% c.loc("L_MATCHING_SHOW_MORE") %]</button>
+	<span class="matching-pages-remainder hidden">
+		[% FOR page IN remainder -%]
+		[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
+		[% END %]
+		[% IF resultset.documents.size < resultset.hits %]
+		| [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]
+		[% END %]
+	</span>
+	
+	[% END %]
+[% ELSE -%]
+    [% c.loc("L_MATCHING_NONE") %]
+[% END -%]
