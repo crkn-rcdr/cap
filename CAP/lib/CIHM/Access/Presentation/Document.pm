@@ -315,15 +315,15 @@ sub iiif_manifest {
         id    => "https://www.crkn-rcdr.ca/",
         type  => "Agent",
         label => {
-          en => ["Canadian Research Knowledge Network"],
-          fr => ["Réseau canadien de documentation pour la recherche"]
+          en => ["Canadian Research Knowledge Network / Réseau canadien de documentation pour la recherche"],
+          fr => ["Réseau canadien de documentation pour la recherche / Canadian Research Knowledge Network"]
         },
         homepage => [{
           id    => "https://www.crkn-rcdr.ca/",
           type  => "Text",
           label => {
-            en => ["Canadian Research Knowledge Network"],
-            fr => ["Réseau canadien de documentation pour la recherche"]
+            en => ["Canadian Research Knowledge Network / Réseau canadien de documentation pour la recherche"],
+            fr => ["Réseau canadien de documentation pour la recherche / Canadian Research Knowledge Network"]
           },
           format => "text/html"
         }]

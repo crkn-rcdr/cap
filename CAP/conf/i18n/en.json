@@ -32,6 +32,7 @@
   "L_DATE_RANGE_TO": "to",
   "L_DOWNLOAD_DOCS" : "documentation",
   "L_DOWNLOAD_DOCS_PRE" :"For help and additional download options, please see our",
+  "L_PARL_DOWNLOAD_DOCS_PRE" :"For help please see our",
   "L_ERROR_400_HEADER": "Bad Request",
   "L_ERROR_400_TEXT": "The page you requested cannot be displayed.",
   "L_ERROR_404_HEADER": "Page Not Found",
@@ -201,6 +202,7 @@
   "URL_PARL_PARL": "https://www.parl.ca/",
   "URL_PARL_SENATE": "https://www.sencanada.ca/en",
   "URL_PARL_VISIT": "https://visit.parl.ca/",
+  "URL_PARL_HELP" : "/search-tips",
   "URL_TERMS": "http://www.canadiana.ca/terms",
   "URL_DOWNLOAD_DOCS": "https://www.crkn-rcdr.ca/en/navigating-collections"
 }
