@@ -20,6 +20,7 @@
   "L_CNDHI": "IPNPC : L’Index des projets de numérisation du patrimoine canadien",
   "L_CONTACT": "Nous joindre",
   "L_NEW" : "Quoi de neuf",
+  "L_CITE" : "Guide de citation",
   "L_CRKN": "Réseau canadien de documentation pour la recherche",
   "L_CRKN_PRODUCED": "Réalisé par RCDR",
   "L_CRKN_SHORT": "RCDR",
@@ -204,5 +205,7 @@
   "URL_PARL_VISIT": "https://visitez.parl.ca/",
   "URL_PARL_HELP" : "/conseils-recherche",
   "URL_TERMS": "http://www.canadiana.ca/conditions",
+  "URL_CITATION_GUIDE": "https://www.crkn-rcdr.ca/fr/guide-de-citation-canadiana",
+  "URL_CITATION_GUIDE_HERITAGE": "https://bibliotheque-archives.canada.ca/fra/services/public/utiliser-documents-bac/crediting-citing-material/Pages/citation-documents.aspx",
   "URL_DOWNLOAD_DOCS": "https://www.crkn-rcdr.ca/fr/parcourir-les-collections"
 }

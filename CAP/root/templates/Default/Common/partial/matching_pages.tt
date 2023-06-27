@@ -1,6 +1,6 @@
 <p
   class="matching-pages"
-  data-query="[% query | html %]"
+  data-query="[% query %]"
   data-pkey="[% pkey %]"
 >
   <span class="matching-pages-results"></span>
