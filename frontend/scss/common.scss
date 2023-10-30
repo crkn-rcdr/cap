@@ -361,3 +361,8 @@ code {
   border: none !important;
 }
 
+button.disabled, button:disabled {
+  border-color: transparent !important;
+  border: none !important;
+}
+
