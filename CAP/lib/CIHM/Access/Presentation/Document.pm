@@ -99,7 +99,13 @@ sub _build_items {
           my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
           my $filename = join('.', $page_slug, $component_record->{canonicalDownloadExtension});
           $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
-        }
+        } 
+        #else {
+        # testing if an object has a pdf for ocr tracking
+        # my $obj_path = join('.', $noid, "pdf");
+        #  my $filename = join('.', $page_slug, "pdf");
+        #  $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
+        #}
 
         $r;
       } 1 .. @{$self->record->{order}} ];

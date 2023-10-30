@@ -1,6 +1,5 @@
 <header>
 [% INCLUDE partial/environment_banner.tt | indent(2) %]
-[% INCLUDE partial/message_banner.tt | indent(2) %]
   <nav class="ce-lop-header d-print-none">
     <div class="container">
       <ul class="list-style-none d-flex mb-0 p-0">
