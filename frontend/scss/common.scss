@@ -313,3 +313,51 @@ footer a {
 code {
   color: #A30049 !important; // wcag fix! 
 }
+
+.icon {
+  padding: 0.25rem 0.4rem;
+  font-size: .875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  margin-right: 5px;
+}
+
+.icon-text-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.dl-full {
+  margin-right: 1rem;
+}
+
+.dl-help {
+  margin-left: 3px;
+}
+
+.dl-full-txt a:hover {
+  text-decoration:underline !important;
+}
+
+.dl-full-icon {
+  margin-left: 4px;
+}
+
+.ghost-button {
+  background: none;
+  border-color: white;
+}
+
+.ghost-button:hover {
+  cursor:pointer;
+  background: none;
+  border-color: white;
+  color: $primary;
+  text-decoration:underline !important;
+}
+
+.ghost-button.disabled, .ghost-button:disabled {
+  border-color: transparent !important;
+  border: none !important;
+}
+
