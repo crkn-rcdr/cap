@@ -38,5 +38,13 @@
 	"sru": {
 		"en": "University of Regina Archives",
 		"fr": "University of Regina Archives"
+	},
+	"mw": {
+		"en": "Music Works",
+		"fr": "Music Works"
+	},
+	"sfu": {
+		"en": "Simon Fraser University",
+		"fr": "Simon Fraser University"
 	}
 }
