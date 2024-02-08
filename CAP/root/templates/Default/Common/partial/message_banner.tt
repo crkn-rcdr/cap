@@ -1,23 +1,23 @@
-[% IF c.portal_id == "heritage" %]
-  [% IF c.config.show_banner && !clearbanner -%]
-  <div class="container">
-    <div class="message-banner d-flex">
-      <p class="my-0 py-1 px-2">
-  [% IF c.stash.lang == "fr" -%]
-    Le site web d'Héritage pourrait être inaccessible entre 0 h 00 et 2 h 00 HNE le mercredi février 7 en raison d'une maintenance planifiée de l'infrastructure. Nous nous excusons pour la gêne occasionnée.
-  [% ELSE -%]
-    The Héritage website may be unavailable between 12 a.m. and 2 a.m. EST on Wednesday, February 7 due to planned infrastructure maintenance. We apologize for any inconvenience.
-  [% END -%]
-      </p>
-      <p class="ml-auto my-0 py-1 px-2">
-        <a href="[% c.req.uri_with({ clearbanner => c.config.message_banner }) %]">
-          <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-          </svg>
-          <span class="sr-only">[% c.loc("GENERIC_MENU_CLOSE") %]</span>
-        </a>
-      </p>
-    </div>
-  </div>
-  [% END -%]
+<!--
+[% IF c.config.show_banner && !clearbanner -%]
+<div class="container">
+  <div class="message-banner d-flex">
+    <p class="my-0 py-1 px-2">
+[% IF c.stash.lang == "fr" -%]
+    Notre équipe est en train de résoudre un problème avec notre collection de monographies et certains contenus peuvent être temporairement indisponibles. Nous nous excusons pour cette interruption.
+[% ELSE -%]
+    Our team is currently resolving an issue with our monographs collection and some items may be temporarily unavailable. We apologize for any inconvenience.
 [% END -%]
+    </p>
+    <p class="ml-auto my-0 py-1 px-2">
+      <a href="[% c.req.uri_with({ clearbanner => c.config.message_banner }) %]">
+        <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+        <span class="sr-only">[% c.loc("GENERIC_MENU_CLOSE") %]</span>
+      </a>
+    </p>
+  </div>
+</div>
+[% END -%]
+-->
