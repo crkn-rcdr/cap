@@ -80,12 +80,9 @@ header {
 
 header .message-banner {
   color: $dark;
-  background-color: scale-color($color: $primary, $lightness: 85%);
+  background-color: #f6e0d5;/*scale-color($color: $primary, $lightness: 85%);*/
   a {
-    color: $primary;
-    &:hover {
-      color: $link-hover-color;
-    }
+    color: #8b501d /*$primary*/;
   }
 }
 
@@ -360,6 +357,11 @@ code {
 }
 
 .ghost-button.disabled, .ghost-button:disabled {
+  border-color: transparent !important;
+  border: none !important;
+}
+
+button.disabled, button:disabled {
   border-color: transparent !important;
   border: none !important;
 }

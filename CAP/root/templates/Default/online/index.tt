@@ -1,4 +1,5 @@
-﻿﻿[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' '); flag = portal.subcollections.$coll.flag.${lang} %]
+﻿﻿[% INCLUDE partial/message_banner.tt | indent(2) %]
+[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' '); flag = portal.subcollections.$coll.flag.${lang} %]
 <div class="col mb-2">
 	<div class="card">
 		<img class="card-img-top ca-front-card" src="/static/images/cards/[% coll %].jpg" alt="A descriptive image" />
@@ -47,7 +48,7 @@
 [% INCLUDE collcard coll="monog" | indent(6) %]
 [% INCLUDE collcard coll="serials" | indent(6) %]
 [% INCLUDE collcard coll="govpubs" | indent(6) %]
-[% INCLUDE collcard coll="maps" | indent(6) %]
+[% INCLUDE collcard browselink="/search?collection=maps" coll="maps" | indent(6) %]
     </div>
 		<div class="border rounded pt-3 pl-3 pr-3 mb-3">
 [% INCLUDE "blocks/${c.stash.lang}/content-statement.html" | indent(8) %]

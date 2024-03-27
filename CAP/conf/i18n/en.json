@@ -149,6 +149,8 @@
   "L_VIEWER_DOWNLOAD_PDF_EXPLANATION": "This document can only be viewed by downloading it as a PDF.",
   "L_VIEWER_DOWNLOAD_SINGLE": "Download PDF (single image)",
   "L_VIEWER_DOWNLOAD_FULL": "Download PDF (full document)",
+  "L_VIEWER_DOWNLOAD_SINGLE_NA": "Download PDF (single image) unavailable",
+  "L_VIEWER_DOWNLOAD_FULL_NA": "Download PDF (full document) unavailable",
   "L_VIEWER_FIRST": "First image",
   "L_VIEWER_FULL_IMAGE_DOWNLOAD": "Download full-size image in JPG format",
   "L_VIEWER_FULL_IMAGE": "Open full-size image in new tab",

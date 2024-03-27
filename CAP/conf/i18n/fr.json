@@ -149,6 +149,8 @@
   "L_VIEWER_DOWNLOAD_PDF_EXPLANATION": "Ce document peut uniquement être consulté en le téléchargeant au format PDF.",
   "L_VIEWER_DOWNLOAD_SINGLE": "Télécharger le PDF (image unique)",
   "L_VIEWER_DOWNLOAD_FULL": "Télécharger le PDF (document complet)",
+  "L_VIEWER_DOWNLOAD_SINGLE_NA": "Télécharger le PDF (image unique) indisponible",
+  "L_VIEWER_DOWNLOAD_FULL_NA": "Télécharger le PDF (document complet) indisponible",
   "L_VIEWER_FIRST": "Première image",
   "L_VIEWER_FULL_IMAGE_DOWNLOAD": "Télécharger l'image en taille réelle en format JPG",
   "L_VIEWER_FULL_IMAGE": "Ouvrir l'image en taille réelle dans un nouvel onglet",
