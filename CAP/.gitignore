@@ -4,7 +4,7 @@ META.*
 MYMETA.json
 MYMETA.yml
 blib
-docker-compose*
+docker compose*
 inc
 local
 .vscode

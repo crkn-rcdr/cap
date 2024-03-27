@@ -2,30 +2,55 @@
 	<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 mb-3">
 		[% FOREACH coll IN [
 			{ fullname => 'Genealogy',
+			  frfullname => 'Généalogie',
 			  blockname => 'genealogy',
-			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Genealogy" }) },
-			{ fullname => 'Aboriginal History',
-			  blockname => 'aboriginal_history',
-			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Aboriginal" }) },
+			  link => c.uri_for_action("/search/index", "", { "q0.0" => "su:Genealogy" }), 
+			  frlink => c.uri_for_action("/search/index", "", { "q0.0" => "su:Généalogie" }) 
+			},
+			{ fullname => 'Indigenous History',
+			  frfullname => 'Histoire autochtone',
+			  blockname => 'indigenous_history',
+			  link => c.uri_for_action("/search/index", "", { "q0.0" => "su:Indigenous history" }), 
+			  frlink => c.uri_for_action("/search/index", "", { "q0.0" => "su:Histoire autochtone" }) 
+			},
 			{ fullname => 'Government Documents',
+			  frfullname => 'Documents du gouvernement',
 			  blockname => 'government_documents',
-			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Government" }) },
+			  link => c.uri_for_action("/search/index", "", { "q0.0" => "su:Government" }), 
+			  frlink => c.uri_for_action("/search/index", "", { "q0.0" => "su:Gouvernement" }) 
+			},
 			{ fullname => 'Military History',
+			  frfullname => 'Histoire militaire',
 			  blockname => 'military_history',
-			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Military" }) },
+			  link => c.uri_for_action("/search/index", "", { "q0.0" => "su:Military" }), 
+			  frlink => c.uri_for_action("/search/index", "", { "q0.0" => "su:Military" }) 
+			},
 			{ fullname => 'Landmark Papers',
+			  frfullname => 'Papiers privés',
 			  blockname => 'landmark_papers',
-			  link => c.uri_for_action("/search/index", "browsable", { identifier => "Papers" }) }
+			  link => c.uri_for_action("/search/index", "", { "q0.0=" => "su:Papers" }), 
+			  frlink => c.uri_for_action("/search/index", "", { "q0.0" => "su:Papers" }) 
+			}
 		] %]
 		<div class="col mb-3">
 			<div class="card">
 				<img class="card-img-top" src="/static/images/cards/[% coll.blockname %].jpg" alt="" />
 				<div class="card-body">
-					<h3 class="card-title h5 font-weight-bold"><a href="[% coll.link %]">[% coll.fullname %]</a></h3>
-					[% INCLUDE "blocks/${lang}/${coll.blockname}.html" %]
+					<h3 class="card-title h5 font-weight-bold">
+					[% IF c.stash.lang == "fr" -%]
+						<a href="[% coll.frlink %]">[% coll.frfullname %]</a>
+					[% ELSE -%]
+						<a href="[% coll.link %]">[% coll.fullname %]</a>
+					[% END -%]
+					</h3>
+					[% INCLUDE "blocks/${c.stash.lang}/${coll.blockname}.html" %]
 				</div>
 				<div class="card-footer">
-					<a href="[% coll.link %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
+					[% IF c.stash.lang == "fr" -%]
+						<a href="[% coll.frlink %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
+					[% ELSE -%]
+						<a href="[% coll.link %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
+					[% END -%]
 				</div>
 			</div>
 		</div>

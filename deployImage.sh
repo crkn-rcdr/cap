@@ -16,7 +16,7 @@ fi
 cd $OLDPWD
 
 
-docker-compose build --pull
+docker compose build --pull
 
 
 if [ "$?" -ne "0" ]; then
