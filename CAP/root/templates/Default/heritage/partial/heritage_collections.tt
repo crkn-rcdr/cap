@@ -28,8 +28,8 @@
 			{ fullname => 'Landmark Papers',
 			  frfullname => 'Papiers privés',
 			  blockname => 'landmark_papers',
-			  link => c.uri_for_action("/search/index", "", { "q0.0=" => "su:Papers" }), 
-			  frlink => c.uri_for_action("/search/index", "", { "q0.0" => "su:Papers" }) 
+			  link => c.uri_for_action("/search/index", "", { "q0.0" => "su:Papers" }), 
+			  frlink => c.uri_for_action("/search/index", "", { "q0.0" => "su:Papiers" }) 
 			}
 		] %]
 		<div class="col mb-3">
