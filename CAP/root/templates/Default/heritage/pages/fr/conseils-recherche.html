@@ -1,0 +1,114 @@
+<p>
+  Le formulaire de recherche est un outil simple vous permettant de rechercher
+  des informations descriptives ou des m&eacute;tadonn&eacute;es telles que les
+  titres, les noms d&rsquo;auteurs ou de cr&eacute;ateurs, les mots-cl&eacute;s
+  d&rsquo;un sujet, ou le contenu textuel des livres et autres documents,
+  lorsque cette option est disponible. Les termes recherch&eacute;s ne sont pas
+  sensibles &agrave; la casse et peuvent &ecirc;tre entr&eacute;s avec ou sans
+  accents : &laquo; Fran&ccedil;ais &raquo; et &laquo; francais &raquo;
+  donneront les m&ecirc;mes r&eacute;sultats.
+</p>
+
+<p>
+  Afin de peaufiner les r&eacute;sultats de votre recherche, vous pouvez
+  utiliser les options suivantes dans la bo&icirc;te de recherche :
+</p>
+
+<h4 id="caractegraveresderemplacement:et">
+  Caract&egrave;res de remplacement : ? et *
+</h4>
+
+<p>
+  Utilisez <code>?</code> &agrave; l&rsquo;int&eacute;rieur ou &agrave; la fin
+  d&rsquo;un mot pour remplacer n&rsquo;importe quel caract&egrave;re. Utilisez
+  <code>*</code> pour remplacer n&rsquo;importe quel nombre de caract&egrave;res
+  (dont le z&eacute;ro).
+</p>
+
+<ul>
+  <li>
+    Par exemple, pour trouver soit &laquo; gouvernante &raquo; ou &laquo;
+    gouvernance &raquo; :
+    <strong><a href="/search/?q0.0=gouvernan%3Fe">gouvernan?e</a></strong>
+  </li>
+  <li>
+    Pour trouver soit &laquo; d&eacute;fense &raquo; ou &laquo; d&eacute;fenseur
+    &raquo; :
+    <strong><a href="/search/?q0.0=d&eacute;fense*">d&eacute;fense*</a></strong>
+  </li>
+</ul>
+
+<h4 id="phrases:quotquot">Phrases : &quot;&quot;</h4>
+
+<p>
+  Pour rechercher une phrase exacte, mettez tous les mots entre guillemets. Vous
+  ne pouvez pas utiliser des caract&egrave;res de remplacement &agrave;
+  l&rsquo;int&eacute;rieur d&rsquo;une phrase.
+</p>
+
+<ul>
+  <li>
+    Par exemple, pour trouver des documents qui contiennent l&rsquo;expression
+    &laquo; ville de Qu&eacute;bec &raquo; et non pas seulement les termes
+    individuels &laquo; Qu&eacute;bec &raquo; et &laquo; ville &raquo; :
+    <strong
+      ><a href='/search/?q0.0="ville+de+quebec"'
+        >&quot;ville de quebec&quot;</a
+      ></strong
+    >
+  </li>
+</ul>
+
+<h4 id="motsagraveexclure:-">Mots &agrave; exclure : -</h4>
+
+<p>
+  Utilisez <code>-</code> devant un mot ou une phrase pour indiquer que ce terme
+  ne doit pas appara&icirc;tre dans le document.
+</p>
+
+<ul>
+  <li>
+    Par exemple, pour trouver des documents qui contiennent le mot &laquo; Paris
+    &raquo; mais pas &laquo; France &raquo; :
+    <strong
+      ><a href="/search/?q0.0=paris&amp;q1.0=-france">paris -france</a></strong
+    >
+  </li>
+</ul>
+
+<h4 id="termesalternatifs:">Termes alternatifs : |</h4>
+
+<p>
+  Pour trouver un terme correspondant &agrave; n&rsquo;importe quel des termes
+  alternatifs saisis, placez un <code>|</code> entre chaque terme.
+</p>
+
+<ul>
+  <li>
+    Par exemple, pour trouver &laquo; ontario &raquo; avec soit &laquo; york
+    &raquo;, soit &laquo; toronto &raquo; :
+    <strong
+      ><a href="/search/?q0.0=canada&amp;q1.0=york&amp;q1.1=toronto"
+        >ontario york | toronto</a
+      ></strong
+    >
+  </li>
+</ul>
+
+<h4 id="rechercheparchamp:ti:au:su:">Recherche par champ : ti:, au:, su:</h4>
+
+<p>
+  Utilisez <code>ti:</code> devant un mot ou une phrase pour trouver uniquement
+  dans des titres de documents. Utilisez <code>au:</code> et
+  <code>su:</code> pour faire de m&ecirc;me avec les auteurs ou cr&eacute;ateurs
+  et les vedettes-mati&egrave;res ou mots-cl&eacute;s de sujets.
+</p>
+
+<ul>
+  <li>
+    Par exemple, pour trouver des documents qui contiennent &laquo; vancouver
+    &raquo; dans le titre :
+    <strong><a href="/search/?q0.0=ti%3Avancouver">ti:vancouver</a></strong>
+  </li>
+</ul>
+<p> Le RCDR a rendu certaines parties des collections RG10 d’Héritage plus faciles à découvrir en soumettant des contenus spécifiques à un logiciel de reconnaissance intelligente des caractères (RIC). Pour savoir comment l’utiliser, <a href="https://www.crkn-rcdr.ca/fr/conseils-pour-la-recherche-du-contenu-de-la-ric" target="_blank">consultez cette page.</a></p>
