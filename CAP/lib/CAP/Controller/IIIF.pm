@@ -60,7 +60,7 @@ sub annotation : Chained('index') Args(2) {
 sub end : Private {
   my ($self, $c) = @_;
   my $json = JSON->new->utf8->canonical->pretty;
-  $c->res->header('Content-Type',                'application/json');
+  $c->res->header('Content-Type', 'application/json');
   $c->res->header('Access-Control-Allow-Origin', '*');
   $c->res->body($json->encode($c->stash->{data}));
   return 1;
