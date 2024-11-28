@@ -1,0 +1,4 @@
+<div class="form-row">
+[% INCLUDE partial/search_form/field_select.tt class="col-sm-4" | indent(2) %]
+[% INCLUDE partial/search_form/date_range.tt | indent(2) %]
+</div>

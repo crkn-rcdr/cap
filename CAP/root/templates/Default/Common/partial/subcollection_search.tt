@@ -1,0 +1,18 @@
+<form class="form-inline mb-3" method="POST" action="[% c.uri_for_action("search/post") %]">
+  <input type="hidden" name="handler" value="general" />
+  <input type="hidden" name="collection" value="[% coll %]" />
+
+[% IF browselink %]
+  <a class="btn btn-primary mr-3" href="[% browselink %]">
+      [% c.loc("L_BROWSE_COLLECTION") %]
+  </a>
+[% ELSE %]
+  <a class="btn btn-primary mr-3" href="[% c.uri_for_action("search/index", 'browsable', { collection => coll, so => 'oldest' }) %]">
+    [% c.loc("L_BROWSE_COLLECTION") %]
+  </a>
+[% END %]
+
+  <label for="query" class="mr-1">[% c.loc("L_SEARCH_WITHIN_COLLECTION") %]</label>
+  <input type="text" id="query" class="form-control mr-2" name="q" />
+  <button type="submit" class="btn btn-primary">[% c.loc("L_SEARCH_IMPERATIVE") %]</button>
+</form>

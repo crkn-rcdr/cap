@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  cap:
+    build: CAP/.
+    image: cap:latest
+    container_name: cap
+    networks:
+      access-platform:
+        ipv4_address: 172.30.0.3
+    # Useful for debug output
+    tty: true
+networks:
+  access-platform:
+    external: true

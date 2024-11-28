@@ -1,0 +1,16 @@
+[% first_child = item.component(seq) -%]
+<p class="sr-only">[% c.loc("L_VIEW_TEXT_ONLY") %]</p>
+<section id="pvPane" class="mb-3">
+  [% INCLUDE partial/page_viewer/toolbar.tt %]
+  <section id="pvImageContainer">
+    <div id="pvImageInner">
+      <noscript><a href="[% first_child.iiif_image_full %]" target="_blank">[% first_child.label %]</a></noscript>
+    </div>
+    <aside id="pvSearch" class="pv-overlay px-3 pt-3 hidden">
+      [% INCLUDE partial/item_keyword_search.tt label=item.canonical_label key=record.key %]
+    </aside>
+  </section>
+  [% INCLUDE partial/page_viewer/toolbar_bottom.tt %]
+  <p id="pvLoading" class="loading hidden p-3">[% c.loc("L_VIEW_LOADING") %]...</p>
+  <p id="pvError" class="hidden p-3">[% c.loc("L_VIEW_ERROR") %]</p>
+</section>

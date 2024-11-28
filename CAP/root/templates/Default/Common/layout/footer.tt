@@ -1,0 +1,27 @@
+<footer class="mt-auto bg-dark text-white">
+  <div class="container-lg">
+    <div class="row py-3 small">
+      <p class="col-lg text-center text-lg-left">
+        <a href="[% c.loc("URL_CANADIANA") %]">
+          <img src="/static/images/canadiana-logo-inverted.svg" alt="[% c.loc("L_CANADIANA") %]" height="50" />
+        </a>
+      </p>
+      <p class="col-lg-5 text-center">
+        <a href="[% c.loc("URL_TERMS") %]">[% c.loc("L_TERMS") %]</a>
+        <br />
+        &copy; [% current_year %] [% c.loc("L_CRKN") %]
+        <a href="[% c.loc("URL_CONTACT") %]">
+          <img src="/static/images/interface/phone.svg" alt="[% c.loc("L_CONTACT") %]" />
+        </a>
+      </p>
+      <p class="col-lg text-center text-lg-right">
+        <a href="[% c.loc("URL_CRKN") %]" class="d-inline-block">
+          <img src="/static/images/crkn-logo-inverted.svg" alt="[% c.loc("L_CRKN") %]" height="50" />
+        </a>
+        <a href="[% c.loc("URL_CNDHI") %]" class="d-inline-block ml-3">
+          <img src="/static/images/cndhi-logo-inverted.svg" alt="[% c.loc("L_CNDHI") %]" height="50" />
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

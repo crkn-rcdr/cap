@@ -1,0 +1,37 @@
+@use "sass:math";
+
+$primary: rgb(0, 47, 134);
+$secondary: rgb(255, 158, 21);
+$font-family-sans-serif: "Roboto", sans-serif;
+
+@import "../common.scss";
+
+header {
+  margin-bottom: $spacer;
+  .banner {
+    display: block;
+    width: 100%;
+    height: 100px;
+    background-image: url("/static/images/sve_banner.png");
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  nav {
+    background-color: $dark;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      @include media-breakpoint-up(md) {
+        display: flex;
+      }
+      li {
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: math.div($spacer, 2);
+        padding-bottom: math.div($spacer, 2);
+        text-align: center;
+      }
+    }
+  }
+}

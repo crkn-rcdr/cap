@@ -1,0 +1,18 @@
+<div class="h-100 d-flex flex-column">
+  <div class="container my-auto">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+[% INCLUDE "partial/browse_top_level.tt" | indent(8) %]
+      </div>
+      <div class="col-md-6">
+        <h2>[% c.loc("L_SEARCH_IMPERATIVE") %]</h2>
+[% INCLUDE partial/search_form.tt | indent(8) %]
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-12">
+[% INCLUDE "blocks/${c.stash.lang}/blurb.html" | indent(8) %]
+      </div>
+    </div>
+  </div>
+</div>

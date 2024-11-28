@@ -1,0 +1,27 @@
+[% llang = c.stash.lang == 'fr' ? 'fra' : 'eng' %]
+<div class="col-sm-6 mb-3">
+  <p>[% c.loc("R_PARL_TYPE") %]</p>
+  [% FOREACH parl_type IN supported_types %]
+  [% IF tree.$llang.s.$parl_type || tree.$llang.c.$parl_type %]
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="check_[% parl_type %]" name="type" value="[% parl_type %]" checked />
+    <label class="form-check-label" for="check_[% parl_type %]">[% type_labels.$parl_type %]</label>
+  </div>
+  [% END %]
+  [% END %]
+</div>
+<div class="col-sm-6 form-group">
+  <label for="houseSelect">[% c.loc("R_PARL_CHAMBER") %]</label>
+  <select id="houseSelect" name="chamber" class="custom-select mb-2">
+    <option value="">[% c.loc("L_PARL_CHAMBERS_BOTH") %]</option>
+    <option value="s">[% c.loc("L_PARL_SENATE") %]</option>
+    <option value="c">[% c.loc("L_PARL_HOC") %]</option>
+  </select>
+  [% INCLUDE partial/search_form/parl_select.tt select_class="mb-2" %]
+  <label for="langSelect">[% c.loc("R_LANGUAGE") %]</label>
+  <select id="langSelect" name="lang" class="custom-select mb-2">
+    <option value="">[% c.loc("L_PARL_LANGUAGES_BOTH") %]</option>
+    <option value="eng">[% c.loc("GENERIC_EN") %]</option>
+    <option value="fra">[% c.loc("GENERIC_FR") %]</option>
+  </select>
+</div>

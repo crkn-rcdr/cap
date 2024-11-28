@@ -1,0 +1,16 @@
+[%- BLOCK refine_link; DEFAULT active = "" %]
+<a class="list-group-item list-group-item-action[% IF value == active %] active[% END %]" href="[% c.uri_for_action('search/index', c.req.mangle_params({ $field => value })) %]">
+  [% content %]
+</a>
+[% END -%]
+
+[% IF resultset.hits > 0 %]
+  [% WRAPPER layout/collapse_pane.tt name="sort" title=c.loc("L_SEARCH_SORT") open=1 %]
+    [% IF search_params.sort %]<input type="hidden" name="so" value="[% search_params.sort %]" />[% END %]
+    <div class="list-group list-group-flush">
+      [% WRAPPER refine_link field="so" value="score" active=search_params.sort %][% c.loc("L_SEARCH_SORT_SCORE") %][% END %]
+      [% WRAPPER refine_link field="so" value="newest" active=search_params.sort %][% c.loc("L_SEARCH_SORT_NEWEST") %][% END %]
+      [% WRAPPER refine_link field="so" value="oldest" active=search_params.sort %][% c.loc("L_SEARCH_SORT_OLDEST") %][% END %]
+    </div>
+  [% END %]
+[% END %]

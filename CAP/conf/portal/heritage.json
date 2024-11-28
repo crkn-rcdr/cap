@@ -1,0 +1,57 @@
+{
+    "id": "heritage",
+    "label": {
+        "en": "Héritage",
+        "fr": "Héritage"
+    },
+    "subdomains": ["heritage"],
+    "ga_id": "UA-162937182-4",
+    "banners": {
+        "oocihm.lac_reel_c13421@54" :"Chinese immigration records: C.I.36 register : C-13421",
+        "oocihm.lac_reel_c13525@63": "Emily Carr fonds : C-13525",
+        "oocihm.lac_reel_h1228@150": "Archibald Hayes Macdonell fonds : H-1228",
+        "oocihm.lac_reel_t12502@1426": "Dominion Lands Branch registry : T-12502",
+        "oocihm.lac_reel_c2925@95": "Collection de la famille Beauharnois : C-2925",
+        "oocihm.lac_reel_c1845@9": "Joseph Howe fonds : C-1845"
+    },
+    "pages": {
+        "about": {
+            "en": { "title": "About" },
+            "fr": { "redirect": "a-propos" }
+        },
+        "a-propos": {
+            "en": { "redirect": "about" },
+            "fr": { "title": "À propos" }
+        },
+        "conditions": {
+            "en": { "redirect": "terms" },
+            "fr": { "title": "Conditions générales d’utilisation du site Canadiana.ca" }
+        },
+        "conseils-recherche": {
+            "en": { "redirect": "search-tips" },
+            "fr": { "title": "Conseils de recherche" }
+        },
+        "search-tips": {
+            "en": { "title": "Search Tips" },
+            "fr": { "redirect": "conseils-recherche" }
+        },
+        "terms": {
+            "en": { "title": "Canadiana.ca Terms of Service" },
+            "fr": { "redirect": "conditions" }
+        }
+    },
+    "redirects": {
+        "heir-devisee": {
+            "en": "https://www.crkn-rcdr.ca/en/collection-guide-heir-and-devisee-commission-1777-1854",
+            "fr": "https://www.crkn-rcdr.ca/fr/guide-de-collection-la-heir-and-devisee-commission-1777-1854"
+        },
+        "land-books": {
+            "en": "https://www.crkn-rcdr.ca/en/collection-guide-upper-canada-land-books",
+            "fr": "https://www.crkn-rcdr.ca/fr/guide-de-collection-les-upper-canada-land-books-1787-1841"
+        },
+        "sundries": {
+            "en": "https://www.crkn-rcdr.ca/en/collection-guide-upper-canada-sundries-1766-1841",
+            "fr": "https://www.crkn-rcdr.ca/fr/guide-de-collection-les-upper-canada-sundries-1766-1841"
+        }
+    }
+}

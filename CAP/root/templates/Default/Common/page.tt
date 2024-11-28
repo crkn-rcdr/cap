@@ -1,0 +1,7 @@
+<div class="container">
+  <article class="node">
+    <h2>[% title %]</h2>
+    [% INCLUDE $include | indent(4) %]
+  </article>
+</div>
+

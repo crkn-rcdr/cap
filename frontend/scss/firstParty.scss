@@ -1,0 +1,221 @@
+@use "sass:math";
+
+@import "../common.scss";
+$transparent-background: rgba(34, 34, 34, 0.65);
+$transparent-blur: blur(3px);
+
+/* purgecss start ignore */
+
+header {
+  background-color: $white;
+  color: $body-color;
+  a {
+    color: $primary;
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.header-title {
+  @include make-col-ready();
+  @include make-col(8);
+  @include media-breakpoint-up(md) {
+    @include make-col(4);
+  }
+}
+
+.header-button {
+  @include make-col-ready();
+  @include make-col(4);
+  display: block;
+  text-align: right;
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.menu-close {
+  display: none;
+}
+
+@include media-breakpoint-up(md) {
+  .menu-open {
+    display: none;
+  }
+}
+
+.header-links {
+  display: none;
+  @include make-col-ready();
+  @include media-breakpoint-up(md) {
+    display: block;
+    @include make-col(8);
+  }
+}
+
+.large-links {
+  display: block;
+  padding: 0;
+}
+
+body.action-index {
+  background-color: #222222;
+  background-position-x: center;
+  background-repeat: no-repeat;
+  header {
+    position: absolute;
+    width: 100%;
+    background-color: $transparent-background;
+    backdrop-filter: $transparent-blur;
+    color: $white;
+    a {
+      color: $white;
+      &:hover {
+        color: $white;
+      }
+    }
+    .message-banner {
+      a {
+        color: $primary;
+        &:hover {
+          color: $link-hover-color;
+        }
+      }
+    }
+  }
+
+  .above-fold {
+    height: 100vh;
+  }
+
+  .banner-credit {
+    position: absolute;
+    bottom: $spacer;
+    right: $spacer;
+    padding: math.div($spacer, 2);
+    margin-left: $spacer;
+    background-color: $transparent-background;
+    backdrop-filter: $transparent-blur;
+    a {
+      color: $white;
+      :hover {
+        color: $white;
+      }
+    }
+  }
+
+  .below-fold {
+    background-color: $white;
+  }
+
+  header.overlay {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  #searchForm {
+    padding: 1rem;
+    border-radius: 0.3rem;
+    background-color: $transparent-background;
+    backdrop-filter: $transparent-blur;
+  }
+}
+
+header.overlay {
+  position: fixed;
+  z-index: $z-index-header-overlay;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(255, 255, 255, 0.95);
+
+  > .container {
+    height: 100vh;
+    > .row {
+      height: 100vh;
+      display: flex;
+    }
+  }
+
+  li {
+    display: block;
+    margin-top: $spacer;
+    a {
+      color: $primary;
+    }
+    a:hover {
+      color: $primary;
+    }
+  }
+
+  .menu-open {
+    display: none;
+  }
+
+  .menu-close {
+    display: inline;
+  }
+
+  .header-links {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: $body-color;
+    li {
+      margin-top: $spacer * 2;
+    }
+  }
+
+  .small-links {
+    order: 2;
+    margin-top: auto;
+    li {
+      font-size: 1.25rem;
+    }
+  }
+
+  .large-links {
+    order: 1;
+    li {
+      font-size: 1.75rem;
+    }
+  }
+}
+
+.sm-icon {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  margin-bottom: -8px;
+  margin-left: math.div($spacer, 2);
+}
+
+.facebook,
+header.overlay .facebook {
+  background-image: url("/static/images/interface/facebook-color.svg");
+}
+
+.action-index .facebook {
+  background-image: url("/static/images/interface/facebook-white.svg");
+}
+
+.twitter,
+header.overlay .twitter {
+  background-image: url("/static/images/interface/twitter-color.svg");
+}
+
+.action-index .twitter {
+  background-image: url("/static/images/interface/twitter-white.svg");
+}
+
+.linkedin,
+header.overlay .linkedin {
+  background-image: url("/static/images/interface/linkedin-color.svg");
+}
+
+.action-index .linkedin {
+  background-image: url("/static/images/interface/linkedin-white.svg");
+}
+
+/* purgecss end ignore */

@@ -1,0 +1,24 @@
+<div class="above-fold d-flex flex-column">
+  <div class="container my-auto">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 mt-3">
+[% INCLUDE partial/search_form.tt no_controls=1 | indent(8) %]
+      </div>
+    </div>
+	</div>
+[% INCLUDE partial/banner_credit.tt | indent (2) %]
+</div>
+<div class="below-fold">
+	<div class="container pt-3">
+[% INCLUDE "blocks/${c.stash.lang}/blurb.html" | indent(4) %]
+	</div>
+[% INCLUDE partial/heritage_collections.tt | indent(2) %]
+	<h3 class="text-center mt-3">
+		[% c.loc("L_HERITAGE_PARTNERSHIP") %]
+	</h3>
+	<p class="text-center">
+		<a href="[% c.loc("URL_LAC") %]">
+			<img src="/static/images/lac_logo.jpg" alt="" height="240" width="240" />[% c.loc("L_LAC") %]
+		</a>
+	</p>
+</div>

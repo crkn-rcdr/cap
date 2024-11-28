@@ -1,0 +1,35 @@
+[% BLOCK entry %]
+[% DEFAULT labels = '';
+   DEFAULT search_field = "" %]
+[% IF field %]
+  <dt class="col-md-3">[% name %]</dt>
+  <dd class="col-md-9">
+    [% FOREACH value IN field.unique %]
+      [% oldvalue = value %]
+      [% IF labels;
+           IF labels.defined(value); value = labels.$value; ELSE; value = ''; END;
+         END %]
+      [% IF value %]
+        [% IF search_field %]
+          <a href="[% c.uri_for_action("/search/index", { 'q0.0' => search_field _ ":\"" _ value _ "\"" }) %]">[% value | html %]</a>
+        [% ELSIF collection_field %]
+          <a href="[% c.uri_for_action("/search/index", { collection => oldvalue }) %]">[% value | html %]</a>
+        [% ELSE %]
+          [% value | html %]
+        [% END %]
+        [% UNLESS loop.last %]<br />[% END %]
+      [% END %]
+    [% END %]
+  </dd>
+[% END %]
+[% END %]
+
+<div class="card[% IF bottom_margin %] mb-3[% END %]">
+  <h3 class="card-header">[% c.loc("L_RECORD") %]</h3>
+  <dl class="row px-4 py-3 mb-0">
+[% INCLUDE partial/document_record_entries.tt %]
+    <dt class="col-md-3">[% c.loc("GENERIC_URL") %]</dt>
+    <dd class="col-md-9"><a href="[% c.uri_for_action("view/index", record.key) %]">[% c.uri_for_action("view/index", record.key) %]</a></dd>
+  </dl>
+</div>
+

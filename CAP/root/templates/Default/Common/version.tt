@@ -1,0 +1,6 @@
+[%-
+  title = c.loc("L_VERSION_HEADER");
+-%]
+<div class="container">
+  <h2>Version: [% c.config.dockerimage %]</h2>
+</div>

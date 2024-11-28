@@ -1,0 +1,100 @@
+[% USE Dumper -%]
+<!doctype html>
+<html id="html" lang="[% lang %]" class="vh-100">
+  <head>
+    <title>[% IF title; title _ " -"; END %] [% c.portal_title %]</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+[% IF c.stash.defined("nofollow") && c.stash.nofollow -%]
+    <meta name="robots" content="index, nofollow" />
+[% END -%]
+[% IF c.stash.defined("description") && c.stash.description -%]
+    <meta name="description" content="[% c.stash.description %]" />
+[% END -%]
+    <meta name="author" content="Canadiana" />
+    <link href="https://fonts.googleapis.com/css?family=[% portal.font.replace(' ', '+') %]&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/' _ c.portal_id _ '.css', { cssr => 16 }) %]" />
+    <link rel="icon" href="[% c.uri_for('/static/images/icons/32.png') %]" sizes="32x32" />
+    <link rel="icon" href="[% c.uri_for('/static/images/icons/128.png') %]" sizes="128x128" />
+    <link rel="icon" href="[% c.uri_for('/static/images/icons/192.png') %]" sizes="192x192" />
+    <link rel="shortcut icon" href="[% c.uri_for('/static/images/icons/196.png') %]" sizes="196x196" />
+    <link rel="apple-touch-icon" href="[% c.uri_for('/static/images/icons/152.png') %]" sizes="152x152" />
+    <link rel="apple-touch-icon" href="[% c.uri_for('/static/images/icons/180.png') %]" sizes="180x180" />
+    <meta name="theme-color" content="#1d808b" />
+  </head>
+  <body class="d-flex flex-column vh-100 action-[% c.action.reverse.replace('\/', '-') %]"[% IF banner %] style="background-size: cover; background-image: url('[% banner.image %]')"[% END %]>
+    <a href="#main" id="skipLink">[% c.loc("L_SKIP_CONTENT") %]</a>
+[% INCLUDE layout/header.tt | indent(4) %]
+    <main role="main" id="main" class="flex-grow-1">
+[% content | indent(6) -%]
+[% IF c.debug -%]
+      <div id="debug">
+[% INCLUDE partial/debug_panel.tt name="action" title="Action" obj="c.action" -%]
+[% INCLUDE partial/debug_panel.tt name="config" title="Config" obj="c.config" -%]
+[% INCLUDE partial/debug_panel.tt name="stash" title="Stash" obj="c.stash" -%]
+      </div>
+[% END -%]
+    </main>
+[% INCLUDE layout/footer.tt | indent(8) -%]
+    <div id="imageCache" aria-hidden="true"></div>
+<!--[if lte IE 9]>
+    <div id="noFlexWarning" aria-hidden="true">
+      <h2>[% c.loc("L_OLD_BROWSER") %]</h2>
+      <ul>
+        <li><a href="https://www.mozilla.org/[% lang == 'fr' ? 'fr' : 'en-CA' %]/firefox/new/">Mozilla Firefox</a></li>
+        <li><a href-"https://www.google.com/chrome/">Google Chrome</a></li>
+        <li><a href="https://www.microsoft.com/en-us/edge">Microsoft Edge</a></li>
+      </ul>
+    </div>
+![endif]-->
+    <script src="[% c.uri_for('/static/js/cap.js', { r => 24 }) %]" type="text/javascript"></script>
+
+[% IF portal.ga_id -%]
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=[% portal.ga_id %]"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '[% portal.ga_id %]');
+    </script>
+[% END -%]
+
+  </body>
+
+[% IF c.portal_id == "online" %]
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://matomo.lib.sfu.ca/library/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '49']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+[% END -%]
+
+[% IF c.portal_id == "heritage" %]
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://matomo.lib.sfu.ca/library/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '50']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+[% END -%]
+</html>

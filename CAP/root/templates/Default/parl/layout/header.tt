@@ -1,0 +1,74 @@
+<header>
+[% INCLUDE partial/environment_banner.tt | indent(2) %]
+  <nav class="ce-lop-header d-print-none">
+    <div class="container">
+      <ul class="list-style-none d-flex mb-0 p-0">
+        <li class="d-inline-block ce-lop-header-parl">
+          <a href="[% c.loc("URL_PARL_PARL") %]">[% c.loc("L_PARL_PARLIAMENT_LONG") %]</a>
+        </li>
+        <li class="d-inline-block ml-auto">
+          <a href="/">[% c.loc("L_SEARCH_NEW") %]</a>
+        </li>
+        <li class="d-inline-block">
+          <a href="/browse">[% c.loc("L_BROWSE") %]</a>
+        </li>
+        <li class="d-inline-block">
+[% IF lang == 'fr' -%]
+          <a href="[% c.req.uri_with({ usrlang => 'en' }) %]">
+            <span class="d-none d-sm-inline">English</span>
+            <span class="d-inline d-sm-none">EN</span>
+          </a>
+[% ELSE -%]
+          <a href="[% c.req.uri_with({ usrlang => 'fr' }) %]">
+            <span class="d-none d-sm-inline">Français</span>
+            <span class="d-inline d-sm-none">FR</span>
+          </a>
+[% END -%]
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <nav class="ce-lop-nav d-print-none">
+    <div class="container">
+      <ul class="list-style-none d-flex mb-0 p-0">
+        <li class="ce-lop-nav-senate d-inline-block">
+          <a href="[% c.loc("URL_PARL_SENATE") %]">[% c.loc("L_PARL_SENATE") %]</a>
+        </li>
+        <li class="ce-lop-nav-hoc d-inline-block">
+          <a href="[% c.loc("URL_PARL_HOC") %]">[% c.loc("L_PARL_HOC") %]</a>
+        </li>
+        <li class="ce-lop-nav-lop d-inline-block ml-auto">
+          <a href="[% c.loc("URL_PARL_LEARN") %]">
+            <span class="d-none d-sm-inline">[% c.loc("L_PARL_LEARN_LONG") %]</span>
+            <span class="d-inline d-sm-none">[% c.loc("L_PARL_LEARN_SHORT") %]</span>
+          </a>																					
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <nav class="ce-lop-bar d-print-none">
+    <div class="container">
+      <ul class="list-style-none d-flex mb-0 p-0">
+        <li class="d-inline-block">
+          <a class="logo" href="[% c.loc("URL_PARL") %]">
+            <img class="d-none d-md-inline" src="/static/images/lop_logo_[% lang %].png" alt="[% c.loc("L_PARL_LOP") %]" />
+            <img class="d-inline d-md-none" src="/static/images/lop_logo_dome.png" alt="[% c.loc("L_PARL_LOP") %]" />
+          </a>
+        </li>
+        <li class="d-inline-block ml-auto">
+          <a href="[% c.loc("URL_PARL_ABOUT") %]">[% c.loc("L_ABOUT") %]</a>
+        </li>
+        <li class="d-inline-block">
+          <a href="[% c.loc("URL_PARL_CONTACT") %]">[% c.loc("L_PARL_CONTACT") %]</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="header-title-background">
+    <h1 class="header-title-parl container">
+      <a href="[% c.uri_for_action("/index") %]">
+[% INCLUDE partial/portal_title.tt | indent(8) %]
+      </a>
+    </h1>
+  </div>
+</header>

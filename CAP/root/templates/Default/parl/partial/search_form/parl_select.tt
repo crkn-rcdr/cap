@@ -1,0 +1,8 @@
+<label for="parlSelect"[% IF label_class %] class="[% label_class %]"[% END %]>[% c.loc("R_PARL_PARLIAMENT") %]</label>
+<select id="parlSelect" name="session" class="custom-select[% IF select_class %] select_class[% END %]">
+  <option value="">[% c.loc("GENERIC_ALL_F") %]</option>
+  [% FOREACH p IN [1 .. 35] -%]
+  [% ps = p < 10 ? "0" _ p : "" _ p %]
+  <option value="[% ps %]*"[% IF search_params.parl_session.grep(ps).size %] selected[% END %]>[% ordinate(p, 'f', lang) %]</option> 
+  [% END -%]
+</select>

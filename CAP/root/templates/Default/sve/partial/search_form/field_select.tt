@@ -1,0 +1,10 @@
+<div class="form-group[% IF class %] [% class %][% END %]">
+  <label for="seriesSelect">[% c.loc("L_FIELD_SELECT_SVE") %]</label>
+  <select id="seriesSelect" class="custom-select" name="pkey">
+    <option value="">[% c.loc("L_FIELD_SELECT_SVE_EVERYTHING") %]</option>
+    <option value="carl.AEUseries"[% IF search_params.pkey == "carl.AEUseries" %] selected[% END %]>The Gateway (University of Alberta)</option>
+    <option value="carl.NBFUseries"[% IF search_params.pkey == "carl.NBFUseries" %] selected[% END %]>The Brunswickan (University of New Brunswick)</option>
+    <option value="carl.OTYseries"[% IF search_params.pkey == "carl.OTYseries" %] selected[% END %]>Excalibur (York University)</option>
+    <option value="carl.NSHDseries"[% IF search_params.pkey == "carl.NSHDseries" %] selected[% END %]>Dalhousie Gazette (Dalhousie University)</option>
+  </select>
+</div>

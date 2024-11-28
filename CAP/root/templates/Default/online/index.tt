@@ -1,0 +1,57 @@
+﻿﻿[% INCLUDE partial/message_banner.tt | indent(2) %]
+[% BLOCK collcard; colltitle = portal.subcollections.$coll.label.${lang}.join(' '); flag = portal.subcollections.$coll.flag.${lang} %]
+<div class="col mb-2">
+	<div class="card">
+		<img class="card-img-top ca-front-card" src="/static/images/cards/[% coll %].jpg" alt="A descriptive image" />
+		<div class="card-body">
+			<h3 class="card-title h5 font-weight-bold d-flex">
+        <a href="[% c.uri_for("/collection-$coll") %]">
+          [% colltitle %]
+        </a>
+        [% IF flag != "" %]
+          <span class="badge home-card-badge">[% flag %]</span>
+        [% END %]
+      </h3>
+			<p>
+				[% portal.subcollections.$coll.summary.${lang}.join(' ') %]
+				<a href="[% c.uri_for("/collection-$coll") %]">[% c.loc("L_READ_MORE") %]&nbsp;&raquo;</a>
+			</p>
+		</div>
+		<div class="card-footer">
+
+[% IF coll == "maps" %]
+		<a href="/collection-maps-provinces">[% c.loc("L_BROWSE_MAPS_PROVINCES") %]</a>
+    &nbsp;[% c.loc("GENERIC_OR") %]&nbsp;
+[% END %]
+[% IF browselink %]
+			<a href="[% browselink %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
+[% ELSE %]
+			<a href="[% c.uri_for_action("search/index", 'browsable', { collection => coll, so => 'oldest' }) %]">[% c.loc("L_BROWSE_COLLECTION") %]</a>
+[% END %]
+		</div>
+	</div>
+</div>
+[% END %]
+<div class="above-fold d-flex flex-column">
+  <div class="container my-auto">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 mt-3">
+[% INCLUDE partial/search_form.tt no_controls=1 | indent(8) %]
+      </div>
+    </div>
+	</div>
+[% INCLUDE partial/banner_credit.tt | indent (2) %]
+</div>
+<div class="below-fold">
+  <div class="container pt-3 pb-3">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-2">
+[% INCLUDE collcard coll="monog" | indent(6) %]
+[% INCLUDE collcard coll="serials" | indent(6) %]
+[% INCLUDE collcard coll="govpubs" | indent(6) %]
+[% INCLUDE collcard browselink="/search?collection=maps" coll="maps" | indent(6) %]
+    </div>
+		<div class="border rounded pt-3 pl-3 pr-3 mb-3">
+[% INCLUDE "blocks/${c.stash.lang}/content-statement.html" | indent(8) %]
+		</div>
+  </div>
+</div>

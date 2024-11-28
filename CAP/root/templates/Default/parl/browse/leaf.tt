@@ -1,0 +1,36 @@
+<div class="container">
+  <h2>[% title %]</h2>
+  [% IF parl_parliament %]
+  [% showlist = [parl_language, parl_chamber, parl_type, parl_parliament]; show = showlist.join("_") %]
+  <p><a href="[% c.uri_for("/browse", { show = show }) %]">&laquo; [% c.loc("L_PARL_BROWSE_VOLUMES") %]</a></p>
+  [% ELSE %]
+  <p><a href="[% c.uri_for("/browse") %]">&laquo; [% c.loc("L_PARL_BROWSE_BACK") %]</a></p>
+  [% END %]
+
+  <div class="row">
+    [% IF parl_parliament %]
+    <div class="col-md-4">
+      <p class="lead">[% parl_term.start %] [% c.loc("GENERIC_TO") %] [% parl_term.end %]</p>
+      [% IF parl_chamber == "c" -%]
+      [% IF parl_pms.size > 1 -%]
+      <p class="mb-2 border-bottom border-primary"><b>[% c.loc("L_PARL_PM_PLUR") %]</b></p>
+      [% FOREACH pm IN parl_pms -%]
+      <p>[% pm.name %]<br />([% pm.start %] [% c.loc("GENERIC_TO") %] [% pm.end %])
+      [% END -%]
+      [% ELSE -%]
+      <p class="mb-2 border-bottom border-primary"><b>[% c.loc("L_PARL_PM_SING") %]</b></p>
+      <p>[% parl_pms.0.name %]</p>
+      [% END -%]
+      [% END -%]
+    </div>
+    [% END %]
+    <div class="[% IF parl_parliament %]col-md-8[% ELSE %]col-md-12[% END %]">
+      <h3 class="border-bottom border-primary">[% c.loc("L_PARL_VOLUMES") %]</h3>
+      <ul class="list-unstyled">
+      [% FOREACH item IN leaf -%]
+        <li><a href="[% c.uri_for("/view", item.id) %]">[% item.label %]</a></li>
+      [% END -%]
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+[% l = lang == 'fr' ? ['en', 'English'] : ['fr', 'Français'] -%]
+<header>
+[% INCLUDE partial/environment_banner.tt | indent(2) %]
+	<a class="banner container" href="/"><span class="sr-only">[% c.portal_title %]</span></a>
+	<nav>
+		<ul class="container">
+			<li><a href="/">[% c.loc("L_HOME") %]</a></li>
+			<li><a href="[% c.req.uri_with({ usrlang => l.0 }) %]">[% l.1 %]</a></li>
+			<li><a href="[% c.loc("URL_HELP") %]">[% c.loc("L_HELP") %]</a></li>
+      <li><a href="[% c.loc("URL_NUMERIS") %]">numeris.ca</a></li
+		</ul>
+	</nav>
+</header>

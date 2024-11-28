@@ -1,0 +1,54 @@
+{
+	"ams": {
+		"en":"Shortgrass Public Library System",
+		"fr":"Shortgrass Public Library System"
+	},
+	"oocihm": {
+		"en":"Canadiana.org",
+		"fr":"Canadiana.org"
+	},
+	"omcn": {
+		"en":"Mississauga Library System",
+		"fr":"Mississauga Library System"
+	},
+	"ooe": {
+		"en":"Global Affairs Canada",
+		"fr":"Affaires mondiales Canada"
+	},
+	"oop": {
+		"en":"Library of Parliament",
+		"fr":"Bibliothèque du Parlement"
+	},
+	"osmsdga": {
+		"en":"Friends of the South Mountain Library",
+		"fr":"Friends of the South Mountain Library"
+	},
+	"carl": {
+		"en":"Canadian Association of Research Libraries",
+		"fr":"Association des bibliothèques de recherche du Canada"
+	},
+	"ooga": {
+		"en":"Canadian Hazards Information Service",
+		"fr":"Service d'information sur les dangers naturels au Canada"
+	},
+	"qmma": {
+		"en":"McGill University Archives",
+		"fr":"Les archives de l'Université McGill"
+	},
+	"sru": {
+		"en": "University of Regina Archives",
+		"fr": "University of Regina Archives"
+	},
+	"mw": {
+		"en": "Musicworks Society of Ontario Inc.",
+		"fr": "Musicworks Society of Ontario Inc."
+	},
+	"sfu": {
+		"en": "Simon Fraser University",
+		"fr": "Simon Fraser University"
+	},
+	"aeu": {
+		"en" : "University of Alberta, Rutherford Library",
+		"fr" : "Université de l'Alberta, Bibliothèque Rutherford"
+	}
+}

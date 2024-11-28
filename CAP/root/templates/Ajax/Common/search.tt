@@ -1,0 +1,24 @@
+[% BLOCK matching_page -%]
+[%# uses .path to generate a relative URL so that clients using proxies don't get sent back to the mothership #5105 -%]
+<a class="matching-page badge badge-primary" data-seq="[% seq %]" href="[% c.uri_for_action("view/index", pkey, seq).path %]">[% label | html %]</a>
+[% END -%]
+
+[%- IF resultset.documents.size; has_remainder = resultset.documents.size > 20; start = has_remainder ? resultset.documents.slice(0, 20) : resultset.documents -%]
+  [% c.loc("L_MATCHING") %]
+	[% FOR page IN start -%]
+	[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label -%]
+	[% END %]
+	[% IF has_remainder; remainder = resultset.documents.slice(20) -%]
+	<button class="btn btn-link matching-pages-more p-0 border-0">[% c.loc("L_MATCHING_SHOW_MORE") %]</button>
+	<span class="matching-pages-remainder hidden">
+		[% FOR page IN remainder -%]
+		[% PROCESS matching_page seq=page.seq pkey=c.req.params.pkey label=page.label loop=loop %]
+		[% END %]
+	</span>
+	[% IF resultset.documents.size < resultset.hits %]
+	| [% c.loc("L_MATCHING_MORE", resultset.hits - resultset.documents.size) %]
+	[% END %]
+	[% END %]
+[% ELSE -%]
+    [% c.loc("L_MATCHING_NONE") %]
+[% END -%]

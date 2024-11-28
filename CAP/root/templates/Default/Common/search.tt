@@ -1,0 +1,11 @@
+[% title = query ? c.loc("L_SEARCH_RESULTS_FOR", query) : c.loc("L_SEARCH_RESULTS") -%]
+<div class="container-md">
+  <div class="row">
+    <div class="col-md-4 col-lg-3">
+[% INCLUDE partial/search_controls.tt | indent(6) -%]
+    </div>
+    <div class="col-md-8 col-lg-9">
+[% INCLUDE partial/search_results.tt | indent(6) -%]
+    </div>
+  </div>
+</div>

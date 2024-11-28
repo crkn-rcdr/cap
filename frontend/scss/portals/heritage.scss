@@ -1,0 +1,13 @@
+$primary: #1d808b;
+$font-family-sans-serif: "Roboto", sans-serif;
+
+@import "../firstParty.scss";
+
+#headerTitle {
+  max-height: 69px;
+  max-width: 213px;
+}
+
+.home-card-badge {
+  margin-left: 0.5em;
+}

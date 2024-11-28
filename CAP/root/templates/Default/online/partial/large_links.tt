@@ -1,0 +1,18 @@
+<li>
+  <a href="[% c.loc("URL_ABOUT") %]">[% c.loc("L_ABOUT") %]</a>
+</li>
+<li>
+  <a href="//heritage.canadiana.ca/">Héritage</a>
+</li>
+<li>
+  <a href="[% c.loc("URL_CRKN") %]">[% c.loc("L_CRKN_SHORT") %]</a>
+</li>
+<li>
+  <a href="[% c.loc("URL_NEW") %]">[% c.loc("L_NEW") %]</a>
+</li>
+<li>
+  <a target="_blank" href="[% c.loc("URL_CITATION_GUIDE") %]">[% c.loc("L_CITE") %]</a>
+</li>
+<li>
+  <a href="[% c.loc("URL_CONTACT") %]">[% c.loc("L_CONTACT") %]</a>
+</li>

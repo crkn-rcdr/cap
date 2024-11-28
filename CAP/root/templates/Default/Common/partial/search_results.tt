@@ -1,0 +1,56 @@
+<h2>
+[% UNLESS query -%]
+  [% c.loc("L_SEARCH_RESULTS_NO_QUERY", format_number(resultset.hits, lang)) %]
+[% ELSE -%]
+[%   IF !resultset.hits -%]
+  [%   c.loc("L_SEARCH_RESULTS_ZERO") %]
+[%   ELSIF resultset.hits == 1 -%]
+  [%   c.loc("L_SEARCH_RESULTS_ONE") %]
+[%   ELSE -%]
+  [%   c.loc("L_SEARCH_RESULTS_MULTI", format_number(resultset.hits, lang)) %]
+[%   END -%]
+  [% c.loc("GENERIC_FOR") %] <i>[% query %]</i>.
+[% END %]
+</h2>
+[% IF resultset.first > 1 || resultset.last < resultset.hits -%]
+<p>[% c.loc("L_SEARCH_RESULTS_PAGE", resultset.first, resultset.last) %]</p>
+[% END -%]
+
+[% INCLUDE partial/paginator.tt current_page=resultset.page total_pages=resultset.pages page_action="search/index" init_arg=search_handler first=1 %]
+
+[% FOREACH result IN resultset.documents %]
+<section class="search-item">
+  <h3>
+    [% IF result.type != "page" && portal.sr_record -%]
+      <button class="btn btn-primary float-right ml-3 plus-minus" data-toggle="collapse" data-target="#dr_[% loop.count %]" title="[% c.loc("L_SEARCH_RESULTS_MORE") %]" aria-expanded="false" aria-controls="dr_[% loop.count %]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="expand" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="unexpand hidden" viewBox="0 0 16 16">
+          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+        </svg>
+      </button>
+    [% END -%]
+    <a href="[% c.uri_for_action("view/index", result.key) %]">
+    [% IF c.portal_id == "parl" %]
+    [% result.parlLabel || result.label %]
+    [% ELSE %]
+    [% IF result.defined("plabel"); result.plabel _ " : "; END %] [% result.label %]
+    [% END %]
+    </a>
+  </h3>
+
+  [% INCLUDE partial/published_and_pages.tt result=result %]
+  [% IF match_pages && result.type == "document" && result.component_count_fulltext && result.component_count_fulltext > 0 -%]
+    [% INCLUDE partial/matching_pages.tt query=query pkey=result.key %]
+  [% END -%]
+  [% IF result.type != "page" && portal.sr_record %]
+  <div class="collapse" id="dr_[% loop.count %]">
+    [% INCLUDE partial/document_record.tt record=result %]
+  </div>
+  [% END %]
+</section>
+[% UNLESS loop.last %]<hr />[% END %]
+[% END %]
+
+[% INCLUDE partial/paginator.tt current_page=resultset.page total_pages=resultset.pages page_action="search/index" init_arg=search_handler %]

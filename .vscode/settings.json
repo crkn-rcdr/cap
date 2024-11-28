@@ -1,0 +1,24 @@
+{
+  "[perl]": {
+    "editor.defaultFormatter": "sfodje.perltidy",
+    "editor.formatOnSave": true
+  },
+  "[js]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "perltidy.additionalArguments": [
+    "-l=78",
+    "-i=2",
+    "-ci=2",
+    "-bar",
+    "-ce",
+    "-nsbl",
+    "-sot",
+    "-sct",
+    "-pt=2",
+    "-bt=2",
+    "-bbt=1",
+    "-nsfs"
+  ]
+}

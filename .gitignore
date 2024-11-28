@@ -1,0 +1,6 @@
+docker compose.override.yml
+*.code-workspace
+.vstags
+.pnpm*
+.notes
+.DS_Store
