@@ -1,6 +1,0 @@
-﻿<footer class="mt-auto bg-dark text-white text-center">
-  <p class="my-3">
-    <a href="[% c.loc("URL_NUMERIS") %]">[% c.loc("L_NUMERIS") %]</a><br />
-    <a href="[% c.loc("URL_CRKN") %]">[% c.loc("L_CRKN_PRODUCED") %]</a>
-  </p>
-</footer>
