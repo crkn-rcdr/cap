@@ -335,8 +335,16 @@ sub iiif_manifest {
         }]
       }
     ],
-    metadata => [],
-    items    => [ map { $self->iiif_canvas($_) } 1 .. @{$self->items} ]};
+    metadata => [{
+      label => {
+          none => [ "noid" ]
+      },
+      value => {
+          none => [ $self->record->{noid} ]
+      }
+    }],
+    items    => [ map { $self->iiif_canvas($_) } 1 .. @{$self->items} ]
+  };
 }
 
 1;

@@ -6,10 +6,10 @@ To set up this repo:
 
 ```
 $ git clone git@github.com:crkn-rcdr/cap.git
-$ cp docker-compose.override.yml.example docker-compose.override.yml
+$ cp docker compose.override.yml.example docker compose.override.yml
 ```
 
-In `docker-compose.override.yml`, replace `CAP_PASSWORD` wherever it's found with the value found in the shared vault in 1Password.
+In `docker compose.override.yml`, replace `CAP_PASSWORD` wherever it's found with the value found in the shared vault in 1Password.
 
 Every portal that you want to view locally requires an entry in `/etc/hosts` with each subdomain suffixed with `-dev`:
 
@@ -25,7 +25,7 @@ First, ensure that the [Access-Platform](https://github.com/crkn-rcdr/Access-Pla
 Build and start a local dev environment:
 
 ```
-$ docker-compose up --build
+$ docker compose up --build
 ```
 
 ## Development
@@ -49,11 +49,11 @@ This directory contains configuration files that are used by some of CAP's model
 Back-end Perl code can be found in [`CAP/lib`](CAP/lib). After making changes, you will need to send the HUP signal to the CAP process to restart the webserver:
 
 ```
-$ docker-compose exec cap /bin/bash
+$ docker compose exec cap /bin/bash
 ...:/opt/cap$ kill -HUP 1
 ```
 
-Set the `CATALYST_DEBUG` environment variable to `1` in `docker-compose.override.yml` to view debug output in the CAP logs.
+Set the `CATALYST_DEBUG` environment variable to `1` in `docker compose.override.yml` to view debug output in the CAP logs.
 
 Much of CAP's business logic is found in the [`CAP/lib/CIHM/Access`](CAP/lib/CIHM/Access) directory, which was created in an old attempt to separate this code out for other resources to use. There is an [outstanding ticket](https://github.com/crkn-rcdr/cap/issues/42) to move this content into [`CAP/lib/CAP/Model`](CAP/lib/CAP/Model).
 

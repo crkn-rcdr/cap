@@ -38,5 +38,17 @@
 	"sru": {
 		"en": "University of Regina Archives",
 		"fr": "University of Regina Archives"
+	},
+	"mw": {
+		"en": "Musicworks Society of Ontario Inc.",
+		"fr": "Musicworks Society of Ontario Inc."
+	},
+	"sfu": {
+		"en": "Simon Fraser University",
+		"fr": "Simon Fraser University"
+	},
+	"aeu": {
+		"en" : "University of Alberta, Rutherford Library",
+		"fr" : "Université de l'Alberta, Bibliothèque Rutherford"
 	}
 }
