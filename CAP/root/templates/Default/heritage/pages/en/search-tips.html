@@ -1,0 +1,104 @@
+<p>
+  The search form is a simple tool that lets you search for descriptive
+  information and metadata, such as titles, author/creator names, subject
+  keywords, or the text content of books and other documents, where available.
+  Search terms are not case or accent-sensitive: &quot;Fran&ccedil;ais&quot; and
+  &quot;francais&quot; will produce the same result.
+</p>
+
+<p>
+  The following features can be used within the search box to refine the
+  results:
+</p>
+
+<h4 id="wildcards:and">Wildcards: ? and *</h4>
+
+<p>
+  Use <code>?</code> in the middle or at the end of a word to match any one
+  character. Use <code>*</code> to match any number of characters (including
+  zero).
+</p>
+
+<ul>
+  <li>
+    For example, to find either <code>defence</code> or <code>defense</code>:
+    <strong><a href="/search?q0.0=defen%3Fe">defen?e</a></strong>
+  </li>
+  <li>
+    To find either <code>labour</code> or <code>labor</code>:
+    <strong><a href="/search?q0.0=labo*r">labo*r</a></strong>
+  </li>
+</ul>
+
+<h4 id="phrases:quotquot">Phrases: &quot;&quot;</h4>
+
+<p>
+  To search for an exact phrase, enclose all of the words in double quotes. You
+  cannot use wildcards within a phrase.
+</p>
+
+<ul>
+  <li>
+    For example, to find documents that contain the phrase
+    <code>quebec city</code> and not just the individual terms
+    <code>quebec</code> and <code>city</code>:
+    <strong
+      ><a href='/search?q0.0="quebec+city"'>&quot;quebec city&quot;</a></strong
+    >
+  </li>
+</ul>
+
+<h4 id="excludedterms:-">Excluded terms: -</h4>
+
+<p>
+  Use <code>-</code> in front of a word or phrase to indicate that the term must
+  not appear in the record.
+</p>
+
+<ul>
+  <li>
+    For example, to find documents that contain <code>paris</code> but not
+    <code>france</code>:
+    <strong
+      ><a href="/search/?q0.0=paris&amp;q1.0=-france">paris -france</a></strong
+    >
+  </li>
+</ul>
+
+<h4 id="alternateterms:">Alternate terms: |</h4>
+
+<p>
+  To match any one of a number of alternative terms, put a
+  <code>|</code> between them.
+</p>
+
+<ul>
+  <li>
+    For example, to find &quot;ontario&quot; and either &quot;york&quot; or
+    &quot;toronto&quot;:
+    <strong
+      ><a href="/search/?q0.0=canada&amp;q1.0=york&amp;q1.1=toronto"
+        >ontario york | toronto</a
+      ></strong
+    >
+  </li>
+</ul>
+
+<h4 id="fieldsearch:ti:au:su:">Field search: ti:, au:, su:</h4>
+
+<p>
+  Use <code>ti:</code> in front of a word or phrase to search only document
+  titles. Use <code>au:</code> and <code>su:</code> to do the same for
+  author/creator names and subject headings/keywords.
+</p>
+
+<ul>
+  <li>
+    For example: to find documents that contain <code>vancouver</code> in the
+    title:
+    <strong><a href="/search/?q0.0=ti%3Avancouver">ti:vancouver</a></strong>
+  </li>
+</ul>
+
+<h4>Search Tips for ICR content</h4>
+<p> CRKN has made some parts of the RG10 collections in Héritage more discoverable by running specific content through Intelligent Character Recognition (ICR) software. For instructions on how to use this content, <a href="https://www.crkn-rcdr.ca/en/search-tips-icr-content" target="_blank">visit this page.<a/></p>

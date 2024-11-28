@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  cap:
+    environment:
+      # reduce the number of Catalyst workers to avoid straining your machine
+      - WORKERS=1
+      # change below to 1 for debug output
+      - CATALYST_DEBUG=0
+      # find the value of CAP_PASSWORD in the dev 1password vault
+      - 'CAP_Model::Presentation_swift_temp_url_key=CAP_PASSWORD'
+    volumes:
+      # cap still needs to be restarted for changes in these directories
+      - ./CAP/conf:/opt/cap/conf
+      - ./CAP/lib:/opt/cap/lib
+      # cap does not need to be restarted for changes in this directory
+      - ./CAP/root:/opt/cap/root
