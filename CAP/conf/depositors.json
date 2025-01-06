@@ -50,5 +50,9 @@
 	"aeu": {
 		"en" : "University of Alberta, Rutherford Library",
 		"fr" : "Université de l'Alberta, Bibliothèque Rutherford"
+	},
+	"oon" : {
+		"en" : "National Research Council Canada",
+		"fr" : "Conseil national de recherches Canada"
 	}
 }
