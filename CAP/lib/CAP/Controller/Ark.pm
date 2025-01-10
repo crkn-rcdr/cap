@@ -13,61 +13,11 @@ BEGIN { extends 'Catalyst::Controller'; }
 
 # Receives an ARK parameter, calls the FastAPI service to retrieve the corresponding URL
 
-sub get_url :Path("/ark:") Args(1) {
-    my ($self, $c, $ark) = @_;
+sub get_url :Path("/ark:") Args(0) {
+    my ($self, $c) = @_;
     $c->response->body(42);
     $c->detach()
   
-    # Validate ARK
-    unless ($ark =~ /^\d+\/[A-Za-z0-9]+$/) {
-        $c->detach('/error', [400, "Invalid ark parameter"]);
-        return;
-    }
-    
-    my $ark_resolver_base = $c->config->{ark_resolver_base};
-    my $ark_resolver_endpoint = "/ark:$ark";
-    my $ark_resolver_url = $ark_resolver_base . $ark_resolver_endpoint;
-    
-    # Initialize a UserAgent object
-    my $ua = LWP::UserAgent->new;
-    $ua->timeout(10);
-    
-    # Call ark-resolver endpoint
-    my $response = $ua->get($ark_resolver_url);
-    
-    if ($response->is_success) {
-        my $content = $response->decoded_content;
-        my $data;
-    
-        # Parse JSON Response
-        try {
-            $data = decode_json($content);
-        }
-        catch {
-            $c->detach("/error", [500, "Parse data error"]);
-            return;
-        };
-    
-        # Get return URL from ark resolver
-        if ($data->{url}) {
-            my $redirect_url = $data->{url};
-            $c->response->redirect($redirect_url);
-            $c->detach();
-            return;
-        }
-        else {
-            $c->detach('/error', [404, "URL not found for the provided ARK"]);
-        }
-    }
-    else {
-        $c->log->error("FastAPI request failed for ark: $ark - " . $response->status_line);
-        if ($response->code == 404) {
-            $c->detach('/error', [404, "ARK not found"]);
-        }
-        else {
-            $c->detach('/error', [500, "FastAPI service error"]);
-        }
-    }
 }
 
 __PACKAGE__->meta->make_immutable;
