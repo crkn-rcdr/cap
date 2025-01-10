@@ -15,7 +15,9 @@ BEGIN { extends 'Catalyst::Controller'; }
 
 sub get_url :Path("/ark:") Args(1) {
     my ($self, $c, $ark) = @_;
-    
+    $c->response->body(42);
+    $c->detach()
+  
     # Validate ARK
     unless ($ark =~ /^\d+\/[A-Za-z0-9]+$/) {
         $c->detach('/error', [400, "Invalid ark parameter"]);
