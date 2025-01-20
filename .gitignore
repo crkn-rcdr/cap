@@ -4,3 +4,4 @@ docker-compose.override.yml
 .pnpm*
 .notes
 .DS_Store
+.env
