@@ -15,3 +15,4 @@ services:
       - ./CAP/lib:/opt/cap/lib
       # cap does not need to be restarted for changes in this directory
       - ./CAP/root:/opt/cap/root
+    
