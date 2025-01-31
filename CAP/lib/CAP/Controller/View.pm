@@ -3,6 +3,9 @@ use Moose;
 use namespace::autoclean;
 use JSON qw/encode_json/;
 use Number::Bytes::Human qw(format_bytes);
+use LWP::UserAgent;
+use JSON qw(decode_json);
+use URI::Escape qw(uri_escape);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -14,6 +17,7 @@ CAP::Controller::View - Catalyst Controller
 
 sub index : Path('') {
   my ( $self, $c, $key, $seq ) = @_;
+  $c->stash->{domain} = $c->req->uri->host;
 
   $c->detach( '/error', [404, "Document key not provided"] ) unless $key;
 
@@ -51,7 +55,7 @@ sub index : Path('') {
 
 sub view_item : Private {
   my ( $self, $c, $item, $seq ) = @_;
-
+ 
   if ( $item->has_children ) {
     $seq = $item->first_component_seq unless ( $seq && $seq =~ /^\d+$/ );
 
@@ -70,6 +74,27 @@ sub view_item : Private {
     if( $pdf_size ) {
       $pdf_size = format_bytes($pdf_size);
     }
+    my $record_key = $item->record->{key};
+    if ($record_key) {
+       my $ark;
+        eval {
+           $ark = $self->_fetch_ark_from_solr($c, $record_key);
+        };
+        if ($@) {
+            $c->detach('/error', [503, "Solr error: $@"]);
+        } 
+        elsif (!$ark) {
+            $c->detach('/error', [404, "Ark not found for record key: $record_key"]);
+            }
+        else  {
+            my $base_url = $c->request->base;
+            $base_url .= '/' unless $base_url =~ /\/$/;
+            my $ark_url = $base_url . "ark:/69429/foobar/" . $ark;
+            $c->stash->{ark_url} = $ark_url;
+            
+            
+          }
+    }
 
     $c->stash(
       item               => $item,
@@ -79,7 +104,8 @@ sub view_item : Private {
       seq                => $seq,
       template           => "view_item.tt",
       child_size         => $child_size,
-      pdf_size           => $pdf_size
+      pdf_size           => $pdf_size,
+   
     );
   } elsif ($item->item_mode eq "pdf") {
     $c->stash(
@@ -138,6 +164,47 @@ sub random : Path('/viewrandom') Args() {
     $c->res->redirect( $c->uri_for_action( 'view/index', $doc->{key} ) );
   }
   $c->detach();
+}
+
+# Get ark from Solr base on record.key
+
+sub _fetch_ark_from_solr {
+  my ($self,$c,$record_key) = @_;
+
+  # Get Solr config from env
+  my $solr_url = $ENV{SOLR_URL};
+  my $solr_account = $ENV{SOLR_USER};
+  my $solr_password = $ENV{SOLR_PASSWORD};
+
+  # Initialize http client
+  my $ua = LWP::UserAgent->new;
+  $ua->timeout(10);
+
+  if ($solr_account && $solr_password) {
+    $ua->credentials(
+      URI->new($solr_url)->host_port,
+      'solr',
+      $solr_account => $solr_password,
+    );
+  }
+  my $query_key = uri_escape('slug:"' . $record_key . '"');
+  my $url = "$solr_url/select?q=$query_key&wt=json&rows=1";
+
+  #send a request to Solr
+  my $response = $ua->get($url);
+  if ($response->is_success) {
+    my $content = $response->decoded_content;
+    my $data = decode_json($content);
+     if ($data->{response}{numFound} > 0) {
+            my $doc = $data->{response}{docs}[0];
+            return $doc->{ark};  
+        } else {
+             $c->detach( '/error', [503, "Solr error: $@"] ) if ($@);
+        }
+    } else {
+         $c->detach( '/error', [503, "Solr error: $@"] ) if ($@);
+    };
+  return 1
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -22,4 +22,4 @@ requires 'Crypt::Mac::HMAC';
 requires 'HTML::Escape';
 requires 'Number::Bytes::Human';
 requires 'LWP::Protocol::https';
-requires 'Config::DotEnv', '0.07';
+requires 'URI';
