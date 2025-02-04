@@ -87,9 +87,10 @@ sub view_item : Private {
             $c->detach('/error', [404, "Ark not found for record key: $record_key"]);
             }
         else  {
-            my $base_url = $c->request->base;
-            $base_url .= '/' unless $base_url =~ /\/$/;
-            my $ark_url = $base_url . "ark:/69429/foobar/" . $ark;
+            #my $base_url = $c->request->base;
+            #$base_url .= '/' unless $base_url =~ /\/$/;
+            #my $ark_url = $base_url . "ark:/69429/foobar/" . $ark;
+            my $ark_url = "https://n2t.net/ark:/69429-test/foobar" . $ark;
             $c->stash->{ark_url} = $ark_url;
             
             
