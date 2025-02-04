@@ -22,4 +22,8 @@ requires 'Crypt::Mac::HMAC';
 requires 'HTML::Escape';
 requires 'Number::Bytes::Human';
 requires 'LWP::Protocol::https';
+<<<<<<< HEAD
 requires 'URI';
+=======
+
+>>>>>>> 0dba490aa6f3ae1406f635498c3d278ac91e7bd4
