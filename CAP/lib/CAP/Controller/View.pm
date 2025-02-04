@@ -200,10 +200,10 @@ sub _fetch_ark_from_solr {
             my $doc = $data->{response}{docs}[0];
             return $doc->{ark};  
         } else {
-             $c->detach( '/error', [503, "Solr error: $@"] ) if ($@);
+             $c->detach( '/error', [503, "Solr error"] );
         }
     } else {
-         $c->detach( '/error', [503, "Solr error: $@"] ) if ($@);
+         $c->detach( '/error', [503, "Solr error"] );
     };
   return 1
 }
