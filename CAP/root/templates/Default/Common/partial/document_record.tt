@@ -30,7 +30,13 @@
   <dl class="row px-4 py-3 mb-0">
 [% INCLUDE partial/document_record_entries.tt %]
     <dt class="col-md-3">[% c.loc("GENERIC_URL") %]</dt>
-    <dd class="col-md-9"><a href="[% ark_url | html %]">[% ark_url | html %]</a></dd>
+    <dd class="col-md-9">
+      [% IF ark_url %]
+        <a href="[% ark_url | html %]">[% ark_url | html %]</a>
+      [% ELSE %]
+         [% ark_no_found | html %]
+      [% END %]
+    </dd>
   </dl>
   
    

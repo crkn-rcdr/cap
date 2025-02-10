@@ -4,7 +4,7 @@ use namespace::autoclean;
 use JSON qw/encode_json/;
 use Number::Bytes::Human qw(format_bytes);
 use LWP::UserAgent;
-use JSON qw(decode_json);
+use JSON qw(decode_json encode_json);
 use URI::Escape qw(uri_escape);
 
 BEGIN { extends 'Catalyst::Controller'; }
@@ -76,25 +76,44 @@ sub view_item : Private {
     }
     my $record_key = $item->record->{key};
     if ($record_key) {
-       my $ark;
-        eval {
-           $ark = $self->_fetch_ark_from_solr($c, $record_key);
+      my $ark;
+      my $json = JSON->new->utf8->canonical->pretty;
+      my $ark_resolver_base = $c->config->{ark_resolver_base};
+      my $ark_resolver_endpoint = "slug";
+      my $ark_resolver_url = $ark_resolver_base . $ark_resolver_endpoint;
+
+      # Initialize a UserAgent object
+      my $ua = LWP::UserAgent->new;
+      $ua->timeout(10);
+
+      # Build a query param
+      my %query_params = ( slug => $record_key );
+
+      # Build an url with a query params
+      my $ark_url_query = URI->new($ark_resolver_url);
+      $ark_url_query->query_form(%query_params) if %query_params; 
+
+      # Call Ark-reslover api to get an ark
+      eval {
+           my $response = $ua->get($ark_url_query);
+           if ($response->is_success) {
+              my $data;
+              my $content = $response->decoded_content;
+              $data =$json->decode($content);
+              $ark = $data->{data}->{ark};
+           }
+           1;
+        } or do {
+          $c->stash->{ark_no_found} = "Persistent URL unavailable";
         };
-        if ($@) {
-            $c->detach('/error', [503, "Solr error: $@"]);
-        } 
-        elsif (!$ark) {
-            $c->detach('/error', [404, "Ark not found for record key: $record_key"]);
-            }
-        else  {
-            #my $base_url = $c->request->base;
-            #$base_url .= '/' unless $base_url =~ /\/$/;
-            #my $ark_url = $base_url . "ark:/69429/foobar/" . $ark;
-            my $ark_url = "https://legacy-n2t.n2t.net/ark:/69429-test/foobar/" . $ark;
-            $c->stash->{ark_url} = $ark_url;
-            
-            
-          }
+      unless ($ark){
+        $c->stash->{ark_no_found} = "Persistent URL unavailable";
+        
+      } else {
+        my $ark_url = "https://legacy-n2t.n2t.net/ark:/69429-test/foobar/" . $ark;
+        $c->stash->{ark_url} = $ark_url;
+      }
+        
     }
 
     $c->stash(
@@ -167,46 +186,7 @@ sub random : Path('/viewrandom') Args() {
   $c->detach();
 }
 
-# Get ark from Solr base on record.key
 
-sub _fetch_ark_from_solr {
-  my ($self,$c,$record_key) = @_;
-
-  # Get Solr config from env
-  my $solr_url = $ENV{SOLR_URL};
-  my $solr_account = $ENV{SOLR_USER};
-  my $solr_password = $ENV{SOLR_PASSWORD};
-
-  # Initialize http client
-  my $ua = LWP::UserAgent->new;
-  $ua->timeout(10);
-
-  if ($solr_account && $solr_password) {
-    $ua->credentials(
-      URI->new($solr_url)->host_port,
-      'solr',
-      $solr_account => $solr_password,
-    );
-  }
-  my $query_key = uri_escape('slug:"' . $record_key . '"');
-  my $url = "$solr_url/select?q=$query_key&wt=json&rows=1";
-
-  #send a request to Solr
-  my $response = $ua->get($url);
-  if ($response->is_success) {
-    my $content = $response->decoded_content;
-    my $data = decode_json($content);
-     if ($data->{response}{numFound} > 0) {
-            my $doc = $data->{response}{docs}[0];
-            return $doc->{ark};  
-        } else {
-             $c->detach( '/error', [503, "Solr error"] );
-        }
-    } else {
-         $c->detach( '/error', [503, "Solr error"] );
-    };
-  return 1
-}
 
 __PACKAGE__->meta->make_immutable;
 
