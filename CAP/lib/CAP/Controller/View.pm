@@ -3,6 +3,9 @@ use Moose;
 use namespace::autoclean;
 use JSON qw/encode_json/;
 use Number::Bytes::Human qw(format_bytes);
+use LWP::UserAgent;
+use JSON qw(decode_json encode_json);
+use URI::Escape qw(uri_escape);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -14,6 +17,7 @@ CAP::Controller::View - Catalyst Controller
 
 sub index : Path('') {
   my ( $self, $c, $key, $seq ) = @_;
+  $c->stash->{domain} = $c->req->uri->host;
 
   $c->detach( '/error', [404, "Document key not provided"] ) unless $key;
 
@@ -51,7 +55,7 @@ sub index : Path('') {
 
 sub view_item : Private {
   my ( $self, $c, $item, $seq ) = @_;
-
+ 
   if ( $item->has_children ) {
     $seq = $item->first_component_seq unless ( $seq && $seq =~ /^\d+$/ );
 
@@ -70,6 +74,47 @@ sub view_item : Private {
     if( $pdf_size ) {
       $pdf_size = format_bytes($pdf_size);
     }
+    my $record_key = $item->record->{key};
+    if ($record_key) {
+      my $ark;
+      my $json = JSON->new->utf8->canonical->pretty;
+      my $ark_resolver_base = $c->config->{ark_resolver_base};
+      my $ark_resolver_endpoint = "slug";
+      my $ark_resolver_url = $ark_resolver_base . $ark_resolver_endpoint;
+
+      # Initialize a UserAgent object
+      my $ua = LWP::UserAgent->new;
+      $ua->timeout(10);
+
+      # Build a query param
+      my %query_params = ( slug => $record_key );
+
+      # Build an url with a query params
+      my $ark_url_query = URI->new($ark_resolver_url);
+      $ark_url_query->query_form(%query_params) if %query_params; 
+
+      # Call Ark-reslover api to get an ark
+      eval {
+           my $response = $ua->get($ark_url_query);
+           if ($response->is_success) {
+              my $data;
+              my $content = $response->decoded_content;
+              $data =$json->decode($content);
+              $ark = $data->{data}->{ark};
+           }
+           1;
+        } or do {
+          $c->stash->{ark_no_found} = "Persistent URL unavailable";
+        };
+      unless ($ark){
+        $c->stash->{ark_no_found} = "Persistent URL unavailable";
+        
+      } else {
+        my $ark_url = "https://legacy-n2t.n2t.net/ark:/69429-test/foobar/" . $ark;
+        $c->stash->{ark_url} = $ark_url;
+      }
+        
+    }
 
     $c->stash(
       item               => $item,
@@ -79,7 +124,8 @@ sub view_item : Private {
       seq                => $seq,
       template           => "view_item.tt",
       child_size         => $child_size,
-      pdf_size           => $pdf_size
+      pdf_size           => $pdf_size,
+   
     );
   } elsif ($item->item_mode eq "pdf") {
     $c->stash(
@@ -139,6 +185,8 @@ sub random : Path('/viewrandom') Args() {
   }
   $c->detach();
 }
+
+
 
 __PACKAGE__->meta->make_immutable;
 
