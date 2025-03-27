@@ -6,6 +6,7 @@ use Number::Bytes::Human qw(format_bytes);
 use LWP::UserAgent;
 use JSON qw(decode_json encode_json);
 use URI::Escape qw(uri_escape);
+use CAP::Utils::ArkURL qw(get_ark_url);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -14,6 +15,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 CAP::Controller::View - Catalyst Controller
 
 =cut
+
 
 sub index : Path('') {
   my ( $self, $c, $key, $seq ) = @_;
@@ -55,7 +57,14 @@ sub index : Path('') {
 
 sub view_item : Private {
   my ( $self, $c, $item, $seq ) = @_;
- 
+
+  # Retrieve the Persistent URL if record key exists
+  if ( my $record_key = $item->record->{key} ) {
+       my $ark_url    = get_ark_url($c, $record_key);
+       $c->stash->{ark_url} = $ark_url;
+    
+  }
+  
   if ( $item->has_children ) {
     $seq = $item->first_component_seq unless ( $seq && $seq =~ /^\d+$/ );
 
@@ -74,47 +83,8 @@ sub view_item : Private {
     if( $pdf_size ) {
       $pdf_size = format_bytes($pdf_size);
     }
-    my $record_key = $item->record->{key};
-    if ($record_key) {
-      my $ark;
-      my $json = JSON->new->utf8->canonical->pretty;
-      my $ark_resolver_base = $c->config->{ark_resolver_base};
-      my $ark_resolver_endpoint = "slug";
-      my $ark_resolver_url = $ark_resolver_base . $ark_resolver_endpoint;
 
-      # Initialize a UserAgent object
-      my $ua = LWP::UserAgent->new;
-      $ua->timeout(10);
-
-      # Build a query param
-      my %query_params = ( slug => $record_key );
-
-      # Build an url with a query params
-      my $ark_url_query = URI->new($ark_resolver_url);
-      $ark_url_query->query_form(%query_params) if %query_params; 
-
-      # Call Ark-reslover api to get an ark
-      eval {
-           my $response = $ua->get($ark_url_query);
-           if ($response->is_success) {
-              my $data;
-              my $content = $response->decoded_content;
-              $data =$json->decode($content);
-              $ark = $data->{data}->{ark};
-           }
-           1;
-        } or do {
-          $c->stash->{ark_no_found} = "Persistent URL unavailable";
-        };
-      unless ($ark){
-        $c->stash->{ark_no_found} = "Persistent URL unavailable";
-        
-      } else {
-        my $ark_url = "https://legacy-n2t.n2t.net/ark:/69429-test/foobar/" . $ark;
-        $c->stash->{ark_url} = $ark_url;
-      }
-        
-    }
+   
 
     $c->stash(
       item               => $item,
@@ -159,6 +129,13 @@ sub view_item : Private {
 
 sub view_series : Private {
   my ( $self, $c, $series ) = @_;
+  
+  # Retrieve the Persistent URL if record key exists
+  if ( my $record_key = $series->record->{key} ) {
+       my $ark_url    = get_ark_url($c, $record_key);
+       $c->stash->{ark_url} = $ark_url;
+   
+  }
   $c->stash(
     series   => $series,
     template => "view_series.tt"

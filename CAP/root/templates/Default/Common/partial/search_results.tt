@@ -46,7 +46,7 @@
   [% END -%]
   [% IF result.type != "page" && portal.sr_record %]
   <div class="collapse" id="dr_[% loop.count %]">
-    [% INCLUDE partial/document_record.tt record=result %]
+    [% INCLUDE partial/document_record.tt record=result ark_url=result.ark_url %]
   </div>
   [% END %]
 </section>
