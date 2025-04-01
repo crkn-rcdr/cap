@@ -54,5 +54,17 @@
 	"oon" : {
 		"en" : "National Research Council Canada",
 		"fr" : "Conseil national de recherches Canada"
+	}, 
+	"nswa" : {
+		"en" : "Acadia University, Vaughan Memorial Library",
+		"fr" : "Acadia University, Vaughan Memorial Library"
+	}, 
+	"nshd" : {
+		"en" : "Dalhousie University, Killam Memorial Library",
+		"fr" : "Dalhousie University, Killam Memorial Library"
+	}, 
+	"odw" : {
+		"en" : "Workers Health and Safety Centre, Library",
+		"fr" : "Workers Health and Safety Centre, Library"
 	}
 }
