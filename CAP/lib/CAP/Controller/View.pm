@@ -3,6 +3,10 @@ use Moose;
 use namespace::autoclean;
 use JSON qw/encode_json/;
 use Number::Bytes::Human qw(format_bytes);
+use LWP::UserAgent;
+use JSON qw(decode_json encode_json);
+use URI::Escape qw(uri_escape);
+use CAP::Utils::ArkURL qw(get_ark_url);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -12,8 +16,10 @@ CAP::Controller::View - Catalyst Controller
 
 =cut
 
+
 sub index : Path('') {
   my ( $self, $c, $key, $seq ) = @_;
+  $c->stash->{domain} = $c->req->uri->host;
 
   $c->detach( '/error', [404, "Document key not provided"] ) unless $key;
 
@@ -52,6 +58,13 @@ sub index : Path('') {
 sub view_item : Private {
   my ( $self, $c, $item, $seq ) = @_;
 
+  # Retrieve the Persistent URL if record key exists
+  if ( my $record_key = $item->record->{key} ) {
+       my $ark_url    = get_ark_url($c, $record_key);
+       $c->stash->{ark_url} = $ark_url;
+    
+  }
+  
   if ( $item->has_children ) {
     $seq = $item->first_component_seq unless ( $seq && $seq =~ /^\d+$/ );
 
@@ -71,6 +84,8 @@ sub view_item : Private {
       $pdf_size = format_bytes($pdf_size);
     }
 
+   
+
     $c->stash(
       item               => $item,
       record             => $item->record,
@@ -79,7 +94,8 @@ sub view_item : Private {
       seq                => $seq,
       template           => "view_item.tt",
       child_size         => $child_size,
-      pdf_size           => $pdf_size
+      pdf_size           => $pdf_size,
+   
     );
   } elsif ($item->item_mode eq "pdf") {
     $c->stash(
@@ -113,6 +129,13 @@ sub view_item : Private {
 
 sub view_series : Private {
   my ( $self, $c, $series ) = @_;
+  
+  # Retrieve the Persistent URL if record key exists
+  if ( my $record_key = $series->record->{key} ) {
+       my $ark_url    = get_ark_url($c, $record_key);
+       $c->stash->{ark_url} = $ark_url;
+   
+  }
   $c->stash(
     series   => $series,
     template => "view_series.tt"
@@ -139,6 +162,8 @@ sub random : Path('/viewrandom') Args() {
   }
   $c->detach();
 }
+
+
 
 __PACKAGE__->meta->make_immutable;
 
