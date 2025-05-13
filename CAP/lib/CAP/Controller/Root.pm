@@ -22,13 +22,12 @@ sub auto : Private {
   # Detect the portal to use based on the subdomain of the incoming request.
   # If the subdomain doesn't apply to a portal, redirect to some default url.
   my $portal =
-    $c->model('Portals')->portal_from_host( $c->req->uri->host );
+    $c->model('Portals')->portal_from_host( "heritage.canadiana.ca" );
   if ($portal) {
     $c->stash( portal => $portal );
   } 
   # TURNING OFF AUTO REDIRECT TO CANADIANA.CA IF PORTAL NOT FOUND
   # THIS IS USEFUL FOR DEV OPS TESTING
-  $c->stash( portal => "heritage" ); # Need to hard code test portal
   #else {
   #  $c->res->redirect( $c->config->{default_url} );
   #  $c->detach();
