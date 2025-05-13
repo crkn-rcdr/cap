@@ -25,10 +25,14 @@ sub auto : Private {
     $c->model('Portals')->portal_from_host( $c->req->uri->host );
   if ($portal) {
     $c->stash( portal => $portal );
-  } else {
-    $c->res->redirect( $c->config->{default_url} );
-    $c->detach();
-  }
+  } 
+  # TURNING OFF AUTO REDIRECT TO CANADIANA.CA IF PORTAL NOT FOUND
+  # THIS IS USEFUL FOR DEV OPS TESTING
+  $c->stash( portal => "heritage" ); # Need to hard code test portal
+  #else {
+  #  $c->res->redirect( $c->config->{default_url} );
+  #  $c->detach();
+  #}
 
   # Set various per-request configuration variables.
   $c->stash( $c->model('Configurator')->run( $c->req, $c->config ) );
