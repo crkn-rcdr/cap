@@ -7,6 +7,7 @@ use namespace::autoclean;
 use Scalar::Util qw/looks_like_number/;
 use Types::Standard qw/Int/;
 use HTML::Escape qw/escape_html/;
+use CAP::Utils::ArkURL qw(get_ark_url);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -66,6 +67,16 @@ sub index : Path('') {
     search_handler => $handler,
     template       => 'search.tt'
   );
+  
+my $resultset_obj = $c->stash->{resultset};
+my $documents = $resultset_obj->documents; 
+
+# Traverse the resultset and call get_ark_url for each result to retrieve the ark_url
+foreach my $result (@{ $documents }) {
+    my $record_key = $result->{key};
+    my $ark_url    = get_ark_url($c, $record_key);
+    $result->{ark_url} = $ark_url if defined $ark_url;
+}
 
   return 1;
 }
