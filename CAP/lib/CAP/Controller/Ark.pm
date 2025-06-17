@@ -14,6 +14,14 @@ BEGIN { extends 'Catalyst::Controller'; }
 sub index :Path('/ark:/69429/foobar') :Args(2) {
     my ($self, $c, $naan, $noid) = @_;
     my $json = JSON->new->utf8->canonical->pretty;
+    # Get the request IP address
+    my $client_ip = $c->request->address;
+    if ($client_ip eq '47.82.60.48' || 
+        $client_ip eq '47.82.60.157' || 
+        ($user_agent && $user_agent =~ /Googlebot|Bingbot|Slurp|DuckDuckBot|Quora-Bot/)) {
+        $c->response->body('Access denied for web scrapers.');
+        return;
+    }
     my $ark = "$naan/$noid";
     my $ark_resolver_base = $c->config->{ark_resolver_base};
     my $ark_resolver_endpoint = "ark:/$ark";
@@ -59,8 +67,7 @@ sub index :Path('/ark:/69429/foobar') :Args(2) {
          
         if ($url) {
             $c->response->redirect($url);
-            $c->detach();
-           
+            $c->detach();       
         } 
         else {
             $c->detach('/error', [500, "URL not found"]);
