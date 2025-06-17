@@ -62,7 +62,6 @@ sub view_item : Private {
   if ( my $record_key = $item->record->{key} ) {
        my $ark_url    = get_ark_url($c, $record_key);
        $c->stash->{ark_url} = $ark_url;
-    
   }
   
   if ( $item->has_children ) {
