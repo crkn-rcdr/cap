@@ -14,7 +14,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 sub index :Path('/ark:/69429/foobar') :Args(2) {
     my ($self, $c, $naan, $noid) = @_;
     my $json = JSON->new->utf8->canonical->pretty;
-    # Get the request IP address
+    my $user_agent = $c->request->user_agent;
     my $client_ip = $c->request->address;
     if ($client_ip eq '47.82.60.48' || 
         $client_ip eq '47.82.60.157' || 
