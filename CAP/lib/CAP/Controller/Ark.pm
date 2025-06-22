@@ -16,7 +16,6 @@ sub index :Path('/ark:/69429/foobar') :Args(2) {
     my $json = JSON->new->utf8->canonical->pretty;
     my $user_agent = $c->request->user_agent;
     my $client_ip = $c->request->address;
-    
     # Load COUNTER bots for check
     my $counter_robots_file = '/opt/cap/CAP/conf/COUNTER_Robots_list.txt';
     my @bot_patterns = grep { $_ !~ /^\s*#/ && $_ ne '' } read_file($counter_robots_file, chomp => 1);
