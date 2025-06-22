@@ -16,12 +16,20 @@ sub index :Path('/ark:/69429/foobar') :Args(2) {
     my $json = JSON->new->utf8->canonical->pretty;
     my $user_agent = $c->request->user_agent;
     my $client_ip = $c->request->address;
-    if ($client_ip eq '47.82.60.48' || 
-        $client_ip eq '47.82.60.157' || 
-        ($user_agent && $user_agent =~ /Googlebot|Bingbot|Slurp|DuckDuckBot|Quora-Bot/)) {
-        $c->response->body('Access denied for web scrapers.');
-        return;
+    
+    # Load COUNTER bots for check
+    my $counter_robots_file = '/opt/cap/CAP/conf/COUNTER_Robots_list.txt';
+    my @bot_patterns = grep { $_ !~ /^\s*#/ && $_ ne '' } read_file($counter_robots_file, chomp => 1);
+    foreach my $pattern (@bot_patterns) {
+        if ($user_agent =~ /\Q$pattern\E/i) {
+            $c->response->body('Access denied for web scrapers.');
+            return;
+        }
     }
+    #if ($client_ip eq '47.82.60.48' || $client_ip eq '47.82.60.157') {
+    #    $c->response->body('Access denied for suspicious IP.');
+    #    return;
+    #}
     my $ark = "$naan/$noid";
     my $ark_resolver_base = $c->config->{ark_resolver_base};
     my $ark_resolver_endpoint = "ark:/$ark";
