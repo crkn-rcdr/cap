@@ -38,5 +38,5 @@
 
   <br/>
 
-  [% INCLUDE partial/document_record.tt record=record bottom_margin=1 %]
+  [% INCLUDE partial/document_record.tt record=record bottom_margin=1 layout="page" %]
 </div>

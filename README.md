@@ -25,7 +25,7 @@ First, ensure that the [Access-Platform](https://github.com/crkn-rcdr/Access-Pla
 Build and start a local dev environment:
 
 ```
-$ docker compose up --build
+$ docker compose up --build --force-recreate
 ```
 
 ## Development
