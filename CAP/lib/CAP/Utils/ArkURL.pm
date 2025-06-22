@@ -51,7 +51,7 @@ sub get_ark_url {
     return unless $ark;
 
     # Build the final Persistent URL
-    my $ark_url = "https://legacy-n2t.n2t.net/ark:/69429-test/foobar/" . $ark;
+    my $ark_url = "https://n2t.net/ark:/" . $ark;
     return $ark_url;
 }
 
