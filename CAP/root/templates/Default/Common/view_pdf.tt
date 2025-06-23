@@ -34,5 +34,5 @@
     <p class="px-4 py-3 mb-0"><a href="[% item_download %]">[% c.loc("L_VIEWER_DOWNLOAD_PDF_EXPLANATION") %]</a></p>
   </div>
 
-  [% INCLUDE partial/document_record.tt record=record %]
+  [% INCLUDE partial/document_record.tt record=record layout="page" %]
 </div>
