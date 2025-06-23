@@ -71,13 +71,13 @@ sub index : Path('') {
 my $resultset_obj = $c->stash->{resultset};
 my $documents = $resultset_obj->documents; 
 
-# Remove for test and demo
+
 # Traverse the resultset and call get_ark_url for each result to retrieve the ark_url
-#foreach my $result (@{ $documents }) {
-#    my $record_key = $result->{key};
-#    my $ark_url    = get_ark_url($c, $record_key);
-#    $result->{ark_url} = $ark_url if defined $ark_url;
-#}
+foreach my $result (@{ $documents }) {
+    my $record_key = $result->{key};
+    my $ark_url    = get_ark_url($c, $record_key);
+    $result->{ark_url} = $ark_url if defined $ark_url;
+}
 
   return 1;
 }

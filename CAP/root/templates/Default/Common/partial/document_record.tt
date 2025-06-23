@@ -29,7 +29,7 @@
   <h3 class="card-header">[% c.loc("L_RECORD") %]</h3>
   <dl class="row px-4 py-3 mb-0">
     [% INCLUDE partial/document_record_entries.tt %]
-    [% IF layout == "page" %]
+ 
       [% IF c.portal_id == "nrcan" %]
           <dt class="col-md-3">[% c.loc("GENERIC_URL") %]</dt>
           <dd class="col-md-9"><a href="[% c.uri_for_action("view/index", record.key) %]">[% c.uri_for_action("view/index", record.key) %]</a></dd>
@@ -43,7 +43,6 @@
           [% END %]
         </dd>
       [% END %]
-    [% END %]
   </dl>
   
    
