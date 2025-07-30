@@ -1,4 +1,4 @@
-package CAP::Controller::Ark;
+gipackage CAP::Controller::Ark;
 use Moose;
 use namespace::autoclean;
 use JSON qw(decode_json encode_json);
@@ -11,7 +11,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 
 # Receives an ARK parameter, calls the FastAPI service to retrieve the corresponding URL
 
-sub index :Path('/ark:/69429/foobar') :Args(2) {
+sub index :Path('/ark:') :Args(2) {
     my ($self, $c, $naan, $noid) = @_;
     my $json = JSON->new->utf8->canonical->pretty;
     my $user_agent = $c->request->user_agent;
