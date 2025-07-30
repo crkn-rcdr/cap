@@ -53,10 +53,10 @@ sub portal_from_host {
 
   return if (! defined $host);
   
-  my $subd = substr( $host, 0, index( $host, '.' ) );
-  if ( index( $subd, '-' ) > -1 ) {
-    $subd = substr( $subd, 0, index( $subd, '-' ) );
-  }
+  my $subd = substr( $host, 0, index( $host, '.' ) );  # Get first part before '.'
+
+  # Remove environment suffix (e.g., '-dev', '-test', etc.)
+  $subd =~ s/(-[^-]+)$//;
 
   if( exists($self->_subdomains->{$subd}) ) {
     return $self->_portals->{$self->_subdomains->{$subd}};
