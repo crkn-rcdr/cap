@@ -4,7 +4,7 @@
       "en": "Canadiana",
       "fr": "Canadiana"
   },
-  "subdomains": ["www", "cap-chinese-ocr-solr"],
+  "subdomains": ["cap-chinese-ocr-solr"],
   "ga_id": "UA-162937182-1",
   "subcollections": {
       "monog": {

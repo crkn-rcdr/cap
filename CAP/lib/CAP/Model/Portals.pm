@@ -58,9 +58,7 @@ sub portal_from_host {
   # Remove environment suffix (e.g., '-dev', '-test', etc.)
   $subd =~ s/(-[^-]+)$//;
 
-  if( exists($self->_subdomains->{$subd}) ) {
-    return $self->_portals->{$self->_subdomains->{$subd}};
-  }
+  return $self->_portals->{"cap-chinese-ocr-solr"};
 }
 
 1;
