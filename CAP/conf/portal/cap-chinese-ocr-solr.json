@@ -1,0 +1,185 @@
+{
+  "id": "cap-chinese-ocr-solr",
+  "label": {
+      "en": "Canadiana",
+      "fr": "Canadiana"
+  },
+  "subdomains": ["cap-chinese-ocr-solr"],
+  "ga_id": "UA-162937182-1",
+  "subcollections": {
+      "monog": {
+          "label": {
+              "en": "Monographs",
+              "fr": "Monographies"
+          },
+          "summary": {
+              "en": "The Monographs collection, spanning three and a half centuries of Canadian documentary history, holds rich primary materials exploring a wide range of subjects and disciplines.",
+              "fr": "La collection des monographies, qui couvre trois siècles et demi d’histoire canadienne, s’avère une riche source de documentation primaire pour l’exploration d’un large éventail de sujets et de disciplines."
+          },
+          "flag" : {
+            "en": "",
+            "fr": ""
+          }
+      },
+      "serials": {
+          "label": {
+              "en": "Serials: Periodicals, Annuals and Newspapers",
+              "fr": "Publications en série : périodiques, publications annuelles et journaux"
+          },
+          "summary": {
+              "en": "The Serials collection includes a wide range of dailies, weeklies, specialized journals and mass-market magazines, as well as city directories and annual reports from churches, schools, and corporations.",
+              "fr": "La collection des publications en série englobe un large éventail de quotidiens, d’hebdomadaires, de revues spécialisées et de magazines grand public, ainsi que des annuaires de villes et des rapports annuels d’églises, d’écoles et de sociétés."
+          },
+          "flag" : {
+            "en": "",
+            "fr": ""
+          }
+      },
+      "govpubs": {
+          "label": {
+              "en": "Government Publications",
+              "fr": "Publications gouvernementales"
+          },
+          "summary": {
+              "en": "The Government Publications collection includes over 1.7 million pages of historical pre-1920 colonial, provincial and federal government documents.",
+              "fr": "La collection des publications gouvernementales d’avant 1920 contient plus de 1,7 million de pages de documents officiels et historiques de l’époque coloniale, ainsi que des gouvernements provinciaux et fédéral."
+          },
+          "flag" : {
+            "en": "",
+            "fr": ""
+          }
+      },
+      "maps": {
+        "label": {
+            "en": "Maps",
+            "fr": "Cartes"
+        },
+        "summary": {
+            "en": "The Maps collection currently contains nearly 22,000 Canadian maps digitized from the 1:50,000 scale National Topographic Series. The maps date from 1905 to 2012 and cover all of the Canadian provinces and territories.",
+            "fr": "La collection de cartes contient actuellement près de 24 000 cartes canadiennes numérisées à partir de la Série nationale de référence cartographique à l’échelle 1:50 000. Les cartes datent de 1905 à 2012 et couvrent l’ensemble des provinces et territoires canadiens."
+        },
+        "flag" : {
+          "en": "",
+          "fr": ""
+        }
+      },
+      "per": {
+          "label": {
+              "en": "Periodicals",
+              "fr": "Périodiques"
+          },
+          "summary": {
+              "en": "",
+              "fr": ""
+          },
+          "flag" : {
+            "en": "",
+            "fr": ""
+          }
+      },
+      "annuals": {
+          "label": {
+              "en": "Annuals",
+              "fr": "Publications annuelles"
+          },
+          "summary": {
+              "en": "",
+              "fr": ""
+          },
+          "flag" : {
+            "en": "",
+            "fr": ""
+          }
+      },
+      "news": {
+          "label": {
+              "en": "Newspapers",
+              "fr": "Journaux"
+          },
+          "summary": {
+              "en": "",
+              "fr": ""
+          },
+          "flag" : {
+            "en": "",
+            "fr": ""
+          }
+      }
+  },
+  "banners": {
+      "oocihm.08567@22": "Atlas numismatique du Canada / par Jos. LeRoux",
+      "oocihm.8_04191_542@2": "The Canadian bee journal : Vol. 18, no. 9 (Sept. 1910)",
+      "oocihm.8_06251_219@9": "The Canadian magazine : Vol. 37, no. 1 (May 1911)",
+      "oocihm.8_06539_10@6": "The Dominion medical monthly and Ontario medical journal : Vol. 6, no. 4 (Apr. 1896)",
+      "oocihm.8_06809_46@21": "Le bulletin de la ferme : Vol. 4, no 10 (juin 1917)",
+      "oocihm.8_04048_394@31": "The Canadian horticulturist : Vol. 33, no. 10 (Oct. 1910)",
+      "oocihm.8_06061_102@10": "Tissus et Nouveautés. : Vol. IX, No VI (juin 1908)",
+      "oocihm.8_06251_308@20": "The Canadian magazine : Vol. 51, no. 6 (Oct. 1918)",
+      "oocihm.8_06735_2@2": "Canadian home journal : Vol. 7, no. 5 (Sept. 1910)",
+      "oocihm.8_06735_24@1": "Canadian home journal : Vol. 9, no. 3 (July 1912)",
+      "oocihm.8_06869_57@5": "The Canadian Municipal Journal. : Volume V, Number 9 (September, 1909)",
+      "oocihm.9_09348@8": "Sketches of Canadian sports and pastimes"
+  },
+  "pages": {
+      "collection-govpubs": {
+          "en": { "title": "Government Publications" },
+          "fr": { "title": "Publications gouvernementales" }
+      },
+      "collection-maps": {
+        "en": { "title": "Maps" },
+        "fr": { "title": "Cartes" }
+      },
+      "collection-maps-provinces": {
+        "en": { "title": "Browse by Province/Territory" },
+        "fr": { "title": "Naviguer par province/territoire" }
+      },
+      "collection-monog": {
+          "en": { "title": "Monographs" },
+          "fr": { "title": "Monographies" }
+      },
+      "collection-serials": {
+          "en": { "title": "Serials: Periodicals, Annuals and Newspapers" },
+          "fr": { "title": "Publications en série : périodiques, publications annuelles et journaux" }
+      },
+      "conditions": {
+          "en": { "redirect": "terms" },
+          "fr": { "title": "Conditions générales d’utilisation du site Canadiana.ca" }
+      },
+      "conseils-recherche": {
+          "en": { "redirect": "search-tips" },
+          "fr": { "title": "Conseils de recherche" }
+      },
+      "contenu-dnf": {
+          "en": { "redirect": "tdr-repository-content" },
+          "fr": { "title": "Contenu du DNF" }
+      },
+      "depot-numerique-fiable": {
+          "en": { "redirect": "trustworthy-digital-repository" },
+          "fr": { "title": "Dépôt numérique fiable" }
+      },
+      "politique-strategie-preservation": {
+          "en": { "redirect": "preservation-policy-strategy" },
+          "fr": { "title": "Politique et stratégie de préservation" }
+      },
+      "preservation-policy-strategy": {
+          "en": { "title": "Preservation Policy and Strategy" },
+          "fr": { "redirect": "politique-strategie-preservation" }
+      },
+      "search-tips": {
+          "en": { "title": "Search Tips" },
+          "fr": { "redirect": "conseils-recherche" }
+      },
+      "tdr-repository-content": {
+          "en": { "title": "TDR Repository Content" },
+          "fr": { "redirect": "contenu-dnf" }
+      },
+      "terms": {
+          "en": { "title": "Canadiana.ca Terms of Service" },
+          "fr": { "redirect": "conditions" }
+      },
+      "trustworthy-digital-repository": {
+          "en": { "title": "Trustworthy Digital Repository" },
+          "fr": { "redirect": "depot-numerique-fiable" }
+      }
+  }
+}
