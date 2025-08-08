@@ -4,7 +4,7 @@
         "en": "Global Affairs Canada Digital Library",
         "fr": "Bibliothèque numérique d’Affaires mondiales Canada"
     },
-    "subdomains": ["gac", "dfait-aeci"],
+    "subdomains": ["chinese_ocr_gac"],
     "ga_id": "UA-162937182-2",
     "pages": {
         "conseils-recherche": {

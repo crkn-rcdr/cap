@@ -4,7 +4,7 @@
         "en": "Natural Resources Canada",
         "fr": "Ressources naturelles Canada"
     },
-    "subdomains": ["nrcan"],
+    "subdomains": ["chinese_ocr_nrcan"],
     "ga_id": "UA-162937182-7",
     "pages": {
         "conseils-recherche": {

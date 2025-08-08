@@ -4,7 +4,7 @@
         "en": "The Student Voice",
         "fr": "La Voix étudiante"
     },
-    "subdomains": ["sve"],
+    "subdomains": ["chinese_ocr_sve"],
     "ga_id": "UA-162937182-5",
     "pages": {
         "conseils-recherche": {

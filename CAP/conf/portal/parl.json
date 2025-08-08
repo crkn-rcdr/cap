@@ -4,7 +4,7 @@
         "en": "Canadian Parliamentary Historical Resources",
         "fr": "Ressources parlementaires historiques canadiennes"
     },
-    "subdomains": ["parl"],
+    "subdomains": ["chinese_ocr_parl"],
     "ga_id": "UA-162937182-3",
     "search_schema": "parl",
     "font": "Open Sans",
