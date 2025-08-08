@@ -46,6 +46,8 @@ sub BUILD {
       $self->_subdomains->{$subd} = $obj->{id};
     }
   }
+  #use Data::Dumper;
+  #warn "Portals: " . Dumper($self->_portals);
 }
 
 sub portal_from_host {
@@ -53,12 +55,14 @@ sub portal_from_host {
 
   return if (! defined $host);
   
-  my $subd = substr( $host, 0, index( $host, '.' ) );  # Get first part before '.'
+  my $subd = substr( $host, 0, index( $host, '.' ) );
+  if ( index( $subd, '-' ) > -1 ) {
+    $subd = substr( $subd, 0, index( $subd, '-' ) );
+  }
 
-  # Remove environment suffix (e.g., '-dev', '-test', etc.)
-  $subd =~ s/(-[^-]+)$//;
-
-  return $self->_portals->{"cap-chinese-ocr-solr"};
+  if( exists($self->_subdomains->{$subd}) ) {
+    return $self->_portals->{$self->_subdomains->{$subd}};
+  }
 }
 
 1;

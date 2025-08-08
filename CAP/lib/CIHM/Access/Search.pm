@@ -110,7 +110,8 @@ sub _request {
   } else {
     $search->{error} = $resultset->{error};
   }
-
+  #use Data::Dumper;
+  #warn "search: " . Dumper($search);
   return $search;
 }
 
