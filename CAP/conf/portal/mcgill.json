@@ -4,7 +4,7 @@
         "en": "McGill University Archives",
         "fr": "Archives de l'Université McGill"
     },
-    "subdomains": ["chinese_ocr_mcgillarchives"],
+    "subdomains": ["mcgillarchives"],
     "ga_id": "UA-162937182-6",
     "pages": {
         "conseils-recherche": {

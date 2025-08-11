@@ -4,7 +4,7 @@
         "en": "Public Collections",
         "fr": "Collections publiques"
     },
-    "subdomains": ["chinese_ocr_pub"],
+    "subdomains": ["pub"],
     "ga_id": "UA-162937182-9",
     "pages": {
         "conditions": {
