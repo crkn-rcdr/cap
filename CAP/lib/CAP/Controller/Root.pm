@@ -8,6 +8,8 @@ use utf8;
 
 use JSON qw/encode_json/;
 
+use Data::Dumper;
+
 # Sets the actions in this controller to be registered with no prefix
 # so they function identically to actions created in MyApp.pm
 # TODO: do we need this, still?
@@ -23,13 +25,16 @@ sub auto : Private {
   # If the subdomain doesn't apply to a portal, redirect to some default url.
   my $portal =
     $c->model('Portals')->portal_from_host( $c->req->uri->host );
-  if ($portal) {
-    $c->stash( portal => $portal );
-  } else {
-    $c->res->redirect( $c->config->{default_url} );
-    #$c->res->redirect("http://chinese_ocr.canadiana.ca");
-    $c->detach();
-  }
+
+  $c->stash( portal => $portal );
+  #$c->log->debug("Portal value: " . Dumper($portal));
+
+  #if ($portal) {
+  #} else {
+  #  $c->res->redirect( $c->config->{default_url} );
+  #  $c->res->redirect("http://chinese_ocr.canadiana.ca");
+  #  $c->detach();
+  #}
 
   # Set various per-request configuration variables.
   $c->stash( $c->model('Configurator')->run( $c->req, $c->config ) );

@@ -22,13 +22,17 @@ ENV WORKERS=8 \
 
 EXPOSE 3011
 
+# Keep production but enable stacktrace logging
+ENV PLACK_MIDDLEWARE="Plack::Middleware::StackTrace"
+
 CMD [ \
   "perl", \
   "-Ilocal/lib/perl5", \
   "-Ilib", \
   "local/bin/starman", \
-  "cap.psgi", \
   "--listen", \
   ":3011", \
   "--workers", \
-  "$WORKERS" ]
+  "$WORKERS", \
+  "-MPlack::Middleware::StackTrace", \
+  "cap.psgi" ]
