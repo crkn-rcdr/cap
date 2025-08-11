@@ -54,7 +54,8 @@ sub portal_from_host {
   my ( $self, $host ) = @_;
 
   return if (! defined $host);
-  
+  use Data::Dumper;
+  warn "Hosts: " . Dumper($host);
   my $subd = substr( $host, 0, index( $host, '.' ) );
   if ( index( $subd, '-' ) > -1 ) {
     $subd = substr( $subd, 0, index( $subd, '-' ) );
