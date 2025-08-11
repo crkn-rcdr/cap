@@ -26,8 +26,8 @@ sub auto : Private {
   if ($portal) {
     $c->stash( portal => $portal );
   } else {
-    $c->res->redirect( $c->config->{default_url} );
-    #$c->res->redirect("http://chinese_ocr.canadiana.ca");
+    #$c->res->redirect( $c->config->{default_url} );
+    $c->res->redirect("http://chinese_ocr.canadiana.ca");
     $c->detach();
   }
 
