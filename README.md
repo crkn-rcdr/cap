@@ -123,3 +123,37 @@ $ ./deployImage.sh
 - https://sve.canadiana.ca/
 - https://www.canadiana.ca/
 
+# Example Solr query curl command
+```
+curl 'http://<solrhost>/solr/cosearch2/select' \
+  -d 'q=(gq:上海十五日合衆 OR (lang:zho AND text_zh:上海十五日合衆) OR (-lang:zho AND tx:上海十五日合衆))' \
+  -d 'fq=collection:online' \
+  -d 'start=0' \
+  -d 'facet=true' \
+  -d 'facet.field={!ex=lang}lang' \
+  -d 'facet.field={!ex=depositor}depositor' \
+  -d 'facet.field={!ex=collection}collection' \
+  -d 'stats=true' \
+  -d 'stats.field={!min=true}pubmin' \
+  -d 'stats.field={!max=true}pubmax' \
+  -H 'Accept: application/json'
+```
+
+To only include ids:
+
+```
+curl 'http://cap-portals-tor-20232.tor.c7a.ca:8983/solr/cosearch2/select' \
+  -d 'q=(gq:上海十五日合衆 OR (lang:zho AND text_zh:上海十五日合衆) OR (-lang:zho AND tx:上海十五日合衆))' \
+  -d 'fq=collection:online' \
+  -d 'start=0' \
+  -d 'fl=key' \
+  -d 'facet=true' \
+  -d 'facet.field={!ex=lang}lang' \
+  -d 'facet.field={!ex=depositor}depositor' \
+  -d 'facet.field={!ex=collection}collection' \
+  -d 'stats=true' \
+  -d 'stats.field={!min=true}pubmin' \
+  -d 'stats.field={!max=true}pubmax' \
+  -H 'Accept: application/json'
+
+```

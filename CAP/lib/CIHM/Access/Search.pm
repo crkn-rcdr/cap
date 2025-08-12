@@ -110,10 +110,33 @@ sub _request {
   } else {
     $search->{error} = $resultset->{error};
   }
-  #use Data::Dumper;
-  #warn "search: " . Dumper($search);
+
+  use Data::Dumper;
+
+  # Check if fq contains pkey:
+  my $fq = $search->{query}{solr_query}{fq} || [];
+  my $has_pkey = 0;
+  foreach my $f (@$fq) {
+    if (defined $f && $f =~ /pkey:/) {
+      $has_pkey = 1;
+      last;
+    }
+  }
+
+  if (!$has_pkey) {
+    # Clone search without 'resultset' key to avoid printing it
+    my %copy = %$search;
+    delete $copy{resultset};
+
+    #warn "search: " . Dumper(\%copy);
+  }
+
   return $search;
 }
+
+
+use JSON::MaybeXS qw(encode_json);
+use Data::Dumper;
 
 sub _resultset {
   my ( $self, $handler, $options, $query ) = @_;
@@ -144,6 +167,15 @@ sub _resultset {
       ['{!min=true}pubmin', '{!max=true}pubmax'];
   }
 
+  # Print curl command for debugging
+  {
+    my $json_data = encode_json($data);
+    my $url = $handler;  # Assuming $handler is the full URL for the Solr POST
+    print "curl -X POST '$url' \\\n";
+    print "     -H 'Content-Type: application/json' \\\n";
+    print "     -d '$json_data'\n";
+  }
+
   my $output = $self->post( $handler, $data )->data;
   if ( exists $output->{responseHeader} &&
     exists $output->{responseHeader}{status} &&
@@ -153,6 +185,7 @@ sub _resultset {
     return $output;
   }
 }
+
 
 sub _get_sort {
   my ( $self, $so, $schema_key ) = @_;

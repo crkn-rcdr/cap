@@ -8,6 +8,8 @@ use List::Util qw/reduce/;
 use Types::Standard qw/HashRef ArrayRef Str Bool/;
 use HTML::Escape qw/escape_html/;
 
+use List::Util qw(reduce);
+
 has 'schema' => (
 	is => 'ro',
 	required => 1
@@ -157,47 +159,54 @@ sub _build_query_terms {
 	return [@sort];
 }
 
-# term = ["-"], [field_modifier, ":"], word | phrase ;
-# field_modifier = "ti" | "au" | "pu" | "su" | "tx" | "no" ;
-# word = character, { character } ;
-# phrase = '"', { every_character - ('"' | or_divider) }, '"' ;
-# or_divider = white_space, "|", white_space
 
-# character = every_character - white_space_character ;
-# white_space = white_space_character, { white_space_character }
-# white_space_character = ? white space characters ? ;
-# every_character = ? all visible characters ? ;
 sub _analyze_term {
-	my ($self, $term) = @_;
-	my ($negation, $field_modifier, $token) = $term =~ /
-		(-)?+				# negation
-		(?:([a-z]+):)?+		# field_modifier
-		(
-			[^\s\"]+ |		# word
-			\"[^\"]+\"		# phrase
-		)
-	/x;
+    my ($self, $term) = @_;
+    my ($negation, $field_modifier, $token) = $term =~ /
+        (-)?+               # negation
+        (?:([a-z]+):)?+     # field_modifier
+        (
+            [^\s\"]+ |      # word
+            \"[^\"]+\"      # phrase
+        )
+    /x;
 
-	$field_modifier = 'default' unless ($field_modifier);
+    $field_modifier = 'default' unless ($field_modifier);
 
-	return '' unless ($token && $token ne ':');
-	return '' if ($field_modifier && !exists $self->schema->fields->{$self->field_key}{$field_modifier});
+    return '' unless ($token && $token ne ':');
+    return '' if ($field_modifier && !exists $self->schema->fields->{$self->field_key}{$field_modifier});
 
-	$self->_set_has_text_terms(1) if grep(/$field_modifier/, keys %{ $self->schema->fields->{text} });
+    $self->_set_has_text_terms(1) if grep { $_ eq $field_modifier } keys %{ $self->schema->fields->{text} };
 
-	$token = $self->_parse_token($token);
-	my @result;
-	push(@result, '-') if ($negation);
-	push @result, '(';
-	push @result,
-		reduce { $a . ' OR ' . $b }
-		map { "$_:$token" }
-		@{$self->schema->fields->{$self->field_key}{$field_modifier}};
-	push @result, ')';
+    $token = $self->_parse_token($token);
 
-	return join '', @result;
+    my @clauses;
+    push(@clauses, '-') if $negation;
 
+    my @fields = @{$self->schema->fields->{$self->field_key}{$field_modifier}};
+
+    # Build clauses per field with conditional lang wrapping
+    my @field_clauses = map {
+        my $field = $_;
+        if ($field eq 'text_zh') {
+            # lang:zho AND text_zh:token
+            "(lang:zho AND $field:$token)";
+        } 
+        elsif ($field eq 'tx') {
+            # -lang:zho AND tx:token
+            "(-lang:zho AND $field:$token)";
+        } 
+        else {
+            "$field:$token";
+        }
+    } @fields;
+
+    # Join field clauses with OR
+    push @clauses, '(' . join(' OR ', @field_clauses) . ')';
+
+    return join('', @clauses);
 }
+
 
 sub _parse_token {
 	my ($self, $token) = @_;

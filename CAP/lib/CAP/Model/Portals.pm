@@ -12,7 +12,6 @@ use Scalar::Util qw/blessed/;
 
 use CAP::Portal;
 
-use Data::Dumper;
 
 extends 'Catalyst::Model';
 
@@ -40,7 +39,6 @@ sub BUILD {
   my ( $self, $args ) = @_;
 
   my @files = glob catfile($self->path, '*.json');
-  warn "Portal JSON files found: " . Dumper(\@files);
 
   foreach my $filename (@files) {
     my $file = read_file($filename);
@@ -62,7 +60,6 @@ sub portal_from_host {
   my ( $self, $host ) = @_;
 
   return if (! defined $host);
-  warn "Hosts: " . Dumper($host);
   return $self->_portals->{"online"};
 }
 
