@@ -190,7 +190,10 @@ sub _analyze_term {
         my $field = $_;
         if ($field eq 'text_zh') {
             # lang:zho AND text_zh:token
-            "(lang:zho AND $field:$token)";
+            #"(lang:zho AND $field:$token)";
+			my $edis = '{!edismax qf="text_zh^6 tx^4" pf=text_zh^30 pf2=text_zh^15 pf3=text_zh^7 ps=0 qs=0 q.op=AND} ';
+			$edis . "(lang:zho AND (text_zh:$token OR tx:$token))";
+			
         } 
         elsif ($field eq 'tx') {
             # -lang:zho AND tx:token
