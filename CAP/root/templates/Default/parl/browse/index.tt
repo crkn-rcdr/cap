@@ -8,60 +8,162 @@
 [% root = ['browse', language, chamber]; rootid = root.join('_') %]
 <ul id="[% rootid %]">
 [% FOREACH type IN supported_types %]
-	[% IF branch.defined(type) %]
-	[% typeroot = [rootid, type]; typeid = typeroot.join('_') %]
-	<li>
-		[% IF ref(branch.$type) == 'HASH' %]
-		[% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) %]
-		<a role="button" data-toggle="collapse" data-parent="#[% rootid %]" data-target="#[% typeid %]" aria-expanded="[% expanded ? 'true' : 'false' %]" aria-controls="[% typeid %]" tabindex="0">
-			[% type_labels.$type %]
-		</a>
-		<div id="[% typeid %]" class="collapse[% IF expanded %] show[% END %]">
-			<ul>
-			[% FOREACH p IN branch.$type.keys.sort %]
-			[% proot = [typeid, p]; pid = proot.join('_') %]
-			[% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %]
-				<li>
-					<a role="button" data-toggle="collapse" data-parent="#[% typeid %]" data-target="#[% pid %]" aria-expanded="[% expanded ? 'true' : 'false' %]" aria-controls="[% pid %]" tabindex="0">
-						[% ordinate(p + 0, 'f', c.stash.lang) %] [% c.loc("L_PARL_PARLIAMENT") %]
-					</a>
-					<div id="[% pid %]" class="collapse[% IF expanded %] show[% END %]">
-						<ul>
-						[% FOREACH skey IN branch.$type.$p.keys.sort %]
-							[% s = skey.split('-').1 %]
-							<li>
-								<a href="[% c.uri_for("/browse", language, chamber, type, skey) %]">
-									[% ordinate(s + 0, 'f', c.stash.lang) %] [% c.loc("L_PARL_SESSION") %] ([% branch.$type.$p.$skey == 1 ? c.loc("L_SEARCH_PP_VOLUME_ONE") : c.loc("L_SEARCH_PP_VOLUME_MULTI", branch.$type.$p.$skey) %])<br />
-									[% parl_sessions.$skey.term.start %] [% c.loc("GENERIC_TO") %] [% parl_sessions.$skey.term.end %]
-									[% IF chamber == 'c'; "<br />"; FOREACH pm IN parl_sessions.$skey.primeMinisters; pm.name; UNLESS loop.last; "; "; END; END; END %]
-								</a>
-							</li>
-						[% END %]
-						</ul>
-					</div>
-				</li>
-			[% END %]
-			</ul>
-		</div>
-		[% ELSE %]
-		<a href="[% c.uri_for("/browse", language, chamber, type) %]">[% type_labels.$type %] ([% branch.$type == 1 ? c.loc("L_SEARCH_PP_VOLUME_ONE") : c.loc("L_SEARCH_PP_VOLUME_MULTI", branch.$type) %])</a>
-		[% END %]
-	</li>
-	[% END %]
+    [% IF branch.defined(type) %]
+    [% typeroot = [rootid, type]; typeid = typeroot.join('_') %]
+    <li>
+        [% IF ref(branch.$type) == 'HASH' %]
+        [% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) %]
+        <a role="button"
+           data-toggle="collapse"
+           data-parent="#[% rootid %]"
+           data-target="#[% typeid %]"
+           aria-expanded="[% expanded ? 'true' : 'false' %]"
+           aria-controls="[% typeid %]"
+           tabindex="0">
+            [% type_labels.$type %]
+        </a>
+        <div id="[% typeid %]" class="collapse[% IF expanded %] show[% END %]">
+            <ul>
+            [% parls = branch.$type.keys.sort %]
+            [% FOREACH p IN parls %]
+                [% parl_num = p + 0 %]
+                [% proot = [typeid, p]; pid = proot.join('_') %]
+                [% expanded = show.0.match(language) && show.1.match(chamber) && show.2.match(type) && show.3.match(p) %]
+                <li>
+                    <a role="button"
+                       data-toggle="collapse"
+                       data-parent="#[% typeid %]"
+                       data-target="#[% pid %]"
+                       aria-expanded="[% expanded ? 'true' : 'false' %]"
+                       aria-controls="[% pid %]"
+                       tabindex="0">
+                        [% ordinate(parl_num, 'f', c.stash.lang) %] [% c.loc("L_PARL_PARLIAMENT") %]
+                    </a>
+                    <div id="[% pid %]" class="collapse[% IF expanded %] show[% END %]">
+                        <ul>
+
+                        [%# 4th–7th Parliaments: only an asterisk (both languages) %]
+                        [% IF chamber == 's' && type == 'debates' && parl_num >= 4 && parl_num <= 7 %]
+                            <li class="browse-gap" aria-hidden="true">*</li>
+
+                        [% ELSE %]
+                            [% removed_sessions = 0 %]
+                            [% IF branch.$type.$p.defined %]
+                                [% FOREACH skey IN branch.$type.$p.keys.sort %]
+                                    [% s = skey.split('-').1 %]
+                                    [% session_num = s + 0 %]
+
+                                    [%# Hide ENG Senate debates for 3rd Parliament, Sessions 2–5 %]
+                                    [% skip_session = (
+                                          language == 'eng'
+                                          && chamber == 's'
+                                          && type    == 'debates'
+                                          && parl_num == 3
+                                          && session_num >= 2
+                                          && session_num <= 5
+                                      ) %]
+                                    [% IF skip_session %]
+                                        [% removed_sessions = removed_sessions + 1 %]
+                                        [% NEXT %]
+                                    [% END %]
+
+                                    <li>
+                                        <a href="[% c.uri_for("/browse", language, chamber, type, skey) %]">
+                                            [% ordinate(session_num, 'f', c.stash.lang) %]
+                                            [% c.loc("L_PARL_SESSION") %]
+                                            ([% branch.$type.$p.$skey == 1
+                                                ? c.loc("L_SEARCH_PP_VOLUME_ONE")
+                                                : c.loc("L_SEARCH_PP_VOLUME_MULTI", branch.$type.$p.$skey)
+                                             %])<br />
+                                            [% parl_sessions.$skey.term.start %]
+                                            [% c.loc("GENERIC_TO") %]
+                                            [% parl_sessions.$skey.term.end %]
+                                            [% IF chamber == 'c';
+                                                "<br />";
+                                                FOREACH pm IN parl_sessions.$skey.primeMinisters;
+                                                    pm.name;
+                                                    UNLESS loop.last; "; "; END;
+                                                END;
+                                               END %]
+                                        </a>
+                                    </li>
+                                [% END %]
+                            [% END %]
+
+                            [%# Add an asterisk inside 3rd Parliament (both languages) %]
+                            [% IF chamber == 's' && type == 'debates' && parl_num == 3 %]
+                                <li class="browse-gap" aria-hidden="true">*</li>
+                            [% END %]
+                        [% END %]
+
+                        </ul>
+                    </div>
+                </li>
+
+                [%# --- FRENCH-ONLY INJECTION FOR MISSING 4e–7e LÉGISLATURES --- %]
+                [% IF language == 'fra'
+                      && chamber == 's'
+                      && type    == 'debates'
+                      && parl_num == 3
+                %]
+                    [% FOREACH fp IN [4,5,6,7] %]
+                        [% fp_str = '0' _ fp %]  [%# "04", "05", ... %]
+                        [% UNLESS branch.$type.exists(fp_str) %]
+                            [% proot2 = [typeid, fp_str]; pid2 = proot2.join('_') %]
+                            <li>
+                                <a role="button"
+                                   data-toggle="collapse"
+                                   data-parent="#[% typeid %]"
+                                   data-target="#[% pid2 %]"
+                                   aria-expanded="false"
+                                   aria-controls="[% pid2 %]"
+                                   tabindex="0">
+                                    [% ordinate(fp, 'f', c.stash.lang) %] [% c.loc("L_PARL_PARLIAMENT") %]
+                                </a>
+                                <div id="[% pid2 %]" class="collapse">
+                                    <ul>
+                                        <li class="browse-gap" aria-hidden="true">*</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        [% END %]
+                    [% END %]
+                [% END %]
+
+            [% END %]
+            </ul>
+        </div>
+        [% ELSE %]
+        <a href="[% c.uri_for("/browse", language, chamber, type) %]">
+            [% type_labels.$type %]
+            ([% branch.$type == 1
+                ? c.loc("L_SEARCH_PP_VOLUME_ONE")
+                : c.loc("L_SEARCH_PP_VOLUME_MULTI", branch.$type)
+             %])
+        </a>
+        [% END %]
+    </li>
+    [% END %]
 [% END %]
 </ul>
 [% END %]
 
 <div class="container">
-	<h2>[% c.loc("L_BROWSE") %]</h2>
-	<div class="row">
-		<div class="col-sm">
-			<h3 class="h4">[% c.loc("L_PARL_SENATE") %]</h3>
-			[% INCLUDE tree language=llang chamber='s' %]
-		</div>
-		<div class="col-sm">
-			<h3 class="h4">[% c.loc("L_PARL_HOC") %]</h3>
-			[% INCLUDE tree language=llang chamber='c' %]
-		</div>
+    <h2>[% c.loc("L_BROWSE") %]</h2>
+    <div class="row">
+        <div class="col-sm">
+            <h3 class="h4">[% c.loc("L_PARL_SENATE") %]</h3>
+            [% INCLUDE tree language=llang chamber='s' %]
+        </div>
+        <div class="col-sm">
+            <h3 class="h4">[% c.loc("L_PARL_HOC") %]</h3>
+            [% INCLUDE tree language=llang chamber='c' %]
+        </div>
+    </div>
+</div>
+
+<div class="container">
+	<div class="border rounded pt-3 pl-3 pr-3 mb-3">
+		[% INCLUDE "blocks/${c.stash.lang}/content-statement.html" | indent(8) %]
 	</div>
 </div>
