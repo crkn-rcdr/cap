@@ -44,7 +44,7 @@
 
                         [%# 4th–7th Parliaments: only an asterisk (both languages) %]
                         [% IF chamber == 's' && type == 'debates' && parl_num >= 4 && parl_num <= 7 %]
-                            <li class="browse-gap" aria-hidden="true">*</li>
+                            <li class="browse-gap" aria-hidden="true"><a href="#content-notice">*</a></li>
 
                         [% ELSE %]
                             [% removed_sessions = 0 %]
@@ -92,7 +92,7 @@
 
                             [%# Add an asterisk inside 3rd Parliament (both languages) %]
                             [% IF chamber == 's' && type == 'debates' && parl_num == 3 %]
-                                <li class="browse-gap" aria-hidden="true">*</li>
+                                <li class="browse-gap" aria-hidden="true"><a href="#content-notice">*</a></li>
                             [% END %]
                         [% END %]
 
@@ -122,7 +122,7 @@
                                 </a>
                                 <div id="[% pid2 %]" class="collapse">
                                     <ul>
-                                        <li class="browse-gap" aria-hidden="true">*</li>
+                                        <li class="browse-gap" aria-hidden="true"><a href="#content-notice">*</a></li>
                                     </ul>
                                 </div>
                             </li>
