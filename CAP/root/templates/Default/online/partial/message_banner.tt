@@ -11,7 +11,7 @@
 [% IF c.stash.lang == "fr" -%]
       Veuillez noter que nous rencontrons des problèmes avec la recherche de caractères chinois dans cette collection. Pour en savoir plus sur ce problème, veuillez cliquer <a href="https://www.crkn-rcdr.ca/fr/la-collection-numerique-du-chinese-times-passe-de-la-simon-fraser-university-canadiana" target="_blank">ici.</a>
 [% ELSE -%]
-      Please be advised that we are encountering issues with the searching of Chinese language characters withing this collection. To read more about this issue, please click <a href="https://www.crkn-rcdr.ca/en/chinese-times-digital-collection-moves-simon-fraser-university-canadiana" target="_blank">here.</a>
+      Please be advised that we are encountering issues with the searching of Chinese language characters within this collection. To read more about this issue, please click <a href="https://www.crkn-rcdr.ca/en/chinese-times-digital-collection-moves-simon-fraser-university-canadiana" target="_blank">here.</a>
 [% END -%]
     </p>
     <p class="ml-auto my-0 py-1 px-2">
