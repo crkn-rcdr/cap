@@ -59,6 +59,23 @@ Much of CAP's business logic is found in the [`CAP/lib/CIHM/Access`](CAP/lib/CIH
 
 External Perl dependencies are listed in [`CAP/cpanfile`](CAP/cpanfile).
 
+The Query configured by this app to solr is:
+```
+curl -sS -X POST "/search/general" \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "query":"(gq:<search term> OR tx:<search term>)",
+    "filter":["collection:heritage"],
+    "limit":1,
+    "params":{
+      "fl":"key,pkey,label,score",
+      "debugQuery":"true",
+      "hl":"true",
+      "hl.fl":"tx,ti,ab,no,su,au,pu"
+    }
+  }'
+```
+
 ### Templates
 
 CAP uses [Template Toolkit](http://www.template-toolkit.org/docs/index.html) to build its HTML templates. The templates can be found in `cap/root/templates`. Each portal has its own template directory, where you can override common templates (found in the `Common` directory, naturally) with portal-specific things. A template directory looks like this:
