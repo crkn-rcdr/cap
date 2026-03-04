@@ -17,18 +17,22 @@ ENV WORKERS=8 \
   CAP_Model::Presentation_swift_container_access=https://swift.canadiana.ca/v1/AUTH_crkn/access-files \
   # CAP_Model::Presentation_swift_temp_url_key=${cappassword} (set this one elsewhere)
   CAP_Model::Presentation_server=http://traminac.tor.c7a.ca:5984/copresentation2 \
-  CAP_Model::Search_server=http://traminac.tor.c7a.ca:8983/solr/cosearch2 \
+  CAP_Model::Search_server=http://cap-portals-tor-20232.tor.c7a.ca:8983/solr/cosearch2 \
   CAP_Model::Parl_server=http://traminac.tor.c7a.ca:5984/copresentation2 
 
 EXPOSE 3011
+
+# Keep production but enable stacktrace logging
+ENV PLACK_MIDDLEWARE="Plack::Middleware::StackTrace"
 
 CMD [ \
   "perl", \
   "-Ilocal/lib/perl5", \
   "-Ilib", \
   "local/bin/starman", \
-  "cap.psgi", \
   "--listen", \
   ":3011", \
   "--workers", \
-  "$WORKERS" ]
+  "$WORKERS", \
+  "-MPlack::Middleware::StackTrace", \
+  "cap.psgi" ]

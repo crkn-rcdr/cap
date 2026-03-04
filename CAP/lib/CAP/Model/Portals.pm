@@ -12,6 +12,7 @@ use Scalar::Util qw/blessed/;
 
 use CAP::Portal;
 
+
 extends 'Catalyst::Model';
 
 has 'path' => (
@@ -37,7 +38,9 @@ has '_subdomains' => (
 sub BUILD {
   my ( $self, $args ) = @_;
 
-  foreach my $filename (glob catfile($self->path, '*.json')) {
+  my @files = glob catfile($self->path, '*.json');
+
+  foreach my $filename (@files) {
     my $file = read_file($filename);
     my $obj = decode_json($file);
     $self->_portals->{$obj->{id}} = CAP::Portal->new($obj);
@@ -46,21 +49,18 @@ sub BUILD {
       $self->_subdomains->{$subd} = $obj->{id};
     }
   }
+
+  #warn "Portals loaded: " . Dumper($self->_portals);
+  #warn "Subdomains loaded: " . Dumper($self->_subdomains);
+  #use Data::Dumper;
+  #warn "Portals: " . Dumper($self->_portals);
 }
 
 sub portal_from_host {
   my ( $self, $host ) = @_;
 
   return if (! defined $host);
-  
-  my $subd = substr( $host, 0, index( $host, '.' ) );
-  if ( index( $subd, '-' ) > -1 ) {
-    $subd = substr( $subd, 0, index( $subd, '-' ) );
-  }
-
-  if( exists($self->_subdomains->{$subd}) ) {
-    return $self->_portals->{$self->_subdomains->{$subd}};
-  }
+  return $self->_portals->{"online"};
 }
 
 1;

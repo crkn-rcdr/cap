@@ -12,16 +12,16 @@ has 'fields' => (
 	default => sub {
 		return {
 			general => {
-				default => [qw/gq tx/],
+				default => [qw/gq text_zh tx/],
 				ti => [qw/ti/],
 				au => [qw/au/],
 				pu => [qw/pu/],
 				su => [qw/su/],
-				tx => [qw/tx/],
+				tx => [qw/text_zh tx/],
 				no => [qw/ab no no_rights no_source/]
 			}, text => {
-				default => [qw/gq tx/],
-				tx => [qw/tx/]
+				default => [qw/gq text_zh tx/],
+				tx => [qw/text_zh tx/]
 			}
 		};
 	}

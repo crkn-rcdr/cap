@@ -6,7 +6,7 @@ services:
       # reduce the number of Catalyst workers to avoid straining your machine
       - WORKERS=1
       # change below to 1 for debug output
-      - CATALYST_DEBUG=0
+      - CATALYST_DEBUG=1
       # find the value of CAP_PASSWORD in the dev 1password vault
       - 'CAP_Model::Presentation_swift_temp_url_key=CAP_PASSWORD'
     volumes:
