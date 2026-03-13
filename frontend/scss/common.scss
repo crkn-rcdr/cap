@@ -15,6 +15,20 @@ $viewer-border-color: rgba(0, 0, 0, 0.125);
 
 /* purgecss start ignore */
 
+// Compatibility helper for templates that use Bootstrap 4 utility classes.
+.sr-only,
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 a:not([href]),
 a:not([href]):not([class]) {
   color: $link-color;
@@ -365,4 +379,3 @@ button.disabled, button:disabled {
   border-color: transparent !important;
   border: none !important;
 }
-
