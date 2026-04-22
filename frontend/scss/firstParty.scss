@@ -200,13 +200,15 @@ header.overlay .facebook {
   background-image: url("/static/images/interface/facebook-white.svg");
 }
 
-.twitter,
-header.overlay .twitter {
-  background-image: url("/static/images/interface/twitter-color.svg");
+.bluesky,
+header.overlay .bluesky {
+  background-image: url("/static/images/interface/bluesky-color.svg");
+  background-size: cover;
 }
 
-.action-index .twitter {
-  background-image: url("/static/images/interface/twitter-white.svg");
+.action-index .bluesky {
+  background-image: url("/static/images/interface/bluesky-white.svg");
+  background-size: cover;
 }
 
 .linkedin,

@@ -32,7 +32,7 @@
     [% END %]   
   </div>
   <div class="tab-pane" id="documentRecord">
-    [% INCLUDE partial/document_record.tt record=series.record %]
+    [% INCLUDE partial/document_record.tt record=series.record layout="page" %]
   </div>
 </div>
 </div>

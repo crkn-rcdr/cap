@@ -25,7 +25,7 @@ First, ensure that the [Access-Platform](https://github.com/crkn-rcdr/Access-Pla
 Build and start a local dev environment:
 
 ```
-$ docker compose up --build
+$ docker compose up --build --force-recreate -d
 ```
 
 ## Development
@@ -58,6 +58,23 @@ Set the `CATALYST_DEBUG` environment variable to `1` in `docker compose.override
 Much of CAP's business logic is found in the [`CAP/lib/CIHM/Access`](CAP/lib/CIHM/Access) directory, which was created in an old attempt to separate this code out for other resources to use. There is an [outstanding ticket](https://github.com/crkn-rcdr/cap/issues/42) to move this content into [`CAP/lib/CAP/Model`](CAP/lib/CAP/Model).
 
 External Perl dependencies are listed in [`CAP/cpanfile`](CAP/cpanfile).
+
+The Query configured by this app to solr is:
+```
+curl -sS -X POST "/search/general" \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "query":"(gq:<search term> OR tx:<search term>)",
+    "filter":["collection:heritage"],
+    "limit":1,
+    "params":{
+      "fl":"key,pkey,label,score",
+      "debugQuery":"true",
+      "hl":"true",
+      "hl.fl":"tx,ti,ab,no,su,au,pu"
+    }
+  }'
+```
 
 ### Templates
 
@@ -123,3 +140,37 @@ $ ./deployImage.sh
 - https://sve.canadiana.ca/
 - https://www.canadiana.ca/
 
+# Example Solr query curl command
+```
+curl 'http://<solrhost>/solr/cosearch2/select' \
+  -d 'q=(gq:上海十五日合衆 OR (lang:zho AND text_zh:上海十五日合衆) OR (-lang:zho AND tx:上海十五日合衆))' \
+  -d 'fq=collection:online' \
+  -d 'start=0' \
+  -d 'facet=true' \
+  -d 'facet.field={!ex=lang}lang' \
+  -d 'facet.field={!ex=depositor}depositor' \
+  -d 'facet.field={!ex=collection}collection' \
+  -d 'stats=true' \
+  -d 'stats.field={!min=true}pubmin' \
+  -d 'stats.field={!max=true}pubmax' \
+  -H 'Accept: application/json'
+```
+
+To only include ids:
+
+```
+curl 'http://cap-portals-tor-20232.tor.c7a.ca:8983/solr/cosearch2/select' \
+  -d 'q=(gq:上海十五日合衆 OR (lang:zho AND text_zh:上海十五日合衆) OR (-lang:zho AND tx:上海十五日合衆))' \
+  -d 'fq=collection:online' \
+  -d 'start=0' \
+  -d 'fl=key' \
+  -d 'facet=true' \
+  -d 'facet.field={!ex=lang}lang' \
+  -d 'facet.field={!ex=depositor}depositor' \
+  -d 'facet.field={!ex=collection}collection' \
+  -d 'stats=true' \
+  -d 'stats.field={!min=true}pubmin' \
+  -d 'stats.field={!max=true}pubmax' \
+  -H 'Accept: application/json'
+
+```

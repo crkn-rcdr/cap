@@ -8,6 +8,8 @@ use utf8;
 
 use JSON qw/encode_json/;
 
+use Data::Dumper;
+
 # Sets the actions in this controller to be registered with no prefix
 # so they function identically to actions created in MyApp.pm
 # TODO: do we need this, still?
