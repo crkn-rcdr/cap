@@ -1,14 +1,43 @@
-<!--
+<div class="container">
+  <div class="message-banner-error d-flex">
+    <p class="my-0 py-1 px-2">
+[% IF c.stash.lang == "fr" -%]
+    Depuis le 8 mai 2026, les sites Web de Canadiana et d'Héritage rencontrent des pannes intermittentes et des problèmes de chargement des images. Le personnel du CRKN cherche actuellement une solution.
+[% ELSE -%]
+    As of May 8, 2026, the Canadiana and Héritage websites are experiencing intermittent outages and image loading issues. CRKN staff are investigating a solution.
+[% END -%]
+    </p>
+  </div>
+</div>
 [% IF c.config.show_banner && !clearbanner -%]
 <div class="container">
   <div class="message-banner d-flex">
-    <p class="my-0 py-1 px-2">
-[% IF c.stash.lang == "fr" -%]
-    Notre équipe est en train de résoudre un problème avec notre collection de monographies et certains contenus peuvent être temporairement indisponibles. Nous nous excusons pour cette interruption.
-[% ELSE -%]
-    Our team is currently resolving an issue with our monographs collection and some items may be temporarily unavailable. We apologize for any inconvenience.
+    <div class="my-0 py-1 px-2">
+    <p>
+      [% IF c.stash.lang == "fr" -%]
+        Depuis le 20 mars 2026, l'outil de téléchargement multipages PDiiiF est en panne. Cet outil est géré par un organisme tiers; le RCDR n'est donc pas en mesure de résoudre cette panne. Cette page sera mise à jour dès que PDiiiF sera à nouveau opérationnel. Nous nous excusons pour la gêne occasionnée.
+      [% ELSE -%]
+        Note: As of March 20, 2026, the PDiiiF multi-page download tool is experiencing an outage. As this tool is not maintained by CRKN staff, we are unable to resolve outages. This page will be updated when PDiiiF is once again functional. We apologize for any inconvenience.
+      [% END -%]
+    </p>
+    <p>
+    [% IF c.config.show_banner && !clearbanner && ((item 
+     && item.record 
+     && item.record.key 
+     && item.record.key.search('sfu')) || (series 
+     && series.record 
+     && series.record.key 
+     && series.record.key.search('sfu'))) -%]
+     
+      <hr/>
+      [% IF c.stash.lang == "fr" -%]
+            Veuillez noter que nous rencontrons des problèmes avec la recherche de caractères chinois dans cette collection. Pour en savoir plus sur ce problème, veuillez cliquer <a href="https://www.crkn-rcdr.ca/fr/la-collection-numerique-du-chinese-times-passe-de-la-simon-fraser-university-canadiana" target="_blank">ici.</a>
+      [% ELSE -%]
+            Please be advised that we are encountering issues with the searching of Chinese language characters within this collection. To read more about this issue, please click <a href="https://www.crkn-rcdr.ca/en/chinese-times-digital-collection-moves-simon-fraser-university-canadiana" target="_blank">here.</a>
+      [% END -%]
 [% END -%]
     </p>
+    </div>
     <p class="ml-auto my-0 py-1 px-2">
       <a href="[% c.req.uri_with({ clearbanner => c.config.message_banner }) %]">
         <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
@@ -20,4 +49,3 @@
   </div>
 </div>
 [% END -%]
--->

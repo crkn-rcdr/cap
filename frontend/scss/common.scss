@@ -100,6 +100,14 @@ header .message-banner {
   }
 }
 
+header .message-banner-error {
+  color: $dark;
+  background-color: #f6d5d5;/*scale-color($color: $primary, $lightness: 85%);*/
+  a {
+    color: #8b1d1d /*$primary*/;
+  }
+}
+
 header .environment-message.message-banner {
   padding: 1em 2em;
   font-size: 1.2rem;
