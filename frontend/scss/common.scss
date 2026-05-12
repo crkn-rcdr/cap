@@ -96,7 +96,7 @@ header .message-banner {
   color: $dark;
   background-color: #f6e0d5;/*scale-color($color: $primary, $lightness: 85%);*/
   a {
-    color: #8b501d /*$primary*/;
+    color: #8b501d !important;/*$primary*/;
   }
 }
 
@@ -104,7 +104,7 @@ header .message-banner-error {
   color: $dark;
   background-color: #f6d5d5;/*scale-color($color: $primary, $lightness: 85%);*/
   a {
-    color: #8b1d1d /*$primary*/;
+    color: #8b1d1d !important;/*$primary*/;
   }
 }
 
