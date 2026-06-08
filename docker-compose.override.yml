@@ -9,6 +9,9 @@ services:
       - CATALYST_DEBUG=0
       # find the value of CAP_PASSWORD in the dev 1password vault
       - 'CAP_Model::Presentation_swift_temp_url_key=CAP_PASSWORD'
+      # also set these from the dev 1password vault to enable server-side Swift downloads
+      # - 'CAP_Model::Presentation_swift_user=SWIFT_USER'
+      # - 'CAP_Model::Presentation_swift_password=SWIFT_PASSWORD'
     volumes:
       # cap still needs to be restarted for changes in these directories
       - ./CAP/conf:/opt/cap/conf

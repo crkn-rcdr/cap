@@ -44,6 +44,30 @@ has 'swift_temp_url_key' => (
   required => 1
 );
 
+has 'swift_server' => (
+  is        => 'ro',
+  isa       => Str,
+  predicate => 'has_swift_server'
+);
+
+has 'swift_user' => (
+  is        => 'ro',
+  isa       => Str,
+  predicate => 'has_swift_user'
+);
+
+has 'swift_password' => (
+  is        => 'ro',
+  isa       => Str,
+  predicate => 'has_swift_password'
+);
+
+has 'swift_account' => (
+  is        => 'ro',
+  isa       => Str,
+  predicate => 'has_swift_account'
+);
+
 # The limit of nodes that can appear in a sitemap page.
 has 'sitemap_node_limit' => (
   is       => 'ro',
@@ -60,11 +84,22 @@ has 'swift_client' => (
   is => 'lazy',
   default => sub {
     my $self = shift;
-    return CIHM::Access::Presentation::SwiftClient->new({
+    my $args = {
       container_preservation => $self->swift_container_preservation,
       container_access => $self->swift_container_access,
       temp_url_key => $self->swift_temp_url_key
-    });
+    };
+
+    $args->{server} = $self->swift_server
+      if $self->has_swift_server;
+    $args->{user} = $self->swift_user
+      if $self->has_swift_user;
+    $args->{password} = $self->swift_password
+      if $self->has_swift_password;
+    $args->{account} = $self->swift_account
+      if $self->has_swift_account;
+
+    return CIHM::Access::Presentation::SwiftClient->new($args);
   }
 );
 

@@ -15,6 +15,7 @@ requires 'Role::REST::Client';
 requires 'Catalyst::Model::Adaptor';
 requires 'File::Slurp';
 requires 'Catalyst::View::TT';
+requires 'Moo';
 requires 'Text::Trim';
 requires 'Number::Format';
 requires 'Term::Size::Any';
@@ -23,4 +24,6 @@ requires 'HTML::Escape';
 requires 'Number::Bytes::Human';
 requires 'LWP::Protocol::https';
 requires 'URI';
-
+requires 'Furl';
+requires 'MIME::Types';
+requires 'namespace::clean';

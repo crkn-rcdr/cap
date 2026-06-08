@@ -88,18 +88,9 @@ sub _build_items {
           #download_size => "moo"
         };
 
-        if ($component_record->{canonicalDownload}) {
-          # Not likely in use any more, but this is how single-page PDFs are found in the preservation Swift repository.
-          my $obj_path = $component_record->{canonicalDownload};
-          $r->{download_uri} = $self->swift_client->preservation_uri($obj_path);
-        } elsif (
-          $component_record->{canonicalDownloadExtension}
-        ) {
-          # This generates the URL for a single page from the access-files Swift repository.
-          my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
-          my $filename = join('.', $page_slug, $component_record->{canonicalDownloadExtension});
-          $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
-        } 
+        if ( $self->component_download_info($seq) ) {
+          $r->{download_uri} = $self->component_download_uri($seq);
+        }
         #else {
         # testing if an object has a pdf for ocr tracking
         # my $obj_path = join('.', $noid, "pdf");
@@ -141,6 +132,7 @@ sub child_count { return shift->has_children() }
 
 sub has_child {
   my ($self, $seq) = @_;
+  return 0 unless defined $seq && $seq =~ /^\d+$/ && $seq >= 1;
   return !!$self->record->{order}[ $seq - 1 ];
 }
 
@@ -159,6 +151,54 @@ sub component {
   return $self->item($seq);
 }
 
+sub _download_key {
+  my ($self) = @_;
+  return $self->record->{key} || $self->record->{_id};
+}
+
+sub _filename_for {
+  my ( $self, $slug, $obj_path ) = @_;
+  my ($extension) = $obj_path =~ /\.([^\.\/]+)$/;
+  return $extension ? join( '.', $slug, $extension ) : $slug;
+}
+
+sub component_download_info {
+  my ( $self, $seq ) = @_;
+  return undef unless $self->is_type('document') && $self->has_child($seq);
+
+  my $page_slug        = $self->record->{order}[ $seq - 1 ];
+  my $component_record = $self->record->{components}{$page_slug};
+  return undef unless $component_record;
+
+  if ( $component_record->{canonicalDownload} ) {
+    # Single-page PDFs in the preservation Swift repository.
+    my $obj_path = $component_record->{canonicalDownload};
+    return {
+      repository => 'preservation',
+      object     => $obj_path,
+      filename   => $self->_filename_for( $page_slug, $obj_path )
+    };
+  } elsif ( $component_record->{canonicalDownloadExtension} ) {
+    # Single-page files in the access-files Swift repository.
+    return undef unless $component_record->{noid};
+    my $extension = $component_record->{canonicalDownloadExtension};
+    return {
+      repository => 'access',
+      object     => join( '.', $component_record->{noid}, $extension ),
+      filename   => join( '.', $page_slug, $extension )
+    };
+  }
+
+  return undef;
+}
+
+sub component_download_uri {
+  my ( $self, $seq ) = @_;
+  return undef unless $self->component_download_info($seq);
+  my $key = $self->_download_key or return undef;
+  return $self->swift_client->download_uri( $key, $seq );
+}
+
 sub first_component_seq {
   my ($self) = @_;
   return 1 unless $self->is_type('document');
@@ -175,33 +215,11 @@ sub first_component_seq {
 
 sub first_component_size {
   my ($self, $seq) = @_;
-  my $page_slug        = $self->record->{order}[ $seq - 1 ];
-  my $component_record = $self->record->{components}{$page_slug};
-  my $noid             = $component_record->{noid};
-
-  my $r = {
-    %{$component_record},
-    seq => $seq,
-    iiif_image_info => $self->image_client->info($noid),
-    iiif_image_full => $self->image_client->full($noid),
-    #download_size => "moo"
-  };
-
-  if ($component_record->{canonicalDownload}) {
-    # Not likely in use any more, but this is how single-page PDFs are found in the preservation Swift repository.
-    my $obj_path = $component_record->{canonicalDownload};
-    $r->{download_uri} = $self->swift_client->preservation_uri($obj_path);
-  } elsif (
-    $component_record->{canonicalDownloadExtension}
-  ) {
-    # This generates the URL for a single page from the access-files Swift repository.
-    my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
-    my $filename = join('.', $page_slug, $component_record->{canonicalDownloadExtension});
-    $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
-  }
-
-  return $self->swift_client->file_size($r->{download_uri});
-  #$r->{download_size} = "moooo2";
+  my $download = $self->component_download_info($seq) or return undef;
+  return $self->swift_client->file_size(
+    $download->{repository},
+    $download->{object}
+  );
 }
 
 sub canonical_label {
@@ -211,18 +229,37 @@ sub canonical_label {
 }
 
 # Checks the access repository for a multi-page PDF, falls back to preservation, or returns undefined.
-sub item_download {
+sub item_download_info {
   my ($self) = @_;
   if( (ref $self->record->{ocrPdf} eq "HASH" ) && $self->record->{ocrPdf}->{extension} ) {
-    my $slug = $self->record->{_id}; 
-    my $item_download =  join('.', $self->record->{noid}, $self->record->{ocrPdf}{extension});
-    my $item_filename =  join('.', $slug, $self->record->{ocrPdf}{extension});
-    return $item_download ? $self->swift_client->access_uri($item_download, $item_filename) : undef;
+    return undef unless $self->record->{noid};
+    my $slug = $self->record->{_id};
+    my $extension = $self->record->{ocrPdf}{extension};
+    return {
+      repository => 'access',
+      object     => join( '.', $self->record->{noid}, $extension ),
+      filename   => join( '.', $slug, $extension )
+    };
   } elsif ( $self->record->{canonicalDownload} ) {
-    my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
-    return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
+    my $item_download =
+      defined $self->record->{file} && defined $self->record->{file}{path}
+      ? $self->record->{file}{path}
+      : $self->record->{canonicalDownload};
+    return undef unless $item_download;
+    return {
+      repository => 'preservation',
+      object     => $item_download,
+      filename   => $self->_filename_for( $self->_slug, $item_download )
+    };
   }
   return undef;
+}
+
+sub item_download {
+  my ($self) = @_;
+  return undef unless $self->item_download_info;
+  my $key = $self->_download_key or return undef;
+  return $self->swift_client->download_uri($key);
 }
 
 # Checks the access repository for a multi-page PDF, falls back to preservation, or returns undefined.
