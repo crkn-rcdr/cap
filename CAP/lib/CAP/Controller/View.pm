@@ -1,12 +1,7 @@
 package CAP::Controller::View;
 use Moose;
 use namespace::autoclean;
-use JSON qw/encode_json/;
 use Number::Bytes::Human qw(format_bytes);
-use LWP::UserAgent;
-use JSON qw(decode_json encode_json);
-use URI::Escape qw(uri_escape);
-use CAP::Utils::ArkURL qw(get_ark_url);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -58,11 +53,7 @@ sub index : Path('') {
 sub view_item : Private {
   my ( $self, $c, $item, $seq ) = @_;
 
-  # Retrieve the Persistent URL if record key exists
-  if ( my $record_key = $item->record->{key} ) {
-       my $ark_url    = get_ark_url($c, $record_key);
-       $c->stash->{ark_url} = $ark_url;
-  }
+  _stash_ark_url_from_noid( $c, $item->record );
   
   if ( $item->has_children ) {
     $seq = $item->first_component_seq unless ( $seq && $seq =~ /^\d+$/ );
@@ -129,18 +120,25 @@ sub view_item : Private {
 sub view_series : Private {
   my ( $self, $c, $series ) = @_;
   
-  # Retrieve the Persistent URL if record key exists
-  if ( my $record_key = $series->record->{key} ) {
-       my $ark_url    = get_ark_url($c, $record_key);
-       $c->stash->{ark_url} = $ark_url;
-   
-  }
+  _stash_ark_url_from_noid( $c, $series->record );
+
   $c->stash(
     series   => $series,
     template => "view_series.tt"
   );
 
   return 1;
+}
+
+sub _stash_ark_url_from_noid {
+  my ( $c, $record ) = @_;
+  my $noid = $record->{noid};
+
+  if ($noid) {
+    $c->stash->{ark_url} = "https://n2t.net/ark:/$noid";
+  } else {
+    $c->stash->{ark_no_found} = "Persistent URL unavailable";
+  }
 }
 
 # Select a random document
