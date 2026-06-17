@@ -9,6 +9,7 @@ use List::Util qw/min max/;
 use POSIX qw/ceil/;
 use List::MoreUtils qw/any/;
 use Number::Bytes::Human qw(format_bytes);
+use CIHM::Access::Presentation::DownloadClient;
 
 has 'record' => (
   is       => 'ro',
@@ -25,11 +26,11 @@ has 'image_client' => (
   required => 1
 );
 
-has 'swift_client' => (
+has 'download_client' => (
   is  => 'ro',
   isa => sub {
     die "$_[0] is not a valid object"
-      unless ref($_[0]) eq 'CIHM::Access::Presentation::SwiftClient';
+      unless ref($_[0]) eq 'CIHM::Access::Presentation::DownloadClient';
   },
   required => 1
 );
@@ -85,27 +86,7 @@ sub _build_items {
           seq => $seq,
           iiif_image_info => $self->image_client->info($noid),
           iiif_image_full => $self->image_client->full($noid),
-          #download_size => "moo"
         };
-
-        if ($component_record->{canonicalDownload}) {
-          # Not likely in use any more, but this is how single-page PDFs are found in the preservation Swift repository.
-          my $obj_path = $component_record->{canonicalDownload};
-          $r->{download_uri} = $self->swift_client->preservation_uri($obj_path);
-        } elsif (
-          $component_record->{canonicalDownloadExtension}
-        ) {
-          # This generates the URL for a single page from the access-files Swift repository.
-          my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
-          my $filename = join('.', $page_slug, $component_record->{canonicalDownloadExtension});
-          $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
-        } 
-        #else {
-        # testing if an object has a pdf for ocr tracking
-        # my $obj_path = join('.', $noid, "pdf");
-        #  my $filename = join('.', $page_slug, "pdf");
-        #  $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
-        #}
 
         $r;
       } 1 .. @{$self->record->{order}} ];
@@ -173,35 +154,13 @@ sub first_component_seq {
   return 1;
 }
 
-sub first_component_size {
+sub component_download_uri {
   my ($self, $seq) = @_;
+  return undef unless $self->is_type('document') && $self->has_child($seq);
+
   my $page_slug        = $self->record->{order}[ $seq - 1 ];
   my $component_record = $self->record->{components}{$page_slug};
-  my $noid             = $component_record->{noid};
-
-  my $r = {
-    %{$component_record},
-    seq => $seq,
-    iiif_image_info => $self->image_client->info($noid),
-    iiif_image_full => $self->image_client->full($noid),
-    #download_size => "moo"
-  };
-
-  if ($component_record->{canonicalDownload}) {
-    # Not likely in use any more, but this is how single-page PDFs are found in the preservation Swift repository.
-    my $obj_path = $component_record->{canonicalDownload};
-    $r->{download_uri} = $self->swift_client->preservation_uri($obj_path);
-  } elsif (
-    $component_record->{canonicalDownloadExtension}
-  ) {
-    # This generates the URL for a single page from the access-files Swift repository.
-    my $obj_path = join('.', $noid, $component_record->{canonicalDownloadExtension});
-    my $filename = join('.', $page_slug, $component_record->{canonicalDownloadExtension});
-    $r->{download_uri} = $self->swift_client->access_uri($obj_path, $filename);
-  }
-
-  return $self->swift_client->file_size($r->{download_uri});
-  #$r->{download_size} = "moooo2";
+  return $self->_component_download_uri($page_slug, $component_record);
 }
 
 sub canonical_label {
@@ -210,18 +169,35 @@ sub canonical_label {
     . $self->record->{label};
 }
 
-# Checks the access repository for a multi-page PDF, falls back to preservation, or returns undefined.
+# Generates a full-item download URL, or returns undefined when no download metadata exists.
 sub item_download {
   my ($self) = @_;
   if( (ref $self->record->{ocrPdf} eq "HASH" ) && $self->record->{ocrPdf}->{extension} ) {
-    my $slug = $self->record->{_id}; 
-    my $item_download =  join('.', $self->record->{noid}, $self->record->{ocrPdf}{extension});
-    my $item_filename =  join('.', $slug, $self->record->{ocrPdf}{extension});
-    return $item_download ? $self->swift_client->access_uri($item_download, $item_filename) : undef;
+    my $slug = $self->record->{_id};
+    my $noid = $self->record->{noid};
+    my $extension = $self->record->{ocrPdf}{extension};
+    return undef unless $noid && $extension;
+    return $self->download_client->access_uri(join('.', $noid, $extension), join('.', $slug, $extension));
   } elsif ( $self->record->{canonicalDownload} ) {
     my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
-    return $item_download ? $self->swift_client->preservation_uri($item_download) : undef;
+    return undef unless $item_download;
+    return $self->download_client->preservation_uri($item_download);
   }
+  return undef;
+}
+
+sub _component_download_uri {
+  my ($self, $page_slug, $component_record) = @_;
+  my $noid = $component_record->{noid};
+
+  if ($component_record->{canonicalDownload}) {
+    return $self->download_client->preservation_uri($component_record->{canonicalDownload});
+  } elsif ($component_record->{canonicalDownloadExtension}) {
+    my $extension = $component_record->{canonicalDownloadExtension};
+    return undef unless $noid && $extension;
+    return $self->download_client->access_uri(join('.', $noid, $extension), join('.', $page_slug, $extension));
+  }
+
   return undef;
 }
 

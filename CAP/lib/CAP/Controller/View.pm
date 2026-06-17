@@ -1,7 +1,6 @@
 package CAP::Controller::View;
 use Moose;
 use namespace::autoclean;
-use Number::Bytes::Human qw(format_bytes);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -62,20 +61,6 @@ sub view_item : Private {
     $c->detach( "/error", [404, "Page not found: $seq"] )
       unless $item->has_child($seq);
 
-    my $child_key = join( '.', $item->record->{key}, $seq);
-    my $canvas = $c->model('Presentation')->fetch( $child_key, $c->portal_id, $c->req->uri->host );
-    my $child_size = $canvas->record->{canonicalMasterSize};
-    if( $child_size ) {
-      $child_size = format_bytes($child_size);
-    }
-
-    my $pdf_size = $item->first_component_size($seq);
-    if( $pdf_size ) {
-      $pdf_size = format_bytes($pdf_size);
-    }
-
-   
-
     $c->stash(
       item               => $item,
       record             => $item->record,
@@ -83,8 +68,6 @@ sub view_item : Private {
       item_download_size => $item->item_download_size,
       seq                => $seq,
       template           => "view_item.tt",
-      child_size         => $child_size,
-      pdf_size           => $pdf_size,
    
     );
   } elsif ($item->item_mode eq "pdf") {
