@@ -7,8 +7,8 @@ use Moo;
 use List::MoreUtils qw/any/;
 use Types::Standard qw/Int Str Enum/;
 use CIHM::Access::Presentation::Document;
+use CIHM::Access::Presentation::DownloadClient;
 use CIHM::Access::Presentation::ImageClient;
-use CIHM::Access::Presentation::SwiftClient;
 with 'Role::REST::Client';
 
 has '+type' => ( default => 'application/json' );
@@ -23,24 +23,24 @@ has 'image_endpoint' => (
   required => 1
 );
 
-# Preservation swift container. Only in use now for multi-page PDFs, pending new work on that front.
-has 'swift_container_preservation' => (
+# Download API endpoint, including the /download path.
+has 'download_api_endpoint' => (
   is => 'ro',
   isa => Str,
   required => 1
 );
 
-# Access file container.
-has 'swift_container_access' => (
+# Key used to sign Download API URLs.
+has 'download_token_secret' => (
   is => 'ro',
   isa => Str,
   required => 1
 );
 
-# Key used to sign Swift temp URLs.
-has 'swift_temp_url_key' => (
+# Seconds before generated download URLs expire.
+has 'download_token_ttl' => (
   is => 'ro',
-  isa => Str,
+  isa => Int,
   required => 1
 );
 
@@ -56,14 +56,14 @@ has 'image_client' => (
   default => sub { return CIHM::Access::Presentation::ImageClient->new({ endpoint => shift->image_endpoint }); }
 );
 
-has 'swift_client' => (
+has 'download_client' => (
   is => 'lazy',
   default => sub {
     my $self = shift;
-    return CIHM::Access::Presentation::SwiftClient->new({
-      container_preservation => $self->swift_container_preservation,
-      container_access => $self->swift_container_access,
-      temp_url_key => $self->swift_temp_url_key
+    return CIHM::Access::Presentation::DownloadClient->new({
+      endpoint => $self->download_api_endpoint,
+      token_secret => $self->download_token_secret,
+      token_ttl => $self->download_token_ttl
     });
   }
 );
@@ -83,7 +83,7 @@ sub fetch {
       return CIHM::Access::Presentation::Document->new( {
           record     => $response->data,
           image_client => $self->image_client,
-          swift_client => $self->swift_client,
+          download_client => $self->download_client,
           domain => $domain
         }
       );
