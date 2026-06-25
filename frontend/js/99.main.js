@@ -36,6 +36,9 @@ $(function () {
 
   $("#pvToolbar").dragonViewer();
   $(".matching-pages").matchingPages();
+  $(".js-signed-download").each(function () {
+    window.capSignedDownloads.setupLink(this);
+  });
 
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();

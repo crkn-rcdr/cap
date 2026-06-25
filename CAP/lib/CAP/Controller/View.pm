@@ -1,12 +1,6 @@
 package CAP::Controller::View;
 use Moose;
 use namespace::autoclean;
-use JSON qw/encode_json/;
-use Number::Bytes::Human qw(format_bytes);
-use LWP::UserAgent;
-use JSON qw(decode_json encode_json);
-use URI::Escape qw(uri_escape);
-use CAP::Utils::ArkURL qw(get_ark_url);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -58,11 +52,7 @@ sub index : Path('') {
 sub view_item : Private {
   my ( $self, $c, $item, $seq ) = @_;
 
-  # Retrieve the Persistent URL if record key exists
-  if ( my $record_key = $item->record->{key} ) {
-       my $ark_url    = get_ark_url($c, $record_key);
-       $c->stash->{ark_url} = $ark_url;
-  }
+  _stash_ark_url_from_noid( $c, $item->record );
   
   if ( $item->has_children ) {
     $seq = $item->first_component_seq unless ( $seq && $seq =~ /^\d+$/ );
@@ -71,20 +61,6 @@ sub view_item : Private {
     $c->detach( "/error", [404, "Page not found: $seq"] )
       unless $item->has_child($seq);
 
-    my $child_key = join( '.', $item->record->{key}, $seq);
-    my $canvas = $c->model('Presentation')->fetch( $child_key, $c->portal_id, $c->req->uri->host );
-    my $child_size = $canvas->record->{canonicalMasterSize};
-    if( $child_size ) {
-      $child_size = format_bytes($child_size);
-    }
-
-    my $pdf_size = $item->first_component_size($seq);
-    if( $pdf_size ) {
-      $pdf_size = format_bytes($pdf_size);
-    }
-
-   
-
     $c->stash(
       item               => $item,
       record             => $item->record,
@@ -92,8 +68,6 @@ sub view_item : Private {
       item_download_size => $item->item_download_size,
       seq                => $seq,
       template           => "view_item.tt",
-      child_size         => $child_size,
-      pdf_size           => $pdf_size,
    
     );
   } elsif ($item->item_mode eq "pdf") {
@@ -129,18 +103,25 @@ sub view_item : Private {
 sub view_series : Private {
   my ( $self, $c, $series ) = @_;
   
-  # Retrieve the Persistent URL if record key exists
-  if ( my $record_key = $series->record->{key} ) {
-       my $ark_url    = get_ark_url($c, $record_key);
-       $c->stash->{ark_url} = $ark_url;
-   
-  }
+  _stash_ark_url_from_noid( $c, $series->record );
+
   $c->stash(
     series   => $series,
     template => "view_series.tt"
   );
 
   return 1;
+}
+
+sub _stash_ark_url_from_noid {
+  my ( $c, $record ) = @_;
+  my $noid = $record->{noid};
+
+  if ($noid) {
+    $c->stash->{ark_url} = "https://n2t.net/ark:/$noid";
+  } else {
+    $c->stash->{ark_no_found} = "Persistent URL unavailable";
+  }
 }
 
 # Select a random document

@@ -7,8 +7,14 @@ services:
       - WORKERS=1
       # change below to 1 for debug output
       - CATALYST_DEBUG=0
-      # find the value of CAP_PASSWORD in the dev 1password vault
-      - 'CAP_Model::Presentation_swift_temp_url_key=CAP_PASSWORD'
+      # find the value of DOWNLOAD_TOKEN_SECRET in the Download API 1password item
+      - CAP_Model::Presentation_image_endpoint=https://image-tor.canadiana.ca/iiif/2
+      - CAP_Model::Presentation_download_api_endpoint=https://www-download.canadiana.ca/download
+      - CAP_Model::Presentation_download_token_secret=DOWNLOAD_TOKEN_SECRET
+      - CAP_Model::Presentation_download_token_ttl=1800
+      - CAP_Model::Presentation_server=http://traminac.tor.c7a.ca:5984/copresentation2
+      - CAP_Model::Search_server=http://traminac.tor.c7a.ca:8983/solr/cosearch2
+      - CAP_Model::Parl_server=http://traminac.tor.c7a.ca:5984/copresentation2
     volumes:
       # cap still needs to be restarted for changes in these directories
       - ./CAP/conf:/opt/cap/conf
