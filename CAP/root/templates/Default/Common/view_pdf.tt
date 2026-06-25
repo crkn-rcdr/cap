@@ -30,8 +30,17 @@
   [% INCLUDE partial/published_and_pages.tt result=record %]
 
   <div class="card mb-3">
-    <h4 class="card-header"><a href="[% item_download %]">[% c.loc("L_VIEWER_DOWNLOAD_FULL") %]</a></h4>
-    <p class="px-4 py-3 mb-0"><a href="[% item_download %]">[% c.loc("L_VIEWER_DOWNLOAD_PDF_EXPLANATION") %]</a></p>
+  [% IF item_download %]
+    <h4 class="card-header">
+      <a id="pdfDownloadFull" class="js-signed-download disabled" aria-disabled="true" data-download-url="[% c.uri_for('/files/get', record.key, 'item') %]">
+        [% c.loc("L_VIEWER_DOWNLOAD_FULL") %]
+      </a>
+    </h4>
+    <p class="px-4 py-3 mb-0">[% c.loc("L_VIEWER_DOWNLOAD_PDF_EXPLANATION") %]</p>
+  [% ELSE %]
+    <h4 class="card-header">[% c.loc("L_VIEWER_DOWNLOAD_FULL_NA") %]</h4>
+    <p class="px-4 py-3 mb-0">[% c.loc("L_VIEWER_DOWNLOAD_FULL_NA") %]</p>
+  [% END %]
   </div>
 
   [% INCLUDE partial/document_record.tt record=record layout="page" %]
