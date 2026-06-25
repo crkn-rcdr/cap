@@ -6,6 +6,7 @@ use strict;
 use warnings;
 use utf8;
 
+use File::Slurp qw/read_file/;
 use JSON qw/encode_json/;
 
 use Data::Dumper;
@@ -213,15 +214,7 @@ User-agent: *
 Disallow: /
 ENDTEXT
   } else {
-    # Else - regular site should be indexed 
-    my $sitemap_uri = $c->uri_for('/sitemap/sitemap.xml');
-    $body = <<"EOF";
-User-agent: *
-Disallow: /search
-Allow: /search-tips
-Disallow: /file
-Sitemap: $sitemap_uri
-EOF
+    $body = read_file( $c->path_to( 'conf', 'robots.txt' ) );
   }
   $c->res->body($body);
   return 1;
@@ -252,7 +245,12 @@ sub version : Path('version') : Args() {
   return 1;
 }
 
+sub environment : Path('environment') : Args() {
+  my ( $self, $c ) = @_;
+  $c->res->body($c->config->{environment});
+  return 1;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
-

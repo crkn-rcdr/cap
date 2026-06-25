@@ -21,13 +21,14 @@ sub myaction2 :Path('get'){
     [ 404, "Presentation fetch failed on document $key: $@" ])
     if $@;
 
-  if ($doc->item_mode ne "noid") {
-    $c->detach("/error", [ 404, "File service unavailable." ]);
-  }
-
   if(defined $doc &&  $doc->is_type('document') ) {
-    
-    if ( $doc->has_children ) {
+
+    if (defined $seq && $seq eq 'item') {
+      $c->stash( data => {
+        download_uri  => $doc->item_download,
+        download_size => $doc->item_download_size
+      });
+    } elsif ( $doc->item_mode eq "noid" && $doc->has_children ) {
       $seq = $doc->first_component_seq unless ( $seq && $seq =~ /^\d+$/ );
 
       # Make sure the requested page exists.
@@ -41,14 +42,14 @@ sub myaction2 :Path('get'){
         $child_size = format_bytes($child_size);
       }
 
-      my $pdf_size = $doc->first_component_size($seq);
-      if( $pdf_size ) {
-        $pdf_size = format_bytes($pdf_size);
-      }
-
       $c->stash( data => {
         child_size         => $child_size,
-        pdf_size           => $pdf_size
+        download_uri       => $doc->component_download_uri($seq)
+      });
+    } else {
+      $c->stash( data => {
+        child_size         => 0,
+        download_uri       => undef
       });
     }
 
@@ -56,7 +57,7 @@ sub myaction2 :Path('get'){
 
     $c->stash( data => {
       child_size         => 0,
-      pdf_size           => 0
+      download_uri       => undef
     });
 
   }

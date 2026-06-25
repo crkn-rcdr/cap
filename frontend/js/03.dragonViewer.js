@@ -23,6 +23,7 @@
       history.replaceState({ page: page }, null, this.makePathFromPage(page));
 
       this.pageUpdated(page);
+      this.loadItemDownload();
       this.zoomUpdated(this.dragon.viewport.getZoom());
     },
 
@@ -32,6 +33,7 @@
         initialPage: parseInt($e.attr("data-seq"), 10) - 1,
         pkey: $e.attr("data-pkey"),
         total: parseInt($e.attr("data-total"), 10),
+        filesUrl: $e.attr("data-files-url"),
         portalName: $e.attr("data-portal-name"),
         documentLabel: $e.attr("data-document-label"),
         imageLoadErrorString: $e.attr("data-load-error"),
@@ -45,7 +47,8 @@
 
         var component = {
           uri: uri,
-          download: this.getAttribute("data-download"),
+          download: null,
+          downloadLoaded: false,
           label: this.innerHTML,
           fullImage:
             uri.slice(0, uri.indexOf("/info.json")) + "/full/max/0/default.jpg",
@@ -78,35 +81,13 @@
         navigatorPosition: "TOP_LEFT",
         crossOriginPolicy: "Anonymous",
         preserveViewport: true,
-        alwaysBlend: true
+        alwaysBlend: true,
       });
 
       this.dragon = OpenSeadragon.getViewer(viewerAnchor);
 
       this.dragon.addHandler("page", function (event) {
         var page = event.page;
-
-        /*var downloadButton = document.getElementById("pvFullImageDownload");
-        var slug = downloadButton.getAttribute("data-slug");
-        var seq = downloadButton.getAttribute("data-seq");
-
-        var url = "/files/get/" + slug + "/" + seq;
-        var pvFullImageDownloadSize = document.getElementById("pvFullImageDownloadSize");
-        if(pvFullImageDownloadSize) pvFullImageDownloadSize.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
-        var pvDownloadSingleSize = document.getElementById("pvDownloadSingleSize");
-        if(pvDownloadSingleSize) pvDownloadSingleSize.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
-        $.ajax({
-          url: url,
-          method: "get",
-          success: function(data) {
-            if(pvFullImageDownloadSize) pvFullImageDownloadSize.innerHTML = data['child_size'];
-            if(pvDownloadSingleSize) pvDownloadSingleSize.innerHTML = data['pdf_size'];
-          },
-          error: function (data) {
-            that.$element.empty();
-            that.$element.html("Error &mdash; Erreur");
-          },
-        });*/
 
         if (!pv.isOnPopState) {
           history.replaceState({ page: page }, null, pv.makePathFromPage(page));
@@ -208,17 +189,18 @@
         var downloadButton = document.getElementById("pvFullImageDownload");
         var url = downloadButton.getAttribute("data-url");
         var origContent = downloadButton.innerHTML;
-        downloadButton.innerHTML = '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
+        downloadButton.innerHTML =
+          '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
         $.ajax({
           url: url,
           method: "get",
-          xhrFields:{
-              responseType: 'blob'
+          xhrFields: {
+            responseType: "blob",
           },
-          success: function(data) {
+          success: function (data) {
             var slug = downloadButton.getAttribute("data-slug");
             var seq = downloadButton.getAttribute("data-seq");
-            var filename = slug + "." + seq + '.jpg';
+            var filename = slug + "." + seq + ".jpg";
 
             if (window.navigator.msSaveOrOpenBlob) {
               // Internet Explorer
@@ -226,12 +208,12 @@
               window.navigator.msSaveOrOpenBlob(blob, filename);
             } else {
               var url = URL.createObjectURL(data);
-              var a = document.createElement('a');
+              var a = document.createElement("a");
               a.href = url;
               a.download = filename;
               document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
               a.click();
-              a.remove();  //afterwards we remove the element again
+              a.remove(); //afterwards we remove the element again
             }
             downloadButton.innerHTML = origContent;
           },
@@ -241,6 +223,31 @@
             downloadButton.innerHTML = origContent;
           },
         });
+      };
+      this.downloadSingle = function () {
+        var seq = parseInt(this.controls.pageSelect.selector.val(), 10);
+        var pv = this;
+
+        window.capSignedDownloads.openFresh(
+          this.pageDownloadUrl(seq),
+          function () {
+            if (pv.isCurrentSeq(seq)) {
+              pv.setDownloadControl(pv.controls.singleDownload, null);
+            }
+          },
+          this.controls.singleDownload.selector
+        );
+      };
+      this.downloadFull = function () {
+        var pv = this;
+
+        window.capSignedDownloads.openFresh(
+          this.itemDownloadUrl(),
+          function () {
+            pv.setDownloadControl(pv.controls.fullDownload, null);
+          },
+          this.controls.fullDownload.selector
+        );
       };
     },
 
@@ -252,6 +259,7 @@
           selector: $(spec.selection),
           enable: function () {
             this.selector.prop("disabled", false);
+            this.selector.removeAttr("disabled");
             this.selector.attr("href", "");
             //this.selector.removeAttr("href");
             this.selector.removeClass("disabled selected hidden");
@@ -335,6 +343,16 @@
           eventName: "click",
           handler: this.downloadFullImage,
         }),
+        singleDownload: pvc({
+          selection: "#pvDownloadSingle",
+          eventName: "click",
+          handler: this.downloadSingle,
+        }),
+        fullDownload: pvc({
+          selection: "#pvDownloadFull",
+          eventName: "click",
+          handler: this.downloadFull,
+        }),
       };
 
       // These never need to be disabled.
@@ -377,6 +395,86 @@
       return "" + (isPkeyOutFront ? this.settings.pkey + "/" : "") + (page + 1);
     },
 
+    pageDownloadUrl: function (seq) {
+      return this.settings.filesUrl.replace(/\/$/, "") + "/" + seq;
+    },
+
+    itemDownloadUrl: function () {
+      return this.settings.filesUrl.replace(/\/$/, "") + "/item";
+    },
+
+    isCurrentSeq: function (seq) {
+      return parseInt(this.controls.pageSelect.selector.val(), 10) === seq;
+    },
+
+    setDownloadControl: function (control, uri) {
+      if (!control || control.selector.length === 0) {
+        return;
+      }
+
+      if (uri) {
+        control.enable();
+        control.selector.attr("aria-disabled", "false");
+        control.selector.attr("href", uri);
+      } else {
+        control.disable("disabled");
+        control.selector.attr("disabled", "disabled");
+        control.selector.attr("aria-disabled", "true");
+        control.selector.removeAttr("href");
+      }
+    },
+
+    loadPageDownload: function (page) {
+      var seq = page + 1;
+      var component = this.components[page];
+      var pv = this;
+
+      if (!component) {
+        this.setDownloadControl(this.controls.singleDownload, null);
+        return;
+      }
+
+      if (component.downloadLoaded) {
+        this.setDownloadControl(
+          this.controls.singleDownload,
+          component.download
+        );
+        return;
+      }
+
+      this.setDownloadControl(this.controls.singleDownload, null);
+      window.capSignedDownloads
+        .resolveUri(this.pageDownloadUrl(seq))
+        .done(function (uri) {
+          component.download = uri;
+          component.downloadLoaded = true;
+          if (pv.isCurrentSeq(seq)) {
+            pv.setDownloadControl(
+              pv.controls.singleDownload,
+              component.download
+            );
+          }
+        });
+    },
+
+    loadItemDownload: function () {
+      var pv = this;
+
+      if (this.itemDownloadLoaded) {
+        this.setDownloadControl(this.controls.fullDownload, this.itemDownload);
+        return;
+      }
+
+      this.setDownloadControl(this.controls.fullDownload, null);
+      window.capSignedDownloads
+        .resolveUri(this.itemDownloadUrl())
+        .done(function (uri) {
+          pv.itemDownload = uri;
+          pv.itemDownloadLoaded = true;
+          pv.setDownloadControl(pv.controls.fullDownload, pv.itemDownload);
+        });
+    },
+
     pageUpdated: function (page) {
       if (page <= 0) {
         this.controls.first.disable("disabled");
@@ -403,27 +501,21 @@
         " - " +
         this.settings.portalName;
 
-      var $singleDownload = $("#pvDownloadSingle");
-      var downloadUri = this.components[page].download;
-      if (downloadUri) {
-        $singleDownload.prop('disabled', false);//.removeClass("hidden");
-        $singleDownload.attr("href", downloadUri);
-      } else {
-        $singleDownload.prop('disabled', true);//.addClass("hidden");
-        $singleDownload.attr("href", "");
-      }
+      this.loadPageDownload(page);
 
       var $fullImage = $("#pvFullImage");
       if ($fullImage.length > 0) {
         $fullImage.attr("href", this.components[page].fullImage);
         var downloadButton = document.getElementById("pvFullImageDownload");
-        if(downloadButton) {
-          downloadButton.setAttribute("data-url", this.components[page].fullImage);
+        if (downloadButton) {
+          downloadButton.setAttribute(
+            "data-url",
+            this.components[page].fullImage
+          );
           downloadButton.setAttribute("data-slug", this.settings.pkey);
           downloadButton.setAttribute("data-seq", page + 1);
         }
       }
-      
     },
 
     zoomUpdated: function (zoom) {
