@@ -60,7 +60,15 @@ sub portal_from_host {
   my ( $self, $host ) = @_;
 
   return if (! defined $host);
-  return $self->_portals->{"online"};
+  
+  my $subd = substr( $host, 0, index( $host, '.' ) );
+  if ( index( $subd, '-' ) > -1 ) {
+    $subd = substr( $subd, 0, index( $subd, '-' ) );
+  }
+
+  if( exists($self->_subdomains->{$subd}) ) {
+    return $self->_portals->{$self->_subdomains->{$subd}};
+  }
 }
 
 1;
