@@ -1,0 +1,104 @@
+## How to add a new status update
+
+Every so often, there may be a problem with the infrastructure, collections, or third party tooling.
+
+During those circumstances, we add a banner to the top of the websites indicating those issues to our end users. Heritage Services staff develops the exact language for us to use, then we make small code changes to apply them to the website.
+
+The most important file to know about is https://github.com/crkn-rcdr/cap/blob/main/CAP/root/templates/Default/Common/partial/message_banner.tt
+
+This is where we can put status messages for all of the portals.
+
+You can use conditional logic if needed to apply a status message to a single portal, or customize the text per portal.
+
+```
+[% IF c.portal_id == "pub" %]
+
+[% END -%]
+```
+
+Active portal ids are:
+- www.canadiana.ca: online
+- heritage.canadiana.ca: heritage
+- parl.canadiana.ca: parl
+- gac.canadiana.ca: dfait
+- nrcan.canadiana.ca: nrcan
+
+Each message will have both a french and english version:
+
+```
+[% IF c.stash.lang == "fr" -%]
+   <add french txt here>
+[% ELSE -%]
+   <add english txt here>
+[% END -%]
+```
+
+For an orange background to the message banner (less severe warning) use the `message-banner` class.
+
+```
+[% IF c.portal_id == "pub" %]
+  [% IF c.config.show_banner && !clearbanner -%]
+  <div class="container">
+    <div class="message-banner d-flex">
+      <p class="my-0 py-1 px-2">
+  [% IF c.stash.lang == "fr" -%]
+      La Mississauga Library a demandé que les journaux de sa collection soient retirés de ce portail. À compter du 26 février 2025, ces journaux ne seront plus disponibles sur Canadiana. Pour toute question, veuillez contacter la Mississauga Library.
+  [% ELSE -%]
+      The Mississauga Library has requested that newspapers from their collection be removed from this portal. As of February 26, 2025, these newspapers will no longer be available on Canadiana. For questions, please contact the Mississauga Library.
+  [% END -%]
+      </p>
+      <p class="ml-auto my-0 py-1 px-2">
+        <a href="[% c.req.uri_with({ clearbanner => c.config.message_banner }) %]">
+          <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+          <span class="sr-only">[% c.loc("GENERIC_MENU_CLOSE") %]</span>
+        </a>
+      </p>
+    </div>
+  </div>
+  [% END -%]
+[% END -%]
+```
+
+For a more severe warning, we put a red background. This would be used for an outage. To do so, use the `message-banner-error` class.
+
+```
+[% IF c.portal_id == "online" || c.portal_id == "heritage" %]
+  <div class="container">
+    <div class="message-banner-error d-flex">
+      <p class="my-0 py-1 px-2">
+        [% IF c.stash.lang == "fr" -%]
+            Depuis le 10 juin, les sites Web de Canadiana et d'Héritage rencontrent des pannes intermittentes et des temps de chargement des images lents. Le personnel du CRKN cherche actuellement une solution. Pour plus d'informations, veuillez consulter notre page <a href="https://www.crkn-rcdr.ca/fr/statut" target="_blank">Statut du système</a>.
+        [% ELSE -%]
+            As of June 10, the Canadiana and Héritage websites are experiencing intermittent outages and slow image loading times. CRKN staff are investigating a solution. For more information, please visit our <a href="https://www.crkn-rcdr.ca/en/status" target="_blank">System Status</a> page.
+        [% END -%]
+      </p>
+    </div>
+  </div>
+[% ELSIF c.portal_id == "parl"  %]
+  <div class="container">
+    <div class="message-banner-error d-flex">
+      <p class="my-0 py-1 px-2">
+        [% IF c.stash.lang == "fr" -%]
+          Depuis le 10 juin, le portail Ressources parlementaires historiques canadiennes rencontre des pannes intermittentes et des temps de chargement des images lents. Le personnel du CRKN cherche actuellement une solution.
+        [% ELSE -%]
+          As of June 10, the Canadian Parliamentary Historical Resources portal is experiencing intermittent outages and slow image loading times. CRKN staff are investigating a solution.
+        [% END -%]
+      </p>
+    </div>
+  </div>
+[% ELSE -%]
+  <div class="container">
+    <div class="message-banner-error d-flex">
+      <p class="my-0 py-1 px-2">
+        [% IF c.stash.lang == "fr" -%]
+            Depuis le 10 juin, ce portail rencontre des pannes intermittentes et des temps de chargement des images lents. Le personnel du CRKN cherche actuellement une solution.
+        [% ELSE -%]
+            As of June 10, this portal is experiencing experiencing intermittent outages and slow image loading times. CRKN staff are investigating a solution.
+        [% END -%]
+      </p>
+    </div>
+  </div>
+[% END -%]
+```
