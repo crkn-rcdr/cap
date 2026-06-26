@@ -22,7 +22,8 @@
   [% END -%]
 [% END -%]
 
-<div class="container">
+[% IF c.portal_id != "heritage" %]
+  <div class="container">
     <div class="message-banner-error d-flex">
       <p class="my-0 py-1 px-2">
         [% IF c.stash.lang == "fr" -%]
@@ -32,4 +33,5 @@
         [% END -%]
       </p>
     </div>
-</div>
+  </div>
+[% END -%]
