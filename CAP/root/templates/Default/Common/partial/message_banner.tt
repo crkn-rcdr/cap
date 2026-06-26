@@ -21,3 +21,15 @@
   </div>
   [% END -%]
 [% END -%]
+
+<div class="container">
+    <div class="message-banner-error d-flex">
+      <p class="my-0 py-1 px-2">
+        [% IF c.stash.lang == "fr" -%]
+            Le site Web de Canadiana sera indisponible du dimanche 28 juin à 20h00 HE jusqu'au mardi 30 juin à 12h00 HE à cause d'une maintenance programmée. Nous nous excusons pour la gêne occasionnée.
+        [% ELSE -%]
+            The Canadiana website will be unavailable from Sunday, June 28 at 8:00 pm ET to Tuesday, June 30 at 12:00 pm ET due to planned maintenance. We apologize for the inconvenience.
+        [% END -%]
+      </p>
+    </div>
+</div>
