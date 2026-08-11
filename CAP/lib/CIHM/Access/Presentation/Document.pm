@@ -155,12 +155,12 @@ sub first_component_seq {
 }
 
 sub component_download_uri {
-  my ($self, $seq) = @_;
+  my ($self, $seq, $page_record) = @_;
   return undef unless $self->is_type('document') && $self->has_child($seq);
 
   my $page_slug        = $self->record->{order}[ $seq - 1 ];
   my $component_record = $self->record->{components}{$page_slug};
-  return $self->_component_download_uri($page_slug, $component_record);
+  return $self->_component_download_uri($page_slug, $page_record || $component_record);
 }
 
 sub canonical_label {
@@ -172,12 +172,8 @@ sub canonical_label {
 # Generates a full-item download URL, or returns undefined when no download metadata exists.
 sub item_download {
   my ($self) = @_;
-  if( (ref $self->record->{ocrPdf} eq "HASH" ) && $self->record->{ocrPdf}->{extension} ) {
-    my $slug = $self->record->{_id};
-    my $noid = $self->record->{noid};
-    my $extension = $self->record->{ocrPdf}{extension};
-    return undef unless $noid && $extension;
-    return $self->download_client->access_uri(join('.', $noid, $extension), join('.', $slug, $extension));
+  if (my $ocr_pdf_uri = $self->_ocr_pdf_download_uri($self->_slug, $self->record)) {
+    return $ocr_pdf_uri;
   } elsif ( $self->record->{canonicalDownload} ) {
     my $item_download = defined $self->record->{file} ? $self->record->{file}{path} : $self->record->{canonicalDownload};
     return undef unless $item_download;
@@ -188,17 +184,31 @@ sub item_download {
 
 sub _component_download_uri {
   my ($self, $page_slug, $component_record) = @_;
-  my $noid = $component_record->{noid};
 
+  # canonicalDownload is an explicit file path; ocrPdf is the access-PDF
+  # availability signal. canonicalDownloadExtension alone is only a path hint.
   if ($component_record->{canonicalDownload}) {
     return $self->download_client->preservation_uri($component_record->{canonicalDownload});
-  } elsif ($component_record->{canonicalDownloadExtension}) {
-    my $extension = $component_record->{canonicalDownloadExtension};
-    return undef unless $noid && $extension;
-    return $self->download_client->access_uri(join('.', $noid, $extension), join('.', $page_slug, $extension));
+  } elsif (my $ocr_pdf_uri = $self->_ocr_pdf_download_uri($page_slug, $component_record)) {
+    return $ocr_pdf_uri;
   }
 
   return undef;
+}
+
+sub _ocr_pdf_download_uri {
+  my ($self, $slug, $record) = @_;
+  return undef unless $slug && ref $record eq "HASH";
+  return undef unless ref $record->{ocrPdf} eq "HASH";
+
+  my $noid = $record->{noid};
+  my $extension = $record->{ocrPdf}->{extension} || $record->{canonicalDownloadExtension};
+  return undef unless $noid && $extension;
+
+  return $self->download_client->access_uri(
+    join('.', $noid, $extension),
+    join('.', $slug, $extension)
+  );
 }
 
 # Checks the access repository for a multi-page PDF, falls back to preservation, or returns undefined.

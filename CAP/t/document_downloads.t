@@ -75,16 +75,33 @@ sub canonical_document {
   });
 }
 
+sub component_ocr_pdf_record {
+  return {
+    key => 'oocihm.41831.1',
+    type => 'page',
+    collection => [],
+    noid => '69429/m0abc',
+    canonicalDownloadExtension => 'pdf',
+    ocrPdf => {
+      extension => 'pdf',
+      size => 4567,
+    },
+  };
+}
+
 my $doc = document();
 
 my $component = $doc->component(1);
 
 ok !exists $component->{download_uri}, 'component data does not pre-render signed download URL';
 
-my $component_uri = URI->new($doc->component_download_uri(1));
+ok !defined $doc->component_download_uri(1),
+  'component canonicalDownloadExtension alone does not enable access PDF download';
+
+my $component_uri = URI->new($doc->component_download_uri(1, component_ocr_pdf_record()));
 my %component_query = $component_uri->query_form;
 is $component_uri->path, '/download/access/69429/m0abc.pdf',
-  'component canonicalDownloadExtension uses access-files object path';
+  'component ocrPdf uses access-files object path';
 is $component_query{filename}, 'oocihm.41831.1.pdf',
   'component access download sets slug filename';
 

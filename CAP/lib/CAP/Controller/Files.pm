@@ -44,7 +44,7 @@ sub myaction2 :Path('get'){
 
       $c->stash( data => {
         child_size         => $child_size,
-        download_uri       => $doc->component_download_uri($seq)
+        download_uri       => $doc->component_download_uri($seq, $canvas->record)
       });
     } else {
       $c->stash( data => {
