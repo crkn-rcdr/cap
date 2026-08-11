@@ -188,41 +188,22 @@
       this.downloadFullImage = function () {
         var downloadButton = document.getElementById("pvFullImageDownload");
         var url = downloadButton.getAttribute("data-url");
-        var origContent = downloadButton.innerHTML;
-        downloadButton.innerHTML =
-          '<img class="full-size-download-spinner" src="/static/images/spinner.gif"/>';
-        $.ajax({
-          url: url,
-          method: "get",
-          xhrFields: {
-            responseType: "blob",
-          },
-          success: function (data) {
-            var slug = downloadButton.getAttribute("data-slug");
-            var seq = downloadButton.getAttribute("data-seq");
-            var filename = slug + "." + seq + ".jpg";
+        var slug = downloadButton.getAttribute("data-slug");
+        var seq = downloadButton.getAttribute("data-seq");
+        var filename = slug + "." + seq + ".jpg";
 
-            if (window.navigator.msSaveOrOpenBlob) {
-              // Internet Explorer
-              var blob = new Blob([data], { type: "application/octetstream" });
-              window.navigator.msSaveOrOpenBlob(blob, filename);
-            } else {
-              var url = URL.createObjectURL(data);
-              var a = document.createElement("a");
-              a.href = url;
-              a.download = filename;
-              document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-              a.click();
-              a.remove(); //afterwards we remove the element again
-            }
-            downloadButton.innerHTML = origContent;
-          },
-          error: function (data) {
-            that.$element.empty();
-            that.$element.html("Error &mdash; Erreur");
-            downloadButton.innerHTML = origContent;
-          },
-        });
+        if (!url) {
+          return;
+        }
+
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.target = "_blank";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
       };
       this.downloadSingle = function () {
         var seq = parseInt(this.controls.pageSelect.selector.val(), 10);

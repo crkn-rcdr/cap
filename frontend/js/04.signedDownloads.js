@@ -26,45 +26,8 @@
       return deferred.promise();
     },
 
-    probeUri: function (uri) {
-      var deferred = $.Deferred();
-
-      if (!uri) {
-        deferred.resolve(false);
-        return deferred.promise();
-      }
-
-      $.ajax({
-        url: uri,
-        method: "HEAD",
-        cache: false,
-        timeout: 15000,
-        success: function () {
-          deferred.resolve(true);
-        },
-        error: function () {
-          deferred.resolve(false);
-        },
-      });
-
-      return deferred.promise();
-    },
-
     resolveUri: function (downloadUrl) {
-      var deferred = $.Deferred();
-
-      downloads.fetchUri(downloadUrl).done(function (uri) {
-        if (!uri) {
-          deferred.resolve(null);
-          return;
-        }
-
-        downloads.probeUri(uri).done(function (available) {
-          deferred.resolve(available ? uri : null);
-        });
-      });
-
-      return deferred.promise();
+      return downloads.fetchUri(downloadUrl);
     },
 
     setLink: function ($link, uri) {
@@ -130,34 +93,18 @@
     triggerDownload: function (uri) {
       var deferred = $.Deferred();
 
-      if (!window.fetch || !window.URL || !window.URL.createObjectURL) {
+      if (!uri) {
         deferred.reject();
         return deferred.promise();
       }
 
-      fetch(uri)
-        .then(function (response) {
-          if (!response.ok) {
-            throw new Error("download request failed");
-          }
-          return response.blob();
-        })
-        .then(function (blob) {
-          var blobUrl = window.URL.createObjectURL(blob);
-          var link = document.createElement("a");
-          link.href = blobUrl;
-          link.download = downloads.filenameFromUri(uri);
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          setTimeout(function () {
-            window.URL.revokeObjectURL(blobUrl);
-          }, 1000);
-          deferred.resolve();
-        })
-        .catch(function () {
-          deferred.reject();
-        });
+      var link = document.createElement("a");
+      link.href = uri;
+      link.download = downloads.filenameFromUri(uri);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      deferred.resolve();
 
       return deferred.promise();
     },
@@ -168,19 +115,10 @@
       downloads.setLoading($link, true);
       downloads.fetchUri(downloadUrl).done(function (uri) {
         if (uri) {
-          downloads
-            .triggerDownload(uri)
-            .done(function () {
-              downloads.setLoading($link, false);
-              deferred.resolve();
-            })
-            .fail(function () {
-              downloads.setLoading($link, false);
-              if (unavailable) {
-                unavailable();
-              }
-              deferred.reject();
-            });
+          downloads.setLoading($link, false);
+          downloads.setLink($link, uri);
+          downloads.triggerDownload(uri);
+          deferred.resolve();
         } else {
           downloads.setLoading($link, false);
           if (unavailable) {

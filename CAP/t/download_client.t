@@ -36,8 +36,8 @@ my $before = time;
 my $long_ttl_uri = URI->new($long_ttl_client->pdf_uri('oocihm.41831', '69429/m0abc'));
 my %long_ttl_query = $long_ttl_uri->query_form;
 my $after = time;
-cmp_ok $long_ttl_query{expires}, '<=', $after + 1800, 'caps item download URL TTL at 30 minutes';
-cmp_ok $long_ttl_query{expires}, '>=', $before + 1800, 'uses the maximum allowed item download URL TTL';
+cmp_ok $long_ttl_query{expires}, '<=', $after + 1740, 'caps item download URL below Download API maximum TTL';
+cmp_ok $long_ttl_query{expires}, '>=', $before + 1740, 'uses the maximum safe item download URL TTL';
 
 my $object_uri = URI->new($client->access_uri('dir/name with space.pdf', 'item.pdf'));
 my %object_query = $object_uri->query_form;

@@ -9,7 +9,9 @@ use Crypt::Mac::HMAC qw/hmac_hex/;
 use URI;
 use URI::Escape qw/uri_escape_utf8/;
 
-use constant MAX_TOKEN_TTL => 30 * 60;
+# Keep a small margin under the Download API's max TTL so clock skew does not
+# make freshly signed URLs look too far in the future.
+use constant MAX_TOKEN_TTL => 29 * 60;
 
 has 'endpoint' => (
   is       => 'ro',
