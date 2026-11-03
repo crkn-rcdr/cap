@@ -49,7 +49,8 @@ $(function () {
   });
 
   $('[data-toggle="collapse"]').on("focusin", function (ev) {
-    var $collapseTarget = $($(ev.target).attr("data-target"));
+    var collapseTargetSelector = $(ev.target).attr("data-target");
+    var $collapseTarget = $($.find(collapseTargetSelector));
     $(document).on("keydown.cap", function (ev) {
       if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
         ev.preventDefault();
