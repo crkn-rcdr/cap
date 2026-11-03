@@ -192,22 +192,24 @@
         var seq = downloadButton.getAttribute("data-seq");
         var filename = slug + "." + seq + ".jpg";
         var disposition = "attachment; filename=" + filename;
+        var parsedUrl;
 
         if (!url) {
           return;
         }
 
         try {
-          url = new URL(url, window.location.href);
-          url.searchParams.set("response-content-disposition", disposition);
-          url = url.href;
+          parsedUrl = new URL(url, window.location.href);
         } catch (e) {
-          url =
-            url +
-            (url.indexOf("?") === -1 ? "?" : "&") +
-            "response-content-disposition=" +
-            encodeURIComponent(disposition);
+          return;
         }
+
+        if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+          return;
+        }
+
+        parsedUrl.searchParams.set("response-content-disposition", disposition);
+        url = parsedUrl.href;
 
         var a = document.createElement("a");
         a.href = url;
