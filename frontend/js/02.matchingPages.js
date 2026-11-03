@@ -15,7 +15,7 @@
       this.callUrl = ["", "search", "post"].join("/");
 
       this.params = {
-        q: $("<div/>").html(this.$element.attr("data-query")).text(),
+        q: this.$element.attr("data-query") || "",
         pkey: this.$element.attr("data-pkey"),
         fmt: "ajax",
         handler: "page",
